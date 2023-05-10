@@ -6,7 +6,9 @@ import io.ktor.server.application.Application
 import io.ktor.server.application.install
 import io.ktor.server.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.server.routing.IgnoreTrailingSlash
+import io.ktor.server.routing.route
 import io.ktor.server.routing.routing
+import no.nav.hjelpemidler.delbestilling.hjelpemiddel.hjelpemiddelOppslagApi
 import java.util.TimeZone
 
 fun main(args: Array<String>): Unit = io.ktor.server.netty.EngineMain.main(args)
@@ -32,17 +34,12 @@ fun Application.configure() {
 // Wire up services and routes
 fun Application.setupRoutes() {
 
-
-//    installAuthenticators {
-//        installTokenXAuth { }
-//    }
-
     routing {
-//        authenticate(TokenXAuthenticator.name) {
-//
-//        }
 
-        // Unprotected
+        route("/api") {
+            hjelpemiddelOppslagApi()
+        }
+
         internal()
     }
 
