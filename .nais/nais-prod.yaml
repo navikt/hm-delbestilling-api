@@ -1,0 +1,66 @@
+---
+apiVersion: "nais.io/v1alpha1"
+kind: "Application"
+metadata:
+  name: hm-delbestilling-api
+  namespace: teamdigihot
+  labels:
+    team: teamdigihot
+spec:
+  image: {{ image }}
+  team: teamdigihot
+  port: 8080
+  replicas:
+    min: 2
+    max: 4
+  liveness:
+    path: /isalive
+  readiness:
+    path: /isready
+  resources:
+    limits:
+      cpu: 500m
+      memory: 1024Mi
+    requests:
+      cpu: 45m
+      memory: 512Mi
+  tokenx:
+    enabled: true
+  accessPolicy:
+    inbound:
+      rules:
+        - application: hm-delbestilling
+    outbound:
+      rules:
+        - application: hm-oebs-api-proxy
+        - application: hm-roller
+      external:
+        - host: kafka-schema-registry.nais.adeo.no
+        - host: hm-oebs-api-proxy.prod-fss-pub.nais.io
+  kafka:
+    pool: nav-prod
+  gcp:
+    sqlInstances:
+      - name: hm-delbestilling-api-db-prod-v1
+        type: POSTGRES_14
+        tier: db-custom-1-3840
+        diskType: SSD
+        highAvailability: true
+        diskSize: 20
+        diskAutoresize: true
+        autoBackupTime: "03:00"
+        databases:
+          - name: hm-delbestilling-api-db-prod-v1
+            envVarPrefix: DB
+        cascadingDelete: false
+  secureLogs:
+    enabled: true
+  env:
+    - name: OEBS_API_URL
+      value: https://hm-oebs-api-proxy.prod-fss-pub.nais.io
+    - name: OEBS_API_SCOPE
+      value: api://prod-fss.teamdigihot.hm-oebs-api-proxy/.default
+    - name: ROLLER_API_URL
+      value: http://hm-roller.teamdigihot.svc.cluster.local
+    - name: ROLLER_API_SCOPE
+      value: prod-gcp:teamdigihot:hm-roller
