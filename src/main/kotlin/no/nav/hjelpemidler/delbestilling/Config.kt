@@ -1,6 +1,7 @@
 package no.nav.hjelpemidler.delbestilling
 
 import no.nav.hjelpemidler.configuration.EnvironmentVariable
+import no.nav.hjelpemidler.configuration.External
 import no.nav.hjelpemidler.configuration.KafkaEnvironmentVariable
 import no.nav.hjelpemidler.configuration.NaisEnvironmentVariable
 import no.nav.hjelpemidler.database.createDataSource
@@ -44,10 +45,19 @@ object Config {
     }
 
     // Database
+    @External
     val DB_HOST by EnvironmentVariable
+
+    @External
     val DB_PORT by EnvironmentVariable
+
+    @External
     val DB_DATABASE by EnvironmentVariable
+
+    @External
     val DB_USERNAME by EnvironmentVariable
+
+    @External
     val DB_PASSWORD by EnvironmentVariable
 
     val dataSource by lazy {

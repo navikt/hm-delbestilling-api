@@ -13,7 +13,7 @@ plugins {
 
 application {
     applicationName = "hm-delbestilling-api"
-    mainClass.set("no.nav.hjelpemidler.hjelpemidlerdigitalSoknadapi.ApplicationKt")
+    mainClass.set("no.nav.hjelpemidler.delbestilling.ApplicationKt")
 }
 
 repositories {
@@ -40,7 +40,7 @@ dependencies {
     implementation("org.apache.kafka:kafka-clients:3.3.1")
 
     // HTTP
-    implementation("no.nav.hjelpemidler.http:hm-http:v0.0.22")
+    implementation("no.nav.hjelpemidler.http:hm-http:v0.0.23")
 
     // Ktor
     val ktorVersion = "2.3.0"
