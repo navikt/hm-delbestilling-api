@@ -1,4 +1,4 @@
-package no.nav.hjelpemidler.delbestilling.hjelpemiddel
+package no.nav.hjelpemidler.delbestilling.delbestilling
 
 import io.ktor.server.application.call
 import io.ktor.server.request.receive
@@ -9,7 +9,7 @@ import mu.KotlinLogging
 
 private val log = KotlinLogging.logger {}
 
-fun Route.hjelpemiddelOppslagApi() {
+fun Route.delbestillingApi() {
     post("/oppslag") {
         log.info { "kall til /oppslag" }
         val request = call.receive<OppslagRequest>()
@@ -21,30 +21,6 @@ fun Route.hjelpemiddelOppslagApi() {
     }
 }
 
-data class OppslagRequest(
-    val artNr: String,
-    val serieNr: String,
-)
-
-data class OppslagResponse(
-    val hjelpemiddel: Hjelpemiddel?,
-    val serieNrKobletMotBuker: Boolean
-)
-
-data class Hjelpemiddel(
-    val navn: String,
-    val hmsnr: String,
-    val deler: List<Del>
-)
-
-data class Del(
-    val navn: String,
-    val beskrivelse: String,
-    val hmsnr: String,
-    val levArtNr: String,
-    val img: String,
-    val kategori: String,
-)
 
 private val hjelpemidler = mapOf(
     "111111" to Hjelpemiddel(

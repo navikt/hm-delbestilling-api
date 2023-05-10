@@ -37,7 +37,7 @@ dependencies {
     implementation("org.ehcache:ehcache:3.10.6")
 
     // Kafka
-    implementation("org.apache.kafka:kafka-clients:3.3.1")
+    implementation("org.apache.kafka:kafka-clients:3.4.0")
 
     // HTTP
     implementation("no.nav.hjelpemidler.http:hm-http:v0.0.23")
@@ -47,20 +47,19 @@ dependencies {
     fun ktor(name: String) = "io.ktor:ktor-$name:$ktorVersion"
     implementation(ktor("serialization-jackson"))
     implementation(ktor("server-core"))
-    implementation(ktor("server-netty"))
     implementation(ktor("server-cio"))
     implementation(ktor("server-content-negotiation"))
 
     // Jackson
-    val jacksonVersion = "2.14.0"
+    val jacksonVersion = "2.14.2"
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin:$jacksonVersion")
     implementation("com.fasterxml.jackson.datatype:jackson-datatype-jsr310:$jacksonVersion")
 
     // Logging
-    runtimeOnly("ch.qos.logback:logback-classic:1.4.5")
+    runtimeOnly("ch.qos.logback:logback-classic:1.4.6")
     implementation("org.slf4j:slf4j-api:2.0.5") // brukes av microutils:kotling-logging
-    implementation("io.github.microutils:kotlin-logging-jvm:3.0.4")
-    implementation("net.logstash.logback:logstash-logback-encoder:7.2")
+    implementation("io.github.microutils:kotlin-logging-jvm:3.0.5")
+    implementation("net.logstash.logback:logstash-logback-encoder:7.3")
 
     // TokenX
     val tokenSupportVersion = "2.1.0"
@@ -72,10 +71,10 @@ dependencies {
     // Testing
     testImplementation(kotlin("test"))
     testImplementation(ktor("server-test-host"))
-    val junitJupiterVersion = "5.9.0"
+    val junitJupiterVersion = "5.9.2"
     testImplementation("org.junit.jupiter:junit-jupiter-params:$junitJupiterVersion")
     testImplementation("org.junit.jupiter:junit-jupiter-engine:$junitJupiterVersion")
-    testImplementation("io.mockk:mockk:1.13.2")
+    testImplementation("io.mockk:mockk:1.13.4")
 }
 
 tasks.withType<KotlinCompile> {
