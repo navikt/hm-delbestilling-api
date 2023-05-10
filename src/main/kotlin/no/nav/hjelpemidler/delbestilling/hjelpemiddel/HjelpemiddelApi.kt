@@ -5,10 +5,15 @@ import io.ktor.server.request.receive
 import io.ktor.server.response.respond
 import io.ktor.server.routing.Route
 import io.ktor.server.routing.post
+import mu.KotlinLogging
+
+private val log = KotlinLogging.logger {}
 
 fun Route.hjelpemiddelOppslagApi() {
     post("/oppslag") {
+        log.info { "kall til /oppslag" }
         val request = call.receive<OppslagRequest>()
+        log.info { "request: $request" }
         val hjelpemiddel = hjelpemidler[request.artNr]
         val serieNrKobletMotBuker = request.serieNr != "000000"
 
