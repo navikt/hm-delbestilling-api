@@ -27,7 +27,9 @@ jobs:
       - name: Validate Gradle wrapper
         uses: gradle/wrapper-validation-action@v1
       - name: Build and Run tests
-        run: ./gradlew clean build
+        run: |
+          chmod u+x ./gradlew
+          ./gradlew clean build
 
       - name: pre-deploy
         uses: navikt/digihot-deploy/actions/pre-deploy@v2
