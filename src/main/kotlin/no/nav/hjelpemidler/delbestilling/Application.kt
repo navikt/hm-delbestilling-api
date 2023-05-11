@@ -34,7 +34,7 @@ fun Application.setupRoutes() {
 
     routing {
 
-        route("/api") {
+        route("/delbestilling/api") {
             delbestillingApi()
         }
 
