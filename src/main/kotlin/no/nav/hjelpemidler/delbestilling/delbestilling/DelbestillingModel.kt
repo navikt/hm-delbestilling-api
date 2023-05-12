@@ -38,21 +38,11 @@ data class DelLinje( // TODO kan vi arve felt fra Del eller lignende?
 )
 
 
-data class DelbestillingRequest(
+data class Delbestilling(
     val id: UUID,
     val hmsnr: String, //Hmsnr,
     val serienr: String,//Serienr,
     val deler: List<DelLinje>
-)
-
-
-data class Delbestilling(
-    val id: UUID,
-    val brukerKommunenr: String,
-    val fnrBruker: String,
-    val fnrBestiller: String,
-    val delbestillingJson: String,
-    val opprettet: String,
 )
 
 @JvmInline

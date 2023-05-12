@@ -33,7 +33,7 @@ fun Route.delbestillingApiAuthenticated(
     post("/delbestilling") {
 
         // TODO endepunktet må ligge bak autentisering
-        val request = call.receive<DelbestillingRequest>()
+        val request = call.receive<Delbestilling>()
         log.info { "/delbestilling request: $request" }
         val bestillerFnr = tokenXUserFactory.createTokenXUser(call).ident
 

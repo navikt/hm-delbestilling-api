@@ -5,7 +5,6 @@ import kotliquery.sessionOf
 import kotliquery.using
 import mu.KotlinLogging
 import no.nav.hjelpemidler.delbestilling.jsonMapper
-import java.util.UUID
 import javax.sql.DataSource
 
 private val log = KotlinLogging.logger {}
@@ -16,9 +15,9 @@ class DelbestillingRepository(private val ds: DataSource) {
         bestillerFnr: String,
         brukerFnr: String,
         brukerKommunenr: String,
-        request: DelbestillingRequest
+        delbestilling: Delbestilling
     ) = using(sessionOf(ds)) { session ->
-        log.info { "Lagrer delbestilling '${request.id}'" }
+        log.info { "Lagrer delbestilling '${delbestilling.id}'" }
         session.run(
             queryOf(
                 """
@@ -26,17 +25,17 @@ class DelbestillingRepository(private val ds: DataSource) {
                     VALUES (:id, :brukers_kommunenr, :fnr_bruker, :fnr_bestiller, :delbestilling_json)
                 """.trimIndent(),
                 mapOf(
-                    "id" to request.id,
+                    "id" to delbestilling.id,
                     "brukers_kommunenr" to brukerKommunenr,
                     "fnr_bruker" to brukerFnr,
                     "fnr_bestiller" to bestillerFnr,
-                    "delbestilling_json" to jsonMapper.writeValueAsString(request)
+                    "delbestilling_json" to jsonMapper.writeValueAsString(delbestilling)
                 )
             ).asUpdate
         )
     }
 
-    fun hentDelbestillinger(bestillerFnr: String) = using(sessionOf(ds)) { session ->
+    fun hentDelbestillinger(bestillerFnr: String): List<Delbestilling> = using(sessionOf(ds)) { session ->
         log.info { "Henter delbestillinger for '$bestillerFnr'" }
         session.run(
             queryOf(
@@ -47,14 +46,7 @@ class DelbestillingRepository(private val ds: DataSource) {
                 """.trimIndent(),
                 mapOf("fnr_bestiller" to bestillerFnr)
             ).map {
-                Delbestilling(
-                    id = UUID.fromString(it.string("id")),
-                    brukerKommunenr = it.string("brukers_kommunenr"),
-                    fnrBruker = it.string("fnr_bruker"),
-                    fnrBestiller = it.string("fnr_bestiller"),
-                    delbestillingJson = it.string("delbestilling_json"),
-                    opprettet = it.string("opprettet_dato"),
-                )
+                jsonMapper.readValue(it.string("delbestilling_json"), Delbestilling::class.java)
             }.asList
         )
     }
