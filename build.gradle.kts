@@ -48,6 +48,7 @@ dependencies {
     implementation(ktor("serialization-jackson"))
     implementation(ktor("server-core"))
     implementation(ktor("server-cio"))
+    implementation(ktor("server-auth"))
     implementation(ktor("server-content-negotiation"))
 
     // Jackson
