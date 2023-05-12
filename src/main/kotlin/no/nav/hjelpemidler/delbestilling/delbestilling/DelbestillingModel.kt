@@ -36,6 +36,16 @@ data class DelbestillingRequest(
     val deler: List<DelLinje>
 )
 
+
+data class Delbestilling(
+    val id: UUID,
+    val brukerKommunenr: String,
+    val fnrBruker: String,
+    val fnrBestiller: String,
+    val delbestillingJson: String,
+    val opprettet: String,
+)
+
 data class DelLinje(
     val hmsnr: String,//Hmsnr,
     val antall: Int//Antall

@@ -5,6 +5,7 @@ import io.ktor.server.application.call
 import io.ktor.server.request.receive
 import io.ktor.server.response.respond
 import io.ktor.server.routing.Route
+import io.ktor.server.routing.get
 import io.ktor.server.routing.post
 import mu.KotlinLogging
 import no.nav.hjelpemidler.delbestilling.jsonMapper
@@ -51,5 +52,12 @@ fun Route.delbestillingApiAuthenticated(
 
         call.respond(status = HttpStatusCode.Created, request.id)
 
+    }
+
+    get("/delbestilling") {
+        // val bestillerFnr = tokenXUserFactory.createTokenXUser(call).ident
+        val bestillerFnr = "11111111111"
+        val delbestillinger = delbestillingRepository.hentDelbestillinger(bestillerFnr)
+        call.respond(delbestillinger)
     }
 }
