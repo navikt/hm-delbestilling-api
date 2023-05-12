@@ -8,9 +8,7 @@ import io.ktor.server.routing.Route
 import io.ktor.server.routing.get
 import io.ktor.server.routing.post
 import mu.KotlinLogging
-import no.nav.hjelpemidler.delbestilling.jsonMapper
 import no.nav.tms.token.support.tokenx.validation.user.TokenXUserFactory
-import java.util.UUID
 
 private val log = KotlinLogging.logger {}
 
@@ -29,7 +27,7 @@ fun Route.delbestillingApi(
 
 fun Route.delbestillingApiAuthenticated(
     delbestillingRepository: DelbestillingRepository,
-//    tokenXUserFactory: TokenXUserFactory = TokenXUserFactory,
+    tokenXUserFactory: TokenXUserFactory = TokenXUserFactory,
 ) {
 
     post("/delbestilling") {
@@ -37,8 +35,7 @@ fun Route.delbestillingApiAuthenticated(
         // TODO endepunktet må ligge bak autentisering
         val request = call.receive<DelbestillingRequest>()
         log.info { "/delbestilling request: $request" }
-        // val bestillerFnr = tokenXUserFactory.createTokenXUser(call).ident
-        val bestillerFnr = "11111111111"
+        val bestillerFnr = tokenXUserFactory.createTokenXUser(call).ident
 
         val brukerFnr = "12345678910" // TODO hent fra OEBS via artnr+serienr
         val brukerKommunenr = "0301" // Oslo TODO hent fra PDL
@@ -55,8 +52,7 @@ fun Route.delbestillingApiAuthenticated(
     }
 
     get("/delbestilling") {
-        // val bestillerFnr = tokenXUserFactory.createTokenXUser(call).ident
-        val bestillerFnr = "11111111111"
+        val bestillerFnr = tokenXUserFactory.createTokenXUser(call).ident
         val delbestillinger = delbestillingRepository.hentDelbestillinger(bestillerFnr)
         call.respond(delbestillinger)
     }

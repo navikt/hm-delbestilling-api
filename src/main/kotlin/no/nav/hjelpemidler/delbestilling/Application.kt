@@ -44,9 +44,9 @@ fun Application.setupRoutes() {
     routing {
 
         route("/api") {
-//            authenticate(TokenXAuthenticator.name) {
+            authenticate(TokenXAuthenticator.name) {
                 delbestillingApiAuthenticated(delbestillingRepository)
-//            }
+            }
 
             delbestillingApi()
         }
