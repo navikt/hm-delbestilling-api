@@ -26,7 +26,7 @@ val hjelpemiddelDeler = mapOf(
     ),
     "222222" to Hjelpemiddel(
         navn = "Panthera U3",
-        hmsnr = "111111",
+        hmsnr = "222222",
         deler = listOf(
             Del(
                 navn = "Brems S3 høyre",
