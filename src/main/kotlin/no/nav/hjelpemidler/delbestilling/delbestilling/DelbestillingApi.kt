@@ -7,7 +7,9 @@ import io.ktor.server.response.respond
 import io.ktor.server.routing.Route
 import io.ktor.server.routing.post
 import mu.KotlinLogging
+import no.nav.hjelpemidler.delbestilling.jsonMapper
 import no.nav.tms.token.support.tokenx.validation.user.TokenXUserFactory
+import java.util.UUID
 
 private val log = KotlinLogging.logger {}
 
@@ -30,6 +32,7 @@ fun Route.delbestillingApiAuthenticated(
 ) {
 
     post("/delbestilling") {
+
         // TODO endepunktet må ligge bak autentisering
         val request = call.receive<DelbestillingRequest>()
         log.info { "/delbestilling request: $request" }

@@ -1,5 +1,6 @@
 package no.nav.hjelpemidler.delbestilling.delbestilling
 
+import com.fasterxml.jackson.annotation.JsonValue
 import java.util.UUID
 
 data class OppslagRequest(
@@ -30,18 +31,18 @@ data class Del(
 
 data class DelbestillingRequest(
     val id: UUID,
-    val hmsnr: Hmsnr,
-    val serienr: Serienr,
+    val hmsnr: String, //Hmsnr,
+    val serienr: String,//Serienr,
     val deler: List<DelLinje>
 )
 
 data class DelLinje(
-    val hmsnr: Hmsnr,
-    val antall: Antall
+    val hmsnr: String,//Hmsnr,
+    val antall: Int//Antall
 )
 
 @JvmInline
-value class Hmsnr(private val hmsnr: String) {
+value class Hmsnr( val hmsnr: String) {
     init {
         require(hmsnr.length == 6) { "hmsnr må ha lengde 6" }
         require(hmsnr.all { it.isDigit() }) { "hmsnr må bestå av siffer" }
