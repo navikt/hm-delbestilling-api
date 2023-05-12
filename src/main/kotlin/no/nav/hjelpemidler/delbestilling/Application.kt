@@ -49,9 +49,9 @@ fun Application.setupRoutes() {
 //            }
 
             delbestillingApi()
-
-            internal()
-
         }
+
+        internal()
+
     }
 }
