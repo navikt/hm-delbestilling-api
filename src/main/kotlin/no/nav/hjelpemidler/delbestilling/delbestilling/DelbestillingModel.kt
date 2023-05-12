@@ -1,6 +1,5 @@
 package no.nav.hjelpemidler.delbestilling.delbestilling
 
-import com.fasterxml.jackson.annotation.JsonValue
 import java.util.UUID
 
 data class OppslagRequest(
@@ -28,6 +27,16 @@ data class Del(
     val kategori: String,
 )
 
+data class DelLinje( // TODO kan vi arve felt fra Del eller lignende?
+    val navn: String,
+    val beskrivelse: String,
+    val hmsnr: String,
+    val levArtNr: String,
+    val img: String,
+    val kategori: String,
+    val antall: Int
+)
+
 
 data class DelbestillingRequest(
     val id: UUID,
@@ -44,11 +53,6 @@ data class Delbestilling(
     val fnrBestiller: String,
     val delbestillingJson: String,
     val opprettet: String,
-)
-
-data class DelLinje(
-    val hmsnr: String,//Hmsnr,
-    val antall: Int//Antall
 )
 
 @JvmInline
