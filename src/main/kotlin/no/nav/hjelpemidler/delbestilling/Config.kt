@@ -1,5 +1,6 @@
 package no.nav.hjelpemidler.delbestilling
 
+import no.nav.hjelpemidler.configuration.Environment
 import no.nav.hjelpemidler.configuration.EnvironmentVariable
 import no.nav.hjelpemidler.configuration.External
 import no.nav.hjelpemidler.configuration.KafkaEnvironmentVariable
@@ -59,15 +60,8 @@ object Config {
 
     @External
     val DB_PASSWORD by EnvironmentVariable
-
-    val dataSource by lazy {
-        createDataSource {
-            hostname = DB_HOST
-            port = DB_PORT.toInt()
-            database = DB_DATABASE
-            username = DB_USERNAME
-            password = DB_PASSWORD
-            envVarPrefix = "DB"
-        }
-    }
 }
+
+fun isLocal() = Environment.current.tier.isLocal
+fun isDev() = Environment.current.tier.isDev
+fun isProd() = Environment.current.tier.isProd

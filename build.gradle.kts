@@ -31,6 +31,7 @@ dependencies {
 
     // Database
     implementation("no.nav.hjelpemidler.database:hm-database:v0.0.20")
+    implementation("com.h2database:h2:2.1.214")
 
     // Cache
     implementation("javax.cache:cache-api:1.1.1")
@@ -40,7 +41,7 @@ dependencies {
     implementation("org.apache.kafka:kafka-clients:3.4.0")
 
     // HTTP
-    implementation("no.nav.hjelpemidler.http:hm-http:v0.0.23")
+    implementation("no.nav.hjelpemidler.http:hm-http:v0.0.30")
 
     // Ktor
     val ktorVersion = "2.3.0"
@@ -66,6 +67,7 @@ dependencies {
     val tokenSupportVersion = "2.1.0"
     implementation("com.github.navikt.tms-ktor-token-support:token-support-tokendings-exchange:$tokenSupportVersion")
     implementation("com.github.navikt.tms-ktor-token-support:token-support-tokenx-validation:$tokenSupportVersion")
+    implementation("com.github.navikt.tms-ktor-token-support:token-support-tokenx-validation-mock:$tokenSupportVersion")
     implementation("com.github.navikt.tms-ktor-token-support:token-support-authentication-installer:$tokenSupportVersion")
     implementation("com.github.navikt.tms-ktor-token-support:token-support-azure-validation:$tokenSupportVersion")
 

@@ -14,6 +14,8 @@ import no.nav.hjelpemidler.delbestilling.delbestilling.delbestillingApi
 import no.nav.hjelpemidler.delbestilling.delbestilling.delbestillingApiAuthenticated
 import no.nav.tms.token.support.tokenx.validation.TokenXAuthenticator
 import no.nav.tms.token.support.tokenx.validation.installTokenXAuth
+import no.nav.tms.token.support.tokenx.validation.mock.SecurityLevel
+import no.nav.tms.token.support.tokenx.validation.mock.installTokenXAuthMock
 import java.util.TimeZone
 
 fun main(args: Array<String>): Unit = io.ktor.server.cio.EngineMain.main(args)
@@ -39,7 +41,16 @@ fun Application.setupRoutes() {
 
     val delbestillingRepository = DelbestillingRepository(Database.migratedDataSource)
 
-    installTokenXAuth()
+    if (isLocal()) {
+        installTokenXAuthMock {
+            setAsDefault = false
+            alwaysAuthenticated = true
+            staticSecurityLevel = SecurityLevel.LEVEL_4
+            staticUserPid = "12345678910"
+        }
+    } else {
+        installTokenXAuth()
+    }
 
     routing {
 
