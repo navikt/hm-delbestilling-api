@@ -18,10 +18,10 @@ fun Route.delbestillingApi(
         log.info { "kall til /oppslag" }
         val request = call.receive<OppslagRequest>()
         log.info { "request: $request" }
-        val hjelpemiddel = hjelpemiddelDeler[request.artNr]
-        val serieNrKobletMotBuker = request.serieNr != "000000"
+        val hjelpemiddel = hjelpemiddelDeler[request.artnr]
+        val serienrKobletMotBuker = request.serienr != "000000"
 
-        call.respond(OppslagResponse(hjelpemiddel, serieNrKobletMotBuker))
+        call.respond(OppslagResponse(hjelpemiddel, serienrKobletMotBuker))
     }
 }
 

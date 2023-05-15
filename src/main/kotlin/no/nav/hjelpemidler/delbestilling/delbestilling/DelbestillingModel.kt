@@ -3,13 +3,13 @@ package no.nav.hjelpemidler.delbestilling.delbestilling
 import java.util.UUID
 
 data class OppslagRequest(
-    val artNr: String,
-    val serieNr: String,
+    val artnr: String,
+    val serienr: String,
 )
 
 data class OppslagResponse(
     val hjelpemiddel: Hjelpemiddel?,
-    val serieNrKobletMotBuker: Boolean
+    val serienrKobletMotBuker: Boolean
 )
 
 data class Hjelpemiddel(
