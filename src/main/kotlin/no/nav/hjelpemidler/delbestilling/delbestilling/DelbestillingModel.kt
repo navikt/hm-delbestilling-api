@@ -1,5 +1,6 @@
 package no.nav.hjelpemidler.delbestilling.delbestilling
 
+import com.fasterxml.jackson.annotation.JsonValue
 import java.util.UUID
 
 data class OppslagRequest(
@@ -40,31 +41,29 @@ data class DelLinje( // TODO kan vi arve felt fra Del eller lignende?
 
 data class Delbestilling(
     val id: UUID,
-    val hmsnr: String, //Hmsnr,
-    val serienr: String,//Serienr,
+    val hmsnr: Hmsnr,
+    val serienr: Serienr,
     val deler: List<DelLinje>
 )
 
-@JvmInline
-value class Hmsnr( val hmsnr: String) {
+data class Hmsnr(@get:JsonValue val value: String) {
     init {
-        require(hmsnr.length == 6) { "hmsnr må ha lengde 6" }
-        require(hmsnr.all { it.isDigit() }) { "hmsnr må bestå av siffer" }
+        require(value.length == 6) { "hmsnr må ha lengde 6" }
+        require(value.all { it.isDigit() }) { "hmsnr må bestå av siffer" }
     }
 }
 
-@JvmInline
-value class Serienr(private val serienr: String) {
+data class Serienr(@get:JsonValue val value: String) {
     init {
-        require(serienr.length < 10) { "serienr max 10 siffer" } // TODO hva er begrensingene på serienr?
-        require(serienr.all { it.isDigit() }) { "serienr må bestå av siffer" }
+        require(value.length < 10) { "serienr max 10 siffer" } // TODO hva er begrensingene på serienr?
+        require(value.all { it.isDigit() }) { "serienr må bestå av siffer" }
     }
 }
 
-@JvmInline
-value class Antall(private val antall: Int) {
+data class Antall(@get:JsonValue val value: Int) {
     init {
-        require(antall > 0) { "antall må være >0" }
-        require(antall < 20) { "antall må være <20" }
+        require(value > 0) { "antall må være >0" }
+        require(value < 20) { "antall må være <20" }
     }
 }
+
