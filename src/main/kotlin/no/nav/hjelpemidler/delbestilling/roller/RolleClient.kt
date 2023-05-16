@@ -15,13 +15,15 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import mu.KotlinLogging
 import no.nav.hjelpemidler.delbestilling.Config
+import no.nav.hjelpemidler.delbestilling.TokenService
+import no.nav.hjelpemidler.delbestilling.TokendingsWrapper
 import no.nav.hjelpemidler.http.createHttpClient
 import no.nav.tms.token.support.tokendings.exchange.TokendingsService
 
 private val logger = KotlinLogging.logger { }
 
 class RolleClient(
-    private val tokendingsService: TokendingsService,
+    private val tokendingsService: TokenService,
     engine: HttpClientEngine = CIO.create(),
     private val url: String = Config.ROLLER_API_URL,
     private val scope: String = Config.ROLLER_API_SCOPE
@@ -39,20 +41,27 @@ class RolleClient(
         }
     }
 
-    suspend fun hentRolle(token: String): RolleResultat {
+    suspend fun hentDelbestillerRolle(token: String): DelbestillerResponse {
         val exchangedToken = tokendingsService.exchangeToken(token, scope)
 
         return try {
             withContext(Dispatchers.IO) {
-                client.get("$url/api/roller") {
+                client.get("$url/api/delbestiller") {
                     headers {
                         header("Authorization", "Bearer $exchangedToken")
                     }
                 }.body()
             }
         } catch (e: Exception) {
-            logger.error(e) { "Henting av rolle feilet" }
+            logger.error(e) { "Henting av delbestillerrolle feilet" }
             throw e
         }
     }
 }
+
+data class DelbestillerResponse(
+    val kanBestilleDeler: Boolean,
+    val harXKLager: Boolean,
+    val erKommunaltAnsatt: Boolean,
+    val erIPilot: Boolean,
+)

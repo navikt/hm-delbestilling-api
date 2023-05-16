@@ -12,6 +12,10 @@ import io.ktor.server.routing.routing
 import no.nav.hjelpemidler.delbestilling.delbestilling.DelbestillingRepository
 import no.nav.hjelpemidler.delbestilling.delbestilling.delbestillingApi
 import no.nav.hjelpemidler.delbestilling.delbestilling.delbestillingApiAuthenticated
+import no.nav.hjelpemidler.delbestilling.roller.RolleClient
+import no.nav.hjelpemidler.delbestilling.roller.RolleService
+import no.nav.tms.token.support.tokendings.exchange.TokendingsService
+import no.nav.tms.token.support.tokendings.exchange.TokendingsServiceBuilder
 import no.nav.tms.token.support.tokenx.validation.TokenXAuthenticator
 import no.nav.tms.token.support.tokenx.validation.installTokenXAuth
 import no.nav.tms.token.support.tokenx.validation.mock.SecurityLevel
@@ -37,9 +41,28 @@ fun Application.configure() {
     install(IgnoreTrailingSlash)
 }
 
-fun Application.setupRoutes() {
+// TODO: kan dette kanskje gjøres på en bedre måte?
+interface TokenService {
+    suspend fun exchangeToken(token: String, scope: String): String
+}
 
+private class MockedTokendingsService: TokenService {
+    override suspend fun exchangeToken(token: String, scope: String): String {
+        return token
+    }
+}
+
+class TokendingsWrapper(val tokendingsService: TokendingsService): TokenService {
+    override suspend fun exchangeToken(token: String, scope: String): String {
+        return tokendingsService.exchangeToken(token, scope)
+    }
+}
+
+fun Application.setupRoutes() {
     val delbestillingRepository = DelbestillingRepository(Database.migratedDataSource)
+    val tokendingsService = if (isLocal()) MockedTokendingsService() else TokendingsWrapper(TokendingsServiceBuilder.buildTokendingsService())
+    val rolleClient = RolleClient(tokendingsService)
+    val rolleService = RolleService(rolleClient)
 
     if (isLocal()) {
         installTokenXAuthMock {
@@ -53,16 +76,14 @@ fun Application.setupRoutes() {
     }
 
     routing {
-
         route("/api") {
             authenticate(TokenXAuthenticator.name) {
-                delbestillingApiAuthenticated(delbestillingRepository)
+                delbestillingApiAuthenticated(delbestillingRepository, rolleService)
             }
 
             delbestillingApi()
         }
 
         internal()
-
     }
 }
