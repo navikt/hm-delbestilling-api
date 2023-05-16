@@ -9,8 +9,6 @@ class RolleService(
 ) {
 
     suspend fun harDelbestillerRolle(token: String): Boolean {
-        val delbestillerResultat = client.hentDelbestillerRolle(token)
-        logger.info { "delbestillerResultat: $delbestillerResultat" }
-        return delbestillerResultat.kanBestilleDeler
+        return client.hentDelbestillerRolle(token).kanBestilleDeler
     }
 }

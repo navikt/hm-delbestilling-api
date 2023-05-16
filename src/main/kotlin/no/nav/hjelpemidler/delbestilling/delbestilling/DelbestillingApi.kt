@@ -38,7 +38,6 @@ fun Route.delbestillingApiAuthenticated(
         val tokenXUser = tokenXUserFactory.createTokenXUser(call)
         val bestillerFnr = tokenXUser.ident
 
-        // TODO: sjekk at bestiller har gyldig delbestillerrolle
         val kanBestilleDeler = rolleService.harDelbestillerRolle(tokenXUser.tokenString)
         if (kanBestilleDeler == false) {
             call.respond(HttpStatusCode.Forbidden, "Du har ikke rettighet til å gjøre dette")
