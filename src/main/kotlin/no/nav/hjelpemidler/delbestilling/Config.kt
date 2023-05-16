@@ -45,6 +45,9 @@ object Config {
         }
     }
 
+    val PDL_GRAPHQL_URL = "http://localhost:8089/pdl" // by EnvironmentVariable
+    val PDL_API_SCOPE = "api://dev-gcp.pdl.pdl-api/.default" //by EnvironmentVariable
+
     // Database
     @External
     val DB_HOST by EnvironmentVariable

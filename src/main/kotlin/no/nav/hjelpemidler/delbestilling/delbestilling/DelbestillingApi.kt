@@ -8,6 +8,7 @@ import io.ktor.server.routing.Route
 import io.ktor.server.routing.get
 import io.ktor.server.routing.post
 import mu.KotlinLogging
+import no.nav.hjelpemidler.delbestilling.pdl.PdlClient
 import no.nav.tms.token.support.tokenx.validation.user.TokenXUserFactory
 
 private val log = KotlinLogging.logger {}
@@ -28,6 +29,7 @@ fun Route.delbestillingApi(
 fun Route.delbestillingApiAuthenticated(
     delbestillingRepository: DelbestillingRepository,
     tokenXUserFactory: TokenXUserFactory = TokenXUserFactory,
+    pdlClient: PdlClient
 ) {
 
     post("/delbestilling") {
@@ -39,6 +41,8 @@ fun Route.delbestillingApiAuthenticated(
 
         val brukerFnr = "12345678910" // TODO hent fra OEBS via artnr+serienr
         val brukerKommunenr = "0301" // Oslo TODO hent fra PDL
+        val kommunenummer = pdlClient.hentKommunenummer(brukerFnr)
+        log.info { kommunenummer }
 
         // TODO transaction {
         delbestillingRepository.lagreDelbestilling(bestillerFnr, brukerFnr, brukerKommunenr, request)
