@@ -45,10 +45,9 @@ fun Route.delbestillingApiAuthenticated(
             call.respond(HttpStatusCode.Forbidden, "Du har ikke rettighet til å gjøre dette")
         }
 
-        val brukerFnr = "12345678910" // TODO hent fra OEBS via artnr+serienr
-        val brukerKommunenr = "0301" // Oslo TODO hent fra PDL
-        val kommunenummer = pdlClient.hentKommunenummer(brukerFnr)
-        log.info { kommunenummer }
+        val brukerFnr = "26848497710" // TODO hent fra OEBS via artnr+serienr
+        val brukerKommunenr = pdlClient.hentKommunenummer(brukerFnr)
+        log.info { brukerKommunenr }
 
         // TODO transaction {
         delbestillingRepository.lagreDelbestilling(bestillerFnr, brukerFnr, brukerKommunenr, request)
