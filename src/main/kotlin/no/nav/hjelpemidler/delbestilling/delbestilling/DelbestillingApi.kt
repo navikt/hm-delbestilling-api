@@ -35,28 +35,35 @@ fun Route.delbestillingApiAuthenticated(
 ) {
 
     post("/delbestilling") {
-        val request = call.receive<Delbestilling>()
-        log.info { "/delbestilling request: $request" }
-        val tokenXUser = tokenXUserFactory.createTokenXUser(call)
-        val bestillerFnr = tokenXUser.ident
+        try {
 
-        val kanBestilleDeler = rolleService.harDelbestillerRolle(tokenXUser.tokenString)
-        if (kanBestilleDeler == false) {
-            call.respond(HttpStatusCode.Forbidden, "Du har ikke rettighet til å gjøre dette")
+            val request = call.receive<Delbestilling>()
+            log.info { "/delbestilling request: $request" }
+            val tokenXUser = tokenXUserFactory.createTokenXUser(call)
+            val bestillerFnr = tokenXUser.ident
+
+            val kanBestilleDeler = rolleService.harDelbestillerRolle(tokenXUser.tokenString)
+            if (kanBestilleDeler == false) {
+                call.respond(HttpStatusCode.Forbidden, "Du har ikke rettighet til å gjøre dette")
+            }
+
+            val brukerFnr = "26848497710" // TODO hent fra OEBS via artnr+serienr
+
+            val brukerKommunenr = pdlClient.hentKommunenummer(brukerFnr)
+            log.info { brukerKommunenr }
+
+            // TODO transaction {
+            delbestillingRepository.lagreDelbestilling(bestillerFnr, brukerFnr, brukerKommunenr, request)
+            // send til OEBS
+            // }
+
+            log.info { "Delbestilling '${request.id}' sendt inn" }
+
+            call.respond(status = HttpStatusCode.Created, request.id)
+        } catch (e: Exception) {
+            log.error(e) { "noe feila" }
+            throw e
         }
-
-        val brukerFnr = "26848497710" // TODO hent fra OEBS via artnr+serienr
-        val brukerKommunenr = pdlClient.hentKommunenummer(brukerFnr)
-        log.info { brukerKommunenr }
-
-        // TODO transaction {
-        delbestillingRepository.lagreDelbestilling(bestillerFnr, brukerFnr, brukerKommunenr, request)
-        // send til OEBS
-        // }
-
-        log.info { "Delbestilling '${request.id}' sendt inn" }
-
-        call.respond(status = HttpStatusCode.Created, request.id)
 
     }
 
