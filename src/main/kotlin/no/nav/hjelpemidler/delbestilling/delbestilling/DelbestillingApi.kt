@@ -61,7 +61,7 @@ fun Route.delbestillingApiAuthenticated(
 
             call.respond(status = HttpStatusCode.Created, request.id)
         } catch (e: Exception) {
-            log.error { "noe feila: $e" }
+            log.error { "noe feila: $e ${e.stackTraceToString()}" }
             throw e
         }
 
