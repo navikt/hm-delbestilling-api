@@ -48,10 +48,8 @@ class OebsApiProxyClient(
                 method = HttpMethod.Post
                 headers {
                     contentType(ContentType.Application.Json)
-                    accept(ContentType.Application.Json)
                     header("Authorization", "Bearer $token")
                     header("Content-Type", "application/json")
-                    header("X-Correlation-ID", UUID.randomUUID().toString())
                     setBody(UtlånPåArtnrOgSerienrRequest(artnr, serienr))
                 }
             }
