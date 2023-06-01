@@ -8,6 +8,7 @@ import io.ktor.server.routing.Route
 import io.ktor.server.routing.get
 import io.ktor.server.routing.post
 import mu.KotlinLogging
+import no.nav.hjelpemidler.delbestilling.oebs.OebsProxyApiService
 import no.nav.hjelpemidler.delbestilling.pdl.PdlClient
 import no.nav.hjelpemidler.delbestilling.roller.RolleService
 import no.nav.tms.token.support.tokenx.validation.user.TokenXUserFactory
@@ -15,11 +16,16 @@ import no.nav.tms.token.support.tokenx.validation.user.TokenXUserFactory
 private val log = KotlinLogging.logger {}
 
 fun Route.delbestillingApi(
+    oebsProxyApiService: OebsProxyApiService
 ) {
     post("/oppslag") {
         log.info { "kall til /oppslag" }
         val request = call.receive<OppslagRequest>()
         log.info { "request: $request" }
+
+        val utlån = oebsProxyApiService.hentUtlånPåArtnrOgSerienr(request.artnr, request.serienr)
+        log.info { "utlån: $utlån" }
+
         val hjelpemiddel = hjelpemiddelDeler[request.artnr]
         val serienrKobletMotBuker = request.serienr != "000000"
 

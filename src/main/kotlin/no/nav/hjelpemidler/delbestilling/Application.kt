@@ -12,6 +12,8 @@ import io.ktor.server.routing.routing
 import no.nav.hjelpemidler.delbestilling.delbestilling.DelbestillingRepository
 import no.nav.hjelpemidler.delbestilling.delbestilling.delbestillingApi
 import no.nav.hjelpemidler.delbestilling.delbestilling.delbestillingApiAuthenticated
+import no.nav.hjelpemidler.delbestilling.oebs.OebsApiProxyClient
+import no.nav.hjelpemidler.delbestilling.oebs.OebsProxyApiService
 import no.nav.hjelpemidler.delbestilling.roller.RolleClient
 import no.nav.hjelpemidler.delbestilling.roller.RolleService
 import no.nav.tms.token.support.tokendings.exchange.TokendingsService
@@ -86,13 +88,16 @@ fun Application.setupRoutes() {
 
     val pdlClient = PdlClient(azureAd)
 
+    val oebsApiProxyClient = OebsApiProxyClient(azureAd)
+    val oebsService = OebsProxyApiService(oebsApiProxyClient)
+
     routing {
         route("/api") {
             authenticate(TokenXAuthenticator.name) {
                 delbestillingApiAuthenticated(delbestillingRepository, pdlClient = pdlClient, rolleService = rolleService)
             }
 
-            delbestillingApi()
+            delbestillingApi(oebsService)
         }
 
         internal()
