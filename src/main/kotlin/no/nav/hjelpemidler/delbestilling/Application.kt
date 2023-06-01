@@ -21,6 +21,8 @@ import no.nav.tms.token.support.tokenx.validation.installTokenXAuth
 import no.nav.tms.token.support.tokenx.validation.mock.SecurityLevel
 import no.nav.tms.token.support.tokenx.validation.mock.installTokenXAuthMock
 import java.util.TimeZone
+import no.nav.hjelpemidler.delbestilling.pdl.PdlClient
+import no.nav.tms.token.support.azure.exchange.AzureServiceBuilder
 
 fun main(args: Array<String>): Unit = io.ktor.server.cio.EngineMain.main(args)
 
@@ -75,10 +77,19 @@ fun Application.setupRoutes() {
         installTokenXAuth()
     }
 
+    val azureAd = AzureServiceBuilder.buildAzureService(
+        cachingEnabled = true,
+        maxCachedEntries = 100,
+        cacheExpiryMarginSeconds = 10,
+        enableDefaultProxy = true
+    )
+
+    val pdlClient = PdlClient(azureAd)
+
     routing {
         route("/api") {
             authenticate(TokenXAuthenticator.name) {
-                delbestillingApiAuthenticated(delbestillingRepository, rolleService)
+                delbestillingApiAuthenticated(delbestillingRepository, pdlClient = pdlClient, rolleService = rolleService)
             }
 
             delbestillingApi()

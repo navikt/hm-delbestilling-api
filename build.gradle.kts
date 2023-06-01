@@ -70,6 +70,7 @@ dependencies {
     implementation("com.github.navikt.tms-ktor-token-support:token-support-tokenx-validation-mock:$tokenSupportVersion")
     implementation("com.github.navikt.tms-ktor-token-support:token-support-authentication-installer:$tokenSupportVersion")
     implementation("com.github.navikt.tms-ktor-token-support:token-support-azure-validation:$tokenSupportVersion")
+    implementation("com.github.navikt.tms-ktor-token-support:token-support-azure-exchange:$tokenSupportVersion")
 
     // Testing
     testImplementation(kotlin("test"))
@@ -78,6 +79,7 @@ dependencies {
     testImplementation("org.junit.jupiter:junit-jupiter-params:$junitJupiterVersion")
     testImplementation("org.junit.jupiter:junit-jupiter-engine:$junitJupiterVersion")
     testImplementation("io.mockk:mockk:1.13.4")
+    testImplementation(ktor("client-mock"))
 }
 
 tasks.withType<KotlinCompile> {
