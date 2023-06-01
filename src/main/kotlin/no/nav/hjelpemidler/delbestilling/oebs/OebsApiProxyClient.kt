@@ -9,14 +9,19 @@ import io.ktor.client.plugins.defaultRequest
 import io.ktor.client.request.accept
 import io.ktor.client.request.header
 import io.ktor.client.request.post
+import io.ktor.client.request.request
 import io.ktor.client.request.setBody
 import io.ktor.http.ContentType
+import io.ktor.http.HttpMethod
 import io.ktor.http.contentType
 import io.ktor.http.headers
+import mu.KotlinLogging
 import no.nav.hjelpemidler.delbestilling.Config
 import no.nav.hjelpemidler.http.createHttpClient
 import no.nav.tms.token.support.azure.exchange.AzureService
 import java.util.UUID
+
+private val logg = KotlinLogging.logger {}
 
 class OebsApiProxyClient(
     private val azureAdService: AzureService,
@@ -37,17 +42,25 @@ class OebsApiProxyClient(
     }
 
     suspend fun hentUtlånPåArtnrOgSerienr(artnr: String, serienr: String): Utlån? {
-        val token = azureAdService.getAccessToken(apiScope)
-        return client.post(baseUrl + "/utlanSerienrArtnr") {
-            headers {
-                contentType(ContentType.Application.Json)
-                accept(ContentType.Application.Json)
-                header("Authorization", "Bearer $token")
-                header("Content-Type", "application/json")
-                header("X-Correlation-ID", UUID.randomUUID().toString())
-                setBody(UtlånPåArtnrOgSerienrRequest(artnr, serienr))
+        try {
+            val token = azureAdService.getAccessToken(apiScope)
+            val httpResponse = client.request(baseUrl + "/utlanSerienrArtnr") {
+                method = HttpMethod.Post
+                headers {
+                    contentType(ContentType.Application.Json)
+                    accept(ContentType.Application.Json)
+                    header("Authorization", "Bearer $token")
+                    header("Content-Type", "application/json")
+                    header("X-Correlation-ID", UUID.randomUUID().toString())
+                    setBody(UtlånPåArtnrOgSerienrRequest(artnr, serienr))
+                }
             }
-        }.body()
+            val response = httpResponse.body<UtlånPåArtnrOgSerienrResponse>()
+            return response.utlån
+        } catch (e: Exception) {
+            logg.error(e) { "Klarte ikke hente utlån på artnr og serienr" }
+            throw e
+        }
     }
 }
 
@@ -55,6 +68,12 @@ data class UtlånPåArtnrOgSerienrRequest(
     val artnr: String,
     val serienr: String
 )
+
+data class UtlånPåArtnrOgSerienrResponse(
+    val utlån: Utlån?
+)
+
+
 data class Utlån(
     val fnr: String,
     val artnr: String,
