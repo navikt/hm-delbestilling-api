@@ -1,5 +1,6 @@
 package no.nav.hjelpemidler.delbestilling.delbestilling
 
+import io.ktor.client.request.request
 import io.ktor.http.HttpStatusCode
 import io.ktor.server.application.call
 import io.ktor.server.request.receive
@@ -19,17 +20,20 @@ fun Route.delbestillingApi(
     oebsProxyApiService: OebsProxyApiService
 ) {
     post("/oppslag") {
-        log.info { "kall til /oppslag" }
-        val request = call.receive<OppslagRequest>()
-        log.info { "request: $request" }
+        try {
+            val request = call.receive<OppslagRequest>()
+            log.info { "/oppslag request: $request" }
 
-        val utlån = oebsProxyApiService.hentUtlånPåArtnrOgSerienr(request.artnr, request.serienr)
-        log.info { "utlån: $utlån" }
+            val utlån = oebsProxyApiService.hentUtlånPåArtnrOgSerienr(request.artnr, request.serienr)
+            log.info { "utlån: $utlån" }
 
-        val hjelpemiddel = hjelpemiddelDeler[request.artnr]
-        val serienrKobletMotBuker = request.serienr != "000000"
+            val hjelpemiddel = hjelpemiddelDeler[request.artnr]
+            val serienrKobletMotBuker = request.serienr != "000000"
 
-        call.respond(OppslagResponse(hjelpemiddel, serienrKobletMotBuker))
+            call.respond(OppslagResponse(hjelpemiddel, serienrKobletMotBuker))
+        } catch(e: Exception) {
+            log.error(e) {"Klarte ikke gjøre oppslag"}
+        }
     }
 }
 
