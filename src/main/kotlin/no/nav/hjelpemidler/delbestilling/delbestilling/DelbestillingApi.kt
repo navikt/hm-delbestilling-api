@@ -62,7 +62,7 @@ fun Route.delbestillingApiAuthenticated(
             val brukerFnr = utlån?.fnr ?: return@post call.respond(HttpStatusCode.NotFound, "Det er ingen bruker knyttet til dette utlånet")
 
             val brukerKommunenr = pdlClient.hentKommunenummer(brukerFnr)
-            log.info { brukerKommunenr }
+            log.info { "brukerKommunenr: '$brukerKommunenr'" }
 
             // TODO transaction {
             delbestillingRepository.lagreDelbestilling(bestillerFnr, brukerFnr, brukerKommunenr, request)
@@ -73,7 +73,7 @@ fun Route.delbestillingApiAuthenticated(
 
             call.respond(status = HttpStatusCode.Created, request.id)
         } catch (e: Exception) {
-            log.error { "noe feila: $e ${e.stackTraceToString()}" }
+            log.error(e) { "noe feila" }
             throw e
         }
 
