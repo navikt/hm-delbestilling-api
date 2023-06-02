@@ -56,7 +56,9 @@ class OebsApiProxyClient(
     suspend fun hentUtlånPåArtnrOgSerienr(artnr: String, serienr: String): Utlån? {
         try {
             val token = azureAdService.getAccessToken(apiScope)
-            val httpResponse = client.request( "$baseUrl/utlanSerienrArtnr") {
+            val url = "$baseUrl/utlanSerienrArtnr"
+            logg.info { "Gjør request mot $url" }
+            val httpResponse = client.request( url) {
                 method = HttpMethod.Post
                 headers {
                     header("Authorization", "Bearer $token")
