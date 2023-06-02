@@ -10,8 +10,12 @@ data class OppslagRequest(
 
 data class OppslagResponse(
     val hjelpemiddel: Hjelpemiddel?,
-    val serienrKobletMotBruker: Boolean
+    val feil: OppslagFeil?
 )
+
+enum class OppslagFeil{
+    TILBYR_IKKE_HJELPEMIDDEL, INGET_UTLÅN
+}
 
 data class Hjelpemiddel(
     val navn: String,

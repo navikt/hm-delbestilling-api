@@ -23,13 +23,13 @@ fun Route.delbestillingApi(
             val request = call.receive<OppslagRequest>()
             log.info { "/oppslag request: $request" }
 
-            val utlån = oebsProxyApiService.hentUtlånPåArtnrOgSerienr(request.artnr, request.serienr)
-            log.info { "utlån: $utlån" }
-
             val hjelpemiddel = hjelpemiddelDeler[request.artnr]
-            val serienrKobletMotBruker = request.serienr != "000000"
+                ?: return@post call.respond(OppslagResponse(null, OppslagFeil.TILBYR_IKKE_HJELPEMIDDEL))
 
-            call.respond(OppslagResponse(hjelpemiddel, serienrKobletMotBruker))
+            oebsProxyApiService.hentUtlånPåArtnrOgSerienr(request.artnr, request.serienr)
+                ?: return@post call.respond(OppslagResponse(null, OppslagFeil.INGET_UTLÅN))
+
+            call.respond(OppslagResponse(hjelpemiddel, null))
         } catch(e: Exception) {
             log.error(e) {"Klarte ikke gjøre oppslag"}
         }
