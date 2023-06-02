@@ -65,7 +65,7 @@ class OebsApiProxyClient(
             }
             val body = httpResponse.body<Unit>()
             logg.info { "body: $body" }
-            val response = httpResponse.body<UtlånPåArtnrOgSerienrResponse>()
+            val response: UtlånPåArtnrOgSerienrResponse = httpResponse.body()
             return response.utlån
         } catch (e: Exception) {
             logg.error(e) { "Klarte ikke hente utlån på artnr og serienr" }
