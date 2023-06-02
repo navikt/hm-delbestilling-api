@@ -45,8 +45,16 @@ object Config {
         }
     }
 
+    // PDL
     val PDL_GRAPHQL_URL by EnvironmentVariable
     val PDL_API_SCOPE by EnvironmentVariable
+
+    // Azure
+    val AZURE_APP_CLIENT_ID by EnvironmentVariable
+    val AZURE_APP_TENANT_ID by EnvironmentVariable
+    val AZURE_APP_JWK by EnvironmentVariable
+    val AZURE_OPENID_CONFIG_ISSUER by EnvironmentVariable
+    val AZURE_OPENID_CONFIG_TOKEN_ENDPOINT by EnvironmentVariable
 
     // Database
     @External
