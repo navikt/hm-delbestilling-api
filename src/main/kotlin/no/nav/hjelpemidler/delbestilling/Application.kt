@@ -94,7 +94,7 @@ fun Application.setupRoutes() {
     routing {
         route("/api") {
             authenticate(TokenXAuthenticator.name) {
-                delbestillingApiAuthenticated(delbestillingRepository, pdlClient = pdlClient, rolleService = rolleService)
+                delbestillingApiAuthenticated(delbestillingRepository, rolleService, pdlClient, oebsService)
             }
 
             delbestillingApi(oebsService)

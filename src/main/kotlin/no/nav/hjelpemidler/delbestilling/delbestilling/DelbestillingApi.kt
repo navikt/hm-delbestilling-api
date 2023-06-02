@@ -39,8 +39,9 @@ fun Route.delbestillingApi(
 fun Route.delbestillingApiAuthenticated(
     delbestillingRepository: DelbestillingRepository,
     rolleService: RolleService,
+    pdlClient: PdlClient,
+    oebsProxyApiService: OebsProxyApiService,
     tokenXUserFactory: TokenXUserFactory = TokenXUserFactory,
-    pdlClient: PdlClient
 ) {
 
     post("/delbestilling") {
@@ -56,7 +57,9 @@ fun Route.delbestillingApiAuthenticated(
                 call.respond(HttpStatusCode.Forbidden, "Du har ikke rettighet til å gjøre dette")
             }
 
-            val brukerFnr = "26848497710" // TODO hent fra OEBS via artnr+serienr
+            val utlån = oebsProxyApiService.hentUtlånPåArtnrOgSerienr(request.hmsnr.toString(), request.serienr.toString())
+            // TODO: kanskje ikke 404 er den beste responsen her
+            val brukerFnr = utlån?.fnr ?: return@post call.respond(HttpStatusCode.NotFound, "Det er ingen bruker knyttet til dette utlånet")
 
             val brukerKommunenr = pdlClient.hentKommunenummer(brukerFnr)
             log.info { brukerKommunenr }
