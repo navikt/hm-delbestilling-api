@@ -52,6 +52,10 @@ dependencies {
     implementation(ktor("server-auth"))
     implementation(ktor("server-content-negotiation"))
 
+    implementation(ktor("client-core"))
+    implementation(ktor("client-content-negotiation"))
+    implementation(ktor("client-jackson"))
+
     // Jackson
     val jacksonVersion = "2.14.2"
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin:$jacksonVersion")
