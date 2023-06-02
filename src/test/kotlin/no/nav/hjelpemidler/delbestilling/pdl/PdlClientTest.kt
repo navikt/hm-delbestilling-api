@@ -9,22 +9,23 @@ import io.ktor.utils.io.ByteReadChannel
 import io.mockk.every
 import io.mockk.mockk
 import kotlinx.coroutines.runBlocking
-import no.nav.tms.token.support.azure.exchange.AzureService
+import no.nav.hjelpemidler.http.openid.OpenIDClient
+import no.nav.hjelpemidler.http.openid.TokenSet
 import org.intellij.lang.annotations.Language
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 
 internal class PdlClientTest {
 
-    private val azureService = mockk<AzureService>()
+    private val azureAdClient = mockk<OpenIDClient>()
 
     @BeforeEach
     fun setup() {
         every {
             runBlocking {
-                azureService.getAccessToken(any())
+                azureAdClient.grant(scope = any())
             }
-        } returns "token"
+        } returns TokenSet("", 0, "token", )
     }
 
     @Test
@@ -39,7 +40,7 @@ internal class PdlClientTest {
                     headers = headersOf(HttpHeaders.ContentType, "application/json")
                 )
             }
-            val pdlClient = PdlClient(azureService, mockEngine, "test", "test")
+            val pdlClient = PdlClient(azureAdClient, mockEngine, "test", "test")
             pdlClient.hentKommunenummer(fnr)
         }
     }

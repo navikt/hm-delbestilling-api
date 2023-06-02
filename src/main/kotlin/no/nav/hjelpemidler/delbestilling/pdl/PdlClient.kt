@@ -17,10 +17,11 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import no.nav.hjelpemidler.delbestilling.Config
 import no.nav.hjelpemidler.http.createHttpClient
-import no.nav.tms.token.support.azure.exchange.AzureService
+import no.nav.hjelpemidler.http.openid.OpenIDClient
+import no.nav.hjelpemidler.http.openid.bearerAuth
 
 class PdlClient(
-    private val azureAdService: AzureService,
+    private val azureAdClient: OpenIDClient,
     engine: HttpClientEngine = CIO.create(),
     private val baseUrl: String = Config.PDL_GRAPHQL_URL,
     private val apiScope: String = Config.PDL_API_SCOPE,
@@ -47,12 +48,10 @@ class PdlClient(
 
     private suspend inline fun <reified T : Any> pdlRequest(pdlQuery: HentKommunenummerGraphqlQuery): T {
         return withContext(Dispatchers.IO) {
-            val token = azureAdService.getAccessToken(apiScope)
+            val tokenSet = azureAdClient.grant(apiScope)
             client.post(baseUrl) {
+                bearerAuth(tokenSet)
                 headers {
-                    contentType(ContentType.Application.Json)
-                    accept(ContentType.Application.Json)
-                    header("Authorization", "Bearer $token")
                     header("Tema", "HJE")
                     header("X-Correlation-ID", UUID.randomUUID().toString())
                 }

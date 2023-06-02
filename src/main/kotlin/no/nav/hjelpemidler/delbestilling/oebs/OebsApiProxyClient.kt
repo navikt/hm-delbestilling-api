@@ -10,21 +10,17 @@ import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.client.plugins.defaultRequest
 import io.ktor.client.plugins.logging.*
 import io.ktor.client.request.accept
-import io.ktor.client.request.bearerAuth
-import io.ktor.client.request.header
 import io.ktor.client.request.request
 import io.ktor.client.request.setBody
 import io.ktor.http.ContentType
 import io.ktor.http.HttpMethod
 import io.ktor.http.contentType
-import io.ktor.http.headers
 import mu.KotlinLogging
 import no.nav.hjelpemidler.delbestilling.Config
 import no.nav.hjelpemidler.http.createHttpClient
 import io.ktor.serialization.jackson.jackson
 import no.nav.hjelpemidler.http.openid.OpenIDClient
 import no.nav.hjelpemidler.http.openid.bearerAuth
-import no.nav.tms.token.support.azure.exchange.AzureService
 
 private val logg = KotlinLogging.logger {}
 

@@ -1,6 +1,5 @@
 package no.nav.hjelpemidler.delbestilling.delbestilling
 
-import io.ktor.client.request.request
 import io.ktor.http.HttpStatusCode
 import io.ktor.server.application.call
 import io.ktor.server.request.receive
