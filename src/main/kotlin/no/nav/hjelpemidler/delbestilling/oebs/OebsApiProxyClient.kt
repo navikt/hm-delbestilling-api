@@ -3,13 +3,12 @@ package no.nav.hjelpemidler.delbestilling.oebs
 import com.fasterxml.jackson.databind.DeserializationFeature
 import com.fasterxml.jackson.databind.SerializationFeature
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
-import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.engine.HttpClientEngine
 import io.ktor.client.engine.cio.CIO
-import io.ktor.client.plugins.HttpRequestRetry
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.client.plugins.defaultRequest
+import io.ktor.client.plugins.logging.*
 import io.ktor.client.request.accept
 import io.ktor.client.request.header
 import io.ktor.client.request.request
@@ -21,7 +20,7 @@ import io.ktor.http.headers
 import mu.KotlinLogging
 import no.nav.hjelpemidler.delbestilling.Config
 import no.nav.hjelpemidler.http.createHttpClient
-import no.nav.hjelpemidler.http.jackson
+import io.ktor.serialization.jackson.jackson
 import no.nav.tms.token.support.azure.exchange.AzureService
 
 private val logg = KotlinLogging.logger {}
@@ -43,10 +42,11 @@ class OebsApiProxyClient(
             }
         }
 
-        install(HttpRequestRetry) {
-            retryOnExceptionOrServerErrors(maxRetries = 5)
-            exponentialDelay()
+        install(Logging) {
+            logger = Logger.DEFAULT
+            level = LogLevel.BODY
         }
+
         defaultRequest {
             accept(ContentType.Application.Json)
             contentType(ContentType.Application.Json)
