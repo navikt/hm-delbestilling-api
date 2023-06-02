@@ -55,19 +55,13 @@ class OebsApiProxyClient(
 
     suspend fun hentUtlånPåArtnrOgSerienr(artnr: String, serienr: String): Utlån? {
         try {
-            logg.info { "apiScope: $apiScope" }
-            logg.info { "baseUrl: $baseUrl" }
             val tokenSet = azureAdClient.grant(apiScope)
-            val url = "$baseUrl/utlanSerienrArtnr"
-            logg.info { "Gjør request mot $url" }
-            val httpResponse = client.request( url) {
+            val httpResponse = client.request( "$baseUrl/utlanSerienrArtnr") {
                 method = HttpMethod.Post
                 bearerAuth(tokenSet)
                 setBody(UtlånPåArtnrOgSerienrRequest(artnr, serienr))
             }
-            val body = httpResponse.body<Unit>()
-            logg.info { "body: $body" }
-            val response: UtlånPåArtnrOgSerienrResponse = httpResponse.body()
+            val response = httpResponse.body<UtlånPåArtnrOgSerienrResponse>()
             return response.utlån
         } catch (e: Exception) {
             logg.error(e) { "Klarte ikke hente utlån på artnr og serienr" }
