@@ -57,7 +57,7 @@ fun Route.delbestillingApiAuthenticated(
                 call.respond(HttpStatusCode.Forbidden, "Du har ikke rettighet til å gjøre dette")
             }
 
-            val utlån = oebsProxyApiService.hentUtlånPåArtnrOgSerienr(request.hmsnr.toString(), request.serienr.toString())
+            val utlån = oebsProxyApiService.hentUtlånPåArtnrOgSerienr(request.hmsnr.value, request.serienr.value)
             log.info { "utlån: $utlån" }
             // TODO: kanskje ikke 404 er den beste responsen her
             val brukerFnr = utlån?.fnr ?: return@post call.respond(HttpStatusCode.NotFound, "Det er ingen bruker knyttet til dette utlånet")
