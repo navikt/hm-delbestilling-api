@@ -10,6 +10,7 @@ import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.client.plugins.defaultRequest
 import io.ktor.client.plugins.logging.*
 import io.ktor.client.request.accept
+import io.ktor.client.request.bearerAuth
 import io.ktor.client.request.header
 import io.ktor.client.request.request
 import io.ktor.client.request.setBody
@@ -21,12 +22,15 @@ import mu.KotlinLogging
 import no.nav.hjelpemidler.delbestilling.Config
 import no.nav.hjelpemidler.http.createHttpClient
 import io.ktor.serialization.jackson.jackson
+import no.nav.hjelpemidler.http.openid.OpenIDClient
+import no.nav.hjelpemidler.http.openid.bearerAuth
 import no.nav.tms.token.support.azure.exchange.AzureService
 
 private val logg = KotlinLogging.logger {}
 
 class OebsApiProxyClient(
-    private val azureAdService: AzureService,
+    //private val azureAdService: AzureService,
+    private val azureAdClient: OpenIDClient,
     engine: HttpClientEngine = CIO.create(),
     private val baseUrl: String = Config.OEBS_API_URL,
     private val apiScope: String = Config.OEBS_API_SCOPE,
@@ -57,15 +61,13 @@ class OebsApiProxyClient(
         try {
             logg.info { "apiScope: $apiScope" }
             logg.info { "baseUrl: $baseUrl" }
-            val token = azureAdService.getAccessToken(apiScope)
+            val tokenSet = azureAdClient.grant(apiScope)
             val url = "$baseUrl/utlanSerienrArtnr"
             logg.info { "Gjør request mot $url" }
             val httpResponse = client.request( url) {
                 method = HttpMethod.Post
-                headers {
-                    header("Authorization", "Bearer $token")
-                    setBody(UtlånPåArtnrOgSerienrRequest(artnr, serienr))
-                }
+                bearerAuth(tokenSet)
+                setBody(UtlånPåArtnrOgSerienrRequest(artnr, serienr))
             }
             val body = httpResponse.body<Unit>()
             logg.info { "body: $body" }

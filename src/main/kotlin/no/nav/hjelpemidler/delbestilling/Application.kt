@@ -24,7 +24,9 @@ import no.nav.tms.token.support.tokenx.validation.mock.SecurityLevel
 import no.nav.tms.token.support.tokenx.validation.mock.installTokenXAuthMock
 import java.util.TimeZone
 import no.nav.hjelpemidler.delbestilling.pdl.PdlClient
+import no.nav.hjelpemidler.http.openid.azureADClient
 import no.nav.tms.token.support.azure.exchange.AzureServiceBuilder
+import kotlin.time.Duration.Companion.seconds
 
 fun main(args: Array<String>): Unit = io.ktor.server.cio.EngineMain.main(args)
 
@@ -86,9 +88,15 @@ fun Application.setupRoutes() {
         enableDefaultProxy = true
     )
 
+    val azureClient = azureADClient {
+        cache(leeway = 10.seconds) {
+            maximumSize = 100
+        }
+    }
+
     val pdlClient = PdlClient(azureAd)
 
-    val oebsApiProxyClient = OebsApiProxyClient(azureAd)
+    val oebsApiProxyClient = OebsApiProxyClient(azureClient)
     val oebsService = OebsProxyApiService(oebsApiProxyClient)
 
     routing {
