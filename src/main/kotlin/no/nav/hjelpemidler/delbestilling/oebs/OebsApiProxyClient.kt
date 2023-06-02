@@ -55,6 +55,8 @@ class OebsApiProxyClient(
 
     suspend fun hentUtlånPåArtnrOgSerienr(artnr: String, serienr: String): Utlån? {
         try {
+            logg.info { "apiScope: $apiScope" }
+            logg.info { "baseUrl: $baseUrl" }
             val token = azureAdService.getAccessToken(apiScope)
             val url = "$baseUrl/utlanSerienrArtnr"
             logg.info { "Gjør request mot $url" }
