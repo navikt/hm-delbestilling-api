@@ -65,6 +65,8 @@ class OebsApiProxyClient(
                     setBody(UtlånPåArtnrOgSerienrRequest(artnr, serienr))
                 }
             }
+            val body = httpResponse.body<Unit>()
+            logg.info { "body: $body" }
             val response = httpResponse.body<UtlånPåArtnrOgSerienrResponse>()
             return response.utlån
         } catch (e: Exception) {
