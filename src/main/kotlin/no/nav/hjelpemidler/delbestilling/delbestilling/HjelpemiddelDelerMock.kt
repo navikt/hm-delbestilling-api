@@ -24,6 +24,28 @@ val hjelpemiddelDeler = mapOf(
             )
         )
     ),
+    "236958" to Hjelpemiddel(
+        navn = "Panthera U3 Light",
+        hmsnr = "236958",
+        deler = listOf(
+            Del(
+                navn = "Brems S3 høyre",
+                beskrivelse = "Standard brems for S3 og U3",
+                hmsnr = "252264",
+                levArtNr = "4630002",
+                img = "",
+                kategori = "Brems"
+            ),
+            Del(
+                navn = "Brems S3 venstre",
+                beskrivelse = "Standard brems for S3 og U3",
+                hmsnr = "252265",
+                levArtNr = "4630001",
+                img = "",
+                kategori = "Brems"
+            )
+        )
+    ),
     "222222" to Hjelpemiddel(
         navn = "Panthera U3",
         hmsnr = "222222",
