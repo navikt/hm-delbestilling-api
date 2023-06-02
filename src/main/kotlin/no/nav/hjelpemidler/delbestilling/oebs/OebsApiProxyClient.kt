@@ -33,7 +33,7 @@ class OebsApiProxyClient(
     private val apiScope: String = Config.OEBS_API_SCOPE,
 ) {
     private val client = createHttpClient(engine = engine) {
-        expectSuccess = false
+        expectSuccess = true
 
         install(ContentNegotiation) {
             jackson {
@@ -59,9 +59,7 @@ class OebsApiProxyClient(
             val httpResponse = client.request(baseUrl + "/utlanSerienrArtnr") {
                 method = HttpMethod.Post
                 headers {
-                    contentType(ContentType.Application.Json)
                     header("Authorization", "Bearer $token")
-                    header("Content-Type", "application/json")
                     setBody(UtlånPåArtnrOgSerienrRequest(artnr, serienr))
                 }
             }
