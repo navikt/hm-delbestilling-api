@@ -10,7 +10,7 @@ data class OppslagRequest(
 
 data class OppslagResponse(
     val hjelpemiddel: Hjelpemiddel?,
-    val serienrKobletMotBuker: Boolean
+    val serienrKobletMotBruker: Boolean
 )
 
 data class Hjelpemiddel(

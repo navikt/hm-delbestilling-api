@@ -27,9 +27,9 @@ fun Route.delbestillingApi(
             log.info { "utlån: $utlån" }
 
             val hjelpemiddel = hjelpemiddelDeler[request.artnr]
-            val serienrKobletMotBuker = request.serienr != "000000"
+            val serienrKobletMotBruker = request.serienr != "000000"
 
-            call.respond(OppslagResponse(hjelpemiddel, serienrKobletMotBuker))
+            call.respond(OppslagResponse(hjelpemiddel, serienrKobletMotBruker))
         } catch(e: Exception) {
             log.error(e) {"Klarte ikke gjøre oppslag"}
         }
@@ -58,6 +58,7 @@ fun Route.delbestillingApiAuthenticated(
             }
 
             val utlån = oebsProxyApiService.hentUtlånPåArtnrOgSerienr(request.hmsnr.toString(), request.serienr.toString())
+            log.info { "utlån: $utlån" }
             // TODO: kanskje ikke 404 er den beste responsen her
             val brukerFnr = utlån?.fnr ?: return@post call.respond(HttpStatusCode.NotFound, "Det er ingen bruker knyttet til dette utlånet")
 
