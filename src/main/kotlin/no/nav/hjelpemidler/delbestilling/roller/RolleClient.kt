@@ -30,7 +30,7 @@ class RolleClient(
 ) {
 
     private val client = createHttpClient(engine = engine) {
-        expectSuccess = false
+        expectSuccess = true
         install(HttpRequestRetry) {
             retryOnExceptionOrServerErrors(maxRetries = 5)
             exponentialDelay()
