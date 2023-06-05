@@ -63,7 +63,6 @@ fun Route.delbestillingApiAuthenticated(
             val brukerFnr = utlån?.fnr ?: return@post call.respond(HttpStatusCode.NotFound, "Det er ingen bruker knyttet til dette utlånet")
 
             val brukerKommunenr = pdlClient.hentKommunenummer(brukerFnr)
-            log.info { "brukerKommunenr: '$brukerKommunenr'" }
 
             // Sjekk at en av innsenders kommuner tilhører brukers kommune
             val innsenderRepresentererBrukersKommune = delbestillerRolle.kommunaleOrgs?.find { it.kommunenummer == brukerKommunenr } != null
