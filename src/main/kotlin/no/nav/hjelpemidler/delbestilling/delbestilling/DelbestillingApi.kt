@@ -65,7 +65,7 @@ fun Route.delbestillingApiAuthenticated(
             val brukerKommunenr = pdlClient.hentKommunenummer(brukerFnr)
             log.info { "brukerKommunenr: '$brukerKommunenr'" }
 
-            // Sjekk om en av innsenders kommuner tilhører brukers kommuner
+            // Sjekk at en av innsenders kommuner tilhører brukers kommune
             val innsenderRepresentererBrukersKommune = delbestillerRolle.kommunaleOrgs?.find { it.kommunenummer == brukerKommunenr } != null
 
             if (!innsenderRepresentererBrukersKommune) {
