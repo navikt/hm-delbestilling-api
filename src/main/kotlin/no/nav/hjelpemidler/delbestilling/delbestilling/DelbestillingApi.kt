@@ -52,8 +52,9 @@ fun Route.delbestillingApiAuthenticated(
             val tokenXUser = tokenXUserFactory.createTokenXUser(call)
             val bestillerFnr = tokenXUser.ident
 
-            val kanBestilleDeler = rolleService.harDelbestillerRolle(tokenXUser.tokenString)
-            if (kanBestilleDeler == false) {
+            val delbestillerRolle = rolleService.hentDelbestillerRolle(tokenXUser.tokenString)
+            log.info { "delbestillerRolle: $delbestillerRolle" }
+            if (delbestillerRolle.kanBestilleDeler == false) {
                 call.respond(HttpStatusCode.Forbidden, "Du har ikke rettighet til å gjøre dette")
             }
 
@@ -63,6 +64,14 @@ fun Route.delbestillingApiAuthenticated(
 
             val brukerKommunenr = pdlClient.hentKommunenummer(brukerFnr)
             log.info { "brukerKommunenr: '$brukerKommunenr'" }
+
+            // Sjekk om en av innsenders kommuner tilhører brukers kommuner
+            val innsenderRepresentererBrukersKommune = delbestillerRolle.kommunaleOrgs?.find { it.kommunenummer == brukerKommunenr } != null
+
+            if (!innsenderRepresentererBrukersKommune) {
+                // TODO: fiks respons
+                return@post call.respond(HttpStatusCode.Forbidden, "Innsender tilhører annen kommune")
+            }
 
             // TODO transaction {
             delbestillingRepository.lagreDelbestilling(bestillerFnr, brukerFnr, brukerKommunenr, request)
