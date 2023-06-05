@@ -70,7 +70,7 @@ fun Route.delbestillingApiAuthenticated(
 
             if (!innsenderRepresentererBrukersKommune) {
                 // TODO: fiks respons
-                return@post call.respond(HttpStatusCode.Forbidden, "Innsender tilhører annen kommune")
+                //return@post call.respond(HttpStatusCode.Forbidden, "Innsender tilhører annen kommune")
             }
 
             // TODO transaction {
