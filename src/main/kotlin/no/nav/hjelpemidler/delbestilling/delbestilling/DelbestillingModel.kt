@@ -10,17 +10,17 @@ data class OppslagRequest(
 
 data class OppslagResponse(
     val hjelpemiddel: Hjelpemiddel?,
-    val feil: OppslagFeil?
+    val feil: OppslagFeil?,
 )
 
-enum class OppslagFeil{
+enum class OppslagFeil {
     TILBYR_IKKE_HJELPEMIDDEL, INGET_UTLÅN
 }
 
 data class Hjelpemiddel(
     val navn: String,
     val hmsnr: String,
-    val deler: List<Del>
+    val deler: List<Del>,
 )
 
 data class Del(
@@ -39,20 +39,23 @@ data class DelLinje( // TODO kan vi arve felt fra Del eller lignende?
     val levArtNr: String,
     val img: String,
     val kategori: String,
-    val antall: Int
+    val antall: Int,
 )
 
+data class DelbestillingRequest(
+    val delbestilling: Delbestilling,
+)
 
 data class Delbestilling(
     val id: UUID,
     val hmsnr: Hmsnr,
     val serienr: Serienr,
-    val deler: List<DelLinje>
+    val deler: List<DelLinje>,
 )
 
 data class DelbestillingResponse(
     val id: UUID,
-    val feil: DelbestillingFeil?
+    val feil: DelbestillingFeil?,
 )
 
 enum class DelbestillingFeil {
@@ -82,4 +85,3 @@ data class Antall(@get:JsonValue val value: Int) {
         require(value < 20) { "antall må være <20" }
     }
 }
-

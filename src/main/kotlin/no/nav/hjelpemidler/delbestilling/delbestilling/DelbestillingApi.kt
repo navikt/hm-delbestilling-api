@@ -19,7 +19,7 @@ import no.nav.tms.token.support.tokenx.validation.user.TokenXUserFactory
 private val log = KotlinLogging.logger {}
 
 fun Route.delbestillingApi(
-    oebsService: OebsService
+    oebsService: OebsService,
 ) {
     post("/oppslag") {
         try {
@@ -46,13 +46,16 @@ fun Route.delbestillingApiAuthenticated(
     oebsService: OebsService,
     tokenXUserFactory: TokenXUserFactory = TokenXUserFactory,
 ) {
-
     post("/delbestilling") {
         try {
-            val request = call.receive<Delbestilling>()
+            val request = call.receive<DelbestillingRequest>()
             log.info { "/delbestilling request: $request" }
             val tokenXUser = tokenXUserFactory.createTokenXUser(call)
             val bestillerFnr = tokenXUser.ident
+
+            val id = request.delbestilling.id
+            val hmsnr = request.delbestilling.hmsnr.value
+            val serienr = request.delbestilling.serienr.value
 
             val delbestillerRolle = rolleService.hentDelbestillerRolle(tokenXUser.tokenString)
             log.info { "delbestillerRolle: $delbestillerRolle" }
@@ -60,8 +63,8 @@ fun Route.delbestillingApiAuthenticated(
                 call.respond(HttpStatusCode.Forbidden, "Du har ikke rettighet til å gjøre dette")
             }
 
-            val utlån = oebsService.hentUtlånPåArtnrOgSerienr(request.hmsnr.value, request.serienr.value)
-                ?: return@post call.respond(DelbestillingResponse(request.id, feil = DelbestillingFeil.INGET_UTLÅN))
+            val utlån = oebsService.hentUtlånPåArtnrOgSerienr(hmsnr, serienr)
+                ?: return@post call.respond(DelbestillingResponse(request.delbestilling.id, feil = DelbestillingFeil.INGET_UTLÅN))
 
             val brukerFnr = utlån.fnr
 
@@ -73,15 +76,14 @@ fun Route.delbestillingApiAuthenticated(
 
             // Skrur av denne sjekken for dev akkurat nå, da det er litt mismatch i testdataen der
             if (isProd() && !innsenderRepresentererBrukersKommune) {
-                call.respond(DelbestillingResponse(request.id, feil = DelbestillingFeil.ULIK_GEOGRAFISK_TILKNYTNING))
+                call.respond(DelbestillingResponse(request.delbestilling.id, feil = DelbestillingFeil.ULIK_GEOGRAFISK_TILKNYTNING))
             }
 
             // TODO transaction {
-            delbestillingRepository.lagreDelbestilling(bestillerFnr, brukerFnr, brukerKommunenr, request)
-            val saksnummer =
-                request.id // TODO hva med å bruker et saksnummer alá "del-123"? For å skille frå behovsmelding saksnr.
+            delbestillingRepository.lagreDelbestilling(bestillerFnr, brukerFnr, brukerKommunenr, request.delbestilling)
+            val saksnummer = id // TODO hva med å bruker et saksnummer alá "del-123"? For å skille frå behovsmelding saksnr.
             val bestillersNavn = "Tekniker Reservedelsen" // TODO hent frå PDL (har tilsvarande spørring i hm-soknad-api
-            val deler = request.deler.map { Artikkel(it.hmsnr, it.antall) }
+            val deler = request.delbestilling.deler.map { Artikkel(it.hmsnr, it.antall) }
             oebsService.sendDelbestilling(
                 OpprettBestillingsordreRequest(
                     fodselsnummer = brukerFnr,
@@ -90,11 +92,10 @@ fun Route.delbestillingApiAuthenticated(
                     artikler = deler
                 )
             )
-            // }
 
-            log.info { "Delbestilling '${request.id}' sendt inn" }
+            log.info { "Delbestilling '$id' sendt inn" }
 
-            call.respond(status = HttpStatusCode.Created, request.id)
+            call.respond(status = HttpStatusCode.Created, DelbestillingResponse(id, null))
         } catch (e: Exception) {
             log.error(e) { "noe feila" }
             throw e
