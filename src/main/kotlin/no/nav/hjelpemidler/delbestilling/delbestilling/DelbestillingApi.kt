@@ -8,6 +8,7 @@ import io.ktor.server.routing.Route
 import io.ktor.server.routing.get
 import io.ktor.server.routing.post
 import mu.KotlinLogging
+import no.nav.hjelpemidler.delbestilling.isProd
 import no.nav.hjelpemidler.delbestilling.oebs.OebsProxyApiService
 import no.nav.hjelpemidler.delbestilling.pdl.PdlClient
 import no.nav.hjelpemidler.delbestilling.roller.RolleService
@@ -46,7 +47,6 @@ fun Route.delbestillingApiAuthenticated(
 
     post("/delbestilling") {
         try {
-
             val request = call.receive<Delbestilling>()
             log.info { "/delbestilling request: $request" }
             val tokenXUser = tokenXUserFactory.createTokenXUser(call)
@@ -59,17 +59,17 @@ fun Route.delbestillingApiAuthenticated(
             }
 
             val utlån = oebsProxyApiService.hentUtlånPåArtnrOgSerienr(request.hmsnr.value, request.serienr.value)
-            // TODO: kanskje ikke 404 er den beste responsen her
-            val brukerFnr = utlån?.fnr ?: return@post call.respond(HttpStatusCode.NotFound, "Det er ingen bruker knyttet til dette utlånet")
+
+            val brukerFnr = utlån?.fnr ?: return@post call.respond(DelbestillingResponse(request.id, feil = DelbestillingFeil.INGET_UTLÅN))
 
             val brukerKommunenr = pdlClient.hentKommunenummer(brukerFnr)
 
             // Sjekk at en av innsenders kommuner tilhører brukers kommune
             val innsenderRepresentererBrukersKommune = delbestillerRolle.kommunaleOrgs?.find { it.kommunenummer == brukerKommunenr } != null
 
-            if (!innsenderRepresentererBrukersKommune) {
-                // TODO: fiks respons
-                //return@post call.respond(HttpStatusCode.Forbidden, "Innsender tilhører annen kommune")
+            // Skrur av denne for dev akkurat nå, da det er litt mismatch i testdataen der
+            if (isProd() && !innsenderRepresentererBrukersKommune) {
+                call.respond(DelbestillingResponse(request.id, feil = DelbestillingFeil.ULIK_GEOGRAFISK_TILKNYTNING))
             }
 
             // TODO transaction {
@@ -84,7 +84,6 @@ fun Route.delbestillingApiAuthenticated(
             log.error(e) { "noe feila" }
             throw e
         }
-
     }
 
     get("/delbestilling") {

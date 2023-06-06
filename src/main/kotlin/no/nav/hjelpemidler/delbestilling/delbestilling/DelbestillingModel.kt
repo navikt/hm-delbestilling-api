@@ -50,6 +50,15 @@ data class Delbestilling(
     val deler: List<DelLinje>
 )
 
+data class DelbestillingResponse(
+    val id: UUID,
+    val feil: DelbestillingFeil?
+)
+
+enum class DelbestillingFeil {
+    INGET_UTLÅN, ULIK_GEOGRAFISK_TILKNYTNING
+}
+
 data class Hmsnr(@get:JsonValue val value: String) {
     init {
         require(value.length == 6) { "hmsnr må ha lengde 6" }
