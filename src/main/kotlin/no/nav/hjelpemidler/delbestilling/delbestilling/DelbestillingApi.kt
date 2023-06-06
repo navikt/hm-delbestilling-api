@@ -61,7 +61,6 @@ fun Route.delbestillingApiAuthenticated(
             }
 
             val utlån = oebsService.hentUtlånPåArtnrOgSerienr(request.hmsnr.value, request.serienr.value)
-            // TODO: kanskje ikke 404 er den beste responsen her
             val brukerFnr = utlån?.fnr ?: return@post call.respond(DelbestillingResponse(request.id, feil = DelbestillingFeil.INGET_UTLÅN))
 
             val brukerKommunenr = pdlClient.hentKommunenummer(brukerFnr)
