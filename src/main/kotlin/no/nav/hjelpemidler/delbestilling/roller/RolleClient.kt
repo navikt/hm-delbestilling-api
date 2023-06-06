@@ -15,15 +15,13 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import mu.KotlinLogging
 import no.nav.hjelpemidler.delbestilling.Config
-import no.nav.hjelpemidler.delbestilling.TokenService
-import no.nav.hjelpemidler.delbestilling.TokendingsWrapper
 import no.nav.hjelpemidler.http.createHttpClient
 import no.nav.tms.token.support.tokendings.exchange.TokendingsService
 
 private val logger = KotlinLogging.logger { }
 
 class RolleClient(
-    private val tokendingsService: TokenService,
+    private val tokendingsService: TokendingsService,
     engine: HttpClientEngine = CIO.create(),
     private val url: String = Config.ROLLER_API_URL,
     private val scope: String = Config.ROLLER_API_SCOPE

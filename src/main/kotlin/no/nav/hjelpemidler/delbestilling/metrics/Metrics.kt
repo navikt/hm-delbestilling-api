@@ -1,12 +1,12 @@
 package no.nav.hjelpemidler.delbestilling.metrics
 
 import mu.KotlinLogging
-import no.nav.hjelpemidler.delbestilling.kafka.KafkaProducer
+import no.nav.hjelpemidler.delbestilling.kafka.KafkaService
 
 private val log = KotlinLogging.logger {}
 
 class Metrics(
-    private val kafkaProducer: KafkaProducer,
+    private val kafkaService: KafkaService,
 ) {
     suspend fun registerPoint(
         measurement: String,
@@ -15,7 +15,7 @@ class Metrics(
     ) {
 
         try {
-            kafkaProducer.hendelseOpprettet(measurement, fields, tags)
+            kafkaService.hendelseOpprettet(measurement, fields, tags)
         } catch (e: Exception) {
             log.error(e) { "Feil under registrering av metric <$measurement>" }
         }

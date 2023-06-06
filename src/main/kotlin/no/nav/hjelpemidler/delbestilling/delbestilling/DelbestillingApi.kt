@@ -9,7 +9,9 @@ import io.ktor.server.routing.get
 import io.ktor.server.routing.post
 import mu.KotlinLogging
 import no.nav.hjelpemidler.delbestilling.isProd
-import no.nav.hjelpemidler.delbestilling.oebs.OebsProxyApiService
+import no.nav.hjelpemidler.delbestilling.oebs.Artikkel
+import no.nav.hjelpemidler.delbestilling.oebs.OebsService
+import no.nav.hjelpemidler.delbestilling.oebs.OpprettBestillingsordreRequest
 import no.nav.hjelpemidler.delbestilling.pdl.PdlClient
 import no.nav.hjelpemidler.delbestilling.roller.RolleService
 import no.nav.tms.token.support.tokenx.validation.user.TokenXUserFactory
@@ -17,7 +19,7 @@ import no.nav.tms.token.support.tokenx.validation.user.TokenXUserFactory
 private val log = KotlinLogging.logger {}
 
 fun Route.delbestillingApi(
-    oebsProxyApiService: OebsProxyApiService
+    oebsService: OebsService
 ) {
     post("/oppslag") {
         try {
@@ -27,12 +29,12 @@ fun Route.delbestillingApi(
             val hjelpemiddel = hjelpemiddelDeler[request.artnr]
                 ?: return@post call.respond(OppslagResponse(null, OppslagFeil.TILBYR_IKKE_HJELPEMIDDEL))
 
-            oebsProxyApiService.hentUtlånPåArtnrOgSerienr(request.artnr, request.serienr)
+            oebsService.hentUtlånPåArtnrOgSerienr(request.artnr, request.serienr)
                 ?: return@post call.respond(OppslagResponse(null, OppslagFeil.INGET_UTLÅN))
 
             call.respond(OppslagResponse(hjelpemiddel, null))
-        } catch(e: Exception) {
-            log.error(e) {"Klarte ikke gjøre oppslag"}
+        } catch (e: Exception) {
+            log.error(e) { "Klarte ikke gjøre oppslag" }
         }
     }
 }
@@ -41,7 +43,7 @@ fun Route.delbestillingApiAuthenticated(
     delbestillingRepository: DelbestillingRepository,
     rolleService: RolleService,
     pdlClient: PdlClient,
-    oebsProxyApiService: OebsProxyApiService,
+    oebsService: OebsService,
     tokenXUserFactory: TokenXUserFactory = TokenXUserFactory,
 ) {
 
@@ -54,27 +56,39 @@ fun Route.delbestillingApiAuthenticated(
 
             val delbestillerRolle = rolleService.hentDelbestillerRolle(tokenXUser.tokenString)
             log.info { "delbestillerRolle: $delbestillerRolle" }
-            if (delbestillerRolle.kanBestilleDeler == false) {
+            if (!delbestillerRolle.kanBestilleDeler) {
                 call.respond(HttpStatusCode.Forbidden, "Du har ikke rettighet til å gjøre dette")
             }
 
-            val utlån = oebsProxyApiService.hentUtlånPåArtnrOgSerienr(request.hmsnr.value, request.serienr.value)
-
+            val utlån = oebsService.hentUtlånPåArtnrOgSerienr(request.hmsnr.value, request.serienr.value)
+            // TODO: kanskje ikke 404 er den beste responsen her
             val brukerFnr = utlån?.fnr ?: return@post call.respond(DelbestillingResponse(request.id, feil = DelbestillingFeil.INGET_UTLÅN))
 
             val brukerKommunenr = pdlClient.hentKommunenummer(brukerFnr)
 
-            // Sjekk at en av innsenders kommuner tilhører brukers kommune
-            val innsenderRepresentererBrukersKommune = delbestillerRolle.kommunaleOrgs?.find { it.kommunenummer == brukerKommunenr } != null
+            // Sjekk om en av innsenders kommuner tilhører brukers kommuner
+            val innsenderRepresentererBrukersKommune =
+                delbestillerRolle.kommunaleOrgs?.find { it.kommunenummer == brukerKommunenr } != null
 
-            // Skrur av denne for dev akkurat nå, da det er litt mismatch i testdataen der
+            // Skrur av denne sjekken for dev akkurat nå, da det er litt mismatch i testdataen der
             if (isProd() && !innsenderRepresentererBrukersKommune) {
                 call.respond(DelbestillingResponse(request.id, feil = DelbestillingFeil.ULIK_GEOGRAFISK_TILKNYTNING))
             }
 
             // TODO transaction {
             delbestillingRepository.lagreDelbestilling(bestillerFnr, brukerFnr, brukerKommunenr, request)
-            // send til OEBS
+            val saksnummer =
+                request.id // TODO hva med å bruker et saksnummer alá "del-123"? For å skille frå behovsmelding saksnr.
+            val bestillersNavn = "Tekniker Reservedelsen" // TODO hent frå PDL (har tilsvarande spørring i hm-soknad-api
+            val deler = request.deler.map { Artikkel(it.hmsnr, it.antall) }
+            oebsService.sendDelbestilling(
+                OpprettBestillingsordreRequest(
+                    brukerFnr = brukerFnr,
+                    saksnummer = saksnummer.toString(),
+                    bestillersNavn = bestillersNavn,
+                    deler = deler
+                )
+            )
             // }
 
             log.info { "Delbestilling '${request.id}' sendt inn" }

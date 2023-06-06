@@ -2,9 +2,11 @@ package no.nav.hjelpemidler.delbestilling.kafka
 
 import com.fasterxml.jackson.databind.SerializationFeature
 import com.fasterxml.jackson.databind.json.JsonMapper
+import com.fasterxml.jackson.databind.node.ObjectNode
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.jacksonMapperBuilder
 import mu.KotlinLogging
+import no.nav.hjelpemidler.delbestilling.Config.kafkaProducerProperties
 import org.apache.kafka.clients.producer.KafkaProducer
 import org.apache.kafka.clients.producer.Producer
 import org.apache.kafka.clients.producer.ProducerConfig
@@ -17,8 +19,8 @@ import java.util.concurrent.TimeUnit
 
 private val log = KotlinLogging.logger {}
 
-class KafkaProducer(
-    properties: Properties,
+class KafkaService(
+    properties: Properties = kafkaProducerProperties,
     private val producer: Producer<String, String> = createProducer(properties),
 ) {
 
@@ -49,6 +51,14 @@ class KafkaProducer(
                 )
             )
         )
+    }
+
+    fun publish(key: String, eventName: String, value: Any) {
+        val event = jsonMapper.valueToTree<ObjectNode>(value)
+            .put("eventName", eventName)
+            .put("eventId", UUID.randomUUID().toString())
+        val eventJson = jsonMapper.writeValueAsString(event)
+        publish(key, eventJson)
     }
 
     private fun publish(key: String, event: String) {

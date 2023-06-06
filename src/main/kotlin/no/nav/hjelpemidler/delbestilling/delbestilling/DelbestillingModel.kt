@@ -59,6 +59,9 @@ enum class DelbestillingFeil {
     INGET_UTLÅN, ULIK_GEOGRAFISK_TILKNYTNING
 }
 
+/* TODO: Vurder om vi skal bruke https://ktor.io/docs/request-validation.html#configure
+    for validering av innkommende data
+*/
 data class Hmsnr(@get:JsonValue val value: String) {
     init {
         require(value.length == 6) { "hmsnr må ha lengde 6" }

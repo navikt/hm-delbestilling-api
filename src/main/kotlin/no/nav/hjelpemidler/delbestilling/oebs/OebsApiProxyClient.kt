@@ -25,7 +25,6 @@ import no.nav.hjelpemidler.http.openid.bearerAuth
 private val logg = KotlinLogging.logger {}
 
 class OebsApiProxyClient(
-    //private val azureAdService: AzureService,
     private val azureAdClient: OpenIDClient,
     engine: HttpClientEngine = CIO.create(),
     private val baseUrl: String = Config.OEBS_API_URL,
@@ -69,20 +68,3 @@ class OebsApiProxyClient(
         }
     }
 }
-
-data class UtlånPåArtnrOgSerienrRequest(
-    val artnr: String,
-    val serienr: String
-)
-
-data class UtlånPåArtnrOgSerienrResponse(
-    val utlån: Utlån?
-)
-
-
-data class Utlån(
-    val fnr: String,
-    val artnr: String,
-    val serienr: String,
-    val utlånsDato: String,
-)
