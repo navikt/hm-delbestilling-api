@@ -19,10 +19,11 @@ data class Utlån(
 )
 
 data class OpprettBestillingsordreRequest(
-    val brukerFnr: String,
+    // TODO: Egen dataklasse med bedre navn?
+    val fodselsnummer: String,
     val saksnummer: String,
-    val bestillersNavn: String,
-    val deler: List<Artikkel>
+    val formidlernavn: String,
+    val artikler: List<Artikkel>
 )
 
 data class Artikkel(

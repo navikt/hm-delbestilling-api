@@ -84,10 +84,10 @@ fun Route.delbestillingApiAuthenticated(
             val deler = request.deler.map { Artikkel(it.hmsnr, it.antall) }
             oebsService.sendDelbestilling(
                 OpprettBestillingsordreRequest(
-                    brukerFnr = brukerFnr,
+                    fodselsnummer = brukerFnr,
                     saksnummer = saksnummer.toString(),
-                    bestillersNavn = bestillersNavn,
-                    deler = deler
+                    formidlernavn = bestillersNavn,
+                    artikler = deler
                 )
             )
             // }
