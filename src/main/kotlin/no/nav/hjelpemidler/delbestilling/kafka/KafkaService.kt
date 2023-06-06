@@ -7,9 +7,7 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.jacksonMapperBuilder
 import mu.KotlinLogging
 import no.nav.hjelpemidler.delbestilling.Config.kafkaProducerProperties
-import no.nav.hjelpemidler.delbestilling.isLocal
 import org.apache.kafka.clients.producer.KafkaProducer
-import org.apache.kafka.clients.producer.MockProducer
 import org.apache.kafka.clients.producer.Producer
 import org.apache.kafka.clients.producer.ProducerConfig
 import org.apache.kafka.clients.producer.ProducerRecord
