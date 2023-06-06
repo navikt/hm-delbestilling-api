@@ -61,7 +61,9 @@ fun Route.delbestillingApiAuthenticated(
             }
 
             val utlån = oebsService.hentUtlånPåArtnrOgSerienr(request.hmsnr.value, request.serienr.value)
-            val brukerFnr = utlån?.fnr ?: return@post call.respond(DelbestillingResponse(request.id, feil = DelbestillingFeil.INGET_UTLÅN))
+                ?: return@post call.respond(DelbestillingResponse(request.id, feil = DelbestillingFeil.INGET_UTLÅN))
+
+            val brukerFnr = utlån.fnr
 
             val brukerKommunenr = pdlClient.hentKommunenummer(brukerFnr)
 
