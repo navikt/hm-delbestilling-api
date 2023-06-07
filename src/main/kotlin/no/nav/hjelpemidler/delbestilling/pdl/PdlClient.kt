@@ -45,7 +45,7 @@ class PdlClient(
 
     suspend fun hentKommunenummer(fnummer: String): String {
         val response = pdlRequest<PdlPersonResponse>(hentKommunenummerQuery(fnummer))
-        validerPdlOppslag(response)
+        validerPdlOppslag(response, validerAdressebeskyttelse = true)
         return getKommunenr(response)
     }
 
@@ -54,15 +54,7 @@ class PdlClient(
             ?: throw PdlResponseMissingData("Klarte ikke å finne kommunenummer")
     }
 
-    suspend fun hentPersonNavn(fnr: String) = getPersonNavn(pdlRequest(hentPersonNavnQuery(fnr)))
-
-    private fun getPersonNavn(response: PdlPersonResponse): String {
-        val navneData = response.data?.hentPerson?.navn?.get(0)
-            ?: throw PdlResponseMissingData("Klarte ikke å hente navn")
-        val mellomnavn = navneData.mellomnavn ?: ""
-        return "${navneData.fornavn} $mellomnavn ${navneData.etternavn}"
-    }
-    private fun validerPdlOppslag(pdlPersonResponse: PdlPersonResponse) {
+    private fun validerPdlOppslag(pdlPersonResponse: PdlPersonResponse, validerAdressebeskyttelse: Boolean) {
         if (pdlPersonResponse.harFeilmeldinger()) {
             val feilmeldinger = pdlPersonResponse.feilmeldinger()
             if (pdlPersonResponse.feilType() == PdlFeiltype.IKKE_FUNNET) {
@@ -70,9 +62,15 @@ class PdlClient(
             } else {
                 throw PdlRequestFailedException(feilmeldinger)
             }
-        } else if (pdlPersonResponse.harDiskresjonskode()) {
+        } else if (validerAdressebeskyttelse && pdlPersonResponse.harDiskresjonskode()) {
             throw PersonNotAccessibleInPdl()
         }
+    }
+
+    suspend fun hentPersonNavn(fnr: String, validerAdressebeskyttelse: Boolean): PdlPersonResponse {
+        val response: PdlPersonResponse = pdlRequest(hentPersonNavnQuery(fnr))
+        validerPdlOppslag(response, validerAdressebeskyttelse)
+        return response
     }
 
     private suspend inline fun <reified T : Any> pdlRequest(pdlQuery: GraphqlQuery): T {
