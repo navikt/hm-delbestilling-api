@@ -67,7 +67,8 @@ fun Route.delbestillingApiAuthenticated(
             val utlån = oebsService.hentUtlånPåArtnrOgSerienr(hmsnr, serienr)
                 ?: return@post call.respond(DelbestillingResponse(request.delbestilling.id, feil = DelbestillingFeil.INGET_UTLÅN))
 
-            val brukerFnr = utlån.fnr
+            //val brukerFnr = utlån.fnr
+            val brukerFnr = "03441558383" // Test av adressebeskyttelse, fjern når ferdig
 
             val brukerKommunenr = pdlService.hentKommunenummer(brukerFnr)
 
