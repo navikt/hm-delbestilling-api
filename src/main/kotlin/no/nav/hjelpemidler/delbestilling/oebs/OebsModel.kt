@@ -1,15 +1,13 @@
 package no.nav.hjelpemidler.delbestilling.oebs
 
-
 data class UtlånPåArtnrOgSerienrRequest(
     val artnr: String,
-    val serienr: String
+    val serienr: String,
 )
 
 data class UtlånPåArtnrOgSerienrResponse(
-    val utlån: Utlån?
+    val utlån: Utlån?,
 )
-
 
 data class Utlån(
     val fnr: String,
@@ -23,7 +21,7 @@ data class OpprettBestillingsordreRequest(
     val fodselsnummer: String,
     val saksnummer: String,
     val formidlernavn: String,
-    val artikler: List<Artikkel>
+    val artikler: List<Artikkel>,
 )
 
 data class Artikkel(

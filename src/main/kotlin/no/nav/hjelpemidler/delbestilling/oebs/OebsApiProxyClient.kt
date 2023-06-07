@@ -15,10 +15,10 @@ import io.ktor.client.request.setBody
 import io.ktor.http.ContentType
 import io.ktor.http.HttpMethod
 import io.ktor.http.contentType
+import io.ktor.serialization.jackson.jackson
 import mu.KotlinLogging
 import no.nav.hjelpemidler.delbestilling.Config
 import no.nav.hjelpemidler.http.createHttpClient
-import io.ktor.serialization.jackson.jackson
 import no.nav.hjelpemidler.http.openid.OpenIDClient
 import no.nav.hjelpemidler.http.openid.bearerAuth
 
@@ -55,7 +55,7 @@ class OebsApiProxyClient(
     suspend fun hentUtlånPåArtnrOgSerienr(artnr: String, serienr: String): Utlån? {
         try {
             val tokenSet = azureAdClient.grant(apiScope)
-            val httpResponse = client.request( "$baseUrl/utlanSerienrArtnr") {
+            val httpResponse = client.request("$baseUrl/utlanSerienrArtnr") {
                 method = HttpMethod.Post
                 bearerAuth(tokenSet)
                 setBody(UtlånPåArtnrOgSerienrRequest(artnr, serienr))

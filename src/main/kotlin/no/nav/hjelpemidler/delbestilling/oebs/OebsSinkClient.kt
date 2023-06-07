@@ -10,7 +10,6 @@ private const val OPPRETT_DELBESTILLING_EVENTNAME = "hm-OpprettDelbestilling"
 class OebsSinkClient(
     private val kafkaService: KafkaService
 ) {
-
     fun sendDelbestilling(opprettBestillingsordreRequest: OpprettBestillingsordreRequest) {
         logg.info { "Sender '$OPPRETT_DELBESTILLING_EVENTNAME'-event for saksnummer '${opprettBestillingsordreRequest.saksnummer}'" }
         try {

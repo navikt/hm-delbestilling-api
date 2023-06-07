@@ -5,7 +5,7 @@ import mu.KotlinLogging
 private val logger = KotlinLogging.logger { }
 
 class RolleService(
-    private val client: RolleClient
+    private val client: RolleClient,
 ) {
 
     suspend fun hentDelbestillerRolle(token: String): DelbestillerResponse {
