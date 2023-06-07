@@ -67,8 +67,8 @@ fun Route.delbestillingApiAuthenticated(
             val utlån = oebsService.hentUtlånPåArtnrOgSerienr(hmsnr, serienr)
                 ?: return@post call.respond(DelbestillingResponse(id, feil = DelbestillingFeil.INGET_UTLÅN))
 
-            // val brukerFnr = "03441558383" // Test av adressebeskyttelse, fjern når ferdig
-            // val brukerFnr = "11111111111" // Test av person ikke funnet, fjern når ferdig
+            // val brukerFnr = "03441558383" // Test av adressebeskyttelse
+            // val brukerFnr = "11111111111" // Test av person ikke funnet
             val brukerFnr = utlån.fnr
 
             val brukerKommunenr = try {
@@ -105,7 +105,7 @@ fun Route.delbestillingApiAuthenticated(
 
             log.info { "Delbestilling '$id' sendt inn" }
 
-            call.respond(status = HttpStatusCode.Created, DelbestillingResponse(id, null))
+            call.respond(HttpStatusCode.Created, DelbestillingResponse(id, null))
         } catch (e: Exception) {
             log.error(e) { "noe feila" }
             throw e
