@@ -16,14 +16,14 @@ class PdlResponseMissingData(message: String = "") : RuntimeException("Response 
 
 fun Application.configureStatusPages() {
     install(StatusPages) {
-        exception<PersonNotFoundInPdl> { call, _ ->
-            call.respond(HttpStatusCode.NotFound)
+        exception<PersonNotFoundInPdl> { call, cause ->
+            call.respond(HttpStatusCode.NotFound, cause.message!!)
         }
         exception<PersonNotAccessibleInPdl> { call, _ ->
             call.respond(HttpStatusCode.Forbidden)
         }
-        exception<PdlRequestFailedException> { call, _ ->
-            call.respond(HttpStatusCode.InternalServerError)
+        exception<PdlRequestFailedException> { call, cause ->
+            call.respond(HttpStatusCode.InternalServerError, cause.message!!)
         }
         exception<PdlResponseMissingData> { call, cause ->
             call.respond(HttpStatusCode.InternalServerError, cause.message!!)
