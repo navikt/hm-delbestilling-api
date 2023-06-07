@@ -67,10 +67,11 @@ fun Route.delbestillingApiAuthenticated(
             val utlån = oebsService.hentUtlånPåArtnrOgSerienr(hmsnr, serienr)
                 ?: return@post call.respond(DelbestillingResponse(id, feil = DelbestillingFeil.INGET_UTLÅN))
 
+            // val brukerFnr = "03441558383" // Test av adressebeskyttelse, fjern når ferdig
+            val brukerFnr = "11111111111" // Test av person ikke funnet, fjern når ferdig
             // val brukerFnr = utlån.fnr
-            val brukerFnr = "03441558383" // Test av adressebeskyttelse, fjern når ferdig
 
-            var brukerKommunenr = try {
+            val brukerKommunenr = try {
                 pdlService.hentKommunenummer(brukerFnr)
             } catch (e: PersonNotAccessibleInPdl) {
                 log.info(e) { "Person ikke tilgjengelig i PDL" }
