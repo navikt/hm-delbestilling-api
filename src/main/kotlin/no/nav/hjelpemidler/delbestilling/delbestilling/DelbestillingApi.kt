@@ -8,11 +8,11 @@ import io.ktor.server.routing.Route
 import io.ktor.server.routing.get
 import io.ktor.server.routing.post
 import mu.KotlinLogging
+import no.nav.hjelpemidler.delbestilling.exceptions.PersonNotAccessibleInPdl
 import no.nav.hjelpemidler.delbestilling.isProd
 import no.nav.hjelpemidler.delbestilling.oebs.Artikkel
 import no.nav.hjelpemidler.delbestilling.oebs.OebsService
 import no.nav.hjelpemidler.delbestilling.oebs.OpprettBestillingsordreRequest
-import no.nav.hjelpemidler.delbestilling.pdl.PdlClient
 import no.nav.hjelpemidler.delbestilling.pdl.PdlService
 import no.nav.hjelpemidler.delbestilling.roller.RolleService
 import no.nav.tms.token.support.tokenx.validation.user.TokenXUserFactory
@@ -67,10 +67,16 @@ fun Route.delbestillingApiAuthenticated(
             val utlån = oebsService.hentUtlånPåArtnrOgSerienr(hmsnr, serienr)
                 ?: return@post call.respond(DelbestillingResponse(request.delbestilling.id, feil = DelbestillingFeil.INGET_UTLÅN))
 
-            //val brukerFnr = utlån.fnr
+            // val brukerFnr = utlån.fnr
             val brukerFnr = "03441558383" // Test av adressebeskyttelse, fjern når ferdig
 
-            val brukerKommunenr = pdlService.hentKommunenummer(brukerFnr)
+            var brukerKommunenr = try {
+                pdlService.hentKommunenummer(brukerFnr)
+            } catch (e: PersonNotAccessibleInPdl) {
+                return@post call.respond(DelbestillingResponse(request.delbestilling.id, feil = DelbestillingFeil.PERSON_UTILGJENGELIG))
+            } catch (e: Exception) {
+                throw e
+            }
 
             // Sjekk om en av innsenders kommuner tilhører brukers kommuner
             val innsenderRepresentererBrukersKommune =
