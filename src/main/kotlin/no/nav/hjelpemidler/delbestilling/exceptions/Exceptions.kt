@@ -25,8 +25,8 @@ fun Application.configureStatusPages() {
         exception<PdlRequestFailedException> { call, _ ->
             call.respond(HttpStatusCode.InternalServerError)
         }
-        exception<PdlResponseMissingData> { call, _ ->
-            call.respond(HttpStatusCode.InternalServerError)
+        exception<PdlResponseMissingData> { call, cause ->
+            call.respond(HttpStatusCode.InternalServerError, cause.message!!)
         }
     }
 }

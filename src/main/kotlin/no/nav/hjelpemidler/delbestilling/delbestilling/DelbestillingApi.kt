@@ -65,7 +65,7 @@ fun Route.delbestillingApiAuthenticated(
             }
 
             val utlån = oebsService.hentUtlånPåArtnrOgSerienr(hmsnr, serienr)
-                ?: return@post call.respond(DelbestillingResponse(request.delbestilling.id, feil = DelbestillingFeil.INGET_UTLÅN))
+                ?: return@post call.respond(DelbestillingResponse(id, feil = DelbestillingFeil.INGET_UTLÅN))
 
             // val brukerFnr = utlån.fnr
             val brukerFnr = "03441558383" // Test av adressebeskyttelse, fjern når ferdig
@@ -73,8 +73,10 @@ fun Route.delbestillingApiAuthenticated(
             var brukerKommunenr = try {
                 pdlService.hentKommunenummer(brukerFnr)
             } catch (e: PersonNotAccessibleInPdl) {
-                return@post call.respond(DelbestillingResponse(request.delbestilling.id, feil = DelbestillingFeil.PERSON_UTILGJENGELIG))
+                log.info(e) { "Person ikke tilgjengelig i PDL" }
+                return@post call.respond(DelbestillingResponse(id, feil = DelbestillingFeil.PERSON_UTILGJENGELIG))
             } catch (e: Exception) {
+                log.error(e) { "Klarte ikke å hente bruker fra PDL" }
                 throw e
             }
 
@@ -84,7 +86,7 @@ fun Route.delbestillingApiAuthenticated(
 
             // Skrur av denne sjekken for dev akkurat nå, da det er litt mismatch i testdataen der
             if (isProd() && !innsenderRepresentererBrukersKommune) {
-                call.respond(DelbestillingResponse(request.delbestilling.id, feil = DelbestillingFeil.ULIK_GEOGRAFISK_TILKNYTNING))
+                call.respond(DelbestillingResponse(id, feil = DelbestillingFeil.ULIK_GEOGRAFISK_TILKNYTNING))
             }
 
             // TODO transaction {
