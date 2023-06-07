@@ -86,9 +86,9 @@ fun Route.delbestillingApiAuthenticated(
             val deler = request.delbestilling.deler.map { Artikkel(it.hmsnr, it.antall) }
             oebsService.sendDelbestilling(
                 OpprettBestillingsordreRequest(
-                    fodselsnummer = brukerFnr,
+                    brukersFnr = brukerFnr,
                     saksnummer = saksnummer.toString(),
-                    formidlernavn = bestillersNavn,
+                    innsendernavn = bestillersNavn,
                     artikler = deler
                 )
             )
