@@ -54,6 +54,14 @@ class PdlClient(
             ?: throw PdlResponseMissingData("Klarte ikke å finne kommunenummer")
     }
 
+    suspend fun hentPersonNavn(fnr: String) = getPersonNavn(pdlRequest(hentPersonNavnQuery(fnr)))
+
+    private fun getPersonNavn(response: PdlPersonResponse): String {
+        val navneData = response.data?.hentPerson?.navn?.get(0)
+            ?: throw PdlResponseMissingData("Klarte ikke å hente navn")
+        val mellomnavn = navneData.mellomnavn ?: ""
+        return "${navneData.fornavn} $mellomnavn ${navneData.etternavn}"
+    }
     private fun validerPdlOppslag(pdlPersonResponse: PdlPersonResponse) {
         if (pdlPersonResponse.harFeilmeldinger()) {
             val feilmeldinger = pdlPersonResponse.feilmeldinger()
@@ -66,16 +74,6 @@ class PdlClient(
             throw PersonNotAccessibleInPdl()
         }
     }
-
-    suspend fun hentPersonNavn(fnr: String) = getPersonNavn(pdlRequest(hentPersonNavnQuery(fnr)))
-
-    private fun getPersonNavn(response: PdlPersonResponse): String {
-        val navneData = response.data?.hentPerson?.navn?.get(0)
-            ?: throw PdlResponseMissingData("PDL response mangler data")
-        val mellomnavn = navneData.mellomnavn ?: ""
-        return "${navneData.fornavn} $mellomnavn ${navneData.etternavn}"
-    }
-
 
     private suspend inline fun <reified T : Any> pdlRequest(pdlQuery: GraphqlQuery): T {
         return withContext(Dispatchers.IO) {
@@ -169,7 +167,7 @@ enum class Gradering {
 data class PdlPersonNavn(
     val fornavn: String,
     val mellomnavn: String? = null,
-    val etternavn: String
+    val etternavn: String,
 )
 
 data class Bostedsadresse(val vegadresse: Vegadresse?)
