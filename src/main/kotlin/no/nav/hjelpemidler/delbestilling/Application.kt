@@ -11,6 +11,7 @@ import io.ktor.server.routing.route
 import io.ktor.server.routing.routing
 import no.nav.hjelpemidler.delbestilling.delbestilling.delbestillingApi
 import no.nav.hjelpemidler.delbestilling.delbestilling.delbestillingApiAuthenticated
+import no.nav.hjelpemidler.delbestilling.exceptions.configureStatusPages
 import no.nav.tms.token.support.tokenx.validation.TokenXAuthenticator
 import no.nav.tms.token.support.tokenx.validation.installTokenXAuth
 import no.nav.tms.token.support.tokenx.validation.mock.SecurityLevel
@@ -47,6 +48,8 @@ fun Application.setupRoutes() {
     } else {
         installTokenXAuth()
     }
+
+    configureStatusPages()
 
     val ctx = AppContext()
 

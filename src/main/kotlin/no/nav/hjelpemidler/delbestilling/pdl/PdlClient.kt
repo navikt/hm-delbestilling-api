@@ -51,7 +51,7 @@ class PdlClient(
 
     private fun getKommunenr(response: PdlPersonResponse): String {
         return response.data?.hentPerson?.bostedsadresse?.get(0)?.vegadresse?.kommunenummer
-            ?: throw PdlResponseMissingData("PDL response mangler data")
+            ?: throw PdlResponseMissingData("Klarte ikke å finne kommunenummer")
     }
 
     private fun validerPdlOppslag(pdlPersonResponse: PdlPersonResponse) {
@@ -71,7 +71,7 @@ class PdlClient(
 
     private fun getPersonNavn(response: PdlPersonResponse): String {
         val navneData = response.data?.hentPerson?.navn?.get(0)
-            ?: throw PdlRequestFailedException("PDL response mangler data")
+            ?: throw PdlResponseMissingData("PDL response mangler data")
         val mellomnavn = navneData.mellomnavn ?: ""
         return "${navneData.fornavn} $mellomnavn ${navneData.etternavn}"
     }

@@ -52,6 +52,7 @@ dependencies {
     implementation(ktor("server-cio"))
     implementation(ktor("server-auth"))
     implementation(ktor("server-content-negotiation"))
+    implementation(ktor("server-status-pages"))
 
     implementation(ktor("client-core"))
     implementation(ktor("client-content-negotiation"))
