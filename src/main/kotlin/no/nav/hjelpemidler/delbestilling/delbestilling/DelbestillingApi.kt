@@ -82,13 +82,12 @@ fun Route.delbestillingApiAuthenticated(
 
             // TODO transaction {
             delbestillingRepository.lagreDelbestilling(bestillerFnr, brukerFnr, brukerKommunenr, request.delbestilling)
-            val saksnummer = id // TODO hva med å bruker et saksnummer alá "del-123"? For å skille frå behovsmelding saksnr.
-            val bestillersNavn = "Tekniker Reservedelsen" // TODO hent frå PDL (har tilsvarande spørring i hm-soknad-api
+            val bestillersNavn = pdlService.hentPersonNavn(bestillerFnr)
             val deler = request.delbestilling.deler.map { Artikkel(it.hmsnr, it.antall) }
             oebsService.sendDelbestilling(
                 OpprettBestillingsordreRequest(
                     brukersFnr = brukerFnr,
-                    saksnummer = saksnummer.toString(),
+                    saksnummer = id.toString(),
                     innsendernavn = bestillersNavn,
                     artikler = deler
                 )

@@ -43,8 +43,6 @@ class PdlClient(
         }
     }
 
-    // suspend fun hentKommunenummer(fnummer: String) = getKommunenr(pdlRequest(hentKommunenummerQuery(fnummer)))
-
     suspend fun hentKommunenummer(fnummer: String): String {
         val response = pdlRequest<PdlPersonResponse>(hentKommunenummerQuery(fnummer))
         validerPdlOppslag(response)
@@ -52,9 +50,8 @@ class PdlClient(
     }
 
     private fun getKommunenr(response: PdlPersonResponse): String {
-        return response.data?.hentPerson?.bostedsadresse?.get(0)?.vegadresse?.kommunenummer ?: throw PdlResponseMissingData(
-            "PDL response mangler data"
-        )
+        return response.data?.hentPerson?.bostedsadresse?.get(0)?.vegadresse?.kommunenummer
+            ?: throw PdlResponseMissingData("PDL response mangler data")
     }
 
     private fun validerPdlOppslag(pdlPersonResponse: PdlPersonResponse) {
@@ -70,7 +67,17 @@ class PdlClient(
         }
     }
 
-    private suspend inline fun <reified T : Any> pdlRequest(pdlQuery: HentKommunenummerGraphqlQuery): T {
+    suspend fun hentPersonNavn(fnr: String) = getPersonNavn(pdlRequest(hentPersonNavnQuery(fnr)))
+
+    private fun getPersonNavn(response: PdlPersonResponse): String {
+        val navneData = response.data?.hentPerson?.navn?.get(0)
+            ?: throw PdlRequestFailedException("PDL response mangler data")
+        val mellomnavn = navneData.mellomnavn ?: ""
+        return "${navneData.fornavn} $mellomnavn ${navneData.etternavn}"
+    }
+
+
+    private suspend inline fun <reified T : Any> pdlRequest(pdlQuery: GraphqlQuery): T {
         return withContext(Dispatchers.IO) {
             val tokenSet = azureAdClient.grant(apiScope)
             client.post(baseUrl) {
@@ -83,21 +90,6 @@ class PdlClient(
             }.body()
         }
     }
-}
-
-data class HentKommunenummerGraphqlQuery(
-    val query: String,
-    val variables: Variables,
-)
-
-data class Variables(
-    val ident: String,
-)
-
-fun hentKommunenummerQuery(fnummer: String): HentKommunenummerGraphqlQuery {
-    val query = HentKommunenummerGraphqlQuery::class.java.getResource("/pdl/hentKommunenummer.graphql").readText()
-        .replace("[\n\r]", "").replace("[\n]", "")
-    return HentKommunenummerGraphqlQuery(query, Variables(ident = fnummer))
 }
 
 data class PdlPersonResponse(
@@ -158,6 +150,7 @@ fun PdlPersonResponse.feilmeldinger(): String {
 }
 
 data class PdlPerson(
+    val navn: List<PdlPersonNavn> = emptyList(),
     val bostedsadresse: List<Bostedsadresse> = emptyList(),
     val adressebeskyttelse: List<Adressebeskyttelse>? = emptyList(),
 )
@@ -172,6 +165,12 @@ enum class Gradering {
     FORTROLIG,
     UGRADERT,
 }
+
+data class PdlPersonNavn(
+    val fornavn: String,
+    val mellomnavn: String? = null,
+    val etternavn: String
+)
 
 data class Bostedsadresse(val vegadresse: Vegadresse?)
 
