@@ -5,7 +5,6 @@ import no.nav.hjelpemidler.configuration.EnvironmentVariable
 import no.nav.hjelpemidler.configuration.External
 import no.nav.hjelpemidler.configuration.KafkaEnvironmentVariable
 import no.nav.hjelpemidler.configuration.NaisEnvironmentVariable
-import no.nav.hjelpemidler.database.createDataSource
 import org.apache.kafka.clients.CommonClientConfigs
 import org.apache.kafka.common.config.SaslConfigs
 import org.apache.kafka.common.config.SslConfigs

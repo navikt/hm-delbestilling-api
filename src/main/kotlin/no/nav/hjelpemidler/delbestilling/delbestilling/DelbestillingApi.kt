@@ -13,6 +13,7 @@ import no.nav.hjelpemidler.delbestilling.oebs.Artikkel
 import no.nav.hjelpemidler.delbestilling.oebs.OebsService
 import no.nav.hjelpemidler.delbestilling.oebs.OpprettBestillingsordreRequest
 import no.nav.hjelpemidler.delbestilling.pdl.PdlClient
+import no.nav.hjelpemidler.delbestilling.pdl.PdlService
 import no.nav.hjelpemidler.delbestilling.roller.RolleService
 import no.nav.tms.token.support.tokenx.validation.user.TokenXUserFactory
 
@@ -42,7 +43,7 @@ fun Route.delbestillingApi(
 fun Route.delbestillingApiAuthenticated(
     delbestillingRepository: DelbestillingRepository,
     rolleService: RolleService,
-    pdlClient: PdlClient,
+    pdlService: PdlService,
     oebsService: OebsService,
     tokenXUserFactory: TokenXUserFactory = TokenXUserFactory,
 ) {
@@ -68,7 +69,7 @@ fun Route.delbestillingApiAuthenticated(
 
             val brukerFnr = utlån.fnr
 
-            val brukerKommunenr = pdlClient.hentKommunenummer(brukerFnr)
+            val brukerKommunenr = pdlService.hentKommunenummer(brukerFnr)
 
             // Sjekk om en av innsenders kommuner tilhører brukers kommuner
             val innsenderRepresentererBrukersKommune =

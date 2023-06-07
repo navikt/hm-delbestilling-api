@@ -5,5 +5,8 @@ query($ident: ID!){
                 kommunenummer
             }
         }
+        adressebeskyttelse(historikk: false) {
+            gradering
+        }
     }
 }

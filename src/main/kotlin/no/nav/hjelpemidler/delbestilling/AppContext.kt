@@ -6,6 +6,7 @@ import no.nav.hjelpemidler.delbestilling.oebs.OebsApiProxyClient
 import no.nav.hjelpemidler.delbestilling.oebs.OebsService
 import no.nav.hjelpemidler.delbestilling.oebs.OebsSinkClient
 import no.nav.hjelpemidler.delbestilling.pdl.PdlClient
+import no.nav.hjelpemidler.delbestilling.pdl.PdlService
 import no.nav.hjelpemidler.delbestilling.roller.RolleClient
 import no.nav.hjelpemidler.delbestilling.roller.RolleService
 import no.nav.hjelpemidler.http.openid.azureADClient
@@ -34,6 +35,8 @@ class AppContext {
     val rolleService = RolleService(rolleClient)
 
     val pdlClient = PdlClient(azureClient)
+
+    val pdlService = PdlService(pdlClient)
 
     val oebsService = OebsService(oebsApiProxyClient, oebsSinkClient)
 }

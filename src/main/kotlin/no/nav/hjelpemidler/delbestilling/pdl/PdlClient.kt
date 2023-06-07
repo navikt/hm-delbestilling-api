@@ -15,6 +15,10 @@ import io.ktor.http.contentType
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import no.nav.hjelpemidler.delbestilling.Config
+import no.nav.hjelpemidler.delbestilling.exceptions.PdlRequestFailedException
+import no.nav.hjelpemidler.delbestilling.exceptions.PdlResponseMissingData
+import no.nav.hjelpemidler.delbestilling.exceptions.PersonNotAccessibleInPdl
+import no.nav.hjelpemidler.delbestilling.exceptions.PersonNotFoundInPdl
 import no.nav.hjelpemidler.http.createHttpClient
 import no.nav.hjelpemidler.http.openid.OpenIDClient
 import no.nav.hjelpemidler.http.openid.bearerAuth
@@ -39,12 +43,32 @@ class PdlClient(
         }
     }
 
-    suspend fun hentKommunenummer(fnummer: String) = getKommunenr(pdlRequest(hentKommunenummerQuery(fnummer)))
+    // suspend fun hentKommunenummer(fnummer: String) = getKommunenr(pdlRequest(hentKommunenummerQuery(fnummer)))
 
-    private fun getKommunenr(response: PdlPersonResponse) =
-        response.data?.hentPerson?.bostedsadresse?.get(0)?.vegadresse?.kommunenummer ?: throw PdlRequestFailedException(
+    suspend fun hentKommunenummer(fnummer: String): String {
+        val response = pdlRequest<PdlPersonResponse>(hentKommunenummerQuery(fnummer))
+        validerPdlOppslag(response)
+        return getKommunenr(response)
+    }
+
+    private fun getKommunenr(response: PdlPersonResponse): String {
+        return response.data?.hentPerson?.bostedsadresse?.get(0)?.vegadresse?.kommunenummer ?: throw PdlResponseMissingData(
             "PDL response mangler data"
         )
+    }
+
+    private fun validerPdlOppslag(pdlPersonResponse: PdlPersonResponse) {
+        if (pdlPersonResponse.harFeilmeldinger()) {
+            val feilmeldinger = pdlPersonResponse.feilmeldinger()
+            if (pdlPersonResponse.feilType() == PdlFeiltype.IKKE_FUNNET) {
+                throw PersonNotFoundInPdl("Fant ikke person i PDL $feilmeldinger")
+            } else {
+                throw PdlRequestFailedException(feilmeldinger)
+            }
+        } else if (pdlPersonResponse.harDiskresjonskode()) {
+            throw PersonNotAccessibleInPdl()
+        }
+    }
 
     private suspend inline fun <reified T : Any> pdlRequest(pdlQuery: HentKommunenummerGraphqlQuery): T {
         return withContext(Dispatchers.IO) {
@@ -63,11 +87,11 @@ class PdlClient(
 
 data class HentKommunenummerGraphqlQuery(
     val query: String,
-    val variables: Variables
+    val variables: Variables,
 )
 
 data class Variables(
-    val ident: String
+    val ident: String,
 )
 
 fun hentKommunenummerQuery(fnummer: String): HentKommunenummerGraphqlQuery {
@@ -78,16 +102,76 @@ fun hentKommunenummerQuery(fnummer: String): HentKommunenummerGraphqlQuery {
 
 data class PdlPersonResponse(
     val errors: List<PdlError> = emptyList(),
-    val data: PdlHentPerson?
+    val data: PdlHentPerson?,
 )
 
 data class PdlHentPerson(
     val hentPerson: PdlPerson?,
 )
 
+fun PdlPersonResponse.feilType(): PdlFeiltype {
+    return if (this.errors.map { it.extensions.code }
+            .contains("not_found")
+    ) {
+        PdlFeiltype.IKKE_FUNNET
+    } else {
+        PdlFeiltype.TEKNISK_FEIL
+    }
+}
+
+enum class PdlFeiltype {
+    IKKE_FUNNET,
+    TEKNISK_FEIL,
+}
+
+fun PdlPersonResponse.harFeilmeldinger(): Boolean {
+    return this.errors.isNotEmpty()
+}
+
+fun PdlHentPerson.isKode6Or7(): Boolean {
+    val adressebeskyttelse = this.hentPerson?.adressebeskyttelse
+    return if (adressebeskyttelse.isNullOrEmpty()) {
+        false
+    } else {
+        return adressebeskyttelse.any {
+            it.isKode6() || it.isKode7()
+        }
+    }
+}
+
+fun Adressebeskyttelse.isKode6(): Boolean {
+    return this.gradering == Gradering.STRENGT_FORTROLIG || this.gradering == Gradering.STRENGT_FORTROLIG_UTLAND
+}
+
+fun Adressebeskyttelse.isKode7(): Boolean {
+    return this.gradering == Gradering.FORTROLIG
+}
+
+fun PdlPersonResponse.harDiskresjonskode(): Boolean = if (this.data == null) {
+    false
+} else {
+    this.data.isKode6Or7()
+}
+
+fun PdlPersonResponse.feilmeldinger(): String {
+    return this.errors.joinToString(",") { "${it.message}. Type ${it.extensions.classification}:${it.extensions.code}" }
+}
+
 data class PdlPerson(
     val bostedsadresse: List<Bostedsadresse> = emptyList(),
+    val adressebeskyttelse: List<Adressebeskyttelse>? = emptyList(),
 )
+
+data class Adressebeskyttelse(
+    val gradering: Gradering,
+)
+
+enum class Gradering {
+    STRENGT_FORTROLIG_UTLAND,
+    STRENGT_FORTROLIG,
+    FORTROLIG,
+    UGRADERT,
+}
 
 data class Bostedsadresse(val vegadresse: Vegadresse?)
 
@@ -99,17 +183,15 @@ data class PdlError(
     val message: String,
     val locations: List<PdlErrorLocation> = emptyList(),
     val path: List<String>? = emptyList(),
-    val extensions: PdlErrorExtension
+    val extensions: PdlErrorExtension,
 )
 
 data class PdlErrorLocation(
     val line: Int?,
-    val column: Int?
+    val column: Int?,
 )
 
 data class PdlErrorExtension(
     val code: String?,
-    val classification: String
+    val classification: String,
 )
-
-class PdlRequestFailedException(message: String = "") : RuntimeException("Request to PDL Failed $message")

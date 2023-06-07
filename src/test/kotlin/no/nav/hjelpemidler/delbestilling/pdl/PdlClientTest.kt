@@ -11,6 +11,8 @@ import io.ktor.utils.io.ByteReadChannel
 import io.mockk.every
 import io.mockk.mockk
 import kotlinx.coroutines.runBlocking
+import no.nav.hjelpemidler.delbestilling.exceptions.PersonNotAccessibleInPdl
+import no.nav.hjelpemidler.delbestilling.exceptions.PersonNotFoundInPdl
 import no.nav.hjelpemidler.http.openid.OpenIDClient
 import no.nav.hjelpemidler.http.openid.TokenSet
 import org.intellij.lang.annotations.Language
@@ -29,7 +31,7 @@ internal class PdlClientTest {
             runBlocking {
                 azureAdClient.grant(scope = any())
             }
-        } returns TokenSet("", 0, "token", )
+        } returns TokenSet("", 0, "token",)
     }
 
     @Test
@@ -51,14 +53,58 @@ internal class PdlClientTest {
     }
 
     @Test
-    fun `errors i respons`() {
+    fun `bruker ikke finnes i PDL`() {
         val fnr = "123"
 
-        assertThrows<PdlRequestFailedException> {
+        assertThrows<PersonNotFoundInPdl> {
             runBlocking {
                 val mockEngine = MockEngine { _ ->
                     respond(
                         content = ByteReadChannel(pdlFeilRespons()),
+                        status = HttpStatusCode.OK,
+                        headers = headersOf(HttpHeaders.ContentType, "application/json")
+                    )
+                }
+                val pdlClient = PdlClient(azureAdClient, mockEngine, "test", "test")
+                pdlClient.hentKommunenummer(fnr)
+            }
+        }
+    }
+
+    @Test
+    fun `bruker har gradering STRENGT_FORTROLIG (kode 6) `() {
+        val fnr = "123"
+        val kommunenr = "3801"
+
+        println(pdlKode6Respons(kommunenr))
+
+        assertThrows<PersonNotAccessibleInPdl> {
+            runBlocking {
+                val mockEngine = MockEngine { _ ->
+                    respond(
+                        content = ByteReadChannel(pdlKode6Respons(kommunenr)),
+                        status = HttpStatusCode.OK,
+                        headers = headersOf(HttpHeaders.ContentType, "application/json")
+                    )
+                }
+                val pdlClient = PdlClient(azureAdClient, mockEngine, "test", "test")
+                pdlClient.hentKommunenummer(fnr)
+            }
+        }
+    }
+
+    @Test
+    fun `bruker har gradering fortrolig (kode 7) `() {
+        val fnr = "123"
+        val kommunenr = "3801"
+
+        println(pdlKode6Respons(kommunenr))
+
+        assertThrows<PersonNotAccessibleInPdl> {
+            runBlocking {
+                val mockEngine = MockEngine { _ ->
+                    respond(
+                        content = ByteReadChannel(pdlKode7Respons(kommunenr)),
                         status = HttpStatusCode.OK,
                         headers = headersOf(HttpHeaders.ContentType, "application/json")
                     )
@@ -101,7 +147,7 @@ fun pdlRespons(kommunenr: String) =
     }
   }
 }
-""".trimIndent()
+    """.trimIndent()
 
 @Language("JSON")
 fun pdlFeilRespons() =
@@ -129,5 +175,51 @@ fun pdlFeilRespons() =
     "hentPerson": null
   }
 }
-""".trimIndent()
+    """.trimIndent()
+
+@Language("JSON")
+fun pdlKode6Respons(kommunenr: String) =
+    """
+{
+  "data": {
+    "hentPerson": {
+      "bostedsadresse": [
+        {
+          "vegadresse": {
+            "kommunenummer": "$kommunenr"
+          }
+        }
+      ],
+      "adressebeskyttelse": [
+        {
+          "gradering": "${Gradering.STRENGT_FORTROLIG}"
+        }
+      ]
+    }
+  }
+}
+    """.trimIndent()
+
+@Language("JSON")
+fun pdlKode7Respons(kommunenr: String) =
+    """
+{
+  "data": {
+    "hentPerson": {
+      "bostedsadresse": [
+        {
+          "vegadresse": {
+            "kommunenummer": "$kommunenr"
+          }
+        }
+      ],
+      "adressebeskyttelse": [
+        {
+          "gradering": "${Gradering.FORTROLIG}"
+        }
+      ]
+    }
+  }
+}
+    """.trimIndent()
 
