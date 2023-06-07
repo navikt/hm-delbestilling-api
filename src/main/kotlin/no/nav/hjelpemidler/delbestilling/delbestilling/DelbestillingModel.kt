@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonValue
 import java.util.UUID
 
 data class OppslagRequest(
-    val artnr: String,
+    val hmsnr: String,
     val serienr: String,
 )
 

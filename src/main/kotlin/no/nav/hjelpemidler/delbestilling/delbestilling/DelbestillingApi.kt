@@ -26,10 +26,10 @@ fun Route.delbestillingApi(
             val request = call.receive<OppslagRequest>()
             log.info { "/oppslag request: $request" }
 
-            val hjelpemiddel = hjelpemiddelDeler[request.artnr]
+            val hjelpemiddel = hjelpemiddelDeler[request.hmsnr]
                 ?: return@post call.respond(OppslagResponse(null, OppslagFeil.TILBYR_IKKE_HJELPEMIDDEL))
 
-            oebsService.hentUtlånPåArtnrOgSerienr(request.artnr, request.serienr)
+            oebsService.hentUtlånPåArtnrOgSerienr(request.hmsnr, request.serienr)
                 ?: return@post call.respond(OppslagResponse(null, OppslagFeil.INGET_UTLÅN))
 
             call.respond(OppslagResponse(hjelpemiddel, null))

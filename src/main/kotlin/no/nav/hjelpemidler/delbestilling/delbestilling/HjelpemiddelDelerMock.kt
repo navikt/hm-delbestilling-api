@@ -1,6 +1,5 @@
 package no.nav.hjelpemidler.delbestilling.delbestilling
 
-
 val hjelpemiddelDeler = mapOf(
     "111111" to Hjelpemiddel(
         navn = "Panthera S3",
