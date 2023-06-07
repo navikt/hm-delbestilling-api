@@ -9,6 +9,7 @@ import io.ktor.server.routing.get
 import io.ktor.server.routing.post
 import mu.KotlinLogging
 import no.nav.hjelpemidler.delbestilling.exceptions.PersonNotAccessibleInPdl
+import no.nav.hjelpemidler.delbestilling.exceptions.PersonNotFoundInPdl
 import no.nav.hjelpemidler.delbestilling.isProd
 import no.nav.hjelpemidler.delbestilling.oebs.Artikkel
 import no.nav.hjelpemidler.delbestilling.oebs.OebsService
@@ -74,8 +75,11 @@ fun Route.delbestillingApiAuthenticated(
             val brukerKommunenr = try {
                 pdlService.hentKommunenummer(brukerFnr)
             } catch (e: PersonNotAccessibleInPdl) {
-                log.info(e) { "Person ikke tilgjengelig i PDL" }
-                return@post call.respond(DelbestillingResponse(id, feil = DelbestillingFeil.PERSON_UTILGJENGELIG))
+                log.error(e) { "Person ikke tilgjengelig i PDL" }
+                return@post call.respond(DelbestillingResponse(id, feil = DelbestillingFeil.BRUKER_IKKE_FUNNET))
+            } catch(e: PersonNotFoundInPdl) {
+                log.error(e) { "Person ikke funnet i PDL" }
+                return@post call.respond(DelbestillingResponse(id, feil = DelbestillingFeil.BRUKER_IKKE_FUNNET))
             } catch (e: Exception) {
                 log.error(e) { "Klarte ikke å hente bruker fra PDL" }
                 throw e
@@ -107,7 +111,7 @@ fun Route.delbestillingApiAuthenticated(
 
             call.respond(HttpStatusCode.Created, DelbestillingResponse(id, null))
         } catch (e: Exception) {
-            log.error(e) { "noe feila" }
+            log.error(e) { "Innsending av bestilling feilet" }
             throw e
         }
     }
