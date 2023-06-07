@@ -62,7 +62,6 @@ class KafkaService(
     }
 
     private fun publish(key: String, event: String) {
-        log.info { "DEBUG: Sender key '$key' og event '$event' til Kafka" }
         producer.send(ProducerRecord("teamdigihot.hm-soknadsbehandling-v1", key, event)).get(5, TimeUnit.SECONDS)
     }
 
