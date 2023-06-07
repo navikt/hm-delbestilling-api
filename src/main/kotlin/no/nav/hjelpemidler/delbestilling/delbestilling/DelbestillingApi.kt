@@ -72,6 +72,7 @@ fun Route.delbestillingApiAuthenticated(
             // val brukerFnr = "11111111111" // Test av person ikke funnet
             val brukerFnr = utlån.fnr
 
+            // TODO: det føles litt feil å gjøre alle disse sjekkene her
             val brukerKommunenr = try {
                 pdlService.hentKommunenummer(brukerFnr)
             } catch (e: PersonNotAccessibleInPdl) {
@@ -91,7 +92,7 @@ fun Route.delbestillingApiAuthenticated(
 
             // Skrur av denne sjekken for dev akkurat nå, da det er litt mismatch i testdataen der
             if (isProd() && !innsenderRepresentererBrukersKommune) {
-                call.respond(DelbestillingResponse(id, feil = DelbestillingFeil.ULIK_GEOGRAFISK_TILKNYTNING))
+                return@post call.respond(DelbestillingResponse(id, feil = DelbestillingFeil.ULIK_GEOGRAFISK_TILKNYTNING))
             }
 
             // TODO transaction {
@@ -112,7 +113,7 @@ fun Route.delbestillingApiAuthenticated(
             call.respond(HttpStatusCode.Created, DelbestillingResponse(id, null))
         } catch (e: Exception) {
             log.error(e) { "Innsending av bestilling feilet" }
-            throw e
+            call.respond(HttpStatusCode.InternalServerError)
         }
     }
 
