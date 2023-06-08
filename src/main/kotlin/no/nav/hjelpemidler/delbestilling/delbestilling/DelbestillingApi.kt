@@ -104,7 +104,8 @@ fun Route.delbestillingApiAuthenticated(
                     brukersFnr = brukerFnr,
                     saksnummer = id.toString(),
                     innsendernavn = bestillersNavn,
-                    artikler = deler
+                    artikler = deler,
+                    skalTilXKLager = true, // TODO hent verdi fra request
                 )
             )
 
