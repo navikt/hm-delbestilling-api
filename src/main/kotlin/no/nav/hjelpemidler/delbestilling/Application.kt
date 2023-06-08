@@ -63,7 +63,7 @@ fun Application.setupRoutes() {
                 )
             }
 
-            delbestillingApi(ctx.oebsService)
+            delbestillingApi(ctx.delbestillingService)
         }
 
         internal()

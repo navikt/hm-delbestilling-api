@@ -23,22 +23,19 @@ import javax.sql.DataSource
 private val log = KotlinLogging.logger {}
 
 fun Route.delbestillingApi(
-    oebsService: OebsService,
+    delbestillingService: DelbestillingService
 ) {
     post("/oppslag") {
         try {
             val request = call.receive<OppslagRequest>()
             log.info { "/oppslag request: $request" }
 
-            val hjelpemiddel = hjelpemiddelDeler[request.hmsnr]
-                ?: return@post call.respond(OppslagResponse(null, OppslagFeil.TILBYR_IKKE_HJELPEMIDDEL))
+            val hjelpemiddel = delbestillingService.slåOppHjelpemiddel(request.hmsnr, request.serienr)
 
-            oebsService.hentUtlånPåArtnrOgSerienr(request.hmsnr, request.serienr)
-                ?: return@post call.respond(OppslagResponse(null, OppslagFeil.INGET_UTLÅN))
-
-            call.respond(OppslagResponse(hjelpemiddel, null))
+            call.respond(hjelpemiddel)
         } catch (e: Exception) {
             log.error(e) { "Klarte ikke gjøre oppslag" }
+            call.respond(HttpStatusCode.InternalServerError)
         }
     }
 }
@@ -75,7 +72,7 @@ fun Route.delbestillingApiAuthenticated(
 
     get("/delbestilling") {
         val bestillerFnr = tokenXUserFactory.createTokenXUser(call).ident
-        val delbestillinger = delbestillingRepository.hentDelbestillinger(bestillerFnr)
+        val delbestillinger = delbestillingService.hentDelbestillinger(bestillerFnr)
         call.respond(delbestillinger)
     }
 }

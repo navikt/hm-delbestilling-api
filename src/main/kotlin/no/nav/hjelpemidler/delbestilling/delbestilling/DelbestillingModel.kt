@@ -10,7 +10,7 @@ data class OppslagRequest(
 
 data class OppslagResponse(
     val hjelpemiddel: Hjelpemiddel?,
-    val feil: OppslagFeil?,
+    val feil: OppslagFeil? = null,
 )
 
 enum class OppslagFeil {

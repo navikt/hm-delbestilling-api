@@ -97,10 +97,24 @@ class DelbestillingService(
         return DelbestillingResponse(id)
     }
 
-    private suspend fun validerDelbestiller(delbestillerRolle: DelbestillerResponse) {
+    private fun validerDelbestiller(delbestillerRolle: DelbestillerResponse) {
         if (!delbestillerRolle.kanBestilleDeler) {
-            throw TilgangException("")
+            throw TilgangException("Innlogget bruker mangler tilgang til å bestille deler")
         }
+    }
+
+    suspend fun slåOppHjelpemiddel(hmsnr: String, serienr: String): Any {
+        val hjelpemiddel = hjelpemiddelDeler[hmsnr]
+            ?: return OppslagResponse(null, OppslagFeil.TILBYR_IKKE_HJELPEMIDDEL)
+
+        oebsService.hentUtlånPåArtnrOgSerienr(hmsnr, serienr)
+            ?: return OppslagResponse(null, OppslagFeil.INGET_UTLÅN)
+
+        return OppslagResponse(hjelpemiddel)
+    }
+
+    fun hentDelbestillinger(bestillerFnr: String): List<Delbestilling> {
+        return delbestillingRepository.hentDelbestillinger(bestillerFnr)
     }
 
 }
