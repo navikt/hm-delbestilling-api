@@ -64,7 +64,7 @@ dependencies {
     implementation("com.fasterxml.jackson.datatype:jackson-datatype-jsr310:$jacksonVersion")
 
     // Logging
-    runtimeOnly("ch.qos.logback:logback-classic:1.4.6")
+    runtimeOnly("ch.qos.logback:logback-classic:1.4.7")
     implementation("org.slf4j:slf4j-api:2.0.5") // brukes av microutils:kotling-logging
     implementation("io.github.microutils:kotlin-logging-jvm:3.0.5")
     implementation("net.logstash.logback:logstash-logback-encoder:7.3")

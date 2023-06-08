@@ -60,7 +60,7 @@ data class Delbestilling(
 
 data class DelbestillingResponse(
     val id: UUID,
-    val feil: DelbestillingFeil?,
+    val feil: DelbestillingFeil? = null,
 )
 
 enum class DelbestillingFeil {

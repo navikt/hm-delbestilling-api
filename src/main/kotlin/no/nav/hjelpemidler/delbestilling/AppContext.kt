@@ -1,6 +1,7 @@
 package no.nav.hjelpemidler.delbestilling
 
 import no.nav.hjelpemidler.delbestilling.delbestilling.DelbestillingRepository
+import no.nav.hjelpemidler.delbestilling.delbestilling.DelbestillingService
 import no.nav.hjelpemidler.delbestilling.kafka.KafkaService
 import no.nav.hjelpemidler.delbestilling.oebs.OebsApiProxyClient
 import no.nav.hjelpemidler.delbestilling.oebs.OebsService
@@ -32,11 +33,15 @@ class AppContext {
 
     private val pdlClient = PdlClient(azureClient)
 
-    val delbestillingRepository = DelbestillingRepository(Database.migratedDataSource)
+    private val ds = Database.migratedDataSource
+
+    val delbestillingRepository = DelbestillingRepository(ds)
 
     val rolleService = RolleService(rolleClient)
 
     val pdlService = PdlService(pdlClient)
 
     val oebsService = OebsService(oebsApiProxyClient, oebsSinkClient)
+
+    val delbestillingService = DelbestillingService(ds, delbestillingRepository, pdlService, oebsService)
 }

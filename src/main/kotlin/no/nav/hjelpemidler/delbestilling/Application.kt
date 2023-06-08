@@ -59,8 +59,7 @@ fun Application.setupRoutes() {
                 delbestillingApiAuthenticated(
                     ctx.delbestillingRepository,
                     ctx.rolleService,
-                    ctx.pdlService,
-                    ctx.oebsService,
+                    ctx.delbestillingService,
                 )
             }
 
