@@ -105,13 +105,15 @@ fun Route.delbestillingApiAuthenticated(
             delbestillingRepository.lagreDelbestilling(bestillerFnr, brukerFnr, brukerKommunenr, request.delbestilling)
             val bestillersNavn = pdlService.hentPersonNavn(bestillerFnr, validerAdressebeskyttelse = false)
             val deler = request.delbestilling.deler.map { Artikkel(it.hmsnr, it.antall) }
+            val skalTilXKLager = true // TODO hent verdi fra request
+            val forsendelsesinfo = if (skalTilXKLager) "Sendes til XK-Lager" else ""
             oebsService.sendDelbestilling(
                 OpprettBestillingsordreRequest(
                     brukersFnr = brukerFnr,
                     saksnummer = id.toString(),
                     innsendernavn = bestillersNavn,
                     artikler = deler,
-                    skalTilXKLager = true, // TODO hent verdi fra request
+                    forsendelsesinfo = forsendelsesinfo,
                 )
             )
 

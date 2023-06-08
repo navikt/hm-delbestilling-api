@@ -21,7 +21,7 @@ data class OpprettBestillingsordreRequest(
     val saksnummer: String,
     val innsendernavn: String,
     val artikler: List<Artikkel>,
-    val skalTilXKLager: Boolean,
+    val forsendelsesinfo: String,
 )
 
 data class Artikkel(
