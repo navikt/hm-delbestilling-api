@@ -42,6 +42,10 @@ data class DelLinje( // TODO kan vi arve felt fra Del eller lignende?
     val antall: Int,
 )
 
+enum class Levering {
+    TIL_XK_LAGER, TIL_SERVICE_OPPDRAG,
+}
+
 data class DelbestillingRequest(
     val delbestilling: Delbestilling,
 )
@@ -51,6 +55,7 @@ data class Delbestilling(
     val hmsnr: Hmsnr,
     val serienr: Serienr,
     val deler: List<DelLinje>,
+    val levering: Levering,
 )
 
 data class DelbestillingResponse(

@@ -58,6 +58,7 @@ fun Route.delbestillingApiAuthenticated(
             val id = request.delbestilling.id
             val hmsnr = request.delbestilling.hmsnr.value
             val serienr = request.delbestilling.serienr.value
+            val levering = request.delbestilling.levering
 
             val delbestillerRolle = rolleService.hentDelbestillerRolle(tokenXUser.tokenString)
             log.info { "delbestillerRolle: $delbestillerRolle" }
@@ -105,8 +106,7 @@ fun Route.delbestillingApiAuthenticated(
             delbestillingRepository.lagreDelbestilling(bestillerFnr, brukerFnr, brukerKommunenr, request.delbestilling)
             val bestillersNavn = pdlService.hentPersonNavn(bestillerFnr, validerAdressebeskyttelse = false)
             val deler = request.delbestilling.deler.map { Artikkel(it.hmsnr, it.antall) }
-            val skalTilXKLager = true // TODO hent verdi fra request
-            val forsendelsesinfo = if (skalTilXKLager) "Sendes til XK-Lager" else ""
+            val forsendelsesinfo = if (levering == Levering.TIL_XK_LAGER) "Sendes til XK-Lager" else ""
             oebsService.sendDelbestilling(
                 OpprettBestillingsordreRequest(
                     brukersFnr = brukerFnr,
