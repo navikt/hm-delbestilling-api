@@ -86,6 +86,8 @@ dependencies {
     testImplementation("org.junit.jupiter:junit-jupiter-engine:$junitJupiterVersion")
     testImplementation("io.mockk:mockk:1.13.4")
     testImplementation(ktor("client-mock"))
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.7.1")
+
 }
 
 tasks.withType<KotlinCompile> {
