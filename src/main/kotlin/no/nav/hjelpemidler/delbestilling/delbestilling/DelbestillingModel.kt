@@ -59,7 +59,10 @@ data class DelbestillingResponse(
 )
 
 enum class DelbestillingFeil {
-    INGET_UTLÅN, ULIK_GEOGRAFISK_TILKNYTNING, BRUKER_IKKE_FUNNET
+    INGET_UTLÅN,
+    ULIK_GEOGRAFISK_TILKNYTNING,
+    BRUKER_IKKE_FUNNET,
+    BESTILLE_TIL_SEG_SELV,
 }
 
 /* TODO: Vurder om vi skal bruke https://ktor.io/docs/request-validation.html#configure

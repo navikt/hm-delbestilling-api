@@ -78,12 +78,18 @@ fun Route.delbestillingApiAuthenticated(
             } catch (e: PersonNotAccessibleInPdl) {
                 log.error(e) { "Person ikke tilgjengelig i PDL" }
                 return@post call.respond(DelbestillingResponse(id, feil = DelbestillingFeil.BRUKER_IKKE_FUNNET))
-            } catch(e: PersonNotFoundInPdl) {
+            } catch (e: PersonNotFoundInPdl) {
                 log.error(e) { "Person ikke funnet i PDL" }
                 return@post call.respond(DelbestillingResponse(id, feil = DelbestillingFeil.BRUKER_IKKE_FUNNET))
             } catch (e: Exception) {
                 log.error(e) { "Klarte ikke å hente bruker fra PDL" }
                 throw e
+            }
+
+            // Det skal ikke være mulig å bestille til seg selv (disabler i dev pga testdata)
+            if (isProd() && bestillerFnr == brukerFnr) {
+                log.info { "Bestiller prøver å bestille til seg selv" }
+                return@post call.respond(DelbestillingResponse(id, feil = DelbestillingFeil.BESTILLE_TIL_SEG_SELV))
             }
 
             // Sjekk om en av innsenders kommuner tilhører brukers kommuner
