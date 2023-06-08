@@ -30,11 +30,11 @@ class AppContext {
 
     private val oebsSinkClient = OebsSinkClient(kafkaService)
 
+    private val pdlClient = PdlClient(azureClient)
+
     val delbestillingRepository = DelbestillingRepository(Database.migratedDataSource)
 
     val rolleService = RolleService(rolleClient)
-
-    val pdlClient = PdlClient(azureClient)
 
     val pdlService = PdlService(pdlClient)
 
