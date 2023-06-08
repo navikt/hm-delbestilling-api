@@ -103,14 +103,15 @@ fun Route.delbestillingApiAuthenticated(
 
             // TODO transaction {
             delbestillingRepository.lagreDelbestilling(bestillerFnr, brukerFnr, brukerKommunenr, request.delbestilling)
-            val bestillersNavn = pdlService.hentPersonNavn(bestillerFnr)
+            val bestillersNavn = pdlService.hentPersonNavn(bestillerFnr, validerAdressebeskyttelse = false)
             val deler = request.delbestilling.deler.map { Artikkel(it.hmsnr, it.antall) }
             oebsService.sendDelbestilling(
                 OpprettBestillingsordreRequest(
                     brukersFnr = brukerFnr,
                     saksnummer = id.toString(),
                     innsendernavn = bestillersNavn,
-                    artikler = deler
+                    artikler = deler,
+                    skalTilXKLager = true, // TODO hent verdi fra request
                 )
             )
 
