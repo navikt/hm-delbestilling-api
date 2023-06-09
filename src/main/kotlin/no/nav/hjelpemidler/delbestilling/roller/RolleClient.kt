@@ -66,5 +66,5 @@ data class Delbestiller(
 )
 
 data class DelbestillerResponse(
-    val delbestiller: Delbestiller
+    val delbestillerrolle: Delbestiller
 )

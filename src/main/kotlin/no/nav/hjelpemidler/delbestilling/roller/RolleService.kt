@@ -9,6 +9,6 @@ class RolleService(
 ) {
 
     suspend fun hentDelbestillerRolle(token: String): Delbestiller {
-        return client.hentDelbestillerRolle(token).delbestiller
+        return client.hentDelbestillerRolle(token).delbestillerrolle
     }
 }
