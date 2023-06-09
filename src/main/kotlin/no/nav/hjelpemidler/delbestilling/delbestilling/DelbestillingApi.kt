@@ -46,7 +46,7 @@ fun Route.delbestillingApiAuthenticated(
             val bestillerFnr = tokenXUser.ident
 
             val delbestillerRolle = rolleService.hentDelbestillerRolle(tokenXUser.tokenString)
-            log.info { "delbestillerRolle: $delbestillerRolle" }
+            log.info { "delbestillerRolleResponse: $delbestillerRolle" }
 
             val resultat = delbestillingService.opprettDelbestilling(delbestillerRolle, request, bestillerFnr)
 

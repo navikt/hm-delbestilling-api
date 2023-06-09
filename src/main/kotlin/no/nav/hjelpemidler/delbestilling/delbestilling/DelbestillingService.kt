@@ -11,7 +11,7 @@ import no.nav.hjelpemidler.delbestilling.oebs.Artikkel
 import no.nav.hjelpemidler.delbestilling.oebs.OebsService
 import no.nav.hjelpemidler.delbestilling.oebs.OpprettBestillingsordreRequest
 import no.nav.hjelpemidler.delbestilling.pdl.PdlService
-import no.nav.hjelpemidler.delbestilling.roller.DelbestillerResponse
+import no.nav.hjelpemidler.delbestilling.roller.Delbestiller
 import javax.sql.DataSource
 
 private val log = KotlinLogging.logger {}
@@ -24,11 +24,10 @@ class DelbestillingService(
 ) {
 
     suspend fun opprettDelbestilling(
-        delbestillerRolle: DelbestillerResponse,
+        delbestillerRolle: Delbestiller,
         request: DelbestillingRequest,
-        bestillerFnr: String
+        bestillerFnr: String,
     ): DelbestillingResultat {
-
         validerDelbestiller(delbestillerRolle)
 
         val id = request.delbestilling.id
@@ -51,7 +50,7 @@ class DelbestillingService(
             return DelbestillingResultat(id, feil = DelbestillingFeil.BRUKER_IKKE_FUNNET, HttpStatusCode.NotFound)
         } catch (e: PersonNotFoundInPdl) {
             log.error(e) { "Person ikke funnet i PDL" }
-            return DelbestillingResultat(id, feil = DelbestillingFeil.BRUKER_IKKE_FUNNET,  HttpStatusCode.NotFound)
+            return DelbestillingResultat(id, feil = DelbestillingFeil.BRUKER_IKKE_FUNNET, HttpStatusCode.NotFound)
         } catch (e: Exception) {
             log.error(e) { "Klarte ikke å hente bruker fra PDL" }
             throw e
@@ -69,11 +68,12 @@ class DelbestillingService(
 
         // Skrur av denne sjekken for dev akkurat nå, da det er litt mismatch i testdataen der
         if (isProd() && !innsenderRepresentererBrukersKommune) {
-            return DelbestillingResultat(id, feil = DelbestillingFeil.ULIK_GEOGRAFISK_TILKNYTNING,  HttpStatusCode.Forbidden)
+            return DelbestillingResultat(id, feil = DelbestillingFeil.ULIK_GEOGRAFISK_TILKNYTNING, HttpStatusCode.Forbidden)
         }
 
-        transaction(dataSource) {tx ->
-            delbestillingRepository.lagreDelbestilling(tx,
+        transaction(dataSource) { tx ->
+            delbestillingRepository.lagreDelbestilling(
+                tx,
                 bestillerFnr,
                 brukerFnr,
                 brukerKommunenr,
@@ -98,7 +98,7 @@ class DelbestillingService(
         return DelbestillingResultat(id, null, HttpStatusCode.Created)
     }
 
-    private fun validerDelbestiller(delbestillerRolle: DelbestillerResponse) {
+    private fun validerDelbestiller(delbestillerRolle: Delbestiller) {
         if (!delbestillerRolle.kanBestilleDeler) {
             throw TilgangException("Innlogget bruker mangler tilgang til å bestille deler")
         }
@@ -117,5 +117,4 @@ class DelbestillingService(
     fun hentDelbestillinger(bestillerFnr: String): List<Delbestilling> {
         return delbestillingRepository.hentDelbestillinger(bestillerFnr)
     }
-
 }
