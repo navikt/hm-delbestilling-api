@@ -34,7 +34,6 @@ fun Route.delbestillingApi(
 }
 
 fun Route.delbestillingApiAuthenticated(
-    delbestillingRepository: DelbestillingRepository,
     rolleService: RolleService,
     delbestillingService: DelbestillingService,
     tokenXUserFactory: TokenXUserFactory = TokenXUserFactory,

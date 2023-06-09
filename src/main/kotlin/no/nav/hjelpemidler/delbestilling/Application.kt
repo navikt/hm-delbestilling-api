@@ -57,7 +57,6 @@ fun Application.setupRoutes() {
         route("/api") {
             authenticate(TokenXAuthenticator.name) {
                 delbestillingApiAuthenticated(
-                    ctx.delbestillingRepository,
                     ctx.rolleService,
                     ctx.delbestillingService,
                 )

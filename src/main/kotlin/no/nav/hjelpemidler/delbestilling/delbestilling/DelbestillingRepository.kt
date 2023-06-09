@@ -1,5 +1,7 @@
 package no.nav.hjelpemidler.delbestilling.delbestilling
 
+import kotliquery.Session
+import kotliquery.TransactionalSession
 import kotliquery.queryOf
 import kotliquery.sessionOf
 import kotliquery.using
@@ -12,13 +14,14 @@ private val log = KotlinLogging.logger {}
 class DelbestillingRepository(private val ds: DataSource) {
 
     fun lagreDelbestilling(
+        tx: Session,
         bestillerFnr: String,
         brukerFnr: String,
         brukerKommunenr: String,
         delbestilling: Delbestilling
-    ) = using(sessionOf(ds)) { session ->
+    ) {
         log.info { "Lagrer delbestilling '${delbestilling.id}'" }
-        session.run(
+        tx.run(
             queryOf(
                 """
                     INSERT INTO delbestilling (id, brukers_kommunenr, fnr_bruker, fnr_bestiller, delbestilling_json)
