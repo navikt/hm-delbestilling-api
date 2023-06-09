@@ -1,11 +1,18 @@
 package no.nav.hjelpemidler.delbestilling.delbestilling
 
 import com.fasterxml.jackson.annotation.JsonValue
+import io.ktor.http.HttpStatusCode
 import java.util.UUID
 
 data class OppslagRequest(
     val hmsnr: String,
     val serienr: String,
+)
+
+data class OppslagResultat(
+    val hjelpemiddel: Hjelpemiddel?,
+    val feil: OppslagFeil? = null,
+    val httpStatusCode: HttpStatusCode,
 )
 
 data class OppslagResponse(
@@ -56,6 +63,12 @@ data class Delbestilling(
     val serienr: Serienr,
     val deler: List<DelLinje>,
     val levering: Levering,
+)
+
+data class DelbestillingResultat(
+    val id: UUID,
+    val feil: DelbestillingFeil? = null,
+    val httpStatusCode: HttpStatusCode,
 )
 
 data class DelbestillingResponse(

@@ -1,5 +1,6 @@
 package no.nav.hjelpemidler.delbestilling.delbestilling
 
+import io.ktor.http.HttpStatusCode
 import mu.KotlinLogging
 import no.nav.hjelpemidler.database.transaction
 import no.nav.hjelpemidler.delbestilling.exceptions.PersonNotAccessibleInPdl
@@ -26,7 +27,7 @@ class DelbestillingService(
         delbestillerRolle: DelbestillerResponse,
         request: DelbestillingRequest,
         bestillerFnr: String
-    ): DelbestillingResponse {
+    ): DelbestillingResultat {
 
         validerDelbestiller(delbestillerRolle)
 
@@ -36,7 +37,7 @@ class DelbestillingService(
         val levering = request.delbestilling.levering
 
         val utlån = oebsService.hentUtlånPåArtnrOgSerienr(hmsnr, serienr)
-            ?: return DelbestillingResponse(id, feil = DelbestillingFeil.INGET_UTLÅN)
+            ?: return DelbestillingResultat(id, feil = DelbestillingFeil.INGET_UTLÅN, HttpStatusCode.NotFound)
 
         // val brukerFnr = "03441558383" // Test av adressebeskyttelse
         // val brukerFnr = "11111111111" // Test av person ikke funnet
@@ -47,10 +48,10 @@ class DelbestillingService(
             pdlService.hentKommunenummer(brukerFnr)
         } catch (e: PersonNotAccessibleInPdl) {
             log.error(e) { "Person ikke tilgjengelig i PDL" }
-            return DelbestillingResponse(id, feil = DelbestillingFeil.BRUKER_IKKE_FUNNET)
+            return DelbestillingResultat(id, feil = DelbestillingFeil.BRUKER_IKKE_FUNNET, HttpStatusCode.NotFound)
         } catch (e: PersonNotFoundInPdl) {
             log.error(e) { "Person ikke funnet i PDL" }
-            return DelbestillingResponse(id, feil = DelbestillingFeil.BRUKER_IKKE_FUNNET)
+            return DelbestillingResultat(id, feil = DelbestillingFeil.BRUKER_IKKE_FUNNET,  HttpStatusCode.NotFound)
         } catch (e: Exception) {
             log.error(e) { "Klarte ikke å hente bruker fra PDL" }
             throw e
@@ -59,7 +60,7 @@ class DelbestillingService(
         // Det skal ikke være mulig å bestille til seg selv (disabler i dev pga testdata)
         if (isProd() && bestillerFnr == brukerFnr) {
             log.info { "Bestiller prøver å bestille til seg selv" }
-            return DelbestillingResponse(id, feil = DelbestillingFeil.BESTILLE_TIL_SEG_SELV)
+            return DelbestillingResultat(id, feil = DelbestillingFeil.BESTILLE_TIL_SEG_SELV, HttpStatusCode.Forbidden)
         }
 
         // Sjekk om en av innsenders kommuner tilhører brukers kommuner
@@ -68,7 +69,7 @@ class DelbestillingService(
 
         // Skrur av denne sjekken for dev akkurat nå, da det er litt mismatch i testdataen der
         if (isProd() && !innsenderRepresentererBrukersKommune) {
-            return DelbestillingResponse(id, feil = DelbestillingFeil.ULIK_GEOGRAFISK_TILKNYTNING)
+            return DelbestillingResultat(id, feil = DelbestillingFeil.ULIK_GEOGRAFISK_TILKNYTNING,  HttpStatusCode.Forbidden)
         }
 
         transaction(dataSource) {
@@ -94,7 +95,7 @@ class DelbestillingService(
 
         log.info { "Delbestilling '$id' sendt inn" }
 
-        return DelbestillingResponse(id)
+        return DelbestillingResultat(id, null, HttpStatusCode.Created)
     }
 
     private fun validerDelbestiller(delbestillerRolle: DelbestillerResponse) {
@@ -103,14 +104,14 @@ class DelbestillingService(
         }
     }
 
-    suspend fun slåOppHjelpemiddel(hmsnr: String, serienr: String): Any {
+    suspend fun slåOppHjelpemiddel(hmsnr: String, serienr: String): OppslagResultat {
         val hjelpemiddel = hjelpemiddelDeler[hmsnr]
-            ?: return OppslagResponse(null, OppslagFeil.TILBYR_IKKE_HJELPEMIDDEL)
+            ?: return OppslagResultat(null, OppslagFeil.TILBYR_IKKE_HJELPEMIDDEL, HttpStatusCode.NotFound)
 
         oebsService.hentUtlånPåArtnrOgSerienr(hmsnr, serienr)
-            ?: return OppslagResponse(null, OppslagFeil.INGET_UTLÅN)
+            ?: return OppslagResultat(null, OppslagFeil.INGET_UTLÅN, HttpStatusCode.NotFound)
 
-        return OppslagResponse(hjelpemiddel)
+        return OppslagResultat(hjelpemiddel, null, HttpStatusCode.Created)
     }
 
     fun hentDelbestillinger(bestillerFnr: String): List<Delbestilling> {

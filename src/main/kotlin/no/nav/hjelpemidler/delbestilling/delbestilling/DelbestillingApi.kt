@@ -8,31 +8,24 @@ import io.ktor.server.routing.Route
 import io.ktor.server.routing.get
 import io.ktor.server.routing.post
 import mu.KotlinLogging
-import no.nav.hjelpemidler.database.transaction
-import no.nav.hjelpemidler.delbestilling.exceptions.PersonNotAccessibleInPdl
-import no.nav.hjelpemidler.delbestilling.exceptions.PersonNotFoundInPdl
-import no.nav.hjelpemidler.delbestilling.isProd
-import no.nav.hjelpemidler.delbestilling.oebs.Artikkel
-import no.nav.hjelpemidler.delbestilling.oebs.OebsService
-import no.nav.hjelpemidler.delbestilling.oebs.OpprettBestillingsordreRequest
-import no.nav.hjelpemidler.delbestilling.pdl.PdlService
 import no.nav.hjelpemidler.delbestilling.roller.RolleService
 import no.nav.tms.token.support.tokenx.validation.user.TokenXUserFactory
-import javax.sql.DataSource
 
 private val log = KotlinLogging.logger {}
 
 fun Route.delbestillingApi(
-    delbestillingService: DelbestillingService
+    delbestillingService: DelbestillingService,
 ) {
     post("/oppslag") {
         try {
             val request = call.receive<OppslagRequest>()
             log.info { "/oppslag request: $request" }
 
-            val hjelpemiddel = delbestillingService.slåOppHjelpemiddel(request.hmsnr, request.serienr)
+            val resultat = delbestillingService.slåOppHjelpemiddel(request.hmsnr, request.serienr)
 
-            call.respond(hjelpemiddel)
+            val oppslagResponse = OppslagResponse(resultat.hjelpemiddel, resultat.feil)
+
+            call.respond(resultat.httpStatusCode, oppslagResponse)
         } catch (e: Exception) {
             log.error(e) { "Klarte ikke gjøre oppslag" }
             call.respond(HttpStatusCode.InternalServerError)
@@ -56,14 +49,11 @@ fun Route.delbestillingApiAuthenticated(
             val delbestillerRolle = rolleService.hentDelbestillerRolle(tokenXUser.tokenString)
             log.info { "delbestillerRolle: $delbestillerRolle" }
 
-            val response = delbestillingService.opprettDelbestilling(delbestillerRolle, request, bestillerFnr)
+            val resultat = delbestillingService.opprettDelbestilling(delbestillerRolle, request, bestillerFnr)
 
-            if (response.feil == null) {
-                call.respond(HttpStatusCode.Created, response)
-            } else {
-                call.respond(response)
-            }
+            val delbestillingResponse = DelbestillingResponse(resultat.id, resultat.feil)
 
+            call.respond(resultat.httpStatusCode, delbestillingResponse)
         } catch (e: Exception) {
             log.error(e) { "Innsending av bestilling feilet" }
             call.respond(HttpStatusCode.InternalServerError)
