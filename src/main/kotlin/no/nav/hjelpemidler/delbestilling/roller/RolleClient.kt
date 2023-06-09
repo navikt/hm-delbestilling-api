@@ -57,10 +57,14 @@ class RolleClient(
     }
 }
 
-data class DelbestillerResponse(
+data class Delbestiller(
     val kanBestilleDeler: Boolean,
     val harXKLager: Boolean,
     val kommunaleOrgs: List<Organisasjon>?,
     val erKommunaltAnsatt: Boolean,
     val erIPilot: Boolean,
+)
+
+data class DelbestillerResponse(
+    val delbestiller: Delbestiller
 )
