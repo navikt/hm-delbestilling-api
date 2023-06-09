@@ -17,7 +17,7 @@ import javax.sql.DataSource
 private val log = KotlinLogging.logger {}
 
 class DelbestillingService(
-    private val dataSource: DataSource,
+    private val dataSource: DataSource, // TODO Service burde ikke ha et forhold til datasource
     private val delbestillingRepository: DelbestillingRepository,
     private val pdlService: PdlService,
     private val oebsService: OebsService,
@@ -72,8 +72,8 @@ class DelbestillingService(
             return DelbestillingResultat(id, feil = DelbestillingFeil.ULIK_GEOGRAFISK_TILKNYTNING,  HttpStatusCode.Forbidden)
         }
 
-        transaction(dataSource) {
-            delbestillingRepository.lagreDelbestilling(
+        transaction(dataSource) {tx ->
+            delbestillingRepository.lagreDelbestilling(tx,
                 bestillerFnr,
                 brukerFnr,
                 brukerKommunenr,

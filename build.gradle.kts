@@ -31,7 +31,6 @@ dependencies {
 
     // Database
     implementation("no.nav.hjelpemidler.database:hm-database:v0.0.20")
-    implementation("com.h2database:h2:2.1.214")
 
     // Cache
     implementation("javax.cache:cache-api:1.1.1")
@@ -87,6 +86,7 @@ dependencies {
     testImplementation("io.mockk:mockk:1.13.4")
     testImplementation(ktor("client-mock"))
     testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.7.1")
+    testImplementation("com.h2database:h2:2.1.214")
 
 }
 
