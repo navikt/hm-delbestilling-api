@@ -6,11 +6,11 @@ import no.nav.hjelpemidler.delbestilling.delbestilling.DelbestillingRequest
 import no.nav.hjelpemidler.delbestilling.delbestilling.Hmsnr
 import no.nav.hjelpemidler.delbestilling.delbestilling.Levering
 import no.nav.hjelpemidler.delbestilling.delbestilling.Serienr
-import no.nav.hjelpemidler.delbestilling.roller.DelbestillerResponse
+import no.nav.hjelpemidler.delbestilling.roller.Delbestiller
 import no.nav.hjelpemidler.delbestilling.roller.Organisasjon
 import java.util.UUID
 
-fun delbestillerRolle(kanBestilleDeler: Boolean = true) = DelbestillerResponse(
+fun delbestillerRolle(kanBestilleDeler: Boolean = true) = Delbestiller(
     kanBestilleDeler = kanBestilleDeler,
     harXKLager = true,
     kommunaleOrgs = listOf(Organisasjon("123", "navn", kommunenummer = "1234")),
