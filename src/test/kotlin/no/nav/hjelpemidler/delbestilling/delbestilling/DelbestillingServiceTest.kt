@@ -2,12 +2,14 @@ package no.nav.hjelpemidler.delbestilling.delbestilling
 
 import io.mockk.coEvery
 import io.mockk.mockk
+import io.mockk.slot
 import kotlinx.coroutines.test.runTest
 import no.nav.hjelpemidler.delbestilling.MockException
 import no.nav.hjelpemidler.delbestilling.TestDatabase
 import no.nav.hjelpemidler.delbestilling.delbestillerRolle
 import no.nav.hjelpemidler.delbestilling.delbestillingRequest
 import no.nav.hjelpemidler.delbestilling.oebs.OebsService
+import no.nav.hjelpemidler.delbestilling.oebs.OpprettBestillingsordreRequest
 import no.nav.hjelpemidler.delbestilling.pdl.PdlService
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -16,16 +18,17 @@ import kotlin.test.assertEquals
 
 internal class DelbestillingServiceTest {
 
+    val bestillerFnr = "123"
+    val teknikerNavn = "Turid Tekniker"
+
     private var ds = TestDatabase.testDataSource
     private val delbestillingRepository = DelbestillingRepository(ds)
     private val pdlService = mockk<PdlService>().apply {
         coEvery { hentKommunenummer(any()) } returns "1234"
-        coEvery { hentPersonNavn(any(), any()) } returns "Turid Tekniker"
+        coEvery { hentPersonNavn(any(), any()) } returns teknikerNavn
     }
     private val oebsService = mockk<OebsService>(relaxed = true)
     private val delbestillingService = DelbestillingService(ds, delbestillingRepository, pdlService, oebsService)
-
-    val bestillerFnr = "123"
 
     @BeforeEach
     fun setup() {
@@ -50,5 +53,15 @@ internal class DelbestillingServiceTest {
             delbestillingService.opprettDelbestilling(delbestillerRolle(), delbestillingRequest(), bestillerFnr)
         }
         assertEquals(0, delbestillingService.hentDelbestillinger(bestillerFnr).size)
+    }
+
+    @Test
+    fun `skal sende med riktig info til 5-17 skjema`() = runTest {
+        val slot = slot<OpprettBestillingsordreRequest>()
+        coEvery { oebsService.sendDelbestilling(capture(slot)) } returns Unit
+
+        delbestillingService.opprettDelbestilling(delbestillerRolle(), delbestillingRequest(), bestillerFnr)
+
+        assertEquals("Sendes til XK-Lager. Tekniker: Turid Tekniker", slot.captured.forsendelsesinfo)
     }
 }

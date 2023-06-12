@@ -71,6 +71,11 @@ class DelbestillingService(
             return DelbestillingResultat(id, feil = DelbestillingFeil.ULIK_GEOGRAFISK_TILKNYTNING, HttpStatusCode.Forbidden)
         }
 
+        val bestillersNavn = pdlService.hentPersonNavn(bestillerFnr, validerAdressebeskyttelse = false)
+        val deler = request.delbestilling.deler.map { Artikkel(it.hmsnr, it.antall) }
+        val xkLagerInfo = if (levering == Levering.TIL_XK_LAGER) "Sendes til XK-Lager. " else ""
+        val forsendelsesinfo = "${xkLagerInfo}Tekniker: $bestillersNavn"
+
         transaction(dataSource) { tx ->
             delbestillingRepository.lagreDelbestilling(
                 tx,
@@ -79,9 +84,6 @@ class DelbestillingService(
                 brukerKommunenr,
                 request.delbestilling
             )
-            val bestillersNavn = pdlService.hentPersonNavn(bestillerFnr, validerAdressebeskyttelse = false)
-            val deler = request.delbestilling.deler.map { Artikkel(it.hmsnr, it.antall) }
-            val forsendelsesinfo = if (levering == Levering.TIL_XK_LAGER) "Sendes til XK-Lager" else ""
             oebsService.sendDelbestilling(
                 OpprettBestillingsordreRequest(
                     brukersFnr = brukerFnr,
