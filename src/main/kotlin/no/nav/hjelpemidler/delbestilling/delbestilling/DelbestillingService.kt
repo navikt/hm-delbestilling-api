@@ -111,7 +111,7 @@ class DelbestillingService(
         oebsService.hentUtlånPåArtnrOgSerienr(hmsnr, serienr)
             ?: return OppslagResultat(null, OppslagFeil.INGET_UTLÅN, HttpStatusCode.NotFound)
 
-        return OppslagResultat(hjelpemiddel, null, HttpStatusCode.Created)
+        return OppslagResultat(hjelpemiddel, null, HttpStatusCode.OK)
     }
 
     fun hentDelbestillinger(bestillerFnr: String): List<Delbestilling> {
