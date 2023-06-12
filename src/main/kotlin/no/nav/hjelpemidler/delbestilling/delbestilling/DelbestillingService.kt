@@ -47,7 +47,7 @@ class DelbestillingService(
             pdlService.hentKommunenummer(brukerFnr)
         } catch (e: PersonNotAccessibleInPdl) {
             log.error(e) { "Person ikke tilgjengelig i PDL" }
-            return DelbestillingResultat(id, feil = DelbestillingFeil.BRUKER_IKKE_FUNNET, HttpStatusCode.NotFound)
+            return DelbestillingResultat(id, feil = DelbestillingFeil.KAN_IKKE_BESTILLE, HttpStatusCode.NotFound)
         } catch (e: PersonNotFoundInPdl) {
             log.error(e) { "Person ikke funnet i PDL" }
             return DelbestillingResultat(id, feil = DelbestillingFeil.BRUKER_IKKE_FUNNET, HttpStatusCode.NotFound)
