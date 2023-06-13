@@ -34,17 +34,18 @@ class DelbestillingService(
         val hmsnr = request.delbestilling.hmsnr.value
         val serienr = request.delbestilling.serienr.value
         val levering = request.delbestilling.levering
+        val deler = request.delbestilling.deler
 
         val utlån = oebsService.hentUtlånPåArtnrOgSerienr(hmsnr, serienr)
             ?: return DelbestillingResultat(id, feil = DelbestillingFeil.INGET_UTLÅN, HttpStatusCode.NotFound)
 
         // val brukerFnr = "03441558383" // Test av adressebeskyttelse
         // val brukerFnr = "11111111111" // Test av person ikke funnet
-        val brukerFnr = utlån.fnr
+        val brukersFnr = utlån.fnr
 
         // TODO: det føles litt feil å gjøre alle disse sjekkene her
         val brukerKommunenr = try {
-            pdlService.hentKommunenummer(brukerFnr)
+            pdlService.hentKommunenummer(brukersFnr)
         } catch (e: PersonNotAccessibleInPdl) {
             log.error(e) { "Person ikke tilgjengelig i PDL" }
             return DelbestillingResultat(id, feil = DelbestillingFeil.KAN_IKKE_BESTILLE, HttpStatusCode.NotFound)
@@ -57,7 +58,7 @@ class DelbestillingService(
         }
 
         // Det skal ikke være mulig å bestille til seg selv (disabler i dev pga testdata)
-        if (isProd() && bestillerFnr == brukerFnr) {
+        if (isProd() && bestillerFnr == brukersFnr) {
             log.info { "Bestiller prøver å bestille til seg selv" }
             return DelbestillingResultat(id, feil = DelbestillingFeil.BESTILLE_TIL_SEG_SELV, HttpStatusCode.Forbidden)
         }
@@ -72,7 +73,7 @@ class DelbestillingService(
         }
 
         val bestillersNavn = pdlService.hentPersonNavn(bestillerFnr, validerAdressebeskyttelse = false)
-        val deler = request.delbestilling.deler.map { Artikkel(it.hmsnr, it.antall) }
+        val artikler = deler.map { Artikkel(it.hmsnr, it.antall) }
         val xkLagerInfo = if (levering == Levering.TIL_XK_LAGER) "Sendes til XK-Lager. " else ""
         val forsendelsesinfo = "${xkLagerInfo}Tekniker: $bestillersNavn"
 
@@ -80,16 +81,16 @@ class DelbestillingService(
             delbestillingRepository.lagreDelbestilling(
                 tx,
                 bestillerFnr,
-                brukerFnr,
+                brukersFnr,
                 brukerKommunenr,
                 request.delbestilling
             )
             oebsService.sendDelbestilling(
                 OpprettBestillingsordreRequest(
-                    brukersFnr = brukerFnr,
+                    brukersFnr = brukersFnr,
                     saksnummer = id.toString(),
                     innsendernavn = bestillersNavn,
-                    artikler = deler,
+                    artikler = artikler,
                     forsendelsesinfo = forsendelsesinfo,
                 )
             )
