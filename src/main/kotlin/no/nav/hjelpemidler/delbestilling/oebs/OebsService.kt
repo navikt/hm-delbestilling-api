@@ -8,7 +8,7 @@ class OebsService(
         return oebsApiProxyClient.hentUtlånPåArtnrOgSerienr(artnr, serienr)
     }
 
-    suspend fun hentPersoninfo(fnr: String): OebsPersoninfo {
+    suspend fun hentPersoninfo(fnr: String): List<OebsPersoninfo> {
         return oebsApiProxyClient.hentPersoninfo(fnr)
     }
 

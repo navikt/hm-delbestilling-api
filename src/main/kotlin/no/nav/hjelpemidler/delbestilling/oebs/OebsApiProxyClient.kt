@@ -72,7 +72,7 @@ class OebsApiProxyClient(
 
     }
 
-    suspend fun hentPersoninfo(fnr: String): OebsPersoninfo {
+    suspend fun hentPersoninfo(fnr: String): List<OebsPersoninfo> {
         return withContext(Dispatchers.IO) {
             try {
                 val tokenSet = azureAdClient.grant(apiScope)
