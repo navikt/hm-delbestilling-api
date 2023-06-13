@@ -2,6 +2,7 @@ package no.nav.hjelpemidler.delbestilling.delbestilling
 
 import com.fasterxml.jackson.annotation.JsonValue
 import io.ktor.http.HttpStatusCode
+import no.nav.hjelpemidler.delbestilling.hjelpemidler.HjelpemiddelMedDeler
 import java.util.UUID
 
 data class OppslagRequest(
