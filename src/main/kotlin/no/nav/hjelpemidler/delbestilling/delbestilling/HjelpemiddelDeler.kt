@@ -112,7 +112,102 @@ val delerMap = mapOf<String, List<Del>>(
             img = null,
             kategori = "Batteri"
         ),
-    )
+    ),
+    "Panthera" to listOf(
+        Del(
+            "150817",
+            "Dekk Schwalbe Marathon Plus punkteringsbeskyttet 24\"x1",
+            levArtNr = "1000038",
+            img = null,
+            kategori = "Dekk"
+        ),
+        Del(
+            "150921",
+            "Slange 26\"",
+            levArtNr = null,
+            img = null,
+            kategori = "Slange"
+        ),
+        Del(
+            "150928",
+            "Svinghjul kompakt 5\"/120mm",
+            levArtNr = null,
+            img = null,
+            kategori = "Svinghjul"
+        ),
+        Del(
+            "178498",
+            "Dekk Schwalbe Marathon Plus punkteringsbeskyttet 26\"x1",
+            levArtNr = "1000039",
+            img = null,
+            kategori = "Dekk"
+        ),
+        Del(
+            "184589",
+            "Svinghjul X smal bane 86 mm",
+            levArtNr = "2000061",
+            img = null,
+            kategori = "Svinghjul"
+        ),
+        Del(
+            "196602",
+            "Dekk Schwalbe One 24\"x1",
+            levArtNr = "1000053",
+            img = null,
+            kategori = "Dekk"
+        ),
+        Del(
+            "202326",
+            "Dekk Schwalbe RightRun 26\"x1",
+            levArtNr = "1000056",
+            img = null,
+            kategori = "Dekk"
+        ),
+        Del(
+            "211449",
+            "Slange 24x1 bilventil",
+            levArtNr = "1000005",
+            img = null,
+            kategori = "Slange"
+        ),
+        Del(
+            "232810",
+            "Svinghjul 90 mm",
+            levArtNr = "2002010",
+            img = null,
+            kategori = "Svinghjul"
+        ),
+        Del(
+            "232811",
+            "Svinghjul diam12 m/distanser/bolt/skive/mutter",
+            levArtNr = null,
+            img = null,
+            kategori = "Svinghjul"
+        ),
+    ),
+    "X850" to listOf(
+        Del(
+            "157312",
+            "Hjul 3.50x10 luftfylt dekk svart",
+            levArtNr = null,
+            img = null,
+            kategori = "Hjul"
+        ),
+        Del(
+            "157314",
+            "Hjul 3.00x8 luftfylt dekk svart",
+            levArtNr = null,
+            img = null,
+            kategori = "Hjul"
+        ),
+        Del(
+            "196027",
+            "Batteri MK 97Ah",
+            levArtNr = "602293-99-0",
+            img = null,
+            kategori = "Batteri"
+        ),
+    ),
 )
 
 data class HjelpemiddelMedDeler(
