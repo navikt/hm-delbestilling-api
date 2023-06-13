@@ -8,6 +8,10 @@ class OebsService(
         return oebsApiProxyClient.hentUtlånPåArtnrOgSerienr(artnr, serienr)
     }
 
+    suspend fun hentPersoninfo(fnr: String): OebsPersoninfo {
+        return oebsApiProxyClient.hentPersoninfo(fnr)
+    }
+
     suspend fun sendDelbestilling(opprettBestillingsordreRequest: OpprettBestillingsordreRequest) {
         return oebsSinkClient.sendDelbestilling(opprettBestillingsordreRequest)
     }

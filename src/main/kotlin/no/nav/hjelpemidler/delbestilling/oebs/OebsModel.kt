@@ -28,3 +28,7 @@ data class Artikkel(
     val hmsnr: String,
     val antall: Int,
 )
+
+data class OebsPersoninfo(
+    val leveringKommune: String,
+)
