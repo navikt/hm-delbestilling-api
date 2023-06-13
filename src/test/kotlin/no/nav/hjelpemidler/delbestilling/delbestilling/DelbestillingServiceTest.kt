@@ -8,6 +8,7 @@ import no.nav.hjelpemidler.delbestilling.MockException
 import no.nav.hjelpemidler.delbestilling.TestDatabase
 import no.nav.hjelpemidler.delbestilling.delbestillerRolle
 import no.nav.hjelpemidler.delbestilling.delbestillingRequest
+import no.nav.hjelpemidler.delbestilling.oebs.OebsPersoninfo
 import no.nav.hjelpemidler.delbestilling.oebs.OebsService
 import no.nav.hjelpemidler.delbestilling.oebs.OpprettBestillingsordreRequest
 import no.nav.hjelpemidler.delbestilling.pdl.PdlService
@@ -20,14 +21,17 @@ internal class DelbestillingServiceTest {
 
     val bestillerFnr = "123"
     val teknikerNavn = "Turid Tekniker"
+    val brukersKommunenr = "1234"
 
     private var ds = TestDatabase.testDataSource
     private val delbestillingRepository = DelbestillingRepository(ds)
     private val pdlService = mockk<PdlService>().apply {
-        coEvery { hentKommunenummer(any()) } returns "1234"
+        coEvery { hentKommunenummer(any()) } returns brukersKommunenr
         coEvery { hentPersonNavn(any(), any()) } returns teknikerNavn
     }
-    private val oebsService = mockk<OebsService>(relaxed = true)
+    private val oebsService = mockk<OebsService>(relaxed = true).apply {
+        coEvery { hentPersoninfo(any()) } returns listOf(OebsPersoninfo(brukersKommunenr))
+    }
     private val delbestillingService = DelbestillingService(ds, delbestillingRepository, pdlService, oebsService)
 
     @BeforeEach
