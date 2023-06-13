@@ -10,13 +10,13 @@ data class OppslagRequest(
 )
 
 data class OppslagResultat(
-    val hjelpemiddel: Hjelpemiddel?,
+    val hjelpemiddel: HjelpemiddelMedDeler?,
     val feil: OppslagFeil? = null,
     val httpStatusCode: HttpStatusCode,
 )
 
 data class OppslagResponse(
-    val hjelpemiddel: Hjelpemiddel?,
+    val hjelpemiddel: HjelpemiddelMedDeler?,
     val feil: OppslagFeil? = null,
 )
 
@@ -25,17 +25,17 @@ enum class OppslagFeil {
 }
 
 data class Hjelpemiddel(
-    val navn: String,
     val hmsnr: String,
-    val deler: List<Del>,
+    val navn: String,
+    //val deler: List<Del>,
+    val type: String,
 )
 
 data class Del(
-    val navn: String,
-    val beskrivelse: String,
     val hmsnr: String,
-    val levArtNr: String,
-    val img: String,
+    val navn: String,
+    val levArtNr: String?,
+    val img: String?,
     val kategori: String,
 )
 
