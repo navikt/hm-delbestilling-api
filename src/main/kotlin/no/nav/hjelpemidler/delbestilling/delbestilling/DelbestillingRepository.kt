@@ -1,7 +1,6 @@
 package no.nav.hjelpemidler.delbestilling.delbestilling
 
 import kotliquery.Session
-import kotliquery.TransactionalSession
 import kotliquery.queryOf
 import kotliquery.sessionOf
 import kotliquery.using
@@ -18,7 +17,7 @@ class DelbestillingRepository(private val ds: DataSource) {
         bestillerFnr: String,
         brukerFnr: String,
         brukerKommunenr: String,
-        delbestilling: Delbestilling
+        delbestilling: Delbestilling,
     ) {
         log.info { "Lagrer delbestilling '${delbestilling.id}'" }
         tx.run(

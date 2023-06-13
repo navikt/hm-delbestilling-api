@@ -69,7 +69,11 @@ class DelbestillingService(
 
         // Skrur av denne sjekken for dev akkurat nå, da det er litt mismatch i testdataen der
         if (isProd() && !innsenderRepresentererBrukersKommune) {
-            return DelbestillingResultat(id, feil = DelbestillingFeil.ULIK_GEOGRAFISK_TILKNYTNING, HttpStatusCode.Forbidden)
+            return DelbestillingResultat(
+                id,
+                feil = DelbestillingFeil.ULIK_GEOGRAFISK_TILKNYTNING,
+                HttpStatusCode.Forbidden
+            )
         }
 
         val bestillersNavn = pdlService.hentPersonNavn(bestillerFnr, validerAdressebeskyttelse = false)
@@ -108,13 +112,13 @@ class DelbestillingService(
     }
 
     suspend fun slåOppHjelpemiddel(hmsnr: String, serienr: String): OppslagResultat {
-        val hjelpemiddel = hjelpemiddelDeler[hmsnr]
+        val hjelpemiddelMedDeler = hentHjelpemiddelMedDeler(hmsnr)
             ?: return OppslagResultat(null, OppslagFeil.TILBYR_IKKE_HJELPEMIDDEL, HttpStatusCode.NotFound)
 
         oebsService.hentUtlånPåArtnrOgSerienr(hmsnr, serienr)
             ?: return OppslagResultat(null, OppslagFeil.INGET_UTLÅN, HttpStatusCode.NotFound)
 
-        return OppslagResultat(hjelpemiddel, null, HttpStatusCode.OK)
+        return OppslagResultat(hjelpemiddelMedDeler, null, HttpStatusCode.OK)
     }
 
     fun hentDelbestillinger(bestillerFnr: String): List<Delbestilling> {
