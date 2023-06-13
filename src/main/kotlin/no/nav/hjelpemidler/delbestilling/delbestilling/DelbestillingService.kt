@@ -58,13 +58,19 @@ class DelbestillingService(
             throw e
         }
 
-        val brukerKommunenrIOebs = oebsService.hentPersoninfo(brukersFnr).map { it.leveringKommune }
-        log.info { "Brukers leveringsadresse i OEBS '$brukerKommunenrIOebs'" }
-
         // Det skal ikke være mulig å bestille til seg selv (disabler i dev pga testdata)
         if (isProd() && bestillerFnr == brukersFnr) {
             log.info { "Bestiller prøver å bestille til seg selv" }
             return DelbestillingResultat(id, feil = DelbestillingFeil.BESTILLE_TIL_SEG_SELV, HttpStatusCode.Forbidden)
+        }
+
+        // Sjekk at PDL og OEBS kommunenr på bruker stemmer overens
+        val oebsBrukerinfo = oebsService.hentPersoninfo(brukersFnr)
+        val brukerHarSammeKommunenrIOebsOgPdl = oebsBrukerinfo.any { it.leveringKommune == brukerKommunenr }
+        if (!brukerHarSammeKommunenrIOebsOgPdl) {
+            log.info { "Ulik leveringsadresse. OEBS: $oebsBrukerinfo, PDL: $brukerKommunenr" }
+            // TODO er dette riktig feilkode?
+            return DelbestillingResultat(id, feil = DelbestillingFeil.KAN_IKKE_BESTILLE, HttpStatusCode.Forbidden)
         }
 
         // Sjekk om en av innsenders kommuner tilhører brukers kommuner
