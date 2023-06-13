@@ -1,9 +1,7 @@
 package no.nav.hjelpemidler.delbestilling.delbestilling
 
-import java.io.File
-
 fun lagHjelpemidler(): List<Hjelpemiddel> {
-    val linjer = File("hjelpemidler.txt").readLines()
+    val linjer = object {}.javaClass.getResourceAsStream("/hjelpemidler.txt")!!.bufferedReader().readLines()
     val hjelpemiddelTyper = listOf("Azalea", "Comet", "Cross", "Minicrosser", "Netti", "Panthera", "X850", "X850S")
     val hjelpemiddelTyperLowercase = hjelpemiddelTyper.map { it.lowercase() }
 
@@ -241,6 +239,7 @@ data class HjelpemiddelMedDeler(
 )
 
 fun hentHjelpemiddelMedDeler(hmsnrHjelpemiddel: String): HjelpemiddelMedDeler? {
+    // TODO: Parse kun ved oppstart
     val hjelpemiddel = lagHjelpemidler().find { it.hmsnr == hmsnrHjelpemiddel } ?: return null
 
     println(hjelpemiddel)
