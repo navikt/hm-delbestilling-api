@@ -59,6 +59,59 @@ val delerMap = mapOf<String, List<Del>>(
             img = null,
             kategori = "Batteri"
         ),
+    ),
+    "Cross" to listOf(
+        Del(
+            "222716",
+            "Svinghjul massivt hardt diam16 b3",
+            levArtNr = null,
+            img = null,
+            kategori = "Svinghjul"
+        ),
+        Del(
+            "223980",
+            "Dekk 24\"",
+            levArtNr = null,
+            img = null,
+            kategori = "Dekk"
+        ),
+    ),
+    "Minicrosser" to listOf(
+        Del(
+            "22005",
+            "Batteri 80A inkl poler",
+            levArtNr = null,
+            img = null,
+            kategori = "Batteri"
+        ),
+        Del(
+            "200842",
+            "Hjul 13x5.00-6 ",
+            levArtNr = null,
+            img = null,
+            kategori = "Hjul"
+        ),
+        Del(
+            "253277",
+            "Hjul 2,50-3,70-8\" luft sommerhjul",
+            levArtNr = null,
+            img = null,
+            kategori = "Hjul"
+        ),
+        Del(
+            "263773",
+            "Hjul 2,50-3,70-8\" luft grovmønstret",
+            levArtNr = "1503-1016",
+            img = null,
+            kategori = "Hjul"
+        ),
+        Del(
+            "291356",
+            "Batteri 85 ah",
+            levArtNr = "1523-1138",
+            img = null,
+            kategori = "Batteri"
+        ),
     )
 )
 
