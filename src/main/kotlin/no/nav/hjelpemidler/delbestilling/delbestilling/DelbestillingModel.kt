@@ -35,14 +35,13 @@ data class Hjelpemiddel(
 data class Del(
     val hmsnr: String,
     val navn: String,
-    val levArtNr: String?,
-    val img: String?,
+    val levArtNr: String? = null,
+    val img: String? = null,
     val kategori: String,
 )
 
 data class DelLinje( // TODO kan vi arve felt fra Del eller lignende?
     val navn: String,
-    val beskrivelse: String,
     val hmsnr: String,
     val levArtNr: String,
     val img: String,
