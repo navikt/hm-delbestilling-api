@@ -43,11 +43,21 @@ data class Del(
 data class DelLinje( // TODO kan vi arve felt fra Del eller lignende?
     val navn: String,
     val hmsnr: String,
-    val levArtNr: String,
-    val img: String,
+    val levArtNr: String?,
+    val img: String?,
     val kategori: String,
     val antall: Int,
 )
+
+// TODO kanskje lage en wrapper?
+/*
+List<Delelinje>
+ og
+Delelinje{
+  del: Del,
+  antall: Int
+}
+ */
 
 enum class Levering {
     TIL_XK_LAGER, TIL_SERVICE_OPPDRAG,
