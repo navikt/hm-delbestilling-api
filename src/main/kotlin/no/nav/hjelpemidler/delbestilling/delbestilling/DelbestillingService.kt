@@ -57,7 +57,7 @@ class DelbestillingService(
             throw e
         }
 
-        val brukerKommunenrIOebs = oebsService.hentPersoninfo(brukerFnr).leveringKommune
+        val brukerKommunenrIOebs = oebsService.hentPersoninfo(brukersFnr).leveringKommune
         log.info { "Brukers leveringsadresse i OEBS '$brukerKommunenrIOebs'" }
 
         // Det skal ikke være mulig å bestille til seg selv (disabler i dev pga testdata)
