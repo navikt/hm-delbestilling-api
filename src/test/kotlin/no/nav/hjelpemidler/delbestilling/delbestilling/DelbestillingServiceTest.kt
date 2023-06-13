@@ -42,7 +42,6 @@ internal class DelbestillingServiceTest {
     @Test
     fun `opprettDelbestilling happy path`() = runTest {
         assertEquals(0, delbestillingService.hentDelbestillinger(bestillerFnr).size)
-
         delbestillingService.opprettDelbestilling(delbestillerRolle(), delbestillingRequest(), bestillerFnr)
         assertEquals(1, delbestillingService.hentDelbestillinger(bestillerFnr).size)
     }
@@ -50,9 +49,7 @@ internal class DelbestillingServiceTest {
     @Test
     fun `skal ikke lagre delbestilling dersom sending til OEBS feiler`() = runTest {
         coEvery { oebsService.sendDelbestilling(any()) } throws MockException("Kafka er nede")
-
         assertEquals(0, delbestillingService.hentDelbestillinger(bestillerFnr).size)
-
         assertThrows<MockException> {
             delbestillingService.opprettDelbestilling(delbestillerRolle(), delbestillingRequest(), bestillerFnr)
         }
@@ -63,9 +60,15 @@ internal class DelbestillingServiceTest {
     fun `skal sende med riktig info til 5-17 skjema`() = runTest {
         val slot = slot<OpprettBestillingsordreRequest>()
         coEvery { oebsService.sendDelbestilling(capture(slot)) } returns Unit
-
         delbestillingService.opprettDelbestilling(delbestillerRolle(), delbestillingRequest(), bestillerFnr)
-
         assertEquals("Sendes til XK-Lager. Tekniker: Turid Tekniker", slot.captured.forsendelsesinfo)
+    }
+
+    @Test
+    fun `skal feile dersom PDL og OEBS sine kommunenr er ulike for bruker`() = runTest {
+        coEvery { oebsService.hentPersoninfo(any()) } returns listOf(OebsPersoninfo("0000"))
+        val resultat = delbestillingService
+            .opprettDelbestilling(delbestillerRolle(), delbestillingRequest(), bestillerFnr)
+        assertEquals(DelbestillingFeil.KAN_IKKE_BESTILLE, resultat.feil)
     }
 }
