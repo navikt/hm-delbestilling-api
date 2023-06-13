@@ -26,7 +26,6 @@ fun delbestillingRequest() = DelbestillingRequest(
         deler = listOf(
             DelLinje(
                 navn = "del",
-                beskrivelse = "del mrs 24",
                 hmsnr = "555555",
                 levArtNr = "3333333",
                 img = "",
