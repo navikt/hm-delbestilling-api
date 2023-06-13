@@ -208,6 +208,30 @@ val delerMap = mapOf<String, List<Del>>(
             kategori = "Batteri"
         ),
     ),
+    "X850S" to listOf(
+        // TODO Duplikat av X850, bør kanskje løses på en annen måte
+        Del(
+            "157312",
+            "Hjul 3.50x10 luftfylt dekk svart",
+            levArtNr = null,
+            img = null,
+            kategori = "Hjul"
+        ),
+        Del(
+            "157314",
+            "Hjul 3.00x8 luftfylt dekk svart",
+            levArtNr = null,
+            img = null,
+            kategori = "Hjul"
+        ),
+        Del(
+            "196027",
+            "Batteri MK 97Ah",
+            levArtNr = "602293-99-0",
+            img = null,
+            kategori = "Batteri"
+        ),
+    ),
 )
 
 data class HjelpemiddelMedDeler(
