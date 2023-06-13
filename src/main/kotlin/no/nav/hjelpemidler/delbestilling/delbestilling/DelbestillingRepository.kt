@@ -18,22 +18,21 @@ class DelbestillingRepository(private val ds: DataSource) {
         brukerFnr: String,
         brukerKommunenr: String,
         delbestilling: Delbestilling,
-    ) {
+    ): Long? {
         log.info { "Lagrer delbestilling '${delbestilling.id}'" }
-        tx.run(
+        return tx.run(
             queryOf(
                 """
-                    INSERT INTO delbestilling (id, brukers_kommunenr, fnr_bruker, fnr_bestiller, delbestilling_json)
-                    VALUES (:id, :brukers_kommunenr, :fnr_bruker, :fnr_bestiller, :delbestilling_json)
+                    INSERT INTO delbestilling (brukers_kommunenr, fnr_bruker, fnr_bestiller, delbestilling_json)
+                    VALUES (:brukers_kommunenr, :fnr_bruker, :fnr_bestiller, :delbestilling_json)
                 """.trimIndent(),
                 mapOf(
-                    "id" to delbestilling.id,
                     "brukers_kommunenr" to brukerKommunenr,
                     "fnr_bruker" to brukerFnr,
                     "fnr_bestiller" to bestillerFnr,
                     "delbestilling_json" to jsonMapper.writeValueAsString(delbestilling)
-                )
-            ).asUpdate
+                ),
+            ).asUpdateAndReturnGeneratedKey
         )
     }
 
@@ -48,7 +47,9 @@ class DelbestillingRepository(private val ds: DataSource) {
                 """.trimIndent(),
                 mapOf("fnr_bestiller" to bestillerFnr)
             ).map {
-                jsonMapper.readValue(it.string("delbestilling_json"), Delbestilling::class.java)
+                val delbestilling = jsonMapper.readValue(it.string("delbestilling_json"), Delbestilling::class.java)
+                val saksnummer = it.long("saksnummer")
+                delbestilling.copy(saksnummer = saksnummer)// TODO dette er en klønete måte å gjøre det på. Bedre å kun legge reservedelene i json? Unngå duplisering av data i json og kolonner
             }.asList
         )
     }

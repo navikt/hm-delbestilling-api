@@ -42,8 +42,16 @@ internal class DelbestillingServiceTest {
     @Test
     fun `opprettDelbestilling happy path`() = runTest {
         assertEquals(0, delbestillingService.hentDelbestillinger(bestillerFnr).size)
+
         delbestillingService.opprettDelbestilling(delbestillerRolle(), delbestillingRequest(), bestillerFnr)
-        assertEquals(1, delbestillingService.hentDelbestillinger(bestillerFnr).size)
+        var delebestillinger = delbestillingService.hentDelbestillinger(bestillerFnr)
+        assertEquals(1, delebestillinger.size)
+        assertEquals(1, delebestillinger.first().saksnummer)
+
+        delbestillingService.opprettDelbestilling(delbestillerRolle(), delbestillingRequest(), bestillerFnr)
+        delebestillinger = delbestillingService.hentDelbestillinger(bestillerFnr)
+        assertEquals(2, delebestillinger.size)
+        assertEquals(2, delebestillinger.last().saksnummer)
     }
 
     @Test

@@ -91,8 +91,8 @@ class DelbestillingService(
         val xkLagerInfo = if (levering == Levering.TIL_XK_LAGER) "Sendes til XK-Lager. " else ""
         val forsendelsesinfo = "${xkLagerInfo}Tekniker: $bestillersNavn"
 
-        transaction(dataSource) { tx ->
-            delbestillingRepository.lagreDelbestilling(
+        val lagretSaksnummer = transaction(dataSource, returnGeneratedKey = true) { tx ->
+            val saksnummer = delbestillingRepository.lagreDelbestilling(
                 tx,
                 bestillerFnr,
                 brukersFnr,
@@ -102,17 +102,18 @@ class DelbestillingService(
             oebsService.sendDelbestilling(
                 OpprettBestillingsordreRequest(
                     brukersFnr = brukersFnr,
-                    saksnummer = id.toString(),
+                    saksnummer = saksnummer.toString(),
                     innsendernavn = bestillersNavn,
                     artikler = artikler,
                     forsendelsesinfo = forsendelsesinfo,
                 )
             )
+            saksnummer
         }
 
-        log.info { "Delbestilling '$id' sendt inn" }
+        log.info { "Delbestilling '$id' sendt inn med saksnummer '$lagretSaksnummer'" }
 
-        return DelbestillingResultat(id, null, HttpStatusCode.Created)
+        return DelbestillingResultat(id, null, HttpStatusCode.Created, saksnummer = lagretSaksnummer)
     }
 
     private fun validerDelbestiller(delbestillerRolle: Delbestiller) {

@@ -28,7 +28,6 @@ enum class OppslagFeil {
 data class Hjelpemiddel(
     val hmsnr: String,
     val navn: String,
-    //val deler: List<Del>,
     val type: String,
 )
 
@@ -69,6 +68,7 @@ data class DelbestillingRequest(
 
 data class Delbestilling(
     val id: UUID,
+    val saksnummer: Long? = null,
     val hmsnr: Hmsnr,
     val serienr: Serienr,
     val deler: List<DelLinje>,
@@ -79,11 +79,13 @@ data class DelbestillingResultat(
     val id: UUID,
     val feil: DelbestillingFeil? = null,
     val httpStatusCode: HttpStatusCode,
+    val saksnummer: Long? = null,
 )
 
 data class DelbestillingResponse(
     val id: UUID,
     val feil: DelbestillingFeil? = null,
+    val saksnummer: Long? = null,
 )
 
 enum class DelbestillingFeil {
@@ -111,9 +113,3 @@ data class Serienr(@get:JsonValue val value: String) {
     }
 }
 
-data class Antall(@get:JsonValue val value: Int) {
-    init {
-        require(value > 0) { "antall må være >0" }
-        require(value < 20) { "antall må være <20" }
-    }
-}
