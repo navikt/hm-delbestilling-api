@@ -46,6 +46,12 @@ class OebsApiProxyClient(
             }
         }
 
+        install(Logging) {
+            // TODO fjern før prodsetting
+            logger = Logger.DEFAULT
+            level = LogLevel.BODY
+        }
+
         defaultRequest {
             accept(ContentType.Application.Json)
             contentType(ContentType.Application.Json)
