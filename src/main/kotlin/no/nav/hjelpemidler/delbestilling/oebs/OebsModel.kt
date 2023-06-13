@@ -30,5 +30,10 @@ data class Artikkel(
 )
 
 data class OebsPersoninfo(
+    val brukernummer: String,
+    val leveringAddresse: String,
     val leveringKommune: String,
+    val leveringPostnr: String,
+    val leveringBy: String,
+    val primæraddresse: Boolean
 )
