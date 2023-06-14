@@ -1,5 +1,6 @@
 package no.nav.hjelpemidler.delbestilling
 
+import no.nav.hjelpemidler.delbestilling.delbestilling.Del
 import no.nav.hjelpemidler.delbestilling.delbestilling.DelLinje
 import no.nav.hjelpemidler.delbestilling.delbestilling.Delbestilling
 import no.nav.hjelpemidler.delbestilling.delbestilling.DelbestillingRequest
@@ -25,11 +26,13 @@ fun delbestillingRequest() = DelbestillingRequest(
         serienr = Serienr("123123"),
         deler = listOf(
             DelLinje(
-                navn = "del",
-                hmsnr = "555555",
-                levArtNr = "3333333",
-                img = "",
-                kategori = "dekk",
+                Del(
+                    navn = "del",
+                    hmsnr = "555555",
+                    levArtNr = "3333333",
+                    img = "",
+                    kategori = "dekk",
+                ),
                 antall = 1,
             )
         ),
