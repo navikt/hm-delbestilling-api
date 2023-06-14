@@ -69,7 +69,6 @@ class DelbestillingService(
         val brukerHarSammeKommunenrIOebsOgPdl = oebsBrukerinfo.any { it.leveringKommune == brukerKommunenr }
         if (!brukerHarSammeKommunenrIOebsOgPdl) {
             log.info { "Ulik leveringsadresse. OEBS: $oebsBrukerinfo, PDL: $brukerKommunenr" }
-            // TODO er dette riktig feilkode?
             return DelbestillingResultat(id, feil = DelbestillingFeil.ULIK_ADRESSE_PDL_OEBS)
         }
 
@@ -131,7 +130,7 @@ class DelbestillingService(
         return OppslagResultat(hjelpemiddelMedDeler, null, HttpStatusCode.OK)
     }
 
-    fun hentDelbestillinger(bestillerFnr: String): List<Delbestilling> {
+    fun hentDelbestillinger(bestillerFnr: String): List<LagretDelbestilling> {
         return delbestillingRepository.hentDelbestillinger(bestillerFnr)
     }
 }
