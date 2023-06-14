@@ -77,6 +77,6 @@ internal class DelbestillingServiceTest {
         coEvery { oebsService.hentPersoninfo(any()) } returns listOf(OebsPersoninfo("0000"))
         val resultat = delbestillingService
             .opprettDelbestilling(delbestillerRolle(), delbestillingRequest(), bestillerFnr)
-        assertEquals(DelbestillingFeil.KAN_IKKE_BESTILLE, resultat.feil)
+        assertEquals(DelbestillingFeil.ULIK_ADRESSE_PDL_OEBS, resultat.feil)
     }
 }
