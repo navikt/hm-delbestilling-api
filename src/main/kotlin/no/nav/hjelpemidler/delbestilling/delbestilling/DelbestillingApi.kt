@@ -50,9 +50,17 @@ fun Route.delbestillingApiAuthenticated(
 
             val resultat = delbestillingService.opprettDelbestilling(delbestillerRolle, request, bestillerFnr)
 
-            val delbestillingResponse = DelbestillingResponse(resultat.id, resultat.feil)
+            val statusKode = when (resultat.feil) {
+                DelbestillingFeil.INGET_UTLÅN -> HttpStatusCode.NotFound
+                DelbestillingFeil.KAN_IKKE_BESTILLE -> HttpStatusCode.NotFound
+                DelbestillingFeil.BRUKER_IKKE_FUNNET -> HttpStatusCode.NotFound
+                DelbestillingFeil.BESTILLE_TIL_SEG_SELV -> HttpStatusCode.Forbidden
+                DelbestillingFeil.ULIK_GEOGRAFISK_TILKNYTNING -> HttpStatusCode.Forbidden
+                DelbestillingFeil.ULIK_ADRESSE_PDL_OEBS -> HttpStatusCode.Forbidden
+                null -> HttpStatusCode.Created
+            }
 
-            call.respond(resultat.httpStatusCode, delbestillingResponse)
+            call.respond(statusKode, resultat)
         } catch (e: Exception) {
             log.error(e) { "Innsending av bestilling feilet" }
             call.respond(HttpStatusCode.InternalServerError)

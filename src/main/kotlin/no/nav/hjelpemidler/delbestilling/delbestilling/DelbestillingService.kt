@@ -38,7 +38,7 @@ class DelbestillingService(
         val deler = request.delbestilling.deler
 
         val utlån = oebsService.hentUtlånPåArtnrOgSerienr(hmsnr, serienr)
-            ?: return DelbestillingResultat(id, feil = DelbestillingFeil.INGET_UTLÅN, HttpStatusCode.NotFound)
+            ?: return DelbestillingResultat(id, feil = DelbestillingFeil.INGET_UTLÅN)
 
         // val brukerFnr = "03441558383" // Test av adressebeskyttelse
         // val brukerFnr = "11111111111" // Test av person ikke funnet
@@ -49,10 +49,10 @@ class DelbestillingService(
             pdlService.hentKommunenummer(brukersFnr)
         } catch (e: PersonNotAccessibleInPdl) {
             log.error(e) { "Person ikke tilgjengelig i PDL" }
-            return DelbestillingResultat(id, feil = DelbestillingFeil.KAN_IKKE_BESTILLE, HttpStatusCode.NotFound)
+            return DelbestillingResultat(id, feil = DelbestillingFeil.KAN_IKKE_BESTILLE)
         } catch (e: PersonNotFoundInPdl) {
             log.error(e) { "Person ikke funnet i PDL" }
-            return DelbestillingResultat(id, feil = DelbestillingFeil.BRUKER_IKKE_FUNNET, HttpStatusCode.NotFound)
+            return DelbestillingResultat(id, feil = DelbestillingFeil.BRUKER_IKKE_FUNNET)
         } catch (e: Exception) {
             log.error(e) { "Klarte ikke å hente bruker fra PDL" }
             throw e
@@ -61,7 +61,7 @@ class DelbestillingService(
         // Det skal ikke være mulig å bestille til seg selv (disabler i dev pga testdata)
         if (isProd() && bestillerFnr == brukersFnr) {
             log.info { "Bestiller prøver å bestille til seg selv" }
-            return DelbestillingResultat(id, feil = DelbestillingFeil.BESTILLE_TIL_SEG_SELV, HttpStatusCode.Forbidden)
+            return DelbestillingResultat(id, feil = DelbestillingFeil.BESTILLE_TIL_SEG_SELV)
         }
 
         // Sjekk at PDL og OEBS kommunenr på bruker stemmer overens
@@ -70,7 +70,7 @@ class DelbestillingService(
         if (!brukerHarSammeKommunenrIOebsOgPdl) {
             log.info { "Ulik leveringsadresse. OEBS: $oebsBrukerinfo, PDL: $brukerKommunenr" }
             // TODO er dette riktig feilkode?
-            return DelbestillingResultat(id, feil = DelbestillingFeil.KAN_IKKE_BESTILLE, HttpStatusCode.Forbidden)
+            return DelbestillingResultat(id, feil = DelbestillingFeil.ULIK_ADRESSE_PDL_OEBS)
         }
 
         // Sjekk om en av innsenders kommuner tilhører brukers kommuner
@@ -82,12 +82,11 @@ class DelbestillingService(
             return DelbestillingResultat(
                 id,
                 feil = DelbestillingFeil.ULIK_GEOGRAFISK_TILKNYTNING,
-                HttpStatusCode.Forbidden
             )
         }
 
         val bestillersNavn = pdlService.hentPersonNavn(bestillerFnr, validerAdressebeskyttelse = false)
-        val artikler = deler.map { Artikkel(it.hmsnr, it.antall) }
+        val artikler = deler.map { Artikkel(it.del.hmsnr, it.antall) }
         val xkLagerInfo = if (levering == Levering.TIL_XK_LAGER) "Sendes til XK-Lager. " else ""
         val forsendelsesinfo = "${xkLagerInfo}Tekniker: $bestillersNavn"
 
@@ -113,7 +112,7 @@ class DelbestillingService(
 
         log.info { "Delbestilling '$id' sendt inn med saksnummer '$lagretSaksnummer'" }
 
-        return DelbestillingResultat(id, null, HttpStatusCode.Created, saksnummer = lagretSaksnummer)
+        return DelbestillingResultat(id, null, saksnummer = lagretSaksnummer)
     }
 
     private fun validerDelbestiller(delbestillerRolle: Delbestiller) {

@@ -6,6 +6,7 @@ import kotliquery.sessionOf
 import kotliquery.using
 import mu.KotlinLogging
 import no.nav.hjelpemidler.delbestilling.jsonMapper
+import java.util.UUID
 import javax.sql.DataSource
 
 private val log = KotlinLogging.logger {}
@@ -36,7 +37,9 @@ class DelbestillingRepository(private val ds: DataSource) {
         )
     }
 
-    fun hentDelbestillinger(bestillerFnr: String): List<Delbestilling> = using(sessionOf(ds)) { session ->
+
+
+    fun hentDelbestillinger(bestillerFnr: String): List<LagretDelbestilling> = using(sessionOf(ds)) { session ->
         log.info { "Henter delbestillinger for '$bestillerFnr'" }
         session.run(
             queryOf(
@@ -49,7 +52,7 @@ class DelbestillingRepository(private val ds: DataSource) {
             ).map {
                 val delbestilling = jsonMapper.readValue(it.string("delbestilling_json"), Delbestilling::class.java)
                 val saksnummer = it.long("saksnummer")
-                delbestilling.copy(saksnummer = saksnummer)// TODO dette er en klønete måte å gjøre det på. Bedre å kun legge reservedelene i json? Unngå duplisering av data i json og kolonner
+                LagretDelbestilling(saksnummer, delbestilling)
             }.asList
         )
     }

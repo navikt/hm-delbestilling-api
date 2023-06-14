@@ -3,7 +3,7 @@ package no.nav.hjelpemidler.delbestilling.hjelpemidler
 import mu.KotlinLogging
 import no.nav.hjelpemidler.delbestilling.delbestilling.Del
 
-private val logger = KotlinLogging.logger {  }
+private val logger = KotlinLogging.logger { }
 
 object HjelpemiddelDeler {
     val hjelpemidler = lagHjelpemidler()
@@ -18,7 +18,6 @@ object HjelpemiddelDeler {
         return HjelpemiddelMedDeler(hjelpemiddel.navn, hjelpemiddel.hmsnr, deler)
     }
 }
-
 
 data class HjelpemiddelMedDeler(
     val navn: String,

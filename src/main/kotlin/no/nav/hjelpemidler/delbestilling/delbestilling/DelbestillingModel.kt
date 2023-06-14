@@ -39,24 +39,10 @@ data class Del(
     val kategori: String,
 )
 
-data class DelLinje( // TODO kan vi arve felt fra Del eller lignende?
-    val navn: String,
-    val hmsnr: String,
-    val levArtNr: String?,
-    val img: String?,
-    val kategori: String,
+data class DelLinje(
+    val del: Del,
     val antall: Int,
 )
-
-// TODO kanskje lage en wrapper?
-/*
-List<Delelinje>
- og
-Delelinje{
-  del: Del,
-  antall: Int
-}
- */
 
 enum class Levering {
     TIL_XK_LAGER, TIL_SERVICE_OPPDRAG,
@@ -68,7 +54,6 @@ data class DelbestillingRequest(
 
 data class Delbestilling(
     val id: UUID,
-    val saksnummer: Long? = null,
     val hmsnr: Hmsnr,
     val serienr: Serienr,
     val deler: List<DelLinje>,
@@ -76,13 +61,6 @@ data class Delbestilling(
 )
 
 data class DelbestillingResultat(
-    val id: UUID,
-    val feil: DelbestillingFeil? = null,
-    val httpStatusCode: HttpStatusCode,
-    val saksnummer: Long? = null,
-)
-
-data class DelbestillingResponse(
     val id: UUID,
     val feil: DelbestillingFeil? = null,
     val saksnummer: Long? = null,
@@ -93,8 +71,14 @@ enum class DelbestillingFeil {
     ULIK_GEOGRAFISK_TILKNYTNING,
     BRUKER_IKKE_FUNNET,
     BESTILLE_TIL_SEG_SELV,
-    KAN_IKKE_BESTILLE
+    KAN_IKKE_BESTILLE,
+    ULIK_ADRESSE_PDL_OEBS,
 }
+
+data class LagretDelbestilling(
+    val saksnummer: Long,
+    val delbestilling: Delbestilling,
+)
 
 /* TODO: Vurder om vi skal bruke https://ktor.io/docs/request-validation.html#configure
     for validering av innkommende data
@@ -112,4 +96,3 @@ data class Serienr(@get:JsonValue val value: String) {
         require(value.all { it.isDigit() }) { "serienr må bestå av siffer" }
     }
 }
-
