@@ -32,6 +32,7 @@ fun delbestillingRequest() = DelbestillingRequest(
                     levArtNr = "3333333",
                     img = "",
                     kategori = "dekk",
+                    maksAntall = 2,
                 ),
                 antall = 1,
             )

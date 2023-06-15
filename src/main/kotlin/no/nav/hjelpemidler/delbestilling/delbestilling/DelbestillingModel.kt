@@ -37,6 +37,7 @@ data class Del(
     val levArtNr: String? = null,
     val img: String? = null,
     val kategori: String,
+    val maksAntall: Int,
 )
 
 data class DelLinje(
