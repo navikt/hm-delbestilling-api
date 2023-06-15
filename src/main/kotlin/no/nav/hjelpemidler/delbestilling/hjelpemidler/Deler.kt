@@ -116,6 +116,7 @@ val delerPerHjelpemiddel = mapOf(
             levArtNr = "1000038",
             kategori = "Dekk",
             maksAntall = 2,
+            img = "https://storage.googleapis.com/hm_delbestilling_bilder/256636.jpg"
         ),
         Del(
             "150921",
@@ -135,6 +136,7 @@ val delerPerHjelpemiddel = mapOf(
             levArtNr = "1000039",
             kategori = "Dekk",
             maksAntall = 2,
+            img = "https://storage.googleapis.com/hm_delbestilling_bilder/256636.jpg"
         ),
         Del(
             "184589",
@@ -155,6 +157,7 @@ val delerPerHjelpemiddel = mapOf(
             levArtNr = "1000053",
             kategori = "Dekk",
             maksAntall = 2,
+            img = "https://storage.googleapis.com/hm_delbestilling_bilder/256636.jpg"
         ),
         Del(
             "202326",
