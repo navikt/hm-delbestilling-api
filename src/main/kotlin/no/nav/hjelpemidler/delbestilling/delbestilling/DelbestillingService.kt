@@ -7,6 +7,7 @@ import no.nav.hjelpemidler.delbestilling.exceptions.PersonNotAccessibleInPdl
 import no.nav.hjelpemidler.delbestilling.exceptions.PersonNotFoundInPdl
 import no.nav.hjelpemidler.delbestilling.exceptions.TilgangException
 import no.nav.hjelpemidler.delbestilling.hjelpemidler.HjelpemiddelDeler.hentHjelpemiddelMedDeler
+import no.nav.hjelpemidler.delbestilling.isDev
 import no.nav.hjelpemidler.delbestilling.isProd
 import no.nav.hjelpemidler.delbestilling.oebs.Artikkel
 import no.nav.hjelpemidler.delbestilling.oebs.OebsService
@@ -122,7 +123,9 @@ class DelbestillingService(
     }
 
     private fun validerDelbestilling(bestillerFnr: String, hmsnr: String, serienr: String): DelbestillingFeil? {
-        log.info { "LocalDateTime.now() ''${LocalDateTime.now()}" }
+        if (isDev()) {
+            return null // For enklere testing i dev
+        }
         val maxAntallBestillingerPer24Timer = 2
         val tidspunkt24TimerSiden = LocalDateTime.now().minusDays(1)
         val bestillersBestillinger = hentDelbestillinger(bestillerFnr)
