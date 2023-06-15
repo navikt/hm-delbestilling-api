@@ -53,7 +53,7 @@ class DelbestillingRepository(private val ds: DataSource) {
             ).map {
                 val delbestilling = jsonMapper.readValue(it.string("delbestilling_json"), Delbestilling::class.java)
                 val saksnummer = it.long("saksnummer")
-                val opprettet = LocalDateTime.parse(it.string("opprettet_dato"))
+                val opprettet = it.localDateTime("opprettet_dato")
                 LagretDelbestilling(saksnummer, delbestilling, opprettet)
             }.asList
         )

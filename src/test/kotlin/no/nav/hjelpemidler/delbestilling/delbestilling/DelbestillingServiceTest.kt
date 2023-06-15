@@ -38,7 +38,7 @@ internal class DelbestillingServiceTest {
     fun setup() {
         TestDatabase.cleanAndMigrate(ds)
     }
-/*
+
     @Test
     fun `opprettDelbestilling happy path`() = runTest {
         assertEquals(0, delbestillingService.hentDelbestillinger(bestillerFnr).size)
@@ -90,6 +90,4 @@ internal class DelbestillingServiceTest {
             .opprettDelbestilling(delbestillerRolle(), delbestillingRequest(), bestillerFnr)
         assertEquals(DelbestillingFeil.ULIK_ADRESSE_PDL_OEBS, resultat.feil)
     }
-
- */
 }
