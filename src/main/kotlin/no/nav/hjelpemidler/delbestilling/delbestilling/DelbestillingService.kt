@@ -121,6 +121,7 @@ class DelbestillingService(
     }
 
     private fun validerDelbestilling(bestillerFnr: String, hmsnr: String, serienr: String): DelbestillingFeil? {
+        log.info { "LocalDateTime.now() ''${LocalDateTime.now()}" }
         val maxAntallBestillingerPer24Timer = 2
         val tidspunkt24TimerSiden = LocalDateTime.now().minusDays(1)
         val bestillersBestillinger = hentDelbestillinger(bestillerFnr)
