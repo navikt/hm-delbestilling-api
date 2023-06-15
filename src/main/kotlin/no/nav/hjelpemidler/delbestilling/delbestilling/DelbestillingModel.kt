@@ -3,6 +3,7 @@ package no.nav.hjelpemidler.delbestilling.delbestilling
 import com.fasterxml.jackson.annotation.JsonValue
 import io.ktor.http.HttpStatusCode
 import no.nav.hjelpemidler.delbestilling.hjelpemidler.HjelpemiddelMedDeler
+import java.time.LocalDateTime
 import java.util.UUID
 
 data class OppslagRequest(
@@ -74,11 +75,13 @@ enum class DelbestillingFeil {
     BESTILLE_TIL_SEG_SELV,
     KAN_IKKE_BESTILLE,
     ULIK_ADRESSE_PDL_OEBS,
+    FOR_MANGE_BESTILLINGER_SISTE_24_TIMER,
 }
 
 data class LagretDelbestilling(
     val saksnummer: Long,
     val delbestilling: Delbestilling,
+    val opprettet: LocalDateTime,
 )
 
 /* TODO: Vurder om vi skal bruke https://ktor.io/docs/request-validation.html#configure

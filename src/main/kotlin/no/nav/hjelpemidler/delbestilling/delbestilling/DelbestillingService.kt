@@ -13,6 +13,7 @@ import no.nav.hjelpemidler.delbestilling.oebs.OebsService
 import no.nav.hjelpemidler.delbestilling.oebs.OpprettBestillingsordreRequest
 import no.nav.hjelpemidler.delbestilling.pdl.PdlService
 import no.nav.hjelpemidler.delbestilling.roller.Delbestiller
+import java.time.LocalDateTime
 import javax.sql.DataSource
 
 private val log = KotlinLogging.logger {}
@@ -29,11 +30,16 @@ class DelbestillingService(
         request: DelbestillingRequest,
         bestillerFnr: String,
     ): DelbestillingResultat {
-        validerDelbestiller(delbestillerRolle)
-
         val id = request.delbestilling.id
         val hmsnr = request.delbestilling.hmsnr.value
         val serienr = request.delbestilling.serienr.value
+
+        validerDelbestiller(delbestillerRolle)
+        val feil = validerDelbestilling(bestillerFnr, hmsnr, serienr)
+        if (feil != null) {
+            return DelbestillingResultat(id, feil = feil)
+        }
+
         val levering = request.delbestilling.levering
         val deler = request.delbestilling.deler
 
@@ -112,6 +118,18 @@ class DelbestillingService(
         log.info { "Delbestilling '$id' sendt inn med saksnummer '$lagretSaksnummer'" }
 
         return DelbestillingResultat(id, null, saksnummer = lagretSaksnummer)
+    }
+
+    private fun validerDelbestilling(bestillerFnr: String, hmsnr: String, serienr: String): DelbestillingFeil? {
+        val maxAntallBestillingerPer24Timer = 2
+        val tidspunkt24TimerSiden = LocalDateTime.now().minusDays(1)
+        val bestillersBestillinger = hentDelbestillinger(bestillerFnr)
+            .filter { it.opprettet.isAfter(tidspunkt24TimerSiden) }
+            .filter { it.delbestilling.hmsnr.value == hmsnr && it.delbestilling.serienr.value == serienr }
+        if (bestillersBestillinger.size >= maxAntallBestillingerPer24Timer) {
+            return DelbestillingFeil.FOR_MANGE_BESTILLINGER_SISTE_24_TIMER
+        }
+        return null
     }
 
     private fun validerDelbestiller(delbestillerRolle: Delbestiller) {

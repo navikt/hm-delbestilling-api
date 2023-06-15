@@ -6,6 +6,7 @@ import kotliquery.sessionOf
 import kotliquery.using
 import mu.KotlinLogging
 import no.nav.hjelpemidler.delbestilling.jsonMapper
+import java.time.LocalDateTime
 import java.util.UUID
 import javax.sql.DataSource
 
@@ -52,7 +53,8 @@ class DelbestillingRepository(private val ds: DataSource) {
             ).map {
                 val delbestilling = jsonMapper.readValue(it.string("delbestilling_json"), Delbestilling::class.java)
                 val saksnummer = it.long("saksnummer")
-                LagretDelbestilling(saksnummer, delbestilling)
+                val opprettet = LocalDateTime.parse(it.string("opprettet_dato"))
+                LagretDelbestilling(saksnummer, delbestilling, opprettet)
             }.asList
         )
     }
