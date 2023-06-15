@@ -90,6 +90,6 @@ internal class DelbestillingServiceTest {
             .opprettDelbestilling(delbestillerRolle(), delbestillingRequest(), bestillerFnr)
         assertEquals(DelbestillingFeil.ULIK_ADRESSE_PDL_OEBS, resultat.feil)
     }
-    
+
  */
 }

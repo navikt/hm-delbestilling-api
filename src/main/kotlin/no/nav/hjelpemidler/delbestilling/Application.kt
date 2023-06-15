@@ -16,6 +16,8 @@ import no.nav.tms.token.support.tokenx.validation.TokenXAuthenticator
 import no.nav.tms.token.support.tokenx.validation.installTokenXAuth
 import no.nav.tms.token.support.tokenx.validation.mock.SecurityLevel
 import no.nav.tms.token.support.tokenx.validation.mock.installTokenXAuthMock
+import java.time.LocalDate
+import java.time.LocalDateTime
 import java.util.TimeZone
 
 fun main(args: Array<String>): Unit = io.ktor.server.cio.EngineMain.main(args)
