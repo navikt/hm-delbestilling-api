@@ -19,6 +19,11 @@ fun Route.delbestillingApi(
 ) {
     post("/oppslag") {
         try {
+            // TODO: fjern før pilot
+            if (isProd()) {
+                log.info { "Returner 500 statuskode for /oppslag i prod, ikke klar ennå!" }
+                return@post call.respond(HttpStatusCode.InternalServerError)
+            }
             val request = call.receive<OppslagRequest>()
             log.info { "/oppslag request: $request" }
 
@@ -43,6 +48,7 @@ fun Route.delbestillingApiAuthenticated(
         try {
             // TODO: fjern før pilot
             if (isProd()) {
+                log.info { "Returner 500 statuskode for /delbestilling i prod, ikke klar ennå!" }
                 return@post call.respond(HttpStatusCode.InternalServerError)
             }
 
