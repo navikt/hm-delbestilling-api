@@ -8,6 +8,7 @@ import io.ktor.server.routing.Route
 import io.ktor.server.routing.get
 import io.ktor.server.routing.post
 import mu.KotlinLogging
+import no.nav.hjelpemidler.delbestilling.isProd
 import no.nav.hjelpemidler.delbestilling.roller.RolleService
 import no.nav.tms.token.support.tokenx.validation.user.TokenXUserFactory
 
@@ -40,8 +41,12 @@ fun Route.delbestillingApiAuthenticated(
 ) {
     post("/delbestilling") {
         try {
+            // TODO: fjern før pilot
+            if (isProd()) {
+                return@post call.respond(HttpStatusCode.InternalServerError)
+            }
+
             val request = call.receive<DelbestillingRequest>()
-            log.info { "/delbestilling request: $request" }
             val tokenXUser = tokenXUserFactory.createTokenXUser(call)
             val bestillerFnr = tokenXUser.ident
 
