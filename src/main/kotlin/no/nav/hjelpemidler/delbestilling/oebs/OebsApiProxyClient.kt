@@ -19,6 +19,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import mu.KotlinLogging
 import no.nav.hjelpemidler.delbestilling.Config
+import no.nav.hjelpemidler.delbestilling.isDev
 import no.nav.hjelpemidler.http.createHttpClient
 import no.nav.hjelpemidler.http.openid.OpenIDClient
 import no.nav.hjelpemidler.http.openid.bearerAuth
@@ -58,6 +59,10 @@ class OebsApiProxyClient(
                     setBody(UtlånPåArtnrOgSerienrRequest(artnr, serienr))
                 }
                 val response = httpResponse.body<UtlånPåArtnrOgSerienrResponse>()
+
+                if (isDev()) {
+                    logg.info { "OeBS /utlanSerienrArtnr response $response" }
+                }
 
                 response.utlån
             } catch (e: Exception) {
