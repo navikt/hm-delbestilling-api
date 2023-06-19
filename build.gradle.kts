@@ -44,6 +44,7 @@ dependencies {
 
     // Ktor
     val ktorVersion = "2.3.0"
+    implementation("io.ktor:ktor-client-logging:$ktorVersion")
     fun ktor(name: String) = "io.ktor:ktor-$name:$ktorVersion"
     implementation(ktor("serialization-jackson"))
     implementation(ktor("server-core"))

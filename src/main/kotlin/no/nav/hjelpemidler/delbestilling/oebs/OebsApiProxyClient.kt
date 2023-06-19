@@ -8,6 +8,10 @@ import io.ktor.client.engine.HttpClientEngine
 import io.ktor.client.engine.cio.CIO
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.client.plugins.defaultRequest
+import io.ktor.client.plugins.logging.DEFAULT
+import io.ktor.client.plugins.logging.LogLevel
+import io.ktor.client.plugins.logging.Logger
+import io.ktor.client.plugins.logging.Logging
 import io.ktor.client.request.accept
 import io.ktor.client.request.request
 import io.ktor.client.request.setBody
@@ -40,6 +44,13 @@ class OebsApiProxyClient(
                 registerModule(JavaTimeModule())
                 disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)
                 disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS)
+            }
+        }
+
+        if (isDev()) {
+            install(Logging) {
+                logger = Logger.DEFAULT
+                level = LogLevel.BODY
             }
         }
 
