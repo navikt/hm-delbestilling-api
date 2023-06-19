@@ -178,7 +178,7 @@ val delerPerHjelpemiddel = mapOf(
             levArtNr = "1000056",
             kategori = "Dekk",
             maksAntall = 2,
-            img = "https://storage.googleapis.com/hm_delbestilling_bilder/202326.png",
+            img = "https://storage.googleapis.com/hm_delbestilling_bilder/202326.jpg",
         ),
         Del(
             "211449",
