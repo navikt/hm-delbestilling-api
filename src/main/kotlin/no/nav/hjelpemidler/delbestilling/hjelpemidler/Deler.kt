@@ -40,14 +40,14 @@ val delerPerHjelpemiddel = mapOf(
         ),
         Del(
             "256635",
-            "Hjul ers Orion Pro 4W bak luft",
+            "Hjul bak luft",
             levArtNr = null,
             kategori = "Hjul",
             maksAntall = 2,
         ),
         Del(
             "256634",
-            "Hjul ers Orion Pro 4W foran luft",
+            "Hjul foran luft",
             levArtNr = "SP1608593",
             kategori = "Hjul",
             maksAntall = 2,
@@ -82,7 +82,7 @@ val delerPerHjelpemiddel = mapOf(
     "Minicrosser M" to listOf(
         Del(
             "200842",
-            "Hjul 13x5.00-6 ers Minicrosser 125T 4W panerinnlegg",
+            "Hjul foran/bak",
             kategori = "Hjul",
             maksAntall = 4,
             img = "https://storage.googleapis.com/hm_delbestilling_bilder/200842.png",
@@ -91,7 +91,7 @@ val delerPerHjelpemiddel = mapOf(
     "Minicrosser X" to listOf(
         Del(
             "253277",
-            "Hjul 2,50-3,70-8\" luft sommerhjul",
+            "Hjul luft sommerhjul foran/bak",
             levArtNr = "1503-1003",
             kategori = "Hjul",
             maksAntall = 4,
@@ -99,14 +99,14 @@ val delerPerHjelpemiddel = mapOf(
         ),
         Del(
             "291358",
-            "Hjul ers Minicrosser X 2,50-3,70-8\" punkteringsfri grovmønstret",
+            "Hjul punkteringsfri grovmønstret foran/bak",
             kategori = "Hjul",
             maksAntall = 4,
             img = "https://storage.googleapis.com/hm_delbestilling_bilder/291358.png",
         ),
         Del(
             "291356",
-            "Hjul 2,50-3,70-8\" luft grovmønstret",
+            "Hjul luft grovmønstret foran/bak",
             kategori = "Hjul",
             maksAntall = 4,
             img = "https://storage.googleapis.com/hm_delbestilling_bilder/291356.png",
@@ -115,7 +115,7 @@ val delerPerHjelpemiddel = mapOf(
     "Minicrosser T" to listOf(
         Del(
             "163943",
-            "Hjul ers Mini Crosser T foran/bak 13x500-6 luft",
+            "Hjul luft foran/bak",
             kategori = "Hjul",
             maksAntall = 4,
             img = "https://storage.googleapis.com/hm_delbestilling_bilder/163943.png",
@@ -204,13 +204,13 @@ val delerPerHjelpemiddel = mapOf(
         ),
         Del(
             "232811",
-            "Svinghjul diam12 m/distanser/bolt/skive/mutter",
+            "Svinghjul 120 mm",
             kategori = "Svinghjul",
             maksAntall = 2,
         ),
         Del(
             "278033",
-            "Dekk RightRun Lite mrs Panthera U3 Light 25\" Schwalbe RightRun 25x1",
+            "Dekk Schwalbe RightRun 25\"x1",
             kategori = "Dekk",
             maksAntall = 2,
             img = "https://storage.googleapis.com/hm_delbestilling_bilder/278033.png",
@@ -219,14 +219,14 @@ val delerPerHjelpemiddel = mapOf(
     "X850" to listOf(
         Del(
             "157312",
-            "Hjul 3.50x10 luftfylt dekk svart",
+            "Hjul bak",
             kategori = "Hjul",
             maksAntall = 2,
             img = "https://storage.googleapis.com/hm_delbestilling_bilder/157312.png",
         ),
         Del(
             "157314",
-            "Hjul 3.00x8 luftfylt dekk svart",
+            "Hjul foran",
             kategori = "Hjul",
             maksAntall = 2,
             img = "https://storage.googleapis.com/hm_delbestilling_bilder/157314.png",
@@ -243,7 +243,7 @@ val delerPerHjelpemiddel = mapOf(
     "X850S" to listOf(
         Del(
             "309144",
-            "Hjul X850 fram",
+            "Hjul foran",
             levArtNr = "1838056",
             kategori = "Hjul",
             maksAntall = 2,
@@ -251,7 +251,7 @@ val delerPerHjelpemiddel = mapOf(
         ),
         Del(
             "309145",
-            "Hjul X850 bak",
+            "Hjul bak",
             levArtNr = "1838057",
             kategori = "Hjul",
             maksAntall = 2,
