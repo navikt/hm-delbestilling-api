@@ -211,7 +211,7 @@ val delerPerHjelpemiddel = mapOf(
         Del(
             "278033",
             "Dekk RightRun Lite mrs Panthera U3 Light 25\" Schwalbe RightRun 25x1",
-            kategori = "Svinghjul",
+            kategori = "Dekk",
             maksAntall = 2,
             img = "https://storage.googleapis.com/hm_delbestilling_bilder/278033.png",
         ),
