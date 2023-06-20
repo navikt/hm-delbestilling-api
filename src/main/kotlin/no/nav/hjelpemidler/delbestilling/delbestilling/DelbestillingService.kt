@@ -93,7 +93,7 @@ class DelbestillingService(
 
         val bestillersNavn = pdlService.hentPersonNavn(bestillerFnr, validerAdressebeskyttelse = false)
         val artikler = deler.map { Artikkel(it.del.hmsnr, it.antall) }
-        val xkLagerInfo = if (levering == Levering.TIL_XK_LAGER) "Sendes til XK-Lager. " else ""
+        val xkLagerInfo = if (levering == Levering.TIL_XK_LAGER) "XK-Lager " else ""
         val forsendelsesinfo = "${xkLagerInfo}Tekniker: $bestillersNavn"
 
         val lagretSaksnummer = transaction(dataSource, returnGeneratedKey = true) { tx ->
