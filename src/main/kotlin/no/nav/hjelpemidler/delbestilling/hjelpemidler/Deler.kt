@@ -54,22 +54,6 @@ val delerPerHjelpemiddel = mapOf(
             img = "https://storage.googleapis.com/hm_delbestilling_bilder/256634.png",
         ),
     ),
-    "Minicrosser" to listOf(
-        Del(
-            "022005",
-            "Batteri 80A inkl poler",
-            kategori = "Batteri",
-            maksAntall = 2,
-        ),
-        Del(
-            "263773",
-            "Batteri 85 ah",
-            levArtNr = "1523-1138",
-            kategori = "Batteri",
-            maksAntall = 2,
-            img = "https://storage.googleapis.com/hm_delbestilling_bilder/263773.png",
-        ),
-    ),
     "Minicrosser 125T" to listOf(
         Del(
             "200842",
