@@ -56,7 +56,7 @@ val delerPerHjelpemiddel = mapOf(
     ),
     "Minicrosser" to listOf(
         Del(
-            "22005",
+            "022005",
             "Batteri 80A inkl poler",
             kategori = "Batteri",
             maksAntall = 2,
@@ -78,6 +78,12 @@ val delerPerHjelpemiddel = mapOf(
             maksAntall = 4,
             img = "https://storage.googleapis.com/hm_delbestilling_bilder/200842.png",
         ),
+        Del(
+            "022005",
+            "Batteri 80A inkl poler",
+            kategori = "Batteri",
+            maksAntall = 2,
+        ),
     ),
     "Minicrosser M" to listOf(
         Del(
@@ -86,6 +92,14 @@ val delerPerHjelpemiddel = mapOf(
             kategori = "Hjul",
             maksAntall = 4,
             img = "https://storage.googleapis.com/hm_delbestilling_bilder/200842.png",
+        ),
+        Del(
+            "263773",
+            "Batteri 85 ah",
+            levArtNr = "1523-1138",
+            kategori = "Batteri",
+            maksAntall = 2,
+            img = "https://storage.googleapis.com/hm_delbestilling_bilder/263773.png",
         ),
     ),
     "Minicrosser X" to listOf(
@@ -111,6 +125,14 @@ val delerPerHjelpemiddel = mapOf(
             maksAntall = 4,
             img = "https://storage.googleapis.com/hm_delbestilling_bilder/291356.png",
         ),
+        Del(
+            "263773",
+            "Batteri 85 ah",
+            levArtNr = "1523-1138",
+            kategori = "Batteri",
+            maksAntall = 2,
+            img = "https://storage.googleapis.com/hm_delbestilling_bilder/263773.png",
+        ),
     ),
     "Minicrosser T" to listOf(
         Del(
@@ -119,7 +141,13 @@ val delerPerHjelpemiddel = mapOf(
             kategori = "Hjul",
             maksAntall = 4,
             img = "https://storage.googleapis.com/hm_delbestilling_bilder/163943.png",
-        )
+        ),
+        Del(
+            "022005",
+            "Batteri 80A inkl poler",
+            kategori = "Batteri",
+            maksAntall = 2,
+        ),
     ),
     "Panthera" to listOf(
         Del(
