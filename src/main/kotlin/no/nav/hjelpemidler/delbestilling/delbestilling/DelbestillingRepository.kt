@@ -26,7 +26,7 @@ class DelbestillingRepository(private val ds: DataSource) {
             queryOf(
                 """
                     INSERT INTO delbestilling (brukers_kommunenr, fnr_bruker, fnr_bestiller, delbestilling_json)
-                    VALUES (:brukers_kommunenr, :fnr_bruker, :fnr_bestiller, :delbestilling_json)
+                    VALUES (:brukers_kommunenr, :fnr_bruker, :fnr_bestiller, :delbestilling_json::jsonb)
                 """.trimIndent(),
                 mapOf(
                     "brukers_kommunenr" to brukerKommunenr,
@@ -53,7 +53,7 @@ class DelbestillingRepository(private val ds: DataSource) {
             ).map {
                 val delbestilling = jsonMapper.readValue(it.string("delbestilling_json"), Delbestilling::class.java)
                 val saksnummer = it.long("saksnummer")
-                val opprettet = it.localDateTime("opprettet_dato")
+                val opprettet = it.localDateTime("opprettet")
                 LagretDelbestilling(saksnummer, delbestilling, opprettet)
             }.asList
         )

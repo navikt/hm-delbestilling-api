@@ -86,7 +86,8 @@ dependencies {
     testImplementation("io.mockk:mockk:1.13.4")
     testImplementation(ktor("client-mock"))
     testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.7.1")
-    testImplementation("com.h2database:h2:2.1.214")
+    testImplementation("org.testcontainers:junit-jupiter:1.17.6")
+    testImplementation("com.playtika.testcontainers:embedded-postgresql:2.2.13")
 
 }
 
