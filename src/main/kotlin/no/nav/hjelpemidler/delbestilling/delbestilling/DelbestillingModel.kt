@@ -17,6 +17,11 @@ data class OppslagResultat(
     val httpStatusCode: HttpStatusCode,
 )
 
+data class AlleHjelpemidlerMedDelerResultat(
+    val hjelpemidlerMedDeler: List<HjelpemiddelMedDeler>,
+    val httpStatusCode: HttpStatusCode,
+)
+
 data class OppslagResponse(
     val hjelpemiddel: HjelpemiddelMedDeler?,
     val feil: OppslagFeil? = null,
