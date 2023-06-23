@@ -29,10 +29,8 @@ internal class HjelpemiddelDelerTest {
         val deler = hjelpemiddel!!.deler!!
         
         assertEquals(13, deler.size)
-        assertEquals(hjelpemidlerMedDeler.size, 269)
+        assertEquals( 526, hjelpemidlerMedDeler.size)
     }
-
-}
 
     @Test
     fun `skal finne hjelpemiddel med deler for Minicrosser M1`() {
