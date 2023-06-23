@@ -6,7 +6,7 @@ import io.ktor.server.routing.Route
 import io.ktor.server.routing.get
 import no.nav.hjelpemidler.delbestilling.hjelpemidler.HjelpemidlerService
 
-fun Route.delbestillingApiAuthenticated(
+fun Route.hjelpemiddelApi(
     hjelpemidlerService: HjelpemidlerService
 ) {
     get("/hjelpemidler") {
