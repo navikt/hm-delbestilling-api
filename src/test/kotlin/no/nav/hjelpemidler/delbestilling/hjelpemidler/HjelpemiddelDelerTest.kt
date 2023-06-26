@@ -1,5 +1,4 @@
 package no.nav.hjelpemidler.delbestilling.hjelpemidler
-
 import no.nav.hjelpemidler.delbestilling.hjelpemidler.HjelpemiddelDeler.hentHjelpemiddelMedDeler
 import no.nav.hjelpemidler.delbestilling.hjelpemidler.HjelpemiddelDeler.hentAlleHjelpemidlerMedDeler
 import org.junit.jupiter.api.Assertions.*
