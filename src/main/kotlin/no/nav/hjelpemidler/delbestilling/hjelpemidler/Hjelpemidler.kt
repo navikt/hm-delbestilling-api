@@ -17,6 +17,11 @@ object HjelpemiddelDeler {
 
         return HjelpemiddelMedDeler(hjelpemiddel.navn, hjelpemiddel.hmsnr, deler)
     }
+
+    fun hentAlleHjelpemidlerMedDeler(): List<HjelpemiddelMedDeler> {
+        return hjelpemidler.map { HjelpemiddelMedDeler(it.navn, it.hmsnr, delerPerHjelpemiddel[it.type]) }
+    }
+
 }
 
 data class HjelpemiddelMedDeler(

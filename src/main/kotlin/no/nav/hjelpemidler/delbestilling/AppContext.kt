@@ -2,6 +2,7 @@ package no.nav.hjelpemidler.delbestilling
 
 import no.nav.hjelpemidler.delbestilling.delbestilling.DelbestillingRepository
 import no.nav.hjelpemidler.delbestilling.delbestilling.DelbestillingService
+import no.nav.hjelpemidler.delbestilling.hjelpemidler.HjelpemidlerService
 import no.nav.hjelpemidler.delbestilling.kafka.KafkaService
 import no.nav.hjelpemidler.delbestilling.oebs.OebsApiProxyClient
 import no.nav.hjelpemidler.delbestilling.oebs.OebsService
@@ -44,4 +45,6 @@ class AppContext {
     val oebsService = OebsService(oebsApiProxyClient, oebsSinkClient)
 
     val delbestillingService = DelbestillingService(ds, delbestillingRepository, pdlService, oebsService)
+
+    val hjelpemidlerService = HjelpemidlerService()
 }

@@ -8,7 +8,7 @@ on:
       - "CODEOWNERS"
     branches:
       - main
-      - pdl-kommunenr
+      - visuell-oversikt-app
 
 jobs:
   build-and-deploy:

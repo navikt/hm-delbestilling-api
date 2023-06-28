@@ -6,7 +6,7 @@ import no.nav.hjelpemidler.database.transaction
 import no.nav.hjelpemidler.delbestilling.exceptions.PersonNotAccessibleInPdl
 import no.nav.hjelpemidler.delbestilling.exceptions.PersonNotFoundInPdl
 import no.nav.hjelpemidler.delbestilling.exceptions.TilgangException
-import no.nav.hjelpemidler.delbestilling.hjelpemidler.HjelpemiddelDeler.hentHjelpemiddelMedDeler
+import no.nav.hjelpemidler.delbestilling.hjelpemidler.HjelpemiddelDeler
 import no.nav.hjelpemidler.delbestilling.isDev
 import no.nav.hjelpemidler.delbestilling.isProd
 import no.nav.hjelpemidler.delbestilling.oebs.Artikkel
@@ -15,7 +15,6 @@ import no.nav.hjelpemidler.delbestilling.oebs.OpprettBestillingsordreRequest
 import no.nav.hjelpemidler.delbestilling.pdl.PdlService
 import no.nav.hjelpemidler.delbestilling.roller.Delbestiller
 import java.time.LocalDateTime
-import java.util.TimeZone
 import javax.sql.DataSource
 
 private val log = KotlinLogging.logger {}
@@ -144,7 +143,7 @@ class DelbestillingService(
     }
 
     suspend fun slåOppHjelpemiddel(hmsnr: String, serienr: String): OppslagResultat {
-        val hjelpemiddelMedDeler = hentHjelpemiddelMedDeler(hmsnr)
+        val hjelpemiddelMedDeler = HjelpemiddelDeler.hentHjelpemiddelMedDeler(hmsnr)
             ?: return OppslagResultat(null, OppslagFeil.TILBYR_IKKE_HJELPEMIDDEL, HttpStatusCode.NotFound)
 
         oebsService.hentUtlånPåArtnrOgSerienr(hmsnr, serienr)
