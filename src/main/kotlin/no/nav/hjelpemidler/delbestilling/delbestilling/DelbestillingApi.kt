@@ -4,7 +4,6 @@ import io.ktor.http.HttpStatusCode
 import io.ktor.server.application.call
 import io.ktor.server.request.receive
 import io.ktor.server.response.respond
-import io.ktor.server.response.respondText
 import io.ktor.server.routing.Route
 import io.ktor.server.routing.get
 import io.ktor.server.routing.post
@@ -37,11 +36,6 @@ fun Route.delbestillingApi(
             log.error(e) { "Klarte ikke gjøre oppslag" }
             call.respond(HttpStatusCode.InternalServerError)
         }
-    }
-
-    get("/test-ratelimit") {
-        val requestsLeft = call.response.headers["X-RateLimit-Remaining"]
-        call.respondText("Welcome to public API! $requestsLeft requests left.")
     }
 }
 
