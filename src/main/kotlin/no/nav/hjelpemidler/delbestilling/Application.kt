@@ -28,12 +28,6 @@ fun main(args: Array<String>): Unit = io.ktor.server.cio.EngineMain.main(args)
 fun Application.module() {
     configure()
     setupRoutes()
-
-    install(RateLimit) {
-        register(RateLimitName("public")) {
-            rateLimiter(limit = 10, refillPeriod = 60.seconds)
-        }
-    }
 }
 
 fun Application.configure() {
@@ -46,6 +40,12 @@ fun Application.configure() {
     }
 
     install(IgnoreTrailingSlash)
+
+    install(RateLimit) {
+        register(RateLimitName("public")) {
+            rateLimiter(limit = 10, refillPeriod = 60.seconds)
+        }
+    }
 }
 
 fun Application.setupRoutes() {
