@@ -8,7 +8,7 @@ on:
       - "CODEOWNERS"
     branches:
       - main
-      - visuell-oversikt-app
+      - rate-limit
 
 jobs:
   build-and-deploy:
