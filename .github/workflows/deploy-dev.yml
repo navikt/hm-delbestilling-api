@@ -8,7 +8,7 @@ on:
       - "CODEOWNERS"
     branches:
       - main
-      - visuell-oversikt-app
+      - extensions-i-pdl-respons
 
 jobs:
   build-and-deploy:

@@ -6,6 +6,9 @@ import io.ktor.server.application.Application
 import io.ktor.server.application.install
 import io.ktor.server.auth.authenticate
 import io.ktor.server.plugins.contentnegotiation.ContentNegotiation
+import io.ktor.server.plugins.ratelimit.RateLimit
+import io.ktor.server.plugins.ratelimit.RateLimitName
+import io.ktor.server.plugins.ratelimit.rateLimit
 import io.ktor.server.routing.IgnoreTrailingSlash
 import io.ktor.server.routing.route
 import io.ktor.server.routing.routing
@@ -17,9 +20,8 @@ import no.nav.tms.token.support.tokenx.validation.TokenXAuthenticator
 import no.nav.tms.token.support.tokenx.validation.installTokenXAuth
 import no.nav.tms.token.support.tokenx.validation.mock.SecurityLevel
 import no.nav.tms.token.support.tokenx.validation.mock.installTokenXAuthMock
-import java.time.LocalDate
-import java.time.LocalDateTime
 import java.util.TimeZone
+import kotlin.time.Duration.Companion.seconds
 
 fun main(args: Array<String>): Unit = io.ktor.server.cio.EngineMain.main(args)
 
@@ -38,6 +40,12 @@ fun Application.configure() {
     }
 
     install(IgnoreTrailingSlash)
+
+    install(RateLimit) {
+        register(RateLimitName("public")) {
+            rateLimiter(limit = 10, refillPeriod = 60.seconds)
+        }
+    }
 }
 
 fun Application.setupRoutes() {
@@ -65,9 +73,11 @@ fun Application.setupRoutes() {
                 )
             }
 
-            delbestillingApi(ctx.delbestillingService)
             hjelpemiddelApi(ctx.hjelpemidlerService)
 
+            rateLimit(RateLimitName("public")) {
+                delbestillingApi(ctx.delbestillingService)
+            }
         }
 
         internal()
