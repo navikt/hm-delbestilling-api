@@ -106,7 +106,7 @@ class PdlClient(
 data class PdlPersonResponse(
     val errors: List<PdlError> = emptyList(),
     val data: PdlHentPerson?,
-    val extensions: PdlExtensions?
+    val extensions: PdlExtensions? = null
 )
 
 data class PdlExtensions(
