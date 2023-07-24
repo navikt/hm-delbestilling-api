@@ -8,7 +8,7 @@ on:
       - "CODEOWNERS"
     branches:
       - main
-      - rate-limit
+      - extensions-i-pdl-respons
 
 jobs:
   build-and-deploy:

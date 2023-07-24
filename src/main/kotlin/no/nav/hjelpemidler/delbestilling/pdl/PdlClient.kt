@@ -10,10 +10,10 @@ import io.ktor.client.request.header
 import io.ktor.client.request.headers
 import io.ktor.client.request.post
 import io.ktor.client.request.setBody
-import io.ktor.http.ContentType
-import io.ktor.http.contentType
+import io.ktor.http.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import mu.KotlinLogging
 import no.nav.hjelpemidler.delbestilling.Config
 import no.nav.hjelpemidler.delbestilling.exceptions.PdlRequestFailedException
 import no.nav.hjelpemidler.delbestilling.exceptions.PdlResponseMissingData
@@ -23,6 +23,8 @@ import no.nav.hjelpemidler.http.createHttpClient
 import no.nav.hjelpemidler.http.openid.OpenIDClient
 import no.nav.hjelpemidler.http.openid.bearerAuth
 import java.util.UUID
+
+private val log = KotlinLogging.logger {}
 
 class PdlClient(
     private val azureAdClient: OpenIDClient,
@@ -46,6 +48,7 @@ class PdlClient(
     suspend fun hentKommunenummer(fnummer: String): String {
         val response = pdlRequest<PdlPersonResponse>(hentKommunenummerQuery(fnummer))
         validerPdlOppslag(response, validerAdressebeskyttelse = true)
+        loggAdvarsler(response)
         return getKommunenr(response)
     }
 
@@ -69,6 +72,7 @@ class PdlClient(
 
     suspend fun hentPersonNavn(fnr: String, validerAdressebeskyttelse: Boolean): PdlPersonResponse {
         val response: PdlPersonResponse = pdlRequest(hentPersonNavnQuery(fnr))
+        loggAdvarsler(response)
         validerPdlOppslag(response, validerAdressebeskyttelse)
         return response
     }
@@ -86,13 +90,35 @@ class PdlClient(
             }.body()
         }
     }
+
+    private fun loggAdvarsler(response: PdlPersonResponse) {
+        response.extensions?.warnings?.forEach{ pdlWarning ->
+            if (pdlWarning.details.isNullOrEmpty()) {
+                log.warn { pdlWarning.message }
+            } else {
+                log.warn { "${pdlWarning.message} (detaljer: ${pdlWarning.details})" }
+            }
+        }
+    }
+
 }
 
 data class PdlPersonResponse(
     val errors: List<PdlError> = emptyList(),
     val data: PdlHentPerson?,
+    val extensions: PdlExtensions? = null
 )
 
+data class PdlExtensions(
+    val warnings: List<PdlWarning> = emptyList()
+)
+
+data class PdlWarning(
+    val query: String,
+    val id: String,
+    val message: String,
+    val details: String?
+)
 data class PdlHentPerson(
     val hentPerson: PdlPerson?,
 )
