@@ -41,7 +41,6 @@ class DelbestillingRepository(private val ds: DataSource) {
 
 
     fun hentDelbestillinger(bestillerFnr: String): List<LagretDelbestilling> = using(sessionOf(ds)) { session ->
-        log.info { "Henter delbestillinger for '$bestillerFnr'" }
         session.run(
             queryOf(
                 """

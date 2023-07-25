@@ -23,6 +23,9 @@ fun Route.delbestillingApi(
             log.info { "/oppslag request: $request" }
 
             val resultat = delbestillingService.slåOppHjelpemiddel(request.hmsnr, request.serienr)
+            if (resultat.feil != null) {
+                log.info { "Oppslag på hmsnr:${request.hmsnr} serienr:${request.serienr} returnerte feilkode:${resultat.feil}" }
+            }
 
             val oppslagResponse = OppslagResponse(resultat.hjelpemiddel, resultat.feil)
 

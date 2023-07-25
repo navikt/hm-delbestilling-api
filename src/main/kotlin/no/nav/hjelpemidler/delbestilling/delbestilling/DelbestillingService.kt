@@ -131,6 +131,7 @@ class DelbestillingService(
             .filter { it.opprettet.isAfter(tidspunkt24TimerSiden) }
             .filter { it.delbestilling.hmsnr.value == hmsnr && it.delbestilling.serienr.value == serienr }
         if (bestillersBestillinger.size >= maxAntallBestillingerPer24Timer) {
+            log.info { "Tekniker har nådd grensen på $maxAntallBestillingerPer24Timer bestillinger siste 24 timer for hjelpemiddel hmsnr:$hmsnr serienr:$serienr" }
             return DelbestillingFeil.FOR_MANGE_BESTILLINGER_SISTE_24_TIMER
         }
         return null
