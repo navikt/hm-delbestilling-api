@@ -8,7 +8,7 @@ on:
       - "CODEOWNERS"
     branches:
       - main
-      - extensions-i-pdl-respons
+      - debug
 
 jobs:
   build-and-deploy:

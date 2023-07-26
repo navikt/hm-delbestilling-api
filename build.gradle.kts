@@ -41,6 +41,7 @@ dependencies {
 
     // HTTP
     implementation("no.nav.hjelpemidler.http:hm-http:v0.0.30")
+    implementation("io.ktor:ktor-server-call-logging-jvm:2.3.0")
 
     // Ktor
     val ktorVersion = "2.3.0"

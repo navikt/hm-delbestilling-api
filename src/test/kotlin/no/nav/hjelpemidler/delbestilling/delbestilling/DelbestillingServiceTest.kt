@@ -58,7 +58,8 @@ internal class DelbestillingServiceTest {
     fun `tekniker kan max sende inn 2 delbestillinger per døgn`() = runTest {
         delbestillingService.opprettDelbestilling(delbestillerRolle(), delbestillingRequest(), bestillerFnr)
         delbestillingService.opprettDelbestilling(delbestillerRolle(), delbestillingRequest(), bestillerFnr)
-        val resultat = delbestillingService.opprettDelbestilling(delbestillerRolle(), delbestillingRequest(), bestillerFnr)
+        val resultat =
+            delbestillingService.opprettDelbestilling(delbestillerRolle(), delbestillingRequest(), bestillerFnr)
         assertEquals(DelbestillingFeil.FOR_MANGE_BESTILLINGER_SISTE_24_TIMER, resultat.feil)
 
         val bestillinger = delbestillingService.hentDelbestillinger(bestillerFnr)

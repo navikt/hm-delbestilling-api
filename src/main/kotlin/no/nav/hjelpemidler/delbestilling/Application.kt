@@ -1,14 +1,20 @@
 package no.nav.hjelpemidler.delbestilling
 
 import com.fasterxml.jackson.databind.DeserializationFeature
+import com.fasterxml.jackson.databind.SerializationFeature
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import io.ktor.serialization.jackson.jackson
 import io.ktor.server.application.Application
 import io.ktor.server.application.install
 import io.ktor.server.auth.authenticate
+import io.ktor.server.plugins.callloging.CallLogging
 import io.ktor.server.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.server.plugins.ratelimit.RateLimit
 import io.ktor.server.plugins.ratelimit.RateLimitName
 import io.ktor.server.plugins.ratelimit.rateLimit
+import io.ktor.server.request.httpMethod
+import io.ktor.server.request.path
+import io.ktor.server.request.uri
 import io.ktor.server.routing.IgnoreTrailingSlash
 import io.ktor.server.routing.route
 import io.ktor.server.routing.routing
@@ -20,6 +26,7 @@ import no.nav.tms.token.support.tokenx.validation.TokenXAuthenticator
 import no.nav.tms.token.support.tokenx.validation.installTokenXAuth
 import no.nav.tms.token.support.tokenx.validation.mock.SecurityLevel
 import no.nav.tms.token.support.tokenx.validation.mock.installTokenXAuthMock
+import org.slf4j.event.Level
 import java.util.TimeZone
 import kotlin.time.Duration.Companion.seconds
 
@@ -35,7 +42,9 @@ fun Application.configure() {
 
     install(ContentNegotiation) {
         jackson {
+            registerModule(JavaTimeModule())
             disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)
+            disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS)
         }
     }
 
@@ -44,6 +53,16 @@ fun Application.configure() {
     install(RateLimit) {
         register(RateLimitName("public")) {
             rateLimiter(limit = 10, refillPeriod = 60.seconds)
+        }
+    }
+
+    install(CallLogging) {
+        level = Level.INFO
+        filter { call ->
+            call.request.path().startsWith("/api")
+        }
+        format { call ->
+            "[${call.request.httpMethod.value}] ${call.request.uri}"
         }
     }
 }
