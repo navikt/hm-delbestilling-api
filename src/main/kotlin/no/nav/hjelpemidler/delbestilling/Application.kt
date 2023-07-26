@@ -12,6 +12,8 @@ import io.ktor.server.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.server.plugins.ratelimit.RateLimit
 import io.ktor.server.plugins.ratelimit.RateLimitName
 import io.ktor.server.plugins.ratelimit.rateLimit
+import io.ktor.server.request.httpMethod
+import io.ktor.server.request.path
 import io.ktor.server.request.uri
 import io.ktor.server.routing.IgnoreTrailingSlash
 import io.ktor.server.routing.route
@@ -56,9 +58,11 @@ fun Application.configure() {
 
     install(CallLogging) {
         level = Level.INFO
+        filter { call ->
+            call.request.path().startsWith("/api")
+        }
         format { call ->
-            val requestUrl = call.request.uri
-            "Requested URL: $requestUrl"
+            "[${call.request.httpMethod}] ${call.request.uri}"
         }
     }
 }
