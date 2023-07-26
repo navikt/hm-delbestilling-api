@@ -62,7 +62,7 @@ fun Application.configure() {
             call.request.path().startsWith("/api")
         }
         format { call ->
-            "[${call.request.httpMethod}] ${call.request.uri}"
+            "[${call.request.httpMethod.value}] ${call.request.uri}"
         }
     }
 }
