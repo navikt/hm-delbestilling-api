@@ -2,13 +2,14 @@ package no.nav.hjelpemidler.delbestilling
 
 import com.fasterxml.jackson.databind.DeserializationFeature
 import io.ktor.serialization.jackson.jackson
-import io.ktor.server.application.Application
-import io.ktor.server.application.install
+import io.ktor.server.application.*
 import io.ktor.server.auth.authenticate
+import io.ktor.server.plugins.callloging.CallLogging
 import io.ktor.server.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.server.plugins.ratelimit.RateLimit
 import io.ktor.server.plugins.ratelimit.RateLimitName
 import io.ktor.server.plugins.ratelimit.rateLimit
+import io.ktor.server.request.*
 import io.ktor.server.routing.IgnoreTrailingSlash
 import io.ktor.server.routing.route
 import io.ktor.server.routing.routing
@@ -20,6 +21,7 @@ import no.nav.tms.token.support.tokenx.validation.TokenXAuthenticator
 import no.nav.tms.token.support.tokenx.validation.installTokenXAuth
 import no.nav.tms.token.support.tokenx.validation.mock.SecurityLevel
 import no.nav.tms.token.support.tokenx.validation.mock.installTokenXAuthMock
+import org.slf4j.event.*
 import java.util.TimeZone
 import kotlin.time.Duration.Companion.seconds
 
@@ -45,6 +47,10 @@ fun Application.configure() {
         register(RateLimitName("public")) {
             rateLimiter(limit = 10, refillPeriod = 60.seconds)
         }
+    }
+
+    install(CallLogging) {
+        level = Level.INFO
     }
 }
 
