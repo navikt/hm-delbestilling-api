@@ -154,9 +154,6 @@ class DelbestillingService(
     }
 
     fun hentDelbestillinger(bestillerFnr: String): List<LagretDelbestilling> {
-        if (isDev()){
-            log.info { "Henter delbestillinger for $bestillerFnr" }
-        }
         return delbestillingRepository.hentDelbestillinger(bestillerFnr)
     }
 }

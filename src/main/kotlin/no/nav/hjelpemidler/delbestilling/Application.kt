@@ -1,6 +1,7 @@
 package no.nav.hjelpemidler.delbestilling
 
 import com.fasterxml.jackson.databind.DeserializationFeature
+import com.fasterxml.jackson.databind.SerializationFeature
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import io.ktor.serialization.jackson.jackson
 import io.ktor.server.application.Application
@@ -11,6 +12,7 @@ import io.ktor.server.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.server.plugins.ratelimit.RateLimit
 import io.ktor.server.plugins.ratelimit.RateLimitName
 import io.ktor.server.plugins.ratelimit.rateLimit
+import io.ktor.server.request.uri
 import io.ktor.server.routing.IgnoreTrailingSlash
 import io.ktor.server.routing.route
 import io.ktor.server.routing.routing
@@ -40,6 +42,7 @@ fun Application.configure() {
         jackson {
             registerModule(JavaTimeModule())
             disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)
+            disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS)
         }
     }
 
@@ -53,6 +56,10 @@ fun Application.configure() {
 
     install(CallLogging) {
         level = Level.INFO
+        format { call ->
+            val requestUrl = call.request.uri
+            "Requested URL: $requestUrl"
+        }
     }
 }
 
