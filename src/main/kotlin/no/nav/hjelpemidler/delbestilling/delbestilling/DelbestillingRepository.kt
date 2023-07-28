@@ -5,9 +5,8 @@ import kotliquery.queryOf
 import kotliquery.sessionOf
 import kotliquery.using
 import mu.KotlinLogging
+import no.nav.hjelpemidler.delbestilling.json
 import no.nav.hjelpemidler.delbestilling.jsonMapper
-import java.time.LocalDateTime
-import java.util.UUID
 import javax.sql.DataSource
 
 private val log = KotlinLogging.logger {}
@@ -39,7 +38,6 @@ class DelbestillingRepository(private val ds: DataSource) {
     }
 
 
-
     fun hentDelbestillinger(bestillerFnr: String): List<LagretDelbestilling> = using(sessionOf(ds)) { session ->
         session.run(
             queryOf(
@@ -50,10 +48,11 @@ class DelbestillingRepository(private val ds: DataSource) {
                 """.trimIndent(),
                 mapOf("fnr_bestiller" to bestillerFnr)
             ).map {
-                val delbestilling = jsonMapper.readValue(it.string("delbestilling_json"), Delbestilling::class.java)
-                val saksnummer = it.long("saksnummer")
-                val opprettet = it.localDateTime("opprettet")
-                LagretDelbestilling(saksnummer, delbestilling, opprettet)
+                LagretDelbestilling(
+                    it.long("saksnummer"),
+                    it.json("delbestilling_json"),
+                    it.localDateTime("opprettet")
+                )
             }.asList
         )
     }

@@ -22,8 +22,8 @@ fun delbestillerRolle(kanBestilleDeler: Boolean = true) = Delbestiller(
 fun delbestillingRequest() = DelbestillingRequest(
     Delbestilling(
         id = UUID.randomUUID(),
-        hmsnr = Hmsnr("123456"),
-        serienr = Serienr("123123"),
+        hmsnr = "123456",
+        serienr = "123123",
         deler = listOf(
             DelLinje(
                 Del(

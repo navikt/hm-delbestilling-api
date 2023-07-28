@@ -89,19 +89,6 @@ data class LagretDelbestilling(
     val opprettet: LocalDateTime,
 )
 
-/* TODO: Vurder om vi skal bruke https://ktor.io/docs/request-validation.html#configure
-    for validering av innkommende data
-*/
-data class Hmsnr(@get:JsonValue val value: String) {
-    init {
-        require(value.length == 6) { "hmsnr må ha lengde 6" }
-        require(value.all { it.isDigit() }) { "hmsnr må bestå av siffer" }
-    }
-}
+typealias Hmsnr = String
+typealias Serienr = String
 
-data class Serienr(@get:JsonValue val value: String) {
-    init {
-        require(value.length < 10) { "serienr max 10 siffer" } // TODO hva er begrensingene på serienr?
-        require(value.all { it.isDigit() }) { "serienr må bestå av siffer" }
-    }
-}

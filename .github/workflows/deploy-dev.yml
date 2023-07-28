@@ -8,7 +8,7 @@ on:
       - "CODEOWNERS"
     branches:
       - main
-      - debug
+      - request-validation
 
 jobs:
   build-and-deploy:

@@ -54,6 +54,7 @@ dependencies {
     implementation(ktor("server-content-negotiation"))
     implementation(ktor("server-status-pages"))
     implementation(ktor("server-rate-limit"))
+    implementation(ktor("server-request-validation"))
 
     implementation(ktor("client-core"))
     implementation(ktor("client-content-negotiation"))
