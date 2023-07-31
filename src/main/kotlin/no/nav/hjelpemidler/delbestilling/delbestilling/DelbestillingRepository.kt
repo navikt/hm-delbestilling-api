@@ -1,17 +1,24 @@
 package no.nav.hjelpemidler.delbestilling.delbestilling
 
 import kotliquery.Session
+import kotliquery.TransactionalSession
 import kotliquery.queryOf
 import kotliquery.sessionOf
 import kotliquery.using
 import mu.KotlinLogging
+import no.nav.hjelpemidler.database.transaction
 import no.nav.hjelpemidler.delbestilling.json
 import no.nav.hjelpemidler.delbestilling.jsonMapper
 import javax.sql.DataSource
 
 private val log = KotlinLogging.logger {}
 
-class DelbestillingRepository(private val ds: DataSource) {
+class DelbestillingRepository(val ds: DataSource) {
+
+    suspend inline fun <T> withTransaction(
+        returnGeneratedKeys: Boolean = false,
+        crossinline block: suspend (TransactionalSession) -> T,
+        ): T = transaction(ds, returnGeneratedKeys) { tx -> block(tx) }
 
     fun lagreDelbestilling(
         tx: Session,
