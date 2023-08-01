@@ -39,7 +39,7 @@ class DelbestillingRepository(val ds: DataSource) {
                     "fnr_bruker" to brukerFnr,
                     "fnr_bestiller" to bestillerFnr,
                     "delbestilling_json" to jsonMapper.writeValueAsString(delbestilling),
-                    "status" to Status.INNSENDT,
+                    "status" to Status.INNSENDT.name,
                 ),
             ).asUpdateAndReturnGeneratedKey
         )
