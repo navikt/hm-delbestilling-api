@@ -115,7 +115,7 @@ class DelbestillingService(
         return DelbestillingResultat(id, null, saksnummer = lagretSaksnummer)
     }
 
-    fun oppdaterStatus(id: String, status: Status) {
+    fun oppdaterStatus(id: Long, status: Status) {
         delbestillingRepository.oppdaterStatus(id, status)
     }
 

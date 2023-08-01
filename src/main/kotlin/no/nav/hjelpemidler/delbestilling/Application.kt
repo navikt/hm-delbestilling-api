@@ -27,8 +27,8 @@ fun Application.setupRoutes() {
     val ctx = AppContext()
 
     installAuthenticators {
-        installTokenXAuth {}
         installAzureAuth {}
+        installTokenXAuth {}
     }
 
     routing {
