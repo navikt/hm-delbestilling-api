@@ -21,6 +21,7 @@ import no.nav.hjelpemidler.delbestilling.delbestilling.OppslagRequest
 import no.nav.hjelpemidler.delbestilling.delbestilling.validateDelbestillingRequest
 import no.nav.hjelpemidler.delbestilling.delbestilling.validateOppslagRequest
 import no.nav.hjelpemidler.delbestilling.exceptions.configureStatusPages
+import no.nav.tms.token.support.azure.validation.installAzureAuth
 import no.nav.tms.token.support.tokenx.validation.installTokenXAuth
 import no.nav.tms.token.support.tokenx.validation.mock.SecurityLevel
 import no.nav.tms.token.support.tokenx.validation.mock.installTokenXAuthMock
@@ -74,6 +75,7 @@ fun Application.configure() {
         }
     } else {
         installTokenXAuth()
+        installAzureAuth()
     }
 }
 

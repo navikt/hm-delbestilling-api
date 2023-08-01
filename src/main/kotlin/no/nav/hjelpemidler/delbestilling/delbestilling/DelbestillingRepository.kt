@@ -31,14 +31,15 @@ class DelbestillingRepository(val ds: DataSource) {
         return tx.run(
             queryOf(
                 """
-                    INSERT INTO delbestilling (brukers_kommunenr, fnr_bruker, fnr_bestiller, delbestilling_json)
-                    VALUES (:brukers_kommunenr, :fnr_bruker, :fnr_bestiller, :delbestilling_json::jsonb)
+                    INSERT INTO delbestilling (brukers_kommunenr, fnr_bruker, fnr_bestiller, delbestilling_json, status)
+                    VALUES (:brukers_kommunenr, :fnr_bruker, :fnr_bestiller, :delbestilling_json::jsonb, :status)
                 """.trimIndent(),
                 mapOf(
                     "brukers_kommunenr" to brukerKommunenr,
                     "fnr_bruker" to brukerFnr,
                     "fnr_bestiller" to bestillerFnr,
-                    "delbestilling_json" to jsonMapper.writeValueAsString(delbestilling)
+                    "delbestilling_json" to jsonMapper.writeValueAsString(delbestilling),
+                    "status" to Status.INNSENDT,
                 ),
             ).asUpdateAndReturnGeneratedKey
         )
@@ -61,6 +62,19 @@ class DelbestillingRepository(val ds: DataSource) {
                     it.localDateTime("opprettet")
                 )
             }.asList
+        )
+    }
+
+    fun oppdaterStatus(id: String, status: Status): Unit = using(sessionOf(ds)) { session ->
+        session.run(
+            queryOf(
+                """
+                    UPDATE delbestilling
+                    SET status = :status
+                    WHERE saksnummer = :id
+                """.trimIndent(),
+                mapOf("saksnummer" to id, "status" to status)
+            ).asUpdate
         )
     }
 }

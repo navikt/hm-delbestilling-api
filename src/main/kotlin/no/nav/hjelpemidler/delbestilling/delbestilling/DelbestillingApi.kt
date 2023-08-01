@@ -7,6 +7,7 @@ import io.ktor.server.response.respond
 import io.ktor.server.routing.Route
 import io.ktor.server.routing.get
 import io.ktor.server.routing.post
+import io.ktor.server.routing.put
 import mu.KotlinLogging
 import no.nav.hjelpemidler.delbestilling.isProd
 import no.nav.hjelpemidler.delbestilling.roller.RolleService
@@ -75,5 +76,15 @@ fun Route.delbestillingApiAuthenticated(
         val bestillerFnr = tokenXUserFactory.createTokenXUser(call).ident
         val delbestillinger = delbestillingService.hentDelbestillinger(bestillerFnr)
         call.respond(delbestillinger)
+    }
+}
+
+fun Route.azureRoutes(
+    delbestillingService: DelbestillingService,
+) {
+    put("/delbestilling/status/{id}") {
+        val id = call.parameters["id"] ?: return@put call.respond(HttpStatusCode.BadRequest)
+        val status = call.receive<Status>()
+        delbestillingService.oppdaterStatus(id, status)
     }
 }
