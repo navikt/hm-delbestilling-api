@@ -32,11 +32,11 @@ class DelbestillingService(
         bestillerFnr: String,
     ): DelbestillingResultat {
         val id = request.delbestilling.id
-        val hmsnr = request.delbestilling.hmsnr.value
-        val serienr = request.delbestilling.serienr.value
+        val hmsnr = request.delbestilling.hmsnr
+        val serienr = request.delbestilling.serienr
 
-        validerDelbestiller(delbestillerRolle)
-        val feil = validerDelbestilling(bestillerFnr, hmsnr, serienr)
+        validerDelbestillerTilgang(delbestillerRolle)
+        val feil = validerDelbestillingRate(bestillerFnr, hmsnr, serienr)
         if (feil != null) {
             return DelbestillingResultat(id, feil = feil)
         }
@@ -47,11 +47,8 @@ class DelbestillingService(
         val utlån = oebsService.hentUtlånPåArtnrOgSerienr(hmsnr, serienr)
             ?: return DelbestillingResultat(id, feil = DelbestillingFeil.INGET_UTLÅN)
 
-        // val brukerFnr = "03441558383" // Test av adressebeskyttelse
-        // val brukerFnr = "11111111111" // Test av person ikke funnet
         val brukersFnr = utlån.fnr
 
-        // TODO: det føles litt feil å gjøre alle disse sjekkene her
         val brukerKommunenr = try {
             pdlService.hentKommunenummer(brukersFnr)
         } catch (e: PersonNotAccessibleInPdl) {
@@ -121,7 +118,7 @@ class DelbestillingService(
         return DelbestillingResultat(id, null, saksnummer = lagretSaksnummer)
     }
 
-    private fun validerDelbestilling(bestillerFnr: String, hmsnr: String, serienr: String): DelbestillingFeil? {
+    private fun validerDelbestillingRate(bestillerFnr: String, hmsnr: String, serienr: String): DelbestillingFeil? {
         if (isDev()) {
             return null // For enklere testing i dev
         }
@@ -129,7 +126,7 @@ class DelbestillingService(
         val tidspunkt24TimerSiden = LocalDateTime.now().minusDays(1)
         val bestillersBestillinger = hentDelbestillinger(bestillerFnr)
             .filter { it.opprettet.isAfter(tidspunkt24TimerSiden) }
-            .filter { it.delbestilling.hmsnr.value == hmsnr && it.delbestilling.serienr.value == serienr }
+            .filter { it.delbestilling.hmsnr == hmsnr && it.delbestilling.serienr == serienr }
         if (bestillersBestillinger.size >= maxAntallBestillingerPer24Timer) {
             log.info { "Tekniker har nådd grensen på $maxAntallBestillingerPer24Timer bestillinger siste 24 timer for hjelpemiddel hmsnr:$hmsnr serienr:$serienr" }
             return DelbestillingFeil.FOR_MANGE_BESTILLINGER_SISTE_24_TIMER
@@ -137,7 +134,7 @@ class DelbestillingService(
         return null
     }
 
-    private fun validerDelbestiller(delbestillerRolle: Delbestiller) {
+    private fun validerDelbestillerTilgang(delbestillerRolle: Delbestiller) {
         if (!delbestillerRolle.kanBestilleDeler) {
             throw TilgangException("Innlogget bruker mangler tilgang til å bestille deler")
         }
