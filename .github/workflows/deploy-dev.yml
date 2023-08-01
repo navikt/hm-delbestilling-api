@@ -18,19 +18,23 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout latest code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
       - name: Set up JDK
         uses: actions/setup-java@v3
         with:
           distribution: temurin
           java-version: 17
           cache: gradle
+
       - name: Validate Gradle wrapper
         uses: gradle/wrapper-validation-action@v1
-      - name: Build and Run tests
-        run: |
-          chmod u+x ./gradlew
-          ./gradlew clean build
+
+      - uses: gradle/gradle-build-action@v2.7.0
+        env: # Eksluder test dependencies
+          DEPENDENCY_GRAPH_INCLUDE_CONFIGURATIONS: compileClasspath|runtimeClasspath
+        with:
+          dependency-graph: generate-and-submit
+          arguments: build
 
       - name: pre-deploy
         uses: navikt/digihot-deploy/actions/pre-deploy@v2
@@ -41,10 +45,12 @@ jobs:
         uses: nais/docker-build-push@v0
         id: docker-build-push
         with:
+          byosbom: dependency-graph-reports/build-deploy-dev-build-and-deploy.json
           team: teamdigihot
           identity_provider: ${{ secrets.NAIS_WORKLOAD_IDENTITY_PROVIDER }}
           project_id: ${{ vars.NAIS_MANAGEMENT_PROJECT_ID }}
           tag: ${{ env.VERSION_TAG }}
+
       - name: deploy to dev-gcp
         uses: nais/deploy/actions/deploy@v1
         env:
@@ -52,11 +58,13 @@ jobs:
           CLUSTER: dev-gcp
           RESOURCE: .nais/nais-dev.yaml
           IMAGE: ${{steps.docker-build-push.outputs.image}}
+
       - name: post-deploy
         if: github.ref == 'refs/heads/main'
         uses: navikt/digihot-deploy/actions/post-deploy@v2
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
       - name: draft release
         if: github.ref == 'refs/heads/main'
         uses: actions/create-release@latest
@@ -68,6 +76,7 @@ jobs:
           body: ${{ env.CHANGE_LOG }}
           draft: true
           prerelease: false
+
     outputs:
       image: ${{ steps.docker-build-push.outputs.image }}
 
