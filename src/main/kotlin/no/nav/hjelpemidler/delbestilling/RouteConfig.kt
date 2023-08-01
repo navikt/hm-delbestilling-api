@@ -21,6 +21,7 @@ import no.nav.hjelpemidler.delbestilling.delbestilling.OppslagRequest
 import no.nav.hjelpemidler.delbestilling.delbestilling.validateDelbestillingRequest
 import no.nav.hjelpemidler.delbestilling.delbestilling.validateOppslagRequest
 import no.nav.hjelpemidler.delbestilling.exceptions.configureStatusPages
+import no.nav.tms.token.support.authentication.installer.installAuthenticators
 import no.nav.tms.token.support.azure.validation.installAzureAuth
 import no.nav.tms.token.support.tokenx.validation.installTokenXAuth
 import no.nav.tms.token.support.tokenx.validation.mock.SecurityLevel
@@ -74,8 +75,11 @@ fun Application.configure() {
             staticUserPid = "12345678910"
         }
     } else {
-        installTokenXAuth()
-        installAzureAuth()
+        installAuthenticators {
+            installTokenXAuth()
+            installAzureAuth()
+        }
+
     }
 }
 
