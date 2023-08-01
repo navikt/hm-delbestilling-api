@@ -67,6 +67,7 @@ fun Application.configure() {
 
     configureStatusPages()
 
+    /*
     if (isLocal()) {
         installTokenXAuthMock {
             setAsDefault = false
@@ -75,12 +76,11 @@ fun Application.configure() {
             staticUserPid = "12345678910"
         }
     } else {
-        installAuthenticators {
-            installTokenXAuth()
-            installAzureAuth()
-        }
+
 
     }
+
+     */
 }
 
 private fun toValidationResult(feilmeldinger: List<String>): ValidationResult {

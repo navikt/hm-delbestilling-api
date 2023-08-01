@@ -10,8 +10,11 @@ import no.nav.hjelpemidler.delbestilling.delbestilling.azureRoutes
 import no.nav.hjelpemidler.delbestilling.delbestilling.delbestillingApi
 import no.nav.hjelpemidler.delbestilling.delbestilling.delbestillingApiAuthenticated
 import no.nav.hjelpemidler.hjelpemidler.hjelpemidler.hjelpemiddelApi
+import no.nav.tms.token.support.authentication.installer.installAuthenticators
 import no.nav.tms.token.support.azure.validation.AzureAuthenticator
+import no.nav.tms.token.support.azure.validation.installAzureAuth
 import no.nav.tms.token.support.tokenx.validation.TokenXAuthenticator
+import no.nav.tms.token.support.tokenx.validation.installTokenXAuth
 
 fun main(args: Array<String>): Unit = io.ktor.server.cio.EngineMain.main(args)
 
@@ -22,6 +25,11 @@ fun Application.module() {
 
 fun Application.setupRoutes() {
     val ctx = AppContext()
+
+    installAuthenticators {
+        installTokenXAuth {}
+        installAzureAuth {}
+    }
 
     routing {
         route("/api") {
