@@ -8,7 +8,7 @@ on:
       - "CODEOWNERS"
     branches:
       - main
-      - request-validation
+      - datasource-rydding
 
 jobs:
   build-and-deploy:

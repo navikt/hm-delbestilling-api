@@ -2,7 +2,6 @@ package no.nav.hjelpemidler.delbestilling.delbestilling
 
 import io.ktor.http.HttpStatusCode
 import mu.KotlinLogging
-import no.nav.hjelpemidler.database.transaction
 import no.nav.hjelpemidler.delbestilling.exceptions.PersonNotAccessibleInPdl
 import no.nav.hjelpemidler.delbestilling.exceptions.PersonNotFoundInPdl
 import no.nav.hjelpemidler.delbestilling.exceptions.TilgangException
@@ -15,12 +14,10 @@ import no.nav.hjelpemidler.delbestilling.oebs.OpprettBestillingsordreRequest
 import no.nav.hjelpemidler.delbestilling.pdl.PdlService
 import no.nav.hjelpemidler.delbestilling.roller.Delbestiller
 import java.time.LocalDateTime
-import javax.sql.DataSource
 
 private val log = KotlinLogging.logger {}
 
 class DelbestillingService(
-    private val dataSource: DataSource, // TODO Service burde ikke ha et forhold til datasource
     private val delbestillingRepository: DelbestillingRepository,
     private val pdlService: PdlService,
     private val oebsService: OebsService,
@@ -93,7 +90,7 @@ class DelbestillingService(
         val xkLagerInfo = if (levering == Levering.TIL_XK_LAGER) "XK-Lager " else ""
         val forsendelsesinfo = "${xkLagerInfo}Tekniker: $bestillersNavn"
 
-        val lagretSaksnummer = transaction(dataSource, returnGeneratedKey = true) { tx ->
+        val lagretSaksnummer = delbestillingRepository.withTransaction(returnGeneratedKeys = true) { tx ->
             val saksnummer = delbestillingRepository.lagreDelbestilling(
                 tx,
                 bestillerFnr,

@@ -1,7 +1,9 @@
 package no.nav.hjelpemidler.delbestilling.delbestilling
 
 import io.mockk.coEvery
+import io.mockk.just
 import io.mockk.mockk
+import io.mockk.runs
 import io.mockk.slot
 import kotlinx.coroutines.test.runTest
 import no.nav.hjelpemidler.delbestilling.MockException
@@ -32,7 +34,7 @@ internal class DelbestillingServiceTest {
     private val oebsService = mockk<OebsService>(relaxed = true).apply {
         coEvery { hentPersoninfo(any()) } returns listOf(OebsPersoninfo(brukersKommunenr))
     }
-    private val delbestillingService = DelbestillingService(ds, delbestillingRepository, pdlService, oebsService)
+    private val delbestillingService = DelbestillingService(delbestillingRepository, pdlService, oebsService)
 
     @BeforeEach
     fun setup() {
@@ -74,6 +76,10 @@ internal class DelbestillingServiceTest {
             delbestillingService.opprettDelbestilling(delbestillerRolle(), delbestillingRequest(), bestillerFnr)
         }
         assertEquals(0, delbestillingService.hentDelbestillinger(bestillerFnr).size)
+
+        coEvery { oebsService.sendDelbestilling(any()) } just runs
+        delbestillingService.opprettDelbestilling(delbestillerRolle(), delbestillingRequest(), bestillerFnr)
+        assertEquals(1, delbestillingService.hentDelbestillinger(bestillerFnr).size)
     }
 
     @Test

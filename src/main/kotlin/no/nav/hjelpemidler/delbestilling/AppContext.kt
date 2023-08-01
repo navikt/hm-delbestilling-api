@@ -44,7 +44,7 @@ class AppContext {
 
     val oebsService = OebsService(oebsApiProxyClient, oebsSinkClient)
 
-    val delbestillingService = DelbestillingService(ds, delbestillingRepository, pdlService, oebsService)
+    val delbestillingService = DelbestillingService(delbestillingRepository, pdlService, oebsService)
 
     val hjelpemidlerService = HjelpemidlerService()
 }
