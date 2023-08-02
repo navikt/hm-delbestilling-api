@@ -97,4 +97,15 @@ internal class DelbestillingServiceTest {
             .opprettDelbestilling(delbestillerRolle(), delbestillingRequest(), bestillerFnr)
         assertEquals(DelbestillingFeil.ULIK_ADRESSE_PDL_OEBS, resultat.feil)
     }
+
+    @Test
+    fun `skal oppdatere delbestilling status`() = runTest {
+        coEvery { oebsService.sendDelbestilling(any()) } just runs
+        delbestillingService.opprettDelbestilling(delbestillerRolle(), delbestillingRequest(), bestillerFnr)
+        val delbestilling = delbestillingService.hentDelbestillinger(bestillerFnr).first()
+        assertEquals(Status.INNSENDT, delbestilling.status)
+
+        delbestillingService.oppdaterStatus(delbestilling.saksnummer, Status.KLARGJORT)
+        assertEquals(Status.KLARGJORT, delbestillingService.hentDelbestillinger(bestillerFnr).first().status)
+    }
 }

@@ -1,0 +1,1 @@
+ALTER TABLE delbestilling ADD COLUMN status varchar NOT NULL DEFAULT 'KLARGJORT';

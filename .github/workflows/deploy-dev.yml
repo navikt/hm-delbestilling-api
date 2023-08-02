@@ -8,7 +8,7 @@ on:
       - "CODEOWNERS"
     branches:
       - main
-      - sbom
+      - delbestilling-status
 
 jobs:
   build-and-deploy:

@@ -115,6 +115,10 @@ class DelbestillingService(
         return DelbestillingResultat(id, null, saksnummer = lagretSaksnummer)
     }
 
+    fun oppdaterStatus(id: Long, status: Status) {
+        delbestillingRepository.oppdaterStatus(id, status)
+    }
+
     private fun validerDelbestillingRate(bestillerFnr: String, hmsnr: String, serienr: String): DelbestillingFeil? {
         if (isDev()) {
             return null // For enklere testing i dev
