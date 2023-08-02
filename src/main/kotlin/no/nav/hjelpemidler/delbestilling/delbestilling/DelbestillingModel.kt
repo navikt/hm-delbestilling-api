@@ -88,6 +88,7 @@ data class LagretDelbestilling(
     val delbestilling: Delbestilling,
     val opprettet: LocalDateTime,
     val status: Status,
+    val sistOppdatert: LocalDateTime,
 )
 
 typealias Hmsnr = String

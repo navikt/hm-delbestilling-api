@@ -62,6 +62,7 @@ class DelbestillingRepository(val ds: DataSource) {
                     it.json("delbestilling_json"),
                     it.localDateTime("opprettet"),
                     Status.valueOf(it.string("status")),
+                    it.localDateTime("sist_oppdatert"),
                 )
             }.asList
         )
