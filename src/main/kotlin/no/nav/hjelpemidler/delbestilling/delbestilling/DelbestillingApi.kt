@@ -86,5 +86,6 @@ fun Route.azureRoutes(
         val id = call.parameters["id"] ?: return@put call.respond(HttpStatusCode.BadRequest)
         val status = call.receive<Status>()
         delbestillingService.oppdaterStatus(id, status)
+        call.respond(HttpStatusCode.OK)
     }
 }
