@@ -19,7 +19,7 @@ class DelbestillingRepository(val ds: DataSource) {
     suspend inline fun <T> withTransaction(
         returnGeneratedKeys: Boolean = false,
         crossinline block: suspend (TransactionalSession) -> T,
-        ): T = transaction(ds, returnGeneratedKeys) { tx -> block(tx) }
+    ): T = transaction(ds, returnGeneratedKeys) { tx -> block(tx) }
 
     fun lagreDelbestilling(
         tx: Session,
@@ -60,25 +60,31 @@ class DelbestillingRepository(val ds: DataSource) {
                 LagretDelbestilling(
                     it.long("saksnummer"),
                     it.json("delbestilling_json"),
-                    it.localDateTime("opprettet")
+                    it.localDateTime("opprettet"),
+                    Status.valueOf(it.string("status")),
                 )
             }.asList
         )
     }
 
-    fun oppdaterStatus(id: String, status: Status): Unit = using(sessionOf(ds)) { session ->
-        session.run(
-            queryOf(
-                """
+    fun oppdaterStatus(id: Long, status: Status) {
+        try {
+            using(sessionOf(ds)) { session ->
+                session.run(
+                    queryOf(
+                        """
                     UPDATE delbestilling
-                    SET status = :status, sist_oppdatert = TIMESTAMP(CURRENT_TIMESTAMP)
-                    WHERE saksnummer = id
+                    SET status = :status, sist_oppdatert = CURRENT_TIMESTAMP
+                    WHERE saksnummer = :saksnummer
                 """.trimIndent(),
-                mapOf(
-                    "saksnummer" to id,
-                    "status" to status,
+                        mapOf("status" to status.name, "saksnummer" to id)
+                        )
+                        .asUpdate
                 )
-            ).asUpdate
-        )
+            }
+        } catch (e: Exception) {
+            log.error(e) { "Oppdatering av status feilet" }
+            throw e
+        }
     }
 }
