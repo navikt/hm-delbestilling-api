@@ -37,9 +37,9 @@ fun Application.setupRoutes() {
                 delbestillingApiAuthenticated(ctx.rolleService, ctx.delbestillingService)
             }
 
-            authenticate(AzureAuthenticator.name) {
+            //authenticate(AzureAuthenticator.name) {
                 azureRoutes(ctx.delbestillingService)
-            }
+            //}
 
             hjelpemiddelApi(ctx.hjelpemidlerService)
 
