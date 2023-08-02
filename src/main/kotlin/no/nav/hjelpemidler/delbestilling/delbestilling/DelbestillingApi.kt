@@ -85,7 +85,9 @@ fun Route.azureRoutes(
     put("/delbestilling/status/{id}") {
         val id = call.parameters["id"]?.toLong() ?: return@put call.respond(HttpStatusCode.BadRequest)
         val status = call.receive<Status>()
+        log.info {"Oppdaterer status for delbestilling $id (hmdel_$id) til status $status"}
         delbestillingService.oppdaterStatus(id, status)
         call.respond(HttpStatusCode.OK)
+        log.info {"Status for delbestilling $id (hmdel_$id) oppdatert OK"}
     }
 }
