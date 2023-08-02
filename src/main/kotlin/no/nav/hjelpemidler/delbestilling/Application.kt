@@ -26,11 +26,6 @@ fun Application.module() {
 fun Application.setupRoutes() {
     val ctx = AppContext()
 
-    installAuthenticators {
-        installAzureAuth {}
-        installTokenXAuth {}
-    }
-
     routing {
         route("/api") {
             authenticate(TokenXAuthenticator.name) {
