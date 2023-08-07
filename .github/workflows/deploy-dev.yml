@@ -8,7 +8,7 @@ on:
       - "CODEOWNERS"
     branches:
       - main
-      - delbestilling-status
+      - validering-antall
 
 jobs:
   build-and-deploy:
