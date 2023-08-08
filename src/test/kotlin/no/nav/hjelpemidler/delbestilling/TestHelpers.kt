@@ -19,26 +19,28 @@ fun delbestillerRolle(kanBestilleDeler: Boolean = true) = Delbestiller(
     erIPilot = true,
 )
 
-fun delbestillingRequest() = DelbestillingRequest(
+fun delbestillingRequest(deler: List<DelLinje> = deler()) = DelbestillingRequest(
     Delbestilling(
         id = UUID.randomUUID(),
-        hmsnr = "123456",
-        serienr = "123123",
-        deler = listOf(
-            DelLinje(
-                Del(
-                    navn = "del",
-                    hmsnr = "555555",
-                    levArtNr = "3333333",
-                    img = "",
-                    kategori = "dekk",
-                    maksAntall = 2,
-                ),
-                antall = 1,
-            )
-        ),
+        hmsnr = "236958",
+        serienr = "687273",
+        deler = deler,
         levering = Levering.TIL_XK_LAGER,
     )
+)
+
+fun deler() = listOf(delLinje())
+
+fun delLinje(antall: Int = 1) = DelLinje(
+    Del(
+        navn = "del",
+        hmsnr = "150817",
+        levArtNr = "1000038",
+        img = "",
+        kategori = "dekk",
+        maksAntall = 2,
+    ),
+    antall = antall,
 )
 
 class MockException(msg: String) : RuntimeException("MockException: $msg")
