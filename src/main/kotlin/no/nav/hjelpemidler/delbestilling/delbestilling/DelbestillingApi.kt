@@ -9,8 +9,8 @@ import io.ktor.server.routing.get
 import io.ktor.server.routing.post
 import io.ktor.server.routing.put
 import mu.KotlinLogging
-import no.nav.hjelpemidler.delbestilling.isProd
 import no.nav.hjelpemidler.delbestilling.roller.RolleService
+import no.nav.hjelpemidler.delbestilling.tokenXUser
 import no.nav.tms.token.support.tokenx.validation.user.TokenXUserFactory
 
 private val log = KotlinLogging.logger {}
@@ -39,20 +39,14 @@ fun Route.delbestillingApiPublic(
 }
 
 fun Route.delbestillingApiAuthenticated(
-    rolleService: RolleService,
     delbestillingService: DelbestillingService,
-    tokenXUserFactory: TokenXUserFactory = TokenXUserFactory,
 ) {
     post("/delbestilling") {
         try {
             val request = call.receive<DelbestillingRequest>()
-            val tokenXUser = tokenXUserFactory.createTokenXUser(call)
-            val bestillerFnr = tokenXUser.ident
+            val bestiller = call.tokenXUser()
 
-            val delbestillerRolle = rolleService.hentDelbestillerRolle(tokenXUser.tokenString)
-            log.info { "delbestillerRolleResponse: $delbestillerRolle" }
-
-            val resultat = delbestillingService.opprettDelbestilling(delbestillerRolle, request, bestillerFnr)
+            val resultat = delbestillingService.opprettDelbestilling(request, bestiller.ident, bestiller.tokenString)
 
             val statusKode = when (resultat.feil) {
                 DelbestillingFeil.INGET_UTLÅN -> HttpStatusCode.NotFound
@@ -73,7 +67,7 @@ fun Route.delbestillingApiAuthenticated(
     }
 
     get("/delbestilling") {
-        val bestillerFnr = tokenXUserFactory.createTokenXUser(call).ident
+        val bestillerFnr = call.tokenXUser().ident
         val delbestillinger = delbestillingService.hentDelbestillinger(bestillerFnr)
         call.respond(delbestillinger)
     }
@@ -85,9 +79,9 @@ fun Route.azureRoutes(
     put("/delbestilling/status/{id}") {
         val id = call.parameters["id"]?.toLong() ?: return@put call.respond(HttpStatusCode.BadRequest)
         val status = call.receive<Status>()
-        log.info {"Oppdaterer status for delbestilling $id (hmdel_$id) til status $status"}
+        log.info { "Oppdaterer status for delbestilling $id (hmdel_$id) til status $status" }
         delbestillingService.oppdaterStatus(id, status)
         call.respond(HttpStatusCode.OK)
-        log.info {"Status for delbestilling $id (hmdel_$id) oppdatert OK"}
+        log.info { "Status for delbestilling $id (hmdel_$id) oppdatert OK" }
     }
 }

@@ -14,6 +14,7 @@ import no.nav.hjelpemidler.delbestilling.oebs.OebsPersoninfo
 import no.nav.hjelpemidler.delbestilling.oebs.OebsService
 import no.nav.hjelpemidler.delbestilling.oebs.OpprettBestillingsordreRequest
 import no.nav.hjelpemidler.delbestilling.pdl.PdlService
+import no.nav.hjelpemidler.delbestilling.roller.RolleService
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
@@ -22,6 +23,7 @@ import kotlin.test.assertEquals
 internal class DelbestillingServiceTest {
 
     val bestillerFnr = "123"
+    val bestillerTokenString = "abc"
     val teknikerNavn = "Turid Tekniker"
     val brukersKommunenr = "1234"
 
@@ -34,7 +36,11 @@ internal class DelbestillingServiceTest {
     private val oebsService = mockk<OebsService>(relaxed = true).apply {
         coEvery { hentPersoninfo(any()) } returns listOf(OebsPersoninfo(brukersKommunenr))
     }
-    private val delbestillingService = DelbestillingService(delbestillingRepository, pdlService, oebsService)
+    private val rolleService = mockk<RolleService>(relaxed = true).apply {
+        coEvery { hentDelbestillerRolle(any()) } returns delbestillerRolle()
+    }
+    private val delbestillingService =
+        DelbestillingService(delbestillingRepository, pdlService, oebsService, rolleService)
 
     @BeforeEach
     fun setup() {
@@ -45,12 +51,12 @@ internal class DelbestillingServiceTest {
     fun `opprettDelbestilling happy path`() = runTest {
         assertEquals(0, delbestillingService.hentDelbestillinger(bestillerFnr).size)
 
-        delbestillingService.opprettDelbestilling(delbestillerRolle(), delbestillingRequest(), bestillerFnr)
+        delbestillingService.opprettDelbestilling(delbestillingRequest(), bestillerFnr, bestillerTokenString)
         var delebestillinger = delbestillingService.hentDelbestillinger(bestillerFnr)
         assertEquals(1, delebestillinger.size)
         assertEquals(1, delebestillinger.first().saksnummer)
 
-        delbestillingService.opprettDelbestilling(delbestillerRolle(), delbestillingRequest(), bestillerFnr)
+        delbestillingService.opprettDelbestilling(delbestillingRequest(), bestillerFnr, bestillerTokenString)
         delebestillinger = delbestillingService.hentDelbestillinger(bestillerFnr)
         assertEquals(2, delebestillinger.size)
         assertEquals(2, delebestillinger.last().saksnummer)
@@ -58,10 +64,10 @@ internal class DelbestillingServiceTest {
 
     @Test
     fun `tekniker kan max sende inn 2 delbestillinger per døgn`() = runTest {
-        delbestillingService.opprettDelbestilling(delbestillerRolle(), delbestillingRequest(), bestillerFnr)
-        delbestillingService.opprettDelbestilling(delbestillerRolle(), delbestillingRequest(), bestillerFnr)
+        delbestillingService.opprettDelbestilling(delbestillingRequest(), bestillerFnr, bestillerTokenString)
+        delbestillingService.opprettDelbestilling(delbestillingRequest(), bestillerFnr, bestillerTokenString)
         val resultat =
-            delbestillingService.opprettDelbestilling(delbestillerRolle(), delbestillingRequest(), bestillerFnr)
+            delbestillingService.opprettDelbestilling(delbestillingRequest(), bestillerFnr, bestillerTokenString)
         assertEquals(DelbestillingFeil.FOR_MANGE_BESTILLINGER_SISTE_24_TIMER, resultat.feil)
 
         val bestillinger = delbestillingService.hentDelbestillinger(bestillerFnr)
@@ -73,12 +79,12 @@ internal class DelbestillingServiceTest {
         coEvery { oebsService.sendDelbestilling(any()) } throws MockException("Kafka er nede")
         assertEquals(0, delbestillingService.hentDelbestillinger(bestillerFnr).size)
         assertThrows<MockException> {
-            delbestillingService.opprettDelbestilling(delbestillerRolle(), delbestillingRequest(), bestillerFnr)
+            delbestillingService.opprettDelbestilling(delbestillingRequest(), bestillerFnr, bestillerTokenString)
         }
         assertEquals(0, delbestillingService.hentDelbestillinger(bestillerFnr).size)
 
         coEvery { oebsService.sendDelbestilling(any()) } just runs
-        delbestillingService.opprettDelbestilling(delbestillerRolle(), delbestillingRequest(), bestillerFnr)
+        delbestillingService.opprettDelbestilling(delbestillingRequest(), bestillerFnr, bestillerTokenString)
         assertEquals(1, delbestillingService.hentDelbestillinger(bestillerFnr).size)
     }
 
@@ -86,7 +92,7 @@ internal class DelbestillingServiceTest {
     fun `skal sende med riktig info til 5-17 skjema`() = runTest {
         val slot = slot<OpprettBestillingsordreRequest>()
         coEvery { oebsService.sendDelbestilling(capture(slot)) } returns Unit
-        delbestillingService.opprettDelbestilling(delbestillerRolle(), delbestillingRequest(), bestillerFnr)
+        delbestillingService.opprettDelbestilling(delbestillingRequest(), bestillerFnr, bestillerTokenString)
         assertEquals("XK-Lager Tekniker: Turid Tekniker", slot.captured.forsendelsesinfo)
     }
 
@@ -94,14 +100,14 @@ internal class DelbestillingServiceTest {
     fun `skal feile dersom PDL og OEBS sine kommunenr er ulike for bruker`() = runTest {
         coEvery { oebsService.hentPersoninfo(any()) } returns listOf(OebsPersoninfo("0000"))
         val resultat = delbestillingService
-            .opprettDelbestilling(delbestillerRolle(), delbestillingRequest(), bestillerFnr)
+            .opprettDelbestilling(delbestillingRequest(), bestillerFnr, bestillerTokenString)
         assertEquals(DelbestillingFeil.ULIK_ADRESSE_PDL_OEBS, resultat.feil)
     }
 
     @Test
     fun `skal oppdatere delbestilling status`() = runTest {
         coEvery { oebsService.sendDelbestilling(any()) } just runs
-        delbestillingService.opprettDelbestilling(delbestillerRolle(), delbestillingRequest(), bestillerFnr)
+        delbestillingService.opprettDelbestilling(delbestillingRequest(), bestillerFnr, bestillerTokenString)
         val delbestilling = delbestillingService.hentDelbestillinger(bestillerFnr).first()
         assertEquals(Status.INNSENDT, delbestilling.status)
 

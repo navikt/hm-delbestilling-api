@@ -13,6 +13,8 @@ import no.nav.hjelpemidler.delbestilling.oebs.OebsService
 import no.nav.hjelpemidler.delbestilling.oebs.OpprettBestillingsordreRequest
 import no.nav.hjelpemidler.delbestilling.pdl.PdlService
 import no.nav.hjelpemidler.delbestilling.roller.Delbestiller
+import no.nav.hjelpemidler.delbestilling.roller.RolleService
+import no.nav.tms.token.support.tokenx.validation.user.TokenXUser
 import java.time.LocalDateTime
 
 private val log = KotlinLogging.logger {}
@@ -21,16 +23,19 @@ class DelbestillingService(
     private val delbestillingRepository: DelbestillingRepository,
     private val pdlService: PdlService,
     private val oebsService: OebsService,
+    private val rolleService: RolleService,
 ) {
 
     suspend fun opprettDelbestilling(
-        delbestillerRolle: Delbestiller,
         request: DelbestillingRequest,
         bestillerFnr: String,
+        tokenString: String,
     ): DelbestillingResultat {
         val id = request.delbestilling.id
         val hmsnr = request.delbestilling.hmsnr
         val serienr = request.delbestilling.serienr
+
+        val delbestillerRolle = rolleService.hentDelbestillerRolle(tokenString)
 
         validerDelbestillerTilgang(delbestillerRolle)
         val feil = validerDelbestillingRate(bestillerFnr, hmsnr, serienr)
