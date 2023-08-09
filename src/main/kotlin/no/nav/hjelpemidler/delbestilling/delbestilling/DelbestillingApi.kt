@@ -8,6 +8,7 @@ import io.ktor.server.routing.Route
 import io.ktor.server.routing.get
 import io.ktor.server.routing.post
 import io.ktor.server.routing.put
+import io.ktor.server.util.getOrFail
 import mu.KotlinLogging
 import no.nav.hjelpemidler.delbestilling.roller.RolleService
 import no.nav.hjelpemidler.delbestilling.tokenXUser
@@ -77,7 +78,7 @@ fun Route.azureRoutes(
     delbestillingService: DelbestillingService,
 ) {
     put("/delbestilling/status/{id}") {
-        val id = call.parameters["id"]?.toLong() ?: return@put call.respond(HttpStatusCode.BadRequest)
+        val id = call.parameters.getOrFail<Long>("id")
         val status = call.receive<Status>()
         log.info { "Oppdaterer status for delbestilling $id (hmdel_$id) til status $status" }
         delbestillingService.oppdaterStatus(id, status)

@@ -3,6 +3,7 @@ package no.nav.hjelpemidler.delbestilling.exceptions
 import io.ktor.http.HttpStatusCode
 import io.ktor.server.application.Application
 import io.ktor.server.application.install
+import io.ktor.server.plugins.MissingRequestParameterException
 import io.ktor.server.plugins.requestvalidation.RequestValidationException
 import io.ktor.server.plugins.statuspages.StatusPages
 import io.ktor.server.response.respond
@@ -46,6 +47,11 @@ fun Application.configureStatusPages() {
         exception<Exception> { call, cause ->
             log.error(cause) { "Unhandled exception." }
             call.respond(HttpStatusCode.InternalServerError)
+        }
+        exception<MissingRequestParameterException> {call, cause ->
+            val message = "Mangler \"${cause.parameterName}\" parameter i request"
+            log.error(cause) { message }
+            call.respond(HttpStatusCode.BadRequest, message)
         }
     }
 }
