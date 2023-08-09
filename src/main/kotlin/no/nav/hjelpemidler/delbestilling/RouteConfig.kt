@@ -28,7 +28,6 @@ import org.slf4j.event.Level
 import java.util.TimeZone
 import kotlin.time.Duration.Companion.seconds
 
-
 fun Application.configure() {
     TimeZone.setDefault(TimeZone.getTimeZone("Europe/Oslo"))
 
@@ -81,6 +80,9 @@ fun Application.configure() {
 }
 
 private fun toValidationResult(feilmeldinger: List<String>): ValidationResult {
-    return if (feilmeldinger.isEmpty()) ValidationResult.Valid
-    else ValidationResult.Invalid(feilmeldinger)
+    return if (feilmeldinger.isEmpty()) {
+        ValidationResult.Valid
+    } else {
+        ValidationResult.Invalid(feilmeldinger)
+    }
 }

@@ -23,6 +23,4 @@ class OebsSinkClient(
             throw t
         }
     }
-
 }
-

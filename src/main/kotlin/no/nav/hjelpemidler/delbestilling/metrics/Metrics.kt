@@ -13,7 +13,6 @@ class Metrics(
         tags: Map<String, String>,
         fields: Map<String, Any> = mapOf("counter" to 1L),
     ) {
-
         try {
             kafkaService.hendelseOpprettet(measurement, fields, tags)
         } catch (e: Exception) {

@@ -15,7 +15,7 @@ import no.nav.tms.token.support.tokenx.validation.user.TokenXUserFactory
 
 private val log = KotlinLogging.logger {}
 
-fun Route.delbestillingApi(
+fun Route.delbestillingApiPublic(
     delbestillingService: DelbestillingService,
 ) {
     post("/oppslag") {

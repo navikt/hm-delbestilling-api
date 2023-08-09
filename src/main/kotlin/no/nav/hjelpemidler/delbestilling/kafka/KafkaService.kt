@@ -69,7 +69,6 @@ class KafkaService(
         log.info("received shutdown signal, stopping app")
         producer.close()
     }
-
 }
 
 private val jsonMapper: JsonMapper = jacksonMapperBuilder()

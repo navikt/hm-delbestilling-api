@@ -9,7 +9,6 @@ import mu.KotlinLogging
 import no.nav.hjelpemidler.database.transaction
 import no.nav.hjelpemidler.delbestilling.json
 import no.nav.hjelpemidler.delbestilling.jsonMapper
-import java.time.LocalDateTime
 import javax.sql.DataSource
 
 private val log = KotlinLogging.logger {}
@@ -46,7 +45,6 @@ class DelbestillingRepository(val ds: DataSource) {
         )
     }
 
-
     fun hentDelbestillinger(bestillerFnr: String): List<LagretDelbestilling> = using(sessionOf(ds)) { session ->
         session.run(
             queryOf(
@@ -77,9 +75,9 @@ class DelbestillingRepository(val ds: DataSource) {
                     UPDATE delbestilling
                     SET status = :status, sist_oppdatert = CURRENT_TIMESTAMP
                     WHERE saksnummer = :saksnummer
-                """.trimIndent(),
+                        """.trimIndent(),
                         mapOf("status" to status.name, "saksnummer" to id)
-                        )
+                    )
                         .asUpdate
                 )
             }

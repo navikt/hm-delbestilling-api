@@ -32,7 +32,6 @@ fun validateDelLinje(delLinje: DelLinje): List<String> {
     return feilmeldinger
 }
 
-
 fun validateDel(del: Del) = listOf(
     validateHmsnr(del.hmsnr),
     listOfNotNull(
@@ -40,12 +39,10 @@ fun validateDel(del: Del) = listOf(
     )
 ).flatten()
 
-
 fun validateHmsnr(hmsnr: Hmsnr) = listOfNotNull(
     if (hmsnr.length != 6) "Hmsnr må ha 6 siffer" else null,
     if (hmsnr.any { !it.isDigit() }) "Hmsnr skal kun bestå av tall" else null,
 )
-
 
 fun validateSerienr(serienr: Serienr) = listOfNotNull(
     if (serienr.length != 6) "Serienr må ha 6 siffer" else null,

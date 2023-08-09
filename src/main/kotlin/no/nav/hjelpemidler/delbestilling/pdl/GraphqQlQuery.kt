@@ -16,11 +16,11 @@ private fun hentQuery(navn: String) =
 
 data class GraphqlQuery(
     val query: String,
-    val variables: Variables
+    val variables: Variables,
 )
 
 interface Variables
 
 data class IdentVariables(
-    val ident: String
+    val ident: String,
 ) : Variables

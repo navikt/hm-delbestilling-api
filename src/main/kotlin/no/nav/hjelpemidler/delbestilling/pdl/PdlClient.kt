@@ -92,7 +92,7 @@ class PdlClient(
     }
 
     private fun loggAdvarsler(response: PdlPersonResponse) {
-        response.extensions?.warnings?.forEach{ pdlWarning ->
+        response.extensions?.warnings?.forEach { pdlWarning ->
             if (pdlWarning.details.isNullOrEmpty()) {
                 log.warn { pdlWarning.message }
             } else {
@@ -100,25 +100,25 @@ class PdlClient(
             }
         }
     }
-
 }
 
 data class PdlPersonResponse(
     val errors: List<PdlError> = emptyList(),
     val data: PdlHentPerson?,
-    val extensions: PdlExtensions? = null
+    val extensions: PdlExtensions? = null,
 )
 
 data class PdlExtensions(
-    val warnings: List<PdlWarning> = emptyList()
+    val warnings: List<PdlWarning> = emptyList(),
 )
 
 data class PdlWarning(
     val query: String,
     val id: String,
     val message: String,
-    val details: String?
+    val details: String?,
 )
+
 data class PdlHentPerson(
     val hentPerson: PdlPerson?,
 )
