@@ -37,7 +37,6 @@ class DelbestillingService(
 
         val delbestillerRolle = rolleService.hentDelbestillerRolle(tokenString)
 
-        validerDelbestillerTilgang(delbestillerRolle)
         val feil = validerDelbestillingRate(bestillerFnr, hmsnr, serienr)
         if (feil != null) {
             return DelbestillingResultat(id, feil = feil)
@@ -138,12 +137,6 @@ class DelbestillingService(
             return DelbestillingFeil.FOR_MANGE_BESTILLINGER_SISTE_24_TIMER
         }
         return null
-    }
-
-    private fun validerDelbestillerTilgang(delbestillerRolle: Delbestiller) {
-        if (!delbestillerRolle.kanBestilleDeler) {
-            throw TilgangException("Innlogget bruker mangler tilgang til å bestille deler")
-        }
     }
 
     suspend fun slåOppHjelpemiddel(hmsnr: String, serienr: String): OppslagResultat {

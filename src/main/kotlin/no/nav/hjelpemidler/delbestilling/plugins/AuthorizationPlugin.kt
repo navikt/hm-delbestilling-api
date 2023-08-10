@@ -24,8 +24,7 @@ val AuthorizationPlugin = createRouteScopedPlugin(
 
                 val resultat = rolleService.hentDelbestillerRolle(bestiller.tokenString)
 
-                // if (!resultat.kanBestilleDeler) {
-                if (true) {
+                if (!resultat.kanBestilleDeler) {
                     call.respond(HttpStatusCode.Forbidden, "Du har ikke rettigheter til å gjøre dette")
                 }
             } catch (e: Exception) {
