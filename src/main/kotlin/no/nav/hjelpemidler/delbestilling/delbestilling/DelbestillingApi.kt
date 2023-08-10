@@ -11,7 +11,7 @@ import io.ktor.server.routing.post
 import io.ktor.server.routing.put
 import io.ktor.server.util.getOrFail
 import mu.KotlinLogging
-import no.nav.hjelpemidler.delbestilling.plugins.AuthorizationPlugin
+import no.nav.hjelpemidler.delbestilling.plugins.DelbestillerRollePlugin
 import no.nav.hjelpemidler.delbestilling.tokenXUser
 
 private val log = KotlinLogging.logger {}
@@ -88,6 +88,6 @@ fun Route.azureRoutes(
 }
 
 fun Route.medDelbestillerRolle(authorizedRoutes: Route.() -> Unit) = createChild(selector).apply {
-    install(AuthorizationPlugin)
+    install(DelbestillerRollePlugin)
     authorizedRoutes()
 }

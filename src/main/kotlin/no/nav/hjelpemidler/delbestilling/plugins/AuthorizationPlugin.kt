@@ -10,8 +10,8 @@ import no.nav.hjelpemidler.delbestilling.tokenXUser
 
 private val log = KotlinLogging.logger {}
 
-val AuthorizationPlugin = createRouteScopedPlugin(
-    name = "AuthorizationPlugin",
+val DelbestillerRollePlugin = createRouteScopedPlugin(
+    name = "DelbestillerRollePlugin",
 ) {
     pluginConfig.apply {
         on(AuthenticationChecked) { call ->
