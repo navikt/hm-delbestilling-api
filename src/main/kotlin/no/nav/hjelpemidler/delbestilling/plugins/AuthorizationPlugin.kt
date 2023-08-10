@@ -1,7 +1,9 @@
 package no.nav.hjelpemidler.delbestilling.plugins
 
+import io.ktor.http.HttpStatusCode
 import io.ktor.server.application.createRouteScopedPlugin
 import io.ktor.server.auth.AuthenticationChecked
+import io.ktor.server.response.respond
 import mu.KotlinLogging
 import no.nav.hjelpemidler.delbestilling.AppContext
 import no.nav.hjelpemidler.delbestilling.tokenXUser
@@ -13,19 +15,23 @@ val AuthorizationPlugin = createRouteScopedPlugin(
 ) {
     pluginConfig.apply {
         on(AuthenticationChecked) { call ->
+            try {
+                // TODO: er dette OK?
+                val ctx = AppContext()
+                val rolleService = ctx.rolleService
 
-            // TODO: er dette OK?
-            val ctx = AppContext()
-            val rolleService = ctx.rolleService
+                val bestiller = call.tokenXUser()
 
-            val bestiller = call.tokenXUser()
-            val bestillerFnr = bestiller.ident
+                val resultat = rolleService.hentDelbestillerRolle(bestiller.tokenString)
 
-            val resultat = rolleService.hentDelbestillerRolle(bestiller.tokenString)
-
-            log.info { "delbestillerrolle resultat: $resultat" }
-
-            log.info { "bestillerFnr: $bestillerFnr" }
+                // if (!resultat.kanBestilleDeler) {
+                if (true) {
+                    call.respond(HttpStatusCode.Forbidden, "Du har ikke rettigheter til å gjøre dette")
+                }
+            } catch (e: Exception) {
+                log.error(e) { "Kunne ikke rolle med AuthorizationPlugin " }
+                throw e
+            }
         }
     }
 }
