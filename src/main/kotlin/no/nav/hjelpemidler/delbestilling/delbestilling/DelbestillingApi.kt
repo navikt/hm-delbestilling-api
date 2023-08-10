@@ -2,6 +2,7 @@ package no.nav.hjelpemidler.delbestilling.delbestilling
 
 import io.ktor.http.HttpStatusCode
 import io.ktor.server.application.call
+import io.ktor.server.application.install
 import io.ktor.server.request.receive
 import io.ktor.server.response.respond
 import io.ktor.server.routing.Route
@@ -10,9 +11,8 @@ import io.ktor.server.routing.post
 import io.ktor.server.routing.put
 import io.ktor.server.util.getOrFail
 import mu.KotlinLogging
-import no.nav.hjelpemidler.delbestilling.roller.RolleService
+import no.nav.hjelpemidler.delbestilling.plugins.AuthorizationPlugin
 import no.nav.hjelpemidler.delbestilling.tokenXUser
-import no.nav.tms.token.support.tokenx.validation.user.TokenXUserFactory
 
 private val log = KotlinLogging.logger {}
 
@@ -85,4 +85,9 @@ fun Route.azureRoutes(
         call.respond(HttpStatusCode.OK)
         log.info { "Status for delbestilling $id (hmdel_$id) oppdatert OK" }
     }
+}
+
+fun Route.medDelbestillerRolle(authorizedRoutes: Route.() -> Unit) = createChild(selector).apply {
+    install(AuthorizationPlugin)
+    authorizedRoutes()
 }
