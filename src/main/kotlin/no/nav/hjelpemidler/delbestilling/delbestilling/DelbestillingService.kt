@@ -4,7 +4,6 @@ import io.ktor.http.HttpStatusCode
 import mu.KotlinLogging
 import no.nav.hjelpemidler.delbestilling.exceptions.PersonNotAccessibleInPdl
 import no.nav.hjelpemidler.delbestilling.exceptions.PersonNotFoundInPdl
-import no.nav.hjelpemidler.delbestilling.exceptions.TilgangException
 import no.nav.hjelpemidler.delbestilling.hjelpemidler.HjelpemiddelDeler
 import no.nav.hjelpemidler.delbestilling.isDev
 import no.nav.hjelpemidler.delbestilling.isProd
@@ -12,9 +11,7 @@ import no.nav.hjelpemidler.delbestilling.oebs.Artikkel
 import no.nav.hjelpemidler.delbestilling.oebs.OebsService
 import no.nav.hjelpemidler.delbestilling.oebs.OpprettBestillingsordreRequest
 import no.nav.hjelpemidler.delbestilling.pdl.PdlService
-import no.nav.hjelpemidler.delbestilling.roller.Delbestiller
 import no.nav.hjelpemidler.delbestilling.roller.RolleService
-import no.nav.tms.token.support.tokenx.validation.user.TokenXUser
 import java.time.LocalDateTime
 
 private val log = KotlinLogging.logger {}
