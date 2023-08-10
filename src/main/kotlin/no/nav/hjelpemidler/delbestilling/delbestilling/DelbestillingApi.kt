@@ -87,7 +87,7 @@ fun Route.azureRoutes(
     }
 }
 
-fun Route.medDelbestillerRolle(authorizedRoutes: Route.() -> Unit) = createChild(selector).apply {
+fun Route.medDelbestillerRolle(routes: Route.() -> Unit) = createChild(selector).apply {
     install(DelbestillerRollePlugin)
-    authorizedRoutes()
+    routes()
 }
