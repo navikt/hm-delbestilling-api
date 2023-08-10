@@ -16,7 +16,6 @@ val DelbestillerRollePlugin = createRouteScopedPlugin(
     pluginConfig.apply {
         on(AuthenticationChecked) { call ->
             try {
-                // TODO: er dette OK?
                 val ctx = AppContext()
                 val rolleService = ctx.rolleService
 
