@@ -32,7 +32,7 @@ val DelbestillerRollePlugin = createRouteScopedPlugin(
                 call.respond(HttpStatusCode.Forbidden, "Du har ikke rettigheter til å gjøre dette")
             }
         } catch (e: Exception) {
-            log.error(e) { "Kunne ikke rolle med AuthorizationPlugin " }
+            log.error(e) { "Kunne ikke sjekke rolle med DelbestillerRollePlugin " }
             throw e
         }
     }
