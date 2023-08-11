@@ -8,7 +8,7 @@ on:
       - "CODEOWNERS"
     branches:
       - main
-      - validering-antall
+      - authorizationPlugin
 
 jobs:
   build-and-deploy:

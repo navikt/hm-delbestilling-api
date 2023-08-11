@@ -4,7 +4,6 @@ import io.ktor.http.HttpStatusCode
 import mu.KotlinLogging
 import no.nav.hjelpemidler.delbestilling.exceptions.PersonNotAccessibleInPdl
 import no.nav.hjelpemidler.delbestilling.exceptions.PersonNotFoundInPdl
-import no.nav.hjelpemidler.delbestilling.exceptions.TilgangException
 import no.nav.hjelpemidler.delbestilling.hjelpemidler.HjelpemiddelDeler
 import no.nav.hjelpemidler.delbestilling.isDev
 import no.nav.hjelpemidler.delbestilling.isProd
@@ -12,9 +11,7 @@ import no.nav.hjelpemidler.delbestilling.oebs.Artikkel
 import no.nav.hjelpemidler.delbestilling.oebs.OebsService
 import no.nav.hjelpemidler.delbestilling.oebs.OpprettBestillingsordreRequest
 import no.nav.hjelpemidler.delbestilling.pdl.PdlService
-import no.nav.hjelpemidler.delbestilling.roller.Delbestiller
 import no.nav.hjelpemidler.delbestilling.roller.RolleService
-import no.nav.tms.token.support.tokenx.validation.user.TokenXUser
 import java.time.LocalDateTime
 
 private val log = KotlinLogging.logger {}
@@ -37,7 +34,6 @@ class DelbestillingService(
 
         val delbestillerRolle = rolleService.hentDelbestillerRolle(tokenString)
 
-        validerDelbestillerTilgang(delbestillerRolle)
         val feil = validerDelbestillingRate(bestillerFnr, hmsnr, serienr)
         if (feil != null) {
             return DelbestillingResultat(id, feil = feil)
@@ -138,12 +134,6 @@ class DelbestillingService(
             return DelbestillingFeil.FOR_MANGE_BESTILLINGER_SISTE_24_TIMER
         }
         return null
-    }
-
-    private fun validerDelbestillerTilgang(delbestillerRolle: Delbestiller) {
-        if (!delbestillerRolle.kanBestilleDeler) {
-            throw TilgangException("Innlogget bruker mangler tilgang til å bestille deler")
-        }
     }
 
     suspend fun slåOppHjelpemiddel(hmsnr: String, serienr: String): OppslagResultat {

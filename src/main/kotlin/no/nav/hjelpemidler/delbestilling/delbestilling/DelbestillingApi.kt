@@ -10,9 +10,7 @@ import io.ktor.server.routing.post
 import io.ktor.server.routing.put
 import io.ktor.server.util.getOrFail
 import mu.KotlinLogging
-import no.nav.hjelpemidler.delbestilling.roller.RolleService
 import no.nav.hjelpemidler.delbestilling.tokenXUser
-import no.nav.tms.token.support.tokenx.validation.user.TokenXUserFactory
 
 private val log = KotlinLogging.logger {}
 
