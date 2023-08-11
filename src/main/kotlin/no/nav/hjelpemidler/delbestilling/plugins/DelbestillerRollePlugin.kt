@@ -27,7 +27,6 @@ val DelbestillerRollePlugin = createRouteScopedPlugin(
             val bestiller = call.tokenXUser()
 
             val resultat = rolleService.hentDelbestillerRolle(bestiller.tokenString)
-            log.info { "resultat: $resultat" }
 
             if (!resultat.kanBestilleDeler) {
                 call.respond(HttpStatusCode.Forbidden, "Du har ikke rettigheter til å gjøre dette")
