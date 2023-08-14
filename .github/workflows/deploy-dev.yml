@@ -41,7 +41,7 @@ jobs:
       TEAM: "teamdigihot"
       JAVA_VERSION: "17"
       NAIS_RESOURCE: ".nais/nais-dev.yaml"
-      NAIS_VARS: "/dev/null"
+      NAIS_VARS: ".nais/vars.yaml"
     secrets:
       NAIS_DEPLOY_APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY }}
       NAIS_WORKLOAD_IDENTITY_PROVIDER: ${{ secrets.NAIS_WORKLOAD_IDENTITY_PROVIDER }}
