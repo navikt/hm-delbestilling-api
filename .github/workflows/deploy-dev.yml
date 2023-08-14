@@ -8,7 +8,7 @@ on:
       - "CODEOWNERS"
     branches:
       - main
-      - authorizationPlugin
+      - pam-deploy-test
 
 jobs:
   build-and-upload-dependency-graph:
