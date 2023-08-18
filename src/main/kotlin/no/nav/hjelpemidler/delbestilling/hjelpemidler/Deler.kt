@@ -28,6 +28,14 @@ val delerPerHjelpemiddel = mapOf(
             maksAntall = 2,
             img = "https://storage.googleapis.com/hm_delbestilling_bilder/304570.png",
         ),
+        Del(
+            "249612",
+            "Batterilader 10Ah",
+            levArtNr = "SP1606544",
+            kategori = "Lader",
+            maksAntall = 2,
+            img = "https://storage.googleapis.com/hm_delbestilling_bilder/249612.jpg",
+        ),
     ),
     "Orion" to listOf(
         Del(
@@ -53,6 +61,14 @@ val delerPerHjelpemiddel = mapOf(
             maksAntall = 2,
             img = "https://storage.googleapis.com/hm_delbestilling_bilder/256634.png",
         ),
+        Del(
+            "249612",
+            "Batterilader 10Ah",
+            levArtNr = "SP1606544",
+            kategori = "Lader",
+            maksAntall = 2,
+            img = "https://storage.googleapis.com/hm_delbestilling_bilder/249612.jpg",
+        ),
     ),
     "Minicrosser 125T" to listOf(
         Del(
@@ -67,6 +83,14 @@ val delerPerHjelpemiddel = mapOf(
             "Batteri 80A inkl poler",
             kategori = "Batteri",
             maksAntall = 2,
+        ),
+        Del(
+            "302543",
+            "Batterilader 10Ah",
+            kategori = "Lader",
+            maksAntall = 2,
+            levArtNr = "1523-1103",
+            img = "https://storage.googleapis.com/hm_delbestilling_bilder/302543.jpg",
         ),
     ),
     "Minicrosser M" to listOf(
@@ -84,6 +108,14 @@ val delerPerHjelpemiddel = mapOf(
             kategori = "Batteri",
             maksAntall = 2,
             img = "https://storage.googleapis.com/hm_delbestilling_bilder/263773.png",
+        ),
+        Del(
+            "302543",
+            "Batterilader 10Ah",
+            kategori = "Lader",
+            maksAntall = 2,
+            levArtNr = "1523-1103",
+            img = "https://storage.googleapis.com/hm_delbestilling_bilder/302543.jpg",
         ),
     ),
     "Minicrosser X" to listOf(
@@ -117,6 +149,14 @@ val delerPerHjelpemiddel = mapOf(
             maksAntall = 2,
             img = "https://storage.googleapis.com/hm_delbestilling_bilder/263773.png",
         ),
+        Del(
+            "302543",
+            "Batterilader 10Ah",
+            kategori = "Lader",
+            maksAntall = 2,
+            levArtNr = "1523-1103",
+            img = "https://storage.googleapis.com/hm_delbestilling_bilder/302543.jpg",
+        ),
     ),
     "Minicrosser T" to listOf(
         Del(
@@ -131,6 +171,14 @@ val delerPerHjelpemiddel = mapOf(
             "Batteri 80A inkl poler",
             kategori = "Batteri",
             maksAntall = 2,
+        ),
+        Del(
+            "302543",
+            "Batterilader 10Ah",
+            kategori = "Lader",
+            maksAntall = 2,
+            levArtNr = "1523-1103",
+            img = "https://storage.googleapis.com/hm_delbestilling_bilder/302543.jpg",
         ),
     ),
     "Panthera" to listOf(
@@ -251,6 +299,13 @@ val delerPerHjelpemiddel = mapOf(
             maksAntall = 2,
             img = "https://storage.googleapis.com/hm_delbestilling_bilder/196027.png",
         ),
+        Del(
+            "309225",
+            "Batterilader 10Ah",
+            levArtNr = "1836502",
+            kategori = "Lader",
+            maksAntall = 2,
+        ),
     ),
     "X850S" to listOf(
         Del(
@@ -266,6 +321,13 @@ val delerPerHjelpemiddel = mapOf(
             "Hjul bak",
             levArtNr = "1838057",
             kategori = "Hjul",
+            maksAntall = 2,
+        ),
+        Del(
+            "309225",
+            "Batterilader 10Ah",
+            levArtNr = "1836502",
+            kategori = "Lader",
             maksAntall = 2,
         ),
     ),

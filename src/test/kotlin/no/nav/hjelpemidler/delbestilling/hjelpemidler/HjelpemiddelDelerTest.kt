@@ -1,6 +1,7 @@
 package no.nav.hjelpemidler.delbestilling.hjelpemidler
-import no.nav.hjelpemidler.delbestilling.hjelpemidler.HjelpemiddelDeler.hentHjelpemiddelMedDeler
+
 import no.nav.hjelpemidler.delbestilling.hjelpemidler.HjelpemiddelDeler.hentAlleHjelpemidlerMedDeler
+import no.nav.hjelpemidler.delbestilling.hjelpemidler.HjelpemiddelDeler.hentHjelpemiddelMedDeler
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 
@@ -26,9 +27,9 @@ internal class HjelpemiddelDelerTest {
         val hjelpemidlerMedDeler = hentAlleHjelpemidlerMedDeler()
         val hjelpemiddel = hjelpemidlerMedDeler.first()
         val deler = hjelpemiddel!!.deler!!
-        
+
         assertEquals(13, deler.size)
-        assertEquals( 526, hjelpemidlerMedDeler.size)
+        assertEquals(526, hjelpemidlerMedDeler.size)
     }
 
     @Test
@@ -38,7 +39,7 @@ internal class HjelpemiddelDelerTest {
         assertNotNull(hjelpemiddel)
 
         val deler = hjelpemiddel!!.deler!!
-        assertEquals(2, deler.size)
+        assertEquals(3, deler.size)
 
         assertEquals("200842", deler[0].hmsnr)
         assertEquals("Hjul foran/bak", deler[0].navn)
