@@ -24,6 +24,7 @@ import kotlinx.coroutines.withContext
 import mu.KotlinLogging
 import no.nav.hjelpemidler.delbestilling.Config
 import no.nav.hjelpemidler.delbestilling.isDev
+import no.nav.hjelpemidler.delbestilling.navCorrelationId
 import no.nav.hjelpemidler.http.createHttpClient
 import no.nav.hjelpemidler.http.openid.OpenIDClient
 import no.nav.hjelpemidler.http.openid.bearerAuth
@@ -68,6 +69,7 @@ class OebsApiProxyClient(
                 val httpResponse = client.request("$baseUrl/utlanSerienrArtnr") {
                     method = HttpMethod.Post
                     bearerAuth(tokenSet)
+                    navCorrelationId()
                     setBody(UtlånPåArtnrOgSerienrRequest(artnr, serienr))
                 }
                 val response = httpResponse.body<UtlånPåArtnrOgSerienrResponse>()
@@ -91,6 +93,7 @@ class OebsApiProxyClient(
                 val httpResponse = client.request("$baseUrl/getLeveringsaddresse") {
                     method = HttpMethod.Post
                     bearerAuth(tokenSet)
+                    navCorrelationId()
                     setBody(fnr)
                 }
                 httpResponse.body()

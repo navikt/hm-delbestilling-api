@@ -15,6 +15,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import mu.KotlinLogging
 import no.nav.hjelpemidler.delbestilling.Config
+import no.nav.hjelpemidler.delbestilling.navCorrelationId
 import no.nav.hjelpemidler.http.createHttpClient
 import no.nav.tms.token.support.tokendings.exchange.TokendingsService
 
@@ -47,6 +48,7 @@ class RolleClient(
                 client.get("$url/api/delbestiller") {
                     headers {
                         header("Authorization", "Bearer $exchangedToken")
+                        navCorrelationId()
                     }
                 }.body()
             }

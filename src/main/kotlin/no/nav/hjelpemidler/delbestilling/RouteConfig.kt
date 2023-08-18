@@ -60,11 +60,11 @@ fun Application.configure() {
         format { call ->
             "[${call.request.httpMethod.value}] ${call.request.uri}"
         }
-        callIdMdc("call-id")
+        callIdMdc(NAV_CORRELATION_ID_KEY)
     }
 
     install(CallId) {
-        header(HttpHeaders.XCorrelationId)
+        header(NAV_CORRELATION_ID_KEY)
         generate(10, CALL_ID_DEFAULT_DICTIONARY)
     }
 

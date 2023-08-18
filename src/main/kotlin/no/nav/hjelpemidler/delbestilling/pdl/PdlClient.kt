@@ -19,6 +19,7 @@ import no.nav.hjelpemidler.delbestilling.exceptions.PdlRequestFailedException
 import no.nav.hjelpemidler.delbestilling.exceptions.PdlResponseMissingData
 import no.nav.hjelpemidler.delbestilling.exceptions.PersonNotAccessibleInPdl
 import no.nav.hjelpemidler.delbestilling.exceptions.PersonNotFoundInPdl
+import no.nav.hjelpemidler.delbestilling.navCorrelationId
 import no.nav.hjelpemidler.http.createHttpClient
 import no.nav.hjelpemidler.http.openid.OpenIDClient
 import no.nav.hjelpemidler.http.openid.bearerAuth
@@ -84,7 +85,7 @@ class PdlClient(
                 bearerAuth(tokenSet)
                 headers {
                     header("Tema", "HJE")
-                    header("X-Correlation-ID", UUID.randomUUID().toString())
+                    navCorrelationId()
                 }
                 setBody(pdlQuery)
             }.body()
