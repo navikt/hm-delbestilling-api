@@ -3,9 +3,14 @@ package no.nav.hjelpemidler.delbestilling
 import com.fasterxml.jackson.databind.DeserializationFeature
 import com.fasterxml.jackson.databind.SerializationFeature
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
+import io.ktor.http.HttpHeaders
 import io.ktor.serialization.jackson.jackson
 import io.ktor.server.application.Application
 import io.ktor.server.application.install
+import io.ktor.server.plugins.callid.CALL_ID_DEFAULT_DICTIONARY
+import io.ktor.server.plugins.callid.CallId
+import io.ktor.server.plugins.callid.callIdMdc
+import io.ktor.server.plugins.callid.generate
 import io.ktor.server.plugins.callloging.CallLogging
 import io.ktor.server.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.server.plugins.ratelimit.RateLimit
@@ -55,6 +60,12 @@ fun Application.configure() {
         format { call ->
             "[${call.request.httpMethod.value}] ${call.request.uri}"
         }
+        callIdMdc("call-id")
+    }
+
+    install(CallId) {
+        header(HttpHeaders.XCorrelationId)
+        generate(10, CALL_ID_DEFAULT_DICTIONARY)
     }
 
     install(RequestValidation) {
