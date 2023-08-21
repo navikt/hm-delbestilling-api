@@ -9,7 +9,7 @@ fun lagHjelpemidler(): List<Hjelpemiddel> {
     val linjer = object {}.javaClass.getResourceAsStream("/hjelpemidler.txt")!!.bufferedReader().readLines()
 
     val hjelpemidler = linjer.map { linje ->
-        val (hmsnr, navn, type) = linje.split("  ")
+        val (hmsnr, navn, type) = linje.split("|")
         Hjelpemiddel(hmsnr, navn, type)
     }
 
