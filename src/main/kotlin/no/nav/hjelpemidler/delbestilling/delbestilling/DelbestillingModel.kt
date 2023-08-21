@@ -64,7 +64,12 @@ data class Delbestilling(
     val serienr: Serienr,
     val deler: List<DelLinje>,
     val levering: Levering,
+    val rolle: Rolle
 )
+
+enum class Rolle {
+    TEKNIKER, BRUKERPASS
+}
 
 data class DelbestillingResultat(
     val id: UUID,

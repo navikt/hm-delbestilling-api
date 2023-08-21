@@ -31,6 +31,7 @@ class DelbestillingService(
         val id = request.delbestilling.id
         val hmsnr = request.delbestilling.hmsnr
         val serienr = request.delbestilling.serienr
+        val rolle = request.delbestilling.rolle
 
         val delbestillerRolle = rolleService.hentDelbestillerRolle(tokenString)
 
@@ -60,8 +61,8 @@ class DelbestillingService(
             throw e
         }
 
-        // Det skal ikke være mulig å bestille til seg selv (disabler i dev pga testdata)
-        if (isProd() && bestillerFnr == brukersFnr) {
+        // Det skal ikke være mulig for teknikere å bestille til seg selv (disabler i dev pga testdata)
+        if (isProd() && rolle == Rolle.TEKNIKER && bestillerFnr == brukersFnr) {
             log.info { "Bestiller prøver å bestille til seg selv" }
             return DelbestillingResultat(id, feil = DelbestillingFeil.BESTILLE_TIL_SEG_SELV)
         }
