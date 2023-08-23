@@ -114,4 +114,17 @@ internal class DelbestillingServiceTest {
         delbestillingService.oppdaterStatus(delbestilling.saksnummer, Status.KLARGJORT)
         assertEquals(Status.KLARGJORT, delbestillingService.hentDelbestillinger(bestillerFnr).first().status)
     }
+
+    @Test
+    fun `skal ikke kunne oppdatere delbestilling til en tidligere status`() = runTest {
+        coEvery { oebsService.sendDelbestilling(any()) } just runs
+        delbestillingService.opprettDelbestilling(delbestillingRequest(), bestillerFnr, bestillerTokenString)
+        val delbestilling = delbestillingService.hentDelbestillinger(bestillerFnr).first()
+        delbestillingService.oppdaterStatus(delbestilling.saksnummer, Status.KLARGJORT)
+
+        // Denne skal ikke ha noen effekt
+        delbestillingService.oppdaterStatus(delbestilling.saksnummer, Status.REGISTRERT)
+
+        assertEquals(Status.KLARGJORT, delbestillingService.hentDelbestillinger(bestillerFnr).first().status)
+    }
 }
