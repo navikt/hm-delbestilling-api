@@ -5,5 +5,7 @@ enum class Status {
     INNSENDT,
 
     // Fra Oebs
-    REGISTRERT, KLARGJORT, LUKKET
+    REGISTRERT,
+    KLARGJORT,
+    LUKKET
 }
