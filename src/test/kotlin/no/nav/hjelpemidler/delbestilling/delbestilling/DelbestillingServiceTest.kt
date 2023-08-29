@@ -33,7 +33,7 @@ internal class DelbestillingServiceTest {
     private val pdlService = mockk<PdlService>().apply {
         coEvery { hentKommunenummer(any()) } returns brukersKommunenr
         coEvery { hentPersonNavn(any(), any()) } returns teknikerNavn
-        coEvery { harGodkjentRelasjonForBrukerpass(any(), any()) } returns true
+        coEvery { harGodkjentForeldrerelasjonForBrukerpass(any(), any()) } returns true
     }
     private val oebsService = mockk<OebsService>(relaxed = true).apply {
         coEvery { hentPersoninfo(any()) } returns listOf(OebsPersoninfo(brukersKommunenr))
@@ -133,7 +133,7 @@ internal class DelbestillingServiceTest {
     @Test
     fun `skal ikke være mulig for brukerpassbrukere å bestille til ikke godkjent relasjon`() = runTest {
         coEvery { oebsService.hentUtlånPåArtnrOgSerienr(any(), any()) } returns utlån()
-        coEvery { pdlService.harGodkjentRelasjonForBrukerpass(any(), any()) } returns false
+        coEvery { pdlService.harGodkjentForeldrerelasjonForBrukerpass(any(), any()) } returns false
 
         val requestSomBrukerpassbruker =
             DelbestillingRequest(delbestillingRequest().delbestilling.copy(rolle = Rolle.BRUKERPASS))

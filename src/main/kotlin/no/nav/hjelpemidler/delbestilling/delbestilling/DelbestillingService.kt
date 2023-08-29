@@ -63,7 +63,7 @@ class DelbestillingService(
 
         // Hvis innsender med brukerpass prøver å bestille til noen andre enn seg selv, sjekk relasjonen via PDL
         if (rolle == Rolle.BRUKERPASS && bestillerFnr != brukersFnr) {
-            if (!pdlService.harGodkjentRelasjonForBrukerpass(bestillerFnr, brukersFnr)) {
+            if (!pdlService.harGodkjentForeldrerelasjonForBrukerpass(bestillerFnr, brukersFnr)) {
                 return DelbestillingResultat(id, feil = DelbestillingFeil.INGEN_GODKJENT_RELASJON)
             }
         }
@@ -126,7 +126,6 @@ class DelbestillingService(
 
         return DelbestillingResultat(id, null, saksnummer = lagretSaksnummer)
     }
-
 
     suspend fun oppdaterStatus(id: Long, status: Status) {
         delbestillingRepository.withTransaction { tx ->
