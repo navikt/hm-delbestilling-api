@@ -32,6 +32,7 @@ internal class DelbestillingServiceTest {
     private val pdlService = mockk<PdlService>().apply {
         coEvery { hentKommunenummer(any()) } returns brukersKommunenr
         coEvery { hentPersonNavn(any(), any()) } returns teknikerNavn
+        coEvery { harGodkjentRelasjonForBrukerpass(any(), any()) } returns true
     }
     private val oebsService = mockk<OebsService>(relaxed = true).apply {
         coEvery { hentPersoninfo(any()) } returns listOf(OebsPersoninfo(brukersKommunenr))
@@ -126,5 +127,17 @@ internal class DelbestillingServiceTest {
         delbestillingService.oppdaterStatus(delbestilling.saksnummer, Status.REGISTRERT)
 
         assertEquals(Status.KLARGJORT, delbestillingService.hentDelbestillinger(bestillerFnr).first().status)
+    }
+
+    @Test
+    fun `skal ikke være mulig for brukerpassbrukere å bestille til ikke godkjent relasjon`() = runTest {
+        coEvery { pdlService.harGodkjentRelasjonForBrukerpass(any(), any()) } returns false
+
+        val requestSomBrukerpassbruker = DelbestillingRequest(delbestillingRequest().delbestilling.copy(rolle = Rolle.BRUKERPASS))
+
+        val resultat = delbestillingService
+            .opprettDelbestilling(requestSomBrukerpassbruker, bestillerFnr, bestillerTokenString)
+
+        assertEquals(DelbestillingFeil.INGEN_GODKJENT_RELASJON, resultat.feil)
     }
 }
