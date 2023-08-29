@@ -23,7 +23,6 @@ import no.nav.hjelpemidler.delbestilling.navCorrelationId
 import no.nav.hjelpemidler.http.createHttpClient
 import no.nav.hjelpemidler.http.openid.OpenIDClient
 import no.nav.hjelpemidler.http.openid.bearerAuth
-import java.util.UUID
 
 private val log = KotlinLogging.logger {}
 
@@ -73,6 +72,13 @@ class PdlClient(
 
     suspend fun hentPersonNavn(fnr: String, validerAdressebeskyttelse: Boolean): PdlPersonResponse {
         val response: PdlPersonResponse = pdlRequest(hentPersonNavnQuery(fnr))
+        loggAdvarsler(response)
+        validerPdlOppslag(response, validerAdressebeskyttelse)
+        return response
+    }
+
+    suspend fun hentForelderBarnRelasjon(fnr: String, validerAdressebeskyttelse: Boolean): PdlPersonResponse {
+        val response: PdlPersonResponse = pdlRequest(hentForelderBarnRelasjonQuery(fnr))
         loggAdvarsler(response)
         validerPdlOppslag(response, validerAdressebeskyttelse)
         return response
@@ -176,7 +182,21 @@ data class PdlPerson(
     val navn: List<PdlPersonNavn> = emptyList(),
     val bostedsadresse: List<Bostedsadresse> = emptyList(),
     val adressebeskyttelse: List<Adressebeskyttelse>? = emptyList(),
+    val forelderBarnRelasjon: List<ForelderBarnRelasjon> = emptyList(),
 )
+
+data class ForelderBarnRelasjon(
+    val relatertPersonsIdent: String?,
+    val relatertPersonsRolle: ForelderBarnRelasjonRolle,
+    val minRolleForPerson: ForelderBarnRelasjonRolle?,
+)
+
+enum class ForelderBarnRelasjonRolle {
+    BARN,
+    MOR,
+    FAR,
+    MEDMOR,
+}
 
 data class Adressebeskyttelse(
     val gradering: Gradering,

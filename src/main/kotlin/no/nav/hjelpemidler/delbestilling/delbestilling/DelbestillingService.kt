@@ -61,9 +61,16 @@ class DelbestillingService(
             throw e
         }
 
-        // Det skal ikke være mulig for teknikere å bestille til seg selv (disabler i dev pga testdata)
-        if (isProd() && rolle == Rolle.TEKNIKER && bestillerFnr == brukersFnr) {
-            log.info { "Bestiller prøver å bestille til seg selv" }
+        // Hvis innsender med brukerpass prøver å bestille til noen andre enn seg selv, sjekk relasjonen via PDL
+        if (rolle == Rolle.BRUKERPASS && bestillerFnr != brukersFnr) {
+            if (!pdlService.harGodkjentRelasjonForBrukerpass(bestillerFnr, brukersFnr)) {
+                return DelbestillingResultat(id, feil = DelbestillingFeil.INGEN_GODKJENT_RELASJON)
+            }
+        }
+
+        // Det skal ikke være mulig for andre enn brukerpassbrukere å bestille til seg selv (disabler i dev pga testdata)
+        if (isProd() && bestillerFnr == brukersFnr && !delbestillerRolle.erBrukerpassbruker) {
+            log.info { "Bestiller med delbestillerrolle $delbestillerRolle prøver å bestille til seg selv, returnerer feilmelding" }
             return DelbestillingResultat(id, feil = DelbestillingFeil.BESTILLE_TIL_SEG_SELV)
         }
 
@@ -76,15 +83,18 @@ class DelbestillingService(
         }
 
         // Sjekk om en av innsenders kommuner tilhører brukers kommuner
-        val innsenderRepresentererBrukersKommune =
-            delbestillerRolle.kommunaleOrgs?.find { it.kommunenummer == brukerKommunenr } != null
+        // TODO: vi kan ikke gjøre denne sjekken for rolle=brukerpass. Men må vi heller sjekke på brukerpassbrukers sin bostedskommune?
+        if (rolle == Rolle.TEKNIKER) {
+            val innsenderRepresentererBrukersKommune =
+                delbestillerRolle.kommunaleOrgs?.find { it.kommunenummer == brukerKommunenr } != null
 
-        // Skrur av denne sjekken for dev akkurat nå, da det er litt mismatch i testdataen der
-        if (isProd() && !innsenderRepresentererBrukersKommune) {
-            return DelbestillingResultat(
-                id,
-                feil = DelbestillingFeil.ULIK_GEOGRAFISK_TILKNYTNING,
-            )
+            // Skrur av denne sjekken for dev akkurat nå, da det er litt mismatch i testdataen der
+            if (isProd() && !innsenderRepresentererBrukersKommune) {
+                return DelbestillingResultat(
+                    id,
+                    feil = DelbestillingFeil.ULIK_GEOGRAFISK_TILKNYTNING,
+                )
+            }
         }
 
         val bestillersNavn = pdlService.hentPersonNavn(bestillerFnr, validerAdressebeskyttelse = false)

@@ -55,6 +55,7 @@ fun Route.delbestillingApiAuthenticated(
                 DelbestillingFeil.ULIK_GEOGRAFISK_TILKNYTNING -> HttpStatusCode.Forbidden
                 DelbestillingFeil.ULIK_ADRESSE_PDL_OEBS -> HttpStatusCode.Forbidden
                 DelbestillingFeil.FOR_MANGE_BESTILLINGER_SISTE_24_TIMER -> HttpStatusCode.Forbidden
+                DelbestillingFeil.INGEN_GODKJENT_RELASJON -> HttpStatusCode.Forbidden
                 null -> HttpStatusCode.Created
             }
 
