@@ -85,7 +85,7 @@ enum class DelbestillingFeil {
     KAN_IKKE_BESTILLE,
     ULIK_ADRESSE_PDL_OEBS,
     FOR_MANGE_BESTILLINGER_SISTE_24_TIMER,
-    INGEN_GODKJENT_RELASJON,
+    HAR_IKKE_FORELDREANSVAR,
 }
 
 data class LagretDelbestilling(

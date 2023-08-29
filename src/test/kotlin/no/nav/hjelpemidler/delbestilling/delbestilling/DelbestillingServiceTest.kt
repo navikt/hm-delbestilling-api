@@ -141,6 +141,6 @@ internal class DelbestillingServiceTest {
         val resultat = delbestillingService
             .opprettDelbestilling(requestSomBrukerpassbruker, bestillerFnr, bestillerTokenString)
 
-        assertEquals(DelbestillingFeil.INGEN_GODKJENT_RELASJON, resultat.feil)
+        assertEquals(DelbestillingFeil.HAR_IKKE_FORELDREANSVAR, resultat.feil)
     }
 }
