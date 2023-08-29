@@ -20,11 +20,11 @@ class PdlService(private val pdlClient: PdlClient) {
         return "$fornavn ${navneData.etternavn}"
     }
 
-    suspend fun harGodkjentForeldreansvarForPerson(bestillerFnr: String, brukersFnr: String): Boolean {
-        val pdlRespons = pdlClient.hentForeldreansvar(bestillerFnr, true)
+    suspend fun harForeldreansvarForPerson(forelderFnr: String, barnFnr: String): Boolean {
+        val pdlRespons = pdlClient.hentForeldreansvar(forelderFnr, true)
         val foreldreansvar =
             pdlRespons.data?.hentPerson?.foreldreansvar ?: throw PdlRequestFailedException("PDL response mangler data")
 
-        return foreldreansvar.any { it.ansvarssubjekt == brukersFnr }
+        return foreldreansvar.any { it.ansvarssubjekt == barnFnr }
     }
 }
