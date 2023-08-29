@@ -1,0 +1,8 @@
+query($ident: ID!){
+    hentPerson(ident: $ident) {
+        foreldreansvar(historikk: false) {
+            ansvarssubjekt
+        }
+        adressebeskyttelse(historikk: false) { gradering }
+    }
+}

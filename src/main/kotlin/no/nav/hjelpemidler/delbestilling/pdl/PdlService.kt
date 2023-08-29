@@ -20,25 +20,11 @@ class PdlService(private val pdlClient: PdlClient) {
         return "$fornavn ${navneData.etternavn}"
     }
 
-    suspend fun harGodkjentForelderrelasjonForBrukerpass(bestillerFnr: String, brukersFnr: String): Boolean {
-        val pdlResponse = pdlClient.hentForelderBarnRelasjon(bestillerFnr, true)
+    suspend fun harGodkjentForeldreAnsvarForPerson(bestillerFnr: String, brukersFnr: String): Boolean {
+        val pdlRespons = pdlClient.hentForeldreansvar(bestillerFnr, true)
+        val foreldreansvar =
+            pdlRespons.data?.hentPerson?.foreldreansvar ?: throw PdlRequestFailedException("PDL response mangler data")
 
-        val forelderBarnRelasjon = pdlResponse.data?.hentPerson?.forelderBarnRelasjon
-            ?: throw PdlRequestFailedException("PDL response mangler data")
-
-        val godkjenteForelderrelasjoner = listOf(
-            ForelderBarnRelasjonRolle.FAR,
-            ForelderBarnRelasjonRolle.MOR,
-            ForelderBarnRelasjonRolle.MEDMOR
-        )
-
-        // Brukerpassbruker må ha ha en godkjent relasjon til bruker, f.eks være far til et barn
-        val harGodkjentRelasjon = forelderBarnRelasjon.any {
-            it.relatertPersonsIdent == brukersFnr && godkjenteForelderrelasjoner.contains(
-                it.minRolleForPerson
-            )
-        } ?: false
-
-        return harGodkjentRelasjon
+        return foreldreansvar.any { it.ansvarssubjekt == brukersFnr }
     }
 }

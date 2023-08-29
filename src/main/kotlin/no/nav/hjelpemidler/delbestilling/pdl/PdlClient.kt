@@ -77,8 +77,8 @@ class PdlClient(
         return response
     }
 
-    suspend fun hentForelderBarnRelasjon(fnr: String, validerAdressebeskyttelse: Boolean): PdlPersonResponse {
-        val response: PdlPersonResponse = pdlRequest(hentForelderBarnRelasjonQuery(fnr))
+    suspend fun hentForeldreansvar(fnr: String, validerAdressebeskyttelse: Boolean): PdlPersonResponse {
+        val response: PdlPersonResponse = pdlRequest(hentForeldreansvarQuery(fnr))
         loggAdvarsler(response)
         validerPdlOppslag(response, validerAdressebeskyttelse)
         return response
@@ -182,21 +182,12 @@ data class PdlPerson(
     val navn: List<PdlPersonNavn> = emptyList(),
     val bostedsadresse: List<Bostedsadresse> = emptyList(),
     val adressebeskyttelse: List<Adressebeskyttelse>? = emptyList(),
-    val forelderBarnRelasjon: List<ForelderBarnRelasjon> = emptyList(),
+    val foreldreansvar: List<Foreldreansvar> = emptyList(),
 )
 
-data class ForelderBarnRelasjon(
-    val relatertPersonsIdent: String?,
-    val relatertPersonsRolle: ForelderBarnRelasjonRolle,
-    val minRolleForPerson: ForelderBarnRelasjonRolle?,
+data class Foreldreansvar(
+    val ansvarssubjekt: String,
 )
-
-enum class ForelderBarnRelasjonRolle {
-    BARN,
-    MOR,
-    FAR,
-    MEDMOR,
-}
 
 data class Adressebeskyttelse(
     val gradering: Gradering,

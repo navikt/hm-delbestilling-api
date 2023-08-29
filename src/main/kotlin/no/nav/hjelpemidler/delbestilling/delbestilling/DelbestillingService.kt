@@ -63,7 +63,7 @@ class DelbestillingService(
 
         // Hvis innsender med brukerpass prøver å bestille til noen andre enn seg selv, sjekk relasjonen via PDL
         if (rolle == Rolle.BRUKERPASS && bestillerFnr != brukersFnr) {
-            if (!pdlService.harGodkjentForelderrelasjonForBrukerpass(bestillerFnr, brukersFnr)) {
+            if (!pdlService.harGodkjentForeldreAnsvarForPerson(bestillerFnr, brukersFnr)) {
                 return DelbestillingResultat(id, feil = DelbestillingFeil.INGEN_GODKJENT_RELASJON)
             }
         }
