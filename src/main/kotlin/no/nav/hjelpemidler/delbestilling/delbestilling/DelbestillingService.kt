@@ -127,8 +127,14 @@ class DelbestillingService(
         return DelbestillingResultat(id, null, saksnummer = lagretSaksnummer)
     }
 
-    fun oppdaterStatus(id: Long, status: Status) {
-        delbestillingRepository.oppdaterStatus(id, status)
+
+    suspend fun oppdaterStatus(id: Long, status: Status) {
+        delbestillingRepository.withTransaction { tx ->
+            val nåværendeStatus = delbestillingRepository.hentDelbestilling(tx, id)!!.status
+            if (nåværendeStatus.ordinal < status.ordinal) {
+                delbestillingRepository.oppdaterStatus(tx, id, status)
+            }
+        }
     }
 
     private fun validerDelbestillingRate(bestillerFnr: String, hmsnr: String, serienr: String): DelbestillingFeil? {

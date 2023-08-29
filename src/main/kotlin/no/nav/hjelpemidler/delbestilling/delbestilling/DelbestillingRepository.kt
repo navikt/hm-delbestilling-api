@@ -15,6 +15,8 @@ private val log = KotlinLogging.logger {}
 
 class DelbestillingRepository(val ds: DataSource) {
 
+    // OBS! Denne transaksjonen må sendes inn og brukes med tx.run() for å ha noen effekt.
+    // using(sessionOf(ds)) { session -> ... } vil ikke bli en del av transaksjonen
     suspend inline fun <T> withTransaction(
         returnGeneratedKeys: Boolean = false,
         crossinline block: suspend (TransactionalSession) -> T,
@@ -66,21 +68,38 @@ class DelbestillingRepository(val ds: DataSource) {
         )
     }
 
-    fun oppdaterStatus(id: Long, status: Status) {
+    fun hentDelbestilling(tx: Session, saksnummer: Long): LagretDelbestilling? = tx.run(
+        queryOf(
+            """
+                SELECT * 
+                FROM delbestilling
+                WHERE saksnummer = :saksnummer
+            """.trimIndent(),
+            mapOf("saksnummer" to saksnummer)
+        ).map {
+            LagretDelbestilling(
+                it.long("saksnummer"),
+                it.json("delbestilling_json"),
+                it.localDateTime("opprettet"),
+                Status.valueOf(it.string("status")),
+                it.localDateTime("sist_oppdatert"),
+            )
+        }.asSingle
+    )
+
+    fun oppdaterStatus(tx: Session, id: Long, status: Status) {
         try {
-            using(sessionOf(ds)) { session ->
-                session.run(
-                    queryOf(
-                        """
+            tx.run(
+                queryOf(
+                    """
                     UPDATE delbestilling
                     SET status = :status, sist_oppdatert = CURRENT_TIMESTAMP
                     WHERE saksnummer = :saksnummer
                         """.trimIndent(),
-                        mapOf("status" to status.name, "saksnummer" to id)
-                    )
-                        .asUpdate
+                    mapOf("status" to status.name, "saksnummer" to id)
                 )
-            }
+                    .asUpdate
+            )
         } catch (e: Exception) {
             log.error(e) { "Oppdatering av status feilet" }
             throw e
