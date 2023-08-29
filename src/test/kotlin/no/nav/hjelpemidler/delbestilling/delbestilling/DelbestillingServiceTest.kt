@@ -13,6 +13,7 @@ import no.nav.hjelpemidler.delbestilling.delbestillingRequest
 import no.nav.hjelpemidler.delbestilling.oebs.OebsPersoninfo
 import no.nav.hjelpemidler.delbestilling.oebs.OebsService
 import no.nav.hjelpemidler.delbestilling.oebs.OpprettBestillingsordreRequest
+import no.nav.hjelpemidler.delbestilling.oebs.Utlån
 import no.nav.hjelpemidler.delbestilling.pdl.PdlService
 import no.nav.hjelpemidler.delbestilling.roller.RolleService
 import org.junit.jupiter.api.BeforeEach
@@ -23,6 +24,7 @@ import kotlin.test.assertEquals
 internal class DelbestillingServiceTest {
 
     val bestillerFnr = "123"
+    val brukerFnr = "456"
     val bestillerTokenString = "abc"
     val teknikerNavn = "Turid Tekniker"
     val brukersKommunenr = "1234"
@@ -131,9 +133,11 @@ internal class DelbestillingServiceTest {
 
     @Test
     fun `skal ikke være mulig for brukerpassbrukere å bestille til ikke godkjent relasjon`() = runTest {
+        coEvery { oebsService.hentUtlånPåArtnrOgSerienr(any(), any()) } returns Utlån(brukerFnr, "111", "222", "")
         coEvery { pdlService.harGodkjentRelasjonForBrukerpass(any(), any()) } returns false
 
-        val requestSomBrukerpassbruker = DelbestillingRequest(delbestillingRequest().delbestilling.copy(rolle = Rolle.BRUKERPASS))
+        val requestSomBrukerpassbruker =
+            DelbestillingRequest(delbestillingRequest().delbestilling.copy(rolle = Rolle.BRUKERPASS))
 
         val resultat = delbestillingService
             .opprettDelbestilling(requestSomBrukerpassbruker, bestillerFnr, bestillerTokenString)
