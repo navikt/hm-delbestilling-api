@@ -131,7 +131,7 @@ internal class DelbestillingServiceTest {
     }
 
     @Test
-    fun `skal ikke være mulig for brukerpassbrukere å bestille til ikke godkjent relasjon`() = runTest {
+    fun `skal ikke være mulig for brukerpassbruker å bestille til bruker hen ikke har foreldreansvar for`() = runTest {
         coEvery { oebsService.hentUtlånPåArtnrOgSerienr(any(), any()) } returns utlån()
         coEvery { pdlService.harGodkjentForeldreAnsvarForPerson(any(), any()) } returns false
 
