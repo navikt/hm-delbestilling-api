@@ -64,6 +64,7 @@ class DelbestillingService(
         // Hvis innsender med brukerpass prøver å bestille til noen andre enn seg selv, sjekk relasjonen via PDL
         if (rolle == Rolle.BRUKERPASS && bestillerFnr != brukersFnr) {
             if (!pdlService.harGodkjentForeldreAnsvarForPerson(bestillerFnr, brukersFnr)) {
+                log.info { "Bestiller med brukerpass forsøker å bestille til bruker hen ikke har foreldreansvar for" }
                 return DelbestillingResultat(id, feil = DelbestillingFeil.HAR_IKKE_FORELDREANSVAR)
             }
         }
