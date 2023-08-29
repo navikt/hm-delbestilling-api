@@ -6,6 +6,7 @@ import no.nav.hjelpemidler.delbestilling.delbestilling.Delbestilling
 import no.nav.hjelpemidler.delbestilling.delbestilling.DelbestillingRequest
 import no.nav.hjelpemidler.delbestilling.delbestilling.Levering
 import no.nav.hjelpemidler.delbestilling.delbestilling.Rolle
+import no.nav.hjelpemidler.delbestilling.oebs.Utlån
 import no.nav.hjelpemidler.delbestilling.roller.Delbestiller
 import no.nav.hjelpemidler.delbestilling.roller.Organisasjon
 import java.util.UUID
@@ -43,6 +44,13 @@ fun delLinje(antall: Int = 1) = DelLinje(
         maksAntall = 2,
     ),
     antall = antall,
+)
+
+fun utlån() = Utlån(
+    "456",
+    "111",
+    "222",
+    ""
 )
 
 class MockException(msg: String) : RuntimeException("MockException: $msg")
