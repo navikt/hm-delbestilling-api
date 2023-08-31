@@ -1,5 +1,6 @@
 package no.nav.hjelpemidler.delbestilling
 
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import mu.KotlinLogging
 import no.nav.hjelpemidler.delbestilling.delbestilling.DelbestillingRepository
@@ -64,15 +65,19 @@ class AppContext {
 
     init {
         runBlocking {
-            val alleDelbestillinger = delbestillingRepository.hentAlleDelbestillinger()
-            logger.info { "STATS hentet ${alleDelbestillinger.size} delbestillinger" }
-            alleDelbestillinger.forEach { delbestilling ->
-                logger.info { "STATS sender statistikk for delbestilling ${delbestilling.saksnummer}" }
-                delbestillingService.sendStatistikk(
-                    delbestilling.delbestilling,
-                    delbestilling.brukersFnr
-                )
+            logger.info { "STATS launching" }
+            launch {
+                val alleDelbestillinger = delbestillingRepository.hentAlleDelbestillinger()
+                logger.info { "STATS hentet ${alleDelbestillinger.size} delbestillinger" }
+                alleDelbestillinger.forEach { delbestilling ->
+                    logger.info { "STATS sender statistikk for delbestilling ${delbestilling.saksnummer}" }
+                    delbestillingService.sendStatistikk(
+                        delbestilling.delbestilling,
+                        delbestilling.brukersFnr
+                    )
+                }
             }
+            logger.info { "STATS launch complete" }
         }
     }
 }
