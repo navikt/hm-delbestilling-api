@@ -8,8 +8,7 @@ on:
       - "CODEOWNERS"
     branches:
       - main
-      - callid
-      - digihot-deploy-test
+      - brukerpass-statistikk
 
 jobs:
   call-workflow:

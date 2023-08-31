@@ -26,7 +26,7 @@ internal class HjelpemiddelDelerTest {
     fun `skal hente ut alle hjelpemidler med deler`() {
         val hjelpemidlerMedDeler = hentAlleHjelpemidlerMedDeler()
         val hjelpemiddel = hjelpemidlerMedDeler.first()
-        val deler = hjelpemiddel!!.deler!!
+        val deler = hjelpemiddel.deler!!
 
         assertEquals(13, deler.size)
         assertEquals(526, hjelpemidlerMedDeler.size)

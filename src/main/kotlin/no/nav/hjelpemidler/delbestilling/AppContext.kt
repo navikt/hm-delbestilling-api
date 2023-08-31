@@ -1,9 +1,11 @@
 package no.nav.hjelpemidler.delbestilling
 
+import kotlinx.coroutines.runBlocking
 import no.nav.hjelpemidler.delbestilling.delbestilling.DelbestillingRepository
 import no.nav.hjelpemidler.delbestilling.delbestilling.DelbestillingService
 import no.nav.hjelpemidler.delbestilling.hjelpemidler.HjelpemidlerService
 import no.nav.hjelpemidler.delbestilling.kafka.KafkaService
+import no.nav.hjelpemidler.delbestilling.metrics.Metrics
 import no.nav.hjelpemidler.delbestilling.oebs.OebsApiProxyClient
 import no.nav.hjelpemidler.delbestilling.oebs.OebsService
 import no.nav.hjelpemidler.delbestilling.oebs.OebsSinkClient
@@ -30,21 +32,41 @@ class AppContext {
 
     private val kafkaService = KafkaService()
 
+    private val metrics = Metrics(kafkaService)
+
     private val oebsSinkClient = OebsSinkClient(kafkaService)
 
     private val pdlClient = PdlClient(azureClient)
 
     private val ds = Database.migratedDataSource
 
-    val delbestillingRepository = DelbestillingRepository(ds)
+    private val delbestillingRepository = DelbestillingRepository(ds)
+
+    private val pdlService = PdlService(pdlClient)
+
+    private val oebsService = OebsService(oebsApiProxyClient, oebsSinkClient)
 
     val rolleService = RolleService(rolleClient)
 
-    val pdlService = PdlService(pdlClient)
-
-    val oebsService = OebsService(oebsApiProxyClient, oebsSinkClient)
-
-    val delbestillingService = DelbestillingService(delbestillingRepository, pdlService, oebsService, rolleService)
+    val delbestillingService = DelbestillingService(
+        delbestillingRepository,
+        pdlService,
+        oebsService,
+        rolleService,
+        metrics
+    )
 
     val hjelpemidlerService = HjelpemidlerService()
+
+    init {
+        runBlocking {
+            val alleDelbestillinger = delbestillingRepository.hentAlleDelbestillinger()
+            alleDelbestillinger.forEach { delbestilling ->
+                delbestillingService.sendStatistikk(
+                    delbestilling.delbestilling,
+                    delbestilling.brukersFnr
+                )
+            }
+        }
+    }
 }

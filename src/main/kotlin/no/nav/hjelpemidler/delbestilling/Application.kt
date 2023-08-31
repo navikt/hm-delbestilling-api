@@ -50,7 +50,4 @@ fun Application.setupRoutes() {
     }
 }
 
-fun ApplicationCall.tokenXUser(): TokenXUser {
-    val tokenXUserFactory = TokenXUserFactory
-    return tokenXUserFactory.createTokenXUser(this)
-}
+fun ApplicationCall.tokenXUser() = TokenXUserFactory.createTokenXUser(this)

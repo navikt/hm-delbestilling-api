@@ -105,4 +105,25 @@ class DelbestillingRepository(val ds: DataSource) {
             throw e
         }
     }
+
+    fun hentAlleDelbestillinger(): List<TmpDelbestilling> = using(sessionOf(ds)) { session ->
+        session.run(
+            queryOf(
+                """
+                    SELECT * 
+                    FROM delbestilling
+                """.trimIndent(),
+            ).map {
+                TmpDelbestilling(
+                    it.long("saksnummer"),
+                    it.json("delbestilling_json"),
+                    it.localDateTime("opprettet"),
+                    Status.valueOf(it.string("status")),
+                    it.localDateTime("sist_oppdatert"),
+                    it.string("fnr_bruker"),
+                )
+            }.asList
+        )
+    }
+
 }
