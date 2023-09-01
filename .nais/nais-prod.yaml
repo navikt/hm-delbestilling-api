@@ -19,6 +19,8 @@ spec:
   readiness:
     path: /isready
     initialDelay: 120
+    failureThreshold: 10
+    periodSeconds: 10
   resources:
     limits:
       cpu: 500m
