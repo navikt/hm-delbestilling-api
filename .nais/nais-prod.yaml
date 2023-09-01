@@ -17,7 +17,6 @@ spec:
     path: /isalive
   readiness:
     path: /isready
-    initialDelay: 120
   resources:
     limits:
       cpu: 500m
