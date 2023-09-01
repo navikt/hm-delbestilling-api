@@ -8,11 +8,15 @@ on:
       - "CODEOWNERS"
     branches:
       - main
-      - callid
-      - digihot-deploy-test
+      - brukerpass-statistikk
 
 jobs:
   call-workflow:
+    permissions:
+      actions: read
+      contents: write
+      security-events: write
+      id-token: write
     uses: navikt/digihot-deploy/.github/workflows/deploy-dev.yml@v3
     with:
       NAIS_RESOURCE: ".nais/nais-dev.yaml"

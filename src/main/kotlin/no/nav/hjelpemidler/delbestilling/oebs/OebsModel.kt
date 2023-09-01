@@ -1,5 +1,7 @@
 package no.nav.hjelpemidler.delbestilling.oebs
 
+import java.time.LocalDate
+
 data class UtlånPåArtnrOgSerienrRequest(
     val artnr: String,
     val serienr: String,
@@ -31,4 +33,11 @@ data class Artikkel(
 
 data class OebsPersoninfo(
     val leveringKommune: String,
+)
+
+data class Brukerpass(
+    val brukerpass: Boolean,
+    val kontraktNummer: String? = null,
+    val startDate: LocalDate? = null,
+    val endDate: LocalDate? = null
 )

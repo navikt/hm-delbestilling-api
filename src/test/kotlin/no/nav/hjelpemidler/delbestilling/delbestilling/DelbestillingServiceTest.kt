@@ -40,7 +40,7 @@ internal class DelbestillingServiceTest {
         coEvery { hentDelbestillerRolle(any()) } returns delbestillerRolle()
     }
     private val delbestillingService =
-        DelbestillingService(delbestillingRepository, pdlService, oebsService, rolleService)
+        DelbestillingService(delbestillingRepository, pdlService, oebsService, rolleService, mockk(relaxed = true))
 
     @BeforeEach
     fun setup() {

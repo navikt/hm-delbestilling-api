@@ -1,12 +1,15 @@
 package no.nav.hjelpemidler.delbestilling.delbestilling
 
 import io.ktor.http.HttpStatusCode
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.launch
 import mu.KotlinLogging
 import no.nav.hjelpemidler.delbestilling.exceptions.PersonNotAccessibleInPdl
 import no.nav.hjelpemidler.delbestilling.exceptions.PersonNotFoundInPdl
 import no.nav.hjelpemidler.delbestilling.hjelpemidler.HjelpemiddelDeler
 import no.nav.hjelpemidler.delbestilling.isDev
 import no.nav.hjelpemidler.delbestilling.isProd
+import no.nav.hjelpemidler.delbestilling.metrics.Metrics
 import no.nav.hjelpemidler.delbestilling.oebs.Artikkel
 import no.nav.hjelpemidler.delbestilling.oebs.OebsService
 import no.nav.hjelpemidler.delbestilling.oebs.OpprettBestillingsordreRequest
@@ -21,6 +24,7 @@ class DelbestillingService(
     private val pdlService: PdlService,
     private val oebsService: OebsService,
     private val rolleService: RolleService,
+    private val metrics: Metrics,
 ) {
 
     suspend fun opprettDelbestilling(
@@ -113,7 +117,30 @@ class DelbestillingService(
 
         log.info { "Delbestilling '$id' sendt inn med saksnummer '$lagretSaksnummer'" }
 
+        sendStatistikk(request.delbestilling, utlån.fnr)
+
         return DelbestillingResultat(id, null, saksnummer = lagretSaksnummer)
+    }
+
+    suspend fun sendStatistikk(delbestilling: Delbestilling, fnrBruker: String) = coroutineScope {
+        launch {
+            try {
+                val navnHovedprodukt = HjelpemiddelDeler.hentHjelpemiddelMedDeler(delbestilling.hmsnr)?.navn ?: "Ukjent"
+                val hjmbrukerHarBrukerpass = oebsService.harBrukerpass(fnrBruker)
+                delbestilling.deler.forEach {
+                    metrics.registrerDelbestillingInnsendt(
+                        hmsnrDel = it.del.hmsnr,
+                        navnDel = it.del.navn,
+                        hmsnrHovedprodukt = delbestilling.hmsnr,
+                        navnHovedprodukt = navnHovedprodukt,
+                        rolleInnsender = "Tekniker",
+                        hjmbrukerHarBrukerpass = hjmbrukerHarBrukerpass
+                    )
+                }
+            } catch (t: Throwable) {
+                log.error(t) { "Lagring av statistikk om innsendt delbestilling feilet" }
+            }
+        }
     }
 
 
