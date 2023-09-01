@@ -14,7 +14,6 @@ import no.nav.hjelpemidler.delbestilling.plugins.medDelbestillerRolle
 import no.nav.hjelpemidler.hjelpemidler.hjelpemidler.hjelpemiddelApi
 import no.nav.tms.token.support.azure.validation.AzureAuthenticator
 import no.nav.tms.token.support.tokenx.validation.TokenXAuthenticator
-import no.nav.tms.token.support.tokenx.validation.user.TokenXUser
 import no.nav.tms.token.support.tokenx.validation.user.TokenXUserFactory
 
 fun main(args: Array<String>): Unit = io.ktor.server.cio.EngineMain.main(args)
@@ -35,6 +34,7 @@ fun Application.setupRoutes() {
                 delbestillingApiAuthenticated(ctx.delbestillingService)
             }
 
+            // TODO: fjern når frontend er rullet ut
             rateLimit(RateLimitName("public")) {
                 delbestillingApiPublic(ctx.delbestillingService)
             }
@@ -43,6 +43,14 @@ fun Application.setupRoutes() {
                 azureRoutes(ctx.delbestillingService)
             }
 
+            // TODO: fjern når frontend er rullet ut
+            hjelpemiddelApi(ctx.hjelpemidlerService)
+        }
+
+        route("/api-public") {
+            rateLimit(RateLimitName("public")) {
+                delbestillingApiPublic(ctx.delbestillingService)
+            }
             hjelpemiddelApi(ctx.hjelpemidlerService)
         }
 
