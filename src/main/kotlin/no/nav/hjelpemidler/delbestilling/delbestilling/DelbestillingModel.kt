@@ -90,14 +90,5 @@ data class LagretDelbestilling(
     val sistOppdatert: LocalDateTime,
 )
 
-data class TmpDelbestilling(
-    val saksnummer: Long,
-    val delbestilling: Delbestilling,
-    val opprettet: LocalDateTime,
-    val status: Status,
-    val sistOppdatert: LocalDateTime,
-    val brukersFnr: String
-)
-
 typealias Hmsnr = String
 typealias Serienr = String
