@@ -49,4 +49,18 @@ internal class HjelpemiddelDelerTest {
         assertEquals("Batteri 85 ah", deler[1].navn)
         assertEquals("Batteri", deler[1].kategori)
     }
+
+    @Test
+    fun `skal finne hjelpemiddel med deler for X850S`() {
+        val hmsnrnrX850S = "308941"
+        val hjelpemiddel = hentHjelpemiddelMedDeler(hmsnrnrX850S)
+        assertNotNull(hjelpemiddel)
+
+        val deler = hjelpemiddel!!.deler!!
+        assertEquals(3, deler.size)
+
+        assertEquals("309144", deler[0].hmsnr)
+        assertEquals("Hjul foran", deler[0].navn)
+        assertEquals("Hjul", deler[0].kategori)
+    }
 }
