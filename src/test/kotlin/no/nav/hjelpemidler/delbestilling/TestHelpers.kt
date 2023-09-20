@@ -26,6 +26,7 @@ fun delbestillingRequest(deler: List<DelLinje> = deler()) = DelbestillingRequest
         serienr = "687273",
         deler = deler,
         levering = Levering.TIL_XK_LAGER,
+        harOpplæringPåBatteri = false
     )
 )
 
