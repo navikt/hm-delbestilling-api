@@ -14,7 +14,7 @@ internal class HjelpemiddelDelerTest {
         assertNotNull(hjelpemiddel)
 
         val deler = hjelpemiddel!!.deler!!
-        assertEquals(12, deler.size)
+        assertEquals(11, deler.size)
 
         val hmsnrSchwalbeDekk = "150817"
         val dekk = deler.find { it.hmsnr == hmsnrSchwalbeDekk }!!
@@ -28,7 +28,7 @@ internal class HjelpemiddelDelerTest {
         val hjelpemiddel = hjelpemidlerMedDeler.first()
         val deler = hjelpemiddel.deler!!
 
-        assertEquals(12, deler.size)
+        assertEquals(11, deler.size)
         assertEquals(526, hjelpemidlerMedDeler.size)
     }
 
