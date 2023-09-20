@@ -263,6 +263,16 @@ val delerPerHjelpemiddel = mapOf(
             maksAntall = 2,
             img = "https://storage.googleapis.com/hm_delbestilling_bilder/278033.png",
         ),
+
+        // TEST
+        Del(
+            "196027",
+            "Batteri MK 97Ah",
+            levArtNr = "602293-99-0",
+            kategori = "Batteri",
+            maksAntall = 2,
+            img = "https://storage.googleapis.com/hm_delbestilling_bilder/196027.png",
+        ),
     ),
     "X850" to listOf(
         Del(
