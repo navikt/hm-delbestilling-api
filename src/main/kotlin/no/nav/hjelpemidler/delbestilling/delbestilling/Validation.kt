@@ -10,6 +10,7 @@ fun validateOppslagRequest(req: OppslagRequest) = listOf(
 fun validateDelbestillingRequest(req: DelbestillingRequest): List<String> = listOf(
     validateHmsnr(req.delbestilling.hmsnr),
     validateSerienr(req.delbestilling.serienr),
+    validateOpplæringBatteri(req.delbestilling),
     req.delbestilling.deler.map { validateDelLinje(it) }.flatten(),
     listOfNotNull(
         if (req.delbestilling.deler.isEmpty()) "Delbestillingen må inneholde minst én dellinje" else null
@@ -47,6 +48,12 @@ fun validateHmsnr(hmsnr: Hmsnr) = listOfNotNull(
 fun validateSerienr(serienr: Serienr) = listOfNotNull(
     if (serienr.length != 6) "Serienr må ha 6 siffer" else null,
     if (serienr.any { !it.isDigit() }) "Serienr skal kun bestå av tall" else null,
+)
+
+fun validateOpplæringBatteri(delbestilling: Delbestilling) = listOfNotNull(
+    if (delbestilling.deler.any { it.del.kategori == "Batteri" } && delbestilling.harOpplæringPåBatteri != true) {
+        "Tekniker må bekrefte opplæring i bytting av batteriene"
+    } else null
 )
 
 val DELER_I_SORTIMENT = HjelpemiddelDeler.hentAlleHjelpemidlerMedDeler()

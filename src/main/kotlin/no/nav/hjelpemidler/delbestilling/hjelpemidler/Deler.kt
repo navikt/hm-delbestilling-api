@@ -191,13 +191,13 @@ val delerPerHjelpemiddel = mapOf(
             img = "https://storage.googleapis.com/hm_delbestilling_bilder/150817.jpg",
         ),
         Del(
-            "150921",
+            "278247",
             "Slange 26\"",
             kategori = "Slange",
             maksAntall = 2,
         ),
         Del(
-            "150928",
+            "223382",
             "Svinghjul kompakt 5\"/120mm",
             kategori = "Svinghjul",
             maksAntall = 2,
@@ -249,24 +249,12 @@ val delerPerHjelpemiddel = mapOf(
             img = "https://storage.googleapis.com/hm_delbestilling_bilder/211449.jpg",
         ),
         Del(
-            "175062",
-            "Slange 25\"x1 Innova ventil rett",
-            kategori = "Slange",
-            maksAntall = 2,
-        ),
-        Del(
             "232810",
             "Svinghjul 90 mm",
             levArtNr = "2002010",
             kategori = "Svinghjul",
             maksAntall = 2,
             img = "https://storage.googleapis.com/hm_delbestilling_bilder/232810.jpg",
-        ),
-        Del(
-            "232811",
-            "Svinghjul 120 mm",
-            kategori = "Svinghjul",
-            maksAntall = 2,
         ),
         Del(
             "278033",

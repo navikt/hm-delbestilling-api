@@ -64,6 +64,7 @@ data class Delbestilling(
     val serienr: Serienr,
     val deler: List<DelLinje>,
     val levering: Levering,
+    val harOpplæringPåBatteri: Boolean?
 )
 
 data class DelbestillingResultat(
