@@ -4,7 +4,6 @@ import no.nav.hjelpemidler.delbestilling.delLinje
 import no.nav.hjelpemidler.delbestilling.delbestillingRequest
 import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
-import kotlin.test.assertTrue
 
 internal class ValidationTest {
 
@@ -24,5 +23,27 @@ internal class ValidationTest {
             )
         )
         assertEquals("3 overskrider maks antall (2) for 150817", feilmeldinger.first())
+    }
+
+    @Test
+    fun `skal returnere feilmelding når bestiller mangler opplæring på batteri`() {
+        val requestMedOpplæring = delbestillingRequest(
+            deler = listOf(
+                delLinje(antall = 1, kategori = "Batteri")
+            ),
+            harOpplæringPåBatteri = true
+        )
+        assertEquals(0, validateDelbestillingRequest(requestMedOpplæring).size)
+
+        val requestUtenOpplæring = delbestillingRequest(
+            deler = listOf(
+                delLinje(antall = 1, kategori = "Batteri")
+            ),
+            harOpplæringPåBatteri = false
+        )
+        assertEquals(
+            "Tekniker må bekrefte opplæring i bytting av batteriene",
+            validateDelbestillingRequest(requestUtenOpplæring).first()
+        )
     }
 }
