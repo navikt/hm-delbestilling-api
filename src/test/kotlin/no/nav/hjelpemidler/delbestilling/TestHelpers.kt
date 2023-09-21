@@ -4,9 +4,7 @@ import no.nav.hjelpemidler.delbestilling.delbestilling.Del
 import no.nav.hjelpemidler.delbestilling.delbestilling.DelLinje
 import no.nav.hjelpemidler.delbestilling.delbestilling.Delbestilling
 import no.nav.hjelpemidler.delbestilling.delbestilling.DelbestillingRequest
-import no.nav.hjelpemidler.delbestilling.delbestilling.Hmsnr
 import no.nav.hjelpemidler.delbestilling.delbestilling.Levering
-import no.nav.hjelpemidler.delbestilling.delbestilling.Serienr
 import no.nav.hjelpemidler.delbestilling.roller.Delbestiller
 import no.nav.hjelpemidler.delbestilling.roller.Organisasjon
 import java.util.UUID
@@ -19,25 +17,29 @@ fun delbestillerRolle(kanBestilleDeler: Boolean = true) = Delbestiller(
     erIPilot = true,
 )
 
-fun delbestillingRequest(deler: List<DelLinje> = deler()) = DelbestillingRequest(
+fun delbestillingRequest(
+    deler: List<DelLinje> = deler(),
+    harOpplæringPåBatteri: Boolean = false
+) = DelbestillingRequest(
     Delbestilling(
         id = UUID.randomUUID(),
         hmsnr = "236958",
         serienr = "687273",
         deler = deler,
         levering = Levering.TIL_XK_LAGER,
+        harOpplæringPåBatteri = harOpplæringPåBatteri
     )
 )
 
 fun deler() = listOf(delLinje())
 
-fun delLinje(antall: Int = 1) = DelLinje(
+fun delLinje(antall: Int = 1, kategori: String = "Dekk") = DelLinje(
     Del(
         navn = "del",
         hmsnr = "150817",
         levArtNr = "1000038",
         img = "",
-        kategori = "dekk",
+        kategori = kategori,
         maksAntall = 2,
     ),
     antall = antall,
