@@ -87,9 +87,7 @@ fun Route.azureRoutes(
 
     put("/delbestilling/status/v2/{id}") {
         val id = call.parameters.getOrFail<Long>("id")
-        val dto = call.receive<StatusOppdateringDto>()
-        log.info { "Dto $dto" }
-        val (status, oebsOrdrenummer) = dto
+        val (status, oebsOrdrenummer) = call.receive<StatusOppdateringDto>()
         log.info { "Oppdaterer status for delbestilling $id (hmdel_$id) til status $status" }
         delbestillingService.oppdaterStatus(id, status, oebsOrdrenummer)
         call.respond(HttpStatusCode.OK)
