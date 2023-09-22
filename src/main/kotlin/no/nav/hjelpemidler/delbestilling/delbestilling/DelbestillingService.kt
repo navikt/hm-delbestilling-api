@@ -159,8 +159,11 @@ class DelbestillingService(
             val lagretDelbestilling = delbestillingRepository.hentDelbestilling(tx, saksnummer)!!
 
             if (lagretDelbestilling.oebsOrdrenummer == null) {
+                log.info { "lagretDelbestilling.oebsOrdrenummer == null" }
                 delbestillingRepository.oppdaterOebsOrdrenummer(tx, saksnummer, oebsOrdrenummer)
+                log.info { "oebsOrdrenummer oppdatert $oebsOrdrenummer" }
             } else if (lagretDelbestilling.oebsOrdrenummer != oebsOrdrenummer) {
+                log.error { "lagretDelbestilling.oebsOrdrenummer != oebsOrdrenummer" }
                 error("Mismatch i oebsOrdrenummer for delbestilling $saksnummer. Eksisterende oebsOrdrenummer: ${lagretDelbestilling.oebsOrdrenummer}. Mottatt oebsOrdrenummer: $oebsOrdrenummer")
             }
 
