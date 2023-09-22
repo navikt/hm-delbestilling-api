@@ -1,0 +1,1 @@
+ALTER TABLE delbestilling ADD COLUMN oebs_ordrenummer varchar(16) DEFAULT NULL;

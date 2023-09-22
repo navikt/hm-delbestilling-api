@@ -144,11 +144,28 @@ class DelbestillingService(
     }
 
 
+    @Deprecated("Bruk variant med oebsOrdrenummer")
     suspend fun oppdaterStatus(id: Long, status: Status) {
         delbestillingRepository.withTransaction { tx ->
             val nåværendeStatus = delbestillingRepository.hentDelbestilling(tx, id)!!.status
             if (nåværendeStatus.ordinal < status.ordinal) {
                 delbestillingRepository.oppdaterStatus(tx, id, status)
+            }
+        }
+    }
+
+    suspend fun oppdaterStatus(saksnummer: Long, status: Status, oebsOrdrenummer: String) {
+        delbestillingRepository.withTransaction { tx ->
+            val lagretDelbestilling = delbestillingRepository.hentDelbestilling(tx, saksnummer)!!
+
+            if (lagretDelbestilling.oebsOrdrenummer == null) {
+                delbestillingRepository.oppdaterOebsOrdrenummer(tx, saksnummer, oebsOrdrenummer)
+            } else if (lagretDelbestilling.oebsOrdrenummer != oebsOrdrenummer) {
+                error("Mismatch i oebsOrdrenummer for delbestilling $saksnummer. Eksisterende oebsOrdrenummer: ${lagretDelbestilling.oebsOrdrenummer}. Mottatt oebsOrdrenummer: $oebsOrdrenummer")
+            }
+
+            if (lagretDelbestilling.status.ordinal < status.ordinal) {
+                delbestillingRepository.oppdaterStatus(tx, saksnummer, status)
             }
         }
     }

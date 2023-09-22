@@ -1,5 +1,6 @@
 package no.nav.hjelpemidler.delbestilling.delbestilling
 
+import kotliquery.Row
 import kotliquery.Session
 import kotliquery.TransactionalSession
 import kotliquery.queryOf
@@ -56,15 +57,7 @@ class DelbestillingRepository(val ds: DataSource) {
                     WHERE fnr_bestiller = :fnr_bestiller
                 """.trimIndent(),
                 mapOf("fnr_bestiller" to bestillerFnr)
-            ).map {
-                LagretDelbestilling(
-                    it.long("saksnummer"),
-                    it.json("delbestilling_json"),
-                    it.localDateTime("opprettet"),
-                    Status.valueOf(it.string("status")),
-                    it.localDateTime("sist_oppdatert"),
-                )
-            }.asList
+            ).map { it.toLagretDelbestilling() }.asList
         )
     }
 
@@ -76,34 +69,65 @@ class DelbestillingRepository(val ds: DataSource) {
                 WHERE saksnummer = :saksnummer
             """.trimIndent(),
             mapOf("saksnummer" to saksnummer)
-        ).map {
-            LagretDelbestilling(
-                it.long("saksnummer"),
-                it.json("delbestilling_json"),
-                it.localDateTime("opprettet"),
-                Status.valueOf(it.string("status")),
-                it.localDateTime("sist_oppdatert"),
-            )
-        }.asSingle
+        ).map { it.toLagretDelbestilling() }.asSingle
     )
 
-    fun oppdaterStatus(tx: Session, id: Long, status: Status) {
-        try {
-            tx.run(
-                queryOf(
-                    """
-                    UPDATE delbestilling
-                    SET status = :status, sist_oppdatert = CURRENT_TIMESTAMP
-                    WHERE saksnummer = :saksnummer
-                        """.trimIndent(),
-                    mapOf("status" to status.name, "saksnummer" to id)
-                )
-                    .asUpdate
-            )
-        } catch (e: Exception) {
-            log.error(e) { "Oppdatering av status feilet" }
-            throw e
-        }
+    fun oppdaterStatus(tx: Session, saksnummer: Long, status: Status) = try {
+        tx.run(
+            queryOf(
+                """
+                UPDATE delbestilling
+                SET status = :status, sist_oppdatert = CURRENT_TIMESTAMP
+                WHERE saksnummer = :saksnummer
+                """.trimIndent(),
+                mapOf("status" to status.name, "saksnummer" to saksnummer)
+            ).asUpdate
+        )
+    } catch (e: Exception) {
+        log.error(e) { "Oppdatering av status feilet" }
+        throw e
+    }
+
+    fun oppdaterOebsOrdrenummer(tx: Session, saksnummer: Long, oebsOrdrenummer: String) = try {
+        tx.run(
+            queryOf(
+                """
+                UPDATE delbestilling
+                SET oebs_ordrenummer = :oebs_ordrenummer, sist_oppdatert = CURRENT_TIMESTAMP
+                WHERE saksnummer = :saksnummer
+                """.trimIndent(),
+                mapOf("oebs_ordrenummer" to oebsOrdrenummer, "saksnummer" to saksnummer)
+            ).asUpdate
+        )
+    } catch (e: Exception) {
+        log.error(e) { "Oppdatering av oebs_ordrenummer feilet" }
+        throw e
+    }
+
+    fun oppdaterDelbestilling(tx: Session, saksnummer: Long, delbestilling: Delbestilling) = try {
+        val json = jsonMapper.writeValueAsString(delbestilling)
+        tx.run(
+            queryOf(
+                """
+                UPDATE delbestilling
+                SET delbestilling_json = :delbestilling_json, sist_oppdatert = CURRENT_TIMESTAMP
+                WHERE saksnummer = :saksnummer
+                """.trimIndent(),
+                mapOf("delbestilling_json" to json, "saksnummer" to saksnummer)
+            ).asUpdate
+        )
+    } catch (e: Exception) {
+        log.error(e) { "Oppdatering av delbestilling_json feilet" }
+        throw e
     }
 
 }
+
+private fun Row.toLagretDelbestilling() = LagretDelbestilling(
+    this.long("saksnummer"),
+    this.json("delbestilling_json"),
+    this.localDateTime("opprettet"),
+    Status.valueOf(this.string("status")),
+    this.localDateTime("sist_oppdatert"),
+    this.stringOrNull("oebs_ordrenummer"),
+)
