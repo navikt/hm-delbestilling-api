@@ -8,7 +8,7 @@ on:
       - "CODEOWNERS"
     branches:
       - main
-      - bekreft-batteri
+      - skipningsbekreftelse
 
 jobs:
   build-and-deploy:

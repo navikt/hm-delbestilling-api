@@ -26,6 +26,7 @@ internal class DelbestillingServiceTest {
     val bestillerTokenString = "abc"
     val teknikerNavn = "Turid Tekniker"
     val brukersKommunenr = "1234"
+    val oebsOrdrenummer = "8725414"
 
     private var ds = TestDatabase.testDataSource
     private val delbestillingRepository = DelbestillingRepository(ds)
@@ -105,11 +106,12 @@ internal class DelbestillingServiceTest {
     }
 
     @Test
-    fun `skal oppdatere delbestilling status`() = runTest {
+    fun `DEPRECATED skal oppdatere delbestilling status`() = runTest {
         coEvery { oebsService.sendDelbestilling(any()) } just runs
         delbestillingService.opprettDelbestilling(delbestillingRequest(), bestillerFnr, bestillerTokenString)
         val delbestilling = delbestillingService.hentDelbestillinger(bestillerFnr).first()
         assertEquals(Status.INNSENDT, delbestilling.status)
+        assertEquals(null, delbestilling.oebsOrdrenummer)
 
         delbestillingService.oppdaterStatus(delbestilling.saksnummer, Status.KLARGJORT)
         assertEquals(Status.KLARGJORT, delbestillingService.hentDelbestillinger(bestillerFnr).first().status)
@@ -120,11 +122,37 @@ internal class DelbestillingServiceTest {
         coEvery { oebsService.sendDelbestilling(any()) } just runs
         delbestillingService.opprettDelbestilling(delbestillingRequest(), bestillerFnr, bestillerTokenString)
         val delbestilling = delbestillingService.hentDelbestillinger(bestillerFnr).first()
-        delbestillingService.oppdaterStatus(delbestilling.saksnummer, Status.KLARGJORT)
+        delbestillingService.oppdaterStatus(delbestilling.saksnummer, Status.KLARGJORT, oebsOrdrenummer)
 
         // Denne skal ikke ha noen effekt
-        delbestillingService.oppdaterStatus(delbestilling.saksnummer, Status.REGISTRERT)
+        delbestillingService.oppdaterStatus(delbestilling.saksnummer, Status.REGISTRERT, oebsOrdrenummer)
 
         assertEquals(Status.KLARGJORT, delbestillingService.hentDelbestillinger(bestillerFnr).first().status)
+    }
+
+    @Test
+    fun `skal oppdatere delbestilling status`() = runTest {
+        coEvery { oebsService.sendDelbestilling(any()) } just runs
+        delbestillingService.opprettDelbestilling(delbestillingRequest(), bestillerFnr, bestillerTokenString)
+        val delbestilling = delbestillingService.hentDelbestillinger(bestillerFnr).first()
+        assertEquals(Status.INNSENDT, delbestilling.status)
+        assertEquals(null, delbestilling.oebsOrdrenummer)
+
+        delbestillingService.oppdaterStatus(delbestilling.saksnummer, Status.KLARGJORT, oebsOrdrenummer)
+        val oppdatertDelbestilling = delbestillingService.hentDelbestillinger(bestillerFnr).first()
+        assertEquals(Status.KLARGJORT, oppdatertDelbestilling.status)
+        assertEquals(oebsOrdrenummer, oppdatertDelbestilling.oebsOrdrenummer)
+    }
+
+    @Test
+    fun `statusoppdatering skal feile når det er mismatch i oebsOrdrenummer`() = runTest {
+        coEvery { oebsService.sendDelbestilling(any()) } just runs
+        delbestillingService.opprettDelbestilling(delbestillingRequest(), bestillerFnr, bestillerTokenString)
+        val delbestilling = delbestillingService.hentDelbestillinger(bestillerFnr).first()
+        delbestillingService.oppdaterStatus(delbestilling.saksnummer, Status.REGISTRERT, oebsOrdrenummer)
+        assertThrows<IllegalStateException> {
+            delbestillingService.oppdaterStatus(delbestilling.saksnummer, Status.REGISTRERT, "123")
+        }
+
     }
 }
