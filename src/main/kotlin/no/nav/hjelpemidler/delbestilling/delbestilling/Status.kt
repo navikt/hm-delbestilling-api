@@ -1,11 +1,14 @@
 package no.nav.hjelpemidler.delbestilling.delbestilling
 
 enum class Status {
-    // Fra oss
     INNSENDT,
+    REGISTRERT, // Fra OeBS
+    KLARGJORT, // Fra OeBS
+    DELVIS_SKIPNINGSBEKREFTET,
+    SKIPNINGSBEKREFTET,
+    LUKKET, // Fra OeBS
+}
 
-    // Fra Oebs
-    REGISTRERT,
-    KLARGJORT,
-    LUKKET
+enum class DellinjeStatus {
+    SKIPNINGSBEKREFTET,
 }

@@ -7,6 +7,7 @@ import kotliquery.queryOf
 import kotliquery.sessionOf
 import kotliquery.using
 import mu.KotlinLogging
+import no.nav.hjelpemidler.database.pgObjectOf
 import no.nav.hjelpemidler.database.transaction
 import no.nav.hjelpemidler.delbestilling.json
 import no.nav.hjelpemidler.delbestilling.jsonMapper
@@ -72,6 +73,17 @@ class DelbestillingRepository(val ds: DataSource) {
         ).map { it.toLagretDelbestilling() }.asSingle
     )
 
+    fun hentDelbestilling(tx: Session, oebsOrdrenummer: String): LagretDelbestilling? = tx.run(
+        queryOf(
+            """
+                SELECT * 
+                FROM delbestilling
+                WHERE oebs_ordrenummer = :oebs_ordrenummer
+            """.trimIndent(),
+            mapOf("oebs_ordrenummer" to oebsOrdrenummer)
+        ).map { it.toLagretDelbestilling() }.asSingle
+    )
+
     fun oppdaterStatus(tx: Session, saksnummer: Long, status: Status) = try {
         tx.run(
             queryOf(
@@ -105,7 +117,6 @@ class DelbestillingRepository(val ds: DataSource) {
     }
 
     fun oppdaterDelbestilling(tx: Session, saksnummer: Long, delbestilling: Delbestilling) = try {
-        val json = jsonMapper.writeValueAsString(delbestilling)
         tx.run(
             queryOf(
                 """
@@ -113,7 +124,7 @@ class DelbestillingRepository(val ds: DataSource) {
                 SET delbestilling_json = :delbestilling_json, sist_oppdatert = CURRENT_TIMESTAMP
                 WHERE saksnummer = :saksnummer
                 """.trimIndent(),
-                mapOf("delbestilling_json" to json, "saksnummer" to saksnummer)
+                mapOf("delbestilling_json" to pgJsonbOf(delbestilling), "saksnummer" to saksnummer)
             ).asUpdate
         )
     } catch (e: Exception) {
@@ -131,3 +142,6 @@ private fun Row.toLagretDelbestilling() = LagretDelbestilling(
     this.localDateTime("sist_oppdatert"),
     this.stringOrNull("oebs_ordrenummer"),
 )
+
+private fun <T> pgJsonbOf(value: T): Any =
+    pgObjectOf(type = "jsonb", value = jsonMapper.writeValueAsString(value))

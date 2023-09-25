@@ -48,6 +48,7 @@ data class Del(
 data class DelLinje(
     val del: Del,
     val antall: Int,
+    val status: DellinjeStatus? = null,
 )
 
 enum class Levering {

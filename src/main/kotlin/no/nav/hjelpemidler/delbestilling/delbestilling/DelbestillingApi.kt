@@ -75,16 +75,6 @@ fun Route.delbestillingApiAuthenticated(
 fun Route.azureRoutes(
     delbestillingService: DelbestillingService,
 ) {
-    // Deprecated
-    put("/delbestilling/status/{id}") {
-        val id = call.parameters.getOrFail<Long>("id")
-        val status = call.receive<Status>()
-        log.info { "Oppdaterer status for delbestilling $id (hmdel_$id) til status $status" }
-        delbestillingService.oppdaterStatus(id, status)
-        call.respond(HttpStatusCode.OK)
-        log.info { "Status for delbestilling $id (hmdel_$id) oppdatert OK" }
-    }
-
     put("/delbestilling/status/v2/{id}") {
         val id = call.parameters.getOrFail<Long>("id")
         val (status, oebsOrdrenummer) = call.receive<StatusOppdateringDto>()
@@ -93,10 +83,24 @@ fun Route.azureRoutes(
         call.respond(HttpStatusCode.OK)
         log.info { "Status for delbestilling $id (hmdel_$id) oppdatert OK" }
     }
+
+    put("/delbestilling/status/dellinje/{oebsOrdrenummer}") {
+        val oebsOrdrenummer = call.parameters.getOrFail<String>("oebsOrdrenummer")
+        val (status, hmsnr) = call.receive<DellinjeStatusOppdateringDto>()
+        log.info { "Oppdaterer status for delbestilling med oebsOrdrenummer $oebsOrdrenummer til status $status på del $hmsnr" }
+        delbestillingService.oppdaterDellinjeStatus(oebsOrdrenummer, status, hmsnr)
+        call.respond(HttpStatusCode.OK)
+        log.info { "Status for $oebsOrdrenummer oppdatert OK" }
+    }
 }
 
 
 private data class StatusOppdateringDto(
     val status: Status,
     val oebsOrdrenummer: String,
+)
+
+private data class DellinjeStatusOppdateringDto(
+    val status: DellinjeStatus,
+    val hmsnr: Hmsnr,
 )

@@ -31,12 +31,15 @@ fun delbestillingRequest(
     )
 )
 
-fun deler() = listOf(delLinje())
+fun deler() = listOf(
+    delLinje(),
+    delLinje(hmsnr = "278247", kategori = "Slange"),
+)
 
-fun delLinje(antall: Int = 1, kategori: String = "Dekk") = DelLinje(
+fun delLinje(antall: Int = 1, hmsnr: String = "150817", kategori: String = "Dekk") = DelLinje(
     Del(
         navn = "del",
-        hmsnr = "150817",
+        hmsnr = hmsnr,
         levArtNr = "1000038",
         img = "",
         kategori = kategori,
