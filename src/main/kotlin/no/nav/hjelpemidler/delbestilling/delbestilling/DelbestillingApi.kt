@@ -90,7 +90,6 @@ fun Route.azureRoutes(
         log.info { "Oppdaterer status for delbestilling med oebsOrdrenummer $oebsOrdrenummer til status $status på del $hmsnr" }
         delbestillingService.oppdaterDellinjeStatus(oebsOrdrenummer, status, hmsnr)
         call.respond(HttpStatusCode.OK)
-        log.info { "Status for $oebsOrdrenummer oppdatert OK" }
     }
 }
 

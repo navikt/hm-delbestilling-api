@@ -192,6 +192,7 @@ class DelbestillingService(
             } else {
                 delbestillingRepository.oppdaterStatus(tx, saksnummer, Status.DELVIS_SKIPNINGSBEKREFTET)
             }
+            log.info { "Status for $oebsOrdrenummer oppdatert OK" }
         }
     }
 
