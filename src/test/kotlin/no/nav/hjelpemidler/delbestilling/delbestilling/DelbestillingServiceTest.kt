@@ -17,8 +17,10 @@ import no.nav.hjelpemidler.delbestilling.pdl.PdlService
 import no.nav.hjelpemidler.delbestilling.roller.RolleService
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.assertDoesNotThrow
 import org.junit.jupiter.api.assertThrows
 import kotlin.test.assertEquals
+import kotlin.test.assertNull
 
 internal class DelbestillingServiceTest {
 
@@ -171,5 +173,21 @@ internal class DelbestillingServiceTest {
         assertEquals(Status.SKIPNINGSBEKREFTET, delbestilling.status)
         assertEquals(DellinjeStatus.SKIPNINGSBEKREFTET, delbestilling.delbestilling.deler[0].status)
         assertEquals(DellinjeStatus.SKIPNINGSBEKREFTET, delbestilling.delbestilling.deler[1].status)
+    }
+
+    @Test
+    fun `skal ignorere skipningsbekreftelse for ukjent ordrenr`() = runTest {
+        var delbestilling = delbestillingRepository.withTransaction { tx ->
+            delbestillingRepository.hentDelbestilling(tx, oebsOrdrenummer)
+        }
+        assertNull(delbestilling)
+
+        // Skal bare ignorere ukjent ordrenummer
+        assertDoesNotThrow { delbestillingService.oppdaterDellinjeStatus(oebsOrdrenummer, DellinjeStatus.SKIPNINGSBEKREFTET, "123456") }
+        
+        delbestilling = delbestillingRepository.withTransaction { tx ->
+            delbestillingRepository.hentDelbestilling(tx, oebsOrdrenummer)
+        }
+        assertNull(delbestilling)
     }
 }
