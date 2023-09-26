@@ -143,17 +143,6 @@ class DelbestillingService(
         }
     }
 
-
-    @Deprecated("Bruk variant med oebsOrdrenummer")
-    suspend fun oppdaterStatus(id: Long, status: Status) {
-        delbestillingRepository.withTransaction { tx ->
-            val nåværendeStatus = delbestillingRepository.hentDelbestilling(tx, id)!!.status
-            if (nåværendeStatus.ordinal < status.ordinal) {
-                delbestillingRepository.oppdaterStatus(tx, id, status)
-            }
-        }
-    }
-
     suspend fun oppdaterStatus(saksnummer: Long, status: Status, oebsOrdrenummer: String) {
         delbestillingRepository.withTransaction { tx ->
             val lagretDelbestilling = delbestillingRepository.hentDelbestilling(tx, saksnummer)!!
@@ -166,6 +155,42 @@ class DelbestillingService(
 
             if (lagretDelbestilling.status.ordinal < status.ordinal) {
                 delbestillingRepository.oppdaterStatus(tx, saksnummer, status)
+            }
+        }
+    }
+
+    suspend fun oppdaterDellinjeStatus(oebsOrdrenummer: String, status: DellinjeStatus, hmsnr: Hmsnr) {
+        require(status == DellinjeStatus.SKIPNINGSBEKREFTET) { "Forventet status ${Status.SKIPNINGSBEKREFTET} for dellinje, men fikk status $status" }
+
+        delbestillingRepository.withTransaction { tx ->
+            val lagretDelbestilling = delbestillingRepository.hentDelbestilling(tx, oebsOrdrenummer)
+
+            if (lagretDelbestilling == null) {
+                log.info { "Ignorerer oebsOrdrenummer $oebsOrdrenummer. Fant ikke tilhørende delbestilling, antar at det ikke tilhører en delbestilling." }
+                return@withTransaction
+            }
+
+            if (lagretDelbestilling.status.ordinal >= Status.SKIPNINGSBEKREFTET.ordinal) {
+                log.warn { "Forsøkte å sette dellinje på $oebsOrdrenummer til SKIPNINGSBEKREFTET, men ordren har status ${lagretDelbestilling.status}" }
+                return@withTransaction
+            }
+
+            val saksnummer = lagretDelbestilling.saksnummer
+
+            // Oppdater status på dellinje
+            val deler = lagretDelbestilling.delbestilling.deler.map { delLinje ->
+                if (delLinje.del.hmsnr == hmsnr) {
+                    delLinje.copy(status = status)
+                } else delLinje
+            }
+            val oppdatertDelbestilling = lagretDelbestilling.delbestilling.copy(deler = deler)
+            delbestillingRepository.oppdaterDelbestilling(tx, saksnummer, oppdatertDelbestilling)
+
+            // Oppdater status på ordre
+            if (deler.all { it.status == DellinjeStatus.SKIPNINGSBEKREFTET }) {
+                delbestillingRepository.oppdaterStatus(tx, saksnummer, Status.SKIPNINGSBEKREFTET)
+            } else {
+                delbestillingRepository.oppdaterStatus(tx, saksnummer, Status.DELVIS_SKIPNINGSBEKREFTET)
             }
         }
     }

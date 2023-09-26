@@ -17,8 +17,10 @@ import no.nav.hjelpemidler.delbestilling.pdl.PdlService
 import no.nav.hjelpemidler.delbestilling.roller.RolleService
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.assertDoesNotThrow
 import org.junit.jupiter.api.assertThrows
 import kotlin.test.assertEquals
+import kotlin.test.assertNull
 
 internal class DelbestillingServiceTest {
 
@@ -106,18 +108,6 @@ internal class DelbestillingServiceTest {
     }
 
     @Test
-    fun `DEPRECATED skal oppdatere delbestilling status`() = runTest {
-        coEvery { oebsService.sendDelbestilling(any()) } just runs
-        delbestillingService.opprettDelbestilling(delbestillingRequest(), bestillerFnr, bestillerTokenString)
-        val delbestilling = delbestillingService.hentDelbestillinger(bestillerFnr).first()
-        assertEquals(Status.INNSENDT, delbestilling.status)
-        assertEquals(null, delbestilling.oebsOrdrenummer)
-
-        delbestillingService.oppdaterStatus(delbestilling.saksnummer, Status.KLARGJORT)
-        assertEquals(Status.KLARGJORT, delbestillingService.hentDelbestillinger(bestillerFnr).first().status)
-    }
-
-    @Test
     fun `skal ikke kunne oppdatere delbestilling til en tidligere status`() = runTest {
         coEvery { oebsService.sendDelbestilling(any()) } just runs
         delbestillingService.opprettDelbestilling(delbestillingRequest(), bestillerFnr, bestillerTokenString)
@@ -153,6 +143,51 @@ internal class DelbestillingServiceTest {
         assertThrows<IllegalStateException> {
             delbestillingService.oppdaterStatus(delbestilling.saksnummer, Status.REGISTRERT, "123")
         }
+    }
 
+    @Test
+    fun `skal oppdatere status på dellinjer`() = runTest {
+        coEvery { oebsService.sendDelbestilling(any()) } just runs
+        delbestillingService.opprettDelbestilling(delbestillingRequest(), bestillerFnr, bestillerTokenString)
+        var delbestilling = delbestillingService.hentDelbestillinger(bestillerFnr).first()
+        delbestillingService.oppdaterStatus(delbestilling.saksnummer, Status.KLARGJORT, oebsOrdrenummer)
+
+        // Skipningsbekreft første del
+        delbestillingService.oppdaterDellinjeStatus(
+            oebsOrdrenummer,
+            DellinjeStatus.SKIPNINGSBEKREFTET,
+            delbestilling.delbestilling.deler[0].del.hmsnr
+        )
+        delbestilling = delbestillingService.hentDelbestillinger(bestillerFnr).first()
+        assertEquals(Status.DELVIS_SKIPNINGSBEKREFTET, delbestilling.status)
+        assertEquals(DellinjeStatus.SKIPNINGSBEKREFTET, delbestilling.delbestilling.deler[0].status)
+        assertEquals(null, delbestilling.delbestilling.deler[1].status)
+
+        // Skipningsbekreft andre del
+        delbestillingService.oppdaterDellinjeStatus(
+            oebsOrdrenummer,
+            DellinjeStatus.SKIPNINGSBEKREFTET,
+            delbestilling.delbestilling.deler[1].del.hmsnr
+        )
+        delbestilling = delbestillingService.hentDelbestillinger(bestillerFnr).first()
+        assertEquals(Status.SKIPNINGSBEKREFTET, delbestilling.status)
+        assertEquals(DellinjeStatus.SKIPNINGSBEKREFTET, delbestilling.delbestilling.deler[0].status)
+        assertEquals(DellinjeStatus.SKIPNINGSBEKREFTET, delbestilling.delbestilling.deler[1].status)
+    }
+
+    @Test
+    fun `skal ignorere skipningsbekreftelse for ukjent ordrenr`() = runTest {
+        var delbestilling = delbestillingRepository.withTransaction { tx ->
+            delbestillingRepository.hentDelbestilling(tx, oebsOrdrenummer)
+        }
+        assertNull(delbestilling)
+
+        // Skal bare ignorere ukjent ordrenummer
+        assertDoesNotThrow { delbestillingService.oppdaterDellinjeStatus(oebsOrdrenummer, DellinjeStatus.SKIPNINGSBEKREFTET, "123456") }
+        
+        delbestilling = delbestillingRepository.withTransaction { tx ->
+            delbestillingRepository.hentDelbestilling(tx, oebsOrdrenummer)
+        }
+        assertNull(delbestilling)
     }
 }
