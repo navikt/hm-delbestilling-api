@@ -30,13 +30,14 @@ class RunOnStart(
                     return@forEach
                 }
 
-                logg.info { "Oppdater navn til \"$navnHovedprodukt\" for ${lagretDelbestilling.delbestilling.hmsnr} " }
+
 
                 delbestillingRepository.withTransaction { tx ->
                     val oppdatertDelbestilling = lagretDelbestilling.delbestilling.copy(navn = navnHovedprodukt)
                     // TODO: for debugging, må fjernes før merges til prod
                     val oppdaterSaksnummer = "46"
                     if (lagretDelbestilling.saksnummer == oppdaterSaksnummer.toLong()) {
+                        logg.info { "Oppdater navn til \"$navnHovedprodukt\" for ${lagretDelbestilling.delbestilling.hmsnr} " }
                         delbestillingRepository.oppdaterDelbestillingUtenSistOppdatert(
                             tx,
                             lagretDelbestilling.saksnummer,
