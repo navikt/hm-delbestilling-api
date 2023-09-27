@@ -143,7 +143,7 @@ class DelbestillingRepository(val ds: DataSource) {
         throw e
     }
 
-    fun oppdaterDelbestillingMedNavn(tx: Session, saksnummer: Long, delbestilling: Delbestilling) = try {
+    fun oppdaterDelbestillingUtenSistOppdatert(tx: Session, saksnummer: Long, delbestilling: Delbestilling) = try {
         tx.run(
             queryOf(
                 """
