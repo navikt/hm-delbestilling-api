@@ -15,11 +15,11 @@ object HjelpemiddelDeler {
         val deler = delerPerHjelpemiddel[hjelpemiddel.type]
         logger.info { "Fant ${deler?.size} deler for $hmsnrHjelpemiddel" }
 
-        return HjelpemiddelMedDeler(hjelpemiddel.navn, hjelpemiddel.hmsnr, deler)
+        return HjelpemiddelMedDeler(hjelpemiddel.navn, hjelpemiddel.hmsnr, deler, hjelpemiddel.type)
     }
 
     fun hentAlleHjelpemidlerMedDeler(): List<HjelpemiddelMedDeler> {
-        return hjelpemidler.map { HjelpemiddelMedDeler(it.navn, it.hmsnr, delerPerHjelpemiddel[it.type]) }
+        return hjelpemidler.map { HjelpemiddelMedDeler(it.navn, it.hmsnr, delerPerHjelpemiddel[it.type], it.type) }
     }
 
 }
@@ -28,4 +28,5 @@ data class HjelpemiddelMedDeler(
     val navn: String,
     val hmsnr: String,
     val deler: List<Del>?,
+    val type: String,
 )
