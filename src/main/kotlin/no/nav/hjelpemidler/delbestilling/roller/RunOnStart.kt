@@ -9,7 +9,6 @@ import javax.sql.DataSource
 private val logg = KotlinLogging.logger {}
 
 class RunOnStart(
-    private val ds: DataSource = Database.migratedDataSource,
     private val delbestillingRepository: DelbestillingRepository = DelbestillingRepository(Database.migratedDataSource),
 ) {
     suspend fun importNavn() {
@@ -32,7 +31,6 @@ class RunOnStart(
                         )
                          */
                         logg.info("oppdatertDelbestilling: $oppdatertDelbestilling")
-
                     }
                 }
 

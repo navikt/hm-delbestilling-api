@@ -27,7 +27,8 @@ fun delbestillingRequest(
         serienr = "687273",
         deler = deler,
         levering = Levering.TIL_XK_LAGER,
-        harOpplæringPåBatteri = harOpplæringPåBatteri
+        harOpplæringPåBatteri = harOpplæringPåBatteri,
+        navn = null
     )
 )
 
