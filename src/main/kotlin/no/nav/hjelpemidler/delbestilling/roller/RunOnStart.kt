@@ -1,41 +1,43 @@
 package no.nav.hjelpemidler.delbestilling.roller
 
-import kotliquery.queryOf
-import kotliquery.sessionOf
-import kotliquery.using
 import mu.KotlinLogging
 import no.nav.hjelpemidler.delbestilling.Database
-import no.nav.hjelpemidler.delbestilling.delbestilling.Hjelpemiddel
-import no.nav.hjelpemidler.delbestilling.delbestilling.toLagretDelbestilling
+import no.nav.hjelpemidler.delbestilling.delbestilling.DelbestillingRepository
 import no.nav.hjelpemidler.delbestilling.hjelpemidler.HjelpemiddelDeler
 import javax.sql.DataSource
 
 private val logg = KotlinLogging.logger {}
 
-class RunOnStart(private val ds: DataSource = Database.migratedDataSource) {
-    fun importNavn() {
-        val linjer = object {}.javaClass.getResourceAsStream("/hjelpemidler.txt")!!.bufferedReader().readLines()
+class RunOnStart(
+    private val ds: DataSource = Database.migratedDataSource,
+    private val delbestillingRepository: DelbestillingRepository = DelbestillingRepository(Database.migratedDataSource),
+) {
+    suspend fun importNavn() {
+        delbestillingRepository.withTransaction { tx ->
+            val delbestillinger = delbestillingRepository.hentDelbestillinger(tx)
 
-        val hjelpemidler = linjer.map { linje ->
-            val (hmsnr, navn, type) = linje.split("|")
-            Hjelpemiddel(hmsnr, navn, type)
-        }
+            delbestillinger.forEach { lagretDelbestilling ->
+                logg.info { "opprinnelig delbestilling: $lagretDelbestilling" }
+                val navnHovedprodukt =
+                    HjelpemiddelDeler.hentHjelpemiddelMedDeler(lagretDelbestilling.delbestilling.hmsnr)?.navn
+                logg.info { "navnHovedprodukt: $navnHovedprodukt" }
+                if (lagretDelbestilling.delbestilling.navn == null && navnHovedprodukt != null) {
+                    delbestillingRepository.withTransaction { tx ->
+                        val oppdatertDelbestilling = lagretDelbestilling.delbestilling.copy(navn = navnHovedprodukt)
+                        /*
+                        delbestillingRepository.oppdaterDelbestilling(
+                            tx,
+                            lagretDelbestilling.saksnummer,
+                            oppdatertDelbestilling
+                        )
+                         */
+                        logg.info("oppdatertDelbestilling: $oppdatertDelbestilling")
 
-        val delbestillinger = using(sessionOf(ds)) { session ->
-            session.run(
-                queryOf(
-                    """
-                    SELECT * 
-                    FROM delbestilling
-                    """.trimIndent(),
-                ).map { it.toLagretDelbestilling() }.asList
-            )
-        }
+                    }
+                }
 
-        delbestillinger.forEach {
-            logg.info { it }
-            val navnHovedprodukt = HjelpemiddelDeler.hentHjelpemiddelMedDeler(it.delbestilling.hmsnr)?.navn ?: "Ukjent"
-            logg.info { "navnHovedprodukt: $navnHovedprodukt" }
+                logg.info("----------------------------")
+            }
         }
     }
 }

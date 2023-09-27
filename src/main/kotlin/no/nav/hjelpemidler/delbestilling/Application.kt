@@ -8,6 +8,8 @@ import io.ktor.server.plugins.ratelimit.RateLimitName
 import io.ktor.server.plugins.ratelimit.rateLimit
 import io.ktor.server.routing.route
 import io.ktor.server.routing.routing
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import mu.KotlinLogging
 import no.nav.hjelpemidler.delbestilling.delbestilling.azureRoutes
 import no.nav.hjelpemidler.delbestilling.delbestilling.delbestillingApiAuthenticated
@@ -29,7 +31,11 @@ fun Application.module() {
 
     environment.monitor.subscribe(ApplicationStarted) {
         logg.info { "environment.monitor.subscribe(ApplicationStarted)" }
-        RunOnStart().importNavn()
+        runBlocking {
+            launch {
+                RunOnStart().importNavn()
+            }
+        }
     }
 }
 

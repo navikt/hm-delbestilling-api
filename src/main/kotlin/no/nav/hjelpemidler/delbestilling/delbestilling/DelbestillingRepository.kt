@@ -49,6 +49,17 @@ class DelbestillingRepository(val ds: DataSource) {
         )
     }
 
+    fun hentDelbestillinger(tx: Session): List<LagretDelbestilling> = using(sessionOf(ds)) { session ->
+        tx.run(
+            queryOf(
+                """
+                    SELECT * 
+                    FROM delbestilling
+                """.trimIndent()
+            ).map { it.toLagretDelbestilling() }.asList
+        )
+    }
+
     fun hentDelbestillinger(bestillerFnr: String): List<LagretDelbestilling> = using(sessionOf(ds)) { session ->
         session.run(
             queryOf(
