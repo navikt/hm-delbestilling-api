@@ -134,7 +134,7 @@ class DelbestillingRepository(val ds: DataSource) {
 
 }
 
-private fun Row.toLagretDelbestilling() = LagretDelbestilling(
+public fun Row.toLagretDelbestilling() = LagretDelbestilling(
     this.long("saksnummer"),
     this.json("delbestilling_json"),
     this.localDateTime("opprettet"),
