@@ -30,8 +30,6 @@ class RunOnStart(
                     return@forEach
                 }
 
-
-
                 delbestillingRepository.withTransaction { tx ->
                     val oppdatertDelbestilling = lagretDelbestilling.delbestilling.copy(navn = navnHovedprodukt)
                     // TODO: for debugging, må fjernes før merges til prod
