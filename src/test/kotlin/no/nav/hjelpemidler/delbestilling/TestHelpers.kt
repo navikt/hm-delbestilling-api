@@ -28,7 +28,7 @@ fun delbestillingRequest(
         deler = deler,
         levering = Levering.TIL_XK_LAGER,
         harOpplæringPåBatteri = harOpplæringPåBatteri,
-        navn = null
+        navn = "Panthera U3 Light"
     )
 )
 

@@ -30,6 +30,7 @@ class RunOnStart(
                 if (lagretDelbestilling.delbestilling.navn == null && navnHovedprodukt != null) {
                     delbestillingRepository.withTransaction { tx ->
                         val oppdatertDelbestilling = lagretDelbestilling.delbestilling.copy(navn = navnHovedprodukt)
+                        // TODO: for debugging, må fjernes før merges til prod
                         val oppdaterSaksnummer = "46"
                         if (lagretDelbestilling.saksnummer == oppdaterSaksnummer.toLong()) {
                             delbestillingRepository.oppdaterDelbestillingUtenSistOppdatert(
