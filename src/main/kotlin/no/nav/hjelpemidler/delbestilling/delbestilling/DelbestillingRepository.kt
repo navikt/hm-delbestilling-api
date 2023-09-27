@@ -143,6 +143,22 @@ class DelbestillingRepository(val ds: DataSource) {
         throw e
     }
 
+    fun oppdaterDelbestillingMedNavn(tx: Session, saksnummer: Long, delbestilling: Delbestilling) = try {
+        tx.run(
+            queryOf(
+                """
+                UPDATE delbestilling
+                SET delbestilling_json = :delbestilling_json
+                WHERE saksnummer = :saksnummer
+                """.trimIndent(),
+                mapOf("delbestilling_json" to pgJsonbOf(delbestilling), "saksnummer" to saksnummer)
+            ).asUpdate
+        )
+    } catch (e: Exception) {
+        log.error(e) { "Oppdatering av delbestilling_json feilet" }
+        throw e
+    }
+
 }
 
 public fun Row.toLagretDelbestilling() = LagretDelbestilling(

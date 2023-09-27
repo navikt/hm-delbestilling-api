@@ -4,7 +4,6 @@ import mu.KotlinLogging
 import no.nav.hjelpemidler.delbestilling.Database
 import no.nav.hjelpemidler.delbestilling.delbestilling.DelbestillingRepository
 import no.nav.hjelpemidler.delbestilling.hjelpemidler.HjelpemiddelDeler
-import javax.sql.DataSource
 
 private val logg = KotlinLogging.logger {}
 
@@ -17,20 +16,23 @@ class RunOnStart(
 
             delbestillinger.forEach { lagretDelbestilling ->
                 logg.info { "opprinnelig delbestilling: $lagretDelbestilling" }
+
                 val navnHovedprodukt =
                     HjelpemiddelDeler.hentHjelpemiddelMedDeler(lagretDelbestilling.delbestilling.hmsnr)?.navn
+
                 logg.info { "navnHovedprodukt: $navnHovedprodukt" }
+
                 if (lagretDelbestilling.delbestilling.navn == null && navnHovedprodukt != null) {
                     delbestillingRepository.withTransaction { tx ->
                         val oppdatertDelbestilling = lagretDelbestilling.delbestilling.copy(navn = navnHovedprodukt)
-                        /*
-                        delbestillingRepository.oppdaterDelbestilling(
-                            tx,
-                            lagretDelbestilling.saksnummer,
-                            oppdatertDelbestilling
-                        )
-                         */
-                        logg.info("oppdatertDelbestilling: $oppdatertDelbestilling")
+                        if (lagretDelbestilling.saksnummer == "47".toLong()) {
+                            delbestillingRepository.oppdaterDelbestillingMedNavn(
+                                tx,
+                                lagretDelbestilling.saksnummer,
+                                oppdatertDelbestilling
+                            )
+                            logg.info("Oppdatert delbestilling for saksnummer 47: $oppdatertDelbestilling")
+                        }
                     }
                 }
 
