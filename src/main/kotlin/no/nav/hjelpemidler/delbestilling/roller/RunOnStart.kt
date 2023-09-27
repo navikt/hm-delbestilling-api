@@ -21,7 +21,7 @@ class RunOnStart(
                     HjelpemiddelDeler.hentHjelpemiddelMedDeler(lagretDelbestilling.delbestilling.hmsnr)?.navn
 
                 if (navnHovedprodukt == null) {
-                    logg.info { "Klarte ikke å finne navn for ${lagretDelbestilling.delbestilling.hmsnr}, hoppper over..." }
+                    logg.info { "Klarte ikke å finne navn for hmsnr: ${lagretDelbestilling.delbestilling.hmsnr} (saksnummer: ${lagretDelbestilling.saksnummer}), hoppper over..." }
                     return@forEach
                 }
 
