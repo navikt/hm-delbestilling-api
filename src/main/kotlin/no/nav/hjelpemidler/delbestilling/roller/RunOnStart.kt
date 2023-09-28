@@ -31,18 +31,16 @@ class RunOnStart(
                 }
 
                 val oppdatertDelbestilling = lagretDelbestilling.delbestilling.copy(navn = navnHovedprodukt)
-                // TODO: for debugging, må fjernes før merges til prod
-                val oppdaterSaksnummer = "46"
-                if (lagretDelbestilling.saksnummer == oppdaterSaksnummer.toLong()) {
-                    logg.info { "Oppdater navn til \"$navnHovedprodukt\" for ${lagretDelbestilling.delbestilling.hmsnr} " }
-                    delbestillingRepository.oppdaterDelbestillingUtenSistOppdatert(
-                        tx,
-                        lagretDelbestilling.saksnummer,
-                        oppdatertDelbestilling
-                    )
-                    logg.info("Oppdatert delbestilling for saksnummer $oppdaterSaksnummer: $oppdatertDelbestilling")
-                    antallOppdaterteRader++
-                }
+
+                logg.info { "Oppdater navn til \"$navnHovedprodukt\" for ${lagretDelbestilling.delbestilling.hmsnr} " }
+
+                delbestillingRepository.oppdaterDelbestillingUtenSistOppdatert(
+                    tx,
+                    lagretDelbestilling.saksnummer,
+                    oppdatertDelbestilling
+                )
+                logg.info("Oppdatert delbestilling for saksnummer ${lagretDelbestilling.saksnummer}: $oppdatertDelbestilling")
+                antallOppdaterteRader++
             }
 
             logg.info("Rader oppdatert: $antallOppdaterteRader")
