@@ -164,7 +164,9 @@ internal class DelbestillingServiceTest {
         delbestilling = delbestillingService.hentDelbestillinger(bestillerFnr).first()
         assertEquals(Status.DELVIS_SKIPNINGSBEKREFTET, delbestilling.status)
         assertEquals(DellinjeStatus.SKIPNINGSBEKREFTET, delbestilling.delbestilling.deler[0].status)
+        assertEquals(datoOppdatert, delbestilling.delbestilling.deler[0].datoSkipningsbekreftet)
         assertEquals(null, delbestilling.delbestilling.deler[1].status)
+        assertEquals(null, delbestilling.delbestilling.deler[1].datoSkipningsbekreftet)
 
         // Skipningsbekreft andre del
         delbestillingService.oppdaterDellinjeStatus(
