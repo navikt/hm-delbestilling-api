@@ -33,7 +33,7 @@ fun Application.module() {
         logg.info { "environment.monitor.subscribe(ApplicationStarted)" }
         runBlocking {
             launch {
-                RunOnStart().importNavn()
+                // RunOnStart().importNavn()
             }
         }
     }
