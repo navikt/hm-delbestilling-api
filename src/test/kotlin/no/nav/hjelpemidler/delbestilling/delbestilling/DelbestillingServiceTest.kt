@@ -19,6 +19,7 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertDoesNotThrow
 import org.junit.jupiter.api.assertThrows
+import java.time.LocalDate
 import kotlin.test.assertEquals
 import kotlin.test.assertNull
 
@@ -151,12 +152,14 @@ internal class DelbestillingServiceTest {
         delbestillingService.opprettDelbestilling(delbestillingRequest(), bestillerFnr, bestillerTokenString)
         var delbestilling = delbestillingService.hentDelbestillinger(bestillerFnr).first()
         delbestillingService.oppdaterStatus(delbestilling.saksnummer, Status.KLARGJORT, oebsOrdrenummer)
+        val datoOppdatert = LocalDate.now()
 
         // Skipningsbekreft første del
         delbestillingService.oppdaterDellinjeStatus(
             oebsOrdrenummer,
             DellinjeStatus.SKIPNINGSBEKREFTET,
-            delbestilling.delbestilling.deler[0].del.hmsnr
+            delbestilling.delbestilling.deler[0].del.hmsnr,
+            datoOppdatert
         )
         delbestilling = delbestillingService.hentDelbestillinger(bestillerFnr).first()
         assertEquals(Status.DELVIS_SKIPNINGSBEKREFTET, delbestilling.status)
@@ -167,7 +170,8 @@ internal class DelbestillingServiceTest {
         delbestillingService.oppdaterDellinjeStatus(
             oebsOrdrenummer,
             DellinjeStatus.SKIPNINGSBEKREFTET,
-            delbestilling.delbestilling.deler[1].del.hmsnr
+            delbestilling.delbestilling.deler[1].del.hmsnr,
+            datoOppdatert
         )
         delbestilling = delbestillingService.hentDelbestillinger(bestillerFnr).first()
         assertEquals(Status.SKIPNINGSBEKREFTET, delbestilling.status)
@@ -183,7 +187,12 @@ internal class DelbestillingServiceTest {
         assertNull(delbestilling)
 
         // Skal bare ignorere ukjent ordrenummer
-        assertDoesNotThrow { delbestillingService.oppdaterDellinjeStatus(oebsOrdrenummer, DellinjeStatus.SKIPNINGSBEKREFTET, "123456") }
+        assertDoesNotThrow { delbestillingService.oppdaterDellinjeStatus(
+            oebsOrdrenummer,
+            DellinjeStatus.SKIPNINGSBEKREFTET,
+            "123456",
+            null
+        ) }
         
         delbestilling = delbestillingRepository.withTransaction { tx ->
             delbestillingRepository.hentDelbestilling(tx, oebsOrdrenummer)
