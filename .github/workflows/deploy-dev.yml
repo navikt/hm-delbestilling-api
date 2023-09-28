@@ -8,7 +8,7 @@ on:
       - "CODEOWNERS"
     branches:
       - main
-      - skipningsbekreftelse2
+      - import-navn
 
 jobs:
   build-and-deploy:
