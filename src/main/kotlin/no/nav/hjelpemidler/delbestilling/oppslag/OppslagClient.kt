@@ -37,9 +37,9 @@ class OppslagClient(
     suspend fun hentKommune(kommunenr: String): KommuneDto {
         return try {
             withContext(Dispatchers.IO) {
-                val tokenSet = azureAdClient.grant(apiScope)
+                // val tokenSet = azureAdClient.grant(apiScope)
                 client.get("$url/api/geografi/kommuner/$kommunenr") {
-                    bearerAuth(tokenSet)
+                    // bearerAuth(tokenSet)
                     headers {
                         navCorrelationId()
                     }
