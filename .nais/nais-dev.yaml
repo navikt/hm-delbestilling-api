@@ -76,5 +76,3 @@ spec:
       value: api://dev-fss.pdl.pdl-api/.default
     - name: OPPSLAG_API_URL
       value: http://digihot-oppslag.teamdigihot.svc.cluster.local
-    - name: OPPSLAG_API_SCOPE
-      value: dev-gcp:teamdigihot:digihot-oppslag

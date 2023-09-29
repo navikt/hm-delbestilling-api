@@ -16,7 +16,6 @@ import no.nav.hjelpemidler.delbestilling.Config
 import no.nav.hjelpemidler.delbestilling.navCorrelationId
 import no.nav.hjelpemidler.http.createHttpClient
 import no.nav.hjelpemidler.http.openid.OpenIDClient
-import no.nav.hjelpemidler.http.openid.bearerAuth
 
 private val log = KotlinLogging.logger { }
 
@@ -24,7 +23,6 @@ class OppslagClient(
     private val azureAdClient: OpenIDClient,
     engine: HttpClientEngine = CIO.create(),
     private val url: String = Config.OPPSLAG_API_URL,
-    private val apiScope: String = Config.OPPSLAG_API_SCOPE,
 ) {
     private val client = createHttpClient(engine = engine) {
         expectSuccess = true
@@ -37,16 +35,14 @@ class OppslagClient(
     suspend fun hentKommune(kommunenr: String): KommuneDto {
         return try {
             withContext(Dispatchers.IO) {
-                // val tokenSet = azureAdClient.grant(apiScope)
                 client.get("$url/api/geografi/kommuner/$kommunenr") {
-                    // bearerAuth(tokenSet)
                     headers {
                         navCorrelationId()
                     }
                 }.body()
             }
         } catch (e: Exception) {
-            log.warn(e) { "Klarte ikke å hente brukers kommune" }
+            log.warn(e) { "Klarte ikke å hente brukers kommune for kommunenr: $kommunenr" }
             throw e
         }
     }

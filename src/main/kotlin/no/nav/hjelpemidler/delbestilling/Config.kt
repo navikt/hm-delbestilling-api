@@ -23,7 +23,6 @@ object Config {
 
     // Oppslag
     val OPPSLAG_API_URL by EnvironmentVariable
-    val OPPSLAG_API_SCOPE by EnvironmentVariable
 
     // Kafka
     val kafkaProducerProperties: Properties by lazy {
