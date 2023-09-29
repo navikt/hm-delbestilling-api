@@ -5,6 +5,7 @@ import no.nav.hjelpemidler.delbestilling.delbestilling.DelLinje
 import no.nav.hjelpemidler.delbestilling.delbestilling.Delbestilling
 import no.nav.hjelpemidler.delbestilling.delbestilling.DelbestillingRequest
 import no.nav.hjelpemidler.delbestilling.delbestilling.Levering
+import no.nav.hjelpemidler.delbestilling.oppslag.KommuneDto
 import no.nav.hjelpemidler.delbestilling.roller.Delbestiller
 import no.nav.hjelpemidler.delbestilling.roller.Organisasjon
 import java.util.UUID
@@ -47,6 +48,13 @@ fun delLinje(antall: Int = 1, hmsnr: String = "150817", kategori: String = "Dekk
         maksAntall = 2,
     ),
     antall = antall,
+)
+
+fun kommune() = KommuneDto(
+    fylkesnummer = "3",
+    fylkesnavn = "Oslo",
+    kommunenavn = "0301",
+    kommunenummer = "Oslo",
 )
 
 class MockException(msg: String) : RuntimeException("MockException: $msg")

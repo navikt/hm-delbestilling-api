@@ -13,6 +13,7 @@ import no.nav.hjelpemidler.delbestilling.metrics.Metrics
 import no.nav.hjelpemidler.delbestilling.oebs.Artikkel
 import no.nav.hjelpemidler.delbestilling.oebs.OebsService
 import no.nav.hjelpemidler.delbestilling.oebs.OpprettBestillingsordreRequest
+import no.nav.hjelpemidler.delbestilling.oppslag.OppslagService
 import no.nav.hjelpemidler.delbestilling.pdl.PdlService
 import no.nav.hjelpemidler.delbestilling.roller.RolleService
 import java.time.LocalDateTime
@@ -24,6 +25,7 @@ class DelbestillingService(
     private val pdlService: PdlService,
     private val oebsService: OebsService,
     private val rolleService: RolleService,
+    private val oppslagService: OppslagService,
     private val metrics: Metrics,
 ) {
 
@@ -63,6 +65,14 @@ class DelbestillingService(
             log.error(e) { "Klarte ikke å hente bruker fra PDL" }
             throw e
         }
+
+        val brukersKommunenavn = try {
+            oppslagService.hentKommune(brukerKommunenr).kommunenavn
+        } catch (e: Exception) {
+            // Svelg feil, kommunenavn brukes bare til statistikk så ikke krise hvis den feiler
+        }
+
+        log.info { "brukersKommunenavn: $brukersKommunenavn" }
 
         // Det skal ikke være mulig å bestille til seg selv (disabler i dev pga testdata)
         if (isProd() && bestillerFnr == brukersFnr) {
@@ -181,7 +191,9 @@ class DelbestillingService(
             val deler = lagretDelbestilling.delbestilling.deler.map { delLinje ->
                 if (delLinje.del.hmsnr == hmsnr) {
                     delLinje.copy(status = status)
-                } else delLinje
+                } else {
+                    delLinje
+                }
             }
             val oppdatertDelbestilling = lagretDelbestilling.delbestilling.copy(deler = deler)
             delbestillingRepository.oppdaterDelbestilling(tx, saksnummer, oppdatertDelbestilling)

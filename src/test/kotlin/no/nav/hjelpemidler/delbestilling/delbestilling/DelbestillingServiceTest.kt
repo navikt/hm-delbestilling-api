@@ -10,9 +10,11 @@ import no.nav.hjelpemidler.delbestilling.MockException
 import no.nav.hjelpemidler.delbestilling.TestDatabase
 import no.nav.hjelpemidler.delbestilling.delbestillerRolle
 import no.nav.hjelpemidler.delbestilling.delbestillingRequest
+import no.nav.hjelpemidler.delbestilling.kommune
 import no.nav.hjelpemidler.delbestilling.oebs.OebsPersoninfo
 import no.nav.hjelpemidler.delbestilling.oebs.OebsService
 import no.nav.hjelpemidler.delbestilling.oebs.OpprettBestillingsordreRequest
+import no.nav.hjelpemidler.delbestilling.oppslag.OppslagService
 import no.nav.hjelpemidler.delbestilling.pdl.PdlService
 import no.nav.hjelpemidler.delbestilling.roller.RolleService
 import org.junit.jupiter.api.BeforeEach
@@ -42,8 +44,11 @@ internal class DelbestillingServiceTest {
     private val rolleService = mockk<RolleService>(relaxed = true).apply {
         coEvery { hentDelbestillerRolle(any()) } returns delbestillerRolle()
     }
+    private val oppslagService = mockk<OppslagService>(relaxed = true).apply {
+        coEvery { hentKommune(any()) } returns kommune()
+    }
     private val delbestillingService =
-        DelbestillingService(delbestillingRepository, pdlService, oebsService, rolleService, mockk(relaxed = true))
+        DelbestillingService(delbestillingRepository, pdlService, oebsService, rolleService, oppslagService, mockk(relaxed = true))
 
     @BeforeEach
     fun setup() {

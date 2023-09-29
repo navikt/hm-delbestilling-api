@@ -21,6 +21,10 @@ object Config {
     val ROLLER_API_URL by EnvironmentVariable
     val ROLLER_API_SCOPE by EnvironmentVariable
 
+    // Oppslag
+    val OPPSLAG_API_URL by EnvironmentVariable
+    val OPPSLAG_API_SCOPE by EnvironmentVariable
+
     // Kafka
     val kafkaProducerProperties: Properties by lazy {
         when (NaisEnvironmentVariable.NAIS_CLUSTER_NAME) {
