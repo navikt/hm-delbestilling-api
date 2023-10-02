@@ -70,9 +70,8 @@ class DelbestillingService(
             oppslagService.hentKommune(brukerKommunenr).kommunenavn
         } catch (e: Exception) {
             // Svelg feil, kommunenavn brukes bare til statistikk så ikke krise hvis den feiler
+            "Ukjent"
         }
-
-        log.info { "brukersKommunenavn: $brukersKommunenavn" }
 
         // Det skal ikke være mulig å bestille til seg selv (disabler i dev pga testdata)
         if (isProd() && bestillerFnr == brukersFnr) {
@@ -111,7 +110,8 @@ class DelbestillingService(
                 bestillerFnr,
                 brukersFnr,
                 brukerKommunenr,
-                request.delbestilling
+                request.delbestilling,
+                brukersKommunenavn,
             )
             oebsService.sendDelbestilling(
                 OpprettBestillingsordreRequest(

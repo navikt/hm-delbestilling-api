@@ -30,13 +30,14 @@ class DelbestillingRepository(val ds: DataSource) {
         brukerFnr: String,
         brukerKommunenr: String,
         delbestilling: Delbestilling,
+        brukersKommunenavn: String,
     ): Long? {
         log.info { "Lagrer delbestilling '${delbestilling.id}'" }
         return tx.run(
             queryOf(
                 """
-                    INSERT INTO delbestilling (brukers_kommunenr, fnr_bruker, fnr_bestiller, delbestilling_json, status)
-                    VALUES (:brukers_kommunenr, :fnr_bruker, :fnr_bestiller, :delbestilling_json::jsonb, :status)
+                    INSERT INTO delbestilling (brukers_kommunenr, fnr_bruker, fnr_bestiller, delbestilling_json, status, brukers_kommunenavn)
+                    VALUES (:brukers_kommunenr, :fnr_bruker, :fnr_bestiller, :delbestilling_json::jsonb, :status, :brukers_kommunenavn)
                 """.trimIndent(),
                 mapOf(
                     "brukers_kommunenr" to brukerKommunenr,
@@ -44,6 +45,7 @@ class DelbestillingRepository(val ds: DataSource) {
                     "fnr_bestiller" to bestillerFnr,
                     "delbestilling_json" to jsonMapper.writeValueAsString(delbestilling),
                     "status" to Status.INNSENDT.name,
+                    "brukers_kommunenavn" to brukersKommunenavn,
                 ),
             ).asUpdateAndReturnGeneratedKey
         )
