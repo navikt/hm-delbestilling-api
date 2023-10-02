@@ -11,6 +11,7 @@ import io.ktor.server.routing.put
 import io.ktor.server.util.getOrFail
 import mu.KotlinLogging
 import no.nav.hjelpemidler.delbestilling.tokenXUser
+import java.time.LocalDate
 
 private val log = KotlinLogging.logger {}
 
@@ -86,9 +87,9 @@ fun Route.azureRoutes(
 
     put("/delbestilling/status/dellinje/{oebsOrdrenummer}") {
         val oebsOrdrenummer = call.parameters.getOrFail<String>("oebsOrdrenummer")
-        val (status, hmsnr) = call.receive<DellinjeStatusOppdateringDto>()
+        val (status, hmsnr, datoOppdatert) = call.receive<DellinjeStatusOppdateringDto>()
         log.info { "Oppdaterer status for delbestilling med oebsOrdrenummer $oebsOrdrenummer til status $status på del $hmsnr" }
-        delbestillingService.oppdaterDellinjeStatus(oebsOrdrenummer, status, hmsnr)
+        delbestillingService.oppdaterDellinjeStatus(oebsOrdrenummer, status, hmsnr, datoOppdatert)
         call.respond(HttpStatusCode.OK)
     }
 }
@@ -102,4 +103,5 @@ private data class StatusOppdateringDto(
 private data class DellinjeStatusOppdateringDto(
     val status: DellinjeStatus,
     val hmsnr: Hmsnr,
+    val datoOppdatert: LocalDate? = null
 )

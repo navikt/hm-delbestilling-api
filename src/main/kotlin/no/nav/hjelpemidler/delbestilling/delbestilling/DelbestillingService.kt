@@ -16,6 +16,7 @@ import no.nav.hjelpemidler.delbestilling.oebs.OpprettBestillingsordreRequest
 import no.nav.hjelpemidler.delbestilling.oppslag.OppslagService
 import no.nav.hjelpemidler.delbestilling.pdl.PdlService
 import no.nav.hjelpemidler.delbestilling.roller.RolleService
+import java.time.LocalDate
 import java.time.LocalDateTime
 
 private val log = KotlinLogging.logger {}
@@ -169,7 +170,12 @@ class DelbestillingService(
         }
     }
 
-    suspend fun oppdaterDellinjeStatus(oebsOrdrenummer: String, status: DellinjeStatus, hmsnr: Hmsnr) {
+    suspend fun oppdaterDellinjeStatus(
+        oebsOrdrenummer: String,
+        status: DellinjeStatus,
+        hmsnr: Hmsnr,
+        datoOppdatert: LocalDate?,
+    ) {
         require(status == DellinjeStatus.SKIPNINGSBEKREFTET) { "Forventet status ${Status.SKIPNINGSBEKREFTET} for dellinje, men fikk status $status" }
 
         delbestillingRepository.withTransaction { tx ->
@@ -190,7 +196,7 @@ class DelbestillingService(
             // Oppdater status på dellinje
             val deler = lagretDelbestilling.delbestilling.deler.map { delLinje ->
                 if (delLinje.del.hmsnr == hmsnr) {
-                    delLinje.copy(status = status)
+                    delLinje.copy(status = status, datoSkipningsbekreftet = datoOppdatert)
                 } else {
                     delLinje
                 }

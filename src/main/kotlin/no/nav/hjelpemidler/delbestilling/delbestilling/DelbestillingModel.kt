@@ -2,6 +2,7 @@ package no.nav.hjelpemidler.delbestilling.delbestilling
 
 import io.ktor.http.HttpStatusCode
 import no.nav.hjelpemidler.delbestilling.hjelpemidler.HjelpemiddelMedDeler
+import java.time.LocalDate
 import java.time.LocalDateTime
 import java.util.UUID
 
@@ -49,6 +50,7 @@ data class DelLinje(
     val del: Del,
     val antall: Int,
     val status: DellinjeStatus? = null,
+    val datoSkipningsbekreftet: LocalDate? = null,
 )
 
 enum class Levering {
