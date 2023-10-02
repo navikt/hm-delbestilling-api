@@ -15,12 +15,10 @@ import mu.KotlinLogging
 import no.nav.hjelpemidler.delbestilling.Config
 import no.nav.hjelpemidler.delbestilling.navCorrelationId
 import no.nav.hjelpemidler.http.createHttpClient
-import no.nav.hjelpemidler.http.openid.OpenIDClient
 
 private val log = KotlinLogging.logger { }
 
 class OppslagClient(
-    private val azureAdClient: OpenIDClient,
     engine: HttpClientEngine = CIO.create(),
     private val url: String = Config.OPPSLAG_API_URL,
 ) {

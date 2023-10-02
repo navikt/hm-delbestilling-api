@@ -34,7 +34,7 @@ class AppContext {
 
     private val oebsApiProxyClient = OebsApiProxyClient(azureClient)
 
-    private val oppslagClient = OppslagClient(azureClient)
+    private val oppslagClient = OppslagClient()
 
     private val kafkaService = KafkaService()
 
