@@ -53,8 +53,8 @@ fun delLinje(antall: Int = 1, hmsnr: String = "150817", kategori: String = "Dekk
 fun kommune() = KommuneDto(
     fylkesnummer = "3",
     fylkesnavn = "Oslo",
-    kommunenavn = "0301",
-    kommunenummer = "Oslo",
+    kommunenavn = "Oslo",
+    kommunenummer = "0301",
 )
 
 class MockException(msg: String) : RuntimeException("MockException: $msg")
