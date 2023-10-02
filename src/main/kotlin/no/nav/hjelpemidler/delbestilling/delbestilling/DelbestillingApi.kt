@@ -103,5 +103,5 @@ private data class StatusOppdateringDto(
 private data class DellinjeStatusOppdateringDto(
     val status: DellinjeStatus,
     val hmsnr: Hmsnr,
-    val datoOppdatert: LocalDate? = null
+    val datoOppdatert: LocalDate,
 )

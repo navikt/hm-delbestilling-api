@@ -8,7 +8,7 @@ on:
       - "CODEOWNERS"
     branches:
       - main
-      - hent-kommunenavn
+      - forventetLeveringsdato
 
 jobs:
   build-and-deploy:

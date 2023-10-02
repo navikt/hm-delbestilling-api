@@ -4,6 +4,7 @@ import io.ktor.http.HttpStatusCode
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 import mu.KotlinLogging
+import no.bekk.bekkopen.date.NorwegianDateUtil
 import no.nav.hjelpemidler.delbestilling.exceptions.PersonNotAccessibleInPdl
 import no.nav.hjelpemidler.delbestilling.exceptions.PersonNotFoundInPdl
 import no.nav.hjelpemidler.delbestilling.hjelpemidler.HjelpemiddelDeler
@@ -18,8 +19,12 @@ import no.nav.hjelpemidler.delbestilling.pdl.PdlService
 import no.nav.hjelpemidler.delbestilling.roller.RolleService
 import java.time.LocalDate
 import java.time.LocalDateTime
+import java.time.ZoneId
+import java.util.Date
 
 private val log = KotlinLogging.logger {}
+
+private val LEVERINGSDAGER_FRA_SKIPNINGSBEKREFTELSE = 1
 
 class DelbestillingService(
     private val delbestillingRepository: DelbestillingRepository,
@@ -174,7 +179,7 @@ class DelbestillingService(
         oebsOrdrenummer: String,
         status: DellinjeStatus,
         hmsnr: Hmsnr,
-        datoOppdatert: LocalDate?,
+        datoOppdatert: LocalDate,
     ) {
         require(status == DellinjeStatus.SKIPNINGSBEKREFTET) { "Forventet status ${Status.SKIPNINGSBEKREFTET} for dellinje, men fikk status $status" }
 
@@ -196,7 +201,15 @@ class DelbestillingService(
             // Oppdater status på dellinje
             val deler = lagretDelbestilling.delbestilling.deler.map { delLinje ->
                 if (delLinje.del.hmsnr == hmsnr) {
-                    delLinje.copy(status = status, datoSkipningsbekreftet = datoOppdatert)
+                    val forventetLeveringsdato = NorwegianDateUtil.addWorkingDaysToDate(
+                        datoOppdatert.toDate(),
+                        LEVERINGSDAGER_FRA_SKIPNINGSBEKREFTELSE
+                    )
+                    delLinje.copy(
+                        status = status,
+                        datoSkipningsbekreftet = datoOppdatert,
+                        forventetLeveringsdato = forventetLeveringsdato.toLocalDate(),
+                    )
                 } else {
                     delLinje
                 }
@@ -244,3 +257,8 @@ class DelbestillingService(
         return delbestillingRepository.hentDelbestillinger(bestillerFnr)
     }
 }
+
+private fun LocalDate.toDate() = Date.from(this.atStartOfDay(ZoneId.systemDefault()).toInstant())
+private fun Date.toLocalDate() = this.toInstant()
+    .atZone(ZoneId.systemDefault())
+    .toLocalDate()
