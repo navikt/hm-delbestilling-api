@@ -40,7 +40,7 @@ class OppslagClient(
                 }.body()
             }
         } catch (e: Exception) {
-            log.warn(e) { "Klarte ikke å hente brukers kommune for kommunenr: $kommunenr" }
+            log.warn(e) { "Klarte ikke å hente kommune for kommunenr: $kommunenr" }
             throw e
         }
     }
