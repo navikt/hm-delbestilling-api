@@ -38,6 +38,7 @@ spec:
       rules:
         - application: hm-oebs-api-proxy
         - application: hm-roller
+        - application: digihot-oppslag
       external:
         - host: kafka-schema-registry.nais.adeo.no
         - host: hm-oebs-api-proxy.prod-fss-pub.nais.io
@@ -73,3 +74,5 @@ spec:
       value: https://pdl-api.prod-fss-pub.nais.io/graphql
     - name: PDL_API_SCOPE
       value: api://prod-fss.pdl.pdl-api/.default
+    - name: OPPSLAG_API_URL
+      value: http://digihot-oppslag.teamdigihot.svc.cluster.local
