@@ -8,7 +8,7 @@ on:
       - "CODEOWNERS"
     branches:
       - main
-      - import-navn
+      - hent-kommunenavn
 
 jobs:
   build-and-deploy:

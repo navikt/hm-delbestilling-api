@@ -13,6 +13,7 @@ import no.nav.hjelpemidler.delbestilling.metrics.Metrics
 import no.nav.hjelpemidler.delbestilling.oebs.Artikkel
 import no.nav.hjelpemidler.delbestilling.oebs.OebsService
 import no.nav.hjelpemidler.delbestilling.oebs.OpprettBestillingsordreRequest
+import no.nav.hjelpemidler.delbestilling.oppslag.OppslagService
 import no.nav.hjelpemidler.delbestilling.pdl.PdlService
 import no.nav.hjelpemidler.delbestilling.roller.RolleService
 import java.time.LocalDate
@@ -25,6 +26,7 @@ class DelbestillingService(
     private val pdlService: PdlService,
     private val oebsService: OebsService,
     private val rolleService: RolleService,
+    private val oppslagService: OppslagService,
     private val metrics: Metrics,
 ) {
 
@@ -65,6 +67,13 @@ class DelbestillingService(
             throw e
         }
 
+        val brukersKommunenavn = try {
+            oppslagService.hentKommune(brukerKommunenr).kommunenavn
+        } catch (e: Exception) {
+            // Svelg feil, kommunenavn brukes bare til statistikk så ikke krise hvis den feiler
+            "Ukjent"
+        }
+
         // Det skal ikke være mulig å bestille til seg selv (disabler i dev pga testdata)
         if (isProd() && bestillerFnr == brukersFnr) {
             log.info { "Bestiller prøver å bestille til seg selv" }
@@ -102,7 +111,8 @@ class DelbestillingService(
                 bestillerFnr,
                 brukersFnr,
                 brukerKommunenr,
-                request.delbestilling
+                request.delbestilling,
+                brukersKommunenavn,
             )
             oebsService.sendDelbestilling(
                 OpprettBestillingsordreRequest(
@@ -164,7 +174,7 @@ class DelbestillingService(
         oebsOrdrenummer: String,
         status: DellinjeStatus,
         hmsnr: Hmsnr,
-        datoOppdatert: LocalDate?
+        datoOppdatert: LocalDate?,
     ) {
         require(status == DellinjeStatus.SKIPNINGSBEKREFTET) { "Forventet status ${Status.SKIPNINGSBEKREFTET} for dellinje, men fikk status $status" }
 
@@ -187,7 +197,9 @@ class DelbestillingService(
             val deler = lagretDelbestilling.delbestilling.deler.map { delLinje ->
                 if (delLinje.del.hmsnr == hmsnr) {
                     delLinje.copy(status = status, datoSkipningsbekreftet = datoOppdatert)
-                } else delLinje
+                } else {
+                    delLinje
+                }
             }
             val oppdatertDelbestilling = lagretDelbestilling.delbestilling.copy(deler = deler)
             delbestillingRepository.oppdaterDelbestilling(tx, saksnummer, oppdatertDelbestilling)

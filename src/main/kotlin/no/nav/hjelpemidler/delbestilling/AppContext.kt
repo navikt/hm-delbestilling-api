@@ -9,6 +9,8 @@ import no.nav.hjelpemidler.delbestilling.metrics.Metrics
 import no.nav.hjelpemidler.delbestilling.oebs.OebsApiProxyClient
 import no.nav.hjelpemidler.delbestilling.oebs.OebsService
 import no.nav.hjelpemidler.delbestilling.oebs.OebsSinkClient
+import no.nav.hjelpemidler.delbestilling.oppslag.OppslagClient
+import no.nav.hjelpemidler.delbestilling.oppslag.OppslagService
 import no.nav.hjelpemidler.delbestilling.pdl.PdlClient
 import no.nav.hjelpemidler.delbestilling.pdl.PdlService
 import no.nav.hjelpemidler.delbestilling.roller.RolleClient
@@ -16,7 +18,6 @@ import no.nav.hjelpemidler.delbestilling.roller.RolleService
 import no.nav.hjelpemidler.http.openid.azureADClient
 import no.nav.tms.token.support.tokendings.exchange.TokendingsServiceBuilder
 import kotlin.time.Duration.Companion.seconds
-
 
 private val logger = KotlinLogging.logger {}
 
@@ -32,6 +33,8 @@ class AppContext {
     private val rolleClient = RolleClient(tokendingsService)
 
     private val oebsApiProxyClient = OebsApiProxyClient(azureClient)
+
+    private val oppslagClient = OppslagClient()
 
     private val kafkaService = KafkaService()
 
@@ -49,6 +52,8 @@ class AppContext {
 
     private val oebsService = OebsService(oebsApiProxyClient, oebsSinkClient)
 
+    private val oppslagService = OppslagService(oppslagClient)
+
     val rolleService = RolleService(rolleClient)
 
     val delbestillingService = DelbestillingService(
@@ -56,6 +61,7 @@ class AppContext {
         pdlService,
         oebsService,
         rolleService,
+        oppslagService,
         metrics
     )
 
