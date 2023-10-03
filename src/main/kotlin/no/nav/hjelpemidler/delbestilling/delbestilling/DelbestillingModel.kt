@@ -51,6 +51,7 @@ data class DelLinje(
     val antall: Int,
     val status: DellinjeStatus? = null,
     val datoSkipningsbekreftet: LocalDate? = null,
+    val forventetLeveringsdato: LocalDate? = null,
 )
 
 enum class Levering {

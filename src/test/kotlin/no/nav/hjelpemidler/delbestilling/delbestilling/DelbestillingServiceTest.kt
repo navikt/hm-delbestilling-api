@@ -157,7 +157,7 @@ internal class DelbestillingServiceTest {
         delbestillingService.opprettDelbestilling(delbestillingRequest(), bestillerFnr, bestillerTokenString)
         var delbestilling = delbestillingService.hentDelbestillinger(bestillerFnr).first()
         delbestillingService.oppdaterStatus(delbestilling.saksnummer, Status.KLARGJORT, oebsOrdrenummer)
-        val datoOppdatert = LocalDate.now()
+        val datoOppdatert = LocalDate.of(2023, 9, 29)
 
         // Skipningsbekreft første del
         delbestillingService.oppdaterDellinjeStatus(
@@ -170,8 +170,11 @@ internal class DelbestillingServiceTest {
         assertEquals(Status.DELVIS_SKIPNINGSBEKREFTET, delbestilling.status)
         assertEquals(DellinjeStatus.SKIPNINGSBEKREFTET, delbestilling.delbestilling.deler[0].status)
         assertEquals(datoOppdatert, delbestilling.delbestilling.deler[0].datoSkipningsbekreftet)
+        assertEquals(LocalDate.of(2023, 10, 2), delbestilling.delbestilling.deler[0].forventetLeveringsdato)
+
         assertEquals(null, delbestilling.delbestilling.deler[1].status)
         assertEquals(null, delbestilling.delbestilling.deler[1].datoSkipningsbekreftet)
+        assertEquals(null, delbestilling.delbestilling.deler[1].forventetLeveringsdato)
 
         // Skipningsbekreft andre del
         delbestillingService.oppdaterDellinjeStatus(
@@ -198,7 +201,7 @@ internal class DelbestillingServiceTest {
             oebsOrdrenummer,
             DellinjeStatus.SKIPNINGSBEKREFTET,
             "123456",
-            null
+            LocalDate.now(),
         ) }
         
         delbestilling = delbestillingRepository.withTransaction { tx ->
