@@ -29,7 +29,7 @@ internal class HjelpemiddelDelerTest {
         val deler = hjelpemiddel.deler!!
 
         assertEquals(11, deler.size)
-        assertEquals(526, hjelpemidlerMedDeler.size)
+        assertEquals(527, hjelpemidlerMedDeler.size)
     }
 
     @Test
