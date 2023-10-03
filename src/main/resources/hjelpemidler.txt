@@ -184,6 +184,7 @@
 298651|Panthera U3|Panthera
 301287|Panthera S3 Swing|Panthera
 301406|Panthera U3 Light|Panthera
+168832|X850|X850
 168835|X850|X850
 250042|X850 Corpus|X850
 250043|X850 Corpus|X850
