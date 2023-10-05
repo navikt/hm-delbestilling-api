@@ -24,7 +24,7 @@ import java.util.Date
 
 private val log = KotlinLogging.logger {}
 
-private val LEVERINGSDAGER_FRA_SKIPNINGSBEKREFTELSE = 1
+private const val LEVERINGSDAGER_FRA_SKIPNINGSBEKREFTELSE = 1
 
 class DelbestillingService(
     private val delbestillingRepository: DelbestillingRepository,
@@ -43,8 +43,10 @@ class DelbestillingService(
         val id = request.delbestilling.id
         val hmsnr = request.delbestilling.hmsnr
         val serienr = request.delbestilling.serienr
+        log.info { "Oppretter delbestilling for hmsnr $hmsnr, serienr $serienr" }
 
         val delbestillerRolle = rolleService.hentDelbestillerRolle(tokenString)
+        log.info { "Delbestillerrolle: $delbestillerRolle " }
 
         val feil = validerDelbestillingRate(bestillerFnr, hmsnr, serienr)
         if (feil != null) {
@@ -99,6 +101,7 @@ class DelbestillingService(
 
         // Skrur av denne sjekken for dev akkurat nå, da det er litt mismatch i testdataen der
         if (isProd() && !innsenderRepresentererBrukersKommune) {
+            log.info { "Brukers kommunenr: $brukerKommunenr, innsenders kommuner: ${delbestillerRolle.kommunaleOrgs}" }
             return DelbestillingResultat(
                 id,
                 feil = DelbestillingFeil.ULIK_GEOGRAFISK_TILKNYTNING,

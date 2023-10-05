@@ -48,6 +48,8 @@ fun Route.delbestillingApiAuthenticated(
 
             val resultat = delbestillingService.opprettDelbestilling(request, bestiller.ident, bestiller.tokenString)
 
+            log.info { "opprettDelbestilling resultat: saksnummer=${resultat.saksnummer}, feil=${resultat.feil}" }
+
             val statusKode = when (resultat.feil) {
                 DelbestillingFeil.INGET_UTLÅN -> HttpStatusCode.NotFound
                 DelbestillingFeil.KAN_IKKE_BESTILLE -> HttpStatusCode.NotFound
