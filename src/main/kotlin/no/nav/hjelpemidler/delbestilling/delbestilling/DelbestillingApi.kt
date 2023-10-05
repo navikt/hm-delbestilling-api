@@ -88,7 +88,6 @@ fun Route.azureRoutes(
     put("/delbestilling/status/dellinje/{oebsOrdrenummer}") {
         val oebsOrdrenummer = call.parameters.getOrFail<String>("oebsOrdrenummer")
         val (status, hmsnr, datoOppdatert) = call.receive<DellinjeStatusOppdateringDto>()
-        log.info { "Oppdaterer status for delbestilling med oebsOrdrenummer $oebsOrdrenummer til status $status på del $hmsnr" }
         delbestillingService.oppdaterDellinjeStatus(oebsOrdrenummer, status, hmsnr, datoOppdatert)
         call.respond(HttpStatusCode.OK)
     }

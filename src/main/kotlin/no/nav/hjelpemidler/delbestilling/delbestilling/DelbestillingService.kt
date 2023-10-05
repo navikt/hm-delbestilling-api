@@ -187,7 +187,7 @@ class DelbestillingService(
             val lagretDelbestilling = delbestillingRepository.hentDelbestilling(tx, oebsOrdrenummer)
 
             if (lagretDelbestilling == null) {
-                log.info { "Ignorerer oebsOrdrenummer $oebsOrdrenummer. Fant ikke tilhørende delbestilling, antar at det ikke tilhører en delbestilling." }
+                log.debug { "Ignorerer oebsOrdrenummer $oebsOrdrenummer. Fant ikke tilhørende delbestilling, antar at det ikke tilhører en delbestilling." }
                 return@withTransaction
             }
 
@@ -223,7 +223,7 @@ class DelbestillingService(
             } else {
                 delbestillingRepository.oppdaterStatus(tx, saksnummer, Status.DELVIS_SKIPNINGSBEKREFTET)
             }
-            log.info { "Status for $oebsOrdrenummer oppdatert OK" }
+            log.info { "Dellinje $hmsnr på sak ${lagretDelbestilling.saksnummer} (oebsnr $oebsOrdrenummer) oppdatert med status $status" }
         }
     }
 
