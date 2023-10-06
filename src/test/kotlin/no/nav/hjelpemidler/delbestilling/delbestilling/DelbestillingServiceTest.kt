@@ -72,7 +72,10 @@ internal class DelbestillingServiceTest {
     }
 
     @Test
-    fun `tekniker kan max sende inn 2 delbestillinger per døgn`() = runTest {
+    fun `tekniker kan max sende inn 5 delbestillinger for samme artnr & serienr per døgn`() = runTest {
+        delbestillingService.opprettDelbestilling(delbestillingRequest(), bestillerFnr, bestillerTokenString)
+        delbestillingService.opprettDelbestilling(delbestillingRequest(), bestillerFnr, bestillerTokenString)
+        delbestillingService.opprettDelbestilling(delbestillingRequest(), bestillerFnr, bestillerTokenString)
         delbestillingService.opprettDelbestilling(delbestillingRequest(), bestillerFnr, bestillerTokenString)
         delbestillingService.opprettDelbestilling(delbestillingRequest(), bestillerFnr, bestillerTokenString)
         val resultat =
@@ -80,7 +83,7 @@ internal class DelbestillingServiceTest {
         assertEquals(DelbestillingFeil.FOR_MANGE_BESTILLINGER_SISTE_24_TIMER, resultat.feil)
 
         val bestillinger = delbestillingService.hentDelbestillinger(bestillerFnr)
-        assertEquals(2, bestillinger.size)
+        assertEquals(5, bestillinger.size)
     }
 
     @Test

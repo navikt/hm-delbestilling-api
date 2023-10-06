@@ -234,7 +234,7 @@ class DelbestillingService(
         if (isDev()) {
             return null // For enklere testing i dev
         }
-        val maxAntallBestillingerPer24Timer = 2
+        val maxAntallBestillingerPer24Timer = 5
         val tidspunkt24TimerSiden = LocalDateTime.now().minusDays(1)
         val bestillersBestillinger = hentDelbestillinger(bestillerFnr)
             .filter { it.opprettet.isAfter(tidspunkt24TimerSiden) }
