@@ -8,7 +8,7 @@ on:
       - "CODEOWNERS"
     branches:
       - main
-      - forventetLeveringsdato
+      - distroless
 
 jobs:
   build-and-deploy:
