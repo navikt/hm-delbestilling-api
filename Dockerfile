@@ -1,6 +1,8 @@
-FROM ghcr.io/navikt/baseimages/temurin:17
-
-ENV JAVA_OPTS="-XX:-OmitStackTraceInFastThrow \
-               -Xms768m -Xmx1280m"
-
+FROM gcr.io/distroless/java17-debian11
+WORKDIR /app
 COPY /build/libs/hm-delbestilling-api-fat.jar app.jar
+ENV JAVA_OPTS="-Dlogback.configurationFile=logback.xml"
+ENV TZ="Europe/Oslo"
+EXPOSE 8080
+USER nonroot
+CMD ["app.jar"]
