@@ -76,6 +76,7 @@ data class DelbestillingResultat(
     val id: UUID,
     val feil: DelbestillingFeil? = null,
     val saksnummer: Long? = null,
+    val lagretDelbestilling: LagretDelbestilling?,
 )
 
 enum class DelbestillingFeil {
