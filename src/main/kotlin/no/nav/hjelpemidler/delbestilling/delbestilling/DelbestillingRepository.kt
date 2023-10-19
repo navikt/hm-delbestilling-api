@@ -75,7 +75,7 @@ class DelbestillingRepository(val ds: DataSource) {
         )
     }
 
-    fun hentDelbestilling(saksnummer: Long, tx: Session = sessionOf(ds)): DelbestillingSak? = tx.run(
+    fun hentDelbestilling(tx: Session, saksnummer: Long): DelbestillingSak? = tx.run(
         queryOf(
             """
                 SELECT * 
