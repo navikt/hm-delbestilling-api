@@ -138,11 +138,8 @@ class DelbestillingService(
 
         sendStatistikk(request.delbestilling, utlån.fnr)
 
-        // Hent ut den nye delbestillingen
         val delbestillingSak = if (lagretSaksnummer != null) {
-            delbestillingRepository.withTransaction { tx ->
-                delbestillingRepository.hentDelbestilling(tx, lagretSaksnummer)
-            }
+            delbestillingRepository.hentDelbestilling(lagretSaksnummer)
         } else {
             null
         }
@@ -173,7 +170,7 @@ class DelbestillingService(
 
     suspend fun oppdaterStatus(saksnummer: Long, status: Status, oebsOrdrenummer: String) {
         delbestillingRepository.withTransaction { tx ->
-            val lagretDelbestilling = delbestillingRepository.hentDelbestilling(tx, saksnummer)!!
+            val lagretDelbestilling = delbestillingRepository.hentDelbestilling(saksnummer, tx)!!
 
             if (lagretDelbestilling.oebsOrdrenummer == null) {
                 delbestillingRepository.oppdaterOebsOrdrenummer(tx, saksnummer, oebsOrdrenummer)
