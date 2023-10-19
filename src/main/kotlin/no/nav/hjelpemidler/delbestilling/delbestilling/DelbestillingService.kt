@@ -50,14 +50,14 @@ class DelbestillingService(
 
         val feil = validerDelbestillingRate(bestillerFnr, hmsnr, serienr)
         if (feil != null) {
-            return DelbestillingResultat(id, feil = feil, null, null)
+            return DelbestillingResultat(id, feil = feil)
         }
 
         val levering = request.delbestilling.levering
         val deler = request.delbestilling.deler
 
         val utlån = oebsService.hentUtlånPåArtnrOgSerienr(hmsnr, serienr)
-            ?: return DelbestillingResultat(id, feil = DelbestillingFeil.INGET_UTLÅN, null, null)
+            ?: return DelbestillingResultat(id, feil = DelbestillingFeil.INGET_UTLÅN)
 
         val brukersFnr = utlån.fnr
 
@@ -65,10 +65,10 @@ class DelbestillingService(
             pdlService.hentKommunenummer(brukersFnr)
         } catch (e: PersonNotAccessibleInPdl) {
             log.error(e) { "Person ikke tilgjengelig i PDL" }
-            return DelbestillingResultat(id, feil = DelbestillingFeil.KAN_IKKE_BESTILLE, null, null)
+            return DelbestillingResultat(id, feil = DelbestillingFeil.KAN_IKKE_BESTILLE)
         } catch (e: PersonNotFoundInPdl) {
             log.error(e) { "Person ikke funnet i PDL" }
-            return DelbestillingResultat(id, feil = DelbestillingFeil.BRUKER_IKKE_FUNNET, null, null)
+            return DelbestillingResultat(id, feil = DelbestillingFeil.BRUKER_IKKE_FUNNET)
         } catch (e: Exception) {
             log.error(e) { "Klarte ikke å hente bruker fra PDL" }
             throw e
@@ -84,7 +84,7 @@ class DelbestillingService(
         // Det skal ikke være mulig å bestille til seg selv (disabler i dev pga testdata)
         if (isProd() && bestillerFnr == brukersFnr) {
             log.info { "Bestiller prøver å bestille til seg selv" }
-            return DelbestillingResultat(id, feil = DelbestillingFeil.BESTILLE_TIL_SEG_SELV, null, null)
+            return DelbestillingResultat(id, feil = DelbestillingFeil.BESTILLE_TIL_SEG_SELV)
         }
 
         // Sjekk at PDL og OEBS kommunenr på bruker stemmer overens
@@ -92,7 +92,7 @@ class DelbestillingService(
         val brukerHarSammeKommunenrIOebsOgPdl = oebsBrukerinfo.any { it.leveringKommune == brukerKommunenr }
         if (!brukerHarSammeKommunenrIOebsOgPdl) {
             log.info { "Ulik leveringsadresse. OEBS: $oebsBrukerinfo, PDL: $brukerKommunenr" }
-            return DelbestillingResultat(id, feil = DelbestillingFeil.ULIK_ADRESSE_PDL_OEBS, null, null)
+            return DelbestillingResultat(id, feil = DelbestillingFeil.ULIK_ADRESSE_PDL_OEBS)
         }
 
         // Sjekk om en av innsenders kommuner tilhører brukers kommuner
@@ -104,7 +104,7 @@ class DelbestillingService(
             log.info { "Brukers kommunenr: $brukerKommunenr, innsenders kommuner: ${delbestillerRolle.kommunaleOrgs}" }
             return DelbestillingResultat(
                 id,
-                feil = DelbestillingFeil.ULIK_GEOGRAFISK_TILKNYTNING, null, null,
+                feil = DelbestillingFeil.ULIK_GEOGRAFISK_TILKNYTNING,
             )
         }
 
