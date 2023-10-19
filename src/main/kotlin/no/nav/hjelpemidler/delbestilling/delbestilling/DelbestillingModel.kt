@@ -76,7 +76,7 @@ data class DelbestillingResultat(
     val id: UUID,
     val feil: DelbestillingFeil? = null,
     val saksnummer: Long? = null,
-    val lagretDelbestilling: LagretDelbestilling?,
+    val delbestillingSak: DelbestillingSak?,
 )
 
 enum class DelbestillingFeil {
@@ -89,7 +89,7 @@ enum class DelbestillingFeil {
     FOR_MANGE_BESTILLINGER_SISTE_24_TIMER,
 }
 
-data class LagretDelbestilling(
+data class DelbestillingSak(
     val saksnummer: Long,
     val delbestilling: Delbestilling,
     val opprettet: LocalDateTime,

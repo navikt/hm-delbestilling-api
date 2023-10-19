@@ -51,7 +51,7 @@ class DelbestillingRepository(val ds: DataSource) {
         )
     }
 
-    fun hentDelbestillinger(tx: Session): List<LagretDelbestilling> = using(sessionOf(ds)) { session ->
+    fun hentDelbestillinger(tx: Session): List<DelbestillingSak> = using(sessionOf(ds)) { session ->
         tx.run(
             queryOf(
                 """
@@ -62,7 +62,7 @@ class DelbestillingRepository(val ds: DataSource) {
         )
     }
 
-    fun hentDelbestillinger(bestillerFnr: String): List<LagretDelbestilling> = using(sessionOf(ds)) { session ->
+    fun hentDelbestillinger(bestillerFnr: String): List<DelbestillingSak> = using(sessionOf(ds)) { session ->
         session.run(
             queryOf(
                 """
@@ -75,7 +75,7 @@ class DelbestillingRepository(val ds: DataSource) {
         )
     }
 
-    fun hentDelbestilling(tx: Session, saksnummer: Long): LagretDelbestilling? = tx.run(
+    fun hentDelbestilling(tx: Session, saksnummer: Long): DelbestillingSak? = tx.run(
         queryOf(
             """
                 SELECT * 
@@ -86,7 +86,7 @@ class DelbestillingRepository(val ds: DataSource) {
         ).map { it.toLagretDelbestilling() }.asSingle
     )
 
-    fun hentDelbestilling(tx: Session, oebsOrdrenummer: String): LagretDelbestilling? = tx.run(
+    fun hentDelbestilling(tx: Session, oebsOrdrenummer: String): DelbestillingSak? = tx.run(
         queryOf(
             """
                 SELECT * 
@@ -163,7 +163,7 @@ class DelbestillingRepository(val ds: DataSource) {
 
 }
 
-private fun Row.toLagretDelbestilling() = LagretDelbestilling(
+private fun Row.toLagretDelbestilling() = DelbestillingSak(
     this.long("saksnummer"),
     this.json("delbestilling_json"),
     this.localDateTime("opprettet"),

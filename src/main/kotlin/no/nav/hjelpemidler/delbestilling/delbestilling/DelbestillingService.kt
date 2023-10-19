@@ -139,7 +139,7 @@ class DelbestillingService(
         sendStatistikk(request.delbestilling, utlån.fnr)
 
         // Hent ut den nye delbestillingen
-        val lagretDelbestilling = if (lagretSaksnummer != null) {
+        val delbestillingSak = if (lagretSaksnummer != null) {
             delbestillingRepository.withTransaction { tx ->
                 delbestillingRepository.hentDelbestilling(tx, lagretSaksnummer)
             }
@@ -147,7 +147,7 @@ class DelbestillingService(
             null
         }
 
-        return DelbestillingResultat(id, null, saksnummer = lagretSaksnummer, lagretDelbestilling)
+        return DelbestillingResultat(id, null, lagretSaksnummer, delbestillingSak)
     }
 
     suspend fun sendStatistikk(delbestilling: Delbestilling, fnrBruker: String) = coroutineScope {
@@ -265,7 +265,7 @@ class DelbestillingService(
         return OppslagResultat(hjelpemiddelMedDeler, null, HttpStatusCode.OK)
     }
 
-    fun hentDelbestillinger(bestillerFnr: String): List<LagretDelbestilling> {
+    fun hentDelbestillinger(bestillerFnr: String): List<DelbestillingSak> {
         return delbestillingRepository.hentDelbestillinger(bestillerFnr)
     }
 }
