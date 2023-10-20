@@ -8,7 +8,7 @@ on:
       - "CODEOWNERS"
     branches:
       - main
-      - distroless
+      - returner-delbestilling
 
 jobs:
   build-and-deploy:

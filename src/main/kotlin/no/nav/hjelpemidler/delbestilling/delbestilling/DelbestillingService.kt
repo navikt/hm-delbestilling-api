@@ -17,6 +17,7 @@ import no.nav.hjelpemidler.delbestilling.oebs.OpprettBestillingsordreRequest
 import no.nav.hjelpemidler.delbestilling.oppslag.OppslagService
 import no.nav.hjelpemidler.delbestilling.pdl.PdlService
 import no.nav.hjelpemidler.delbestilling.roller.RolleService
+import java.lang.RuntimeException
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.ZoneId
@@ -113,7 +114,7 @@ class DelbestillingService(
         val xkLagerInfo = if (levering == Levering.TIL_XK_LAGER) "XK-Lager " else ""
         val forsendelsesinfo = "${xkLagerInfo}Tekniker: $bestillersNavn"
 
-        val lagretSaksnummer = delbestillingRepository.withTransaction(returnGeneratedKeys = true) { tx ->
+        val delbestillingSak = delbestillingRepository.withTransaction(returnGeneratedKeys = true) { tx ->
             val saksnummer = delbestillingRepository.lagreDelbestilling(
                 tx,
                 bestillerFnr,
@@ -122,6 +123,18 @@ class DelbestillingService(
                 request.delbestilling,
                 brukersKommunenavn,
             )
+
+            // Hent ut den nye delbestillingsaken
+            val nyDelbestillingSak = if (saksnummer != null) {
+                delbestillingRepository.hentDelbestilling(tx, saksnummer)
+            } else {
+                null
+            }
+
+            if (nyDelbestillingSak == null) {
+                throw RuntimeException("Klarte ikke hente ut delbestillingsak for saksnummer $saksnummer")
+            }
+
             oebsService.sendDelbestilling(
                 OpprettBestillingsordreRequest(
                     brukersFnr = brukersFnr,
@@ -131,14 +144,15 @@ class DelbestillingService(
                     forsendelsesinfo = forsendelsesinfo,
                 )
             )
-            saksnummer
+
+            nyDelbestillingSak
         }
 
-        log.info { "Delbestilling '$id' sendt inn med saksnummer '$lagretSaksnummer'" }
+        log.info { "Delbestilling '$id' sendt inn med saksnummer '${delbestillingSak.saksnummer}'" }
 
         sendStatistikk(request.delbestilling, utlån.fnr)
 
-        return DelbestillingResultat(id, null, saksnummer = lagretSaksnummer)
+        return DelbestillingResultat(id, null, delbestillingSak.saksnummer, delbestillingSak)
     }
 
     suspend fun sendStatistikk(delbestilling: Delbestilling, fnrBruker: String) = coroutineScope {
@@ -256,7 +270,7 @@ class DelbestillingService(
         return OppslagResultat(hjelpemiddelMedDeler, null, HttpStatusCode.OK)
     }
 
-    fun hentDelbestillinger(bestillerFnr: String): List<LagretDelbestilling> {
+    fun hentDelbestillinger(bestillerFnr: String): List<DelbestillingSak> {
         return delbestillingRepository.hentDelbestillinger(bestillerFnr)
     }
 }
