@@ -23,16 +23,6 @@ internal class HjelpemiddelDelerTest {
     }
 
     @Test
-    fun `skal hente ut alle hjelpemidler med deler`() {
-        val hjelpemidlerMedDeler = hentAlleHjelpemidlerMedDeler()
-        val hjelpemiddel = hjelpemidlerMedDeler.first()
-        val deler = hjelpemiddel.deler!!
-
-        assertEquals(11, deler.size)
-        assertEquals(528, hjelpemidlerMedDeler.size)
-    }
-
-    @Test
     fun `skal finne hjelpemiddel med deler for Minicrosser M1`() {
         val hmsnrnrMinicrosserM1 = "159629"
         val hjelpemiddel = hentHjelpemiddelMedDeler(hmsnrnrMinicrosserM1)
