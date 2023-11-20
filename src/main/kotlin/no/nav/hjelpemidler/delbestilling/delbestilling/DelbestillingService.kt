@@ -121,7 +121,10 @@ class DelbestillingService(
         val bestillersNavn = pdlService.hentPersonNavn(bestillerFnr, validerAdressebeskyttelse = false)
         val artikler = deler.map { Artikkel(it.del.hmsnr, it.antall) }
         val xkLagerInfo = if (levering == Levering.TIL_XK_LAGER) "XK-Lager " else ""
-        val forsendelsesinfo = "${xkLagerInfo}Tekniker: $bestillersNavn"
+        val forsendelsesinfo = when(rolle) {
+            Rolle.TEKNIKER -> "${xkLagerInfo}Tekniker: $bestillersNavn"
+            Rolle.BRUKERPASS -> "Brukerpassbruker: $bestillersNavn"
+        }
 
         val delbestillingSak = delbestillingRepository.withTransaction(returnGeneratedKeys = true) { tx ->
             val saksnummer = delbestillingRepository.lagreDelbestilling(
