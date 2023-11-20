@@ -7,6 +7,7 @@ import no.nav.hjelpemidler.delbestilling.delbestilling.DelbestillingRequest
 import no.nav.hjelpemidler.delbestilling.delbestilling.Levering
 import no.nav.hjelpemidler.delbestilling.delbestilling.Rolle
 import no.nav.hjelpemidler.delbestilling.oebs.Utlån
+import no.nav.hjelpemidler.delbestilling.oppslag.KommuneDto
 import no.nav.hjelpemidler.delbestilling.roller.Delbestiller
 import no.nav.hjelpemidler.delbestilling.roller.Organisasjon
 import java.util.UUID
@@ -21,26 +22,34 @@ fun delbestillerRolle(kanBestilleDeler: Boolean = true) = Delbestiller(
     erIPilot = true,
 )
 
-fun delbestillingRequest(deler: List<DelLinje> = deler()) = DelbestillingRequest(
+fun delbestillingRequest(
+    deler: List<DelLinje> = deler(),
+    harOpplæringPåBatteri: Boolean? = false,
+) = DelbestillingRequest(
     Delbestilling(
         id = UUID.randomUUID(),
         hmsnr = "236958",
         serienr = "687273",
         deler = deler,
         levering = Levering.TIL_XK_LAGER,
-        rolle = Rolle.TEKNIKER
+        rolle = Rolle.TEKNIKER,
+        harOpplæringPåBatteri = harOpplæringPåBatteri,
+        navn = "Panthera U3 Light"
     )
 )
 
-fun deler() = listOf(delLinje())
+fun deler() = listOf(
+    delLinje(),
+    delLinje(hmsnr = "278247", kategori = "Slange"),
+)
 
-fun delLinje(antall: Int = 1) = DelLinje(
+fun delLinje(antall: Int = 1, hmsnr: String = "150817", kategori: String = "Dekk") = DelLinje(
     Del(
         navn = "del",
-        hmsnr = "150817",
+        hmsnr = hmsnr,
         levArtNr = "1000038",
         img = "",
-        kategori = "dekk",
+        kategori = kategori,
         maksAntall = 2,
     ),
     antall = antall,
@@ -51,6 +60,12 @@ fun utlån() = Utlån(
     "111",
     "222",
     ""
+)
+fun kommune() = KommuneDto(
+    fylkesnummer = "3",
+    fylkesnavn = "Oslo",
+    kommunenavn = "Oslo",
+    kommunenummer = "0301",
 )
 
 class MockException(msg: String) : RuntimeException("MockException: $msg")

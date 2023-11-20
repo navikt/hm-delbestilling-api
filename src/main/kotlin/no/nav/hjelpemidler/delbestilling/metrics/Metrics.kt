@@ -8,7 +8,7 @@ private val log = KotlinLogging.logger {}
 class Metrics(
     private val kafkaService: KafkaService,
 ) {
-    suspend fun registerPoint(
+    private suspend fun registerPoint(
         measurement: String,
         tags: Map<String, String>,
         fields: Map<String, Any> = mapOf("counter" to 1L),
@@ -20,15 +20,24 @@ class Metrics(
         }
     }
 
-    private suspend fun registrerSomething() {
+    suspend fun registrerDelbestillingInnsendt(
+        hmsnrDel: String,
+        navnDel: String,
+        hmsnrHovedprodukt: String,
+        navnHovedprodukt: String,
+        rolleInnsender: String,
+        hjmbrukerHarBrukerpass: Boolean
+    ) {
         registerPoint(
-            SOMETHING,
+            "delbestilling.innsendt",
             mapOf(
-                "rolle" to "tekniker",
-                "antallDeler" to "5",
+                "hmsnrDel" to hmsnrDel,
+                "navnDel" to navnDel,
+                "hmsnrHovedprodukt" to hmsnrHovedprodukt,
+                "navnHovedprodukt" to navnHovedprodukt,
+                "rolleInnsender" to rolleInnsender,
+                "hjmbrukerHarBrukerpass" to hjmbrukerHarBrukerpass.toString(),
             )
         )
     }
 }
-
-val SOMETHING = "something"

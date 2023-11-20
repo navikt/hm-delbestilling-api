@@ -81,6 +81,9 @@ dependencies {
     implementation("com.github.navikt.tms-ktor-token-support:token-support-azure-validation:$tokenSupportVersion")
     implementation("com.github.navikt.tms-ktor-token-support:token-support-azure-exchange:$tokenSupportVersion")
 
+    // Utils
+    implementation("no.bekk.bekkopen:nocommons:0.15.0")
+
     // Testing
     testImplementation(kotlin("test"))
     testImplementation(ktor("server-test-host"))

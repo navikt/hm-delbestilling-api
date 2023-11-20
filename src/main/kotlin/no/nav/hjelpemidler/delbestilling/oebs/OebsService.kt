@@ -15,4 +15,8 @@ class OebsService(
     suspend fun sendDelbestilling(opprettBestillingsordreRequest: OpprettBestillingsordreRequest) {
         return oebsSinkClient.sendDelbestilling(opprettBestillingsordreRequest)
     }
+
+    suspend fun harBrukerpass(fnr: String): Boolean {
+        return oebsApiProxyClient.hentBrukerpassinfo(fnr).brukerpass
+    }
 }

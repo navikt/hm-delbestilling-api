@@ -2,6 +2,7 @@ package no.nav.hjelpemidler.delbestilling.delbestilling
 
 import io.ktor.http.HttpStatusCode
 import no.nav.hjelpemidler.delbestilling.hjelpemidler.HjelpemiddelMedDeler
+import java.time.LocalDate
 import java.time.LocalDateTime
 import java.util.UUID
 
@@ -48,6 +49,9 @@ data class Del(
 data class DelLinje(
     val del: Del,
     val antall: Int,
+    val status: DellinjeStatus? = null,
+    val datoSkipningsbekreftet: LocalDate? = null,
+    val forventetLeveringsdato: LocalDate? = null,
 )
 
 enum class Levering {
@@ -64,7 +68,9 @@ data class Delbestilling(
     val serienr: Serienr,
     val deler: List<DelLinje>,
     val levering: Levering,
-    val rolle: Rolle
+    val rolle: Rolle,
+    val harOpplæringPåBatteri: Boolean?,
+    val navn: String?,
 )
 
 enum class Rolle {
@@ -75,6 +81,7 @@ data class DelbestillingResultat(
     val id: UUID,
     val feil: DelbestillingFeil? = null,
     val saksnummer: Long? = null,
+    val delbestillingSak: DelbestillingSak? = null,
 )
 
 enum class DelbestillingFeil {
@@ -88,12 +95,13 @@ enum class DelbestillingFeil {
     HAR_IKKE_FORELDREANSVAR,
 }
 
-data class LagretDelbestilling(
+data class DelbestillingSak(
     val saksnummer: Long,
     val delbestilling: Delbestilling,
     val opprettet: LocalDateTime,
     val status: Status,
     val sistOppdatert: LocalDateTime,
+    val oebsOrdrenummer: String?,
 )
 
 typealias Hmsnr = String

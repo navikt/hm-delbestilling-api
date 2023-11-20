@@ -11,6 +11,7 @@ import io.ktor.server.routing.put
 import io.ktor.server.util.getOrFail
 import mu.KotlinLogging
 import no.nav.hjelpemidler.delbestilling.tokenXUser
+import java.time.LocalDate
 
 private val log = KotlinLogging.logger {}
 
@@ -47,6 +48,8 @@ fun Route.delbestillingApiAuthenticated(
 
             val resultat = delbestillingService.opprettDelbestilling(request, bestiller.ident, bestiller.tokenString)
 
+            log.info { "opprettDelbestilling resultat: saksnummer=${resultat.saksnummer}, feil=${resultat.feil}" }
+
             val statusKode = when (resultat.feil) {
                 DelbestillingFeil.INGET_UTLÅN -> HttpStatusCode.NotFound
                 DelbestillingFeil.KAN_IKKE_BESTILLE -> HttpStatusCode.NotFound
@@ -76,12 +79,31 @@ fun Route.delbestillingApiAuthenticated(
 fun Route.azureRoutes(
     delbestillingService: DelbestillingService,
 ) {
-    put("/delbestilling/status/{id}") {
+    put("/delbestilling/status/v2/{id}") {
         val id = call.parameters.getOrFail<Long>("id")
-        val status = call.receive<Status>()
+        val (status, oebsOrdrenummer) = call.receive<StatusOppdateringDto>()
         log.info { "Oppdaterer status for delbestilling $id (hmdel_$id) til status $status" }
-        delbestillingService.oppdaterStatus(id, status)
+        delbestillingService.oppdaterStatus(id, status, oebsOrdrenummer)
         call.respond(HttpStatusCode.OK)
         log.info { "Status for delbestilling $id (hmdel_$id) oppdatert OK" }
     }
+
+    put("/delbestilling/status/dellinje/{oebsOrdrenummer}") {
+        val oebsOrdrenummer = call.parameters.getOrFail<String>("oebsOrdrenummer")
+        val (status, hmsnr, datoOppdatert) = call.receive<DellinjeStatusOppdateringDto>()
+        delbestillingService.oppdaterDellinjeStatus(oebsOrdrenummer, status, hmsnr, datoOppdatert)
+        call.respond(HttpStatusCode.OK)
+    }
 }
+
+
+private data class StatusOppdateringDto(
+    val status: Status,
+    val oebsOrdrenummer: String,
+)
+
+private data class DellinjeStatusOppdateringDto(
+    val status: DellinjeStatus,
+    val hmsnr: Hmsnr,
+    val datoOppdatert: LocalDate,
+)

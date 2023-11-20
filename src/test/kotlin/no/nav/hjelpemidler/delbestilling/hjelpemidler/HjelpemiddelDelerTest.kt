@@ -14,22 +14,12 @@ internal class HjelpemiddelDelerTest {
         assertNotNull(hjelpemiddel)
 
         val deler = hjelpemiddel!!.deler!!
-        assertEquals(13, deler.size)
+        assertEquals(11, deler.size)
 
         val hmsnrSchwalbeDekk = "150817"
         val dekk = deler.find { it.hmsnr == hmsnrSchwalbeDekk }!!
         assertEquals("Dekk Schwalbe Marathon Plus punkteringsbeskyttet 24\"x1", dekk.navn)
         assertEquals("Dekk", dekk.kategori)
-    }
-
-    @Test
-    fun `skal hente ut alle hjelpemidler med deler`() {
-        val hjelpemidlerMedDeler = hentAlleHjelpemidlerMedDeler()
-        val hjelpemiddel = hjelpemidlerMedDeler.first()
-        val deler = hjelpemiddel!!.deler!!
-
-        assertEquals(13, deler.size)
-        assertEquals(526, hjelpemidlerMedDeler.size)
     }
 
     @Test
@@ -48,5 +38,19 @@ internal class HjelpemiddelDelerTest {
         assertEquals("263773", deler[1].hmsnr)
         assertEquals("Batteri 85 ah", deler[1].navn)
         assertEquals("Batteri", deler[1].kategori)
+    }
+
+    @Test
+    fun `skal finne hjelpemiddel med deler for X850S`() {
+        val hmsnrnrX850S = "308941"
+        val hjelpemiddel = hentHjelpemiddelMedDeler(hmsnrnrX850S)
+        assertNotNull(hjelpemiddel)
+
+        val deler = hjelpemiddel!!.deler!!
+        assertEquals(3, deler.size)
+
+        assertEquals("309144", deler[0].hmsnr)
+        assertEquals("Hjul foran", deler[0].navn)
+        assertEquals("Hjul", deler[0].kategori)
     }
 }

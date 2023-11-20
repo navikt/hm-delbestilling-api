@@ -103,4 +103,26 @@ class OebsApiProxyClient(
             }
         }
     }
+
+    suspend fun hentBrukerpassinfo(fnr: String): Brukerpass {
+        return withContext(Dispatchers.IO) {
+            try {
+                val tokenSet = azureAdClient.grant(apiScope)
+                val httpResponse = client.request("$baseUrl/hent-brukerpass") {
+                    method = HttpMethod.Post
+                    bearerAuth(tokenSet)
+                    navCorrelationId()
+                    setBody(FnrDto(fnr))
+                }
+                httpResponse.body()
+            } catch (e: Exception) {
+                logg.error(e) { "Klarte ikke hente info om brukerpass fra OEBS" }
+                throw e
+            }
+        }
+    }
 }
+
+private data class FnrDto(
+    val fnr: String
+)
