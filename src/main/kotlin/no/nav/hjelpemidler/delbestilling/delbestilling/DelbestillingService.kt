@@ -44,7 +44,7 @@ class DelbestillingService(
         val id = request.delbestilling.id
         val hmsnr = request.delbestilling.hmsnr
         val serienr = request.delbestilling.serienr
-        val rolle = request.delbestilling.rolle
+        val innsenderRolle = request.delbestilling.rolle
         log.info { "Oppretter delbestilling for hmsnr $hmsnr, serienr $serienr" }
 
         val delbestillerRolle = rolleService.hentDelbestillerRolle(tokenString)
@@ -77,7 +77,7 @@ class DelbestillingService(
         }
 
         // Hvis innsender med brukerpass prøver å bestille til noen andre enn seg selv, sjekk relasjonen via PDL
-        if (rolle == Rolle.BRUKERPASS && bestillerFnr != brukersFnr) {
+        if (innsenderRolle == Rolle.BRUKERPASS && bestillerFnr != brukersFnr) {
             if (!pdlService.harForeldreansvarForPerson(bestillerFnr, brukersFnr)) {
                 log.info { "Bestiller med brukerpass forsøker å bestille til bruker hen ikke har foreldreansvar for" }
                 return DelbestillingResultat(id, feil = DelbestillingFeil.HAR_IKKE_FORELDREANSVAR)
@@ -105,7 +105,7 @@ class DelbestillingService(
         }
 
         // Sjekk om en av innsenders kommuner tilhører brukers kommuner
-        if (rolle == Rolle.TEKNIKER) {
+        if (innsenderRolle == Rolle.TEKNIKER) {
             val innsenderRepresentererBrukersKommune =
                 delbestillerRolle.kommunaleOrgs?.find { it.kommunenummer == brukerKommunenr } != null
 
@@ -121,7 +121,7 @@ class DelbestillingService(
         val bestillersNavn = pdlService.hentPersonNavn(bestillerFnr, validerAdressebeskyttelse = false)
         val artikler = deler.map { Artikkel(it.del.hmsnr, it.antall) }
         val xkLagerInfo = if (levering == Levering.TIL_XK_LAGER) "XK-Lager " else ""
-        val forsendelsesinfo = when(rolle) {
+        val forsendelsesinfo = when (innsenderRolle) {
             Rolle.TEKNIKER -> "${xkLagerInfo}Tekniker: $bestillersNavn"
             Rolle.BRUKERPASS -> "Brukerpassbruker: $bestillersNavn"
         }
