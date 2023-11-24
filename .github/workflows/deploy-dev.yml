@@ -8,7 +8,7 @@ on:
       - "CODEOWNERS"
     branches:
       - main
-      - returner-delbestilling
+      - opus-seng
 
 jobs:
   build-and-deploy:
