@@ -6,6 +6,7 @@ enum class Status {
     KLARGJORT, // Fra OeBS
     DELVIS_SKIPNINGSBEKREFTET,
     SKIPNINGSBEKREFTET,
+    ANNULLERT, // Fra OeBS
     LUKKET, // Fra OeBS
 }
 
