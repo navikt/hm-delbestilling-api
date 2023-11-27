@@ -51,6 +51,15 @@ val delerPerHjelpemiddel: Map<Hmsnr, List<Del>> = mapOf(
         "232810",
         "278033",
     ),
+    "Seng Opus" to listOf(
+        "149965",
+        "173483",
+        "028152",
+        "255826",
+        "028158",
+        "149963",
+        "232849",
+    ),
     "X850" to listOf(
         "157312",
         "157314",

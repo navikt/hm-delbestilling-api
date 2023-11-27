@@ -3,6 +3,7 @@ package no.nav.hjelpemidler.delbestilling.hjelpemidler
 import no.nav.hjelpemidler.delbestilling.delbestilling.Del
 import no.nav.hjelpemidler.delbestilling.delbestilling.Hmsnr
 
+private const val TODO_BESTEM_MAX_ANTALL = 8 // Finn ut hva som er et fornuftig max antall på disse
 
 val DELER: Map<Hmsnr, Del> = listOf(
     Del(
@@ -235,4 +236,64 @@ val DELER: Map<Hmsnr, Del> = listOf(
         kategori = Kategori.Lader,
         maksAntall = 2,
     ),
-).associateBy { it.hmsnr }
+    Del(
+        hmsnr = "149965",
+        navn = "Gripekloss seng Opus K85EW/90EW/120EW",
+        levArtNr = "626550",
+        kategori = Kategori.Annet,
+        maksAntall = TODO_BESTEM_MAX_ANTALL,
+    ),
+    Del(
+        hmsnr = "173483",
+        navn = "Håndkontroll seng Opus K85EW/90EW/120EW/SDW",
+        levArtNr = "626011",
+        kategori = Kategori.Annet,
+        maksAntall = 1
+    ),
+    Del(
+        hmsnr = "028152",
+        navn = "Madrasstopper seng Opus K85EW/90EW/120EW",
+        levArtNr = "626510",
+        kategori = Kategori.Annet,
+        maksAntall = TODO_BESTEM_MAX_ANTALL,
+    ),
+    Del(
+        hmsnr = "255826",
+        navn = "Elektronikk seng Opus K85EW/90EW/120EW/SDW/90EW HS",
+        levArtNr = "626103",
+        kategori = Kategori.Annet,
+        maksAntall = 1
+    ),
+    Del(
+        hmsnr = "028158",
+        navn = "Nettkabel seng Opus K85EW/90EW/120EW/SDW/90EW HS/hjertebrett",
+        levArtNr = "626120",
+        kategori = Kategori.Annet,
+        maksAntall = 1
+    ),
+    Del(
+        hmsnr = "149963",
+        navn = "Pomrulle seng Opus K85EW/90EW/120EW/SDW/90 EW HS",
+        levArtNr = "626562",
+        kategori = Kategori.Annet,
+        maksAntall = TODO_BESTEM_MAX_ANTALL,
+    ),
+    Del(
+        hmsnr = "232849",
+        navn = "Festebrakett til sengeramme seng Opus SDW",
+        levArtNr = "626796",
+        kategori = Kategori.Annet,
+        maksAntall = TODO_BESTEM_MAX_ANTALL,
+    ),
+).also(::kontrollerForDuplikateHmsnr).associateBy { it.hmsnr }
+
+internal fun kontrollerForDuplikateHmsnr(deler: List<Del>) {
+    val duplicates = deler
+        .groupBy { it }
+        .filter { it.value.size > 1 }
+        .flatMap { it.value }
+
+    if (duplicates.isNotEmpty()) {
+        throw IllegalStateException("DELER inneholder duplikate hmsnr: $duplicates")
+    }
+}

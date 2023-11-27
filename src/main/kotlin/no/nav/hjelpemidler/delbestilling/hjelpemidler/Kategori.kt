@@ -15,6 +15,5 @@ fun defaultAntall(kategori: Kategori) = when (kategori) {
     Kategori.Dekk -> 2
     Kategori.Hjul -> 2
     Kategori.Svinghjul -> 2
-    Kategori.Annet -> 8
     else -> 1
 }
