@@ -51,16 +51,14 @@ class DelbestillingRepository(val ds: DataSource) {
         )
     }
 
-    fun hentDelbestillinger(tx: Session): List<DelbestillingSak> = using(sessionOf(ds)) { session ->
-        tx.run(
-            queryOf(
-                """
-                    SELECT * 
-                    FROM delbestilling
-                """.trimIndent()
-            ).map { it.toLagretDelbestilling() }.asList
-        )
-    }
+    fun hentDelbestillinger(tx: Session): List<DelbestillingSak> = tx.run(
+        queryOf(
+            """
+                SELECT * 
+                FROM delbestilling
+            """.trimIndent()
+        ).map { it.toLagretDelbestilling() }.asList
+    )
 
     fun hentDelbestillinger(bestillerFnr: String): List<DelbestillingSak> = using(sessionOf(ds)) { session ->
         session.run(

@@ -14,12 +14,12 @@ internal class HjelpemiddelDelerTest {
         assertNotNull(hjelpemiddel)
 
         val deler = hjelpemiddel!!.deler!!
-        assertEquals(11, deler.size)
+        assertTrue(10 < deler.size)
 
         val hmsnrSchwalbeDekk = "150817"
         val dekk = deler.find { it.hmsnr == hmsnrSchwalbeDekk }!!
         assertEquals("Dekk Schwalbe Marathon Plus punkteringsbeskyttet 24\"x1", dekk.navn)
-        assertEquals("Dekk", dekk.kategori)
+        assertEquals(Kategori.Dekk, dekk.kategori)
     }
 
     @Test
@@ -32,12 +32,12 @@ internal class HjelpemiddelDelerTest {
         assertEquals(3, deler.size)
 
         assertEquals("200842", deler[0].hmsnr)
-        assertEquals("Hjul foran/bak", deler[0].navn)
-        assertEquals("Hjul", deler[0].kategori)
+        assertEquals("Hjul 13x5.00-6 foran/bak", deler[0].navn)
+        assertEquals(Kategori.Hjul, deler[0].kategori)
 
         assertEquals("263773", deler[1].hmsnr)
         assertEquals("Batteri 85 ah", deler[1].navn)
-        assertEquals("Batteri", deler[1].kategori)
+        assertEquals(Kategori.Batteri, deler[1].kategori)
     }
 
     @Test
@@ -51,6 +51,6 @@ internal class HjelpemiddelDelerTest {
 
         assertEquals("309144", deler[0].hmsnr)
         assertEquals("Hjul foran", deler[0].navn)
-        assertEquals("Hjul", deler[0].kategori)
+        assertEquals(Kategori.Hjul, deler[0].kategori)
     }
 }

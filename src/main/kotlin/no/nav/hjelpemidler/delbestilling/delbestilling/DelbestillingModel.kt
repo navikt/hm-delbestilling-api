@@ -2,6 +2,8 @@ package no.nav.hjelpemidler.delbestilling.delbestilling
 
 import io.ktor.http.HttpStatusCode
 import no.nav.hjelpemidler.delbestilling.hjelpemidler.HjelpemiddelMedDeler
+import no.nav.hjelpemidler.delbestilling.hjelpemidler.Kategori
+import no.nav.hjelpemidler.delbestilling.hjelpemidler.defaultAntall
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.util.UUID
@@ -32,19 +34,21 @@ enum class OppslagFeil {
 }
 
 data class Hjelpemiddel(
-    val hmsnr: String,
+    val hmsnr: Hmsnr,
     val navn: String,
     val type: String,
 )
 
 data class Del(
-    val hmsnr: String,
+    val hmsnr: Hmsnr,
     val navn: String,
     val levArtNr: String? = null,
-    val img: String? = null,
-    val kategori: String,
+    val kategori: Kategori,
     val maksAntall: Int,
-)
+    val img: String? = null,
+) {
+    val defaultAntall = defaultAntall(kategori)
+}
 
 data class DelLinje(
     val del: Del,

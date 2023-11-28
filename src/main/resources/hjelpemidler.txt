@@ -538,3 +538,9 @@
 304567|Comet Alpine+|Comet
 304568|Comet Ultra|Comet
 249574|Orion Pro|Orion
+255798|Seng Opus|Seng Opus
+255799|Seng Opus|Seng Opus
+255800|Seng Opus|Seng Opus
+291255|Seng Opus|Seng Opus
+311641|Seng Opus|Seng Opus
+311643|Seng Opus|Seng Opus
