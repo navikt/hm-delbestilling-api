@@ -6,7 +6,7 @@ import kotliquery.TransactionalSession
 import kotliquery.queryOf
 import kotliquery.sessionOf
 import kotliquery.using
-import mu.KotlinLogging
+import io.github.oshai.kotlinlogging.KotlinLogging
 import no.nav.hjelpemidler.database.pgObjectOf
 import no.nav.hjelpemidler.database.transaction
 import no.nav.hjelpemidler.delbestilling.json

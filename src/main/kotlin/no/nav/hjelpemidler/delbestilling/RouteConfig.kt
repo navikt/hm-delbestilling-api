@@ -3,10 +3,10 @@ package no.nav.hjelpemidler.delbestilling
 import com.fasterxml.jackson.databind.DeserializationFeature
 import com.fasterxml.jackson.databind.SerializationFeature
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
-import io.ktor.http.HttpHeaders
 import io.ktor.serialization.jackson.jackson
 import io.ktor.server.application.Application
 import io.ktor.server.application.install
+import io.ktor.server.auth.authentication
 import io.ktor.server.plugins.callid.CALL_ID_DEFAULT_DICTIONARY
 import io.ktor.server.plugins.callid.CallId
 import io.ktor.server.plugins.callid.callIdMdc
@@ -26,9 +26,10 @@ import no.nav.hjelpemidler.delbestilling.delbestilling.OppslagRequest
 import no.nav.hjelpemidler.delbestilling.delbestilling.validateDelbestillingRequest
 import no.nav.hjelpemidler.delbestilling.delbestilling.validateOppslagRequest
 import no.nav.hjelpemidler.delbestilling.exceptions.configureStatusPages
-import no.nav.tms.token.support.authentication.installer.installAuthenticators
-import no.nav.tms.token.support.tokenx.validation.mock.SecurityLevel
-import no.nav.tms.token.support.tokenx.validation.mock.installTokenXAuthMock
+import no.nav.tms.token.support.azure.validation.azure
+import no.nav.tms.token.support.tokenx.validation.mock.LevelOfAssurance
+import no.nav.tms.token.support.tokenx.validation.mock.tokenXMock
+import no.nav.tms.token.support.tokenx.validation.tokenX
 import org.slf4j.event.Level
 import java.util.TimeZone
 import kotlin.time.Duration.Companion.seconds
@@ -76,16 +77,18 @@ fun Application.configure() {
     configureStatusPages()
 
     if (isLocal()) {
-        installTokenXAuthMock {
-            setAsDefault = false
-            alwaysAuthenticated = true
-            staticSecurityLevel = SecurityLevel.LEVEL_4
-            staticUserPid = "12345678910"
+        authentication {
+            tokenXMock {
+                setAsDefault = false
+                alwaysAuthenticated = true
+                staticLevelOfAssurance = LevelOfAssurance.LEVEL_4
+                staticUserPid = "12345678910"
+            }
         }
     } else {
-        installAuthenticators {
-            installAzureAuth {}
-            installTokenXAuth {}
+        authentication {
+            azure()
+            tokenX()
         }
     }
 }

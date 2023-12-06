@@ -10,7 +10,7 @@ import io.ktor.server.routing.route
 import io.ktor.server.routing.routing
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
-import mu.KotlinLogging
+import io.github.oshai.kotlinlogging.KotlinLogging
 import no.nav.hjelpemidler.delbestilling.delbestilling.azureRoutes
 import no.nav.hjelpemidler.delbestilling.delbestilling.delbestillingApiAuthenticated
 import no.nav.hjelpemidler.delbestilling.delbestilling.delbestillingApiPublic

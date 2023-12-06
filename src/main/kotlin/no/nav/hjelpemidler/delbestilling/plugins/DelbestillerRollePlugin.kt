@@ -6,7 +6,7 @@ import io.ktor.server.application.install
 import io.ktor.server.auth.AuthenticationChecked
 import io.ktor.server.response.respond
 import io.ktor.server.routing.Route
-import mu.KotlinLogging
+import io.github.oshai.kotlinlogging.KotlinLogging
 import no.nav.hjelpemidler.delbestilling.roller.RolleService
 import no.nav.hjelpemidler.delbestilling.tokenXUser
 

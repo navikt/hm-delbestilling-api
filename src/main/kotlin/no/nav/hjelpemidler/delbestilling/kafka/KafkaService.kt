@@ -5,7 +5,7 @@ import com.fasterxml.jackson.databind.json.JsonMapper
 import com.fasterxml.jackson.databind.node.ObjectNode
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.jacksonMapperBuilder
-import mu.KotlinLogging
+import io.github.oshai.kotlinlogging.KotlinLogging
 import no.nav.hjelpemidler.delbestilling.Config.kafkaProducerProperties
 import org.apache.kafka.clients.producer.KafkaProducer
 import org.apache.kafka.clients.producer.Producer
@@ -66,7 +66,7 @@ class KafkaService(
     }
 
     private fun shutdownHook() {
-        log.info("received shutdown signal, stopping app")
+        log.info { "received shutdown signal, stopping app" }
         producer.close()
     }
 }

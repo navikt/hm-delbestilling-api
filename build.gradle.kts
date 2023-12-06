@@ -34,17 +34,16 @@ dependencies {
 
     // Cache
     implementation("javax.cache:cache-api:1.1.1")
-    implementation("org.ehcache:ehcache:3.10.6")
+    implementation("org.ehcache:ehcache:3.10.8")
 
     // Kafka
-    implementation("org.apache.kafka:kafka-clients:3.4.0")
+    implementation("org.apache.kafka:kafka-clients:3.6.0")
 
-    // HTTP
+    // hm-http
     implementation("no.nav.hjelpemidler.http:hm-http:v0.0.30")
-    implementation("io.ktor:ktor-server-call-logging-jvm:2.3.0")
 
     // Ktor
-    val ktorVersion = "2.3.3"
+    val ktorVersion = "2.3.6"
     implementation("io.ktor:ktor-client-logging:$ktorVersion")
     fun ktor(name: String) = "io.ktor:ktor-$name:$ktorVersion"
     implementation(ktor("serialization-jackson"))
@@ -56,30 +55,30 @@ dependencies {
     implementation(ktor("server-rate-limit"))
     implementation(ktor("server-request-validation"))
     implementation(ktor("server-call-id"))
+    implementation(ktor("server-call-logging-jvm"))
 
     implementation(ktor("client-core"))
     implementation(ktor("client-content-negotiation"))
     implementation(ktor("client-jackson"))
 
     // Jackson
-    val jacksonVersion = "2.14.2"
+    val jacksonVersion = "2.16.0"
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin:$jacksonVersion")
     implementation("com.fasterxml.jackson.datatype:jackson-datatype-jsr310:$jacksonVersion")
 
     // Logging
-    runtimeOnly("ch.qos.logback:logback-classic:1.4.7")
-    implementation("org.slf4j:slf4j-api:2.0.5") // brukes av microutils:kotling-logging
-    implementation("io.github.microutils:kotlin-logging-jvm:3.0.5")
-    implementation("net.logstash.logback:logstash-logback-encoder:7.3")
+    implementation("io.github.oshai:kotlin-logging-jvm:5.1.1")
+    implementation("org.slf4j:slf4j-api:2.0.9") // brukes av microutils:kotling-logging
+    implementation("net.logstash.logback:logstash-logback-encoder:7.4")
+    implementation("ch.qos.logback:logback-classic:1.4.14")
 
     // TokenX + AzureAD
-    val tokenSupportVersion = "2.1.0"
-    implementation("com.github.navikt.tms-ktor-token-support:token-support-tokendings-exchange:$tokenSupportVersion")
-    implementation("com.github.navikt.tms-ktor-token-support:token-support-tokenx-validation:$tokenSupportVersion")
-    implementation("com.github.navikt.tms-ktor-token-support:token-support-tokenx-validation-mock:$tokenSupportVersion")
-    implementation("com.github.navikt.tms-ktor-token-support:token-support-authentication-installer:$tokenSupportVersion")
-    implementation("com.github.navikt.tms-ktor-token-support:token-support-azure-validation:$tokenSupportVersion")
-    implementation("com.github.navikt.tms-ktor-token-support:token-support-azure-exchange:$tokenSupportVersion")
+    val tokenSupportVersion = "4.0.0"
+    implementation("com.github.navikt.tms-ktor-token-support:tokendings-exchange:$tokenSupportVersion")
+    implementation("com.github.navikt.tms-ktor-token-support:tokenx-validation:$tokenSupportVersion")
+    implementation("com.github.navikt.tms-ktor-token-support:tokenx-validation-mock:$tokenSupportVersion")
+    implementation("com.github.navikt.tms-ktor-token-support:azure-validation:$tokenSupportVersion")
+    implementation("com.github.navikt.tms-ktor-token-support:azure-exchange:$tokenSupportVersion")
 
     // Utils
     implementation("no.bekk.bekkopen:nocommons:0.15.0")
@@ -87,14 +86,14 @@ dependencies {
     // Testing
     testImplementation(kotlin("test"))
     testImplementation(ktor("server-test-host"))
-    val junitJupiterVersion = "5.9.2"
+    val junitJupiterVersion = "5.10.1"
     testImplementation("org.junit.jupiter:junit-jupiter-params:$junitJupiterVersion")
     testImplementation("org.junit.jupiter:junit-jupiter-engine:$junitJupiterVersion")
-    testImplementation("io.mockk:mockk:1.13.4")
+    testImplementation("io.mockk:mockk:1.13.8")
     testImplementation(ktor("client-mock"))
-    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.7.1")
-    testImplementation("org.testcontainers:junit-jupiter:1.17.6")
-    testImplementation("com.playtika.testcontainers:embedded-postgresql:2.2.13")
+    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.7.3")
+    testImplementation("org.testcontainers:junit-jupiter:1.19.3")
+    testImplementation("com.playtika.testcontainers:embedded-postgresql:3.0.6")
 
 }
 

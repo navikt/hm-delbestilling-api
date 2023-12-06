@@ -13,7 +13,7 @@ import io.ktor.http.ContentType
 import io.ktor.http.contentType
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import mu.KotlinLogging
+import io.github.oshai.kotlinlogging.KotlinLogging
 import no.nav.hjelpemidler.delbestilling.Config
 import no.nav.hjelpemidler.delbestilling.navCorrelationId
 import no.nav.hjelpemidler.http.createHttpClient

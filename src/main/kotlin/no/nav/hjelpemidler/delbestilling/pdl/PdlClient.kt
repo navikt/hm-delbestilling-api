@@ -13,7 +13,7 @@ import io.ktor.client.request.setBody
 import io.ktor.http.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import mu.KotlinLogging
+import io.github.oshai.kotlinlogging.KotlinLogging
 import no.nav.hjelpemidler.delbestilling.Config
 import no.nav.hjelpemidler.delbestilling.exceptions.PdlRequestFailedException
 import no.nav.hjelpemidler.delbestilling.exceptions.PdlResponseMissingData

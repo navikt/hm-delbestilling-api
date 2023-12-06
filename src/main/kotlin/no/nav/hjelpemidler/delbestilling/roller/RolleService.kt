@@ -1,6 +1,6 @@
 package no.nav.hjelpemidler.delbestilling.roller
 
-import mu.KotlinLogging
+import io.github.oshai.kotlinlogging.KotlinLogging
 
 private val logger = KotlinLogging.logger { }
 

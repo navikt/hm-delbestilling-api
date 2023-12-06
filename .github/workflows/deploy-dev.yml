@@ -8,7 +8,7 @@ on:
       - "CODEOWNERS"
     branches:
       - main
-      - opus-seng
+      - bump-deps-2023-12-06
 
 jobs:
   build-and-deploy:

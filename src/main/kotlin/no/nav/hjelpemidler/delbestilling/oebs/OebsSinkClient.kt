@@ -1,6 +1,6 @@
 package no.nav.hjelpemidler.delbestilling.oebs
 
-import mu.KotlinLogging
+import io.github.oshai.kotlinlogging.KotlinLogging
 import no.nav.hjelpemidler.delbestilling.kafka.KafkaService
 
 private val logg = KotlinLogging.logger {}

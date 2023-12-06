@@ -1,6 +1,6 @@
 package no.nav.hjelpemidler.delbestilling.roller
 
-import mu.KotlinLogging
+import io.github.oshai.kotlinlogging.KotlinLogging
 import no.nav.hjelpemidler.delbestilling.Database
 import no.nav.hjelpemidler.delbestilling.delbestilling.DelbestillingRepository
 import no.nav.hjelpemidler.delbestilling.hjelpemidler.HjelpemiddelDeler
@@ -39,11 +39,11 @@ class RunOnStart(
                     lagretDelbestilling.saksnummer,
                     oppdatertDelbestilling
                 )
-                logg.info("Oppdatert delbestilling for saksnummer ${lagretDelbestilling.saksnummer}: $oppdatertDelbestilling")
+                logg.info { "Oppdatert delbestilling for saksnummer ${lagretDelbestilling.saksnummer}: $oppdatertDelbestilling" }
                 antallOppdaterteRader++
             }
 
-            logg.info("Rader oppdatert: $antallOppdaterteRader")
+            logg.info { "Rader oppdatert: $antallOppdaterteRader" }
         }
     }
 }
