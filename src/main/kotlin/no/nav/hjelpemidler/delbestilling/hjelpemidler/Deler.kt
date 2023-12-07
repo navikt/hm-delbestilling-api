@@ -242,6 +242,7 @@ val DELER: Map<Hmsnr, Del> = listOf(
         levArtNr = "626550",
         kategori = Kategori.Annet,
         maksAntall = TODO_BESTEM_MAX_ANTALL,
+        img = "https://storage.googleapis.com/hm_delbestilling_bilder/149965.png"
     ),
     Del(
         hmsnr = "173483",
@@ -256,6 +257,7 @@ val DELER: Map<Hmsnr, Del> = listOf(
         levArtNr = "626510",
         kategori = Kategori.Annet,
         maksAntall = TODO_BESTEM_MAX_ANTALL,
+        img = "https://storage.googleapis.com/hm_delbestilling_bilder/028152.png"
     ),
     Del(
         hmsnr = "255826",
@@ -269,7 +271,8 @@ val DELER: Map<Hmsnr, Del> = listOf(
         navn = "Nettkabel seng Opus K85EW/90EW/120EW/SDW/90EW HS/hjertebrett",
         levArtNr = "626120",
         kategori = Kategori.Annet,
-        maksAntall = 1
+        maksAntall = 1,
+        img = "https://storage.googleapis.com/hm_delbestilling_bilder/028158.png"
     ),
     Del(
         hmsnr = "149963",
@@ -277,6 +280,7 @@ val DELER: Map<Hmsnr, Del> = listOf(
         levArtNr = "626562",
         kategori = Kategori.Annet,
         maksAntall = TODO_BESTEM_MAX_ANTALL,
+        img = "https://storage.googleapis.com/hm_delbestilling_bilder/149963.png"
     ),
     Del(
         hmsnr = "232849",
