@@ -249,7 +249,8 @@ val DELER: Map<Hmsnr, Del> = listOf(
         navn = "Håndkontroll seng Opus K85EW/90EW/120EW/SDW",
         levArtNr = "626011",
         kategori = Kategori.Annet,
-        maksAntall = 1
+        maksAntall = 1,
+        img = "https://storage.googleapis.com/hm_delbestilling_bilder/173483.png"
     ),
     Del(
         hmsnr = "028152",
@@ -264,7 +265,8 @@ val DELER: Map<Hmsnr, Del> = listOf(
         navn = "Elektronikk seng Opus K85EW/90EW/120EW/SDW/90EW HS",
         levArtNr = "626103",
         kategori = Kategori.Annet,
-        maksAntall = 1
+        maksAntall = 1,
+        img = "https://storage.googleapis.com/hm_delbestilling_bilder/255826.png"
     ),
     Del(
         hmsnr = "028158",
@@ -288,6 +290,7 @@ val DELER: Map<Hmsnr, Del> = listOf(
         levArtNr = "626796",
         kategori = Kategori.Annet,
         maksAntall = TODO_BESTEM_MAX_ANTALL,
+        img = "https://storage.googleapis.com/hm_delbestilling_bilder/232849.png"
     ),
 ).also(::kontrollerForDuplikateHmsnr).associateBy { it.hmsnr }
 
