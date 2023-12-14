@@ -11,7 +11,6 @@ enum class Kategori {
 }
 
 fun defaultAntall(kategori: Kategori) = when (kategori) {
-    Kategori.Batteri -> 2
     Kategori.Dekk -> 2
     Kategori.Hjul -> 2
     Kategori.Svinghjul -> 2

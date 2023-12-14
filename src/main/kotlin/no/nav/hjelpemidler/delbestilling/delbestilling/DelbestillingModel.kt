@@ -44,11 +44,10 @@ data class Del(
     val navn: String,
     val levArtNr: String? = null,
     val kategori: Kategori,
+    val defaultAntall: Int = defaultAntall(kategori),
     val maksAntall: Int,
     val img: String? = null,
-) {
-    val defaultAntall = defaultAntall(kategori)
-}
+)
 
 data class DelLinje(
     val del: Del,

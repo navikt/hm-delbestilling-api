@@ -10,6 +10,7 @@ val DELER: Map<Hmsnr, Del> = listOf(
         hmsnr = "022005",
         navn = "Batteri 80A inkl poler",
         kategori = Kategori.Batteri,
+        defaultAntall = 2,
         maksAntall = 2,
     ),
     Del(
@@ -62,6 +63,7 @@ val DELER: Map<Hmsnr, Del> = listOf(
         navn = "Batteri MK 97Ah",
         levArtNr = "602293-99-0",
         kategori = Kategori.Batteri,
+        defaultAntall = 2,
         maksAntall = 2,
         img = "https://storage.googleapis.com/hm_delbestilling_bilder/196027.png",
     ),
@@ -160,6 +162,7 @@ val DELER: Map<Hmsnr, Del> = listOf(
         navn = "Batteri 85 ah",
         levArtNr = "1523-1138",
         kategori = Kategori.Batteri,
+        defaultAntall = 2,
         maksAntall = 2,
         img = "https://storage.googleapis.com/hm_delbestilling_bilder/263773.png",
     ),
@@ -211,6 +214,7 @@ val DELER: Map<Hmsnr, Del> = listOf(
         navn = "Batteri 12V 70-73,6 Ah C20 gele",
         levArtNr = "SPP50016",
         kategori = Kategori.Batteri,
+        defaultAntall = 2,
         maksAntall = 2,
         img = "https://storage.googleapis.com/hm_delbestilling_bilder/304570.png",
     ),
@@ -291,6 +295,22 @@ val DELER: Map<Hmsnr, Del> = listOf(
         kategori = Kategori.Annet,
         maksAntall = TODO_BESTEM_MAX_ANTALL,
         img = "https://storage.googleapis.com/hm_delbestilling_bilder/232849.png"
+    ),
+    Del(
+        hmsnr = "159563",
+        navn = "Batteripakke personløfter frittstå Molift Smart 150/Molift Mover 180 14,4V NiMh",
+        levArtNr = "541000",
+        kategori = Kategori.Batteri,
+        maksAntall = 1,
+        img = "https://storage.googleapis.com/hm_delbestilling_bilder/159563.png"
+    ),
+    Del(
+        hmsnr = "262846",
+        navn = "Batterilader personløfter frittstå Molift Smart 150/Molift Mover 180/Molift Mover 205 f/NiMi",
+        levArtNr = "1340100",
+        kategori = Kategori.Lader,
+        maksAntall = 1,
+        img = "https://storage.googleapis.com/hm_delbestilling_bilder/262846.png"
     ),
 ).also(::kontrollerForDuplikateHmsnr).associateBy { it.hmsnr }
 

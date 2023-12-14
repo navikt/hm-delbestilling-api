@@ -1,8 +1,9 @@
 package no.nav.hjelpemidler.delbestilling.hjelpemidler
 
-import no.nav.hjelpemidler.delbestilling.hjelpemidler.HjelpemiddelDeler.hentAlleHjelpemidlerMedDeler
 import no.nav.hjelpemidler.delbestilling.hjelpemidler.HjelpemiddelDeler.hentHjelpemiddelMedDeler
-import org.junit.jupiter.api.Assertions.*
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertNotNull
+import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
 
 internal class HjelpemiddelDelerTest {
@@ -13,7 +14,7 @@ internal class HjelpemiddelDelerTest {
         val hjelpemiddel = hentHjelpemiddelMedDeler(hmsnrPanthera)
         assertNotNull(hjelpemiddel)
 
-        val deler = hjelpemiddel!!.deler!!
+        val deler = hjelpemiddel!!.deler
         assertTrue(10 < deler.size)
 
         val hmsnrSchwalbeDekk = "150817"
@@ -28,7 +29,7 @@ internal class HjelpemiddelDelerTest {
         val hjelpemiddel = hentHjelpemiddelMedDeler(hmsnrnrMinicrosserM1)
         assertNotNull(hjelpemiddel)
 
-        val deler = hjelpemiddel!!.deler!!
+        val deler = hjelpemiddel!!.deler
         assertEquals(3, deler.size)
 
         assertEquals("200842", deler[0].hmsnr)
@@ -46,11 +47,36 @@ internal class HjelpemiddelDelerTest {
         val hjelpemiddel = hentHjelpemiddelMedDeler(hmsnrnrX850S)
         assertNotNull(hjelpemiddel)
 
-        val deler = hjelpemiddel!!.deler!!
+        val deler = hjelpemiddel!!.deler
         assertEquals(3, deler.size)
 
         assertEquals("309144", deler[0].hmsnr)
         assertEquals("Hjul foran", deler[0].navn)
         assertEquals(Kategori.Hjul, deler[0].kategori)
+    }
+
+    @Test
+    fun `skal ikke eksistere deler med defaultAntall større enn maksAntall`() {
+        DELER.values.forEach {
+            with(it) {
+                assertTrue(
+                    defaultAntall <= maksAntall,
+                    "$hmsnr har defaultAntall $defaultAntall som er større enn maksAntall $maksAntall"
+                )
+            }
+        }
+    }
+
+    @Test
+    fun `skal ha riktigDefaultAntall på batteri`() {
+        val hmsnrnrX850 = "145668"
+        val X850 = hentHjelpemiddelMedDeler(hmsnrnrX850)!!
+        val batteriX850 = X850.deler.find { it.kategori == Kategori.Batteri }!!
+        assertEquals(2, batteriX850.defaultAntall)
+
+        val hmsnrnrMolift = "161570"
+        val molift = hentHjelpemiddelMedDeler(hmsnrnrMolift)!!
+        val batteriMolift = molift.deler.find { it.kategori == Kategori.Batteri }!!
+        assertEquals(1, batteriMolift.defaultAntall)
     }
 }

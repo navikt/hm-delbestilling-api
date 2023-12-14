@@ -38,6 +38,10 @@ val delerPerHjelpemiddel: Map<Hmsnr, List<Del>> = mapOf(
         "022005",
         "302543",
     ),
+    "Molift personløfter" to listOf(
+        "159563",
+        "262846",
+    ),
     "Panthera" to listOf(
         "150817",
         "278247",
