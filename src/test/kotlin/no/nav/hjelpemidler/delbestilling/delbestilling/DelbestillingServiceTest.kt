@@ -105,7 +105,7 @@ internal class DelbestillingServiceTest {
         val slot = slot<OpprettBestillingsordreRequest>()
         coEvery { oebsService.sendDelbestilling(capture(slot)) } returns Unit
         delbestillingService.opprettDelbestilling(delbestillingRequest(), bestillerFnr, bestillerTokenString)
-        assertEquals("XK-Lager Tekniker: Turid Tekniker", slot.captured.forsendelsesinfo)
+        assertEquals("XK-Lager Del bestilt av: Turid Tekniker", slot.captured.forsendelsesinfo)
     }
 
     @Test
