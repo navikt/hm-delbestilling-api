@@ -8,7 +8,7 @@ version = "1.0-SNAPSHOT"
 plugins {
     application
     kotlin("jvm") version "1.8.0"
-    id("io.ktor.plugin") version "2.3.0"
+    id("io.ktor.plugin") version "2.3.7"
 }
 
 application {
@@ -43,7 +43,7 @@ dependencies {
     implementation("no.nav.hjelpemidler.http:hm-http:v0.0.30")
 
     // Ktor
-    val ktorVersion = "2.3.6"
+    val ktorVersion = "2.3.7"
     implementation("io.ktor:ktor-client-logging:$ktorVersion")
     fun ktor(name: String) = "io.ktor:ktor-$name:$ktorVersion"
     implementation(ktor("serialization-jackson"))
