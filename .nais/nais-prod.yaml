@@ -8,7 +8,6 @@ metadata:
     team: teamdigihot
 spec:
   image: {{ image }}
-  team: teamdigihot
   port: 8080
   replicas:
     min: 2
@@ -54,7 +53,7 @@ spec:
         highAvailability: true
         diskSize: 20
         diskAutoresize: true
-        autoBackupTime: "03:00"
+        autoBackupHour: 3
         databases:
           - name: hm-delbestilling-api-db-prod-v1
             envVarPrefix: DB
