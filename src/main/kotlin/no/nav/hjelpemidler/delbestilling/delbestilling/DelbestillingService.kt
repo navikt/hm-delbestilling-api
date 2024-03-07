@@ -178,11 +178,6 @@ class DelbestillingService(
 
     suspend fun oppdaterStatus(saksnummer: Long, status: Status, oebsOrdrenummer: String) {
         delbestillingRepository.withTransaction { tx ->
-            if (isDev() && saksnummer.toString() == "157") {
-                log.info { "Hopper over saksnummer 157 i dev, usikker på hvor den kommer fra" }
-                return@withTransaction
-            }
-
             val lagretDelbestilling = delbestillingRepository.hentDelbestilling(tx, saksnummer)!!
 
             if (lagretDelbestilling.oebsOrdrenummer == null) {
