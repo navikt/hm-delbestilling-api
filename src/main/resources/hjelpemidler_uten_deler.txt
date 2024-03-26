@@ -1,0 +1,222 @@
+005634|Netti 1|Netti
+005635|Netti 1|Netti
+005636|Netti 1|Netti
+005637|Netti 1|Netti
+005638|Netti 1|Netti
+005639|Netti 2|Netti
+005640|Netti 2|Netti
+005641|Netti 2|Netti
+005642|Netti 2|Netti
+005643|Netti 3|Netti
+005644|Netti 3|Netti
+005645|Netti 3|Netti
+005646|Netti 3|Netti
+007831|Netti 1|Netti
+007832|Netti 2|Netti
+007833|Netti 2|Netti
+007834|Netti 3|Netti
+007835|Netti 3 Comfort|Netti
+007836|Netti 3 Comfort|Netti
+007837|Netti 3 Comfort|Netti
+007838|Netti 3 Comfort|Netti
+011190|Netti 1|Netti
+011191|Netti 1|Netti
+011192|Netti 2|Netti
+011193|Netti 2|Netti
+011194|Netti 2|Netti
+011195|Netti 2|Netti
+011196|Netti 2|Netti
+011197|Netti 2|Netti
+011198|Netti 3|Netti
+011199|Netti 3 Comfort|Netti
+011200|Netti 3 Comfort|Netti
+011201|Netti 3 Comfort|Netti
+011202|Netti 3 Comfort|Netti
+011203|Netti mini|Netti
+019485|Netti 1 Comfort|Netti
+019486|Netti 1 Comfort|Netti
+019487|Netti 1 Comfort|Netti
+019488|Netti 1 Comfort|Netti
+019489|Netti 1 Comfort|Netti
+019490|Netti 1 Comfort|Netti
+019491|Netti 1 Comfort|Netti
+019492|Netti 1 Comfort|Netti
+140419|Netti 3 Comfort|Netti
+141193|Netti 1|Netti
+145589|Netti 1|Netti
+145725|Netti 1|Netti
+154684|Netti 3 Comfort|Netti
+164293|Netti 3|Netti
+166543|Netti 3|Netti
+169764|Netti 3|Netti
+174045|Netti 1|Netti
+176422|Netti 3|Netti
+181451|Netti 3 Comfort|Netti
+181452|Netti 3 Comfort|Netti
+181453|Netti 3 Comfort|Netti
+181454|Netti 3 Comfort|Netti
+181455|Netti 3 Comfort|Netti
+181456|Netti 3 Comfort|Netti
+189387|Netti 3|Netti
+195128|Netti 3|Netti
+195311|Netti 3|Netti
+199123|Netti 3 Comfort|Netti
+200043|Netti 1|Netti
+207027|Netti 3|Netti
+211648|Netti 3|Netti
+219394|Netti 2|Netti
+219395|Netti 2|Netti
+219396|Netti 2|Netti
+219397|Netti 2|Netti
+219398|Netti 2|Netti
+219399|Netti 2|Netti
+219400|Netti 3|Netti
+219401|Netti 3|Netti
+219402|Netti 3|Netti
+219403|Netti 3|Netti
+219404|Netti 3|Netti
+219405|Netti 3|Netti
+219406|Netti 3|Netti
+219407|Netti 3|Netti
+219408|Netti 3|Netti
+219409|Netti 3|Netti
+232679|Netti 3|Netti
+233709|Netti 3|Netti
+235251|Netti 3|Netti
+254707|Netti 3|Netti
+276997|Netti 3|Netti
+277000|Netti 3|Netti
+277007|Netti 3|Netti
+277014|Netti 3|Netti
+277021|Netti 3|Netti
+277028|Netti 3|Netti
+277035|Netti 3|Netti
+277042|Netti 3|Netti
+277049|Netti 3|Netti
+277060|Netti 3|Netti
+003059|Etac Cross|Cross
+003060|Etac Cross|Cross
+003061|Etac Cross|Cross
+003062|Etac Cross|Cross
+003063|Etac Cross|Cross
+003064|Etac Cross|Cross
+003065|Etac Cross|Cross
+003066|Etac Cross|Cross
+003067|Etac Cross|Cross
+003068|Etac Cross|Cross
+011116|Etac Cross 1|Cross
+011117|Etac Cross 1|Cross
+011118|Etac Cross 3|Cross
+011119|Etac Cross 3|Cross
+011120|Etac Cross 3|Cross
+011121|Etac Cross 3|Cross
+011122|Etac Cross 3|Cross
+011123|Etac Cross 3|Cross
+011124|Etac Cross 3|Cross
+011125|Etac Cross 3|Cross
+011126|Etac Cross 3|Cross
+011127|Etac Cross 3|Cross
+011128|Etac Cross 3|Cross
+011129|Etac Cross 3|Cross
+015824|Etac Cross 1|Cross
+015825|Etac Cross 1|Cross
+021484|Etac Cross XL|Cross
+021485|Etac Cross XL|Cross
+021486|Etac Cross XL|Cross
+021487|Etac Cross XL|Cross
+021488|Etac Cross XL|Cross
+021489|Etac Cross XL|Cross
+154711|Etac Cross|Cross
+154712|Etac Cross|Cross
+154713|Etac Cross|Cross
+154714|Etac Cross|Cross
+154715|Etac Cross|Cross
+154716|Etac Cross|Cross
+154717|Etac Cross|Cross
+154718|Etac Cross|Cross
+154719|Etac Cross|Cross
+154720|Etac Cross|Cross
+154721|Etac Cross XL|Cross
+154722|Etac Cross XL|Cross
+154723|Etac Cross XL|Cross
+154724|Etac Cross XL|Cross
+184656|Etac Cross XL|Cross
+184657|Etac Cross XL|Cross
+202021|Etac Cross|Cross
+202022|Etac Cross|Cross
+202023|Etac Cross|Cross
+202024|Etac Cross|Cross
+214332|Etac Cross 5|Cross
+214970|Etac Cross|Cross
+214971|Etac Cross|Cross
+214972|Etac Cross|Cross
+214973|Etac Cross|Cross
+215076|Etac Cross 5|Cross
+215077|Etac Cross 5|Cross
+215078|Etac Cross 5|Cross
+215079|Etac Cross 5|Cross
+215080|Etac Cross 5|Cross
+215081|Etac Cross 5|Cross
+215083|Etac Cross 5|Cross
+215084|Etac Cross 5|Cross
+215085|Etac Cross 5|Cross
+215086|Etac Cross 5 XL|Cross
+215087|Etac Cross 5 XL|Cross
+215088|Etac Cross 5 XL|Cross
+215089|Etac Cross 5 XL|Cross
+215090|Etac Cross 5 XL|Cross
+215091|Etac Cross 5 XL|Cross
+215092|Etac Cross 5 XL|Cross
+215093|Etac Cross 5 XL|Cross
+215094|Etac Cross 5 XL|Cross
+215095|Etac Cross 5 XL|Cross
+215096|Etac Cross 5 XL|Cross
+215097|Etac Cross 5 XL|Cross
+221385|Etac Cross 5|Cross
+221386|Etac Cross 5|Cross
+221387|Etac Cross 5|Cross
+221388|Etac Cross 5|Cross
+221389|Etac Cross 5|Cross
+221390|Etac Cross 5|Cross
+221391|Etac Cross 5|Cross
+221392|Etac Cross 5|Cross
+221393|Etac Cross 5|Cross
+221394|Etac Cross 5|Cross
+221395|Etac Cross 5|Cross
+221396|Etac Cross 5|Cross
+221397|Etac Cross 5|Cross
+221398|Etac Cross 5|Cross
+221399|Etac Cross 5|Cross
+221400|Etac Cross 5|Cross
+221401|Etac Cross 5 XL|Cross
+221402|Etac Cross 5 XL|Cross
+221403|Etac Cross 5 XL|Cross
+221404|Etac Cross 5 XL|Cross
+221405|Etac Cross 5 XL|Cross
+221406|Etac Cross 5 XL|Cross
+221407|Etac Cross 5 XL|Cross
+221408|Etac Cross 5 XL|Cross
+221409|Etac Cross 5 XL|Cross
+221410|Etac Cross 5 XL|Cross
+221411|Etac Cross 5 XL|Cross
+221412|Etac Cross 5 XL|Cross
+221413|Etac Cross 5 XL|Cross
+221414|Etac Cross 5 XL|Cross
+221415|Etac Cross 5 XL|Cross
+221416|Etac Cross 5 XL|Cross
+278331|Etac Cross 6|Cross
+278332|Etac Cross 6|Cross
+278333|Etac Cross 6|Cross
+278334|Etac Cross 6|Cross
+278335|Etac Cross 6|Cross
+278336|Etac Cross 6|Cross
+278337|Etac Cross 6|Cross
+278338|Etac Cross 6|Cross
+278339|Etac Cross 6|Cross
+278340|Etac Cross 6|Cross
+278341|Etac Cross 6|Cross
+278342|Etac Cross 6|Cross
+278343|Etac Cross 6|Cross
+278344|Etac Cross 6|Cross
+278345|Etac Cross 6|Cross
+278346|Etac Cross 6|Cross
