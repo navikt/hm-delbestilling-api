@@ -1,7 +1,8 @@
-package no.nav.hjelpemidler.delbestilling.hjelpemidler
+package no.nav.hjelpemidler.delbestilling.hjelpemidler.data
 
 import no.nav.hjelpemidler.delbestilling.delbestilling.Del
 import no.nav.hjelpemidler.delbestilling.delbestilling.Hmsnr
+import no.nav.hjelpemidler.delbestilling.hjelpemidler.Kategori
 
 private const val TODO_BESTEM_MAX_ANTALL = 8 // Finn ut hva som er et fornuftig max antall på disse
 
@@ -311,6 +312,93 @@ val DELER: Map<Hmsnr, Del> = listOf(
         kategori = Kategori.Lader,
         maksAntall = 1,
         img = "https://storage.googleapis.com/hm_delbestilling_bilder/262846.png"
+    ),
+    Del(
+        hmsnr = "269864",
+        navn = "Batteri ers Eloflex F",
+        levArtNr = "7350006080111",
+        kategori = Kategori.Batteri,
+        maksAntall = 2,
+    ),
+    Del(
+        hmsnr = "301607",
+        navn = "Batterilader ers Eloflex F 3Ah",
+        levArtNr = "7350006080142",
+        kategori = Kategori.Lader,
+        maksAntall = 1,
+    ),
+    Del(
+        hmsnr = "301620",
+        navn = "Svinghjul ers Eloflex F 8\" kompakt",
+        levArtNr = "7350006080272",
+        kategori = Kategori.Svinghjul,
+        maksAntall = 2,
+    ),
+    Del(
+        hmsnr = "269560",
+        navn = "Drivhjul ers Eloflex F 12\" luft",
+        levArtNr = "7350006080258",
+        kategori = Kategori.Hjul,
+        maksAntall = 2,
+    ),
+    Del(
+        hmsnr = "211200",
+        navn = "Batteri 73Ah ers M5 Corpus/F3 Corpus/F3 Corpus Jr/F5 Corpus/F5 Corpus VS/F5Corpus VS Jr",
+        kategori = Kategori.Batteri,
+        maksAntall = 2,
+    ),
+    Del(
+        hmsnr = "157311",
+        navn = "Hjul 210x65 ers Permobil C500 Corpus 3G/C500 VS/K300 PS Jr/C500 VS Jr kompakt",
+        kategori = Kategori.Hjul,
+        maksAntall = 2,
+    ),
+    Del(
+        hmsnr = "157747",
+        navn = "Hjul 3,0x8\" ers Permobil C300/C500 foran kompakt 3eiker",
+        kategori = Kategori.Hjul,
+        maksAntall = 2,
+    ),
+    Del(
+        hmsnr = "157310",
+        navn = "Hjul 3x8\" ers Permobil C300/C500 foran luft 3eiker",
+        kategori = Kategori.Hjul,
+        maksAntall = 2,
+    ),
+    Del(
+        hmsnr = "168802",
+        navn = "Armlene mrs Azalea kpl hø",
+        levArtNr = "1517367",
+        kategori = Kategori.Annet,
+        maksAntall = 1,
+    ),
+    Del(
+        hmsnr = "168803",
+        navn = "Armlene mrs Azalea kpl ve",
+        levArtNr = "1517368",
+        kategori = Kategori.Annet,
+        maksAntall = 1,
+    ),
+    Del(
+        hmsnr = "198643",
+        navn = "Wire mrs Azalea ryggjust l119",
+        levArtNr = "1536328",
+        kategori = Kategori.Annet,
+        maksAntall = 1,
+    ),
+    Del(
+        hmsnr = "198644",
+        navn = "Wire mrs Azalea tilt  l119",
+        levArtNr = "1536325",
+        kategori = Kategori.Annet,
+        maksAntall = 1,
+    ),
+    Del(
+        hmsnr = "186621",
+        navn = "Svinghjul mrs Azalea 8 200X 27",
+        levArtNr = "5322004",
+        kategori = Kategori.Svinghjul,
+        maksAntall = 2,
     ),
 ).also(::kontrollerForDuplikateHmsnr).associateBy { it.hmsnr }
 

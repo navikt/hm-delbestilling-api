@@ -1,6 +1,7 @@
 package no.nav.hjelpemidler.delbestilling.hjelpemidler
 
 import no.nav.hjelpemidler.delbestilling.hjelpemidler.HjelpemiddelDeler.hentHjelpemiddelMedDeler
+import no.nav.hjelpemidler.delbestilling.hjelpemidler.data.DELER
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNotNull
 import org.junit.jupiter.api.Assertions.assertTrue

@@ -1,14 +1,33 @@
-package no.nav.hjelpemidler.delbestilling.hjelpemidler
+package no.nav.hjelpemidler.delbestilling.hjelpemidler.data
 
 import no.nav.hjelpemidler.delbestilling.delbestilling.Del
 import no.nav.hjelpemidler.delbestilling.delbestilling.Hmsnr
 
 val delerPerHjelpemiddel: Map<Hmsnr, List<Del>> = mapOf(
+    "Azalea" to listOf(
+        "168802",
+        "168803",
+        "198643",
+        "198644",
+        "186621",
+    ),
+    "C500" to listOf(
+        "211200",
+        "157311",
+        "157747",
+        "157310",
+    ),
     "Comet" to listOf(
         "238403",
         "269827",
         "304570",
         "249612",
+    ),
+    "Eloflex" to listOf(
+        "269864",
+        "301607",
+        "301620",
+        "269560",
     ),
     "Orion" to listOf(
         "304570",

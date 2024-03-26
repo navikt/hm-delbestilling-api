@@ -2,6 +2,7 @@ package no.nav.hjelpemidler.delbestilling.hjelpemidler
 
 import io.github.oshai.kotlinlogging.KotlinLogging
 import no.nav.hjelpemidler.delbestilling.delbestilling.Del
+import no.nav.hjelpemidler.delbestilling.hjelpemidler.data.delerPerHjelpemiddel
 
 private val logger = KotlinLogging.logger { }
 
