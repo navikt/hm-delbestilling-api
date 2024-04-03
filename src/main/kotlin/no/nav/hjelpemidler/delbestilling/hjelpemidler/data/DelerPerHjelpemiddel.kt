@@ -1,9 +1,10 @@
 package no.nav.hjelpemidler.delbestilling.hjelpemidler.data
 
 import no.nav.hjelpemidler.delbestilling.delbestilling.Del
+import no.nav.hjelpemidler.delbestilling.delbestilling.HjmType
 import no.nav.hjelpemidler.delbestilling.delbestilling.Hmsnr
 
-val delerPerHjelpemiddel: Map<Hmsnr, List<Del>> = mapOf(
+val delerPerHjelpemiddel: Map<HjmType, List<Del>> = mapOf(
     "Azalea" to listOf(
         "168802",
         "168803",
