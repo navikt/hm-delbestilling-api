@@ -1,10 +1,11 @@
-package no.nav.hjelpemidler.hjelpemidler.hjelpemidler
+package no.nav.hjelpemidler.delbestilling.hjelpemidler
 
 import io.ktor.server.application.call
 import io.ktor.server.response.respond
 import io.ktor.server.routing.Route
 import io.ktor.server.routing.get
 import no.nav.hjelpemidler.delbestilling.hjelpemidler.HjelpemidlerService
+import no.nav.hjelpemidler.delbestilling.hjelpemidler.data.delerPerHjelpemiddel
 
 fun Route.hjelpemiddelApi(
     hjelpemidlerService: HjelpemidlerService
@@ -12,5 +13,9 @@ fun Route.hjelpemiddelApi(
     get("/hjelpemidler") {
         val hjelpemidlerMedDeler = hjelpemidlerService.hentAlleHjelpemidlerMedDeler()
         call.respond(hjelpemidlerMedDeler)
+    }
+
+    get("/deler") {
+        call.respond(delerPerHjelpemiddel)
     }
 }
