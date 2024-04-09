@@ -19,4 +19,8 @@ class OebsService(
     suspend fun harBrukerpass(fnr: String): Boolean {
         return oebsApiProxyClient.hentBrukerpassinfo(fnr).brukerpass
     }
+
+    suspend fun hentFnrSomHarUtlånPåArtnr(artnr: String): List<String> {
+        return oebsApiProxyClient.hentFnrSomHarUtlånPåArtnr(artnr)
+    }
 }
