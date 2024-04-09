@@ -273,6 +273,28 @@ class DelbestillingService(
     fun hentDelbestillinger(bestillerFnr: String): List<DelbestillingSak> {
         return delbestillingRepository.hentDelbestillinger(bestillerFnr)
     }
+
+    suspend fun finnTestpersonMedTestbartUtlån(): Map<String, String> {
+        val fnrCache = mutableSetOf<String>()
+        HjelpemiddelDeler.hjelpemidler.forEach { hjelpemiddel ->
+            val artnr = hjelpemiddel.hmsnr
+            log.info { "Leter etter testpersoner med utlån på $artnr" }
+            val fnrMedUtlånPåHjm = oebsService.hentFnrSomHarUtlånPåArtnr(artnr)
+            fnrMedUtlånPåHjm.forEach { fnr ->
+                try {
+                    if (fnr !in fnrCache) {
+                        val kommunenr = pdlService.hentKommunenummer(fnr)
+                        return mapOf("fnr" to fnr, "artnr" to artnr, "kommunenr" to kommunenr)
+                    }
+                } catch (e: Exception) {
+                    // Peronen finnes ikke i PDL. Ignorer og let videre.
+                    log.info(e) { "Ignorer PDL feil under scanning etter testperson" }
+                    fnrCache.add(fnr)
+                }
+            }
+        }
+        return mapOf("error" to "Ingen testperson funnet")
+    }
 }
 
 private fun LocalDate.toDate() = Date.from(this.atStartOfDay(ZoneId.systemDefault()).toInstant())

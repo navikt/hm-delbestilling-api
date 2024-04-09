@@ -10,6 +10,9 @@ import io.ktor.server.routing.post
 import io.ktor.server.routing.put
 import io.ktor.server.util.getOrFail
 import io.github.oshai.kotlinlogging.KotlinLogging
+import no.nav.hjelpemidler.delbestilling.hjelpemidler.HjelpemiddelDeler
+import no.nav.hjelpemidler.delbestilling.hjelpemidler.data.delerPerHjelpemiddel
+import no.nav.hjelpemidler.delbestilling.isDev
 import no.nav.hjelpemidler.delbestilling.tokenXUser
 import java.time.LocalDate
 
@@ -34,6 +37,12 @@ fun Route.delbestillingApiPublic(
         } catch (e: Exception) {
             log.error(e) { "Klarte ikke gjøre oppslag" }
             call.respond(HttpStatusCode.InternalServerError)
+        }
+    }
+
+    if (isDev()) {
+        get("/finnGyldigTestbruker") {
+            call.respond(delbestillingService.finnTestpersonMedTestbartUtlån())
         }
     }
 }

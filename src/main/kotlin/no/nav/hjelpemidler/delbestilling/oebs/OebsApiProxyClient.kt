@@ -86,6 +86,25 @@ class OebsApiProxyClient(
         }
     }
 
+    suspend fun hentFnrSomHarUtlånPåArtnr(artnr: String): List<String> {
+        return withContext(Dispatchers.IO) {
+            try {
+                logg.info { "henter utlån for $artnr fra $baseUrl/utlanArtnr" }
+                val tokenSet = azureAdClient.grant(apiScope)
+                val httpResponse = client.request("$baseUrl/utlanArtnr") {
+                    method = HttpMethod.Post
+                    bearerAuth(tokenSet)
+                    navCorrelationId()
+                    setBody(artnr)
+                }
+                httpResponse.body()
+            } catch (e: Throwable) {
+                logg.error(e) { "Klarte ikke hente utlån på artnr" }
+                throw e
+            }
+        }
+    }
+
     suspend fun hentPersoninfo(fnr: String): List<OebsPersoninfo> {
         return withContext(Dispatchers.IO) {
             try {
