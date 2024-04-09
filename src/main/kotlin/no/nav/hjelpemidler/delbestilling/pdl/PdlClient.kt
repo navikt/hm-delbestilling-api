@@ -85,6 +85,7 @@ class PdlClient(
                 bearerAuth(tokenSet)
                 headers {
                     header("Tema", "HJE")
+                    header("behandlingsnummer", "B653")
                     navCorrelationId()
                 }
                 setBody(pdlQuery)
