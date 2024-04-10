@@ -84,7 +84,6 @@ class PdlClient(
             client.post(baseUrl) {
                 bearerAuth(tokenSet)
                 headers {
-                    header("Tema", "HJE")
                     header("behandlingsnummer", "B653")
                     navCorrelationId()
                 }
