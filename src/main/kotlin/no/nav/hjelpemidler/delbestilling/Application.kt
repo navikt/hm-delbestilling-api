@@ -27,15 +27,6 @@ private val logg = KotlinLogging.logger {}
 fun Application.module() {
     configure()
     setupRoutes()
-
-    environment.monitor.subscribe(ApplicationStarted) {
-        logg.info { "environment.monitor.subscribe(ApplicationStarted)" }
-        runBlocking {
-            launch {
-                // RunOnStart().importNavn()
-            }
-        }
-    }
 }
 
 fun Application.setupRoutes() {

@@ -1,7 +1,7 @@
 package no.nav.hjelpemidler.delbestilling.hjelpemidler
 
-import no.nav.hjelpemidler.delbestilling.hjelpemidler.HjelpemiddelDeler.hentHjelpemiddelMedDeler
 import no.nav.hjelpemidler.delbestilling.hjelpemidler.data.DELER
+import no.nav.hjelpemidler.delbestilling.hjelpemidler.data.hjmHmsnr2HjelpemiddelMedDeler
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNotNull
 import org.junit.jupiter.api.Assertions.assertTrue
@@ -12,7 +12,7 @@ internal class HjelpemiddelDelerTest {
     @Test
     fun `skal finne hjelpemiddel med deler for Panthera`() {
         val hmsnrPanthera = "022492"
-        val hjelpemiddel = hentHjelpemiddelMedDeler(hmsnrPanthera)
+        val hjelpemiddel = hjmHmsnr2HjelpemiddelMedDeler[hmsnrPanthera]
         assertNotNull(hjelpemiddel)
 
         val deler = hjelpemiddel!!.deler
@@ -27,7 +27,7 @@ internal class HjelpemiddelDelerTest {
     @Test
     fun `skal finne hjelpemiddel med deler for Minicrosser M1`() {
         val hmsnrnrMinicrosserM1 = "159629"
-        val hjelpemiddel = hentHjelpemiddelMedDeler(hmsnrnrMinicrosserM1)
+        val hjelpemiddel = hjmHmsnr2HjelpemiddelMedDeler[hmsnrnrMinicrosserM1]
         assertNotNull(hjelpemiddel)
 
         val deler = hjelpemiddel!!.deler
@@ -45,7 +45,7 @@ internal class HjelpemiddelDelerTest {
     @Test
     fun `skal finne hjelpemiddel med deler for X850S`() {
         val hmsnrnrX850S = "308941"
-        val hjelpemiddel = hentHjelpemiddelMedDeler(hmsnrnrX850S)
+        val hjelpemiddel = hjmHmsnr2HjelpemiddelMedDeler[hmsnrnrX850S]
         assertNotNull(hjelpemiddel)
 
         val deler = hjelpemiddel!!.deler
@@ -71,12 +71,12 @@ internal class HjelpemiddelDelerTest {
     @Test
     fun `skal ha riktigDefaultAntall på batteri`() {
         val hmsnrnrX850 = "145668"
-        val X850 = hentHjelpemiddelMedDeler(hmsnrnrX850)!!
+        val X850 = hjmHmsnr2HjelpemiddelMedDeler[hmsnrnrX850]!!
         val batteriX850 = X850.deler.find { it.kategori == Kategori.Batteri }!!
         assertEquals(2, batteriX850.defaultAntall)
 
         val hmsnrnrMolift = "161570"
-        val molift = hentHjelpemiddelMedDeler(hmsnrnrMolift)!!
+        val molift = hjmHmsnr2HjelpemiddelMedDeler[hmsnrnrMolift]!!
         val batteriMolift = molift.deler.find { it.kategori == Kategori.Batteri }!!
         assertEquals(1, batteriMolift.defaultAntall)
     }

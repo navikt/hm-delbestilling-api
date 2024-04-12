@@ -1,7 +1,7 @@
 package no.nav.hjelpemidler.delbestilling.delbestilling
 
-import no.nav.hjelpemidler.delbestilling.hjelpemidler.HjelpemiddelDeler
 import no.nav.hjelpemidler.delbestilling.hjelpemidler.Kategori
+import no.nav.hjelpemidler.delbestilling.hjelpemidler.data.hjmNavn2Deler
 
 fun validateOppslagRequest(req: OppslagRequest) = listOf(
     validateHmsnr(req.hmsnr),
@@ -57,7 +57,6 @@ fun validateOpplæringBatteri(delbestilling: Delbestilling) = listOfNotNull(
     } else null
 )
 
-val DELER_I_SORTIMENT = HjelpemiddelDeler.hentAlleHjelpemidlerMedDeler()
-    .mapNotNull { it.deler }
+val DELER_I_SORTIMENT = hjmNavn2Deler.values
     .flatten()
     .associateBy { it.hmsnr }
