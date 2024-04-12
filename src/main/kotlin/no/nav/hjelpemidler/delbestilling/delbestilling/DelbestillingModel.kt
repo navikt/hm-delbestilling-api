@@ -1,7 +1,6 @@
 package no.nav.hjelpemidler.delbestilling.delbestilling
 
 import io.ktor.http.HttpStatusCode
-import no.nav.hjelpemidler.delbestilling.hjelpemidler.HjelpemiddelMedDeler
 import no.nav.hjelpemidler.delbestilling.hjelpemidler.Kategori
 import no.nav.hjelpemidler.delbestilling.hjelpemidler.defaultAntall
 import java.time.LocalDate
@@ -33,10 +32,11 @@ enum class OppslagFeil {
     TILBYR_IKKE_HJELPEMIDDEL, INGET_UTLÅN
 }
 
-data class Hjelpemiddel(
-    val hmsnr: Hmsnr,
+data class HjelpemiddelMedDeler(
     val navn: String,
-    val type: HjmType,
+    val type: String,
+    val hmsnr: String,
+    val deler: List<Del>,
 )
 
 data class Del(
@@ -45,7 +45,7 @@ data class Del(
     val levArtNr: String? = null,
     val kategori: Kategori,
     val defaultAntall: Int = defaultAntall(kategori),
-    val maksAntall: Int,
+    val maksAntall: Int, // TODO kan ofte utlede maksAntall fra kategori også
     val img: String? = null,
 )
 

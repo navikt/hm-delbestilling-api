@@ -1,13 +1,13 @@
 package no.nav.hjelpemidler.delbestilling.delbestilling
 
+import io.github.oshai.kotlinlogging.KotlinLogging
 import io.ktor.http.HttpStatusCode
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
-import io.github.oshai.kotlinlogging.KotlinLogging
 import no.bekk.bekkopen.date.NorwegianDateUtil
 import no.nav.hjelpemidler.delbestilling.exceptions.PersonNotAccessibleInPdl
 import no.nav.hjelpemidler.delbestilling.exceptions.PersonNotFoundInPdl
-import no.nav.hjelpemidler.delbestilling.hjelpemidler.HjelpemiddelDeler
+import no.nav.hjelpemidler.delbestilling.hjelpemidler.data.hjmHmsnr2HjelpemiddelMedDeler
 import no.nav.hjelpemidler.delbestilling.isDev
 import no.nav.hjelpemidler.delbestilling.isProd
 import no.nav.hjelpemidler.delbestilling.metrics.Metrics
@@ -17,7 +17,6 @@ import no.nav.hjelpemidler.delbestilling.oebs.OpprettBestillingsordreRequest
 import no.nav.hjelpemidler.delbestilling.oppslag.OppslagService
 import no.nav.hjelpemidler.delbestilling.pdl.PdlService
 import no.nav.hjelpemidler.delbestilling.roller.RolleService
-import java.lang.RuntimeException
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.ZoneId
@@ -158,7 +157,7 @@ class DelbestillingService(
     suspend fun sendStatistikk(delbestilling: Delbestilling, fnrBruker: String) = coroutineScope {
         launch {
             try {
-                val navnHovedprodukt = HjelpemiddelDeler.hentHjelpemiddelMedDeler(delbestilling.hmsnr)?.navn ?: "Ukjent"
+                val navnHovedprodukt = hjmHmsnr2HjelpemiddelMedDeler[delbestilling.hmsnr]?.navn ?: "Ukjent"
                 val hjmbrukerHarBrukerpass = oebsService.harBrukerpass(fnrBruker)
                 delbestilling.deler.forEach {
                     metrics.registrerDelbestillingInnsendt(
@@ -261,7 +260,7 @@ class DelbestillingService(
     }
 
     suspend fun slåOppHjelpemiddel(hmsnr: String, serienr: String): OppslagResultat {
-        val hjelpemiddelMedDeler = HjelpemiddelDeler.hentHjelpemiddelMedDeler(hmsnr)
+        val hjelpemiddelMedDeler = hjmHmsnr2HjelpemiddelMedDeler[hmsnr]
             ?: return OppslagResultat(null, OppslagFeil.TILBYR_IKKE_HJELPEMIDDEL, HttpStatusCode.NotFound)
 
         oebsService.hentUtlånPåArtnrOgSerienr(hmsnr, serienr)
@@ -276,8 +275,7 @@ class DelbestillingService(
 
     suspend fun finnTestpersonMedTestbartUtlån(): Map<String, String> {
         val fnrCache = mutableSetOf<String>()
-        HjelpemiddelDeler.hjelpemidler.forEach { hjelpemiddel ->
-            val artnr = hjelpemiddel.hmsnr
+        hjmHmsnr2HjelpemiddelMedDeler.keys.forEach { artnr ->
             log.info { "Leter etter testpersoner med utlån på $artnr" }
             val fnrMedUtlånPåHjm = oebsService.hentFnrSomHarUtlånPåArtnr(artnr)
             fnrMedUtlånPåHjm.forEach { fnr ->
