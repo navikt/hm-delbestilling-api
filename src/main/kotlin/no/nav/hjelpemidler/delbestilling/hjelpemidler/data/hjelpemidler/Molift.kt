@@ -7,13 +7,13 @@ val MOLIFT = listOf(
     HjelpemidlerOgDeler(
         navn = "Molift Smart 150",
         type = "Molift personløfter",
-        deler = listOf("159563", "262846"),
+        deler = listOf("159563", "262846", "196252"),
         hmsnr = listOf("161570")
     ),
     HjelpemidlerOgDeler(
         navn = "Molift Mover 180",
         type = "Molift personløfter",
-        deler = listOf("159563", "262846"),
+        deler = listOf("159563", "262846", "201800"),
         hmsnr = listOf("242661", "199138")
     ),
 )

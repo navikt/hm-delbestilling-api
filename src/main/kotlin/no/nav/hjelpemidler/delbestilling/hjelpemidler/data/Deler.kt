@@ -400,6 +400,61 @@ val DELER: Map<Hmsnr, Del> = listOf(
         kategori = Kategori.Svinghjul,
         maksAntall = 2,
     ),
+    Del(
+        hmsnr = "196252",
+        navn = "Håndkontroll personløfter frittstå Molift Smart 150",
+        kategori = Kategori.Håndkontroll,
+        maksAntall = 1,
+    ),
+    Del(
+        hmsnr = "201800",
+        navn = "Håndkontroll personløfter frittstå Molift Mover 180/Molift Mover 205 4 knapper u/lading",
+        kategori = Kategori.Håndkontroll,
+        maksAntall = 1,
+    ),
+    Del(
+        hmsnr = "302292",
+        navn = "Drivhjul ers MC1124/1144 luft std sort",
+        kategori = Kategori.Hjul,
+        maksAntall = 2,
+    ),
+    Del(
+        hmsnr = "253737",
+        navn = "Batteri ers MC1124/MC1144 Haze 60ah gel std",
+        kategori = Kategori.Batteri,
+        maksAntall = 2,
+    ),
+    Del(
+        hmsnr = "263774",
+        navn = "Batterilader ers MC1124/MC1144 Impulse II 8A std",
+        kategori = Kategori.Lader,
+        maksAntall = 1,
+    ),
+    Del(
+        hmsnr = "257597",
+        navn = "Svinghjul ers MC1124 m/lager hø/ve",
+        kategori = Kategori.Svinghjul,
+        maksAntall = 2,
+    ),
+    Del(
+        hmsnr = "255405",
+        navn = "Hjul 210x65 M5 Corpus/F3 Corpus/F5 Corpus/F5 Corpus VS/F3 Corpus Jr 2el/F3 Corpus Jr 4el/F5 Corpus VS Jr/M3 Corpus/ M3 Corpus Jr kompakt",
+        kategori = Kategori.Svinghjul,
+        maksAntall = 2,
+    ),
+    Del(
+        hmsnr = "255403",
+        navn = "Hjul 3.00x8 M5 Corpus/F3 Corpus/F5 Corpus/F5 Corpus VS/F3 Corpus Jr 2el/F3 Corpus Jr 4el/F5 Corpus VS Jr/M3 Corpus/ M3 Corpus Jr luftfylt",
+        kategori = Kategori.Hjul,
+        maksAntall = 2,
+    ),
+    Del(
+        hmsnr = "264061",
+        navn = "Hjul ers 180x68 M3 Corpus/M3 Corpus Jr kompakt dekk svart",
+        kategori = Kategori.Svinghjul,
+        defaultAntall = 4,
+        maksAntall = 4,
+    ),
 ).also(::kontrollerForDuplikateHmsnr).associateBy { it.hmsnr }
 
 internal fun kontrollerForDuplikateHmsnr(deler: List<Del>) {
