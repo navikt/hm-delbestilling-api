@@ -5,6 +5,7 @@ enum class Kategori {
     Batteri,
     Dekk,
     Hjul,
+    Håndkontroll,
     Lader,
     Slange,
     Svinghjul,
