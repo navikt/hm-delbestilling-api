@@ -47,6 +47,7 @@ data class Del(
     val defaultAntall: Int = defaultAntall(kategori),
     val maksAntall: Int, // TODO kan ofte utlede maksAntall fra kategori også
     val img: String? = null,
+    val datoLagtTil: LocalDate? = null,
 )
 
 data class DelLinje(

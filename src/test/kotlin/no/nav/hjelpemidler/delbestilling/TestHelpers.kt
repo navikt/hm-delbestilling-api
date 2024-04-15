@@ -9,6 +9,7 @@ import no.nav.hjelpemidler.delbestilling.hjelpemidler.Kategori
 import no.nav.hjelpemidler.delbestilling.oppslag.KommuneDto
 import no.nav.hjelpemidler.delbestilling.roller.Delbestiller
 import no.nav.hjelpemidler.delbestilling.roller.Organisasjon
+import java.time.LocalDate
 import java.util.UUID
 
 fun delbestillerRolle(kanBestilleDeler: Boolean = true) = Delbestiller(
