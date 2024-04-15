@@ -3,8 +3,11 @@ package no.nav.hjelpemidler.delbestilling.hjelpemidler.data
 import no.nav.hjelpemidler.delbestilling.delbestilling.Del
 import no.nav.hjelpemidler.delbestilling.delbestilling.Hmsnr
 import no.nav.hjelpemidler.delbestilling.hjelpemidler.Kategori
+import java.time.LocalDate
 
 private const val TODO_BESTEM_MAX_ANTALL = 8 // Finn ut hva som er et fornuftig max antall på disse
+
+val DELER_SIST_OPPDATERT = LocalDate.of(2024, 4, 15)
 
 val DELER: Map<Hmsnr, Del> = listOf(
     Del(
