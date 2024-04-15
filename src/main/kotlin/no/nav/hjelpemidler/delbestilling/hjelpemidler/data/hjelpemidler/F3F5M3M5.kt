@@ -6,7 +6,7 @@ import no.nav.hjelpemidler.delbestilling.hjelpemidler.data.HjelpemidlerOgDeler
 val CORPUS = listOf(
     HjelpemidlerOgDeler(
         navn = "F3",
-        type = "Corpus",
+        type = "F3/F5/M3/M5",
         deler = listOf("255405", "255403"),
         hmsnr = listOf(
             "250027",
@@ -20,7 +20,7 @@ val CORPUS = listOf(
     ),
     HjelpemidlerOgDeler(
         navn = "F5",
-        type = "Corpus",
+        type = "F3/F5/M3/M5",
         deler = listOf("255405", "255403"),
         hmsnr = listOf(
             "215266",
@@ -37,13 +37,13 @@ val CORPUS = listOf(
     ),
     HjelpemidlerOgDeler(
         navn = "M3",
-        type = "Corpus",
+        type = "F3/F5/M3/M5",
         deler = listOf("264061", "255403"),
         hmsnr = listOf("287396", "296431", "308938", "308939")
     ),
     HjelpemidlerOgDeler(
         navn = "M5",
-        type = "Corpus",
+        type = "F3/F5/M3/M5",
         deler = listOf("255405", "255403"),
         hmsnr = listOf("235193", "250033", "286648", "308940")
     ),
