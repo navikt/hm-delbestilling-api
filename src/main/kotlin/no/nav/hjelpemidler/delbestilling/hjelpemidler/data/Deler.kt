@@ -7,8 +7,6 @@ import java.time.LocalDate
 
 private const val TODO_BESTEM_MAX_ANTALL = 8 // Finn ut hva som er et fornuftig max antall på disse
 
-val DELER_SIST_OPPDATERT = LocalDate.of(2024, 4, 15)
-
 val DELER: Map<Hmsnr, Del> = listOf(
     Del(
         hmsnr = "022005",
@@ -16,6 +14,7 @@ val DELER: Map<Hmsnr, Del> = listOf(
         kategori = Kategori.Batteri,
         defaultAntall = 2,
         maksAntall = 2,
+        datoLagtTil = LocalDate.of(2023, 6, 20),
     ),
     Del(
         hmsnr = "150817",
@@ -24,6 +23,7 @@ val DELER: Map<Hmsnr, Del> = listOf(
         kategori = Kategori.Dekk,
         maksAntall = 2,
         img = "https://storage.googleapis.com/hm_delbestilling_bilder/150817.jpg",
+        datoLagtTil = LocalDate.of(2023, 6, 20),
     ),
     Del(
         hmsnr = "157312",
@@ -31,6 +31,7 @@ val DELER: Map<Hmsnr, Del> = listOf(
         kategori = Kategori.Hjul,
         maksAntall = 2,
         img = "https://storage.googleapis.com/hm_delbestilling_bilder/157312.png",
+        datoLagtTil = LocalDate.of(2023, 6, 20),
     ),
     Del(
         hmsnr = "157314",
@@ -38,6 +39,7 @@ val DELER: Map<Hmsnr, Del> = listOf(
         kategori = Kategori.Hjul,
         maksAntall = 2,
         img = "https://storage.googleapis.com/hm_delbestilling_bilder/157314.png",
+        datoLagtTil = LocalDate.of(2023, 6, 20),
     ),
     Del(
         hmsnr = "163943",
@@ -45,6 +47,7 @@ val DELER: Map<Hmsnr, Del> = listOf(
         kategori = Kategori.Hjul,
         maksAntall = 4,
         img = "https://storage.googleapis.com/hm_delbestilling_bilder/163943.png",
+        datoLagtTil = LocalDate.of(2023, 6, 20),
     ),
     Del(
         hmsnr = "178498",
@@ -53,6 +56,7 @@ val DELER: Map<Hmsnr, Del> = listOf(
         kategori = Kategori.Dekk,
         maksAntall = 2,
         img = "https://storage.googleapis.com/hm_delbestilling_bilder/178498.jpg",
+        datoLagtTil = LocalDate.of(2023, 6, 20),
     ),
     Del(
         hmsnr = "184589",
@@ -61,6 +65,7 @@ val DELER: Map<Hmsnr, Del> = listOf(
         kategori = Kategori.Svinghjul,
         maksAntall = 2,
         img = "https://storage.googleapis.com/hm_delbestilling_bilder/184589.jpg",
+        datoLagtTil = LocalDate.of(2023, 6, 20),
     ),
     Del(
         hmsnr = "196027",
@@ -70,6 +75,7 @@ val DELER: Map<Hmsnr, Del> = listOf(
         defaultAntall = 2,
         maksAntall = 2,
         img = "https://storage.googleapis.com/hm_delbestilling_bilder/196027.png",
+        datoLagtTil = LocalDate.of(2023, 6, 20),
     ),
     Del(
         hmsnr = "196602",
@@ -78,6 +84,7 @@ val DELER: Map<Hmsnr, Del> = listOf(
         kategori = Kategori.Dekk,
         maksAntall = 2,
         img = "https://storage.googleapis.com/hm_delbestilling_bilder/196602.jpg",
+        datoLagtTil = LocalDate.of(2023, 6, 20),
     ),
     Del(
         hmsnr = "200842",
@@ -85,6 +92,7 @@ val DELER: Map<Hmsnr, Del> = listOf(
         kategori = Kategori.Hjul,
         maksAntall = 4,
         img = "https://storage.googleapis.com/hm_delbestilling_bilder/200842.png",
+        datoLagtTil = LocalDate.of(2023, 6, 20),
     ),
     Del(
         hmsnr = "202326",
@@ -93,6 +101,7 @@ val DELER: Map<Hmsnr, Del> = listOf(
         kategori = Kategori.Dekk,
         maksAntall = 2,
         img = "https://storage.googleapis.com/hm_delbestilling_bilder/202326.jpg",
+        datoLagtTil = LocalDate.of(2023, 6, 20),
     ),
     Del(
         hmsnr = "211449",
@@ -101,12 +110,14 @@ val DELER: Map<Hmsnr, Del> = listOf(
         kategori = Kategori.Slange,
         maksAntall = 2,
         img = "https://storage.googleapis.com/hm_delbestilling_bilder/211449.jpg",
+        datoLagtTil = LocalDate.of(2023, 6, 20),
     ),
     Del(
         hmsnr = "223382",
         navn = "Svinghjul kompakt 5\"/120mm",
         kategori = Kategori.Svinghjul,
         maksAntall = 2,
+        datoLagtTil = LocalDate.of(2023, 6, 20),
     ),
     Del(
         hmsnr = "232810",
@@ -115,12 +126,14 @@ val DELER: Map<Hmsnr, Del> = listOf(
         kategori = Kategori.Svinghjul,
         maksAntall = 2,
         img = "https://storage.googleapis.com/hm_delbestilling_bilder/232810.jpg",
+        datoLagtTil = LocalDate.of(2023, 6, 20),
     ),
     Del(
         hmsnr = "234334",
         navn = "Svinghjul S3 Hjul120 mrs Panthera S3/U3 Light",
         kategori = Kategori.Svinghjul,
         maksAntall = 2,
+        datoLagtTil = LocalDate.of(2023, 6, 20),
     ),
     Del(
         hmsnr = "238403",
@@ -129,6 +142,7 @@ val DELER: Map<Hmsnr, Del> = listOf(
         kategori = Kategori.Hjul,
         maksAntall = 2,
         img = "https://storage.googleapis.com/hm_delbestilling_bilder/238403.png",
+        datoLagtTil = LocalDate.of(2023, 6, 20),
     ),
     Del(
         hmsnr = "249612",
@@ -137,6 +151,7 @@ val DELER: Map<Hmsnr, Del> = listOf(
         kategori = Kategori.Lader,
         maksAntall = 2,
         img = "https://storage.googleapis.com/hm_delbestilling_bilder/249612.jpg",
+        datoLagtTil = LocalDate.of(2023, 6, 20),
     ),
     Del(
         hmsnr = "253277",
@@ -145,6 +160,7 @@ val DELER: Map<Hmsnr, Del> = listOf(
         kategori = Kategori.Hjul,
         maksAntall = 4,
         img = "https://storage.googleapis.com/hm_delbestilling_bilder/253277.jpg",
+        datoLagtTil = LocalDate.of(2023, 6, 20),
     ),
     Del(
         hmsnr = "256634",
@@ -153,6 +169,7 @@ val DELER: Map<Hmsnr, Del> = listOf(
         kategori = Kategori.Hjul,
         maksAntall = 2,
         img = "https://storage.googleapis.com/hm_delbestilling_bilder/256634.png",
+        datoLagtTil = LocalDate.of(2023, 6, 20),
     ),
     Del(
         hmsnr = "256635",
@@ -160,6 +177,7 @@ val DELER: Map<Hmsnr, Del> = listOf(
         levArtNr = null,
         kategori = Kategori.Hjul,
         maksAntall = 2,
+        datoLagtTil = LocalDate.of(2023, 6, 20),
     ),
     Del(
         hmsnr = "263773",
@@ -169,6 +187,7 @@ val DELER: Map<Hmsnr, Del> = listOf(
         defaultAntall = 2,
         maksAntall = 2,
         img = "https://storage.googleapis.com/hm_delbestilling_bilder/263773.png",
+        datoLagtTil = LocalDate.of(2023, 6, 20),
     ),
     Del(
         hmsnr = "269827",
@@ -177,6 +196,7 @@ val DELER: Map<Hmsnr, Del> = listOf(
         kategori = Kategori.Hjul,
         maksAntall = 2,
         img = "https://storage.googleapis.com/hm_delbestilling_bilder/269827.png",
+        datoLagtTil = LocalDate.of(2023, 6, 20),
     ),
     Del(
         hmsnr = "278033",
@@ -184,12 +204,14 @@ val DELER: Map<Hmsnr, Del> = listOf(
         kategori = Kategori.Dekk,
         maksAntall = 2,
         img = "https://storage.googleapis.com/hm_delbestilling_bilder/278033.png",
+        datoLagtTil = LocalDate.of(2023, 6, 20),
     ),
     Del(
         hmsnr = "278247",
         navn = "Slange 26\"",
         kategori = Kategori.Slange,
         maksAntall = 2,
+        datoLagtTil = LocalDate.of(2023, 6, 20),
     ),
     Del(
         hmsnr = "291356",
@@ -197,6 +219,7 @@ val DELER: Map<Hmsnr, Del> = listOf(
         kategori = Kategori.Hjul,
         maksAntall = 4,
         img = "https://storage.googleapis.com/hm_delbestilling_bilder/291356.png",
+        datoLagtTil = LocalDate.of(2023, 6, 20),
     ),
     Del(
         hmsnr = "291358",
@@ -204,6 +227,7 @@ val DELER: Map<Hmsnr, Del> = listOf(
         kategori = Kategori.Hjul,
         maksAntall = 4,
         img = "https://storage.googleapis.com/hm_delbestilling_bilder/291358.png",
+        datoLagtTil = LocalDate.of(2023, 6, 20),
     ),
     Del(
         hmsnr = "302543",
@@ -212,6 +236,7 @@ val DELER: Map<Hmsnr, Del> = listOf(
         maksAntall = 2,
         levArtNr = "1523-1103",
         img = "https://storage.googleapis.com/hm_delbestilling_bilder/302543.jpg",
+        datoLagtTil = LocalDate.of(2023, 8, 18),
     ),
     Del(
         hmsnr = "304570",
@@ -221,6 +246,7 @@ val DELER: Map<Hmsnr, Del> = listOf(
         defaultAntall = 2,
         maksAntall = 2,
         img = "https://storage.googleapis.com/hm_delbestilling_bilder/304570.png",
+        datoLagtTil = LocalDate.of(2023, 6, 20),
     ),
     Del(
         hmsnr = "309144",
@@ -229,6 +255,7 @@ val DELER: Map<Hmsnr, Del> = listOf(
         kategori = Kategori.Hjul,
         maksAntall = 2,
         img = "https://storage.googleapis.com/hm_delbestilling_bilder/309144.png",
+        datoLagtTil = LocalDate.of(2023, 6, 20),
     ),
     Del(
         hmsnr = "309145",
@@ -236,6 +263,7 @@ val DELER: Map<Hmsnr, Del> = listOf(
         levArtNr = "1838057",
         kategori = Kategori.Hjul,
         maksAntall = 2,
+        datoLagtTil = LocalDate.of(2023, 6, 20),
     ),
     Del(
         hmsnr = "309225",
@@ -243,6 +271,7 @@ val DELER: Map<Hmsnr, Del> = listOf(
         levArtNr = "1836502",
         kategori = Kategori.Lader,
         maksAntall = 2,
+        datoLagtTil = LocalDate.of(2023, 8, 18),
     ),
     Del(
         hmsnr = "149965",
@@ -250,7 +279,8 @@ val DELER: Map<Hmsnr, Del> = listOf(
         levArtNr = "626550",
         kategori = Kategori.Annet,
         maksAntall = TODO_BESTEM_MAX_ANTALL,
-        img = "https://storage.googleapis.com/hm_delbestilling_bilder/149965.png"
+        img = "https://storage.googleapis.com/hm_delbestilling_bilder/149965.png",
+        datoLagtTil = LocalDate.of(2023, 11, 28),
     ),
     Del(
         hmsnr = "173483",
@@ -258,7 +288,8 @@ val DELER: Map<Hmsnr, Del> = listOf(
         levArtNr = "626011",
         kategori = Kategori.Annet,
         maksAntall = 1,
-        img = "https://storage.googleapis.com/hm_delbestilling_bilder/173483.png"
+        img = "https://storage.googleapis.com/hm_delbestilling_bilder/173483.png",
+        datoLagtTil = LocalDate.of(2023, 11, 28),
     ),
     Del(
         hmsnr = "028152",
@@ -266,7 +297,8 @@ val DELER: Map<Hmsnr, Del> = listOf(
         levArtNr = "626510",
         kategori = Kategori.Annet,
         maksAntall = TODO_BESTEM_MAX_ANTALL,
-        img = "https://storage.googleapis.com/hm_delbestilling_bilder/028152.png"
+        img = "https://storage.googleapis.com/hm_delbestilling_bilder/028152.png",
+        datoLagtTil = LocalDate.of(2023, 11, 28),
     ),
     Del(
         hmsnr = "255826",
@@ -274,7 +306,8 @@ val DELER: Map<Hmsnr, Del> = listOf(
         levArtNr = "626103",
         kategori = Kategori.Annet,
         maksAntall = 1,
-        img = "https://storage.googleapis.com/hm_delbestilling_bilder/255826.png"
+        img = "https://storage.googleapis.com/hm_delbestilling_bilder/255826.png",
+        datoLagtTil = LocalDate.of(2023, 11, 28),
     ),
     Del(
         hmsnr = "028158",
@@ -282,7 +315,8 @@ val DELER: Map<Hmsnr, Del> = listOf(
         levArtNr = "626120",
         kategori = Kategori.Annet,
         maksAntall = 1,
-        img = "https://storage.googleapis.com/hm_delbestilling_bilder/028158.png"
+        img = "https://storage.googleapis.com/hm_delbestilling_bilder/028158.png",
+        datoLagtTil = LocalDate.of(2023, 11, 28),
     ),
     Del(
         hmsnr = "149963",
@@ -290,7 +324,8 @@ val DELER: Map<Hmsnr, Del> = listOf(
         levArtNr = "626562",
         kategori = Kategori.Annet,
         maksAntall = TODO_BESTEM_MAX_ANTALL,
-        img = "https://storage.googleapis.com/hm_delbestilling_bilder/149963.png"
+        img = "https://storage.googleapis.com/hm_delbestilling_bilder/149963.png",
+        datoLagtTil = LocalDate.of(2023, 11, 28),
     ),
     Del(
         hmsnr = "232849",
@@ -298,7 +333,8 @@ val DELER: Map<Hmsnr, Del> = listOf(
         levArtNr = "626796",
         kategori = Kategori.Annet,
         maksAntall = TODO_BESTEM_MAX_ANTALL,
-        img = "https://storage.googleapis.com/hm_delbestilling_bilder/232849.png"
+        img = "https://storage.googleapis.com/hm_delbestilling_bilder/232849.png",
+        datoLagtTil = LocalDate.of(2023, 11, 28),
     ),
     Del(
         hmsnr = "159563",
@@ -306,7 +342,8 @@ val DELER: Map<Hmsnr, Del> = listOf(
         levArtNr = "541000",
         kategori = Kategori.Batteri,
         maksAntall = 1,
-        img = "https://storage.googleapis.com/hm_delbestilling_bilder/159563.png"
+        img = "https://storage.googleapis.com/hm_delbestilling_bilder/159563.png",
+        datoLagtTil = LocalDate.of(2023, 12, 14),
     ),
     Del(
         hmsnr = "262846",
@@ -314,7 +351,8 @@ val DELER: Map<Hmsnr, Del> = listOf(
         levArtNr = "1340100",
         kategori = Kategori.Lader,
         maksAntall = 1,
-        img = "https://storage.googleapis.com/hm_delbestilling_bilder/262846.png"
+        img = "https://storage.googleapis.com/hm_delbestilling_bilder/262846.png",
+        datoLagtTil = LocalDate.of(2023, 12, 14),
     ),
     Del(
         hmsnr = "269864",
@@ -322,6 +360,7 @@ val DELER: Map<Hmsnr, Del> = listOf(
         levArtNr = "7350006080111",
         kategori = Kategori.Batteri,
         maksAntall = 2,
+        datoLagtTil = LocalDate.of(2024, 3, 11),
     ),
     Del(
         hmsnr = "301607",
@@ -329,6 +368,7 @@ val DELER: Map<Hmsnr, Del> = listOf(
         levArtNr = "7350006080142",
         kategori = Kategori.Lader,
         maksAntall = 1,
+        datoLagtTil = LocalDate.of(2024, 3, 11),
     ),
     Del(
         hmsnr = "301620",
@@ -336,6 +376,7 @@ val DELER: Map<Hmsnr, Del> = listOf(
         levArtNr = "7350006080272",
         kategori = Kategori.Svinghjul,
         maksAntall = 2,
+        datoLagtTil = LocalDate.of(2024, 3, 11),
     ),
     Del(
         hmsnr = "269560",
@@ -343,30 +384,35 @@ val DELER: Map<Hmsnr, Del> = listOf(
         levArtNr = "7350006080258",
         kategori = Kategori.Hjul,
         maksAntall = 2,
+        datoLagtTil = LocalDate.of(2024, 3, 11),
     ),
     Del(
         hmsnr = "211200",
         navn = "Batteri 73Ah ers M5 Corpus/F3 Corpus/F3 Corpus Jr/F5 Corpus/F5 Corpus VS/F5Corpus VS Jr",
         kategori = Kategori.Batteri,
         maksAntall = 2,
+        datoLagtTil = LocalDate.of(2024, 3, 11),
     ),
     Del(
         hmsnr = "157311",
         navn = "Hjul 210x65 ers Permobil C500 Corpus 3G/C500 VS/K300 PS Jr/C500 VS Jr kompakt",
         kategori = Kategori.Hjul,
         maksAntall = 2,
+        datoLagtTil = LocalDate.of(2024, 3, 11),
     ),
     Del(
         hmsnr = "157747",
         navn = "Hjul 3,0x8\" ers Permobil C300/C500 foran kompakt 3eiker",
         kategori = Kategori.Hjul,
         maksAntall = 2,
+        datoLagtTil = LocalDate.of(2024, 3, 11),
     ),
     Del(
         hmsnr = "157310",
         navn = "Hjul 3x8\" ers Permobil C300/C500 foran luft 3eiker",
         kategori = Kategori.Hjul,
         maksAntall = 2,
+        datoLagtTil = LocalDate.of(2024, 3, 11),
     ),
     Del(
         hmsnr = "168802",
@@ -374,6 +420,7 @@ val DELER: Map<Hmsnr, Del> = listOf(
         levArtNr = "1517367",
         kategori = Kategori.Annet,
         maksAntall = 1,
+        datoLagtTil = LocalDate.of(2024, 3, 11),
     ),
     Del(
         hmsnr = "168803",
@@ -381,6 +428,7 @@ val DELER: Map<Hmsnr, Del> = listOf(
         levArtNr = "1517368",
         kategori = Kategori.Annet,
         maksAntall = 1,
+        datoLagtTil = LocalDate.of(2024, 3, 11),
     ),
     Del(
         hmsnr = "198643",
@@ -388,6 +436,7 @@ val DELER: Map<Hmsnr, Del> = listOf(
         levArtNr = "1536328",
         kategori = Kategori.Annet,
         maksAntall = 1,
+        datoLagtTil = LocalDate.of(2024, 3, 11),
     ),
     Del(
         hmsnr = "198644",
@@ -395,6 +444,7 @@ val DELER: Map<Hmsnr, Del> = listOf(
         levArtNr = "1536325",
         kategori = Kategori.Annet,
         maksAntall = 1,
+        datoLagtTil = LocalDate.of(2024, 3, 11),
     ),
     Del(
         hmsnr = "186621",
@@ -402,54 +452,63 @@ val DELER: Map<Hmsnr, Del> = listOf(
         levArtNr = "5322004",
         kategori = Kategori.Svinghjul,
         maksAntall = 2,
+        datoLagtTil = LocalDate.of(2024, 3, 11),
     ),
     Del(
         hmsnr = "196252",
         navn = "Håndkontroll personløfter frittstå Molift Smart 150",
         kategori = Kategori.Håndkontroll,
         maksAntall = 1,
+        datoLagtTil = LocalDate.of(2024, 4, 15),
     ),
     Del(
         hmsnr = "201800",
         navn = "Håndkontroll personløfter frittstå Molift Mover 180/Molift Mover 205 4 knapper u/lading",
         kategori = Kategori.Håndkontroll,
         maksAntall = 1,
+        datoLagtTil = LocalDate.of(2024, 4, 15),
     ),
     Del(
         hmsnr = "302292",
         navn = "Drivhjul ers MC1124/1144 luft std sort",
         kategori = Kategori.Hjul,
         maksAntall = 2,
+        datoLagtTil = LocalDate.of(2024, 4, 15),
     ),
     Del(
         hmsnr = "253737",
         navn = "Batteri ers MC1124/MC1144 Haze 60ah gel std",
         kategori = Kategori.Batteri,
         maksAntall = 2,
+        datoLagtTil = LocalDate.of(2024, 4, 15),
     ),
     Del(
         hmsnr = "263774",
         navn = "Batterilader ers MC1124/MC1144 Impulse II 8A std",
         kategori = Kategori.Lader,
         maksAntall = 1,
+        datoLagtTil = LocalDate.of(2024, 4, 15),
     ),
     Del(
         hmsnr = "257597",
         navn = "Svinghjul ers MC1124 m/lager hø/ve",
         kategori = Kategori.Svinghjul,
         maksAntall = 2,
+        datoLagtTil = LocalDate.of(2024, 4, 15),
     ),
     Del(
         hmsnr = "255405",
         navn = "Hjul 210x65 M5 Corpus/F3 Corpus/F5 Corpus/F5 Corpus VS/F3 Corpus Jr 2el/F3 Corpus Jr 4el/F5 Corpus VS Jr/M3 Corpus/ M3 Corpus Jr kompakt",
         kategori = Kategori.Svinghjul,
         maksAntall = 2,
+        datoLagtTil = LocalDate.of(2024, 4, 15),
     ),
     Del(
         hmsnr = "255403",
         navn = "Hjul 3.00x8 M5 Corpus/F3 Corpus/F5 Corpus/F5 Corpus VS/F3 Corpus Jr 2el/F3 Corpus Jr 4el/F5 Corpus VS Jr/M3 Corpus/ M3 Corpus Jr luftfylt",
         kategori = Kategori.Hjul,
         maksAntall = 2,
+        datoLagtTil = LocalDate.of(2024, 4, 15),
     ),
     Del(
         hmsnr = "264061",
@@ -457,6 +516,7 @@ val DELER: Map<Hmsnr, Del> = listOf(
         kategori = Kategori.Svinghjul,
         defaultAntall = 4,
         maksAntall = 4,
+        datoLagtTil = LocalDate.of(2024, 4, 15),
     ),
 ).also(::kontrollerForDuplikateHmsnr).associateBy { it.hmsnr }
 
