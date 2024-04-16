@@ -6,7 +6,6 @@ import no.nav.hjelpemidler.delbestilling.hjelpemidler.data.HjelpemidlerOgDeler
 val AZALEA = listOf(
     HjelpemidlerOgDeler(
         navn = "Azalea",
-        type = "Azalea",
         deler = listOf(
             "168802",
             "168803",

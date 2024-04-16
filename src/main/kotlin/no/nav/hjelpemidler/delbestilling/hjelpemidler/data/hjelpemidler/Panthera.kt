@@ -6,7 +6,6 @@ import no.nav.hjelpemidler.delbestilling.hjelpemidler.data.HjelpemidlerOgDeler
 val PANTHERA = listOf(
     HjelpemidlerOgDeler(
         navn = "Panthera",
-        type = "Panthera",
         deler = listOf(
             "150817",
             "278247",

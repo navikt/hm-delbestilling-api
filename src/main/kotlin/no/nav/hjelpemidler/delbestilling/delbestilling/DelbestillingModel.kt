@@ -34,7 +34,6 @@ enum class OppslagFeil {
 
 data class HjelpemiddelMedDeler(
     val navn: String,
-    val type: String,
     val hmsnr: String,
     val deler: List<Del>,
 )
@@ -102,6 +101,5 @@ data class DelbestillingSak(
     val oebsOrdrenummer: String?,
 )
 
-typealias HjmType = String
 typealias Hmsnr = String
 typealias Serienr = String

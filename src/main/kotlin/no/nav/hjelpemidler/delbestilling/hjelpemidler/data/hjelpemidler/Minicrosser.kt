@@ -6,13 +6,11 @@ import no.nav.hjelpemidler.delbestilling.hjelpemidler.data.HjelpemidlerOgDeler
 val MINICROSSER = listOf(
     HjelpemidlerOgDeler(
         navn = "Minicrosser 125T",
-        type = "Minicrosser",
         deler = listOf("200842", "022005", "302543"),
         hmsnr = listOf("160322")
     ),
     HjelpemidlerOgDeler(
         navn = "Minicrosser M",
-        type = "Minicrosser",
         deler = listOf("200842", "263773", "302543"),
         hmsnr = listOf(
             "159629", // Minicrosser M1
@@ -50,7 +48,6 @@ val MINICROSSER = listOf(
     ),
     HjelpemidlerOgDeler(
         navn = "Minicrosser X",
-        type = "Minicrosser",
         deler = listOf("253277", "291358", "291356", "263773", "302543"),
         hmsnr = listOf(
             "250464", // Minicrosser X1
