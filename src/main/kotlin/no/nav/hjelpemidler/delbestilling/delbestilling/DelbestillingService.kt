@@ -7,7 +7,7 @@ import kotlinx.coroutines.launch
 import no.bekk.bekkopen.date.NorwegianDateUtil
 import no.nav.hjelpemidler.delbestilling.exceptions.PersonNotAccessibleInPdl
 import no.nav.hjelpemidler.delbestilling.exceptions.PersonNotFoundInPdl
-import no.nav.hjelpemidler.delbestilling.hjelpemidler.data.hjmHmsnr2HjelpemiddelMedDeler
+import no.nav.hjelpemidler.delbestilling.hjelpemidler.data.hmsnr2Hjm
 import no.nav.hjelpemidler.delbestilling.isDev
 import no.nav.hjelpemidler.delbestilling.isProd
 import no.nav.hjelpemidler.delbestilling.metrics.Metrics
@@ -157,7 +157,7 @@ class DelbestillingService(
     suspend fun sendStatistikk(delbestilling: Delbestilling, fnrBruker: String) = coroutineScope {
         launch {
             try {
-                val navnHovedprodukt = hjmHmsnr2HjelpemiddelMedDeler[delbestilling.hmsnr]?.navn ?: "Ukjent"
+                val navnHovedprodukt = hmsnr2Hjm[delbestilling.hmsnr]?.navn ?: "Ukjent"
                 val hjmbrukerHarBrukerpass = oebsService.harBrukerpass(fnrBruker)
                 delbestilling.deler.forEach {
                     metrics.registrerDelbestillingInnsendt(
@@ -260,7 +260,7 @@ class DelbestillingService(
     }
 
     suspend fun slåOppHjelpemiddel(hmsnr: String, serienr: String): OppslagResultat {
-        val hjelpemiddelMedDeler = hjmHmsnr2HjelpemiddelMedDeler[hmsnr]
+        val hjelpemiddelMedDeler = hmsnr2Hjm[hmsnr]
             ?: return OppslagResultat(null, OppslagFeil.TILBYR_IKKE_HJELPEMIDDEL, HttpStatusCode.NotFound)
 
         oebsService.hentUtlånPåArtnrOgSerienr(hmsnr, serienr)
@@ -275,7 +275,7 @@ class DelbestillingService(
 
     suspend fun finnTestpersonMedTestbartUtlån(): Map<String, String> {
         val fnrCache = mutableSetOf<String>()
-        hjmHmsnr2HjelpemiddelMedDeler.keys.forEach { artnr ->
+        hmsnr2Hjm.keys.forEach { artnr ->
             log.info { "Leter etter testpersoner med utlån på $artnr" }
             val fnrMedUtlånPåHjm = oebsService.hentFnrSomHarUtlånPåArtnr(artnr)
             fnrMedUtlånPåHjm.forEach { fnr ->

@@ -6,7 +6,6 @@ import no.nav.hjelpemidler.delbestilling.hjelpemidler.data.HjelpemidlerOgDeler
 val COMET = listOf(
     HjelpemidlerOgDeler(
         navn = "Comet",
-        type = "Comet",
         deler = listOf(
             "238403",
             "269827",

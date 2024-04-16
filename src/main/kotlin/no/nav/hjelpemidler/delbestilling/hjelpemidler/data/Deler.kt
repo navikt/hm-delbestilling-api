@@ -7,7 +7,7 @@ import java.time.LocalDate
 
 private const val TODO_BESTEM_MAX_ANTALL = 8 // Finn ut hva som er et fornuftig max antall på disse
 
-val DELER: Map<Hmsnr, Del> = listOf(
+val alleDeler: Map<Hmsnr, Del> = listOf(
     Del(
         hmsnr = "022005",
         navn = "Batteri 80A inkl poler",

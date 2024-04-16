@@ -6,7 +6,6 @@ import no.nav.hjelpemidler.delbestilling.hjelpemidler.data.HjelpemidlerOgDeler
 val ELOFLEX = listOf(
     HjelpemidlerOgDeler(
         navn = "Eloflex",
-        type = "Eloflex",
         deler = listOf(
             "269864",
             "301607",

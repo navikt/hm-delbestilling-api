@@ -6,7 +6,6 @@ import no.nav.hjelpemidler.delbestilling.hjelpemidler.data.HjelpemidlerOgDeler
 val OPUS = listOf(
     HjelpemidlerOgDeler(
         navn = "Seng Opus",
-        type = "Seng Opus",
         deler = listOf(
             "149965",
             "173483",

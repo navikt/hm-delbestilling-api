@@ -6,7 +6,6 @@ import no.nav.hjelpemidler.delbestilling.hjelpemidler.data.HjelpemidlerOgDeler
 val X850 = listOf(
     HjelpemidlerOgDeler(
         navn = "X850",
-        type = "X850",
         deler = listOf("157312", "157314", "196027", "309225"),
         hmsnr = listOf(
             "145668", // X850
@@ -33,7 +32,6 @@ val X850 = listOf(
 
     HjelpemidlerOgDeler(
         navn = "X850S",
-        type = "X850",
         deler = listOf("309144", "309145", "309225"),
         hmsnr = listOf(
             "308941", // X850S Corpus

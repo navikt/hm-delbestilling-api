@@ -3,10 +3,9 @@ package no.nav.hjelpemidler.delbestilling.hjelpemidler.data.hjelpemidler
 import no.nav.hjelpemidler.delbestilling.hjelpemidler.data.HjelpemidlerOgDeler
 
 
-val SPINALUS = listOf(
+val MC11xx = listOf(
     HjelpemidlerOgDeler(
         navn = "MC 1124",
-        type = "MC 1124/1144",
         deler = listOf("302292", "253737", "263774", "257597"),
         hmsnr = listOf(
             "250564",
@@ -23,7 +22,6 @@ val SPINALUS = listOf(
     ),
     HjelpemidlerOgDeler(
         navn = "MC 1144",
-        type = "MC 1124/1144",
         deler = listOf("253737", "263774", "302292"),
         hmsnr = listOf(
             "302005",

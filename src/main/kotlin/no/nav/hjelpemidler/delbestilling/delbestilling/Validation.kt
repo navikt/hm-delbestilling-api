@@ -1,7 +1,7 @@
 package no.nav.hjelpemidler.delbestilling.delbestilling
 
 import no.nav.hjelpemidler.delbestilling.hjelpemidler.Kategori
-import no.nav.hjelpemidler.delbestilling.hjelpemidler.data.hjmNavn2Deler
+import no.nav.hjelpemidler.delbestilling.hjelpemidler.data.hmsnr2Del
 
 fun validateOppslagRequest(req: OppslagRequest) = listOf(
     validateHmsnr(req.hmsnr),
@@ -22,10 +22,10 @@ fun validateDelLinje(delLinje: DelLinje): List<String> {
     val feilmeldinger = validateDel(delLinje.del).toMutableList()
 
     val hmsnr = delLinje.del.hmsnr
-    if (hmsnr !in DELER_I_SORTIMENT.keys) {
+    if (hmsnr !in hmsnr2Del.keys) {
         feilmeldinger.add("$hmsnr finnes ikke i sortimentet av deler")
     } else {
-        val maksAntall = DELER_I_SORTIMENT[hmsnr]!!.maksAntall
+        val maksAntall = hmsnr2Del[hmsnr]!!.del.maksAntall
         if (delLinje.antall > maksAntall) {
             feilmeldinger.add("${delLinje.antall} overskrider maks antall ($maksAntall) for $hmsnr")
         }
@@ -37,7 +37,7 @@ fun validateDelLinje(delLinje: DelLinje): List<String> {
 fun validateDel(del: Del) = listOf(
     validateHmsnr(del.hmsnr),
     listOfNotNull(
-        if (del.hmsnr !in DELER_I_SORTIMENT) "${del.hmsnr} finnes ikke i sortimentet av deler" else null
+        if (del.hmsnr !in hmsnr2Del) "${del.hmsnr} finnes ikke i sortimentet av deler" else null
     )
 ).flatten()
 
@@ -56,7 +56,3 @@ fun validateOpplæringBatteri(delbestilling: Delbestilling) = listOfNotNull(
         "Tekniker må bekrefte opplæring i bytting av batteriene"
     } else null
 )
-
-val DELER_I_SORTIMENT = hjmNavn2Deler.values
-    .flatten()
-    .associateBy { it.hmsnr }

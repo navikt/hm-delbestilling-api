@@ -6,7 +6,6 @@ import no.nav.hjelpemidler.delbestilling.hjelpemidler.data.HjelpemidlerOgDeler
 val C500 = listOf(
     HjelpemidlerOgDeler(
         navn = "C500",
-        type = "C500",
         deler = listOf(
             "211200",
             "157311",
