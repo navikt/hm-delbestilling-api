@@ -23,5 +23,5 @@ val delliste = Delliste(
             hjmNavn = it.hjelpemidler.first().navn,
             lagtTil = it.del.datoLagtTil ?: throw IllegalStateException("datoLagtTil mangler på ${it.del}")
         )
-    }
+    }.sortedBy { it.hjmNavn }.sortedByDescending { it.lagtTil }
 )
