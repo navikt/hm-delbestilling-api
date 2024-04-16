@@ -41,6 +41,7 @@ val alleDeler: Map<Hmsnr, Del> = listOf(
         img = "https://storage.googleapis.com/hm_delbestilling_bilder/157314.png",
         datoLagtTil = LocalDate.of(2023, 6, 20),
     ),
+    /* Minicrosser T
     Del(
         hmsnr = "163943",
         navn = "Hjul luft foran/bak",
@@ -49,6 +50,7 @@ val alleDeler: Map<Hmsnr, Del> = listOf(
         img = "https://storage.googleapis.com/hm_delbestilling_bilder/163943.png",
         datoLagtTil = LocalDate.of(2023, 6, 20),
     ),
+    */
     Del(
         hmsnr = "178498",
         navn = "Dekk Schwalbe Marathon Plus punkteringsbeskyttet 26\"x1",

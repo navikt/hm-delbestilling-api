@@ -65,6 +65,9 @@ val hmsnr2Del: Map<Hmsnr, DelMedHjelpemidler> = alleDeler.mapValues { (hmsnr, de
             hmsnr = it
         )
     }
+    if (hjelpemidler.isEmpty()) {
+        throw IllegalStateException("Mangler hjelpemidler for del $del")
+    }
     DelMedHjelpemidler(
         del = del,
         hjelpemidler = hjelpemidler
