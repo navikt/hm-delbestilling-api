@@ -512,14 +512,6 @@ val alleDeler: Map<Hmsnr, Del> = listOf(
         maksAntall = 2,
         datoLagtTil = LocalDate.of(2024, 4, 15),
     ),
-    Del(
-        hmsnr = "264061",
-        navn = "Hjul ers 180x68 M3 Corpus/M3 Corpus Jr kompakt dekk svart",
-        kategori = Kategori.Svinghjul,
-        defaultAntall = 4,
-        maksAntall = 4,
-        datoLagtTil = LocalDate.of(2024, 4, 15),
-    ),
 ).also(::kontrollerForDuplikateHmsnr).associateBy { it.hmsnr }
 
 internal fun kontrollerForDuplikateHmsnr(deler: List<Del>) {

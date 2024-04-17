@@ -10,9 +10,13 @@ data class DellisteDel(
     val hjmNavn: Navn,
     val lagtTil: LocalDate,
 )
+
 data class Delliste(
     val deler: List<DellisteDel>,
-    val sistOppdatert: LocalDate = deler.maxOf { it.lagtTil }
+    val sistOppdatert: LocalDate = maxOf(
+        deler.maxOf { it.lagtTil },
+        LocalDate.of(2024, 4, 17) // manuell overstyring pga fjerning av 264061
+    )
 )
 
 val delliste = Delliste(

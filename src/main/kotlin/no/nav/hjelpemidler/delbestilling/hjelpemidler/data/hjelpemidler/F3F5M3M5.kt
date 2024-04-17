@@ -35,7 +35,7 @@ val F3F5M3M5 = listOf(
     ),
     HjelpemidlerOgDeler(
         navn = "M3",
-        deler = listOf("264061", "255403"),
+        deler = listOf("255403"),
         hmsnr = listOf("287396", "296431", "308938", "308939")
     ),
     HjelpemidlerOgDeler(
