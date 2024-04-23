@@ -7,7 +7,7 @@ val MINICROSSER = listOf(
     HjelpemidlerOgDeler(
         navn = "Minicrosser 125T",
         deler = listOf("200842", "022005", "302543"),
-        hmsnr = listOf("160322")
+        hmsnr = listOf("160322", "023626")
     ),
     HjelpemidlerOgDeler(
         navn = "Minicrosser M",
