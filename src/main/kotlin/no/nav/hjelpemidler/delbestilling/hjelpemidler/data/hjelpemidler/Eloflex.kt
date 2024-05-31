@@ -17,7 +17,6 @@ val ELOFLEX = listOf(
             "301573", // Eloflex
             "311864", // Eloflex
             "230539", // Eloflex
-            "251746", // Eloflex
         )
     ),
 )

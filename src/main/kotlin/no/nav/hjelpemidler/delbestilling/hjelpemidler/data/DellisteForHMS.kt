@@ -15,7 +15,7 @@ data class Delliste(
     val deler: List<DellisteDel>,
     val sistOppdatert: LocalDate = maxOf(
         deler.maxOf { it.lagtTil },
-        LocalDate.of(2024, 4, 17) // manuell overstyring pga fjerning av 264061
+        LocalDate.of(2024, 5, 31) // manuell overstyring pga fjerning av 251746 Eloflex
     )
 )
 
