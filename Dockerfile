@@ -1,8 +1,5 @@
-FROM gcr.io/distroless/java17-debian11
-WORKDIR /app
-COPY /build/libs/hm-delbestilling-api-fat.jar app.jar
-ENV JAVA_OPTS="-Dlogback.configurationFile=logback.xml"
+FROM gcr.io/distroless/java21-debian12:nonroot
+COPY build/libs/hm-delbestilling-api-all.jar /app.jar
 ENV TZ="Europe/Oslo"
 EXPOSE 8080
-USER nonroot
 CMD ["app.jar"]

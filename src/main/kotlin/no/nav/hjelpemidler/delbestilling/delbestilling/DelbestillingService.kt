@@ -177,7 +177,12 @@ class DelbestillingService(
 
     suspend fun oppdaterStatus(saksnummer: Long, status: Status, oebsOrdrenummer: String) {
         delbestillingRepository.withTransaction { tx ->
-            val lagretDelbestilling = delbestillingRepository.hentDelbestilling(tx, saksnummer)!!
+            val lagretDelbestilling = delbestillingRepository.hentDelbestilling(tx, saksnummer) ?: if (isDev()) {
+                log.info { "Delbestilling $saksnummer finnes ikke i dev. Antar ugyldig testdata fra OeBS og skipper statusoppdatering." }
+                return@withTransaction
+            } else {
+                error("Kunne ikke oppdatere status for delbestilling $saksnummer fordi den ikke finnes.")
+            }
 
             if (lagretDelbestilling.oebsOrdrenummer == null) {
                 delbestillingRepository.oppdaterOebsOrdrenummer(tx, saksnummer, oebsOrdrenummer)

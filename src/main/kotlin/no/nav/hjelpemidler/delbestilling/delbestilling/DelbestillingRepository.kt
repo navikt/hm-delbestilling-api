@@ -7,8 +7,9 @@ import kotliquery.queryOf
 import kotliquery.sessionOf
 import kotliquery.using
 import io.github.oshai.kotlinlogging.KotlinLogging
+import no.nav.hjelpemidler.database.JdbcOperations
 import no.nav.hjelpemidler.database.pgObjectOf
-import no.nav.hjelpemidler.database.transaction
+import no.nav.hjelpemidler.database.transactionAsync
 import no.nav.hjelpemidler.delbestilling.json
 import no.nav.hjelpemidler.delbestilling.jsonMapper
 import javax.sql.DataSource
@@ -21,11 +22,11 @@ class DelbestillingRepository(val ds: DataSource) {
     // using(sessionOf(ds)) { session -> ... } vil ikke bli en del av transaksjonen
     suspend inline fun <T> withTransaction(
         returnGeneratedKeys: Boolean = false,
-        crossinline block: suspend (TransactionalSession) -> T,
-    ): T = transaction(ds, returnGeneratedKeys) { tx -> block(tx) }
+        crossinline block: suspend (JdbcOperations) -> T,
+    ): T = transactionAsync(ds, returnGeneratedKeys) { tx -> block(tx) }
 
     fun lagreDelbestilling(
-        tx: Session,
+        tx: JdbcOperations,
         bestillerFnr: String,
         brukerFnr: String,
         brukerKommunenr: String,
@@ -33,32 +34,21 @@ class DelbestillingRepository(val ds: DataSource) {
         brukersKommunenavn: String,
     ): Long? {
         log.info { "Lagrer delbestilling '${delbestilling.id}'" }
-        return tx.run(
-            queryOf(
-                """
-                    INSERT INTO delbestilling (brukers_kommunenr, fnr_bruker, fnr_bestiller, delbestilling_json, status, brukers_kommunenavn)
-                    VALUES (:brukers_kommunenr, :fnr_bruker, :fnr_bestiller, :delbestilling_json::jsonb, :status, :brukers_kommunenavn)
-                """.trimIndent(),
-                mapOf(
-                    "brukers_kommunenr" to brukerKommunenr,
-                    "fnr_bruker" to brukerFnr,
-                    "fnr_bestiller" to bestillerFnr,
-                    "delbestilling_json" to jsonMapper.writeValueAsString(delbestilling),
-                    "status" to Status.INNSENDT.name,
-                    "brukers_kommunenavn" to brukersKommunenavn,
-                ),
-            ).asUpdateAndReturnGeneratedKey
+        return tx.updateAndReturnGeneratedKey(
+            """
+                INSERT INTO delbestilling (brukers_kommunenr, fnr_bruker, fnr_bestiller, delbestilling_json, status, brukers_kommunenavn)
+                VALUES (:brukers_kommunenr, :fnr_bruker, :fnr_bestiller, :delbestilling_json::jsonb, :status, :brukers_kommunenavn)
+            """.trimIndent(),
+            mapOf(
+                "brukers_kommunenr" to brukerKommunenr,
+                "fnr_bruker" to brukerFnr,
+                "fnr_bestiller" to bestillerFnr,
+                "delbestilling_json" to jsonMapper.writeValueAsString(delbestilling),
+                "status" to Status.INNSENDT.name,
+                "brukers_kommunenavn" to brukersKommunenavn,
+            ),
         )
     }
-
-    fun hentDelbestillinger(tx: Session): List<DelbestillingSak> = tx.run(
-        queryOf(
-            """
-                SELECT * 
-                FROM delbestilling
-            """.trimIndent()
-        ).map { it.toLagretDelbestilling() }.asList
-    )
 
     fun hentDelbestillinger(bestillerFnr: String): List<DelbestillingSak> = using(sessionOf(ds)) { session ->
         session.run(
@@ -73,92 +63,66 @@ class DelbestillingRepository(val ds: DataSource) {
         )
     }
 
-    fun hentDelbestilling(tx: Session, saksnummer: Long): DelbestillingSak? = tx.run(
-        queryOf(
-            """
-                SELECT * 
-                FROM delbestilling
-                WHERE saksnummer = :saksnummer
-            """.trimIndent(),
-            mapOf("saksnummer" to saksnummer)
-        ).map { it.toLagretDelbestilling() }.asSingle
-    )
+    fun hentDelbestilling(tx: JdbcOperations, saksnummer: Long): DelbestillingSak? = tx.singleOrNull(
+        """
+            SELECT * 
+            FROM delbestilling
+            WHERE saksnummer = :saksnummer
+        """.trimIndent(),
+        mapOf("saksnummer" to saksnummer)
+    ) { it.toLagretDelbestilling() }
 
-    fun hentDelbestilling(tx: Session, oebsOrdrenummer: String): DelbestillingSak? = tx.run(
-        queryOf(
-            """
+    fun hentDelbestilling(tx: JdbcOperations, oebsOrdrenummer: String): DelbestillingSak? = tx.singleOrNull(
+        """
                 SELECT * 
                 FROM delbestilling
                 WHERE oebs_ordrenummer = :oebs_ordrenummer
             """.trimIndent(),
-            mapOf("oebs_ordrenummer" to oebsOrdrenummer)
-        ).map { it.toLagretDelbestilling() }.asSingle
-    )
+        mapOf("oebs_ordrenummer" to oebsOrdrenummer)
+    ) { it.toLagretDelbestilling() }
 
-    fun oppdaterStatus(tx: Session, saksnummer: Long, status: Status) = try {
-        tx.run(
-            queryOf(
-                """
+
+    fun oppdaterStatus(tx: JdbcOperations, saksnummer: Long, status: Status) = try {
+        tx.update(
+            """
                 UPDATE delbestilling
                 SET status = :status, sist_oppdatert = CURRENT_TIMESTAMP
                 WHERE saksnummer = :saksnummer
-                """.trimIndent(),
-                mapOf("status" to status.name, "saksnummer" to saksnummer)
-            ).asUpdate
+            """.trimIndent(),
+            mapOf("status" to status.name, "saksnummer" to saksnummer)
         )
     } catch (e: Exception) {
         log.error(e) { "Oppdatering av status feilet" }
         throw e
     }
 
-    fun oppdaterOebsOrdrenummer(tx: Session, saksnummer: Long, oebsOrdrenummer: String) = try {
-        tx.run(
-            queryOf(
-                """
+    fun oppdaterOebsOrdrenummer(tx: JdbcOperations, saksnummer: Long, oebsOrdrenummer: String) = try {
+        tx.update(
+            """
                 UPDATE delbestilling
                 SET oebs_ordrenummer = :oebs_ordrenummer, sist_oppdatert = CURRENT_TIMESTAMP
                 WHERE saksnummer = :saksnummer
-                """.trimIndent(),
-                mapOf("oebs_ordrenummer" to oebsOrdrenummer, "saksnummer" to saksnummer)
-            ).asUpdate
+            """.trimIndent(),
+            mapOf("oebs_ordrenummer" to oebsOrdrenummer, "saksnummer" to saksnummer)
         )
     } catch (e: Exception) {
         log.error(e) { "Oppdatering av oebs_ordrenummer feilet" }
         throw e
     }
 
-    fun oppdaterDelbestilling(tx: Session, saksnummer: Long, delbestilling: Delbestilling) = try {
-        tx.run(
-            queryOf(
-                """
+    fun oppdaterDelbestilling(tx: JdbcOperations, saksnummer: Long, delbestilling: Delbestilling) = try {
+        tx.update(
+            """
                 UPDATE delbestilling
                 SET delbestilling_json = :delbestilling_json, sist_oppdatert = CURRENT_TIMESTAMP
                 WHERE saksnummer = :saksnummer
-                """.trimIndent(),
-                mapOf("delbestilling_json" to pgJsonbOf(delbestilling), "saksnummer" to saksnummer)
-            ).asUpdate
+            """.trimIndent(),
+            mapOf("delbestilling_json" to pgJsonbOf(delbestilling), "saksnummer" to saksnummer)
         )
     } catch (e: Exception) {
         log.error(e) { "Oppdatering av delbestilling_json feilet" }
         throw e
     }
-
-    fun oppdaterDelbestillingUtenSistOppdatert(tx: Session, saksnummer: Long, delbestilling: Delbestilling) = try {
-        tx.run(
-            queryOf(
-                """
-                UPDATE delbestilling
-                SET delbestilling_json = :delbestilling_json
-                WHERE saksnummer = :saksnummer
-                """.trimIndent(),
-                mapOf("delbestilling_json" to pgJsonbOf(delbestilling), "saksnummer" to saksnummer)
-            ).asUpdate
-        )
-    } catch (e: Exception) {
-        log.error(e) { "Oppdatering av delbestilling_json feilet" }
-        throw e
-    }
-
 }
 
 private fun Row.toLagretDelbestilling() = DelbestillingSak(
