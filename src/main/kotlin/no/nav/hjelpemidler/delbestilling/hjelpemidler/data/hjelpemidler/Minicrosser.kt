@@ -11,7 +11,7 @@ val MINICROSSER = listOf(
     ),
     HjelpemidlerOgDeler(
         navn = "Minicrosser M",
-        deler = listOf("200842", "263773", "302543"),
+        deler = listOf("200842", "328154", "302543"),
         hmsnr = listOf(
             "159629", // Minicrosser M1
             "167574", // Minicrosser M2
@@ -48,7 +48,7 @@ val MINICROSSER = listOf(
     ),
     HjelpemidlerOgDeler(
         navn = "Minicrosser X",
-        deler = listOf("253277", "291358", "291356", "263773", "302543"),
+        deler = listOf("253277", "291358", "291356", "328154", "302543"),
         hmsnr = listOf(
             "250464", // Minicrosser X1
             "250465", // Minicrosser X1

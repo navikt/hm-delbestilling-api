@@ -182,14 +182,14 @@ val alleDeler: Map<Hmsnr, Del> = listOf(
         datoLagtTil = LocalDate.of(2023, 6, 20),
     ),
     Del(
-        hmsnr = "263773",
-        navn = "Batteri 85 ah",
-        levArtNr = "1523-1138",
+        hmsnr = "328154", // Tidligere 263773
+        navn = "Batteri 85 Ah",
+        levArtNr = "1523-1157",
         kategori = Kategori.Batteri,
         defaultAntall = 2,
         maksAntall = 2,
-        img = "https://storage.googleapis.com/hm_delbestilling_bilder/263773.png",
-        datoLagtTil = LocalDate.of(2023, 6, 20),
+        // TODO kan vi gjenbruke dette gamle bildet? img = "https://storage.googleapis.com/hm_delbestilling_bilder/263773.png",
+        datoLagtTil = LocalDate.of(2025, 1, 22),
     ),
     Del(
         hmsnr = "269827",
