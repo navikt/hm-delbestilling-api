@@ -38,7 +38,7 @@ internal class HjelpemiddelDelerTest {
         assertEquals(Kategori.Hjul, deler[0].kategori)
 
         assertEquals("328154", deler[1].hmsnr)
-        assertEquals("Batteri 85 ah", deler[1].navn)
+        assertEquals("Batteri 85 Ah", deler[1].navn)
         assertEquals(Kategori.Batteri, deler[1].kategori)
     }
 
