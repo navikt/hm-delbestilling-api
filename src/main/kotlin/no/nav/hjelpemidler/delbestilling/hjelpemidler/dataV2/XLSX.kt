@@ -2,7 +2,7 @@ package no.nav.hjelpemidler.delbestilling.hjelpemidler.dataV2
 
 import no.nav.hjelpemidler.delbestilling.delbestilling.Hmsnr
 import no.nav.hjelpemidler.delbestilling.hjelpemidler.data.Navn
-import org.apache.poi.ss.usermodel.CellType
+import org.apache.poi.ss.usermodel.DataFormatter
 import org.apache.poi.ss.usermodel.WorkbookFactory
 
 class Xlsx {
@@ -21,6 +21,7 @@ class Xlsx {
         val hjelpemidler = mutableMapOf<Hmsnr, Navn>()
         val hjmTilDeler = mutableMapOf<Hmsnr, MutableSet<Hmsnr>>()
 
+        val dataFormatter = DataFormatter()
         for (rowIdx in CONTENT_FIRST_ROW until sheet.lastRowNum) {
             val row = sheet.getRow(rowIdx) ?: break
 
@@ -34,9 +35,8 @@ class Xlsx {
             hjelpemidler[hjmHmsnr] = hjmNavn
 
             for (colIdx in 1 until row.lastCellNum) {
-                row.getCell(colIdx).cellType = CellType.STRING
-                val delHmsnr = row.getCell(colIdx).toString().trim()
-                if (delHmsnr.isNullOrBlank()) continue
+                val delHmsnr = dataFormatter.formatCellValue(row.getCell(colIdx)).trim()
+                if (delHmsnr.isBlank()) continue
                 val delNavn = headers[colIdx] ?: error("Mangler delnavn (header) for $delHmsnr (kolonne: $colIdx)")
                 deler.putIfAbsent(delHmsnr, delNavn)
 
