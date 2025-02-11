@@ -2,6 +2,7 @@ package no.nav.hjelpemidler.delbestilling.hjelpemidler.dataV2
 
 import no.nav.hjelpemidler.delbestilling.delbestilling.Hmsnr
 import no.nav.hjelpemidler.delbestilling.hjelpemidler.data.Navn
+import org.apache.poi.ss.usermodel.CellType
 import org.apache.poi.ss.usermodel.WorkbookFactory
 
 class Xlsx {
@@ -33,7 +34,7 @@ class Xlsx {
             hjelpemidler[hjmHmsnr] = hjmNavn
 
             for (colIdx in 1 until row.lastCellNum) {
-                println("colIdx: $colIdx, cell: ${row.getCell(colIdx)}")
+                row.getCell(colIdx).cellType = CellType.STRING
                 val delHmsnr = row.getCell(colIdx).toString().trim()
                 if (delHmsnr.isNullOrBlank()) continue
                 val delNavn = headers[colIdx] ?: error("Mangler delnavn (header) for $delHmsnr (kolonne: $colIdx)")
