@@ -33,7 +33,9 @@ class Xlsx {
             hjelpemidler[hjmHmsnr] = hjmNavn
 
             for (colIdx in 1 until row.lastCellNum) {
+                println("colIdx: $colIdx, cell: ${row.getCell(colIdx)}")
                 val delHmsnr = row.getCell(colIdx).toString().trim()
+                if (delHmsnr.isNullOrBlank()) continue
                 val delNavn = headers[colIdx] ?: error("Mangler delnavn (header) for $delHmsnr (kolonne: $colIdx)")
                 deler.putIfAbsent(delHmsnr, delNavn)
 

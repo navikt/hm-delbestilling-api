@@ -2,7 +2,6 @@ package no.nav.hjelpemidler.delbestilling.hjelpemidler.dataV2
 
 import no.nav.hjelpemidler.delbestilling.delbestilling.Hmsnr
 import no.nav.hjelpemidler.delbestilling.hjelpemidler.data.Navn
-import no.nav.hjelpemidler.delbestilling.hjelpemidler.data.alleProdukter
 import java.time.LocalDate
 
 /**
@@ -52,13 +51,10 @@ fun sjekkManglendeDeler(delKandidater: Map<Hmsnr, Navn>) {
     }
 }
 
-private fun sjekkManglendeKoblinger(hjmTilDeler: Map<Hmsnr, Set<Hmsnr>>) {
-    val eksisterendeKoblinger = hjmTilDeler
-    val potensielleKoblinger =
-        alleProdukter.flatMap { produkter -> produkter.hmsnr.map { hmsnr -> (hmsnr to produkter.deler.toSet()) } }
-            .toMap()
+private fun sjekkManglendeKoblinger(koblingKandidater: Map<Hmsnr, Set<Hmsnr>>) {
+    val eksisterendeKoblinger = hmsnrHjmTilHmsnrDeler
 
-    val nyeHjmKoblinger = potensielleKoblinger.filter { it.key !in eksisterendeKoblinger }
+    val nyeHjmKoblinger = koblingKandidater.filter { it.key !in eksisterendeKoblinger }
     if (nyeHjmKoblinger.isNotEmpty()) {
         println("Nye koblinger (hjm har ingen eksisterende kobling til deler):")
         nyeHjmKoblinger.forEach { printKobling(it.key, it.value) }
@@ -66,7 +62,7 @@ private fun sjekkManglendeKoblinger(hjmTilDeler: Map<Hmsnr, Set<Hmsnr>>) {
     }
 
     val eksisterendeKoblingerMedNyeDeler =
-        potensielleKoblinger.filter {
+        koblingKandidater.filter {
             it.key in eksisterendeKoblinger &&
                     it.value.union(eksisterendeKoblinger[it.key]!!).size > eksisterendeKoblinger[it.key]!!.size
         }
@@ -79,6 +75,6 @@ private fun sjekkManglendeKoblinger(hjmTilDeler: Map<Hmsnr, Set<Hmsnr>>) {
 
 private fun printKobling(hmsnr: Hmsnr, deler: Set<Hmsnr>) {
     val delerString = deler.joinToString(prefix = "\"", separator = "\", \"", postfix = "\"")
-    println("""  "$hmsnr" to setOf($delerString),""")
+    println(""" "$hmsnr" to setOf($delerString),""")
 }
 
