@@ -35,7 +35,7 @@ data class DelMedHjelpemidler(
     val hjelpemidler: List<Hjelpemiddel>
 )
 
-private val alleProdukter =
+val alleProdukter =
     listOf(AZALEA, C500, COMET, ELOFLEX, F3F5M3M5, MC11xx, MINICROSSER, MOLIFT, OPUS, ORION, PANTHERA, X850).flatten()
 
 val hmsnr2Hjm: Map<Hmsnr, HjelpemiddelMedDeler> = alleProdukter
