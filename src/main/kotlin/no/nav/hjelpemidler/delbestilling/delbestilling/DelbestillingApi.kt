@@ -77,6 +77,20 @@ fun Route.delbestillingApiAuthenticated(
         }
     }
 
+    post("/xk-lager") {
+        try {
+            val request = call.receive<OppslagRequest>()
+            log.info { "/xk-lager request: $request" }
+            val xklager = XKLagerResponse(delbestillingService.sjekkXKLager(request.hmsnr, request.serienr))
+            log.info { "/xk-lager response: $xklager" }
+            call.respond(xklager)
+
+        } catch (e: Exception) {
+            log.error(e) { "Henting av XKLager feilet" }
+            call.respond(HttpStatusCode.InternalServerError)
+        }
+    }
+
     get("/delbestilling") {
         val bestillerFnr = call.tokenXUser().ident
         val delbestillinger = delbestillingService.hentDelbestillinger(bestillerFnr)

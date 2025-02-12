@@ -32,6 +32,10 @@ enum class OppslagFeil {
     TILBYR_IKKE_HJELPEMIDDEL, INGET_UTLÅN
 }
 
+data class XKLagerResponse (
+    val xkLager: Boolean,
+)
+
 data class HjelpemiddelMedDeler(
     val navn: String,
     val hmsnr: String,

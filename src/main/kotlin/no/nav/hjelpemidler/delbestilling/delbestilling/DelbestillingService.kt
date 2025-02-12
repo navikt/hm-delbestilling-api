@@ -298,6 +298,12 @@ class DelbestillingService(
         }
         return mapOf("error" to "Ingen testperson funnet")
     }
+
+    suspend fun sjekkXKLager(hmsnr: Hmsnr, serienr: Serienr): Boolean {
+        val utlån =  oebsService.hentUtlånPåArtnrOgSerienr(artnr = hmsnr, serienr = serienr) ?: error("Fant ikke utlån for $hmsnr $serienr")
+        val kommunenummer = pdlService.hentKommunenummer(utlån.fnr)
+        return harXKLager(kommunenummer)
+    }
 }
 
 private fun LocalDate.toDate() = Date.from(this.atStartOfDay(ZoneId.systemDefault()).toInstant())
