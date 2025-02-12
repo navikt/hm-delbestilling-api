@@ -23,7 +23,7 @@ data class OpprettBestillingsordreRequest(
     val saksnummer: String,
     val innsendernavn: String,
     val artikler: List<Artikkel>,
-    val forsendelsesinfo: String,
+    val forsendelsesinfo: String, // Info til 5.17-skjema
 )
 
 data class Artikkel(

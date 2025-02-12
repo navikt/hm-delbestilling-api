@@ -11,13 +11,15 @@ import no.nav.hjelpemidler.delbestilling.roller.Delbestiller
 import no.nav.hjelpemidler.delbestilling.roller.Organisasjon
 import java.time.LocalDate
 import java.util.UUID
+import kotlin.collections.List
 
 fun delbestillerRolle(kanBestilleDeler: Boolean = true) = Delbestiller(
     kanBestilleDeler = kanBestilleDeler,
     harXKLager = true,
     kommunaleOrgs = listOf(Organisasjon("123", "navn", kommunenummer = "1234")),
     erKommunaltAnsatt = true,
-    erIPilot = true,
+    godkjenteIkkeKommunaleOrgs = emptyList(),
+    erAnsattIGodkjentIkkeKommunaleOrgs = false,
 )
 
 fun delbestillingRequest(

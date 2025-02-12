@@ -16,6 +16,7 @@ import no.nav.hjelpemidler.delbestilling.oebs.OebsService
 import no.nav.hjelpemidler.delbestilling.oebs.OpprettBestillingsordreRequest
 import no.nav.hjelpemidler.delbestilling.oppslag.OppslagService
 import no.nav.hjelpemidler.delbestilling.pdl.PdlService
+import no.nav.hjelpemidler.delbestilling.roller.Delbestiller
 import no.nav.hjelpemidler.delbestilling.roller.RolleService
 import java.time.LocalDate
 import java.time.LocalDateTime
@@ -30,7 +31,6 @@ class DelbestillingService(
     private val delbestillingRepository: DelbestillingRepository,
     private val pdlService: PdlService,
     private val oebsService: OebsService,
-    private val rolleService: RolleService,
     private val oppslagService: OppslagService,
     private val metrics: Metrics,
 ) {
@@ -38,15 +38,13 @@ class DelbestillingService(
     suspend fun opprettDelbestilling(
         request: DelbestillingRequest,
         bestillerFnr: String,
-        tokenString: String,
+        delbestillerRolle: Delbestiller,
     ): DelbestillingResultat {
         val id = request.delbestilling.id
         val hmsnr = request.delbestilling.hmsnr
         val serienr = request.delbestilling.serienr
         log.info { "Oppretter delbestilling for hmsnr $hmsnr, serienr $serienr" }
-
-        val delbestillerRolle = rolleService.hentDelbestillerRolle(tokenString)
-        log.info { "Delbestillerrolle: $delbestillerRolle " }
+        log.info { "Delbestillerrolle: $delbestillerRolle" }
 
         val feil = validerDelbestillingRate(bestillerFnr, hmsnr, serienr)
         if (feil != null) {
@@ -95,13 +93,14 @@ class DelbestillingService(
             return DelbestillingResultat(id, feil = DelbestillingFeil.ULIK_ADRESSE_PDL_OEBS)
         }
 
-        // Sjekk om en av innsenders kommuner tilhører brukers kommuner
-        val innsenderRepresentererBrukersKommune =
-            delbestillerRolle.kommunaleOrgs?.find { it.kommunenummer == brukerKommunenr } != null
+        // Sjekk om en av innsenders organisasjoner tilhører brukers kommuner
+        val innsendersRepresenterteOrganisasjon =
+            delbestillerRolle.kommunaleOrgs.find { it.kommunenummer == brukerKommunenr }
+                ?: delbestillerRolle.godkjenteIkkeKommunaleOrgs.find { it.kommunenummer == brukerKommunenr }
+        val innsenderRepresentererBrukersKommune = innsendersRepresenterteOrganisasjon != null
 
-        // Skrur av denne sjekken for dev akkurat nå, da det er litt mismatch i testdataen der
-        if (isProd() && !innsenderRepresentererBrukersKommune) {
-            log.info { "Brukers kommunenr: $brukerKommunenr, innsenders kommuner: ${delbestillerRolle.kommunaleOrgs}" }
+        if (!innsenderRepresentererBrukersKommune) {
+            log.info { "Brukers kommunenr: $brukerKommunenr, innsenders kommuner: ${delbestillerRolle.kommunaleOrgs}, innsenders godkjente ikke-kommunale orgs: ${delbestillerRolle.godkjenteIkkeKommunaleOrgs}" }
             return DelbestillingResultat(
                 id,
                 feil = DelbestillingFeil.ULIK_GEOGRAFISK_TILKNYTNING,
@@ -121,6 +120,7 @@ class DelbestillingService(
                 brukerKommunenr,
                 request.delbestilling,
                 brukersKommunenavn,
+                innsendersRepresenterteOrganisasjon,
             )
 
             // Hent ut den nye delbestillingsaken

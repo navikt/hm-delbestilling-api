@@ -12,6 +12,7 @@ import no.nav.hjelpemidler.database.pgObjectOf
 import no.nav.hjelpemidler.database.transactionAsync
 import no.nav.hjelpemidler.delbestilling.json
 import no.nav.hjelpemidler.delbestilling.jsonMapper
+import no.nav.hjelpemidler.delbestilling.roller.Organisasjon
 import javax.sql.DataSource
 
 private val log = KotlinLogging.logger {}
@@ -32,12 +33,13 @@ class DelbestillingRepository(val ds: DataSource) {
         brukerKommunenr: String,
         delbestilling: Delbestilling,
         brukersKommunenavn: String,
+        bestillersOrganisasjon: Organisasjon,
     ): Long? {
         log.info { "Lagrer delbestilling '${delbestilling.id}'" }
         return tx.updateAndReturnGeneratedKey(
             """
-                INSERT INTO delbestilling (brukers_kommunenr, fnr_bruker, fnr_bestiller, delbestilling_json, status, brukers_kommunenavn)
-                VALUES (:brukers_kommunenr, :fnr_bruker, :fnr_bestiller, :delbestilling_json::jsonb, :status, :brukers_kommunenavn)
+                INSERT INTO delbestilling (brukers_kommunenr, fnr_bruker, fnr_bestiller, delbestilling_json, status, brukers_kommunenavn, bestillers_organisasjon)
+                VALUES (:brukers_kommunenr, :fnr_bruker, :fnr_bestiller, :delbestilling_json::jsonb, :status, :brukers_kommunenavn, :bestillers_organisasjon::jsonb)
             """.trimIndent(),
             mapOf(
                 "brukers_kommunenr" to brukerKommunenr,
@@ -46,6 +48,7 @@ class DelbestillingRepository(val ds: DataSource) {
                 "delbestilling_json" to jsonMapper.writeValueAsString(delbestilling),
                 "status" to Status.INNSENDT.name,
                 "brukers_kommunenavn" to brukersKommunenavn,
+                "bestillers_organisasjon" to jsonMapper.writeValueAsString(bestillersOrganisasjon),
             ),
         )
     }

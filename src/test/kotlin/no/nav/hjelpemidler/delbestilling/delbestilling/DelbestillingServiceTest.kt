@@ -42,14 +42,11 @@ internal class DelbestillingServiceTest {
     private val oebsService = mockk<OebsService>(relaxed = true).apply {
         coEvery { hentPersoninfo(any()) } returns listOf(OebsPersoninfo(brukersKommunenr))
     }
-    private val rolleService = mockk<RolleService>(relaxed = true).apply {
-        coEvery { hentDelbestillerRolle(any()) } returns delbestillerRolle()
-    }
     private val oppslagService = mockk<OppslagService>(relaxed = true).apply {
         coEvery { hentKommune(any()) } returns kommune()
     }
     private val delbestillingService =
-        DelbestillingService(delbestillingRepository, pdlService, oebsService, rolleService, oppslagService, mockk(relaxed = true))
+        DelbestillingService(delbestillingRepository, pdlService, oebsService, oppslagService, mockk(relaxed = true))
 
     @BeforeEach
     fun setup() {
@@ -60,12 +57,12 @@ internal class DelbestillingServiceTest {
     fun `opprettDelbestilling happy path`() = runTest {
         assertEquals(0, delbestillingService.hentDelbestillinger(bestillerFnr).size)
 
-        delbestillingService.opprettDelbestilling(delbestillingRequest(), bestillerFnr, bestillerTokenString)
+        delbestillingService.opprettDelbestilling(delbestillingRequest(), bestillerFnr, delbestillerRolle())
         var delebestillinger = delbestillingService.hentDelbestillinger(bestillerFnr)
         assertEquals(1, delebestillinger.size)
         assertEquals(1, delebestillinger.first().saksnummer)
 
-        delbestillingService.opprettDelbestilling(delbestillingRequest(), bestillerFnr, bestillerTokenString)
+        delbestillingService.opprettDelbestilling(delbestillingRequest(), bestillerFnr, delbestillerRolle())
         delebestillinger = delbestillingService.hentDelbestillinger(bestillerFnr)
         assertEquals(2, delebestillinger.size)
         assertEquals(2, delebestillinger.last().saksnummer)
@@ -73,13 +70,13 @@ internal class DelbestillingServiceTest {
 
     @Test
     fun `tekniker kan max sende inn 5 delbestillinger for samme artnr & serienr per døgn`() = runTest {
-        delbestillingService.opprettDelbestilling(delbestillingRequest(), bestillerFnr, bestillerTokenString)
-        delbestillingService.opprettDelbestilling(delbestillingRequest(), bestillerFnr, bestillerTokenString)
-        delbestillingService.opprettDelbestilling(delbestillingRequest(), bestillerFnr, bestillerTokenString)
-        delbestillingService.opprettDelbestilling(delbestillingRequest(), bestillerFnr, bestillerTokenString)
-        delbestillingService.opprettDelbestilling(delbestillingRequest(), bestillerFnr, bestillerTokenString)
+        delbestillingService.opprettDelbestilling(delbestillingRequest(), bestillerFnr, delbestillerRolle())
+        delbestillingService.opprettDelbestilling(delbestillingRequest(), bestillerFnr, delbestillerRolle())
+        delbestillingService.opprettDelbestilling(delbestillingRequest(), bestillerFnr, delbestillerRolle())
+        delbestillingService.opprettDelbestilling(delbestillingRequest(), bestillerFnr, delbestillerRolle())
+        delbestillingService.opprettDelbestilling(delbestillingRequest(), bestillerFnr, delbestillerRolle())
         val resultat =
-            delbestillingService.opprettDelbestilling(delbestillingRequest(), bestillerFnr, bestillerTokenString)
+            delbestillingService.opprettDelbestilling(delbestillingRequest(), bestillerFnr, delbestillerRolle())
         assertEquals(DelbestillingFeil.FOR_MANGE_BESTILLINGER_SISTE_24_TIMER, resultat.feil)
 
         val bestillinger = delbestillingService.hentDelbestillinger(bestillerFnr)
@@ -91,12 +88,12 @@ internal class DelbestillingServiceTest {
         coEvery { oebsService.sendDelbestilling(any()) } throws MockException("Kafka er nede")
         assertEquals(0, delbestillingService.hentDelbestillinger(bestillerFnr).size)
         assertThrows<MockException> {
-            delbestillingService.opprettDelbestilling(delbestillingRequest(), bestillerFnr, bestillerTokenString)
+            delbestillingService.opprettDelbestilling(delbestillingRequest(), bestillerFnr, delbestillerRolle())
         }
         assertEquals(0, delbestillingService.hentDelbestillinger(bestillerFnr).size)
 
         coEvery { oebsService.sendDelbestilling(any()) } just runs
-        delbestillingService.opprettDelbestilling(delbestillingRequest(), bestillerFnr, bestillerTokenString)
+        delbestillingService.opprettDelbestilling(delbestillingRequest(), bestillerFnr, delbestillerRolle())
         assertEquals(1, delbestillingService.hentDelbestillinger(bestillerFnr).size)
     }
 
@@ -104,7 +101,7 @@ internal class DelbestillingServiceTest {
     fun `skal sende med riktig info til 5-17 skjema`() = runTest {
         val slot = slot<OpprettBestillingsordreRequest>()
         coEvery { oebsService.sendDelbestilling(capture(slot)) } returns Unit
-        delbestillingService.opprettDelbestilling(delbestillingRequest(), bestillerFnr, bestillerTokenString)
+        delbestillingService.opprettDelbestilling(delbestillingRequest(), bestillerFnr, delbestillerRolle())
         assertEquals("XK-Lager Del bestilt av: Turid Tekniker", slot.captured.forsendelsesinfo)
     }
 
@@ -112,14 +109,14 @@ internal class DelbestillingServiceTest {
     fun `skal feile dersom PDL og OEBS sine kommunenr er ulike for bruker`() = runTest {
         coEvery { oebsService.hentPersoninfo(any()) } returns listOf(OebsPersoninfo("0000"))
         val resultat = delbestillingService
-            .opprettDelbestilling(delbestillingRequest(), bestillerFnr, bestillerTokenString)
+            .opprettDelbestilling(delbestillingRequest(), bestillerFnr, delbestillerRolle())
         assertEquals(DelbestillingFeil.ULIK_ADRESSE_PDL_OEBS, resultat.feil)
     }
 
     @Test
     fun `skal ikke kunne oppdatere delbestilling til en tidligere status`() = runTest {
         coEvery { oebsService.sendDelbestilling(any()) } just runs
-        delbestillingService.opprettDelbestilling(delbestillingRequest(), bestillerFnr, bestillerTokenString)
+        delbestillingService.opprettDelbestilling(delbestillingRequest(), bestillerFnr, delbestillerRolle())
         val delbestilling = delbestillingService.hentDelbestillinger(bestillerFnr).first()
         delbestillingService.oppdaterStatus(delbestilling.saksnummer, Status.KLARGJORT, oebsOrdrenummer)
 
@@ -132,7 +129,7 @@ internal class DelbestillingServiceTest {
     @Test
     fun `skal oppdatere delbestilling status`() = runTest {
         coEvery { oebsService.sendDelbestilling(any()) } just runs
-        delbestillingService.opprettDelbestilling(delbestillingRequest(), bestillerFnr, bestillerTokenString)
+        delbestillingService.opprettDelbestilling(delbestillingRequest(), bestillerFnr, delbestillerRolle())
         val delbestilling = delbestillingService.hentDelbestillinger(bestillerFnr).first()
         assertEquals(Status.INNSENDT, delbestilling.status)
         assertEquals(null, delbestilling.oebsOrdrenummer)
@@ -146,7 +143,7 @@ internal class DelbestillingServiceTest {
     @Test
     fun `statusoppdatering skal feile når det er mismatch i oebsOrdrenummer`() = runTest {
         coEvery { oebsService.sendDelbestilling(any()) } just runs
-        delbestillingService.opprettDelbestilling(delbestillingRequest(), bestillerFnr, bestillerTokenString)
+        delbestillingService.opprettDelbestilling(delbestillingRequest(), bestillerFnr, delbestillerRolle())
         val delbestilling = delbestillingService.hentDelbestillinger(bestillerFnr).first()
         delbestillingService.oppdaterStatus(delbestilling.saksnummer, Status.REGISTRERT, oebsOrdrenummer)
         assertThrows<IllegalStateException> {
@@ -157,7 +154,7 @@ internal class DelbestillingServiceTest {
     @Test
     fun `skal oppdatere status på dellinjer`() = runTest {
         coEvery { oebsService.sendDelbestilling(any()) } just runs
-        delbestillingService.opprettDelbestilling(delbestillingRequest(), bestillerFnr, bestillerTokenString)
+        delbestillingService.opprettDelbestilling(delbestillingRequest(), bestillerFnr, delbestillerRolle())
         var delbestilling = delbestillingService.hentDelbestillinger(bestillerFnr).first()
         delbestillingService.oppdaterStatus(delbestilling.saksnummer, Status.KLARGJORT, oebsOrdrenummer)
         val datoOppdatert = LocalDate.of(2023, 9, 29)

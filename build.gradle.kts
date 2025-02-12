@@ -38,6 +38,7 @@ dependencies {
     implementation(libs.ktor.server.cio)
     implementation(libs.ktor.server.rate.limit)
     implementation(libs.ktor.server.request.validation)
+    implementation("io.ktor:ktor-utils")
 
     // Jackson
     implementation(libs.bundles.jackson)
