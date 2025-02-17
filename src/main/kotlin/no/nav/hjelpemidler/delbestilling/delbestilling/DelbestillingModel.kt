@@ -47,7 +47,7 @@ data class Del(
     val maksAntall: Int, // TODO kan ofte utlede maksAntall fra kategori også
     val img: String? = null,
     val datoLagtTil: LocalDate? = null,
-    var lagerstatus: Lagerstatus?
+    var lagerstatus: Lagerstatus? = null, // TODO: denne bør kanskje ikke være nullable?
 )
 
 data class Lagerstatus(
