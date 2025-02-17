@@ -16,7 +16,15 @@ data class OppslagResultat(
     val hjelpemiddel: HjelpemiddelMedDeler?,
     val feil: OppslagFeil? = null,
     val httpStatusCode: HttpStatusCode,
-)
+) {
+    init {
+        hjelpemiddel?.deler?.forEach {
+            if (it.lagerstatus == null) {
+                error{"Del $it på hjelpemiddel ${hjelpemiddel.hmsnr} mangler lagerstatus"}
+            }
+        }
+    }
+}
 
 data class AlleHjelpemidlerMedDelerResultat(
     val hjelpemidlerMedDeler: List<HjelpemiddelMedDeler>,
