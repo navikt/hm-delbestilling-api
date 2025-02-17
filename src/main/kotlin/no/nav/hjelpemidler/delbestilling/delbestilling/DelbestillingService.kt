@@ -268,8 +268,14 @@ class DelbestillingService(
         val hjelpemiddelMedDeler = hmsnr2Hjm[hmsnr]
             ?: return OppslagResultat(null, OppslagFeil.TILBYR_IKKE_HJELPEMIDDEL, HttpStatusCode.NotFound)
 
-        oebsService.hentUtlånPåArtnrOgSerienr(hmsnr, serienr)
+        val utlån = oebsService.hentUtlånPåArtnrOgSerienr(hmsnr, serienr)
             ?: return OppslagResultat(null, OppslagFeil.INGET_UTLÅN, HttpStatusCode.NotFound)
+
+        val brukersKommunenummer = pdlService.hentKommunenummer(utlån.fnr)
+        val lagerstatusForDeler = oebsService.hentLagerstatus(brukersKommunenummer, hjelpemiddelMedDeler.deler.map { it.hmsnr })
+
+        // Koble hver del til lagerstatus
+        hjelpemiddelMedDeler.deler = hjelpemiddelMedDeler.deler.map {del -> del.copy(lagerstatus = lagerstatusForDeler.find { it.artikkelnummer == del.hmsnr })}
 
         return OppslagResultat(hjelpemiddelMedDeler, null, HttpStatusCode.OK)
     }

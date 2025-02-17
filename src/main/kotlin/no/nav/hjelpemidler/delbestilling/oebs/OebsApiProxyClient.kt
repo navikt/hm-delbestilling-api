@@ -23,6 +23,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import io.github.oshai.kotlinlogging.KotlinLogging
 import no.nav.hjelpemidler.delbestilling.Config
+import no.nav.hjelpemidler.delbestilling.delbestilling.Lagerstatus
 import no.nav.hjelpemidler.delbestilling.isDev
 import no.nav.hjelpemidler.delbestilling.navCorrelationId
 import no.nav.hjelpemidler.http.createHttpClient
@@ -136,6 +137,25 @@ class OebsApiProxyClient(
                 httpResponse.body()
             } catch (e: Exception) {
                 logg.error(e) { "Klarte ikke hente info om brukerpass fra OEBS" }
+                throw e
+            }
+        }
+    }
+
+    suspend fun hentLagerstatus(kommunenummer: String, hmsnrs: List<String>): List<Lagerstatus> {
+        return withContext(Dispatchers.IO) {
+            try {
+                logg.info { "henter lagerstatus for kommunenummer $kommunenummer for hmsnrs $hmsnrs fra $baseUrl/lager/sentral/$kommunenummer" }
+                val tokenSet = azureAdClient.grant(apiScope)
+                val httpResponse = client.request("$baseUrl/lager/sentral/$kommunenummer") {
+                    method = HttpMethod.Post
+                    bearerAuth(tokenSet)
+                    navCorrelationId()
+                    setBody(LagerstatusRequest(hmsnrs))
+                }
+                httpResponse.body()
+            } catch (e: Throwable) {
+                logg.error(e) { "Klarte ikke hente lagerstatus for hmsnrs" }
                 throw e
             }
         }

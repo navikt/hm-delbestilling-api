@@ -1,5 +1,7 @@
 package no.nav.hjelpemidler.delbestilling.oebs
 
+import no.nav.hjelpemidler.delbestilling.delbestilling.Lagerstatus
+
 class OebsService(
     private val oebsApiProxyClient: OebsApiProxyClient,
     private val oebsSinkClient: OebsSinkClient
@@ -22,5 +24,9 @@ class OebsService(
 
     suspend fun hentFnrSomHarUtlånPåArtnr(artnr: String): List<String> {
         return oebsApiProxyClient.hentFnrSomHarUtlånPåArtnr(artnr)
+    }
+
+    suspend fun hentLagerstatus(kommunenummer: String, hmsnrs: List<String>): List<Lagerstatus> {
+        return oebsApiProxyClient.hentLagerstatus(kommunenummer, hmsnrs)
     }
 }
