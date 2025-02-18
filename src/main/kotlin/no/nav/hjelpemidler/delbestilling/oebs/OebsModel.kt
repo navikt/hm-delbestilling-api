@@ -41,3 +41,7 @@ data class Brukerpass(
     val startDate: LocalDate? = null,
     val endDate: LocalDate? = null
 )
+
+data class LagerstatusRequest(
+    val hmsnrs: List<String>
+)

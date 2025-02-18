@@ -268,8 +268,30 @@ class DelbestillingService(
         val hjelpemiddelMedDeler = hmsnr2Hjm[hmsnr]
             ?: return OppslagResultat(null, OppslagFeil.TILBYR_IKKE_HJELPEMIDDEL, HttpStatusCode.NotFound)
 
-        oebsService.hentUtlånPåArtnrOgSerienr(hmsnr, serienr)
+        val utlån = oebsService.hentUtlånPåArtnrOgSerienr(hmsnr, serienr)
             ?: return OppslagResultat(null, OppslagFeil.INGET_UTLÅN, HttpStatusCode.NotFound)
+
+        try {
+            val brukersKommunenummer = pdlService.hentKommunenummer(utlån.fnr)
+            val lagerstatusForDeler =
+                oebsService.hentLagerstatus(brukersKommunenummer, hjelpemiddelMedDeler.deler.map { it.hmsnr })
+
+            // Koble hver del til lagerstatus
+            hjelpemiddelMedDeler.deler =
+                hjelpemiddelMedDeler.deler.map { del -> del.copy(lagerstatus = lagerstatusForDeler.find { it.artikkelnummer == del.hmsnr }) }
+
+            val sentral = hjelpemiddelMedDeler.deler.first().lagerstatus?.organisasjons_navn ?: "UKJENT"
+            val antallPåLager = hjelpemiddelMedDeler.deler.count { it.lagerstatus?.minmax == true }
+            val antallDeler = hjelpemiddelMedDeler.deler.count()
+            log.info { "Lagerstatus for $hmsnr hos $sentral: $antallPåLager av $antallDeler er på lager." }
+            if (antallPåLager < antallDeler) {
+                val ikkePåLager = hjelpemiddelMedDeler.deler.filter { it.lagerstatus?.minmax == false }.map { it.hmsnr }
+                val manglerLagerstatus = hjelpemiddelMedDeler.deler.filter { it.lagerstatus == null }.map { it.hmsnr }
+                log.info { "$sentral har ikke alle deler på lager for $hmsnr. Ikke på lager: $ikkePåLager, mangler lagerstatus: $manglerLagerstatus." }
+            }
+        } catch(e: Exception) {
+            log.error(e) { "Klarte ikke å koble lagerstatus til del" }
+        }
 
         return OppslagResultat(hjelpemiddelMedDeler, null, HttpStatusCode.OK)
     }
