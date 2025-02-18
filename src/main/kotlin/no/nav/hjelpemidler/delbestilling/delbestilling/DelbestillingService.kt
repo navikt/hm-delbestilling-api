@@ -284,7 +284,9 @@ class DelbestillingService(
         val antallDeler = hjelpemiddelMedDeler.deler.count()
         log.info { "Lagerstatus for $hmsnr hos $sentral: $antallPåLager av $antallDeler er på lager." }
         if (antallPåLager < antallDeler) {
-            log.info { "$sentral har ikke alle deler på lager for $hmsnr" }
+            val ikkePåLager = hjelpemiddelMedDeler.deler.filter { it.lagerstatus?.minmax == false }.map { it.hmsnr }
+            val manglerLagerstatus = hjelpemiddelMedDeler.deler.filter { it.lagerstatus == null }.map { it.hmsnr }
+            log.info { "$sentral har ikke alle deler på lager for $hmsnr. Ikke på lager: $ikkePåLager, mangler lagerstatus: $manglerLagerstatus." }
         }
 
         return OppslagResultat(hjelpemiddelMedDeler, null, HttpStatusCode.OK)
