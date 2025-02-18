@@ -271,6 +271,7 @@ class DelbestillingService(
         val utlån = oebsService.hentUtlånPåArtnrOgSerienr(hmsnr, serienr)
             ?: return OppslagResultat(null, OppslagFeil.INGET_UTLÅN, HttpStatusCode.NotFound)
 
+        // TODO: fjern try/catch før lansering av sjekk av minmax
         try {
             val brukersKommunenummer = pdlService.hentKommunenummer(utlån.fnr)
             val lagerstatusForDeler =
