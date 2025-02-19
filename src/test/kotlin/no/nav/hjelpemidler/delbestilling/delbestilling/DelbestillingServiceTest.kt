@@ -14,6 +14,7 @@ import no.nav.hjelpemidler.delbestilling.kommune
 import no.nav.hjelpemidler.delbestilling.oebs.OebsPersoninfo
 import no.nav.hjelpemidler.delbestilling.oebs.OebsService
 import no.nav.hjelpemidler.delbestilling.oebs.OpprettBestillingsordreRequest
+import no.nav.hjelpemidler.delbestilling.oebs.Utlån
 import no.nav.hjelpemidler.delbestilling.oppslag.OppslagService
 import no.nav.hjelpemidler.delbestilling.pdl.PdlService
 import no.nav.hjelpemidler.delbestilling.roller.RolleService
@@ -49,7 +50,14 @@ internal class DelbestillingServiceTest {
         coEvery { hentKommune(any()) } returns kommune()
     }
     private val delbestillingService =
-        DelbestillingService(delbestillingRepository, pdlService, oebsService, rolleService, oppslagService, mockk(relaxed = true))
+        DelbestillingService(
+            delbestillingRepository,
+            pdlService,
+            oebsService,
+            rolleService,
+            oppslagService,
+            mockk(relaxed = true)
+        )
 
     @BeforeEach
     fun setup() {
@@ -200,16 +208,36 @@ internal class DelbestillingServiceTest {
         assertNull(delbestilling)
 
         // Skal bare ignorere ukjent ordrenummer
-        assertDoesNotThrow { delbestillingService.oppdaterDellinjeStatus(
-            oebsOrdrenummer,
-            DellinjeStatus.SKIPNINGSBEKREFTET,
-            "123456",
-            LocalDate.now(),
-        ) }
-        
+        assertDoesNotThrow {
+            delbestillingService.oppdaterDellinjeStatus(
+                oebsOrdrenummer,
+                DellinjeStatus.SKIPNINGSBEKREFTET,
+                "123456",
+                LocalDate.now(),
+            )
+        }
+
         delbestilling = delbestillingRepository.withTransaction { tx ->
             delbestillingRepository.hentDelbestilling(tx, oebsOrdrenummer)
         }
         assertNull(delbestilling)
+    }
+
+    @Test
+    fun `skal feile dersom oppslag inneholder deler uten lagerstatus`() = runTest {
+        val azaleaHmsnr = "097765"
+        val azaleaSerienr = "123456"
+        coEvery { oebsService.hentUtlånPåArtnrOgSerienr(azaleaHmsnr, azaleaSerienr) } returns Utlån(
+            fnr = "1234567890",
+            artnr = azaleaHmsnr,
+            serienr = azaleaSerienr,
+            utlånsDato = "2020-05-01"
+        )
+        coEvery { oebsService.hentLagerstatus(any(), any()) } returns emptyList()
+
+        assertThrows<IllegalStateException> {
+            delbestillingService.slåOppHjelpemiddel(azaleaHmsnr, azaleaSerienr)
+        }
+
     }
 }
