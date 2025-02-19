@@ -95,7 +95,6 @@ val hmsnrTilHjelpemiddel: Map<Hmsnr, Hjelpemiddel> = listOf<Hjelpemiddel>(
     Hjelpemiddel(hmsnr = "250033", navn = "M5"),
     Hjelpemiddel(hmsnr = "286648", navn = "M5"),
     Hjelpemiddel(hmsnr = "308940", navn = "M5"),
-    Hjelpemiddel(hmsnr = "", navn = "M5"),
     Hjelpemiddel(hmsnr = "250564", navn = "MC 1124"),
     Hjelpemiddel(hmsnr = "250565", navn = "MC 1124"),
     Hjelpemiddel(hmsnr = "250566", navn = "MC 1124"),
@@ -418,6 +417,7 @@ val hmsnrTilHjelpemiddel: Map<Hmsnr, Hjelpemiddel> = listOf<Hjelpemiddel>(
     Hjelpemiddel(hmsnr = "326544", navn = "Cross 6 sb40 L"),
     Hjelpemiddel(hmsnr = "317623", navn = "Cross 6 sb40 L Led"),
     Hjelpemiddel(hmsnr = "326564", navn = "Cross 6 sb40 L Led"),
+    Hjelpemiddel(hmsnr = "278337", navn = "Cross 6 sb43 K"),
     Hjelpemiddel(hmsnr = "326545", navn = "Cross 6 sb43 K"),
     Hjelpemiddel(hmsnr = "317624", navn = "Cross 6 sb43 K Led"),
     Hjelpemiddel(hmsnr = "326565", navn = "Cross 6 sb43 K Led"),
@@ -468,6 +468,7 @@ val hmsnrTilHjelpemiddel: Map<Hmsnr, Hjelpemiddel> = listOf<Hjelpemiddel>(
     Hjelpemiddel(hmsnr = "326535", navn = "Cross 5XL sb58 K"),
     Hjelpemiddel(hmsnr = "326536", navn = "Cross 5XL sb58 L"),
     Hjelpemiddel(hmsnr = "326537", navn = "Cross 5XL sb60 K"),
+    Hjelpemiddel(hmsnr = "326538", navn = "Cross 5XL sb60 L"),
     Hjelpemiddel(hmsnr = "316151", navn = "Netti 3 sb35"),
     Hjelpemiddel(hmsnr = "316152", navn = "Netti 3 sb38"),
     Hjelpemiddel(hmsnr = "316153", navn = "Netti 3 sb40"),
@@ -488,6 +489,7 @@ val hmsnrTilHjelpemiddel: Map<Hmsnr, Hjelpemiddel> = listOf<Hjelpemiddel>(
     Hjelpemiddel(hmsnr = "316162", navn = "Netti V sb47,5"),
     Hjelpemiddel(hmsnr = "316163", navn = "Netti V sb50"),
     Hjelpemiddel(hmsnr = "316164", navn = "Netti V sb52,5"),
+    Hjelpemiddel(hmsnr = "316165", navn = "Netti V sb55"),
     Hjelpemiddel(hmsnr = "304585", navn = "Extreme X8 voksen"),
 ).associateBy { it.hmsnr }
 

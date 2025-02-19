@@ -28,7 +28,7 @@ class Xlsx {
         for (sheetIdx in KOBLINGER_FIRST_SHEET until workbook.numberOfSheets) {
             val sheet = workbook.getSheetAt(sheetIdx)
 
-            for (rowIdx in KOBLINGER_FIRST_ROW until sheet.lastRowNum) {
+            for (rowIdx in KOBLINGER_FIRST_ROW..sheet.lastRowNum) {
                 val row = sheet.getRow(rowIdx) ?: break
 
                 val hjmNavn = row.cellString(0)
@@ -58,7 +58,7 @@ class Xlsx {
     private fun parseDeler(workbook: Workbook): MutableMap<Hmsnr, ParsedDel> {
         val sheetDeler = workbook.getSheetAt(DELER_SHEET)
         val deler = mutableMapOf<Hmsnr, ParsedDel>()
-        for (rowIdx in DELER_CONTENT_FIRST_ROW until sheetDeler.lastRowNum) {
+        for (rowIdx in DELER_CONTENT_FIRST_ROW..sheetDeler.lastRowNum) {
             val row = sheetDeler.getRow(rowIdx)
             val navn = row.cellString(0) ?: continue
             val hmsNr = row.cellString(1) ?: error("Del $navn mangler hmsnr")

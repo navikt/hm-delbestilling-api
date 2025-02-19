@@ -8,10 +8,25 @@ fun main() = validerData() // For lokal kjøring
 
 fun validerData() {
     val deler = hmsnrTilDel.values.toList()
-    val hjelpemiddel = hmsnrTilHjelpemiddel.values.toList()
+    val hjelpemidler = hmsnrTilHjelpemiddel.values.toList()
     kontrollerForDuplikateDeler(deler)
-    kontrollerForDuplikateHjm(hjelpemiddel)
-    kontrollerAtAlleBrukteHmsnrErDefinert(deler.map { it.hmsnr }, hjelpemiddel.map { it.hmsnr })
+    kontrollerForDuplikateHjm(hjelpemidler)
+    kontrollerAtAlleBrukteHmsnrErDefinert(deler.map { it.hmsnr }, hjelpemidler.map { it.hmsnr })
+    kontrollerAtAlleDelerTilhørerMinstEttHjelpemiddel()
+    kontrollerAtAlleHjelpemiddelHarMinstEnDel(hjelpemidler)
+
+}
+
+fun kontrollerAtAlleDelerTilhørerMinstEttHjelpemiddel() {
+    hmsnrTilDelMedHjelpemiddel.forEach {
+        require(it.value.hjelpemidler.isNotEmpty()) { "Del ${it.key} er ikke koblet til et hjelpemiddel" }
+    }
+}
+
+fun kontrollerAtAlleHjelpemiddelHarMinstEnDel(hjelpemidler: List<Hjelpemiddel>) {
+    hjelpemidler.forEach { hjm ->
+        require(hmsnrHjmTilHmsnrDeler[hjm.hmsnr]?.isNotEmpty() == true) {"Hjelpemiddel ${hjm.hmsnr} ${hjm.navn} har ingen deler."}
+    }
 }
 
 private fun kontrollerForDuplikateDeler(deler: List<Del>) {

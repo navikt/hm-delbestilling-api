@@ -1600,6 +1600,15 @@ val hmsnrTilDel: Map<Hmsnr, Del> = listOf<Del>(
         maksAntall = 4,
         datoLagtTil = LocalDate.of(2025, 2, 19)
     ),
+    Del(
+        hmsnr = "279259",
+        navn = "Setetrekk lang",
+        levArtNr = "62989-60",
+        kategori = Kategori.Annet,
+        defaultAntall = 1,
+        maksAntall = 1,
+        datoLagtTil = LocalDate.of(2025, 2, 19)
+    ),
 ).associateBy { it.hmsnr }
 
 
@@ -1619,9 +1628,6 @@ val hmsnrTilDelMedHjelpemiddel: Map<Hmsnr, DelMedHjelpemidler> = hmsnrTilDel.map
                 ?: throw IllegalArgumentException("Mangler navn for hjelpemiddel $it"),
             hmsnr = it
         )
-    }
-    if (hjelpemidler.isEmpty()) {
-        throw IllegalStateException("Mangler hjelpemidler for del $del")
     }
 
     DelMedHjelpemidler(

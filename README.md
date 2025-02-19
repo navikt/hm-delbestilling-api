@@ -20,3 +20,4 @@ Dersom verdiene over er utdatert, så kan du:
 - Kjør `ManglendeProdukt.main()`
 - Kopier fra konsoll-output til relevante filer i `hjelpemidler/data/`
 - Legg inn manglende verdier på deler (default-/maksantall, kategori, ...)
+- Kjør `Datavalidering.main()` for å kontrollere at deler, hjelpemiddel og koblinger som er i bruk også er definert. 

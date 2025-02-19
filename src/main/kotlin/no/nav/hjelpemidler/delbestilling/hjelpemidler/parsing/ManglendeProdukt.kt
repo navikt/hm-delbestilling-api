@@ -24,16 +24,6 @@ fun main() {
     sjekkManglendeDeler(data.deler)
     sjekkManglendeKoblinger(data.hjmTilDeler)
 
-    val antallEksisterendeDeler = hmsnrTilDel.size
-    val antallNyeDeler = data.deler.size
-    val økningDeler = ((((antallEksisterendeDeler + antallNyeDeler).toDouble() / antallEksisterendeDeler)-1) * 100).toInt()
-    println("Antall nye deler: $antallNyeDeler. Antall eksisterende deler: $antallEksisterendeDeler. Økning: $økningDeler%")
-
-    val antallEksisterendeHjm = hmsnrTilHjelpemiddel.size
-    val antallNyeHjm = data.hjelpemidler.size
-    val økningHjm = ((((antallEksisterendeHjm + antallNyeHjm).toDouble() / antallEksisterendeHjm)-1) * 100).toInt()
-    println("Antall nye hjm: $antallNyeHjm. Antall eksisterende hjm: $antallEksisterendeHjm. Økning: $økningHjm%")
-
     println("Sjekk fullført!")
 }
 
@@ -48,6 +38,9 @@ fun sjakkManglendeHjelpemidler(hjelpemiddelKandidater: Map<Hmsnr, Navn>) {
     nyeHjelpemidler.forEach {
         println(""" Hjelpemiddel(hmsnr = "${it.key}", navn = "${it.value}"),""")
     }
+
+    val økningHjm = ((((eksisterendeHjelpemidler.size + nyeHjelpemidler.size).toDouble() / eksisterendeHjelpemidler.size)-1) * 100).toInt()
+    println("\nAntall nye hjm: ${nyeHjelpemidler.size}. Antall eksisterende hjm: ${eksisterendeHjelpemidler.size}. Økning: $økningHjm%\n")
 }
 
 fun sjekkManglendeDeler(delKandidater: Map<Hmsnr, ParsedDel>) {
@@ -66,6 +59,9 @@ fun sjekkManglendeDeler(delKandidater: Map<Hmsnr, ParsedDel>) {
         val maksAntall = ", maksAntall = ${it.value.maksAntall}"
         println(""" Del(hmsnr = "${it.key}", navn = "${it.value.navn}"$levartnr$kategori$defaulAntall$maksAntall, datoLagtTil = LocalDate.of(${now.year}, ${now.monthValue}, ${now.dayOfMonth})),""")
     }
+
+    val økningHjm = ((((eksisterendeDeler.size + nyeDeler.size).toDouble() / eksisterendeDeler.size)-1) * 100).toInt()
+    println("\nAntall nye hjm: ${nyeDeler.size}. Antall eksisterende hjm: ${eksisterendeDeler.size}. Økning: $økningHjm%\n")
 }
 
 private fun sjekkManglendeKoblinger(koblingKandidater: Map<Hmsnr, Set<Hmsnr>>) {
