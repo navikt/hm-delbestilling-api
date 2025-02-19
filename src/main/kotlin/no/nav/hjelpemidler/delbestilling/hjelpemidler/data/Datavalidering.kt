@@ -4,6 +4,8 @@ import no.nav.hjelpemidler.delbestilling.delbestilling.Del
 import no.nav.hjelpemidler.delbestilling.delbestilling.Hmsnr
 import no.nav.hjelpemidler.delbestilling.hjelpemidler.Hjelpemiddel
 
+fun main() = validerData() // For lokal kjøring
+
 fun validerData() {
     val deler = hmsnrTilDel.values.toList()
     val hjelpemiddel = hmsnrTilHjelpemiddel.values.toList()

@@ -1,7 +1,10 @@
-package no.nav.hjelpemidler.delbestilling.hjelpemidler.data
+package no.nav.hjelpemidler.delbestilling.hjelpemidler.parsing
 
 import no.nav.hjelpemidler.delbestilling.delbestilling.Hmsnr
 import no.nav.hjelpemidler.delbestilling.hjelpemidler.Navn
+import no.nav.hjelpemidler.delbestilling.hjelpemidler.data.hmsnrHjmTilHmsnrDeler
+import no.nav.hjelpemidler.delbestilling.hjelpemidler.data.hmsnrTilDel
+import no.nav.hjelpemidler.delbestilling.hjelpemidler.data.hmsnrTilHjelpemiddel
 import java.time.LocalDate
 
 /**
@@ -57,8 +60,11 @@ fun sjekkManglendeDeler(delKandidater: Map<Hmsnr, ParsedDel>) {
     println("Nye deler:")
     val now = LocalDate.now()
     nyeDeler.forEach {
-        val levartnr = if (it.value.levArtNr.isNullOrBlank()) "" else """, levArtNr = ${it.value.levArtNr}"""
-        println(""" Del(hmsnr = "${it.key}", navn = "${it.value.navn}"$levartnr, kategori = null, defaultAntall = null, maksAntall = null, datoLagtTil = LocalDate.of(${now.year}, ${now.monthValue}, ${now.dayOfMonth})),""")
+        val levartnr = if (it.value.levArtNr.isNullOrBlank()) "" else """, levArtNr = "${it.value.levArtNr}""""
+        val kategori = if (it.value.kategori.isNullOrBlank()) ", kategori = null" else ", kategori = Kategori.${it.value.kategori}"
+        val defaulAntall = ", defaultAntall = ${it.value.defaultAntall}"
+        val maksAntall = ", maksAntall = ${it.value.maksAntall}"
+        println(""" Del(hmsnr = "${it.key}", navn = "${it.value.navn}"$levartnr$kategori$defaulAntall$maksAntall, datoLagtTil = LocalDate.of(${now.year}, ${now.monthValue}, ${now.dayOfMonth})),""")
     }
 }
 
