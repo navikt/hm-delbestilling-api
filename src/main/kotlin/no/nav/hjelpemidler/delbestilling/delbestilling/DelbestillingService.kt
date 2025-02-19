@@ -271,27 +271,22 @@ class DelbestillingService(
         val utlån = oebsService.hentUtlånPåArtnrOgSerienr(hmsnr, serienr)
             ?: return OppslagResultat(null, OppslagFeil.INGET_UTLÅN, HttpStatusCode.NotFound)
 
-        // TODO: fjern try/catch før lansering av sjekk av minmax
-        try {
-            val brukersKommunenummer = pdlService.hentKommunenummer(utlån.fnr)
-            val lagerstatusForDeler =
-                oebsService.hentLagerstatus(brukersKommunenummer, hjelpemiddelMedDeler.deler.map { it.hmsnr })
+        val brukersKommunenummer = pdlService.hentKommunenummer(utlån.fnr)
+        val lagerstatusForDeler =
+            oebsService.hentLagerstatus(brukersKommunenummer, hjelpemiddelMedDeler.deler.map { it.hmsnr })
 
-            // Koble hver del til lagerstatus
-            hjelpemiddelMedDeler.deler =
-                hjelpemiddelMedDeler.deler.map { del -> del.copy(lagerstatus = lagerstatusForDeler.find { it.artikkelnummer == del.hmsnr }) }
+        // Koble hver del til lagerstatus
+        hjelpemiddelMedDeler.deler =
+            hjelpemiddelMedDeler.deler.map { del -> del.copy(lagerstatus = lagerstatusForDeler.find { it.artikkelnummer == del.hmsnr }) }
 
-            val sentral = hjelpemiddelMedDeler.deler.first().lagerstatus?.organisasjons_navn ?: "UKJENT"
-            val antallPåLager = hjelpemiddelMedDeler.deler.count { it.lagerstatus?.minmax == true }
-            val antallDeler = hjelpemiddelMedDeler.deler.count()
-            log.info { "Lagerstatus for $hmsnr hos $sentral: $antallPåLager av $antallDeler er på lager." }
-            if (antallPåLager < antallDeler) {
-                val ikkePåLager = hjelpemiddelMedDeler.deler.filter { it.lagerstatus?.minmax == false }.map { it.hmsnr }
-                val manglerLagerstatus = hjelpemiddelMedDeler.deler.filter { it.lagerstatus == null }.map { it.hmsnr }
-                log.info { "$sentral har ikke alle deler på lager for $hmsnr. Ikke på lager: $ikkePåLager, mangler lagerstatus: $manglerLagerstatus." }
-            }
-        } catch(e: Exception) {
-            log.error(e) { "Klarte ikke å koble lagerstatus til del" }
+        val sentral = hjelpemiddelMedDeler.deler.first().lagerstatus?.organisasjons_navn ?: "UKJENT"
+        val antallPåLager = hjelpemiddelMedDeler.deler.count { it.lagerstatus?.minmax == true }
+        val antallDeler = hjelpemiddelMedDeler.deler.count()
+        log.info { "Lagerstatus for $hmsnr hos $sentral: $antallPåLager av $antallDeler er på lager." }
+        if (antallPåLager < antallDeler) {
+            val ikkePåLager = hjelpemiddelMedDeler.deler.filter { it.lagerstatus?.minmax == false }.map { it.hmsnr }
+            val manglerLagerstatus = hjelpemiddelMedDeler.deler.filter { it.lagerstatus == null }.map { it.hmsnr }
+            log.info { "$sentral har ikke alle deler på lager for $hmsnr. Ikke på lager: $ikkePåLager, mangler lagerstatus: $manglerLagerstatus." }
         }
 
         return OppslagResultat(hjelpemiddelMedDeler, null, HttpStatusCode.OK)

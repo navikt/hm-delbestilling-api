@@ -18,14 +18,11 @@ data class OppslagResultat(
     val httpStatusCode: HttpStatusCode,
 ) {
     init {
-        /*
-        TODO Aktiver denne før prodsetting av sjekk av lagerstatus
         hjelpemiddel?.deler?.forEach {
             if (it.lagerstatus == null) {
-                error{"Del $it på hjelpemiddel ${hjelpemiddel.hmsnr} mangler lagerstatus"}
+                error{"Del $it på hjelpemiddel ${hjelpemiddel.hmsnr} mangler lagerstatus, kan ikke returnere resultat"}
             }
         }
-         */
     }
 }
 
