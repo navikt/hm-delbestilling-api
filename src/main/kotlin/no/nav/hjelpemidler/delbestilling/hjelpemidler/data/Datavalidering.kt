@@ -35,6 +35,6 @@ private fun kontrollerForDuplikateHjm(hjelpemidler: List<Hjelpemiddel>) {
 }
 
 private fun kontrollerAtAlleBrukteHmsnrErDefinert(deler: List<Hmsnr>, hjelpemiddel: List<Hmsnr>) {
-    deler.forEach { hmsnr -> requireNotNull(hmsnrTilHjelpemiddel[hmsnr]) { "Hjelpemiddel $hmsnr er ikke definert." } }
-    hjelpemiddel.forEach { hmsnr -> requireNotNull(hmsnrTilDel[hmsnr]) { "Del $hmsnr er ikke definert." } }
+    deler.forEach { hmsnr -> requireNotNull(hmsnrTilDel[hmsnr]) { "Del $hmsnr er ikke definert." } }
+    hjelpemiddel.forEach { hmsnr -> requireNotNull(hmsnrTilHjelpemiddel[hmsnr]) { "Hjelpemiddel $hmsnr er ikke definert." } }
 }
