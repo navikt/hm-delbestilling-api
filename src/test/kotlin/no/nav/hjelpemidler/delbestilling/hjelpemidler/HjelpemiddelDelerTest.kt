@@ -1,7 +1,7 @@
 package no.nav.hjelpemidler.delbestilling.hjelpemidler
 
-import no.nav.hjelpemidler.delbestilling.hjelpemidler.data.alleDeler
 import no.nav.hjelpemidler.delbestilling.hjelpemidler.data.hmsnr2Hjm
+import no.nav.hjelpemidler.delbestilling.hjelpemidler.data.hmsnrTilDel
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNotNull
 import org.junit.jupiter.api.Assertions.assertTrue
@@ -58,7 +58,7 @@ internal class HjelpemiddelDelerTest {
 
     @Test
     fun `skal ikke eksistere deler med defaultAntall større enn maksAntall`() {
-        alleDeler.values.forEach {
+        hmsnrTilDel.values.forEach {
             with(it) {
                 assertTrue(
                     defaultAntall <= maksAntall,

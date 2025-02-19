@@ -8,7 +8,7 @@ on:
       - "CODEOWNERS"
     branches:
       - main
-      - del-lagerstatus
+      - parse-xlsx
 
 jobs:
   build-and-deploy:

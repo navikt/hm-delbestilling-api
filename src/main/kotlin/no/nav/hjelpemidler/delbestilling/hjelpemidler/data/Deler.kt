@@ -2,12 +2,15 @@ package no.nav.hjelpemidler.delbestilling.hjelpemidler.data
 
 import no.nav.hjelpemidler.delbestilling.delbestilling.Del
 import no.nav.hjelpemidler.delbestilling.delbestilling.Hmsnr
+import no.nav.hjelpemidler.delbestilling.hjelpemidler.DelMedHjelpemidler
+import no.nav.hjelpemidler.delbestilling.hjelpemidler.Hjelpemiddel
 import no.nav.hjelpemidler.delbestilling.hjelpemidler.Kategori
 import java.time.LocalDate
+import kotlin.also
 
 private const val TODO_BESTEM_MAX_ANTALL = 8 // Finn ut hva som er et fornuftig max antall på disse
 
-val alleDeler: Map<Hmsnr, Del> = listOf(
+val hmsnrTilDel: Map<Hmsnr, Del> = listOf<Del>(
     Del(
         hmsnr = "022005",
         navn = "Batteri 80A inkl poler",
@@ -41,16 +44,6 @@ val alleDeler: Map<Hmsnr, Del> = listOf(
         img = "https://storage.googleapis.com/hm_delbestilling_bilder/157314.png",
         datoLagtTil = LocalDate.of(2023, 6, 20),
     ),
-    /* Minicrosser T
-    Del(
-        hmsnr = "163943",
-        navn = "Hjul luft foran/bak",
-        kategori = Kategori.Hjul,
-        maksAntall = 4,
-        img = "https://storage.googleapis.com/hm_delbestilling_bilder/163943.png",
-        datoLagtTil = LocalDate.of(2023, 6, 20),
-    ),
-    */
     Del(
         hmsnr = "178498",
         navn = "Dekk Schwalbe Marathon Plus punkteringsbeskyttet 26\"x1",
@@ -512,15 +505,32 @@ val alleDeler: Map<Hmsnr, Del> = listOf(
         maksAntall = 2,
         datoLagtTil = LocalDate.of(2024, 4, 15),
     ),
-).also(::kontrollerForDuplikateHmsnr).associateBy { it.hmsnr }
+).associateBy { it.hmsnr }
 
-internal fun kontrollerForDuplikateHmsnr(deler: List<Del>) {
-    val duplicates = deler
-        .groupBy { it }
-        .filter { it.value.size > 1 }
-        .flatMap { it.value }
 
-    if (duplicates.isNotEmpty()) {
-        throw IllegalStateException("DELER inneholder duplikate hmsnr: $duplicates")
+
+val hmsnrTilDelMedHjelpemiddel: Map<Hmsnr, DelMedHjelpemidler> = hmsnrTilDel.mapValues { (hmsnrDel, del) ->
+    // Finn hvilke hjelpemiddel som har en kobling til denne delen
+    val hjmHmsnrForDel = mutableSetOf<Hmsnr>()
+    hmsnrHjmTilHmsnrDeler.forEach { (hmsnrHjm, delerTilHjm) ->
+        if (hmsnrDel in delerTilHjm) {
+            hjmHmsnrForDel.add(hmsnrHjm)
+        }
     }
+
+    // Map hjm hmsnr til Hjelpemiddel
+    val hjelpemidler = hjmHmsnrForDel.map {
+        Hjelpemiddel(
+            navn = hmsnrTilHjelpemiddel[it]?.navn ?: throw IllegalArgumentException("Mangler navn for hjelpemiddel $it"),
+            hmsnr = it
+        )
+    }
+    if (hjelpemidler.isEmpty()) {
+        throw IllegalStateException("Mangler hjelpemidler for del $del")
+    }
+
+    DelMedHjelpemidler(
+        del = del,
+        hjelpemidler = hjelpemidler
+    )
 }

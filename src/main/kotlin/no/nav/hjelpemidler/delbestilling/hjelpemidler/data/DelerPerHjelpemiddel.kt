@@ -1,4 +1,4 @@
-package no.nav.hjelpemidler.delbestilling.hjelpemidler.dataV2
+package no.nav.hjelpemidler.delbestilling.hjelpemidler.data
 
 import no.nav.hjelpemidler.delbestilling.delbestilling.Hmsnr
 
@@ -391,13 +391,4 @@ val hmsnrHjmTilHmsnrDeler = mapOf<Hmsnr, Set<Hmsnr>>(
     "308942" to setOf("309144", "309145", "309225"),
     "308943" to setOf("309144", "309145", "309225"),
     "308944" to setOf("309144", "309145", "309225"),
-).also {
-    // Valider at alle hmsnr finnes som del/hjelpemiddel
-    it.keys.forEach { hmsnr -> requireNotNull(hmsnrTilHjelpemiddel[hmsnr]) { "Hjelpemiddel $hmsnr er ikke definert." } }
-    it.values.flatten().forEach { hmsnr -> requireNotNull(hmsnrTilDel[hmsnr]) { "Del $hmsnr er ikke definert." } }
-}
-
-fun hentDeler(hjelpemiddel: Hmsnr) =
-    hmsnrHjmTilHmsnrDeler.getOrDefault(hjelpemiddel, emptyList()).map { hmsnr ->
-        hmsnrTilDel[hmsnr]
-    }
+)

@@ -1,7 +1,7 @@
-package no.nav.hjelpemidler.delbestilling.hjelpemidler.dataV2
+package no.nav.hjelpemidler.delbestilling.hjelpemidler.data
 
 import no.nav.hjelpemidler.delbestilling.delbestilling.Hmsnr
-import no.nav.hjelpemidler.delbestilling.hjelpemidler.data.Navn
+import no.nav.hjelpemidler.delbestilling.hjelpemidler.Navn
 import java.time.LocalDate
 
 /**
@@ -21,6 +21,16 @@ fun main() {
     sjekkManglendeDeler(data.deler)
     sjekkManglendeKoblinger(data.hjmTilDeler)
 
+    val antallEksisterendeDeler = hmsnrTilDel.size
+    val antallNyeDeler = data.deler.size
+    val økningDeler = ((((antallEksisterendeDeler + antallNyeDeler).toDouble() / antallEksisterendeDeler)-1) * 100).toInt()
+    println("Antall nye deler: $antallNyeDeler. Antall eksisterende deler: $antallEksisterendeDeler. Økning: $økningDeler%")
+
+    val antallEksisterendeHjm = hmsnrTilHjelpemiddel.size
+    val antallNyeHjm = data.hjelpemidler.size
+    val økningHjm = ((((antallEksisterendeHjm + antallNyeHjm).toDouble() / antallEksisterendeHjm)-1) * 100).toInt()
+    println("Antall nye hjm: $antallNyeHjm. Antall eksisterende hjm: $antallEksisterendeHjm. Økning: $økningHjm%")
+
     println("Sjekk fullført!")
 }
 
@@ -37,7 +47,7 @@ fun sjakkManglendeHjelpemidler(hjelpemiddelKandidater: Map<Hmsnr, Navn>) {
     }
 }
 
-fun sjekkManglendeDeler(delKandidater: Map<Hmsnr, Navn>) {
+fun sjekkManglendeDeler(delKandidater: Map<Hmsnr, ParsedDel>) {
     val eksisterendeDeler = hmsnrTilDel
     val nyeDeler = delKandidater.filter { it.key !in eksisterendeDeler }
     if (nyeDeler.isEmpty()) {
@@ -47,7 +57,8 @@ fun sjekkManglendeDeler(delKandidater: Map<Hmsnr, Navn>) {
     println("Nye deler:")
     val now = LocalDate.now()
     nyeDeler.forEach {
-        println(""" Del(hmsnr = "${it.key}", navn = "${it.value}", kategori = null, maksAntall = TODO_BESTEM_MAX_ANTALL, datoLagtTil = LocalDate.of(${now.year}, ${now.monthValue}, ${now.dayOfMonth})),""")
+        val levartnr = if (it.value.levArtNr.isNullOrBlank()) "" else """, levArtNr = ${it.value.levArtNr}"""
+        println(""" Del(hmsnr = "${it.key}", navn = "${it.value.navn}"$levartnr, kategori = null, defaultAntall = null, maksAntall = null, datoLagtTil = LocalDate.of(${now.year}, ${now.monthValue}, ${now.dayOfMonth})),""")
     }
 }
 
