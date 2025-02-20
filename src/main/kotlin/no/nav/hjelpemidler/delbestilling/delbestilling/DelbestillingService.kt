@@ -17,7 +17,6 @@ import no.nav.hjelpemidler.delbestilling.oebs.OpprettBestillingsordreRequest
 import no.nav.hjelpemidler.delbestilling.oppslag.OppslagService
 import no.nav.hjelpemidler.delbestilling.pdl.PdlService
 import no.nav.hjelpemidler.delbestilling.roller.Delbestiller
-import no.nav.hjelpemidler.delbestilling.roller.RolleService
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.ZoneId
@@ -98,6 +97,7 @@ class DelbestillingService(
             delbestillerRolle.kommunaleOrgs.find { it.kommunenummer == brukerKommunenr }
                 ?: delbestillerRolle.godkjenteIkkeKommunaleOrgs.find { it.kommunenummer == brukerKommunenr }
         val innsenderRepresentererBrukersKommune = innsendersRepresenterteOrganisasjon != null
+        val bestillerType: BestillerType = if (delbestillerRolle.kommunaleOrgs.any { it.kommunenummer == brukerKommunenr }) BestillerType.KOMMUNAL else BestillerType.IKKE_KOMMUNAL
 
         if (!innsenderRepresentererBrukersKommune) {
             log.info { "Brukers kommunenr: $brukerKommunenr, innsenders kommuner: ${delbestillerRolle.kommunaleOrgs}, innsenders godkjente ikke-kommunale orgs: ${delbestillerRolle.godkjenteIkkeKommunaleOrgs}" }
@@ -121,6 +121,7 @@ class DelbestillingService(
                 request.delbestilling,
                 brukersKommunenavn,
                 innsendersRepresenterteOrganisasjon,
+                bestillerType,
             )
 
             // Hent ut den nye delbestillingsaken

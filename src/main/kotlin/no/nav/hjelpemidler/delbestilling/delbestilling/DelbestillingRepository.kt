@@ -1,8 +1,6 @@
 package no.nav.hjelpemidler.delbestilling.delbestilling
 
 import kotliquery.Row
-import kotliquery.Session
-import kotliquery.TransactionalSession
 import kotliquery.queryOf
 import kotliquery.sessionOf
 import kotliquery.using
@@ -31,15 +29,16 @@ class DelbestillingRepository(val ds: DataSource) {
         bestillerFnr: String,
         brukerFnr: String,
         brukerKommunenr: String,
-        delbestilling: Delbestilling,
+        delbestilling: Delbestilling, 
         brukersKommunenavn: String,
         bestillersOrganisasjon: Organisasjon,
+        bestillerType: BestillerType,
     ): Long? {
         log.info { "Lagrer delbestilling '${delbestilling.id}'" }
         return tx.updateAndReturnGeneratedKey(
             """
-                INSERT INTO delbestilling (brukers_kommunenr, fnr_bruker, fnr_bestiller, delbestilling_json, status, brukers_kommunenavn, bestillers_organisasjon)
-                VALUES (:brukers_kommunenr, :fnr_bruker, :fnr_bestiller, :delbestilling_json::jsonb, :status, :brukers_kommunenavn, :bestillers_organisasjon::jsonb)
+                INSERT INTO delbestilling (brukers_kommunenr, fnr_bruker, fnr_bestiller, delbestilling_json, status, brukers_kommunenavn, bestillers_organisasjon, bestiller_type)
+                VALUES (:brukers_kommunenr, :fnr_bruker, :fnr_bestiller, :delbestilling_json::jsonb, :status, :brukers_kommunenavn, :bestillers_organisasjon::jsonb, :bestiller_type)
             """.trimIndent(),
             mapOf(
                 "brukers_kommunenr" to brukerKommunenr,
@@ -49,6 +48,7 @@ class DelbestillingRepository(val ds: DataSource) {
                 "status" to Status.INNSENDT.name,
                 "brukers_kommunenavn" to brukersKommunenavn,
                 "bestillers_organisasjon" to jsonMapper.writeValueAsString(bestillersOrganisasjon),
+                "bestiller_type" to bestillerType,
             ),
         )
     }

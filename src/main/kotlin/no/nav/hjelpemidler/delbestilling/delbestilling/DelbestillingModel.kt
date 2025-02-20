@@ -138,3 +138,7 @@ data class DelbestillingSak(
 
 typealias Hmsnr = String
 typealias Serienr = String
+
+enum class BestillerType {
+    KOMMUNAL, IKKE_KOMMUNAL, BRUKERPASS
+}
