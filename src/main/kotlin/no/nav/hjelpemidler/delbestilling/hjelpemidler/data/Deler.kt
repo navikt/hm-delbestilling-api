@@ -2,12 +2,15 @@ package no.nav.hjelpemidler.delbestilling.hjelpemidler.data
 
 import no.nav.hjelpemidler.delbestilling.delbestilling.Del
 import no.nav.hjelpemidler.delbestilling.delbestilling.Hmsnr
+import no.nav.hjelpemidler.delbestilling.hjelpemidler.DelMedHjelpemidler
+import no.nav.hjelpemidler.delbestilling.hjelpemidler.Hjelpemiddel
 import no.nav.hjelpemidler.delbestilling.hjelpemidler.Kategori
 import java.time.LocalDate
+import kotlin.also
 
 private const val TODO_BESTEM_MAX_ANTALL = 8 // Finn ut hva som er et fornuftig max antall på disse
 
-val alleDeler: Map<Hmsnr, Del> = listOf(
+val hmsnrTilDel: Map<Hmsnr, Del> = listOf<Del>(
     Del(
         hmsnr = "022005",
         navn = "Batteri 80A inkl poler",
@@ -41,16 +44,6 @@ val alleDeler: Map<Hmsnr, Del> = listOf(
         img = "https://storage.googleapis.com/hm_delbestilling_bilder/157314.png",
         datoLagtTil = LocalDate.of(2023, 6, 20),
     ),
-    /* Minicrosser T
-    Del(
-        hmsnr = "163943",
-        navn = "Hjul luft foran/bak",
-        kategori = Kategori.Hjul,
-        maksAntall = 4,
-        img = "https://storage.googleapis.com/hm_delbestilling_bilder/163943.png",
-        datoLagtTil = LocalDate.of(2023, 6, 20),
-    ),
-    */
     Del(
         hmsnr = "178498",
         navn = "Dekk Schwalbe Marathon Plus punkteringsbeskyttet 26\"x1",
@@ -512,15 +505,1133 @@ val alleDeler: Map<Hmsnr, Del> = listOf(
         maksAntall = 2,
         datoLagtTil = LocalDate.of(2024, 4, 15),
     ),
-).also(::kontrollerForDuplikateHmsnr).associateBy { it.hmsnr }
+    Del(
+        hmsnr = "140928",
+        navn = "Dekk helgummi",
+        levArtNr = "80768",
+        kategori = Kategori.Dekk,
+        defaultAntall = 2,
+        maksAntall = 2,
+        datoLagtTil = LocalDate.of(2025, 2, 19)
+    ),
+    Del(
+        hmsnr = "004392",
+        navn = "Armlene lang høyre",
+        levArtNr = "25173-1",
+        kategori = Kategori.Annet,
+        defaultAntall = 1,
+        maksAntall = 1,
+        datoLagtTil = LocalDate.of(2025, 2, 19)
+    ),
+    Del(
+        hmsnr = "004393",
+        navn = "Armlene lang venstre",
+        levArtNr = "25173-2",
+        kategori = Kategori.Annet,
+        defaultAntall = 1,
+        maksAntall = 1,
+        datoLagtTil = LocalDate.of(2025, 2, 19)
+    ),
+    Del(
+        hmsnr = "025943",
+        navn = "Kneledd",
+        levArtNr = "25574-01",
+        kategori = Kategori.Annet,
+        defaultAntall = 1,
+        maksAntall = 2,
+        datoLagtTil = LocalDate.of(2025, 2, 19)
+    ),
+    Del(
+        hmsnr = "016127",
+        navn = "Fotplate høyre",
+        levArtNr = "25641-1",
+        kategori = Kategori.Annet,
+        defaultAntall = 1,
+        maksAntall = 1,
+        datoLagtTil = LocalDate.of(2025, 2, 19)
+    ),
+    Del(
+        hmsnr = "016129",
+        navn = "Fotplate høyre",
+        levArtNr = "25642-1",
+        kategori = Kategori.Annet,
+        defaultAntall = 1,
+        maksAntall = 1,
+        datoLagtTil = LocalDate.of(2025, 2, 19)
+    ),
+    Del(
+        hmsnr = "016131",
+        navn = "Fotplate høyre",
+        levArtNr = "25643-1",
+        kategori = Kategori.Annet,
+        defaultAntall = 1,
+        maksAntall = 1,
+        datoLagtTil = LocalDate.of(2025, 2, 19)
+    ),
+    Del(
+        hmsnr = "016133",
+        navn = "Fotplate høyre",
+        levArtNr = "25644-1",
+        kategori = Kategori.Annet,
+        defaultAntall = 1,
+        maksAntall = 1,
+        datoLagtTil = LocalDate.of(2025, 2, 19)
+    ),
+    Del(
+        hmsnr = "016135",
+        navn = "Fotplate høyre",
+        levArtNr = "25645-1",
+        kategori = Kategori.Annet,
+        defaultAntall = 1,
+        maksAntall = 1,
+        datoLagtTil = LocalDate.of(2025, 2, 19)
+    ),
+    Del(
+        hmsnr = "016137",
+        navn = "Fotplate høyre",
+        levArtNr = "25736-1",
+        kategori = Kategori.Annet,
+        defaultAntall = 1,
+        maksAntall = 1,
+        datoLagtTil = LocalDate.of(2025, 2, 19)
+    ),
+    Del(
+        hmsnr = "016139",
+        navn = "Fotplate høyre",
+        levArtNr = "25646-1",
+        kategori = Kategori.Annet,
+        defaultAntall = 1,
+        maksAntall = 1,
+        datoLagtTil = LocalDate.of(2025, 2, 19)
+    ),
+    Del(
+        hmsnr = "016126",
+        navn = "Fotplate venstre",
+        levArtNr = "25641-2",
+        kategori = Kategori.Annet,
+        defaultAntall = 1,
+        maksAntall = 1,
+        datoLagtTil = LocalDate.of(2025, 2, 19)
+    ),
+    Del(
+        hmsnr = "016128",
+        navn = "Fotplate venstre",
+        levArtNr = "25641-2",
+        kategori = Kategori.Annet,
+        defaultAntall = 1,
+        maksAntall = 1,
+        datoLagtTil = LocalDate.of(2025, 2, 19)
+    ),
+    Del(
+        hmsnr = "016130",
+        navn = "Fotplate venstre",
+        levArtNr = "25643-2",
+        kategori = Kategori.Annet,
+        defaultAntall = 1,
+        maksAntall = 1,
+        datoLagtTil = LocalDate.of(2025, 2, 19)
+    ),
+    Del(
+        hmsnr = "016132",
+        navn = "Fotplate venstre",
+        levArtNr = "25644-2",
+        kategori = Kategori.Annet,
+        defaultAntall = 1,
+        maksAntall = 1,
+        datoLagtTil = LocalDate.of(2025, 2, 19)
+    ),
+    Del(
+        hmsnr = "016134",
+        navn = "Fotplate venstre",
+        levArtNr = "25645-2",
+        kategori = Kategori.Annet,
+        defaultAntall = 1,
+        maksAntall = 1,
+        datoLagtTil = LocalDate.of(2025, 2, 19)
+    ),
+    Del(
+        hmsnr = "016136",
+        navn = "Fotplate venstre",
+        levArtNr = "25736-2",
+        kategori = Kategori.Annet,
+        defaultAntall = 1,
+        maksAntall = 1,
+        datoLagtTil = LocalDate.of(2025, 2, 19)
+    ),
+    Del(
+        hmsnr = "016138",
+        navn = "Fotplate venstre",
+        levArtNr = "25646-2",
+        kategori = Kategori.Annet,
+        defaultAntall = 1,
+        maksAntall = 1,
+        datoLagtTil = LocalDate.of(2025, 2, 19)
+    ),
+    Del(
+        hmsnr = "220485",
+        navn = "Drivhjul",
+        levArtNr = "27564",
+        kategori = Kategori.Hjul,
+        defaultAntall = 2,
+        maksAntall = 2,
+        datoLagtTil = LocalDate.of(2025, 2, 19)
+    ),
+    Del(
+        hmsnr = "318078",
+        navn = "Drivhjul",
+        levArtNr = "83879",
+        kategori = Kategori.Hjul,
+        defaultAntall = 2,
+        maksAntall = 2,
+        datoLagtTil = LocalDate.of(2025, 2, 19)
+    ),
+    Del(
+        hmsnr = "181134",
+        navn = "Drivhjul",
+        levArtNr = "81346",
+        kategori = Kategori.Hjul,
+        defaultAntall = 2,
+        maksAntall = 2,
+        datoLagtTil = LocalDate.of(2025, 2, 19)
+    ),
+    Del(
+        hmsnr = "318227",
+        navn = "Hurtigkobling 12,7 mm",
+        levArtNr = "83872",
+        kategori = Kategori.Annet,
+        defaultAntall = 1,
+        maksAntall = 2,
+        datoLagtTil = LocalDate.of(2025, 2, 19)
+    ),
+    Del(
+        hmsnr = "219993",
+        navn = "Hurtigkobling 12 mm",
+        levArtNr = "82483",
+        kategori = Kategori.Annet,
+        defaultAntall = 1,
+        maksAntall = 2,
+        datoLagtTil = LocalDate.of(2025, 2, 19)
+    ),
+    Del(
+        hmsnr = "139108",
+        navn = "Hurtigkobling 12 mm",
+        levArtNr = "81325",
+        kategori = Kategori.Annet,
+        defaultAntall = 1,
+        maksAntall = 2,
+        datoLagtTil = LocalDate.of(2025, 2, 19)
+    ),
+    Del(
+        hmsnr = "154111",
+        navn = "Gaffel svinghjul",
+        levArtNr = "24678",
+        kategori = Kategori.Svinghjul,
+        defaultAntall = 2,
+        maksAntall = 2,
+        datoLagtTil = LocalDate.of(2025, 2, 19)
+    ),
+    Del(
+        hmsnr = "318335",
+        navn = "Gaffel svinghjul",
+        levArtNr = "28969",
+        kategori = Kategori.Svinghjul,
+        defaultAntall = 2,
+        maksAntall = 2,
+        datoLagtTil = LocalDate.of(2025, 2, 19)
+    ),
+    Del(
+        hmsnr = "222716",
+        navn = "Svinghjul standard",
+        levArtNr = "27866",
+        kategori = Kategori.Svinghjul,
+        defaultAntall = 2,
+        maksAntall = 2,
+        datoLagtTil = LocalDate.of(2025, 2, 19)
+    ),
+    Del(
+        hmsnr = "318324",
+        navn = "Svinghjul standard",
+        levArtNr = "28922",
+        kategori = Kategori.Svinghjul,
+        defaultAntall = 2,
+        maksAntall = 2,
+        datoLagtTil = LocalDate.of(2025, 2, 19)
+    ),
+    Del(
+        hmsnr = "220326",
+        navn = "Brems høyre",
+        levArtNr = "27528-1",
+        kategori = Kategori.Annet,
+        defaultAntall = 1,
+        maksAntall = 1,
+        datoLagtTil = LocalDate.of(2025, 2, 19)
+    ),
+    Del(
+        hmsnr = "220325",
+        navn = "Brems venste",
+        levArtNr = "27528-2",
+        kategori = Kategori.Annet,
+        defaultAntall = 1,
+        maksAntall = 1,
+        datoLagtTil = LocalDate.of(2025, 2, 19)
+    ),
+    Del(
+        hmsnr = "158029",
+        navn = "Setetrekk kort",
+        levArtNr = "62718-60",
+        kategori = Kategori.Annet,
+        defaultAntall = 1,
+        maksAntall = 1,
+        datoLagtTil = LocalDate.of(2025, 2, 19)
+    ),
+    Del(
+        hmsnr = "158033",
+        navn = "Setetrekk lang",
+        levArtNr = "62728-60",
+        kategori = Kategori.Annet,
+        defaultAntall = 1,
+        maksAntall = 1,
+        datoLagtTil = LocalDate.of(2025, 2, 19)
+    ),
+    Del(
+        hmsnr = "240197",
+        navn = "Setetrekk kort",
+        levArtNr = "62719-60",
+        kategori = Kategori.Annet,
+        defaultAntall = 1,
+        maksAntall = 1,
+        datoLagtTil = LocalDate.of(2025, 2, 19)
+    ),
+    Del(
+        hmsnr = "279255",
+        navn = "Setetrekk lang",
+        levArtNr = "62729-60",
+        kategori = Kategori.Annet,
+        defaultAntall = 1,
+        maksAntall = 1,
+        datoLagtTil = LocalDate.of(2025, 2, 19)
+    ),
+    Del(
+        hmsnr = "240198",
+        navn = "Setetrekk kort",
+        levArtNr = "62720-60",
+        kategori = Kategori.Annet,
+        defaultAntall = 1,
+        maksAntall = 1,
+        datoLagtTil = LocalDate.of(2025, 2, 19)
+    ),
+    Del(
+        hmsnr = "236921",
+        navn = "Setetrekk lang",
+        levArtNr = "62730-60",
+        kategori = Kategori.Annet,
+        defaultAntall = 1,
+        maksAntall = 1,
+        datoLagtTil = LocalDate.of(2025, 2, 19)
+    ),
+    Del(
+        hmsnr = "240199",
+        navn = "Setetrekk kort",
+        levArtNr = "62721-60",
+        kategori = Kategori.Annet,
+        defaultAntall = 1,
+        maksAntall = 1,
+        datoLagtTil = LocalDate.of(2025, 2, 19)
+    ),
+    Del(
+        hmsnr = "236922",
+        navn = "Setetrekk lang",
+        levArtNr = "62731-60",
+        kategori = Kategori.Annet,
+        defaultAntall = 1,
+        maksAntall = 1,
+        datoLagtTil = LocalDate.of(2025, 2, 19)
+    ),
+    Del(
+        hmsnr = "240200",
+        navn = "Setetrekk kort",
+        levArtNr = "62722-60",
+        kategori = Kategori.Annet,
+        defaultAntall = 1,
+        maksAntall = 1,
+        datoLagtTil = LocalDate.of(2025, 2, 19)
+    ),
+    Del(
+        hmsnr = "236923",
+        navn = "Setetrekk lang",
+        levArtNr = "62732-60",
+        kategori = Kategori.Annet,
+        defaultAntall = 1,
+        maksAntall = 1,
+        datoLagtTil = LocalDate.of(2025, 2, 19)
+    ),
+    Del(
+        hmsnr = "240201",
+        navn = "Setetrekk kort",
+        levArtNr = "62978-60",
+        kategori = Kategori.Annet,
+        defaultAntall = 1,
+        maksAntall = 1,
+        datoLagtTil = LocalDate.of(2025, 2, 19)
+    ),
+    Del(
+        hmsnr = "236924",
+        navn = "Setetrekk lang",
+        levArtNr = "62984-60",
+        kategori = Kategori.Annet,
+        defaultAntall = 1,
+        maksAntall = 1,
+        datoLagtTil = LocalDate.of(2025, 2, 19)
+    ),
+    Del(
+        hmsnr = "240202",
+        navn = "Setetrekk kort",
+        levArtNr = "62979-60",
+        kategori = Kategori.Annet,
+        defaultAntall = 1,
+        maksAntall = 1,
+        datoLagtTil = LocalDate.of(2025, 2, 19)
+    ),
+    Del(
+        hmsnr = "236925",
+        navn = "Setetrekk lang",
+        levArtNr = "62985-60",
+        kategori = Kategori.Annet,
+        defaultAntall = 1,
+        maksAntall = 1,
+        datoLagtTil = LocalDate.of(2025, 2, 19)
+    ),
+    Del(
+        hmsnr = "240203",
+        navn = "Setetrekk kort",
+        levArtNr = "62980-60",
+        kategori = Kategori.Annet,
+        defaultAntall = 1,
+        maksAntall = 1,
+        datoLagtTil = LocalDate.of(2025, 2, 19)
+    ),
+    Del(
+        hmsnr = "279256",
+        navn = "Setetrekk lang",
+        levArtNr = "62986-60",
+        kategori = Kategori.Annet,
+        defaultAntall = 1,
+        maksAntall = 1,
+        datoLagtTil = LocalDate.of(2025, 2, 19)
+    ),
+    Del(
+        hmsnr = "240204",
+        navn = "Setetrekk kort",
+        levArtNr = "62981-60",
+        kategori = Kategori.Annet,
+        defaultAntall = 1,
+        maksAntall = 1,
+        datoLagtTil = LocalDate.of(2025, 2, 19)
+    ),
+    Del(
+        hmsnr = "279257",
+        navn = "Setetrekk lang",
+        levArtNr = "62987-60",
+        kategori = Kategori.Annet,
+        defaultAntall = 1,
+        maksAntall = 1,
+        datoLagtTil = LocalDate.of(2025, 2, 19)
+    ),
+    Del(
+        hmsnr = "240205",
+        navn = "Setetrekk kort",
+        levArtNr = "62982-60",
+        kategori = Kategori.Annet,
+        defaultAntall = 1,
+        maksAntall = 1,
+        datoLagtTil = LocalDate.of(2025, 2, 19)
+    ),
+    Del(
+        hmsnr = "279258",
+        navn = "Setetrekk lang",
+        levArtNr = "62988-60",
+        kategori = Kategori.Annet,
+        defaultAntall = 1,
+        maksAntall = 1,
+        datoLagtTil = LocalDate.of(2025, 2, 19)
+    ),
+    Del(
+        hmsnr = "240206",
+        navn = "Setetrekk kort",
+        levArtNr = "62983-60",
+        kategori = Kategori.Annet,
+        defaultAntall = 1,
+        maksAntall = 1,
+        datoLagtTil = LocalDate.of(2025, 2, 19)
+    ),
+    Del(
+        hmsnr = "181078",
+        navn = "Overdrag",
+        levArtNr = "62941-60",
+        kategori = Kategori.Annet,
+        defaultAntall = 1,
+        maksAntall = 1,
+        datoLagtTil = LocalDate.of(2025, 2, 19)
+    ),
+    Del(
+        hmsnr = "181079",
+        navn = "Overdrag",
+        levArtNr = "62942-60",
+        kategori = Kategori.Annet,
+        defaultAntall = 1,
+        maksAntall = 1,
+        datoLagtTil = LocalDate.of(2025, 2, 19)
+    ),
+    Del(
+        hmsnr = "181080",
+        navn = "Overdrag",
+        levArtNr = "62943-60",
+        kategori = Kategori.Annet,
+        defaultAntall = 1,
+        maksAntall = 1,
+        datoLagtTil = LocalDate.of(2025, 2, 19)
+    ),
+    Del(
+        hmsnr = "181081",
+        navn = "Overdrag",
+        levArtNr = "62944-60",
+        kategori = Kategori.Annet,
+        defaultAntall = 1,
+        maksAntall = 1,
+        datoLagtTil = LocalDate.of(2025, 2, 19)
+    ),
+    Del(
+        hmsnr = "181082",
+        navn = "Overdrag",
+        levArtNr = "62945-60",
+        kategori = Kategori.Annet,
+        defaultAntall = 1,
+        maksAntall = 1,
+        datoLagtTil = LocalDate.of(2025, 2, 19)
+    ),
+    Del(
+        hmsnr = "181083",
+        navn = "Overdrag",
+        levArtNr = "62946-60",
+        kategori = Kategori.Annet,
+        defaultAntall = 1,
+        maksAntall = 1,
+        datoLagtTil = LocalDate.of(2025, 2, 19)
+    ),
+    Del(
+        hmsnr = "181084",
+        navn = "Overdrag",
+        levArtNr = "62947-60",
+        kategori = Kategori.Annet,
+        defaultAntall = 1,
+        maksAntall = 1,
+        datoLagtTil = LocalDate.of(2025, 2, 19)
+    ),
+    Del(
+        hmsnr = "181085",
+        navn = "Overdrag",
+        levArtNr = "62948-60",
+        kategori = Kategori.Annet,
+        defaultAntall = 1,
+        maksAntall = 1,
+        datoLagtTil = LocalDate.of(2025, 2, 19)
+    ),
+    Del(
+        hmsnr = "181086",
+        navn = "Overdrag",
+        levArtNr = "62949-60",
+        kategori = Kategori.Annet,
+        defaultAntall = 1,
+        maksAntall = 1,
+        datoLagtTil = LocalDate.of(2025, 2, 19)
+    ),
+    Del(
+        hmsnr = "181087",
+        navn = "Overdrag",
+        levArtNr = "62950-60",
+        kategori = Kategori.Annet,
+        defaultAntall = 1,
+        maksAntall = 1,
+        datoLagtTil = LocalDate.of(2025, 2, 19)
+    ),
+    Del(
+        hmsnr = "181088",
+        navn = "Overdrag",
+        levArtNr = "62951-60",
+        kategori = Kategori.Annet,
+        defaultAntall = 1,
+        maksAntall = 1,
+        datoLagtTil = LocalDate.of(2025, 2, 19)
+    ),
+    Del(
+        hmsnr = "181089",
+        navn = "Ryggtrekk",
+        levArtNr = "62953-60",
+        kategori = Kategori.Annet,
+        defaultAntall = 1,
+        maksAntall = 1,
+        datoLagtTil = LocalDate.of(2025, 2, 19)
+    ),
+    Del(
+        hmsnr = "181090",
+        navn = "Ryggtrekk",
+        levArtNr = "62954-60",
+        kategori = Kategori.Annet,
+        defaultAntall = 1,
+        maksAntall = 1,
+        datoLagtTil = LocalDate.of(2025, 2, 19)
+    ),
+    Del(
+        hmsnr = "181091",
+        navn = "Ryggtrekk",
+        levArtNr = "62955-60",
+        kategori = Kategori.Annet,
+        defaultAntall = 1,
+        maksAntall = 1,
+        datoLagtTil = LocalDate.of(2025, 2, 19)
+    ),
+    Del(
+        hmsnr = "006428",
+        navn = "Armlene høyre",
+        levArtNr = "21682",
+        kategori = Kategori.Annet,
+        defaultAntall = 1,
+        maksAntall = 1,
+        datoLagtTil = LocalDate.of(2025, 2, 19)
+    ),
+    Del(
+        hmsnr = "316171",
+        navn = "Armlene høyre",
+        levArtNr = "93727",
+        kategori = Kategori.Annet,
+        defaultAntall = 1,
+        maksAntall = 1,
+        datoLagtTil = LocalDate.of(2025, 2, 19)
+    ),
+    Del(
+        hmsnr = "006429",
+        navn = "Armlene venstre",
+        levArtNr = "93728",
+        kategori = Kategori.Annet,
+        defaultAntall = 1,
+        maksAntall = 1,
+        datoLagtTil = LocalDate.of(2025, 2, 19)
+    ),
+    Del(
+        hmsnr = "316172",
+        navn = "Armlene venstre",
+        levArtNr = "93728",
+        kategori = Kategori.Annet,
+        defaultAntall = 1,
+        maksAntall = 1,
+        datoLagtTil = LocalDate.of(2025, 2, 19)
+    ),
+    Del(
+        hmsnr = "065633",
+        navn = "Armlene pad",
+        levArtNr = "20835",
+        kategori = Kategori.Annet,
+        defaultAntall = 2,
+        maksAntall = 2,
+        datoLagtTil = LocalDate.of(2025, 2, 19)
+    ),
+    Del(
+        hmsnr = "154652",
+        navn = "Benstøtte høyre",
+        levArtNr = "29500",
+        kategori = Kategori.Annet,
+        defaultAntall = 1,
+        maksAntall = 1,
+        datoLagtTil = LocalDate.of(2025, 2, 19)
+    ),
+    Del(
+        hmsnr = "154653",
+        navn = "Benstøtte høyre",
+        levArtNr = "29501",
+        kategori = Kategori.Annet,
+        defaultAntall = 1,
+        maksAntall = 1,
+        datoLagtTil = LocalDate.of(2025, 2, 19)
+    ),
+    Del(
+        hmsnr = "154654",
+        navn = "Benstøtte høyre",
+        levArtNr = "29502",
+        kategori = Kategori.Annet,
+        defaultAntall = 1,
+        maksAntall = 1,
+        datoLagtTil = LocalDate.of(2025, 2, 19)
+    ),
+    Del(
+        hmsnr = "154655",
+        navn = "Benstøtte høyre",
+        levArtNr = "29503",
+        kategori = Kategori.Annet,
+        defaultAntall = 1,
+        maksAntall = 1,
+        datoLagtTil = LocalDate.of(2025, 2, 19)
+    ),
+    Del(
+        hmsnr = "154656",
+        navn = "Benstøtte høyre",
+        levArtNr = "29504",
+        kategori = Kategori.Annet,
+        defaultAntall = 1,
+        maksAntall = 1,
+        datoLagtTil = LocalDate.of(2025, 2, 19)
+    ),
+    Del(
+        hmsnr = "154657",
+        navn = "Benstøtte høyre",
+        levArtNr = "29505",
+        kategori = Kategori.Annet,
+        defaultAntall = 1,
+        maksAntall = 1,
+        datoLagtTil = LocalDate.of(2025, 2, 19)
+    ),
+    Del(
+        hmsnr = "154658",
+        navn = "Benstøtte høyre",
+        levArtNr = "29506",
+        kategori = Kategori.Annet,
+        defaultAntall = 1,
+        maksAntall = 1,
+        datoLagtTil = LocalDate.of(2025, 2, 19)
+    ),
+    Del(
+        hmsnr = "154659",
+        navn = "Benstøtte høyre",
+        levArtNr = "29507",
+        kategori = Kategori.Annet,
+        defaultAntall = 1,
+        maksAntall = 1,
+        datoLagtTil = LocalDate.of(2025, 2, 19)
+    ),
+    Del(
+        hmsnr = "316217",
+        navn = "Benstøtte høyre",
+        levArtNr = "94859",
+        kategori = Kategori.Annet,
+        defaultAntall = 1,
+        maksAntall = 1,
+        datoLagtTil = LocalDate.of(2025, 2, 19)
+    ),
+    Del(
+        hmsnr = "316219",
+        navn = "Benstøtte høyre",
+        levArtNr = "29860",
+        kategori = Kategori.Annet,
+        defaultAntall = 1,
+        maksAntall = 1,
+        datoLagtTil = LocalDate.of(2025, 2, 19)
+    ),
+    Del(
+        hmsnr = "154660",
+        navn = "Benstøtte venstre",
+        levArtNr = "29508",
+        kategori = Kategori.Annet,
+        defaultAntall = 1,
+        maksAntall = 1,
+        datoLagtTil = LocalDate.of(2025, 2, 19)
+    ),
+    Del(
+        hmsnr = "154661",
+        navn = "Benstøtte venstre",
+        levArtNr = "29509",
+        kategori = Kategori.Annet,
+        defaultAntall = 1,
+        maksAntall = 1,
+        datoLagtTil = LocalDate.of(2025, 2, 19)
+    ),
+    Del(
+        hmsnr = "154662",
+        navn = "Benstøtte venstre",
+        levArtNr = "29510",
+        kategori = Kategori.Annet,
+        defaultAntall = 1,
+        maksAntall = 1,
+        datoLagtTil = LocalDate.of(2025, 2, 19)
+    ),
+    Del(
+        hmsnr = "154663",
+        navn = "Benstøtte venstre",
+        levArtNr = "29511",
+        kategori = Kategori.Annet,
+        defaultAntall = 1,
+        maksAntall = 1,
+        datoLagtTil = LocalDate.of(2025, 2, 19)
+    ),
+    Del(
+        hmsnr = "154664",
+        navn = "Benstøtte venstre",
+        levArtNr = "29512",
+        kategori = Kategori.Annet,
+        defaultAntall = 1,
+        maksAntall = 1,
+        datoLagtTil = LocalDate.of(2025, 2, 19)
+    ),
+    Del(
+        hmsnr = "154665",
+        navn = "Benstøtte venstre",
+        levArtNr = "29513",
+        kategori = Kategori.Annet,
+        defaultAntall = 1,
+        maksAntall = 1,
+        datoLagtTil = LocalDate.of(2025, 2, 19)
+    ),
+    Del(
+        hmsnr = "154666",
+        navn = "Benstøtte venstre",
+        levArtNr = "29514",
+        kategori = Kategori.Annet,
+        defaultAntall = 1,
+        maksAntall = 1,
+        datoLagtTil = LocalDate.of(2025, 2, 19)
+    ),
+    Del(
+        hmsnr = "154667",
+        navn = "Benstøtte venstre",
+        levArtNr = "29515",
+        kategori = Kategori.Annet,
+        defaultAntall = 1,
+        maksAntall = 1,
+        datoLagtTil = LocalDate.of(2025, 2, 19)
+    ),
+    Del(
+        hmsnr = "316218",
+        navn = "Benstøtte venstre",
+        levArtNr = "94861",
+        kategori = Kategori.Annet,
+        defaultAntall = 1,
+        maksAntall = 1,
+        datoLagtTil = LocalDate.of(2025, 2, 19)
+    ),
+    Del(
+        hmsnr = "316220",
+        navn = "Benstøtte venstre",
+        levArtNr = "94862",
+        kategori = Kategori.Annet,
+        defaultAntall = 1,
+        maksAntall = 1,
+        datoLagtTil = LocalDate.of(2025, 2, 19)
+    ),
+    Del(
+        hmsnr = "154670",
+        navn = "Trekk benstøtte",
+        levArtNr = "40886",
+        kategori = Kategori.Annet,
+        defaultAntall = 2,
+        maksAntall = 2,
+        datoLagtTil = LocalDate.of(2025, 2, 19)
+    ),
+    Del(
+        hmsnr = "215101",
+        navn = "Drivhjul 24''",
+        levArtNr = "43183",
+        kategori = Kategori.Hjul,
+        defaultAntall = 2,
+        maksAntall = 2,
+        datoLagtTil = LocalDate.of(2025, 2, 19)
+    ),
+    Del(
+        hmsnr = "316347",
+        navn = "Drivhjul 24''",
+        levArtNr = "93285",
+        kategori = Kategori.Hjul,
+        defaultAntall = 2,
+        maksAntall = 2,
+        datoLagtTil = LocalDate.of(2025, 2, 19)
+    ),
+    Del(
+        hmsnr = "219466",
+        navn = "Gaffel m/svinghjul 7''",
+        levArtNr = "86134",
+        kategori = Kategori.Svinghjul,
+        defaultAntall = 2,
+        maksAntall = 2,
+        datoLagtTil = LocalDate.of(2025, 2, 19)
+    ),
+    Del(
+        hmsnr = "268002",
+        navn = "Gaffel m/svinghjul 7''",
+        levArtNr = "90102",
+        kategori = Kategori.Svinghjul,
+        defaultAntall = 2,
+        maksAntall = 2,
+        datoLagtTil = LocalDate.of(2025, 2, 19)
+    ),
+    Del(
+        hmsnr = "277498",
+        navn = "Svinghjul 7''",
+        levArtNr = "86135",
+        kategori = Kategori.Svinghjul,
+        defaultAntall = 2,
+        maksAntall = 2,
+        datoLagtTil = LocalDate.of(2025, 2, 19)
+    ),
+    Del(
+        hmsnr = "138932",
+        navn = "Bremse venstre",
+        levArtNr = "26852",
+        kategori = Kategori.Annet,
+        defaultAntall = 1,
+        maksAntall = 1,
+        datoLagtTil = LocalDate.of(2025, 2, 19)
+    ),
+    Del(
+        hmsnr = "316333",
+        navn = "Bremse venstre",
+        levArtNr = "93674",
+        kategori = Kategori.Annet,
+        defaultAntall = 1,
+        maksAntall = 1,
+        datoLagtTil = LocalDate.of(2025, 2, 19)
+    ),
+    Del(
+        hmsnr = "138933",
+        navn = "Bremse høyre",
+        levArtNr = "26853",
+        kategori = Kategori.Annet,
+        defaultAntall = 1,
+        maksAntall = 1,
+        datoLagtTil = LocalDate.of(2025, 2, 19)
+    ),
+    Del(
+        hmsnr = "316334",
+        navn = "Bremse høyre",
+        levArtNr = "93675",
+        kategori = Kategori.Annet,
+        defaultAntall = 1,
+        maksAntall = 1,
+        datoLagtTil = LocalDate.of(2025, 2, 19)
+    ),
+    Del(
+        hmsnr = "154497",
+        navn = "Setepute",
+        levArtNr = "171806",
+        kategori = Kategori.Annet,
+        defaultAntall = 1,
+        maksAntall = 1,
+        datoLagtTil = LocalDate.of(2025, 2, 19)
+    ),
+    Del(
+        hmsnr = "154500",
+        navn = "Setepute",
+        levArtNr = "171809",
+        kategori = Kategori.Annet,
+        defaultAntall = 1,
+        maksAntall = 1,
+        datoLagtTil = LocalDate.of(2025, 2, 19)
+    ),
+    Del(
+        hmsnr = "154505",
+        navn = "Setepute",
+        levArtNr = "171813",
+        kategori = Kategori.Annet,
+        defaultAntall = 1,
+        maksAntall = 1,
+        datoLagtTil = LocalDate.of(2025, 2, 19)
+    ),
+    Del(
+        hmsnr = "154511",
+        navn = "Setepute",
+        levArtNr = "171818",
+        kategori = Kategori.Annet,
+        defaultAntall = 1,
+        maksAntall = 1,
+        datoLagtTil = LocalDate.of(2025, 2, 19)
+    ),
+    Del(
+        hmsnr = "154516",
+        navn = "Setepute",
+        levArtNr = "171822",
+        kategori = Kategori.Annet,
+        defaultAntall = 1,
+        maksAntall = 1,
+        datoLagtTil = LocalDate.of(2025, 2, 19)
+    ),
+    Del(
+        hmsnr = "154521",
+        navn = "Setepute",
+        levArtNr = "171826",
+        kategori = Kategori.Annet,
+        defaultAntall = 1,
+        maksAntall = 1,
+        datoLagtTil = LocalDate.of(2025, 2, 19)
+    ),
+    Del(
+        hmsnr = "154525",
+        navn = "Setepute",
+        levArtNr = "171829",
+        kategori = Kategori.Annet,
+        defaultAntall = 1,
+        maksAntall = 1,
+        datoLagtTil = LocalDate.of(2025, 2, 19)
+    ),
+    Del(
+        hmsnr = "154529",
+        navn = "Setepute",
+        levArtNr = "171830",
+        kategori = Kategori.Annet,
+        defaultAntall = 1,
+        maksAntall = 1,
+        datoLagtTil = LocalDate.of(2025, 2, 19)
+    ),
+    Del(
+        hmsnr = "181577",
+        navn = "Trekk ryggpute",
+        levArtNr = "367204",
+        kategori = Kategori.Annet,
+        defaultAntall = 1,
+        maksAntall = 1,
+        datoLagtTil = LocalDate.of(2025, 2, 19)
+    ),
+    Del(
+        hmsnr = "181579",
+        navn = "Trekk ryggpute",
+        levArtNr = "367205",
+        kategori = Kategori.Annet,
+        defaultAntall = 1,
+        maksAntall = 1,
+        datoLagtTil = LocalDate.of(2025, 2, 19)
+    ),
+    Del(
+        hmsnr = "181581",
+        navn = "Trekk ryggpute",
+        levArtNr = "367206",
+        kategori = Kategori.Annet,
+        defaultAntall = 1,
+        maksAntall = 1,
+        datoLagtTil = LocalDate.of(2025, 2, 19)
+    ),
+    Del(
+        hmsnr = "181583",
+        navn = "Trekk ryggpute",
+        levArtNr = "367207",
+        kategori = Kategori.Annet,
+        defaultAntall = 1,
+        maksAntall = 1,
+        datoLagtTil = LocalDate.of(2025, 2, 19)
+    ),
+    Del(
+        hmsnr = "181585",
+        navn = "Trekk ryggpute",
+        levArtNr = "367208",
+        kategori = Kategori.Annet,
+        defaultAntall = 1,
+        maksAntall = 1,
+        datoLagtTil = LocalDate.of(2025, 2, 19)
+    ),
+    Del(
+        hmsnr = "181587",
+        navn = "Trekk ryggpute",
+        levArtNr = "367209",
+        kategori = Kategori.Annet,
+        defaultAntall = 1,
+        maksAntall = 1,
+        datoLagtTil = LocalDate.of(2025, 2, 19)
+    ),
+    Del(
+        hmsnr = "181589",
+        navn = "Trekk ryggpute",
+        levArtNr = "367210",
+        kategori = Kategori.Annet,
+        defaultAntall = 1,
+        maksAntall = 1,
+        datoLagtTil = LocalDate.of(2025, 2, 19)
+    ),
+    Del(
+        hmsnr = "181592",
+        navn = "Trekk ryggpute",
+        levArtNr = "367227",
+        kategori = Kategori.Annet,
+        defaultAntall = 1,
+        maksAntall = 1,
+        datoLagtTil = LocalDate.of(2025, 2, 19)
+    ),
+    Del(
+        hmsnr = "316267",
+        navn = "Trekk ryggpute",
+        levArtNr = "367215",
+        kategori = Kategori.Annet,
+        defaultAntall = 1,
+        maksAntall = 1,
+        datoLagtTil = LocalDate.of(2025, 2, 19)
+    ),
+    Del(
+        hmsnr = "316269",
+        navn = "Trekk ryggpute",
+        levArtNr = "367216",
+        kategori = Kategori.Annet,
+        defaultAntall = 1,
+        maksAntall = 1,
+        datoLagtTil = LocalDate.of(2025, 2, 19)
+    ),
+    Del(
+        hmsnr = "181422",
+        navn = "Hodestøtte",
+        levArtNr = "81024",
+        kategori = Kategori.Annet,
+        defaultAntall = 1,
+        maksAntall = 1,
+        datoLagtTil = LocalDate.of(2025, 2, 19)
+    ),
+    Del(
+        hmsnr = "308897",
+        navn = "Batteri",
+        kategori = Kategori.Batteri,
+        defaultAntall = 2,
+        maksAntall = 2,
+        datoLagtTil = LocalDate.of(2025, 2, 19)
+    ),
+    Del(
+        hmsnr = "286581",
+        navn = "Lader",
+        kategori = Kategori.Lader,
+        defaultAntall = 1,
+        maksAntall = 1,
+        datoLagtTil = LocalDate.of(2025, 2, 19)
+    ),
+    Del(
+        hmsnr = "307864",
+        navn = "Hjul",
+        kategori = Kategori.Hjul,
+        defaultAntall = 4,
+        maksAntall = 4,
+        datoLagtTil = LocalDate.of(2025, 2, 19)
+    ),
+    Del(
+        hmsnr = "279259",
+        navn = "Setetrekk lang",
+        levArtNr = "62989-60",
+        kategori = Kategori.Annet,
+        defaultAntall = 1,
+        maksAntall = 1,
+        datoLagtTil = LocalDate.of(2025, 2, 19)
+    ),
+).associateBy { it.hmsnr }
 
-internal fun kontrollerForDuplikateHmsnr(deler: List<Del>) {
-    val duplicates = deler
-        .groupBy { it }
-        .filter { it.value.size > 1 }
-        .flatMap { it.value }
 
-    if (duplicates.isNotEmpty()) {
-        throw IllegalStateException("DELER inneholder duplikate hmsnr: $duplicates")
+val hmsnrTilDelMedHjelpemiddel: Map<Hmsnr, DelMedHjelpemidler> = hmsnrTilDel.mapValues { (hmsnrDel, del) ->
+    // Finn hvilke hjelpemiddel som har en kobling til denne delen
+    val hjmHmsnrForDel = mutableSetOf<Hmsnr>()
+    hmsnrHjmTilHmsnrDeler.forEach { (hmsnrHjm, delerTilHjm) ->
+        if (hmsnrDel in delerTilHjm) {
+            hjmHmsnrForDel.add(hmsnrHjm)
+        }
     }
+
+    // Map hjm hmsnr til Hjelpemiddel
+    val hjelpemidler = hjmHmsnrForDel.map {
+        Hjelpemiddel(
+            navn = hmsnrTilHjelpemiddel[it]?.navn
+                ?: throw IllegalArgumentException("Mangler navn for hjelpemiddel $it"),
+            hmsnr = it
+        )
+    }
+
+    DelMedHjelpemidler(
+        del = del,
+        hjelpemidler = hjelpemidler
+    )
 }

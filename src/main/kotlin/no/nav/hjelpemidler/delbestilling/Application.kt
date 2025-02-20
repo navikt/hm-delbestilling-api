@@ -14,6 +14,7 @@ import io.github.oshai.kotlinlogging.KotlinLogging
 import no.nav.hjelpemidler.delbestilling.delbestilling.azureRoutes
 import no.nav.hjelpemidler.delbestilling.delbestilling.delbestillingApiAuthenticated
 import no.nav.hjelpemidler.delbestilling.delbestilling.delbestillingApiPublic
+import no.nav.hjelpemidler.delbestilling.hjelpemidler.data.validerData
 import no.nav.hjelpemidler.delbestilling.plugins.medDelbestillerRolle
 import no.nav.hjelpemidler.delbestilling.hjelpemidler.hjelpemiddelApi
 import no.nav.tms.token.support.azure.validation.AzureAuthenticator
@@ -25,6 +26,7 @@ fun main(args: Array<String>): Unit = io.ktor.server.cio.EngineMain.main(args)
 private val logg = KotlinLogging.logger {}
 
 fun Application.module() {
+    validerData()
     configure()
     setupRoutes()
 }

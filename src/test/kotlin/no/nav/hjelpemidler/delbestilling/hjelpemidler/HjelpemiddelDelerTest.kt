@@ -1,13 +1,20 @@
 package no.nav.hjelpemidler.delbestilling.hjelpemidler
 
-import no.nav.hjelpemidler.delbestilling.hjelpemidler.data.alleDeler
 import no.nav.hjelpemidler.delbestilling.hjelpemidler.data.hmsnr2Hjm
+import no.nav.hjelpemidler.delbestilling.hjelpemidler.data.hmsnrTilDel
+import no.nav.hjelpemidler.delbestilling.hjelpemidler.data.validerData
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNotNull
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.assertDoesNotThrow
 
 internal class HjelpemiddelDelerTest {
+
+    @Test
+    fun `valider data`() {
+        assertDoesNotThrow { validerData() }
+    }
 
     @Test
     fun `skal finne hjelpemiddel med deler for Panthera`() {
@@ -58,7 +65,7 @@ internal class HjelpemiddelDelerTest {
 
     @Test
     fun `skal ikke eksistere deler med defaultAntall større enn maksAntall`() {
-        alleDeler.values.forEach {
+        hmsnrTilDel.values.forEach {
             with(it) {
                 assertTrue(
                     defaultAntall <= maksAntall,
