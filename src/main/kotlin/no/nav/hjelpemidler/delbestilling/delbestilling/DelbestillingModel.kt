@@ -16,7 +16,15 @@ data class OppslagResultat(
     val hjelpemiddel: HjelpemiddelMedDeler?,
     val feil: OppslagFeil? = null,
     val httpStatusCode: HttpStatusCode,
-)
+) {
+    init {
+        hjelpemiddel?.deler?.forEach {
+            if (it.lagerstatus == null) {
+                error{"Del $it på hjelpemiddel ${hjelpemiddel.hmsnr} mangler lagerstatus, kan ikke returnere resultat"}
+            }
+        }
+    }
+}
 
 data class AlleHjelpemidlerMedDelerResultat(
     val hjelpemidlerMedDeler: List<HjelpemiddelMedDeler>,
@@ -39,7 +47,7 @@ data class XKLagerResponse (
 data class HjelpemiddelMedDeler(
     val navn: String,
     val hmsnr: String,
-    val deler: List<Del>,
+    var deler: List<Del>,
 )
 
 data class Del(
@@ -51,6 +59,29 @@ data class Del(
     val maksAntall: Int, // TODO kan ofte utlede maksAntall fra kategori også
     val img: String? = null,
     val datoLagtTil: LocalDate? = null,
+    var lagerstatus: Lagerstatus? = null, // TODO: denne bør kanskje ikke være nullable?
+)
+
+data class Lagerstatus(
+    val erPåLager: Boolean,
+    val organisasjons_id: Int,
+    val organisasjons_navn: String,
+    val artikkelnummer: String,
+    val artikkelid: Int,
+    val fysisk: Int,
+    val tilgjengeligatt: Int,
+    val tilgjengeligroo: Int,
+    val tilgjengelig: Int,
+    val behovsmeldt: Int,
+    val reservert: Int,
+    val restordre: Int,
+    val bestillinger: Int,
+    val anmodning: Int,
+    val intanmodning: Int,
+    val forsyning: Int,
+    val sortiment: Boolean,
+    val lagervare: Boolean,
+    val minmax: Boolean,
 )
 
 data class DelLinje(

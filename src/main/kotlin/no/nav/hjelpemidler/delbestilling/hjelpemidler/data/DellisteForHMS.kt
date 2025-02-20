@@ -1,6 +1,7 @@
 package no.nav.hjelpemidler.delbestilling.hjelpemidler.data
 
 import no.nav.hjelpemidler.delbestilling.delbestilling.Hmsnr
+import no.nav.hjelpemidler.delbestilling.hjelpemidler.Navn
 import java.time.LocalDate
 
 
@@ -20,7 +21,7 @@ data class Delliste(
 )
 
 val delliste = Delliste(
-    hmsnr2Del.values.map {
+    hmsnrTilDelMedHjelpemiddel.values.map {
         DellisteDel(
             hmsnr = it.del.hmsnr,
             navn = it.del.navn,

@@ -58,6 +58,12 @@ dependencies {
     // Utils
     implementation(libs.nocommons)
 
+    // Xlsx (Excel)
+    val apachePoiVersion = "5.4.0"
+    implementation("org.apache.poi:poi:$apachePoiVersion")
+    implementation("org.apache.poi:poi-ooxml:$apachePoiVersion")
+
+
     // Testing
     testImplementation(libs.bundles.ktor.server.test)
     testImplementation(libs.bundles.junit)
