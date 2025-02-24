@@ -158,14 +158,23 @@ class DelbestillingService(
 
         sendStatistikk(request.delbestilling, utlån.fnr)
 
-        // TODO: sjekk at det er førsteinnsending fra kommune
         if (!isLocal()) {
-            slackClient.sendMessage(
-                username = "hm-delbestilling-api",
-                slackIconEmoji(":chart_with_upwards_trend:"),
-                channel = "#hakhags-test-kanal",
-                message = "Ny kommune har sendt inn digital delbestilling! Denne gangen var det ${brukersKommunenavn} (kommunenummer: $brukerKommunenr)"
-            )
+            try {
+                delbestillingRepository.withTransaction { tx ->
+                    val harIkkeDelbestillingerFraKommune = delbestillingRepository.hentDelbestillingerForKommune(tx, brukerKommunenr).isEmpty()
+                    log.info { "harIkkeDelbestillingerFraKommune: $harIkkeDelbestillingerFraKommune" }
+                    if (true) {
+                        slackClient.sendMessage(
+                            username = "hm-delbestilling-api",
+                            slackIconEmoji(":chart_with_upwards_trend:"),
+                            channel = "#hakhags-test-kanal",
+                            message = "Ny kommune har sendt inn digital delbestilling! Denne gangen var det ${brukersKommunenavn} (kommunenummer: $brukerKommunenr)"
+                        )
+                    }
+                }
+            } catch (e: Exception) {
+                log.error(e) { "Klarte ikke sende slackmelding om førstegangsinnsending for kommune" }
+            }
         }
 
         return DelbestillingResultat(id, null, delbestillingSak.saksnummer, delbestillingSak)
