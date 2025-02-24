@@ -40,6 +40,10 @@ enum class OppslagFeil {
     TILBYR_IKKE_HJELPEMIDDEL, INGET_UTLÅN
 }
 
+data class XKLagerResponse (
+    val xkLager: Boolean,
+)
+
 data class HjelpemiddelMedDeler(
     val navn: String,
     val hmsnr: String,
@@ -134,3 +138,7 @@ data class DelbestillingSak(
 
 typealias Hmsnr = String
 typealias Serienr = String
+
+enum class BestillerType {
+    KOMMUNAL, IKKE_KOMMUNAL, BRUKERPASS
+}

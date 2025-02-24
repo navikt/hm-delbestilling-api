@@ -11,6 +11,7 @@ import io.ktor.server.routing.post
 import io.ktor.server.routing.put
 import io.ktor.server.util.getOrFail
 import no.nav.hjelpemidler.delbestilling.isDev
+import no.nav.hjelpemidler.delbestilling.plugins.delbestillerRolleKey
 import no.nav.hjelpemidler.delbestilling.tokenXUser
 import java.time.LocalDate
 
@@ -51,9 +52,10 @@ fun Route.delbestillingApiAuthenticated(
     post("/delbestilling") {
         try {
             val request = call.receive<DelbestillingRequest>()
-            val bestiller = call.tokenXUser()
+            val delbestillerFnr = call.tokenXUser().ident
+            val delbestillerRolle = call.attributes[delbestillerRolleKey]
 
-            val resultat = delbestillingService.opprettDelbestilling(request, bestiller.ident, bestiller.tokenString)
+            val resultat = delbestillingService.opprettDelbestilling(request, delbestillerFnr, delbestillerRolle)
 
             log.info { "opprettDelbestilling resultat: saksnummer=${resultat.saksnummer}, feil=${resultat.feil}" }
 
@@ -71,6 +73,20 @@ fun Route.delbestillingApiAuthenticated(
             call.respond(statusKode, resultat)
         } catch (e: Exception) {
             log.error(e) { "Innsending av bestilling feilet" }
+            call.respond(HttpStatusCode.InternalServerError)
+        }
+    }
+
+    post("/xk-lager") {
+        try {
+            val request = call.receive<OppslagRequest>()
+            log.info { "/xk-lager request: $request" }
+            val xklager = XKLagerResponse(delbestillingService.sjekkXKLager(request.hmsnr, request.serienr))
+            log.info { "/xk-lager response: $xklager" }
+            call.respond(xklager)
+
+        } catch (e: Exception) {
+            log.error(e) { "Henting av XKLager feilet" }
             call.respond(HttpStatusCode.InternalServerError)
         }
     }

@@ -1,0 +1,1 @@
+ALTER TABLE delbestilling ADD COLUMN bestillers_organisasjon jsonb DEFAULT NULL;

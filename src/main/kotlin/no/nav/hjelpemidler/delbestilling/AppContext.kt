@@ -60,7 +60,6 @@ class AppContext {
         delbestillingRepository,
         pdlService,
         oebsService,
-        rolleService,
         oppslagService,
         metrics
     )
