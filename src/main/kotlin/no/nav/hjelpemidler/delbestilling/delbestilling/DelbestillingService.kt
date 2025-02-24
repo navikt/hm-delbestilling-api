@@ -174,14 +174,14 @@ class DelbestillingService(
                     } else if (antallDelbestillingerFrakommune == 4) {
                         slackClient.sendMessage(
                             username = "hm-delbestilling-api",
-                            slackIconEmoji(":chart_with_upwards_trend: "),
+                            slackIconEmoji(":chart_with_upwards_trend:"),
                             channel = "#digihot-delbestillinger-alerts",
                             message = "Ny kommune har sendt inn 4 digitale delbestillinger! Denne gangen var det ${brukersKommunenavn} kommune (kommunenummer: $brukerKommunenr)"
                         )
                     }
                 }
             } catch (e: Exception) {
-                log.error(e) { "Klarte ikke sende slackmelding om førstegangsinnsending for kommune" }
+                log.error(e) { "Klarte ikke sende varsle til Slack om innsending for kommunenr $brukerKommunenr" }
             }
         }
 
