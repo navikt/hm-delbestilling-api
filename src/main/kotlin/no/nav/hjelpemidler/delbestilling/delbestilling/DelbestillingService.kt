@@ -161,24 +161,22 @@ class DelbestillingService(
         // TODO: dette kan kanskje flyttes ut i en egen klient
         if (!isLocal()) {
             try {
-                delbestillingRepository.withTransaction { tx ->
-                    val antallDelbestillingerFrakommune = delbestillingRepository.hentDelbestillingerForKommune(brukerKommunenr).size
-                    log.info { "antallDelbestillingerFrakommune for brukerKommunenr $brukerKommunenr: $antallDelbestillingerFrakommune" }
-                    if (antallDelbestillingerFrakommune == 1) {
-                        slackClient.sendMessage(
-                            username = "hm-delbestilling-api",
-                            slackIconEmoji(":news:"),
-                            channel = "#digihot-delbestillinger-alerts",
-                            message = "Ny kommune har for første gang sendt inn digital delbestilling! Denne gangen var det ${brukersKommunenavn} kommune (kommunenummer: $brukerKommunenr)"
-                        )
-                    } else if (antallDelbestillingerFrakommune == 4) {
-                        slackClient.sendMessage(
-                            username = "hm-delbestilling-api",
-                            slackIconEmoji(":chart_with_upwards_trend:"),
-                            channel = "#digihot-delbestillinger-alerts",
-                            message = "Ny kommune har sendt inn 4 digitale delbestillinger! Denne gangen var det ${brukersKommunenavn} kommune (kommunenummer: $brukerKommunenr)"
-                        )
-                    }
+                val antallDelbestillingerFrakommune = delbestillingRepository.hentDelbestillingerForKommune(brukerKommunenr).size
+                log.info { "antallDelbestillingerFrakommune for brukerKommunenr $brukerKommunenr: $antallDelbestillingerFrakommune" }
+                if (antallDelbestillingerFrakommune == 1) {
+                    slackClient.sendMessage(
+                        username = "hm-delbestilling-api",
+                        slackIconEmoji(":news:"),
+                        channel = "#digihot-delbestillinger-alerts",
+                        message = "Ny kommune har for første gang sendt inn digital delbestilling! Denne gangen var det ${brukersKommunenavn} kommune (kommunenummer: $brukerKommunenr)"
+                    )
+                } else if (antallDelbestillingerFrakommune == 4) {
+                    slackClient.sendMessage(
+                        username = "hm-delbestilling-api",
+                        slackIconEmoji(":chart_with_upwards_trend:"),
+                        channel = "#digihot-delbestillinger-alerts",
+                        message = "Ny kommune har sendt inn 4 digitale delbestillinger! Denne gangen var det ${brukersKommunenavn} kommune (kommunenummer: $brukerKommunenr)"
+                    )
                 }
             } catch (e: Exception) {
                 log.error(e) { "Klarte ikke sende varsle til Slack om innsending for kommunenr $brukerKommunenr" }
