@@ -166,9 +166,9 @@ class DelbestillingService(
                     if (true) {
                         slackClient.sendMessage(
                             username = "hm-delbestilling-api",
-                            slackIconEmoji(":chart_with_upwards_trend:"),
-                            channel = "#hakhags-test-kanal",
-                            message = "Ny kommune har sendt inn digital delbestilling! Denne gangen var det ${brukersKommunenavn} (kommunenummer: $brukerKommunenr)"
+                            slackIconEmoji(":news:"),
+                            channel = "#delbestillinger-alerts",
+                            message = "Ny kommune har sendt inn digital delbestilling! Denne gangen var det ${brukersKommunenavn} kommune (kommunenummer: $brukerKommunenr)"
                         )
                     }
                 }
