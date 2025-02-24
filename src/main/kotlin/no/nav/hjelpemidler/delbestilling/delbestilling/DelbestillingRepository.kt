@@ -66,7 +66,7 @@ class DelbestillingRepository(val ds: DataSource) {
         )
     }
 
-    fun hentDelbestillingerForKommune(tx: JdbcOperations, brukerKommunenr: String): List<DelbestillingSak> = using(sessionOf(ds)) { session ->
+    fun hentDelbestillingerForKommune(brukerKommunenr: String): List<DelbestillingSak> = using(sessionOf(ds)) { session ->
         session.run(
             queryOf(
                 """
