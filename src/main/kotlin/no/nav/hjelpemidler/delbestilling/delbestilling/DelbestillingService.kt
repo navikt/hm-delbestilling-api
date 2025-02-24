@@ -161,14 +161,21 @@ class DelbestillingService(
         if (!isLocal()) {
             try {
                 delbestillingRepository.withTransaction { tx ->
-                    val harIkkeDelbestillingerFraKommune = delbestillingRepository.hentDelbestillingerForKommune(tx, brukerKommunenr).isEmpty()
-                    log.info { "harIkkeDelbestillingerFraKommune: $harIkkeDelbestillingerFraKommune" }
+                    val antallDelbestillingerFrakommune = delbestillingRepository.hentDelbestillingerForKommune(tx, brukerKommunenr).size
+                    log.info { "antallDelbestillingerFrakommune: $antallDelbestillingerFrakommune" }
                     if (true) {
                         slackClient.sendMessage(
                             username = "hm-delbestilling-api",
                             slackIconEmoji(":news:"),
                             channel = "#delbestillinger-alerts",
                             message = "Ny kommune har sendt inn digital delbestilling! Denne gangen var det ${brukersKommunenavn} kommune (kommunenummer: $brukerKommunenr)"
+                        )
+                    } else if (antallDelbestillingerFrakommune == 4) {
+                        slackClient.sendMessage(
+                            username = "hm-delbestilling-api",
+                            slackIconEmoji(":chart_with_upwards_trend: "),
+                            channel = "#delbestillinger-alerts",
+                            message = "Ny kommune har sendt inn 4 digitale delbestillinger! Denne gangen var det ${brukersKommunenavn} kommune (kommunenummer: $brukerKommunenr)"
                         )
                     }
                 }
