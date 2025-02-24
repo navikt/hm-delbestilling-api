@@ -159,18 +159,18 @@ class DelbestillingService(
         sendStatistikk(request.delbestilling, utlån.fnr)
 
         // TODO: dette kan kanskje flyttes ut i en egen klient
-        if (!isLocal()) {
+        if (isProd()) {
             try {
-                val antallDelbestillingerFrakommune = delbestillingRepository.hentDelbestillingerForKommune(brukerKommunenr).size
-                log.info { "antallDelbestillingerFrakommune for brukerKommunenr $brukerKommunenr: $antallDelbestillingerFrakommune" }
-                if (antallDelbestillingerFrakommune == 1) {
+                val antallDelbestillingerFraKommune = delbestillingRepository.hentDelbestillingerForKommune(brukerKommunenr).size
+                log.info { "antallDelbestillingerFraKommune for brukerKommunenr $brukerKommunenr: $antallDelbestillingerFraKommune" }
+                if (antallDelbestillingerFraKommune == 1) {
                     slackClient.sendMessage(
                         username = "hm-delbestilling-api",
                         slackIconEmoji(":news:"),
                         channel = "#digihot-delbestillinger-alerts",
                         message = "Ny kommune har for første gang sendt inn digital delbestilling! Denne gangen var det ${brukersKommunenavn} kommune (kommunenummer: $brukerKommunenr)"
                     )
-                } else if (antallDelbestillingerFrakommune == 4) {
+                } else if (antallDelbestillingerFraKommune == 4) {
                     slackClient.sendMessage(
                         username = "hm-delbestilling-api",
                         slackIconEmoji(":chart_with_upwards_trend:"),
