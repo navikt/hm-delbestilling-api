@@ -168,14 +168,14 @@ class DelbestillingService(
                         slackClient.sendMessage(
                             username = "hm-delbestilling-api",
                             slackIconEmoji(":news:"),
-                            channel = "#delbestillinger-alerts",
+                            channel = "#digihot-delbestillinger-alerts",
                             message = "Ny kommune har for første gang sendt inn digital delbestilling! Denne gangen var det ${brukersKommunenavn} kommune (kommunenummer: $brukerKommunenr)"
                         )
                     } else if (antallDelbestillingerFrakommune == 4) {
                         slackClient.sendMessage(
                             username = "hm-delbestilling-api",
                             slackIconEmoji(":chart_with_upwards_trend: "),
-                            channel = "#delbestillinger-alerts",
+                            channel = "#digihot-delbestillinger-alerts",
                             message = "Ny kommune har sendt inn 4 digitale delbestillinger! Denne gangen var det ${brukersKommunenavn} kommune (kommunenummer: $brukerKommunenr)"
                         )
                     }
