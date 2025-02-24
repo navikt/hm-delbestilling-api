@@ -159,12 +159,12 @@ class DelbestillingService(
         sendStatistikk(request.delbestilling, utlån.fnr)
 
         // TODO: dette kan kanskje flyttes ut i en egen klient
-        if (!isLocal()) {
+        if (isProd()) {
             try {
                 delbestillingRepository.withTransaction { tx ->
                     val antallDelbestillingerFrakommune = delbestillingRepository.hentDelbestillingerForKommune(tx, brukerKommunenr).size
-                    log.info { "antallDelbestillingerFrakommune: $antallDelbestillingerFrakommune" }
-                    if (true) {
+                    log.info { "antallDelbestillingerFrakommune for brukerKommunenr $brukerKommunenr: $antallDelbestillingerFrakommune" }
+                    if (antallDelbestillingerFrakommune == 1) {
                         slackClient.sendMessage(
                             username = "hm-delbestilling-api",
                             slackIconEmoji(":news:"),
