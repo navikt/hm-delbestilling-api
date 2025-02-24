@@ -66,7 +66,7 @@ class DelbestillingRepository(val ds: DataSource) {
         )
     }
 
-    fun hentDelbestillingerForKommune(tx: JdbcOperations, brukers_kommunenr: String): List<DelbestillingSak> = using(sessionOf(ds)) { session ->
+    fun hentDelbestillingerForKommune(tx: JdbcOperations, brukerKommunenr: String): List<DelbestillingSak> = using(sessionOf(ds)) { session ->
         session.run(
             queryOf(
                 """
@@ -74,7 +74,7 @@ class DelbestillingRepository(val ds: DataSource) {
                     FROM delbestilling
                     WHERE brukers_kommunenr = :brukers_kommunenr
                 """.trimIndent(),
-                mapOf("brukers_kommunenr" to brukers_kommunenr)
+                mapOf("brukers_kommunenr" to brukerKommunenr)
             ).map { it.toLagretDelbestilling() }.asList
         )
     }
