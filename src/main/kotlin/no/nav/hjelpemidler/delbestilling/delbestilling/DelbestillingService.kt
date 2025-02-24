@@ -158,6 +158,7 @@ class DelbestillingService(
 
         sendStatistikk(request.delbestilling, utlån.fnr)
 
+        // TODO: dette kan kanskje flyttes ut i en egen klient
         if (!isLocal()) {
             try {
                 delbestillingRepository.withTransaction { tx ->
@@ -168,7 +169,7 @@ class DelbestillingService(
                             username = "hm-delbestilling-api",
                             slackIconEmoji(":news:"),
                             channel = "#delbestillinger-alerts",
-                            message = "Ny kommune har sendt inn digital delbestilling! Denne gangen var det ${brukersKommunenavn} kommune (kommunenummer: $brukerKommunenr)"
+                            message = "Ny kommune har for første gang sendt inn digital delbestilling! Denne gangen var det ${brukersKommunenavn} kommune (kommunenummer: $brukerKommunenr)"
                         )
                     } else if (antallDelbestillingerFrakommune == 4) {
                         slackClient.sendMessage(
