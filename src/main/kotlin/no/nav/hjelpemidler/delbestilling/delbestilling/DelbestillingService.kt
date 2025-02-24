@@ -10,6 +10,7 @@ import no.nav.hjelpemidler.delbestilling.exceptions.PersonNotAccessibleInPdl
 import no.nav.hjelpemidler.delbestilling.exceptions.PersonNotFoundInPdl
 import no.nav.hjelpemidler.delbestilling.hjelpemidler.data.hmsnr2Hjm
 import no.nav.hjelpemidler.delbestilling.isDev
+import no.nav.hjelpemidler.delbestilling.isLocal
 import no.nav.hjelpemidler.delbestilling.isProd
 import no.nav.hjelpemidler.delbestilling.metrics.Metrics
 import no.nav.hjelpemidler.delbestilling.oebs.Artikkel
@@ -35,7 +36,7 @@ class DelbestillingService(
     private val oebsService: OebsService,
     private val oppslagService: OppslagService,
     private val metrics: Metrics,
-) {
+    ) {
 
     private val slackClient by lazy { slack(engine = CIO.create()) }
 
@@ -158,12 +159,14 @@ class DelbestillingService(
         sendStatistikk(request.delbestilling, utlån.fnr)
 
         // TODO: sjekk at det er førsteinnsending fra kommune
-        slackClient.sendMessage(
-            username = "hm-delbestilling-api",
-            slackIconEmoji(":chart_with_upwards_trend:"),
-            channel = "#hakhags-test-kanal",
-            message = "Ny kommune har sendt inn digital delbestilling! Denne gangen var det ${brukersKommunenavn} (kommunenummer: $brukerKommunenr)"
-        )
+        if (!isLocal()) {
+            slackClient.sendMessage(
+                username = "hm-delbestilling-api",
+                slackIconEmoji(":chart_with_upwards_trend:"),
+                channel = "#hakhags-test-kanal",
+                message = "Ny kommune har sendt inn digital delbestilling! Denne gangen var det ${brukersKommunenavn} (kommunenummer: $brukerKommunenr)"
+            )
+        }
 
         return DelbestillingResultat(id, null, delbestillingSak.saksnummer, delbestillingSak)
     }
