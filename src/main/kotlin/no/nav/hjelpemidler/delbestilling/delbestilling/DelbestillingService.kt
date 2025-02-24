@@ -1,6 +1,7 @@
 package no.nav.hjelpemidler.delbestilling.delbestilling
 
 import io.github.oshai.kotlinlogging.KotlinLogging
+import io.ktor.client.engine.cio.CIO
 import io.ktor.http.HttpStatusCode
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
@@ -17,6 +18,8 @@ import no.nav.hjelpemidler.delbestilling.oebs.OpprettBestillingsordreRequest
 import no.nav.hjelpemidler.delbestilling.oppslag.OppslagService
 import no.nav.hjelpemidler.delbestilling.pdl.PdlService
 import no.nav.hjelpemidler.delbestilling.roller.Delbestiller
+import no.nav.hjelpemidler.http.slack.slack
+import no.nav.hjelpemidler.http.slack.slackIconEmoji
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.ZoneId
@@ -33,6 +36,8 @@ class DelbestillingService(
     private val oppslagService: OppslagService,
     private val metrics: Metrics,
 ) {
+
+    private val slackClient by lazy { slack(engine = CIO.create()) }
 
     suspend fun opprettDelbestilling(
         request: DelbestillingRequest,
@@ -151,6 +156,14 @@ class DelbestillingService(
         log.info { "Delbestilling '$id' sendt inn med saksnummer '${delbestillingSak.saksnummer}'" }
 
         sendStatistikk(request.delbestilling, utlån.fnr)
+
+        // TODO: sjekk at det er førsteinnsending fra kommune
+        slackClient.sendMessage(
+            username = "hm-delbestilling-api",
+            slackIconEmoji(":chart_with_upwards_trend:"),
+            channel = "#hakhags-test-kanal",
+            message = "Ny kommune har sendt inn digital delbestilling! Denne gangen var det ${brukersKommunenavn} (kommunenummer: $brukerKommunenr)"
+        )
 
         return DelbestillingResultat(id, null, delbestillingSak.saksnummer, delbestillingSak)
     }

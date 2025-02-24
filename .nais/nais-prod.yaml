@@ -42,8 +42,11 @@ spec:
         - host: kafka-schema-registry.nais.adeo.no
         - host: hm-oebs-api-proxy.prod-fss-pub.nais.io
         - host: pdl-api.prod-fss-pub.nais.io
+        - host: hooks.slack.com
   kafka:
     pool: nav-prod
+  envFrom:
+    - secret: hm-slack-hook
   gcp:
     sqlInstances:
       - name: hm-delbestilling-api-db-prod-v1

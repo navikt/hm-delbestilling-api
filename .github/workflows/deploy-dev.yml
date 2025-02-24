@@ -8,7 +8,7 @@ on:
       - "CODEOWNERS"
     branches:
       - main
-      - tilgang-ikkekommunale
+      - slack-melding-ny-kommune
 
 jobs:
   build-and-deploy:
