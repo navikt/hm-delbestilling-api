@@ -23,7 +23,7 @@ class SlackClient(
         try {
             val antallDelbestillingerFraKommune = delbestillingRepository.hentDelbestillingerForKommune(brukerKommunenr).size
             log.info { "antallDelbestillingerFraKommune for brukerKommunenr $brukerKommunenr: $antallDelbestillingerFraKommune" }
-            if (true) {
+            if (antallDelbestillingerFraKommune == 1) {
                 slackClient.sendMessage(
                     username = username,
                     slackIconEmoji(":news:"),
