@@ -18,6 +18,7 @@ import no.nav.hjelpemidler.delbestilling.oebs.Utlån
 import no.nav.hjelpemidler.delbestilling.oppslag.OppslagService
 import no.nav.hjelpemidler.delbestilling.pdl.PdlService
 import no.nav.hjelpemidler.delbestilling.roller.RolleService
+import no.nav.hjelpemidler.delbestilling.slack.SlackClient
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertDoesNotThrow
@@ -45,13 +46,15 @@ internal class DelbestillingServiceTest {
     private val oppslagService = mockk<OppslagService>(relaxed = true).apply {
         coEvery { hentKommune(any()) } returns kommune()
     }
+    private val slackClient = mockk<SlackClient>()
     private val delbestillingService =
         DelbestillingService(
             delbestillingRepository,
             pdlService,
             oebsService,
             oppslagService,
-            mockk(relaxed = true)
+            mockk(relaxed = true),
+            slackClient,
         )
 
     @BeforeEach

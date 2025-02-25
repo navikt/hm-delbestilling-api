@@ -9,6 +9,7 @@ import no.nav.hjelpemidler.delbestilling.exceptions.PersonNotAccessibleInPdl
 import no.nav.hjelpemidler.delbestilling.exceptions.PersonNotFoundInPdl
 import no.nav.hjelpemidler.delbestilling.hjelpemidler.data.hmsnr2Hjm
 import no.nav.hjelpemidler.delbestilling.isDev
+import no.nav.hjelpemidler.delbestilling.isLocal
 import no.nav.hjelpemidler.delbestilling.isProd
 import no.nav.hjelpemidler.delbestilling.metrics.Metrics
 import no.nav.hjelpemidler.delbestilling.oebs.Artikkel
@@ -17,6 +18,7 @@ import no.nav.hjelpemidler.delbestilling.oebs.OpprettBestillingsordreRequest
 import no.nav.hjelpemidler.delbestilling.oppslag.OppslagService
 import no.nav.hjelpemidler.delbestilling.pdl.PdlService
 import no.nav.hjelpemidler.delbestilling.roller.Delbestiller
+import no.nav.hjelpemidler.delbestilling.slack.SlackClient
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.ZoneId
@@ -32,8 +34,8 @@ class DelbestillingService(
     private val oebsService: OebsService,
     private val oppslagService: OppslagService,
     private val metrics: Metrics,
-) {
-
+    private val slackClient: SlackClient,
+    ) {
     suspend fun opprettDelbestilling(
         request: DelbestillingRequest,
         bestillerFnr: String,
@@ -151,6 +153,10 @@ class DelbestillingService(
         log.info { "Delbestilling '$id' sendt inn med saksnummer '${delbestillingSak.saksnummer}'" }
 
         sendStatistikk(request.delbestilling, utlån.fnr)
+
+        if (!isLocal()) {
+            slackClient.varsleOmInnsending(brukerKommunenr, brukersKommunenavn)
+        }
 
         return DelbestillingResultat(id, null, delbestillingSak.saksnummer, delbestillingSak)
     }

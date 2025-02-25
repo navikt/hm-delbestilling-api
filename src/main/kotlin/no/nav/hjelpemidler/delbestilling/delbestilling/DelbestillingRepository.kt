@@ -66,6 +66,19 @@ class DelbestillingRepository(val ds: DataSource) {
         )
     }
 
+    fun hentDelbestillingerForKommune(brukerKommunenr: String): List<DelbestillingSak> = using(sessionOf(ds)) { session ->
+        session.run(
+            queryOf(
+                """
+                    SELECT * 
+                    FROM delbestilling
+                    WHERE brukers_kommunenr = :brukers_kommunenr
+                """.trimIndent(),
+                mapOf("brukers_kommunenr" to brukerKommunenr)
+            ).map { it.toLagretDelbestilling() }.asList
+        )
+    }
+
     fun hentDelbestilling(tx: JdbcOperations, saksnummer: Long): DelbestillingSak? = tx.singleOrNull(
         """
             SELECT * 
