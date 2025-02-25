@@ -15,6 +15,7 @@ import no.nav.hjelpemidler.delbestilling.pdl.PdlClient
 import no.nav.hjelpemidler.delbestilling.pdl.PdlService
 import no.nav.hjelpemidler.delbestilling.roller.RolleClient
 import no.nav.hjelpemidler.delbestilling.roller.RolleService
+import no.nav.hjelpemidler.delbestilling.slack.SlackClient
 import no.nav.hjelpemidler.http.openid.azureADClient
 import no.nav.tms.token.support.tokendings.exchange.TokendingsServiceBuilder
 import kotlin.time.Duration.Companion.seconds
@@ -56,12 +57,15 @@ class AppContext {
 
     val rolleService = RolleService(rolleClient)
 
+    val slackClient = SlackClient(delbestillingRepository)
+
     val delbestillingService = DelbestillingService(
         delbestillingRepository,
         pdlService,
         oebsService,
         oppslagService,
-        metrics
+        metrics,
+        slackClient,
     )
 
     val hjelpemidlerService = HjelpemidlerService()

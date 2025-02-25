@@ -1,7 +1,6 @@
 package no.nav.hjelpemidler.delbestilling.delbestilling
 
 import io.github.oshai.kotlinlogging.KotlinLogging
-import io.ktor.client.engine.cio.CIO
 import io.ktor.http.HttpStatusCode
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
@@ -19,8 +18,7 @@ import no.nav.hjelpemidler.delbestilling.oebs.OpprettBestillingsordreRequest
 import no.nav.hjelpemidler.delbestilling.oppslag.OppslagService
 import no.nav.hjelpemidler.delbestilling.pdl.PdlService
 import no.nav.hjelpemidler.delbestilling.roller.Delbestiller
-import no.nav.hjelpemidler.http.slack.slack
-import no.nav.hjelpemidler.http.slack.slackIconEmoji
+import no.nav.hjelpemidler.delbestilling.slack.SlackClient
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.ZoneId
@@ -36,10 +34,8 @@ class DelbestillingService(
     private val oebsService: OebsService,
     private val oppslagService: OppslagService,
     private val metrics: Metrics,
+    private val slackClient: SlackClient,
     ) {
-
-    private val slackClient by lazy { slack(engine = CIO.create()) }
-
     suspend fun opprettDelbestilling(
         request: DelbestillingRequest,
         bestillerFnr: String,
@@ -158,29 +154,8 @@ class DelbestillingService(
 
         sendStatistikk(request.delbestilling, utlån.fnr)
 
-        // TODO: dette kan kanskje flyttes ut i en egen klient
-        if (isProd()) {
-            try {
-                val antallDelbestillingerFraKommune = delbestillingRepository.hentDelbestillingerForKommune(brukerKommunenr).size
-                log.info { "antallDelbestillingerFraKommune for brukerKommunenr $brukerKommunenr: $antallDelbestillingerFraKommune" }
-                if (antallDelbestillingerFraKommune == 1) {
-                    slackClient.sendMessage(
-                        username = "hm-delbestilling-api",
-                        slackIconEmoji(":news:"),
-                        channel = "#digihot-delbestillinger-alerts",
-                        message = "Ny kommune har for første gang sendt inn digital delbestilling! Denne gangen var det ${brukersKommunenavn} kommune (kommunenummer: $brukerKommunenr)"
-                    )
-                } else if (antallDelbestillingerFraKommune == 4) {
-                    slackClient.sendMessage(
-                        username = "hm-delbestilling-api",
-                        slackIconEmoji(":chart_with_upwards_trend:"),
-                        channel = "#digihot-delbestillinger-alerts",
-                        message = "Ny kommune har sendt inn 4 digitale delbestillinger! Denne gangen var det ${brukersKommunenavn} kommune (kommunenummer: $brukerKommunenr)"
-                    )
-                }
-            } catch (e: Exception) {
-                log.error(e) { "Klarte ikke sende varsle til Slack om innsending for kommunenr $brukerKommunenr" }
-            }
+        if (!isLocal()) {
+            slackClient.varsleOmInnsending(brukerKommunenr, brukersKommunenavn)
         }
 
         return DelbestillingResultat(id, null, delbestillingSak.saksnummer, delbestillingSak)
