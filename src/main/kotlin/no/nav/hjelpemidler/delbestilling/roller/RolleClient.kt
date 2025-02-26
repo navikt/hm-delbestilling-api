@@ -61,7 +61,6 @@ class RolleClient(
 
 data class Delbestiller(
     val kanBestilleDeler: Boolean,
-    val harXKLager: Boolean,
     val kommunaleOrgs: List<Organisasjon>,
     val erKommunaltAnsatt: Boolean,
     val godkjenteIkkeKommunaleOrgs: List<Organisasjon>,
