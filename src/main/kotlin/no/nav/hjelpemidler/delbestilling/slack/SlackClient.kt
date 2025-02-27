@@ -22,7 +22,7 @@ class SlackClient(
     suspend fun varsleOmInnsending(brukerKommunenr: String, brukersKommunenavn: String) {
         try {
             val antallDelbestillingerFraKommune = delbestillingRepository.hentDelbestillingerForKommune(brukerKommunenr).size
-            log.info { "antallDelbestillingerFraKommune for brukerKommunenr $brukerKommunenr: $antallDelbestillingerFraKommune" }
+            log.info { "antallDelbestillingerFraKommune for $brukersKommunenavn (brukerKommunenr: $brukerKommunenr): $antallDelbestillingerFraKommune" }
             if (antallDelbestillingerFraKommune == 1) {
                 slackClient.sendMessage(
                     username = username,
