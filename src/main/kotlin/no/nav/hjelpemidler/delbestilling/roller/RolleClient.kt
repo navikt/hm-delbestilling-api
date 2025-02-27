@@ -66,7 +66,11 @@ data class Delbestiller(
     val erKommunaltAnsatt: Boolean,
     val godkjenteIkkeKommunaleOrgs: List<Organisasjon>,
     val erAnsattIGodkjentIkkeKommunaleOrgs: Boolean,
-)
+) {
+    init {
+        logger.info {"Delbestillerrolle: $this"}
+    }
+}
 
 data class DelbestillerResponse(
     val delbestillerrolle: Delbestiller

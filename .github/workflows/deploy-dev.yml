@@ -8,7 +8,7 @@ on:
       - "CODEOWNERS"
     branches:
       - main
-      - slack-melding-ny-kommune
+      - debug-har-xk-lager
 
 jobs:
   build-and-deploy:
