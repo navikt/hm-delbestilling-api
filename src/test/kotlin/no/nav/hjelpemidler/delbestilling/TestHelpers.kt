@@ -15,6 +15,7 @@ import kotlin.collections.List
 
 fun delbestillerRolle(kanBestilleDeler: Boolean = true) = Delbestiller(
     kanBestilleDeler = kanBestilleDeler,
+    harXKLager = true,
     kommunaleOrgs = listOf(Organisasjon("123", "navn", kommunenummer = "1234")),
     erKommunaltAnsatt = true,
     godkjenteIkkeKommunaleOrgs = emptyList(),
