@@ -41,14 +41,14 @@ class SlackClient(
                 )
             }
 
-            val delerFraUtvidetSortiment19Feb = delbestillingSak.delbestilling.deler.filter { it.del.datoLagtTil == LocalDate.of(2024, 3, 11) } // TODO: fix dato
+            val delerFraUtvidetSortiment19Feb = delbestillingSak.delbestilling.deler.filter { it.del.datoLagtTil == LocalDate.of(2025, 2, 19) }
             log.info { "delerFraUtvidetSortiment19Feb: $delerFraUtvidetSortiment19Feb" }
             if (delerFraUtvidetSortiment19Feb.isNotEmpty()) {
                 slackClient.sendMessage(
                     username = username,
                     slackIconEmoji(":tada:"),
                     channel = channel,
-                    message = "Delbestilling har kommet inn med deler som ble lagt til 19 februar, i ${brukersKommunenavn} kommune! Disse delene var: ${delerFraUtvidetSortiment19Feb.map { "${it.del.hmsnr} ${it.del.navn}, " }}"
+                    message = "En delbestilling har kommet inn med nye deler som ble lagt til 19 februar, i ${brukersKommunenavn} kommune! Disse delene var: ${delerFraUtvidetSortiment19Feb.map { "${it.del.hmsnr} ${it.del.navn}" }.joinToString { ", " }}"
                 )
             }
         } catch (e: Exception) {
