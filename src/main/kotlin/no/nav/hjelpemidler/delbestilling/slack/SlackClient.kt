@@ -48,7 +48,7 @@ class SlackClient(
                     username = username,
                     slackIconEmoji(":tada:"),
                     channel = channel,
-                    message = "En delbestilling har kommet inn med nye deler som ble lagt til 19 februar, i ${brukersKommunenavn} kommune! Disse delene var: ${delerFraUtvidetSortiment19Feb.map { "${it.del.hmsnr} ${it.del.navn}" }.joinToString { ", " }}"
+                    message = "En delbestilling har kommet inn med nye deler som ble lagt til 19 februar, i ${brukersKommunenavn} kommune! Disse delene var: ${delerFraUtvidetSortiment19Feb.joinToString(", ") { "${it.del.hmsnr} ${it.del.navn}" }}"
                 )
             }
         } catch (e: Exception) {
