@@ -24,7 +24,7 @@ private val logger = KotlinLogging.logger { }
 
 class GrunndataClient(
     engine: HttpClientEngine = CIO.create(),
-    private val url: String = "https://hm-grunndata-search.intern.nav.no/products/_search" // TODO Config.GRUNNDATA_SEARCH_API_URL,
+    private val url: String = "https://finnhjelpemiddel.nav.no/products/_search"// "https://hm-grunndata-search.intern.nav.no/products/_search" // TODO Config.GRUNNDATA_SEARCH_API_URL,
 ) {
 
     private val client = createHttpClient(engine = engine) {
