@@ -3,6 +3,7 @@ package no.nav.hjelpemidler.delbestilling
 import io.github.oshai.kotlinlogging.KotlinLogging
 import no.nav.hjelpemidler.delbestilling.delbestilling.DelbestillingRepository
 import no.nav.hjelpemidler.delbestilling.delbestilling.DelbestillingService
+import no.nav.hjelpemidler.delbestilling.grunndata.GrunndataClient
 import no.nav.hjelpemidler.delbestilling.hjelpemidler.HjelpemidlerService
 import no.nav.hjelpemidler.delbestilling.kafka.KafkaService
 import no.nav.hjelpemidler.delbestilling.metrics.Metrics
@@ -30,6 +31,8 @@ class AppContext {
             maximumSize = 100
         }
     }
+
+    private val grunndataClient = GrunndataClient()
 
     private val rolleClient = RolleClient(tokendingsService)
 
@@ -66,6 +69,7 @@ class AppContext {
         oppslagService,
         metrics,
         slackClient,
+        grunndataClient,
     )
 
     val hjelpemidlerService = HjelpemidlerService()

@@ -10,6 +10,7 @@ import no.nav.hjelpemidler.delbestilling.MockException
 import no.nav.hjelpemidler.delbestilling.TestDatabase
 import no.nav.hjelpemidler.delbestilling.delbestillerRolle
 import no.nav.hjelpemidler.delbestilling.delbestillingRequest
+import no.nav.hjelpemidler.delbestilling.grunndata.GrunndataClient
 import no.nav.hjelpemidler.delbestilling.kommune
 import no.nav.hjelpemidler.delbestilling.oebs.OebsPersoninfo
 import no.nav.hjelpemidler.delbestilling.oebs.OebsService
@@ -17,7 +18,6 @@ import no.nav.hjelpemidler.delbestilling.oebs.OpprettBestillingsordreRequest
 import no.nav.hjelpemidler.delbestilling.oebs.Utlån
 import no.nav.hjelpemidler.delbestilling.oppslag.OppslagService
 import no.nav.hjelpemidler.delbestilling.pdl.PdlService
-import no.nav.hjelpemidler.delbestilling.roller.RolleService
 import no.nav.hjelpemidler.delbestilling.slack.SlackClient
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -47,6 +47,7 @@ internal class DelbestillingServiceTest {
         coEvery { hentKommune(any()) } returns kommune()
     }
     private val slackClient = mockk<SlackClient>()
+    private val grunndataClient = mockk<GrunndataClient>()
     private val delbestillingService =
         DelbestillingService(
             delbestillingRepository,
@@ -55,6 +56,7 @@ internal class DelbestillingServiceTest {
             oppslagService,
             mockk(relaxed = true),
             slackClient,
+            grunndataClient,
         )
 
     @BeforeEach

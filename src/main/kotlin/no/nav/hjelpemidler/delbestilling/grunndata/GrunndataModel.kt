@@ -7,7 +7,7 @@ data class ProduktResponse(
     val hits: Hits,
 ) {
     val produkter: List<Produkt> = hits.hits.map { it._source }
-    val produkt: Produkt = produkter.first()
+    val produkt: Produkt? = produkter.firstOrNull()
 }
 
 data class Hits(

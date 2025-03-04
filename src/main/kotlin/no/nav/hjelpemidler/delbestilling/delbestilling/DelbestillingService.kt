@@ -7,6 +7,8 @@ import kotlinx.coroutines.launch
 import no.bekk.bekkopen.date.NorwegianDateUtil
 import no.nav.hjelpemidler.delbestilling.exceptions.PersonNotAccessibleInPdl
 import no.nav.hjelpemidler.delbestilling.exceptions.PersonNotFoundInPdl
+import no.nav.hjelpemidler.delbestilling.grunndata.GrunndataClient
+import no.nav.hjelpemidler.delbestilling.hjelpemidler.Kategori
 import no.nav.hjelpemidler.delbestilling.hjelpemidler.data.hmsnr2Hjm
 import no.nav.hjelpemidler.delbestilling.isDev
 import no.nav.hjelpemidler.delbestilling.isLocal
@@ -35,7 +37,8 @@ class DelbestillingService(
     private val oppslagService: OppslagService,
     private val metrics: Metrics,
     private val slackClient: SlackClient,
-    ) {
+    private val grunndataClient: GrunndataClient,
+) {
     suspend fun opprettDelbestilling(
         request: DelbestillingRequest,
         bestillerFnr: String,
@@ -99,7 +102,8 @@ class DelbestillingService(
             delbestillerRolle.kommunaleOrgs.find { it.kommunenummer == brukerKommunenr }
                 ?: delbestillerRolle.godkjenteIkkeKommunaleOrgs.find { it.kommunenummer == brukerKommunenr }
         val innsenderRepresentererBrukersKommune = innsendersRepresenterteOrganisasjon != null
-        val bestillerType: BestillerType = if (delbestillerRolle.kommunaleOrgs.any { it.kommunenummer == brukerKommunenr }) BestillerType.KOMMUNAL else BestillerType.IKKE_KOMMUNAL
+        val bestillerType: BestillerType =
+            if (delbestillerRolle.kommunaleOrgs.any { it.kommunenummer == brukerKommunenr }) BestillerType.KOMMUNAL else BestillerType.IKKE_KOMMUNAL
 
         if (!innsenderRepresentererBrukersKommune) {
             log.info { "Brukers kommunenr: $brukerKommunenr, innsenders kommuner: ${delbestillerRolle.kommunaleOrgs}, innsenders godkjente ikke-kommunale orgs: ${delbestillerRolle.godkjenteIkkeKommunaleOrgs}" }
@@ -272,31 +276,76 @@ class DelbestillingService(
     }
 
     suspend fun slåOppHjelpemiddel(hmsnr: String, serienr: String): OppslagResultat {
-        val hjelpemiddelMedDeler = hmsnr2Hjm[hmsnr]
-            ?: return OppslagResultat(null, OppslagFeil.TILBYR_IKKE_HJELPEMIDDEL, HttpStatusCode.NotFound)
+        val hjelpemiddelMedDeler =
+            hmsnr2Hjm[hmsnr] //?: return OppslagResultat(null, OppslagFeil.TILBYR_IKKE_HJELPEMIDDEL, HttpStatusCode.NotFound)
 
-        val utlån = oebsService.hentUtlånPåArtnrOgSerienr(hmsnr, serienr)
-            ?: return OppslagResultat(null, OppslagFeil.INGET_UTLÅN, HttpStatusCode.NotFound)
+        if (hjelpemiddelMedDeler != null) {
+            // Dagens flyt som bruker hardkodet utvalg av deler
+            val utlån = oebsService.hentUtlånPåArtnrOgSerienr(hmsnr, serienr)
+                ?: return OppslagResultat(null, OppslagFeil.INGET_UTLÅN, HttpStatusCode.NotFound)
 
-        val brukersKommunenummer = pdlService.hentKommunenummer(utlån.fnr)
-        val lagerstatusForDeler =
-            oebsService.hentLagerstatus(brukersKommunenummer, hjelpemiddelMedDeler.deler.map { it.hmsnr })
+            val brukersKommunenummer = pdlService.hentKommunenummer(utlån.fnr)
+            val lagerstatusForDeler =
+                oebsService.hentLagerstatus(brukersKommunenummer, hjelpemiddelMedDeler.deler.map { it.hmsnr })
 
-        // Koble hver del til lagerstatus
-        hjelpemiddelMedDeler.deler =
-            hjelpemiddelMedDeler.deler.map { del -> del.copy(lagerstatus = lagerstatusForDeler.find { it.artikkelnummer == del.hmsnr }) }
+            // Koble hver del til lagerstatus
+            hjelpemiddelMedDeler.deler =
+                hjelpemiddelMedDeler.deler.map { del -> del.copy(lagerstatus = lagerstatusForDeler.find { it.artikkelnummer == del.hmsnr }) }
 
-        val sentral = hjelpemiddelMedDeler.deler.first().lagerstatus?.organisasjons_navn ?: "UKJENT"
-        val antallPåLager = hjelpemiddelMedDeler.deler.count { it.lagerstatus?.minmax == true }
-        val antallDeler = hjelpemiddelMedDeler.deler.count()
-        log.info { "Lagerstatus for $hmsnr hos $sentral: $antallPåLager av $antallDeler er på lager." }
-        if (antallPåLager < antallDeler) {
-            val ikkePåLager = hjelpemiddelMedDeler.deler.filter { it.lagerstatus?.minmax == false }.map { it.hmsnr }
-            val manglerLagerstatus = hjelpemiddelMedDeler.deler.filter { it.lagerstatus == null }.map { it.hmsnr }
-            log.info { "$sentral har ikke alle deler på lager for $hmsnr. Ikke på lager: $ikkePåLager, mangler lagerstatus: $manglerLagerstatus." }
+            val sentral = hjelpemiddelMedDeler.deler.first().lagerstatus?.organisasjons_navn ?: "UKJENT"
+            val antallPåLager = hjelpemiddelMedDeler.deler.count { it.lagerstatus?.minmax == true }
+            val antallDeler = hjelpemiddelMedDeler.deler.count()
+            log.info { "Lagerstatus for $hmsnr hos $sentral: $antallPåLager av $antallDeler er på lager." }
+            if (antallPåLager < antallDeler) {
+                val ikkePåLager = hjelpemiddelMedDeler.deler.filter { it.lagerstatus?.minmax == false }.map { it.hmsnr }
+                val manglerLagerstatus = hjelpemiddelMedDeler.deler.filter { it.lagerstatus == null }.map { it.hmsnr }
+                log.info { "$sentral har ikke alle deler på lager for $hmsnr. Ikke på lager: $ikkePåLager, mangler lagerstatus: $manglerLagerstatus." }
+            }
+
+            return OppslagResultat(hjelpemiddelMedDeler, null, HttpStatusCode.OK)
+        } else {
+            // Eksperimentell flyt mot grunndata
+            log.info { "Fallback til eksperimentell flyt mot grunndata" }
+            val hjelpemiddel = grunndataClient.hentHjelpemiddel(hmsnr).produkt
+
+            if (hjelpemiddel == null) {
+                log.info { "Fant ikke hjelpemiddel $hmsnr i grunndata" }
+                return OppslagResultat(null, OppslagFeil.INGET_UTLÅN, HttpStatusCode.NotFound)
+            }
+
+            val deler = grunndataClient.hentDeler(hjelpemiddel.seriesId).produkter
+            val hjelpemiddelMedDeler =
+                HjelpemiddelMedDeler(navn = hjelpemiddel.title, hmsnr = hjelpemiddel.hmsArtNr, deler = deler.map {
+                    Del(
+                        hmsnr = it.hmsArtNr,
+                        navn = it.title,
+                        levArtNr = it.supplierRef,
+                        kategori = Kategori.Annet,
+                        maksAntall = 4,
+                    )
+                })
+
+            val kommunenummer = "5616" // Hasvik - Berømt Aktivitet
+            val lagerstatusForDeler =
+                oebsService.hentLagerstatus(kommunenummer, hjelpemiddelMedDeler.deler.map { it.hmsnr })
+
+            // Koble hver del til lagerstatus
+            hjelpemiddelMedDeler.deler =
+                hjelpemiddelMedDeler.deler.map { del -> del.copy(lagerstatus = lagerstatusForDeler.find { it.artikkelnummer == del.hmsnr }) }
+
+            val sentral = hjelpemiddelMedDeler.deler.first().lagerstatus?.organisasjons_navn ?: "UKJENT"
+            val antallPåLager = hjelpemiddelMedDeler.deler.count { it.lagerstatus?.minmax == true }
+            val antallDeler = hjelpemiddelMedDeler.deler.count()
+            log.info { "Lagerstatus for $hmsnr hos $sentral: $antallPåLager av $antallDeler er på lager." }
+            if (antallPåLager < antallDeler) {
+                val ikkePåLager = hjelpemiddelMedDeler.deler.filter { it.lagerstatus?.minmax == false }.map { it.hmsnr }
+                val manglerLagerstatus = hjelpemiddelMedDeler.deler.filter { it.lagerstatus == null }.map { it.hmsnr }
+                log.info { "$sentral har ikke alle deler på lager for $hmsnr. Ikke på lager: $ikkePåLager, mangler lagerstatus: $manglerLagerstatus." }
+            }
+
+            return OppslagResultat(hjelpemiddelMedDeler, null, HttpStatusCode.OK)
+
         }
-
-        return OppslagResultat(hjelpemiddelMedDeler, null, HttpStatusCode.OK)
     }
 
     fun hentDelbestillinger(bestillerFnr: String): List<DelbestillingSak> {
@@ -325,7 +374,8 @@ class DelbestillingService(
     }
 
     suspend fun sjekkXKLager(hmsnr: Hmsnr, serienr: Serienr): Boolean {
-        val utlån =  oebsService.hentUtlånPåArtnrOgSerienr(artnr = hmsnr, serienr = serienr) ?: error("Fant ikke utlån for $hmsnr $serienr")
+        val utlån = oebsService.hentUtlånPåArtnrOgSerienr(artnr = hmsnr, serienr = serienr)
+            ?: error("Fant ikke utlån for $hmsnr $serienr")
         val kommunenummer = pdlService.hentKommunenummer(utlån.fnr)
         return harXKLager(kommunenummer)
     }
