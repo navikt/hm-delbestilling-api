@@ -14,9 +14,11 @@ import io.ktor.http.ContentType
 import io.ktor.http.contentType
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import no.nav.hjelpemidler.delbestilling.jsonMapper
+import no.nav.hjelpemidler.delbestilling.grunndata.requests.hmsArtNrRequest
+import no.nav.hjelpemidler.delbestilling.grunndata.requests.seriesIdsRequest
 import no.nav.hjelpemidler.delbestilling.navCorrelationId
 import no.nav.hjelpemidler.http.createHttpClient
+import java.util.UUID
 
 private val logger = KotlinLogging.logger { }
 
@@ -45,26 +47,7 @@ class GrunndataClient(
                     headers {
                         navCorrelationId()
                     }
-                    setBody(
-                        jsonMapper.readTree(
-                            """
-                        {
-                        	"query": {
-                        		"bool": {
-                        			"must": [
-                        				{
-                        					"match": {
-                        						"hmsArtNr": "$hmsnr"
-                        					}
-                        				}
-                        			]
-                        		}
-                        	},
-                        	"size": "1"
-                        }
-                    """.trimIndent()
-                        )
-                    )
+                    setBody(hmsArtNrRequest(hmsnr))
                 }.body()
             }
         } catch (e: Exception) {
@@ -73,7 +56,7 @@ class GrunndataClient(
         }
     }
 
-    suspend fun hentDeler(seriesId: String): ProduktResponse {
+    suspend fun hentDeler(seriesId: UUID): ProduktResponse {
         logger.info { "Henter deler for seriesId $seriesId fra grunndata" }
         return try {
             withContext(Dispatchers.IO) {
@@ -81,26 +64,7 @@ class GrunndataClient(
                     headers {
                         navCorrelationId()
                     }
-                    setBody(
-                        jsonMapper.readTree(
-                            """
-                        {
-                        	"query": {
-                        		"bool": {
-                        			"must": [
-                        				{
-                        					"match": {
-                        						"attributes.compatibleWith.seriesIds": "$seriesId"
-                        					}
-                        				}
-                        			]
-                        		}
-                        	},
-                        	"size": "10000"
-                        }
-                    """.trimIndent()
-                        )
-                    )
+                    setBody(seriesIdsRequest(seriesId))
                 }.body()
             }
         } catch (e: Exception) {
@@ -109,23 +73,3 @@ class GrunndataClient(
         }
     }
 }
-
-data class ProduktResponse(
-    val hits: Hits,
-)
-
-data class Hits(
-    val hits: List<ProduktSource>
-)
-
-data class ProduktSource(
-    val _source: Produkt
-)
-
-data class Produkt(
-    val id: String, // ProductId
-    val title: String,
-    val seriesId: String,
-    val hmsArtNr: String,
-    val supplierRef: String,
-)
