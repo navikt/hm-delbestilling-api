@@ -38,6 +38,7 @@ spec:
         - application: hm-oebs-api-proxy
         - application: hm-roller
         - application: digihot-oppslag
+        - application: hm-grunndata-search
       external:
         - host: kafka-schema-registry.nais-q.adeo.no
         - host: hm-oebs-api-proxy.dev-fss-pub.nais.io

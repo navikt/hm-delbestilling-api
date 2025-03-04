@@ -1,0 +1,131 @@
+package no.nav.hjelpemidler.delbestilling.grunndata
+
+import io.github.oshai.kotlinlogging.KotlinLogging
+import io.ktor.client.call.body
+import io.ktor.client.engine.HttpClientEngine
+import io.ktor.client.engine.cio.CIO
+import io.ktor.client.plugins.HttpRequestRetry
+import io.ktor.client.plugins.defaultRequest
+import io.ktor.client.request.accept
+import io.ktor.client.request.headers
+import io.ktor.client.request.post
+import io.ktor.client.request.setBody
+import io.ktor.http.ContentType
+import io.ktor.http.contentType
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
+import no.nav.hjelpemidler.delbestilling.jsonMapper
+import no.nav.hjelpemidler.delbestilling.navCorrelationId
+import no.nav.hjelpemidler.http.createHttpClient
+
+private val logger = KotlinLogging.logger { }
+
+class GrunndataClient(
+    engine: HttpClientEngine = CIO.create(),
+    private val url: String = "https://hm-grunndata-search.intern.nav.no/products/_search" // TODO Config.GRUNNDATA_SEARCH_API_URL,
+) {
+
+    private val client = createHttpClient(engine = engine) {
+        expectSuccess = true
+        install(HttpRequestRetry) {
+            retryOnExceptionOrServerErrors(maxRetries = 5)
+            exponentialDelay()
+        }
+        defaultRequest {
+            accept(ContentType.Application.Json)
+            contentType(ContentType.Application.Json)
+        }
+    }
+
+    suspend fun hentHjelpemiddel(hmsnr: String): ProduktResponse {
+        logger.info { "Henter hjelpemiddel $hmsnr fra grunndata" }
+        return try {
+            withContext(Dispatchers.IO) {
+                client.post(url) {
+                    headers {
+                        navCorrelationId()
+                    }
+                    setBody(
+                        jsonMapper.readTree(
+                            """
+                        {
+                        	"query": {
+                        		"bool": {
+                        			"must": [
+                        				{
+                        					"match": {
+                        						"hmsArtNr": "$hmsnr"
+                        					}
+                        				}
+                        			]
+                        		}
+                        	},
+                        	"size": "1"
+                        }
+                    """.trimIndent()
+                        )
+                    )
+                }.body()
+            }
+        } catch (e: Exception) {
+            logger.error(e) { "Henting av hjelpemiddel fra grunndata feilet" }
+            throw e
+        }
+    }
+
+    suspend fun hentDeler(seriesId: String): ProduktResponse {
+        logger.info { "Henter deler for seriesId $seriesId fra grunndata" }
+        return try {
+            withContext(Dispatchers.IO) {
+                client.post(url) {
+                    headers {
+                        navCorrelationId()
+                    }
+                    setBody(
+                        jsonMapper.readTree(
+                            """
+                        {
+                        	"query": {
+                        		"bool": {
+                        			"must": [
+                        				{
+                        					"match": {
+                        						"attributes.compatibleWith.seriesIds": "$seriesId"
+                        					}
+                        				}
+                        			]
+                        		}
+                        	},
+                        	"size": "10000"
+                        }
+                    """.trimIndent()
+                        )
+                    )
+                }.body()
+            }
+        } catch (e: Exception) {
+            logger.error(e) { "Henting av deler fra grunndata feilet" }
+            throw e
+        }
+    }
+}
+
+data class ProduktResponse(
+    val hits: Hits,
+)
+
+data class Hits(
+    val hits: List<ProduktSource>
+)
+
+data class ProduktSource(
+    val _source: Produkt
+)
+
+data class Produkt(
+    val id: String, // ProductId
+    val title: String,
+    val seriesId: String,
+    val hmsArtNr: String,
+    val supplierRef: String,
+)

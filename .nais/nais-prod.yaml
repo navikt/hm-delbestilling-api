@@ -33,6 +33,7 @@ spec:
       rules:
         - application: hm-delbestilling
         - application: hm-soknadsbehandling
+        - application: hm-grunndata-search
     outbound:
       rules:
         - application: hm-oebs-api-proxy
