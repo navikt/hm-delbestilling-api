@@ -44,6 +44,7 @@ spec:
         - host: hm-oebs-api-proxy.dev-fss-pub.nais.io
         - host: pdl-api.dev-fss-pub.nais.io
         - host: hooks.slack.com
+        - host: finnhjelpemiddel.nav.no
   kafka:
     pool: nav-dev
   envFrom:
