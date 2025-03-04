@@ -4,19 +4,25 @@ import com.fasterxml.jackson.databind.JsonNode
 import no.nav.hjelpemidler.delbestilling.jsonMapper
 import java.util.UUID
 
-fun seriesIdsRequest(seriesId: UUID): JsonNode {
+fun compatibleWithRequest(seriesId: UUID, produktId: UUID): JsonNode {
     return jsonMapper.readTree(
         """
         {
             "query": {
                 "bool": {
-                    "must": [
+                    "should": [
                         {
                             "match": {
                                 "attributes.compatibleWith.seriesIds": "$seriesId"
                             }
+                        },
+                        {
+                            "match": {
+                                "attributes.compatibleWith.productIds": "$produktId"
+                            }
                         }
-                    ]
+                    ],
+                    "minimum_should_match": 1
                 }
             },
             "size": "10000"

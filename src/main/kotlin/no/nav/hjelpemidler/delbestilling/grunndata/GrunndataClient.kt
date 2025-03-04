@@ -15,7 +15,7 @@ import io.ktor.http.contentType
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import no.nav.hjelpemidler.delbestilling.grunndata.requests.hmsArtNrRequest
-import no.nav.hjelpemidler.delbestilling.grunndata.requests.seriesIdsRequest
+import no.nav.hjelpemidler.delbestilling.grunndata.requests.compatibleWithRequest
 import no.nav.hjelpemidler.delbestilling.navCorrelationId
 import no.nav.hjelpemidler.http.createHttpClient
 import java.util.UUID
@@ -56,7 +56,7 @@ class GrunndataClient(
         }
     }
 
-    suspend fun hentDeler(seriesId: UUID): ProduktResponse {
+    suspend fun hentDeler(seriesId: UUID, produktId: UUID): ProduktResponse {
         logger.info { "Henter deler for seriesId $seriesId fra grunndata" }
         return try {
             withContext(Dispatchers.IO) {
@@ -64,7 +64,7 @@ class GrunndataClient(
                     headers {
                         navCorrelationId()
                     }
-                    setBody(seriesIdsRequest(seriesId))
+                    setBody(compatibleWithRequest(seriesId, produktId))
                 }.body()
             }
         } catch (e: Exception) {
