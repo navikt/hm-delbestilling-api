@@ -296,7 +296,7 @@ class DelbestillingService(
                     )
                 })
 
-            log.info { "grunndataHjelpemiddel ${hjelpemiddelMedDeler.hmsnr} ${hjelpemiddelMedDeler.navn} har ${hjelpemiddelMedDeler.deler.size} deler knyttet til seg" }
+            log.info { "grunndataHjelpemiddel ${hjelpemiddelMedDeler.hmsnr} ${hjelpemiddelMedDeler.navn} har ${hjelpemiddelMedDeler.deler.size} deler fra grunndata knyttet til seg" }
 
             hjelpemiddelMedDeler
         } catch (e: Exception) {
@@ -308,6 +308,7 @@ class DelbestillingService(
             hmsnr2Hjm[hmsnr] //?: return OppslagResultat(null, OppslagFeil.TILBYR_IKKE_HJELPEMIDDEL, HttpStatusCode.NotFound)
 
         if (hjelpemiddelMedDeler != null) {
+            log.info { "grunndataHjelpemiddel ${hjelpemiddelMedDeler.hmsnr} ${hjelpemiddelMedDeler.navn} har ${hjelpemiddelMedDeler.deler.size} deler fra delbestilling-api knyttet til seg" }
             // Dagens flyt som bruker hardkodet utvalg av deler
             val utlån = oebsService.hentUtlånPåArtnrOgSerienr(hmsnr, serienr)
                 ?: return OppslagResultat(null, OppslagFeil.INGET_UTLÅN, HttpStatusCode.NotFound)
