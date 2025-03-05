@@ -286,10 +286,10 @@ class DelbestillingService(
 
             val deler = grunndataClient.hentDeler(grunndataHjelpemiddel.seriesId, grunndataHjelpemiddel.id).produkter
             val hjelpemiddelMedDeler =
-                HjelpemiddelMedDeler(navn = grunndataHjelpemiddel.title, hmsnr = grunndataHjelpemiddel.hmsArtNr, deler = deler.map {
+                HjelpemiddelMedDeler(navn = grunndataHjelpemiddel.articleName, hmsnr = grunndataHjelpemiddel.hmsArtNr, deler = deler.map {
                     Del(
                         hmsnr = it.hmsArtNr,
-                        navn = it.title,
+                        navn = it.articleName,
                         levArtNr = it.supplierRef,
                         kategori = Kategori.Annet,
                         maksAntall = 4,

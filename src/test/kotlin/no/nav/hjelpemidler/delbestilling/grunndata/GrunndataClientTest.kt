@@ -7,9 +7,7 @@ internal class GrunndataClientTest {
 
     @Test
     fun `test grunndataclient`() = runTest {
-        /*
 
-        manuell testing
 
         val grunndataClient = GrunndataClient()
         val hjelpemiddel = grunndataClient.hentHjelpemiddel("177946").produkt
@@ -18,7 +16,6 @@ internal class GrunndataClientTest {
         val deler = grunndataClient.hentDeler(seriesId).produkter
         println(deler)
 
-         */
     }
 
 
