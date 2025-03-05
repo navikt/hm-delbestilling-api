@@ -4,8 +4,8 @@ import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.test.runTest
 import no.nav.hjelpemidler.delbestilling.hjelpemidler.data.hmsnrHjmTilHmsnrDeler
 import no.nav.hjelpemidler.delbestilling.hjelpemidler.data.hmsnrTilHjelpemiddel
-import org.junit.Ignore
 import org.junit.jupiter.api.Test
+import kotlin.test.Ignore
 
 // Telling på antall deler fra grunndata vs delbestilling
 fun main() = runBlocking {
@@ -49,7 +49,7 @@ internal class GrunndataClientTest {
     @Test
     @Ignore
     fun `tell deler for hjelpemiddel`() = runTest {
-        val hmsnr = "301998"
+        val hmsnr = "177947"
         val grunndataClient = GrunndataClient()
         val result = grunndataClient.hentHjelpemiddel(hmsnr)
         val hjelpemiddel = result.produkt

@@ -307,7 +307,7 @@ class DelbestillingService(
         val hjelpemiddelMedDeler =
             hmsnr2Hjm[hmsnr] //?: return OppslagResultat(null, OppslagFeil.TILBYR_IKKE_HJELPEMIDDEL, HttpStatusCode.NotFound)
 
-        if (hjelpemiddelMedDeler != null) {
+        if (hjelpemiddelMedDeler != null && hmsnr != "301998") {
             log.info { "grunndataHjelpemiddel ${hjelpemiddelMedDeler.hmsnr} ${hjelpemiddelMedDeler.navn} har ${hjelpemiddelMedDeler.deler.size} deler fra delbestilling-api knyttet til seg" }
             // Dagens flyt som bruker hardkodet utvalg av deler
             val utlån = oebsService.hentUtlånPåArtnrOgSerienr(hmsnr, serienr)
