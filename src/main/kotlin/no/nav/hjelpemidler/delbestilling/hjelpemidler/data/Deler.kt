@@ -109,7 +109,7 @@ val hmsnrTilDel: Map<Hmsnr, Del> = listOf<Del>(
     ),
     Del(
         hmsnr = "223382",
-        navn = "Svinghjul kompakt 5\"/120mm",
+        navn = "Svinghjul 150 Panthera S3/U3/S3 Swing/S3 Junior/S3 Junior Allround",
         kategori = Kategori.Svinghjul,
         maksAntall = 2,
         datoLagtTil = LocalDate.of(2023, 6, 20),
