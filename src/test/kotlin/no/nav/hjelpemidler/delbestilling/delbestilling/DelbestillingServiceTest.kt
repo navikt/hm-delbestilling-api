@@ -17,7 +17,6 @@ import no.nav.hjelpemidler.delbestilling.oebs.OpprettBestillingsordreRequest
 import no.nav.hjelpemidler.delbestilling.oebs.Utlån
 import no.nav.hjelpemidler.delbestilling.oppslag.OppslagService
 import no.nav.hjelpemidler.delbestilling.pdl.PdlService
-import no.nav.hjelpemidler.delbestilling.roller.RolleService
 import no.nav.hjelpemidler.delbestilling.slack.SlackClient
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -38,7 +37,7 @@ internal class DelbestillingServiceTest {
     private val delbestillingRepository = DelbestillingRepository(ds)
     private val pdlService = mockk<PdlService>().apply {
         coEvery { hentKommunenummer(any()) } returns brukersKommunenr
-        coEvery { hentPersonNavn(any(), any()) } returns teknikerNavn
+        coEvery { hentFornavn(any(), any()) } returns teknikerNavn
     }
     private val oebsService = mockk<OebsService>(relaxed = true).apply {
         coEvery { hentPersoninfo(any()) } returns listOf(OebsPersoninfo(brukersKommunenr))
