@@ -8,15 +8,11 @@ class PdlService(private val pdlClient: PdlClient) {
         return pdlClient.hentKommunenummer(fnr)
     }
 
-    suspend fun hentPersonNavn(fnr: String, validerAdressebeskyttelse: Boolean = true): String {
+    suspend fun hentFornavn(fnr: String, validerAdressebeskyttelse: Boolean = true): String {
         val pdlResponse = pdlClient.hentPersonNavn(fnr, validerAdressebeskyttelse)
         val navneData = pdlResponse.data?.hentPerson?.navn?.get(0)
             ?: throw PdlRequestFailedException("PDL response mangler data")
-        val fornavn = if (navneData.mellomnavn.isNullOrBlank()) {
-            navneData.fornavn
-        } else {
-            "${navneData.fornavn} ${navneData.mellomnavn}"
-        }
-        return "$fornavn ${navneData.etternavn}"
+
+        return navneData.fornavn
     }
 }

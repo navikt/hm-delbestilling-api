@@ -12,19 +12,11 @@ internal class PdlServiceTest {
     private val pdlService = PdlService(pdlClient)
 
     @Test
-    fun `skal hente ut personnavn uten mellomnavn`() = runTest {
+    fun `skal hente ut fornavn`() = runTest {
         coEvery { pdlClient.hentPersonNavn(any(), any()) }.returns(
-            pdlPersonNavn("Arne", "Bjarne", null)
+            pdlPersonNavn(fornavn = "Arne", etternavn = "Bjarne", mellomnavn = "Charlie")
         )
-        assertEquals("Arne Bjarne", pdlService.hentPersonNavn("00000000000"))
-    }
-
-    @Test
-    fun `skal hente ut personnavn med mellomnavn`() = runTest {
-        coEvery { pdlClient.hentPersonNavn(any(), any()) }.returns(
-            pdlPersonNavn("Arne", "Bjarne", "Charlie")
-        )
-        assertEquals("Arne Charlie Bjarne", pdlService.hentPersonNavn("00000000000"))
+        assertEquals("Arne", pdlService.hentFornavn("00000000000"))
     }
 }
 
