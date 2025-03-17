@@ -11,6 +11,8 @@ import no.nav.hjelpemidler.delbestilling.TestDatabase
 import no.nav.hjelpemidler.delbestilling.delbestillerRolle
 import no.nav.hjelpemidler.delbestilling.delbestillingRequest
 import no.nav.hjelpemidler.delbestilling.grunndata.GrunndataClient
+import no.nav.hjelpemidler.delbestilling.grunndata.Hits
+import no.nav.hjelpemidler.delbestilling.grunndata.ProduktResponse
 import no.nav.hjelpemidler.delbestilling.kommune
 import no.nav.hjelpemidler.delbestilling.oebs.OebsPersoninfo
 import no.nav.hjelpemidler.delbestilling.oebs.OebsService
@@ -238,6 +240,27 @@ internal class DelbestillingServiceTest {
         assertThrows<IllegalStateException> {
             delbestillingService.slåOppHjelpemiddel(azaleaHmsnr, azaleaSerienr)
         }
+    }
 
+    @Test
+    fun `skal prøve å hente produkt fra manuell liste hvis produktet ikke finnes i grunndata`() = runTest {
+        val azaleaHmsnr = "097765"
+        val azaleaSerienr = "123456"
+        coEvery { oebsService.hentUtlånPåArtnrOgSerienr(azaleaHmsnr, azaleaSerienr) } returns Utlån(
+            fnr = "1234567890",
+            artnr = azaleaHmsnr,
+            serienr = azaleaSerienr,
+            utlånsDato = "2020-05-01"
+        )
+
+        coEvery { grunndataClient.hentHjelpemiddel(azaleaHmsnr) } returns ProduktResponse(Hits(hits = emptyList()))
+
+        /*
+        coEvery { oebsService.hentLagerstatus(any(), any()) } returns emptyList()
+
+        assertThrows<IllegalStateException> {
+            delbestillingService.slåOppHjelpemiddel(azaleaHmsnr, azaleaSerienr)
+        }
+         */
     }
 }

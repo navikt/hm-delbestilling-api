@@ -282,19 +282,24 @@ class DelbestillingService(
 
             if (grunndataHjelpemiddel != null) {
                 val deler = grunndataClient.hentDeler(grunndataHjelpemiddel.seriesId, grunndataHjelpemiddel.id).produkter
-                val hjelpemiddelMedDeler =
-                    HjelpemiddelMedDeler(navn = grunndataHjelpemiddel.articleName, hmsnr = grunndataHjelpemiddel.hmsArtNr, deler = deler.map {
-                        Del(
-                            hmsnr = it.hmsArtNr,
-                            navn = it.articleName,
-                            levArtNr = it.supplierRef,
-                            kategori = it.articleName.split(" ").first(),
-                            maksAntall = 4,
-                        )
-                    })
+                if (deler.isEmpty()) {
+                    log.info { "Fant hmsnr $hmsnr i grunndata, men den har ingen deler knyttet til seg. Prøver derfor fallback til manuell liste" }
+                    null
+                } else {
+                    val hjelpemiddelMedDeler =
+                        HjelpemiddelMedDeler(navn = grunndataHjelpemiddel.articleName, hmsnr = grunndataHjelpemiddel.hmsArtNr, deler = deler.map {
+                            Del(
+                                hmsnr = it.hmsArtNr,
+                                navn = it.articleName,
+                                levArtNr = it.supplierRef,
+                                kategori = it.articleName.split(" ").first(),
+                                maksAntall = 4,
+                            )
+                        })
 
-                log.info { "Fant hmsnr ${hjelpemiddelMedDeler.hmsnr} ${hjelpemiddelMedDeler.navn} i grunndata. Denne har ${hjelpemiddelMedDeler.deler.size} deler fra grunndata knyttet til seg" }
-                hjelpemiddelMedDeler
+                    log.info { "Fant hmsnr ${hjelpemiddelMedDeler.hmsnr} ${hjelpemiddelMedDeler.navn} i grunndata. Denne har ${hjelpemiddelMedDeler.deler.size} deler fra grunndata knyttet til seg" }
+                    hjelpemiddelMedDeler
+                }
             } else {
                 log.info {"Fant ikke ${hmsnr} i grunndata, prøver fallback til manuell liste"}
                 null
