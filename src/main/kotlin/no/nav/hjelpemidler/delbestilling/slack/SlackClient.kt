@@ -4,6 +4,7 @@ import io.github.oshai.kotlinlogging.KotlinLogging
 import io.ktor.client.engine.cio.CIO
 import no.nav.hjelpemidler.delbestilling.delbestilling.DelbestillingRepository
 import no.nav.hjelpemidler.delbestilling.delbestilling.DelbestillingSak
+import no.nav.hjelpemidler.delbestilling.delbestilling.Kilde
 import no.nav.hjelpemidler.delbestilling.isProd
 import no.nav.hjelpemidler.http.slack.slack
 import no.nav.hjelpemidler.http.slack.slackIconEmoji
@@ -49,6 +50,17 @@ class SlackClient(
                     slackIconEmoji(":tada:"),
                     channel = channel,
                     message = "En delbestilling har kommet inn med nye deler som ble lagt til 19 februar, i ${brukersKommunenavn} kommune! Disse delene var: ${delerFraUtvidetSortiment19Feb.joinToString(", ") { "${it.del.hmsnr} ${it.del.navn}" }}"
+                )
+            }
+
+            val delerFraGrunndata = delbestillingSak.delbestilling.deler.filter { it.del.kilde == Kilde.GRUNNDATA }
+            log.info { "delerFraGrunndata: $delerFraGrunndata" }
+            if (delerFraGrunndata.isNotEmpty()) {
+                slackClient.sendMessage(
+                    username = username,
+                    slackIconEmoji(":very_nice:"),
+                    channel = channel,
+                    message = "En delbestilling har kommet inn med deler fra grunndata, i ${brukersKommunenavn} kommune! Disse delene var: ${delerFraGrunndata.joinToString(", ") { "${it.del.hmsnr} ${it.del.navn}" }}"
                 )
             }
         } catch (e: Exception) {
