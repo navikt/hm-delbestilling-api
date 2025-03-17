@@ -22,12 +22,14 @@ fun compatibleWithRequest(seriesId: UUID, produktId: UUID): JsonNode {
                             }
                         }
                     ],
+                    "must": [
+                        {
+                            "match": {
+                                "attributes.egnetForKommunalTekniker": "true"
+                            }
+                        }
+                    ],
                     "minimum_should_match": 1
-                },
-                "bool": {
-                    "must": {
-                        { "match": { "attributes.egnetForKommunalTekniker": "true" } }
-                    }
                 }
             },
             "size": "10000"
