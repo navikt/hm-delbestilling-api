@@ -280,7 +280,7 @@ class DelbestillingService(
             if (grunndataHjelpemiddel != null) {
                 val deler = grunndataClient.hentDeler(grunndataHjelpemiddel.seriesId, grunndataHjelpemiddel.id).produkter
                 if (deler.isEmpty()) {
-                    log.info { "Fant hmsnr $hmsnr i grunndata, men den har ingen deler knyttet til seg. Prøver derfor fallback til manuell liste" }
+                    log.info { "Fant hmsnr $hmsnr i grunndata, men den har ingen egnede deler knyttet til seg. Prøver derfor fallback til manuell liste" }
                     null
                 } else {
                     val hjelpemiddelMedDeler =
@@ -294,7 +294,7 @@ class DelbestillingService(
                             )
                         })
 
-                    log.info { "Fant hmsnr ${hjelpemiddelMedDeler.hmsnr} ${hjelpemiddelMedDeler.navn} i grunndata. Denne har ${hjelpemiddelMedDeler.deler.size} deler fra grunndata knyttet til seg" }
+                    log.info { "Fant hmsnr ${hjelpemiddelMedDeler.hmsnr} ${hjelpemiddelMedDeler.navn} i grunndata. Denne har ${hjelpemiddelMedDeler.deler.size} egnede deler fra grunndata knyttet til seg" }
                     hjelpemiddelMedDeler
                 }
             } else {
@@ -306,12 +306,12 @@ class DelbestillingService(
             null
         } ?: hmsnr2Hjm[hmsnr].also { // fallback til manuell liste
             if (it != null) {
-                log.info { "Fant ${it.hmsnr} ${it.navn} i manuell liste. Denne har ${it.deler.size} deler fra delbestilling-api knyttet til seg" }
+                log.info { "Fant ${it.hmsnr} ${it.navn} i manuell liste. Denne har ${it.deler.size} egnede deler fra delbestilling-api knyttet til seg" }
             }
         }
 
         if (hjelpemiddelMedDeler == null) {
-            log.info {"Fant ikke $hmsnr hverken i grunndata eller manuell liste, returnerer TILBYR_IKKE_HJELPEMIDDEL her"}
+            log.info {"Fant $hmsnr verken i grunndata eller manuell liste, returnerer TILBYR_IKKE_HJELPEMIDDEL her"}
             return OppslagResultat(null, OppslagFeil.TILBYR_IKKE_HJELPEMIDDEL, HttpStatusCode.NotFound)
         }
 
