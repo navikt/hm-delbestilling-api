@@ -40,7 +40,7 @@ internal class DelbestillingServiceTest {
     private val delbestillingRepository = DelbestillingRepository(ds)
     private val pdlService = mockk<PdlService>().apply {
         coEvery { hentKommunenummer(any()) } returns brukersKommunenr
-        coEvery { hentPersonNavn(any(), any()) } returns teknikerNavn
+        coEvery { hentFornavn(any(), any()) } returns teknikerNavn
     }
     private val oebsService = mockk<OebsService>(relaxed = true).apply {
         coEvery { hentPersoninfo(any()) } returns listOf(OebsPersoninfo(brukersKommunenr))
