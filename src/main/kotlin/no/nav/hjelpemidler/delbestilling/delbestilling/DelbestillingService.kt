@@ -319,6 +319,12 @@ class DelbestillingService(
             return OppslagResultat(null, OppslagFeil.TILBYR_IKKE_HJELPEMIDDEL, HttpStatusCode.NotFound)
         }
 
+        // For sjekk av hvilke deler som inneholder "batteri" i navnet, for å se om vi må utvide batteri-sjekk
+        val delerMedBatteriINavn = hjelpemiddelMedDeler.deler.filter { it.navn.lowercase().contains("batteri") }.map { it.navn }.toSet()
+        if (delerMedBatteriINavn.isNotEmpty()) {
+            log.info { "Deler med 'batteri' i navnet på oppslag: $delerMedBatteriINavn" }
+        }
+
         val utlån = oebsService.hentUtlånPåArtnrOgSerienr(hmsnr, serienr)
             ?: return OppslagResultat(null, OppslagFeil.INGET_UTLÅN, HttpStatusCode.NotFound)
 
