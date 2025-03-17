@@ -57,7 +57,7 @@ class GrunndataClient(
     }
 
     suspend fun hentDeler(seriesId: UUID, produktId: UUID): ProduktResponse {
-        logger.info { "Henter deler for seriesId $seriesId fra grunndata" }
+        logger.info { "Henter deler for seriesId $seriesId og produktId $produktId fra grunndata" }
         return try {
             withContext(Dispatchers.IO) {
                 client.post(url) {
