@@ -9,6 +9,7 @@ import no.nav.hjelpemidler.delbestilling.exceptions.PersonNotAccessibleInPdl
 import no.nav.hjelpemidler.delbestilling.exceptions.PersonNotFoundInPdl
 import no.nav.hjelpemidler.delbestilling.grunndata.GrunndataClient
 import no.nav.hjelpemidler.delbestilling.hjelpemidler.data.hmsnr2Hjm
+import no.nav.hjelpemidler.delbestilling.hjelpemidler.defaultAntall
 import no.nav.hjelpemidler.delbestilling.isDev
 import no.nav.hjelpemidler.delbestilling.isLocal
 import no.nav.hjelpemidler.delbestilling.isProd
@@ -285,13 +286,15 @@ class DelbestillingService(
                 } else {
                     val hjelpemiddelMedDeler =
                         HjelpemiddelMedDeler(navn = grunndataHjelpemiddel.articleName, hmsnr = grunndataHjelpemiddel.hmsArtNr, deler = deler.map {
+                            val kategori = it.articleName.split(" ").first()
                             Del(
                                 hmsnr = it.hmsArtNr,
                                 navn = it.articleName,
                                 levArtNr = it.supplierRef,
-                                kategori = it.articleName.split(" ").first(),
+                                kategori = kategori,
                                 maksAntall = 4,
                                 kilde = Kilde.GRUNNDATA,
+                                defaultAntall = defaultAntall(kategori)
                             )
                         })
 
