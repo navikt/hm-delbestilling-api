@@ -80,3 +80,5 @@ spec:
       value: api://prod-fss.pdl.pdl-api/.default
     - name: OPPSLAG_API_URL
       value: http://digihot-oppslag.teamdigihot.svc.cluster.local
+    - name: GRUNNDATA_API_URL
+      value: https://finnhjelpemiddel.nav.no

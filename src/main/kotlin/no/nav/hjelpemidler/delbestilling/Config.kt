@@ -17,6 +17,9 @@ object Config {
     val OEBS_API_URL by EnvironmentVariable
     val OEBS_API_SCOPE by EnvironmentVariable
 
+    // Grunndata
+    val GRUNNDATA_API_URL by EnvironmentVariable
+
     // Roller
     val ROLLER_API_URL by EnvironmentVariable
     val ROLLER_API_SCOPE by EnvironmentVariable

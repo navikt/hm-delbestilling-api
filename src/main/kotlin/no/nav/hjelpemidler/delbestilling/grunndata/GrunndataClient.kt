@@ -12,8 +12,10 @@ import io.ktor.client.request.post
 import io.ktor.client.request.setBody
 import io.ktor.http.ContentType
 import io.ktor.http.contentType
+import io.ktor.http.headers
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import no.nav.hjelpemidler.delbestilling.Config
 import no.nav.hjelpemidler.delbestilling.grunndata.requests.hmsArtNrRequest
 import no.nav.hjelpemidler.delbestilling.grunndata.requests.compatibleWithRequest
 import no.nav.hjelpemidler.delbestilling.navCorrelationId
@@ -24,8 +26,10 @@ private val logger = KotlinLogging.logger { }
 
 class GrunndataClient(
     engine: HttpClientEngine = CIO.create(),
-    private val url: String = "https://finnhjelpemiddel.nav.no/products/_search"// "https://hm-grunndata-search.intern.nav.no/products/_search" // TODO Config.GRUNNDATA_SEARCH_API_URL,
+    private val baseUrl: String = Config.GRUNNDATA_API_URL,
 ) {
+
+    private val searchUrl = "$baseUrl/products/_search"
 
     private val client = createHttpClient(engine = engine) {
         expectSuccess = true
@@ -43,7 +47,7 @@ class GrunndataClient(
         logger.info { "Henter hjelpemiddel $hmsnr fra grunndata" }
         return try {
             withContext(Dispatchers.IO) {
-                client.post(url) {
+                client.post(searchUrl) {
                     headers {
                         navCorrelationId()
                     }
@@ -60,7 +64,7 @@ class GrunndataClient(
         logger.info { "Henter deler for seriesId $seriesId og produktId $produktId fra grunndata" }
         return try {
             withContext(Dispatchers.IO) {
-                client.post(url) {
+                client.post(searchUrl) {
                     headers {
                         navCorrelationId()
                     }
