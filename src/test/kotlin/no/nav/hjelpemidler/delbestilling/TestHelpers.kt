@@ -5,7 +5,6 @@ import no.nav.hjelpemidler.delbestilling.delbestilling.DelLinje
 import no.nav.hjelpemidler.delbestilling.delbestilling.Delbestilling
 import no.nav.hjelpemidler.delbestilling.delbestilling.DelbestillingRequest
 import no.nav.hjelpemidler.delbestilling.delbestilling.Levering
-import no.nav.hjelpemidler.delbestilling.hjelpemidler.Kategori
 import no.nav.hjelpemidler.delbestilling.oppslag.KommuneDto
 import no.nav.hjelpemidler.delbestilling.roller.Delbestiller
 import no.nav.hjelpemidler.delbestilling.roller.Organisasjon
@@ -38,10 +37,10 @@ fun delbestillingRequest(
 
 fun deler() = listOf(
     delLinje(),
-    delLinje(hmsnr = "278247", kategori = Kategori.Slange),
+    delLinje(hmsnr = "278247", kategori = "Slange"),
 )
 
-fun delLinje(antall: Int = 1, hmsnr: String = "150817", kategori: Kategori = Kategori.Dekk) = DelLinje(
+fun delLinje(antall: Int = 1, hmsnr: String = "150817", kategori: String = "Dekk") = DelLinje(
     Del(
         navn = "del",
         hmsnr = hmsnr,

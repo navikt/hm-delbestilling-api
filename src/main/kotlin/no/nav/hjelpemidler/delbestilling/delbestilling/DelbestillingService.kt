@@ -8,7 +8,6 @@ import no.bekk.bekkopen.date.NorwegianDateUtil
 import no.nav.hjelpemidler.delbestilling.exceptions.PersonNotAccessibleInPdl
 import no.nav.hjelpemidler.delbestilling.exceptions.PersonNotFoundInPdl
 import no.nav.hjelpemidler.delbestilling.grunndata.GrunndataClient
-import no.nav.hjelpemidler.delbestilling.hjelpemidler.Kategori
 import no.nav.hjelpemidler.delbestilling.hjelpemidler.data.hmsnr2Hjm
 import no.nav.hjelpemidler.delbestilling.isDev
 import no.nav.hjelpemidler.delbestilling.isLocal
@@ -275,93 +274,64 @@ class DelbestillingService(
     }
 
     suspend fun slåOppHjelpemiddel(hmsnr: String, serienr: String): OppslagResultat {
-        val grunndataHjelpemiddelMedDeler = try {
+        val utlån = oebsService.hentUtlånPåArtnrOgSerienr(hmsnr, serienr)
+            ?: return OppslagResultat(null, OppslagFeil.INGET_UTLÅN, HttpStatusCode.NotFound)
+
+        val hjelpemiddelMedDeler = try {
             val grunndataHjelpemiddel = grunndataClient.hentHjelpemiddel(hmsnr).produkt
 
-            // Eksperimentell flyt mot grunndata
-            if (grunndataHjelpemiddel == null) {
-                log.info { "Fant ikke hjelpemiddel $hmsnr i grunndata" }
-                return OppslagResultat(null, OppslagFeil.INGET_UTLÅN, HttpStatusCode.NotFound)
+            if (grunndataHjelpemiddel != null) {
+                val deler = grunndataClient.hentDeler(grunndataHjelpemiddel.seriesId, grunndataHjelpemiddel.id).produkter
+                val hjelpemiddelMedDeler =
+                    HjelpemiddelMedDeler(navn = grunndataHjelpemiddel.articleName, hmsnr = grunndataHjelpemiddel.hmsArtNr, deler = deler.map {
+                        Del(
+                            hmsnr = it.hmsArtNr,
+                            navn = it.articleName,
+                            levArtNr = it.supplierRef,
+                            kategori = it.articleName.split(" ").first(),
+                            maksAntall = 4,
+                        )
+                    })
+
+                log.info { "Fant hmsnr ${hjelpemiddelMedDeler.hmsnr} ${hjelpemiddelMedDeler.navn} i grunndata. Denne har ${hjelpemiddelMedDeler.deler.size} deler fra grunndata knyttet til seg" }
+                hjelpemiddelMedDeler
+            } else {
+                log.info {"Fant ikke ${hmsnr} i grunndata, prøver fallback til manuell liste"}
+                null
             }
-
-            val deler = grunndataClient.hentDeler(grunndataHjelpemiddel.seriesId, grunndataHjelpemiddel.id).produkter
-            val hjelpemiddelMedDeler =
-                HjelpemiddelMedDeler(navn = grunndataHjelpemiddel.articleName, hmsnr = grunndataHjelpemiddel.hmsArtNr, deler = deler.map {
-                    Del(
-                        hmsnr = it.hmsArtNr,
-                        navn = it.articleName,
-                        levArtNr = it.supplierRef,
-                        kategori = Kategori.Annet,
-                        maksAntall = 4,
-                    )
-                })
-
-            log.info { "grunndataHjelpemiddel ${hjelpemiddelMedDeler.hmsnr} ${hjelpemiddelMedDeler.navn} har ${hjelpemiddelMedDeler.deler.size} deler fra grunndata knyttet til seg" }
-
-            hjelpemiddelMedDeler
         } catch (e: Exception) {
-            log.info(e) { "Klarte ikke å sjekke $hmsnr i grunndata, hopper over" }
+            log.info(e) { "Klarte ikke å sjekke $hmsnr i grunndata, prøver fallback til manuell liste" }
             null
+        } ?: hmsnr2Hjm[hmsnr].also { // fallback til manuell liste
+            if (it != null) {
+                log.info { "Fant ${it.hmsnr} ${it.navn} i manuell liste. Denne har ${it.deler.size} deler fra delbestilling-api knyttet til seg" }
+            }
         }
 
-        val hjelpemiddelMedDeler =
-            hmsnr2Hjm[hmsnr] //?: return OppslagResultat(null, OppslagFeil.TILBYR_IKKE_HJELPEMIDDEL, HttpStatusCode.NotFound)
-
-        if (hjelpemiddelMedDeler != null && hmsnr != "301998") {
-            log.info { "grunndataHjelpemiddel ${hjelpemiddelMedDeler.hmsnr} ${hjelpemiddelMedDeler.navn} har ${hjelpemiddelMedDeler.deler.size} deler fra delbestilling-api knyttet til seg" }
-            // Dagens flyt som bruker hardkodet utvalg av deler
-            val utlån = oebsService.hentUtlånPåArtnrOgSerienr(hmsnr, serienr)
-                ?: return OppslagResultat(null, OppslagFeil.INGET_UTLÅN, HttpStatusCode.NotFound)
-
-            val brukersKommunenummer = pdlService.hentKommunenummer(utlån.fnr)
-            val lagerstatusForDeler =
-                oebsService.hentLagerstatus(brukersKommunenummer, hjelpemiddelMedDeler.deler.map { it.hmsnr })
-
-            // Koble hver del til lagerstatus
-            hjelpemiddelMedDeler.deler =
-                hjelpemiddelMedDeler.deler.map { del -> del.copy(lagerstatus = lagerstatusForDeler.find { it.artikkelnummer == del.hmsnr }) }
-
-            val sentral = hjelpemiddelMedDeler.deler.first().lagerstatus?.organisasjons_navn ?: "UKJENT"
-            val antallPåLager = hjelpemiddelMedDeler.deler.count { it.lagerstatus?.minmax == true }
-            val antallDeler = hjelpemiddelMedDeler.deler.count()
-            log.info { "Lagerstatus for $hmsnr hos $sentral: $antallPåLager av $antallDeler er på lager." }
-            if (antallPåLager < antallDeler) {
-                val ikkePåLager = hjelpemiddelMedDeler.deler.filter { it.lagerstatus?.minmax == false }.map { it.hmsnr }
-                val manglerLagerstatus = hjelpemiddelMedDeler.deler.filter { it.lagerstatus == null }.map { it.hmsnr }
-                log.info { "$sentral har ikke alle deler på lager for $hmsnr. Ikke på lager: $ikkePåLager, mangler lagerstatus: $manglerLagerstatus." }
-            }
-
-            return OppslagResultat(hjelpemiddelMedDeler, null, HttpStatusCode.OK)
-        } else {
-            if (isProd()) {
-                return OppslagResultat(null, OppslagFeil.TILBYR_IKKE_HJELPEMIDDEL, HttpStatusCode.NotFound)
-            }
-
-            if (grunndataHjelpemiddelMedDeler == null) {
-                return OppslagResultat(null, OppslagFeil.TILBYR_IKKE_HJELPEMIDDEL, HttpStatusCode.NotFound)
-            }
-
-            val kommunenummer = "5616" // Hasvik - Berømt Aktivitet
-            val lagerstatusForDeler =
-                oebsService.hentLagerstatus(kommunenummer, grunndataHjelpemiddelMedDeler.deler.map { it.hmsnr })
-
-            // Koble hver del til lagerstatus
-            grunndataHjelpemiddelMedDeler.deler =
-                grunndataHjelpemiddelMedDeler.deler.map { del -> del.copy(lagerstatus = lagerstatusForDeler.find { it.artikkelnummer == del.hmsnr }) }
-
-            val sentral = grunndataHjelpemiddelMedDeler.deler.first().lagerstatus?.organisasjons_navn ?: "UKJENT"
-            val antallPåLager = grunndataHjelpemiddelMedDeler.deler.count { it.lagerstatus?.minmax == true }
-            val antallDeler = grunndataHjelpemiddelMedDeler.deler.count()
-            log.info { "Lagerstatus for $hmsnr hos $sentral: $antallPåLager av $antallDeler er på lager." }
-            if (antallPåLager < antallDeler) {
-                val ikkePåLager = grunndataHjelpemiddelMedDeler.deler.filter { it.lagerstatus?.minmax == false }.map { it.hmsnr }
-                val manglerLagerstatus = grunndataHjelpemiddelMedDeler.deler.filter { it.lagerstatus == null }.map { it.hmsnr }
-                log.info { "$sentral har ikke alle deler på lager for $hmsnr. Ikke på lager: $ikkePåLager, mangler lagerstatus: $manglerLagerstatus." }
-            }
-
-            return OppslagResultat(grunndataHjelpemiddelMedDeler, null, HttpStatusCode.OK)
-
+        if (hjelpemiddelMedDeler == null) {
+            log.info {"Fant ikke $hmsnr hverken i grunndata eller manuell liste, returnerer TILBYR_IKKE_HJELPEMIDDEL her"}
+            return OppslagResultat(null, OppslagFeil.TILBYR_IKKE_HJELPEMIDDEL, HttpStatusCode.NotFound)
         }
+
+        val brukersKommunenummer = pdlService.hentKommunenummer(utlån.fnr)
+        val lagerstatusForDeler =
+            oebsService.hentLagerstatus(brukersKommunenummer, hjelpemiddelMedDeler.deler.map { it.hmsnr })
+
+        // Koble hver del til lagerstatus
+        hjelpemiddelMedDeler.deler =
+            hjelpemiddelMedDeler.deler.map { del -> del.copy(lagerstatus = lagerstatusForDeler.find { it.artikkelnummer == del.hmsnr }) }
+
+        val sentral = hjelpemiddelMedDeler.deler.first().lagerstatus?.organisasjons_navn ?: "UKJENT"
+        val antallPåLager = hjelpemiddelMedDeler.deler.count { it.lagerstatus?.minmax == true }
+        val antallDeler = hjelpemiddelMedDeler.deler.count()
+        log.info { "Lagerstatus for $hmsnr hos $sentral: $antallPåLager av $antallDeler er på lager." }
+        if (antallPåLager < antallDeler) {
+            val ikkePåLager = hjelpemiddelMedDeler.deler.filter { it.lagerstatus?.minmax == false }.map { it.hmsnr }
+            val manglerLagerstatus = hjelpemiddelMedDeler.deler.filter { it.lagerstatus == null }.map { it.hmsnr }
+            log.info { "$sentral har ikke alle deler på lager for $hmsnr. Ikke på lager: $ikkePåLager, mangler lagerstatus: $manglerLagerstatus." }
+        }
+
+        return OppslagResultat(hjelpemiddelMedDeler, null, HttpStatusCode.OK)
     }
 
     fun hentDelbestillinger(bestillerFnr: String): List<DelbestillingSak> {

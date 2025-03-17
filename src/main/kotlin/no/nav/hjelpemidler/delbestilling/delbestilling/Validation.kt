@@ -1,6 +1,5 @@
 package no.nav.hjelpemidler.delbestilling.delbestilling
 
-import no.nav.hjelpemidler.delbestilling.hjelpemidler.Kategori
 import no.nav.hjelpemidler.delbestilling.hjelpemidler.data.hmsnrTilDel
 
 fun validateOppslagRequest(req: OppslagRequest) = listOf(
@@ -52,7 +51,7 @@ fun validateSerienr(serienr: Serienr) = listOfNotNull(
 )
 
 fun validateOpplæringBatteri(delbestilling: Delbestilling) = listOfNotNull(
-    if (delbestilling.deler.any { it.del.kategori == Kategori.Batteri } && delbestilling.harOpplæringPåBatteri != true) {
+    if (delbestilling.deler.any { it.del.kategori == "Batteri" } && delbestilling.harOpplæringPåBatteri != true) {
         "Tekniker må bekrefte opplæring i bytting av batteriene"
     } else null
 )

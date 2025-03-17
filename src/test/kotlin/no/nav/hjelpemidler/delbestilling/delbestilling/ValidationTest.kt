@@ -2,7 +2,6 @@ package no.nav.hjelpemidler.delbestilling.delbestilling
 
 import no.nav.hjelpemidler.delbestilling.delLinje
 import no.nav.hjelpemidler.delbestilling.delbestillingRequest
-import no.nav.hjelpemidler.delbestilling.hjelpemidler.Kategori
 import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
 
@@ -30,7 +29,7 @@ internal class ValidationTest {
     fun `skal returnere feilmelding når bestiller mangler opplæring på batteri`() {
         val requestMedOpplæring = delbestillingRequest(
             deler = listOf(
-                delLinje(antall = 1, kategori = Kategori.Batteri)
+                delLinje(antall = 1, kategori = "Batteri")
             ),
             harOpplæringPåBatteri = true
         )
@@ -38,7 +37,7 @@ internal class ValidationTest {
 
         val requestUtenOpplæring = delbestillingRequest(
             deler = listOf(
-                delLinje(antall = 1, kategori = Kategori.Batteri)
+                delLinje(antall = 1, kategori = "Batteri")
             ),
             harOpplæringPåBatteri = false
         )
