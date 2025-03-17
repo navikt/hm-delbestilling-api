@@ -274,9 +274,6 @@ class DelbestillingService(
     }
 
     suspend fun slåOppHjelpemiddel(hmsnr: String, serienr: String): OppslagResultat {
-        val utlån = oebsService.hentUtlånPåArtnrOgSerienr(hmsnr, serienr)
-            ?: return OppslagResultat(null, OppslagFeil.INGET_UTLÅN, HttpStatusCode.NotFound)
-
         val hjelpemiddelMedDeler = try {
             val grunndataHjelpemiddel = grunndataClient.hentHjelpemiddel(hmsnr).produkt
 
@@ -317,6 +314,9 @@ class DelbestillingService(
             log.info {"Fant ikke $hmsnr hverken i grunndata eller manuell liste, returnerer TILBYR_IKKE_HJELPEMIDDEL her"}
             return OppslagResultat(null, OppslagFeil.TILBYR_IKKE_HJELPEMIDDEL, HttpStatusCode.NotFound)
         }
+
+        val utlån = oebsService.hentUtlånPåArtnrOgSerienr(hmsnr, serienr)
+            ?: return OppslagResultat(null, OppslagFeil.INGET_UTLÅN, HttpStatusCode.NotFound)
 
         val brukersKommunenummer = pdlService.hentKommunenummer(utlån.fnr)
         val lagerstatusForDeler =
