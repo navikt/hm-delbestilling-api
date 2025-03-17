@@ -291,6 +291,7 @@ class DelbestillingService(
                                 levArtNr = it.supplierRef,
                                 kategori = it.articleName.split(" ").first(),
                                 maksAntall = 4,
+                                kilde = Kilde.GRUNNDATA,
                             )
                         })
 

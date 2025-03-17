@@ -59,7 +59,13 @@ data class Del(
     val img: String? = null,
     val datoLagtTil: LocalDate? = null,
     var lagerstatus: Lagerstatus? = null, // TODO: denne bør kanskje ikke være nullable?
+    val kilde: Kilde? = Kilde.MANUELL_LISTE,
 )
+
+enum class Kilde {
+    GRUNNDATA,
+    MANUELL_LISTE
+}
 
 data class Lagerstatus(
     val erPåLager: Boolean,
