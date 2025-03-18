@@ -76,7 +76,7 @@ internal class HjelpemiddelDelerTest {
     }
 
     @Test
-    fun `skal ha riktigDefaultAntall på batteri`() {
+    fun `skal ha riktigDefaultAntall på batteri og batteripakke`() {
         val hmsnrnrX850 = "145668"
         val X850 = hmsnr2Hjm[hmsnrnrX850]!!
         val batteriX850 = X850.deler.find { it.kategori == "Batteri" }!!
@@ -84,7 +84,7 @@ internal class HjelpemiddelDelerTest {
 
         val hmsnrnrMolift = "161570"
         val molift = hmsnr2Hjm[hmsnrnrMolift]!!
-        val batteriMolift = molift.deler.find { it.kategori == "Batteri" }!!
+        val batteriMolift = molift.deler.find { it.kategori == "Batteripakke" }!!
         assertEquals(1, batteriMolift.defaultAntall)
     }
 }
