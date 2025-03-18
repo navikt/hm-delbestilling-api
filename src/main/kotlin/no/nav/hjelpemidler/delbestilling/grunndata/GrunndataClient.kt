@@ -96,7 +96,7 @@ class GrunndataClient(
         }
     }
 
-    suspend fun hentAlleHjmMedIdEllerSeriesId(seriesIds: List<UUID>, produktIds: List<UUID>): ProduktResponse {
+    suspend fun hentAlleHjmMedIdEllerSeriesId(seriesIds: Set<UUID>, produktIds: Set<UUID>): ProduktResponse {
         logger.info { "Henter alle hjm med gitte id eller seriesId fra grunndata" }
         return try {
             withContext(Dispatchers.IO) {

@@ -2,8 +2,8 @@ package no.nav.hjelpemidler.delbestilling.hjelpemidler
 
 import io.github.oshai.kotlinlogging.KotlinLogging
 import io.ktor.http.HttpStatusCode
+import kotlinx.coroutines.runBlocking
 import no.nav.hjelpemidler.delbestilling.delbestilling.AlleHjelpemidlerMedDelerResultat
-import no.nav.hjelpemidler.delbestilling.delbestilling.HjelpemiddelMedDeler
 import no.nav.hjelpemidler.delbestilling.grunndata.GrunndataClient
 import no.nav.hjelpemidler.delbestilling.hjelpemidler.data.hmsnr2Hjm
 import no.nav.hjelpemidler.delbestilling.hjelpemidler.data.hmsnrTilHjelpemiddel
@@ -21,8 +21,12 @@ class HjelpemidlerService(
 
     suspend fun hentAlleHjelpemiddelTitler(): Set<String> {
         val alleDelerSomKanBestilles = grunndataClient.hentAlleDelerSomKanBestilles()
-        val produktIDs = alleDelerSomKanBestilles.produkter.map { it.id }
-        val serieIDs = alleDelerSomKanBestilles.produkter.map { it.seriesId }
+        val produktIDs = alleDelerSomKanBestilles.produkter.map {
+            it.attributes.compatibleWith?.productIds ?: emptyList()
+        }.flatten().toSet()
+        val serieIDs = alleDelerSomKanBestilles.produkter.map {
+            it.attributes.compatibleWith?.seriesIds ?: emptyList()
+        }.flatten().toSet()
         val hjelpemidler = grunndataClient.hentAlleHjmMedIdEllerSeriesId(seriesIds = serieIDs, produktIds = produktIDs)
 
         val hjelpemiddelNavnFraGrunndata = hjelpemidler.produkter.map { it.title.trim() }.toSet()

@@ -4,7 +4,7 @@ import com.fasterxml.jackson.databind.JsonNode
 import no.nav.hjelpemidler.delbestilling.jsonMapper
 import java.util.UUID
 
-fun alleHjmMedIdEllerSeriesIdRequest(seriesIds: List<UUID>, produktIds: List<UUID>): JsonNode {
+fun alleHjmMedIdEllerSeriesIdRequest(seriesIds: Set<UUID>, produktIds: Set<UUID>): JsonNode {
     return jsonMapper.readTree(
         """
         {
@@ -36,8 +36,4 @@ fun alleHjmMedIdEllerSeriesIdRequest(seriesIds: List<UUID>, produktIds: List<UUI
         }
     """.trimIndent()
     )
-}
-
-fun main() {
-    print(alleHjmMedIdEllerSeriesIdRequest(listOf(UUID.randomUUID(), UUID.randomUUID()), listOf(UUID.randomUUID())))
 }
