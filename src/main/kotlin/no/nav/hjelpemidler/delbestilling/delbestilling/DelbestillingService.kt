@@ -275,13 +275,13 @@ class DelbestillingService(
     }
 
     suspend fun slåOppHjelpemiddel(hmsnr: String, serienr: String): OppslagResultat {
-        val hjelpemiddelMedDeler = try {
+        val hjelpemiddelMedDelerGrunndata = try {
             val grunndataHjelpemiddel = grunndataClient.hentHjelpemiddel(hmsnr).produkt
 
             if (grunndataHjelpemiddel != null) {
                 val deler = grunndataClient.hentDeler(grunndataHjelpemiddel.seriesId, grunndataHjelpemiddel.id).produkter
                 if (deler.isEmpty()) {
-                    log.info { "Fant hmsnr $hmsnr i grunndata, men den har ingen egnede deler knyttet til seg. Prøver derfor fallback til manuell liste" }
+                    log.info { "Fant hmsnr $hmsnr i grunndata, men den har ingen egnede deler knyttet til seg" }
                     null
                 } else {
                     val hjelpemiddelMedDeler =
@@ -302,20 +302,55 @@ class DelbestillingService(
                     hjelpemiddelMedDeler
                 }
             } else {
-                log.info {"Fant ikke ${hmsnr} i grunndata, prøver fallback til manuell liste"}
+                log.info {"Fant ikke ${hmsnr} i grunndata"}
                 null
             }
         } catch (e: Exception) {
-            log.info(e) { "Klarte ikke å sjekke $hmsnr i grunndata, prøver fallback til manuell liste" }
+            log.info(e) { "Klarte ikke å sjekke $hmsnr i grunndata" }
             null
-        } ?: hmsnr2Hjm[hmsnr].also { // fallback til manuell liste
-            if (it != null) {
-                log.info { "Fant ${it.hmsnr} ${it.navn} i manuell liste. Denne har ${it.deler.size} egnede deler fra delbestilling-api knyttet til seg" }
+        }
+
+        val hjelpemiddelMedDelerManuell = hmsnr2Hjm[hmsnr]
+
+        val deler = mutableListOf<Del>()
+
+        if (hjelpemiddelMedDelerGrunndata != null) {
+            deler.addAll(hjelpemiddelMedDelerGrunndata.deler)
+        }
+
+        if (hjelpemiddelMedDelerManuell != null) {
+            hjelpemiddelMedDelerManuell.deler.forEach { del ->
+                if (!deler.any{it.hmsnr == del.hmsnr }) {
+                    deler.add(del)
+                }
             }
         }
 
+        val hjelpemiddelMedDeler = if (hjelpemiddelMedDelerGrunndata != null) {
+            HjelpemiddelMedDeler(
+                navn = hjelpemiddelMedDelerGrunndata.navn,
+                hmsnr = hjelpemiddelMedDelerGrunndata.hmsnr,
+                deler = deler
+            )
+        } else if (hjelpemiddelMedDelerManuell != null) {
+            HjelpemiddelMedDeler(
+                navn = hjelpemiddelMedDelerManuell.navn,
+                hmsnr = hjelpemiddelMedDelerManuell.hmsnr,
+                deler = deler
+            )
+        } else {
+            null
+        }
+
+        log.info { "hjelpemiddelMedDeler: $hjelpemiddelMedDeler" }
+
         if (hjelpemiddelMedDeler == null) {
-            log.info {"Fant $hmsnr verken i grunndata eller manuell liste, returnerer TILBYR_IKKE_HJELPEMIDDEL her"}
+            log.info {"Fant $hmsnr verken i grunndata eller manuell liste, returnerer TILBYR_IKKE_HJELPEMIDDEL"}
+            return OppslagResultat(null, OppslagFeil.TILBYR_IKKE_HJELPEMIDDEL, HttpStatusCode.NotFound)
+        }
+
+        if (hjelpemiddelMedDeler.deler.isEmpty()) {
+            log.info {"Fant ingen deler i verken grunndata eller manuell liste for $hmsnr, returnerer TILBYR_IKKE_HJELPEMIDDEL"}
             return OppslagResultat(null, OppslagFeil.TILBYR_IKKE_HJELPEMIDDEL, HttpStatusCode.NotFound)
         }
 
