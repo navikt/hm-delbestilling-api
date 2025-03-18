@@ -310,7 +310,11 @@ class DelbestillingService(
             null
         }
 
-        val hjelpemiddelMedDelerManuell = hmsnr2Hjm[hmsnr]
+        val hjelpemiddelMedDelerManuell = hmsnr2Hjm[hmsnr].also {
+            if (it == null) {
+                log.info {"Fant ikke ${hmsnr} i manuell liste"}
+            }
+        }
 
         val deler = mutableListOf<Del>()
 
