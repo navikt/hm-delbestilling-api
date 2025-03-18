@@ -16,6 +16,8 @@ import io.ktor.http.headers
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import no.nav.hjelpemidler.delbestilling.Config
+import no.nav.hjelpemidler.delbestilling.grunndata.requests.alleDelerSomKanBestillesRequest
+import no.nav.hjelpemidler.delbestilling.grunndata.requests.alleHjmMedIdEllerSeriesIdRequest
 import no.nav.hjelpemidler.delbestilling.grunndata.requests.hmsArtNrRequest
 import no.nav.hjelpemidler.delbestilling.grunndata.requests.compatibleWithRequest
 import no.nav.hjelpemidler.delbestilling.navCorrelationId
@@ -26,7 +28,7 @@ private val logger = KotlinLogging.logger { }
 
 class GrunndataClient(
     engine: HttpClientEngine = CIO.create(),
-    private val baseUrl: String = Config.GRUNNDATA_API_URL,
+    baseUrl: String = Config.GRUNNDATA_API_URL,
 ) {
 
     private val searchUrl = "$baseUrl/products/_search"
@@ -73,6 +75,40 @@ class GrunndataClient(
             }
         } catch (e: Exception) {
             logger.error(e) { "Henting av deler fra grunndata feilet" }
+            throw e
+        }
+    }
+
+    suspend fun hentAlleDelerSomKanBestilles(): ProduktResponse {
+        logger.info { "Henter alle deler som kan bestilles fra grunndata" }
+        return try {
+            withContext(Dispatchers.IO) {
+                client.post(searchUrl) {
+                    headers {
+                        navCorrelationId()
+                    }
+                    setBody(alleDelerSomKanBestillesRequest())
+                }.body()
+            }
+        } catch (e: Exception) {
+            logger.error(e) { "Henting av deler fra grunndata feilet" }
+            throw e
+        }
+    }
+
+    suspend fun hentAlleHjmMedIdEllerSeriesId(seriesIds: List<UUID>, produktIds: List<UUID>): ProduktResponse {
+        logger.info { "Henter alle hjm med gitte id eller seriesId fra grunndata" }
+        return try {
+            withContext(Dispatchers.IO) {
+                client.post(searchUrl) {
+                    headers {
+                        navCorrelationId()
+                    }
+                    setBody(alleHjmMedIdEllerSeriesIdRequest(seriesIds = seriesIds, produktIds = produktIds))
+                }.body()
+            }
+        } catch (e: Exception) {
+            logger.error(e) { "Henting av hjm fra grunndata feilet" }
             throw e
         }
     }

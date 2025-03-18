@@ -20,6 +20,7 @@ data class ProduktSource(
 
 data class Produkt(
     val id: UUID, // ProductId
+    val title: String,
     val articleName: String,
     val seriesId: UUID,
     val hmsArtNr: Hmsnr,

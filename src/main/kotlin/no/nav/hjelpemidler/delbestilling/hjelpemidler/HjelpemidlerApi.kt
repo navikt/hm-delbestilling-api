@@ -15,9 +15,19 @@ fun Route.hjelpemiddelApi(
         call.respond(hjelpemidlerMedDeler)
     }
 
+    get("/hjelpemiddel-titler") {
+        call.respond(
+            HjelpemiddelTitlerResponse(hjelpemidlerService.hentAlleHjelpemiddelTitler())
+        )
+    }
+
+
     get("/deler") {
         call.respond(delliste)
     }
 
 }
 
+private data class HjelpemiddelTitlerResponse(
+    val titler: Set<String>
+)
