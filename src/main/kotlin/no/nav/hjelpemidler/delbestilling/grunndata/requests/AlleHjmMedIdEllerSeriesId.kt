@@ -13,12 +13,12 @@ fun alleHjmMedIdEllerSeriesIdRequest(seriesIds: List<UUID>, produktIds: List<UUI
                     "should": [
                         {
                             "terms": {
-                                "seriesId": $seriesIds
+                                "seriesId": [${seriesIds.joinToString(separator = ",", prefix = "\"", postfix = "\"")}]
                             }
                         },
                         {
                             "terms": {
-                                "id": $produktIds
+                                "id": [${produktIds.joinToString(separator = ",", prefix = "\"", postfix = "\"")}]
                             }
                         }
                     ],
