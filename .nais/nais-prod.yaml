@@ -33,6 +33,7 @@ spec:
       rules:
         - application: hm-delbestilling
         - application: hm-soknadsbehandling
+        - application: hm-grunndata-search
     outbound:
       rules:
         - application: hm-oebs-api-proxy
@@ -43,6 +44,7 @@ spec:
         - host: hm-oebs-api-proxy.prod-fss-pub.nais.io
         - host: pdl-api.prod-fss-pub.nais.io
         - host: hooks.slack.com
+        - host: hm-grunndata-search.intern.nav.no
   kafka:
     pool: nav-prod
   envFrom:
@@ -78,3 +80,5 @@ spec:
       value: api://prod-fss.pdl.pdl-api/.default
     - name: OPPSLAG_API_URL
       value: http://digihot-oppslag.teamdigihot.svc.cluster.local
+    - name: GRUNNDATA_API_URL
+      value: https://hm-grunndata-search.intern.nav.no

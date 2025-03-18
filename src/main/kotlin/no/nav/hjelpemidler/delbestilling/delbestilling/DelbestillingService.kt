@@ -7,7 +7,9 @@ import kotlinx.coroutines.launch
 import no.bekk.bekkopen.date.NorwegianDateUtil
 import no.nav.hjelpemidler.delbestilling.exceptions.PersonNotAccessibleInPdl
 import no.nav.hjelpemidler.delbestilling.exceptions.PersonNotFoundInPdl
+import no.nav.hjelpemidler.delbestilling.grunndata.GrunndataClient
 import no.nav.hjelpemidler.delbestilling.hjelpemidler.data.hmsnr2Hjm
+import no.nav.hjelpemidler.delbestilling.hjelpemidler.defaultAntall
 import no.nav.hjelpemidler.delbestilling.isDev
 import no.nav.hjelpemidler.delbestilling.isLocal
 import no.nav.hjelpemidler.delbestilling.isProd
@@ -35,7 +37,8 @@ class DelbestillingService(
     private val oppslagService: OppslagService,
     private val metrics: Metrics,
     private val slackClient: SlackClient,
-    ) {
+    private val grunndataClient: GrunndataClient,
+) {
     suspend fun opprettDelbestilling(
         request: DelbestillingRequest,
         bestillerFnr: String,
@@ -98,10 +101,10 @@ class DelbestillingService(
         val innsendersRepresenterteOrganisasjon =
             delbestillerRolle.kommunaleOrgs.find { it.kommunenummer == brukerKommunenr }
                 ?: delbestillerRolle.godkjenteIkkeKommunaleOrgs.find { it.kommunenummer == brukerKommunenr }
-        val innsenderRepresentererBrukersKommune = innsendersRepresenterteOrganisasjon != null
-        val bestillerType: BestillerType = if (delbestillerRolle.kommunaleOrgs.any { it.kommunenummer == brukerKommunenr }) BestillerType.KOMMUNAL else BestillerType.IKKE_KOMMUNAL
+        val bestillerType: BestillerType =
+            if (delbestillerRolle.kommunaleOrgs.any { it.kommunenummer == brukerKommunenr }) BestillerType.KOMMUNAL else BestillerType.IKKE_KOMMUNAL
 
-        if (!innsenderRepresentererBrukersKommune) {
+        if (innsendersRepresenterteOrganisasjon == null) {
             log.info { "Brukers kommunenr: $brukerKommunenr, innsenders kommuner: ${delbestillerRolle.kommunaleOrgs}, innsenders godkjente ikke-kommunale orgs: ${delbestillerRolle.godkjenteIkkeKommunaleOrgs}" }
             return DelbestillingResultat(
                 id,
@@ -272,8 +275,94 @@ class DelbestillingService(
     }
 
     suspend fun slåOppHjelpemiddel(hmsnr: String, serienr: String): OppslagResultat {
-        val hjelpemiddelMedDeler = hmsnr2Hjm[hmsnr]
-            ?: return OppslagResultat(null, OppslagFeil.TILBYR_IKKE_HJELPEMIDDEL, HttpStatusCode.NotFound)
+        val hjelpemiddelMedDelerGrunndata = try {
+            val grunndataHjelpemiddel = grunndataClient.hentHjelpemiddel(hmsnr).produkt
+
+            if (grunndataHjelpemiddel != null) {
+                val deler = grunndataClient.hentDeler(grunndataHjelpemiddel.seriesId, grunndataHjelpemiddel.id).produkter
+                if (deler.isEmpty()) {
+                    log.info { "Fant hmsnr $hmsnr i grunndata, men den har ingen egnede deler knyttet til seg" }
+                    null
+                } else {
+                    val hjelpemiddelMedDeler =
+                        HjelpemiddelMedDeler(navn = grunndataHjelpemiddel.articleName, hmsnr = grunndataHjelpemiddel.hmsArtNr, deler = deler.map {
+                            val kategori = it.articleName.split(" ").first()
+                            Del(
+                                hmsnr = it.hmsArtNr,
+                                navn = it.articleName,
+                                levArtNr = it.supplierRef,
+                                kategori = kategori,
+                                maksAntall = 4,
+                                kilde = Kilde.GRUNNDATA,
+                                defaultAntall = defaultAntall(kategori)
+                            )
+                        })
+
+                    log.info { "Fant hmsnr ${hjelpemiddelMedDeler.hmsnr} ${hjelpemiddelMedDeler.navn} i grunndata. Denne har ${hjelpemiddelMedDeler.deler.size} egnede deler fra grunndata knyttet til seg" }
+                    hjelpemiddelMedDeler
+                }
+            } else {
+                log.info {"Fant ikke ${hmsnr} i grunndata"}
+                null
+            }
+        } catch (e: Exception) {
+            log.info(e) { "Klarte ikke å sjekke $hmsnr i grunndata" }
+            null
+        }
+
+        val hjelpemiddelMedDelerManuell = hmsnr2Hjm[hmsnr].also {
+            if (it == null) {
+                log.info {"Fant ikke ${hmsnr} i manuell liste"}
+            }
+        }
+
+        val deler = mutableListOf<Del>()
+
+        if (hjelpemiddelMedDelerGrunndata != null) {
+            deler.addAll(hjelpemiddelMedDelerGrunndata.deler)
+        }
+
+        if (hjelpemiddelMedDelerManuell != null) {
+            hjelpemiddelMedDelerManuell.deler.forEach { del ->
+                if (!deler.any{it.hmsnr == del.hmsnr }) {
+                    deler.add(del)
+                }
+            }
+        }
+
+        val hjelpemiddelMedDeler = if (hjelpemiddelMedDelerGrunndata != null) {
+            HjelpemiddelMedDeler(
+                navn = hjelpemiddelMedDelerGrunndata.navn,
+                hmsnr = hjelpemiddelMedDelerGrunndata.hmsnr,
+                deler = deler
+            )
+        } else if (hjelpemiddelMedDelerManuell != null) {
+            HjelpemiddelMedDeler(
+                navn = hjelpemiddelMedDelerManuell.navn,
+                hmsnr = hjelpemiddelMedDelerManuell.hmsnr,
+                deler = deler
+            )
+        } else {
+            null
+        }
+
+        log.info { "hjelpemiddelMedDeler: $hjelpemiddelMedDeler" }
+
+        if (hjelpemiddelMedDeler == null) {
+            log.info {"Fant $hmsnr verken i grunndata eller manuell liste, returnerer TILBYR_IKKE_HJELPEMIDDEL"}
+            return OppslagResultat(null, OppslagFeil.TILBYR_IKKE_HJELPEMIDDEL, HttpStatusCode.NotFound)
+        }
+
+        if (hjelpemiddelMedDeler.deler.isEmpty()) {
+            log.info {"Fant ingen deler i verken grunndata eller manuell liste for $hmsnr, returnerer TILBYR_IKKE_HJELPEMIDDEL"}
+            return OppslagResultat(null, OppslagFeil.TILBYR_IKKE_HJELPEMIDDEL, HttpStatusCode.NotFound)
+        }
+
+        // For sjekk av hvilke deler som inneholder "batteri" i navnet, for å se om vi må utvide batteri-sjekk
+        val delerMedBatteriINavn = hjelpemiddelMedDeler.deler.filter { it.navn.lowercase().contains("batteri") }.map { it.navn }.toSet()
+        if (delerMedBatteriINavn.isNotEmpty()) {
+            log.info { "Deler med 'batteri' i navnet på oppslag: $delerMedBatteriINavn" }
+        }
 
         val utlån = oebsService.hentUtlånPåArtnrOgSerienr(hmsnr, serienr)
             ?: return OppslagResultat(null, OppslagFeil.INGET_UTLÅN, HttpStatusCode.NotFound)
@@ -325,7 +414,8 @@ class DelbestillingService(
     }
 
     suspend fun sjekkXKLager(hmsnr: Hmsnr, serienr: Serienr): Boolean {
-        val utlån =  oebsService.hentUtlånPåArtnrOgSerienr(artnr = hmsnr, serienr = serienr) ?: error("Fant ikke utlån for $hmsnr $serienr")
+        val utlån = oebsService.hentUtlånPåArtnrOgSerienr(artnr = hmsnr, serienr = serienr)
+            ?: error("Fant ikke utlån for $hmsnr $serienr")
         val kommunenummer = pdlService.hentKommunenummer(utlån.fnr)
         return harXKLager(kommunenummer)
     }

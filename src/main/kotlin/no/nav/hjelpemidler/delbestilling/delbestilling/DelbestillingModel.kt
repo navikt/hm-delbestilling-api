@@ -1,7 +1,6 @@
 package no.nav.hjelpemidler.delbestilling.delbestilling
 
 import io.ktor.http.HttpStatusCode
-import no.nav.hjelpemidler.delbestilling.hjelpemidler.Kategori
 import no.nav.hjelpemidler.delbestilling.hjelpemidler.defaultAntall
 import java.time.LocalDate
 import java.time.LocalDateTime
@@ -54,13 +53,19 @@ data class Del(
     val hmsnr: Hmsnr,
     val navn: String,
     val levArtNr: String? = null,
-    val kategori: Kategori,
+    val kategori: String,
     val defaultAntall: Int = defaultAntall(kategori),
     val maksAntall: Int, // TODO kan ofte utlede maksAntall fra kategori også
     val img: String? = null,
     val datoLagtTil: LocalDate? = null,
     var lagerstatus: Lagerstatus? = null, // TODO: denne bør kanskje ikke være nullable?
+    val kilde: Kilde? = Kilde.MANUELL_LISTE,
 )
+
+enum class Kilde {
+    GRUNNDATA,
+    MANUELL_LISTE
+}
 
 data class Lagerstatus(
     val erPåLager: Boolean,

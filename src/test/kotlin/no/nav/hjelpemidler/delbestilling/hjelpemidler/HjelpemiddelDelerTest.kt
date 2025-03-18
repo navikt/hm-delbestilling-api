@@ -28,7 +28,7 @@ internal class HjelpemiddelDelerTest {
         val hmsnrSchwalbeDekk = "150817"
         val dekk = deler.find { it.hmsnr == hmsnrSchwalbeDekk }!!
         assertEquals("Dekk Schwalbe Marathon Plus punkteringsbeskyttet 24\"x1", dekk.navn)
-        assertEquals(Kategori.Dekk, dekk.kategori)
+        assertEquals("Dekk", dekk.kategori)
     }
 
     @Test
@@ -42,11 +42,11 @@ internal class HjelpemiddelDelerTest {
 
         assertEquals("200842", deler[0].hmsnr)
         assertEquals("Hjul 13x5.00-6 foran/bak", deler[0].navn)
-        assertEquals(Kategori.Hjul, deler[0].kategori)
+        assertEquals("Hjul", deler[0].kategori)
 
         assertEquals("328154", deler[1].hmsnr)
         assertEquals("Batteri 85 Ah", deler[1].navn)
-        assertEquals(Kategori.Batteri, deler[1].kategori)
+        assertEquals("Batteri", deler[1].kategori)
     }
 
     @Test
@@ -60,7 +60,7 @@ internal class HjelpemiddelDelerTest {
 
         assertEquals("309144", deler[0].hmsnr)
         assertEquals("Hjul foran", deler[0].navn)
-        assertEquals(Kategori.Hjul, deler[0].kategori)
+        assertEquals("Hjul", deler[0].kategori)
     }
 
     @Test
@@ -76,15 +76,15 @@ internal class HjelpemiddelDelerTest {
     }
 
     @Test
-    fun `skal ha riktigDefaultAntall på batteri`() {
+    fun `skal ha riktigDefaultAntall på batteri og batteripakke`() {
         val hmsnrnrX850 = "145668"
         val X850 = hmsnr2Hjm[hmsnrnrX850]!!
-        val batteriX850 = X850.deler.find { it.kategori == Kategori.Batteri }!!
+        val batteriX850 = X850.deler.find { it.kategori == "Batteri" }!!
         assertEquals(2, batteriX850.defaultAntall)
 
         val hmsnrnrMolift = "161570"
         val molift = hmsnr2Hjm[hmsnrnrMolift]!!
-        val batteriMolift = molift.deler.find { it.kategori == Kategori.Batteri }!!
+        val batteriMolift = molift.deler.find { it.kategori == "Batteripakke" }!!
         assertEquals(1, batteriMolift.defaultAntall)
     }
 }

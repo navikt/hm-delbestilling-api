@@ -1,19 +1,10 @@
 package no.nav.hjelpemidler.delbestilling.hjelpemidler
 
-enum class Kategori {
-    Annet,
-    Batteri,
-    Dekk,
-    Hjul,
-    Håndkontroll,
-    Lader,
-    Slange,
-    Svinghjul,
-}
-
-fun defaultAntall(kategori: Kategori) = when (kategori) {
-    Kategori.Dekk -> 2
-    Kategori.Hjul -> 2
-    Kategori.Svinghjul -> 2
+fun defaultAntall(kategori: String) = when (kategori) {
+    "Dekk" -> 2
+    "Hjul" -> 2
+    "Svinghjul" -> 2
+    "Batteri" -> 2
+    "Drivhjul" -> 2
     else -> 1
 }
