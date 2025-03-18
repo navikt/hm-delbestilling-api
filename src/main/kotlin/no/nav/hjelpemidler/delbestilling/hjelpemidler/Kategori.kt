@@ -5,5 +5,6 @@ fun defaultAntall(kategori: String) = when (kategori) {
     "Hjul" -> 2
     "Svinghjul" -> 2
     "Batteri" -> 2
+    "Drivhjul" -> 2
     else -> 1
 }
