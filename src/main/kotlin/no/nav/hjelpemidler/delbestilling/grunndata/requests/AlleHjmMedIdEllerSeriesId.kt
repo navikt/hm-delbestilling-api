@@ -13,12 +13,12 @@ fun alleHjmMedIdEllerSeriesIdRequest(seriesIds: List<UUID>, produktIds: List<UUI
                     "should": [
                         {
                             "terms": {
-                                "seriesId": [${seriesIds.joinToString(separator = ",", prefix = "\"", postfix = "\"")}]
+                                "seriesId": [${seriesIds.joinToString(separator = ","){ "\"$it\"" }}]
                             }
                         },
                         {
                             "terms": {
-                                "id": [${produktIds.joinToString(separator = ",", prefix = "\"", postfix = "\"")}]
+                                "id": [${produktIds.joinToString(separator = ","){ "\"$it\"" }}]
                             }
                         }
                     ],
@@ -36,4 +36,8 @@ fun alleHjmMedIdEllerSeriesIdRequest(seriesIds: List<UUID>, produktIds: List<UUI
         }
     """.trimIndent()
     )
+}
+
+fun main() {
+    print(alleHjmMedIdEllerSeriesIdRequest(listOf(UUID.randomUUID(), UUID.randomUUID()), listOf(UUID.randomUUID())))
 }
