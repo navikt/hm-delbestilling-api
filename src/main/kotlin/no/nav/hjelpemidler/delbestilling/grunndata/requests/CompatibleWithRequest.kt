@@ -27,6 +27,11 @@ fun compatibleWithRequest(seriesId: UUID, produktId: UUID): JsonNode {
                             "match": {
                                 "attributes.egnetForKommunalTekniker": "true"
                             }
+                        },
+                        {
+                            "match": {
+                                "sparePart": "true"
+                            }
                         }
                     ],
                     "minimum_should_match": 1
