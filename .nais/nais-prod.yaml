@@ -81,4 +81,4 @@ spec:
     - name: OPPSLAG_API_URL
       value: http://digihot-oppslag.teamdigihot.svc.cluster.local
     - name: GRUNNDATA_API_URL
-      value: https://finnhjelpemiddel.nav.no
+      value: https://hm-grunndata-search.intern.nav.no
