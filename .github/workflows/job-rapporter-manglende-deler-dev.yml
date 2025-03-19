@@ -9,21 +9,6 @@ on:
     branches:
       - main
       - rapporter-manglende-deler
-  workflow_dispatch:
-    inputs:
-      imageVersion:
-        description: 'Image version (git-sha)'
-        required: true
-        default: 'latest'
-        type: string
-      cluster:
-        description: 'Cluster'
-        required: true
-        default: 'dev'
-        type: choice
-        options:
-          - dev
-          - prod
 jobs:
   run-job-rapporter-manglende-deler:
     runs-on: ubuntu-latest
@@ -35,6 +20,7 @@ jobs:
           IMAGE=ghcr.io/$GITHUB_REPOSITORY/$APPLICATION:${{ inputs.imageVersion }}
           echo "IMAGE=${IMAGE}" >> $GITHUB_ENV
           echo $IMAGE
+
       - uses: nais/deploy/actions/deploy@v1
         name: run job rapporter-manglende-deler on dev-gcp
         env:
@@ -42,8 +28,3 @@ jobs:
           CLUSTER: dev-gcp
           RESOURCE: .nais/nais-job-rapporter-manglende-deler.yml
           IMAGE: ${{steps.docker-build-push.outputs.image}}
-        #env:
-         # APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY }}
-          #CLUSTER: ${{ inputs.cluster }}-gcp
-          #RESOURCE: .nais/nais-job-rapporter-manglende-deler-dev.yml
-          #VAR: image=${{ env.IMAGE }}
