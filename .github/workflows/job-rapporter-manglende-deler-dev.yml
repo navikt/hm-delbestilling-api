@@ -11,8 +11,14 @@ on:
       - rapporter-manglende-deler
 jobs:
   run-job-rapporter-manglende-deler:
+    permissions:
+      contents: read
+      id-token: write
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout latest code
+        uses: actions/checkout@v3
+
       - uses: nais/deploy/actions/deploy@v1
         name: run job rapporter-manglende-deler on dev-gcp
         env:
