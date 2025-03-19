@@ -13,14 +13,6 @@ jobs:
   run-job-rapporter-manglende-deler:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v1
-      - name: get release tag
-        run: |
-          APPLICATION=$(echo $GITHUB_REPOSITORY | cut -d "/" -f 2)
-          IMAGE=ghcr.io/$GITHUB_REPOSITORY/$APPLICATION:${{ inputs.imageVersion }}
-          echo "IMAGE=${IMAGE}" >> $GITHUB_ENV
-          echo $IMAGE
-
       - uses: nais/deploy/actions/deploy@v1
         name: run job rapporter-manglende-deler on dev-gcp
         env:
