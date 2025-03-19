@@ -1,4 +1,4 @@
-name: job-deep-ping
+name: job-rapporter-manglende-deler
 on:
   workflow_dispatch:
     inputs:
