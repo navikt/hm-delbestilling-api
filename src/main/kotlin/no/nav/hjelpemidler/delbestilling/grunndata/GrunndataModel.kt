@@ -20,8 +20,18 @@ data class ProduktSource(
 
 data class Produkt(
     val id: UUID, // ProductId
+    val title: String,
     val articleName: String,
     val seriesId: UUID,
     val hmsArtNr: Hmsnr,
     val supplierRef: String,
+    val attributes: Attributes,
+)
+
+data class Attributes(
+    val compatibleWith: CompatibleWith? = null,
+)
+data class CompatibleWith(
+    val seriesIds: List<UUID>? = null,
+    val productIds: List<UUID>? = null,
 )

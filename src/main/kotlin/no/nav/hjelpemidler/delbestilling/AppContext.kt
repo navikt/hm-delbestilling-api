@@ -72,5 +72,5 @@ class AppContext {
         grunndataClient,
     )
 
-    val hjelpemidlerService = HjelpemidlerService()
+    val hjelpemidlerService = HjelpemidlerService(grunndataClient)
 }

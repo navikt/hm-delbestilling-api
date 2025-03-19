@@ -8,7 +8,7 @@ on:
       - "CODEOWNERS"
     branches:
       - main
-      - bruk-grunndata
+      - hjelpemiddel-titler
 
 jobs:
   build-and-deploy:
