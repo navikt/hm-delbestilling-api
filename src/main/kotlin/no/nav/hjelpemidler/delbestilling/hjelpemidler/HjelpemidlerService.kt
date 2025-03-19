@@ -31,7 +31,7 @@ class HjelpemidlerService(
 
         val hjelpemiddelNavnFraGrunndata = hjelpemidler.produkter.map { it.title.trim() }.toSet()
 
-        return hjelpemiddelNavnFraGrunndata + hjelpemiddelNavnFraManuellListe()
+        return (hjelpemiddelNavnFraGrunndata + hjelpemiddelNavnFraManuellListe()).toSortedSet()
     }
 
 }
