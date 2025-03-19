@@ -39,6 +39,11 @@ jobs:
         name: run job rapporter-manglende-deler on ${{ inputs.cluster }}-gcp
         env:
           APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY }}
-          CLUSTER: ${{ inputs.cluster }}-gcp
-          RESOURCE: .nais/nais-job-rapporter-manglende-deler.yml
-          VAR: image=${{ env.IMAGE }}
+          CLUSTER: dev-gcp
+          RESOURCE: .nais/nais-job-rapporter-manglende-deler-dev.yml
+          IMAGE: ${{steps.docker-build-push.outputs.image}}
+        #env:
+         # APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY }}
+          #CLUSTER: ${{ inputs.cluster }}-gcp
+          #RESOURCE: .nais/nais-job-rapporter-manglende-deler-dev.yml
+          #VAR: image=${{ env.IMAGE }}
