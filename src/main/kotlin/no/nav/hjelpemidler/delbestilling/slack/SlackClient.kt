@@ -76,7 +76,7 @@ class SlackClient(
             username = username,
             slackIconEmoji(":sadcat:"),
             channel = channel,
-            message = "Det ble gjort et oppslag på ${produkt.hmsArtNr} ${produkt.articleName} som finnes i grunndata, men har ingen egnede deler der. Kanskje noe å se på?"
+            message = "Det ble gjort et oppslag på `${produkt.hmsArtNr} ${produkt.articleName}` som finnes i grunndata, men har ingen egnede deler der. Kanskje noe å se på?"
         )
     }
 }
