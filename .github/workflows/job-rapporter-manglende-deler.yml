@@ -1,5 +1,14 @@
 name: job-rapporter-manglende-deler
 on:
+  push:
+    paths-ignore:
+      - "**.md"
+      - ".gitignore"
+      - "LICENCE"
+      - "CODEOWNERS"
+    branches:
+      - main
+      - rapporter-manglende-deler
   workflow_dispatch:
     inputs:
       imageVersion:
