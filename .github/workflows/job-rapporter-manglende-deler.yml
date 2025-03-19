@@ -42,4 +42,3 @@ jobs:
           CLUSTER: ${{ inputs.cluster }}-gcp
           RESOURCE: .nais/nais-job-rapporter-manglende-deler.yml
           VAR: image=${{ env.IMAGE }}
-          VARS: .nais/${{ inputs.cluster }}.json
