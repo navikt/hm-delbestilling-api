@@ -282,6 +282,7 @@ class DelbestillingService(
                 val deler = grunndataClient.hentDeler(grunndataHjelpemiddel.seriesId, grunndataHjelpemiddel.id).produkter
                 if (deler.isEmpty()) {
                     log.info { "Fant hmsnr $hmsnr i grunndata, men den har ingen egnede deler knyttet til seg" }
+                    slackClient.varsleOmIngenDelerTilGrunndataHjelpemiddel(grunndataHjelpemiddel)
                     null
                 } else {
                     val hjelpemiddelMedDeler =

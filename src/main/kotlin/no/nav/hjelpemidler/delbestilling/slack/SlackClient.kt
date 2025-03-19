@@ -4,7 +4,9 @@ import io.github.oshai.kotlinlogging.KotlinLogging
 import io.ktor.client.engine.cio.CIO
 import no.nav.hjelpemidler.delbestilling.delbestilling.DelbestillingRepository
 import no.nav.hjelpemidler.delbestilling.delbestilling.DelbestillingSak
+import no.nav.hjelpemidler.delbestilling.delbestilling.HjelpemiddelMedDeler
 import no.nav.hjelpemidler.delbestilling.delbestilling.Kilde
+import no.nav.hjelpemidler.delbestilling.grunndata.Produkt
 import no.nav.hjelpemidler.delbestilling.isProd
 import no.nav.hjelpemidler.http.slack.slack
 import no.nav.hjelpemidler.http.slack.slackIconEmoji
@@ -67,5 +69,14 @@ class SlackClient(
             log.error(e) { "Klarte ikke sende varsle til Slack om innsending for kommunenr $brukerKommunenr" }
             // Ikke kast feil videre, ikke krise hvis denne feiler
         }
+    }
+
+    suspend fun varsleOmIngenDelerTilGrunndataHjelpemiddel(produkt: Produkt) {
+        slackClient.sendMessage(
+            username = username,
+            slackIconEmoji(":sadcat:"),
+            channel = channel,
+            message = "Det ble gjort et oppslag på ${produkt.hmsArtNr} ${produkt.articleName} som finnes i grunndata, men har ingen egnede deler der. Kanskje noe å se på?"
+        )
     }
 }
