@@ -36,11 +36,11 @@ jobs:
           echo "IMAGE=${IMAGE}" >> $GITHUB_ENV
           echo $IMAGE
       - uses: nais/deploy/actions/deploy@v1
-        name: run job rapporter-manglende-deler on ${{ inputs.cluster }}-gcp
+        name: run job rapporter-manglende-deler on dev-gcp
         env:
           APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY }}
           CLUSTER: dev-gcp
-          RESOURCE: .nais/nais-job-rapporter-manglende-deler-dev.yml
+          RESOURCE: .nais/nais-job-rapporter-manglende-deler.yml
           IMAGE: ${{steps.docker-build-push.outputs.image}}
         #env:
          # APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY }}
