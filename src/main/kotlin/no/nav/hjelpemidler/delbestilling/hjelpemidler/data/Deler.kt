@@ -1063,33 +1063,6 @@ val hmsnrTilDel: Map<Hmsnr, Del> = listOf<Del>(
         datoLagtTil = LocalDate.of(2025, 2, 19)
     ),
     Del(
-        hmsnr = "181089",
-        navn = "Ryggtrekk",
-        levArtNr = "62953-60",
-        kategori = "Annet",
-        defaultAntall = 1,
-        maksAntall = 1,
-        datoLagtTil = LocalDate.of(2025, 2, 19)
-    ),
-    Del(
-        hmsnr = "181090",
-        navn = "Ryggtrekk",
-        levArtNr = "62954-60",
-        kategori = "Annet",
-        defaultAntall = 1,
-        maksAntall = 1,
-        datoLagtTil = LocalDate.of(2025, 2, 19)
-    ),
-    Del(
-        hmsnr = "181091",
-        navn = "Ryggtrekk",
-        levArtNr = "62955-60",
-        kategori = "Annet",
-        defaultAntall = 1,
-        maksAntall = 1,
-        datoLagtTil = LocalDate.of(2025, 2, 19)
-    ),
-    Del(
         hmsnr = "006428",
         navn = "Armlene høyre",
         levArtNr = "21682",
