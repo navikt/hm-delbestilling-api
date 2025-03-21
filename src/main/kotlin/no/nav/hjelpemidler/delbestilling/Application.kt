@@ -17,6 +17,7 @@ import no.nav.hjelpemidler.delbestilling.delbestilling.delbestillingApiPublic
 import no.nav.hjelpemidler.delbestilling.hjelpemidler.data.validerData
 import no.nav.hjelpemidler.delbestilling.plugins.medDelbestillerRolle
 import no.nav.hjelpemidler.delbestilling.hjelpemidler.hjelpemiddelApi
+import no.nav.hjelpemidler.delbestilling.rapport.Rapportering
 import no.nav.tms.token.support.azure.validation.AzureAuthenticator
 import no.nav.tms.token.support.tokenx.validation.TokenXAuthenticator
 import no.nav.tms.token.support.tokenx.validation.user.TokenXUserFactory
@@ -55,6 +56,8 @@ fun Application.setupRoutes() {
 
         internal()
     }
+
+    Rapportering().rapporter()
 }
 
 fun ApplicationCall.tokenXUser() = TokenXUserFactory.createTokenXUser(this)

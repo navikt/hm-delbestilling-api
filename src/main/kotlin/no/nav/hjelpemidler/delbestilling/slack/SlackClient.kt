@@ -91,4 +91,13 @@ class SlackClient(
             message = "En innsending av en delbestilling feilet (correlationId: $correlationId). Sjekk loggene her: ${url}"
         )
     }
+
+    suspend fun rapporterHjelpemidlerUtenDelbestillingOgMax10Utlån(hmsnr: Set<String>) {
+        slackClient.sendMessage(
+            username = username,
+            slackIconEmoji(":clippy:"),
+            channel = channel,
+            message = "Følgende hjelpemidler har det aldri blitt bestilt deler til, og de har mindre enn 10 utlån: $hmsnr"
+        )
+    }
 }
