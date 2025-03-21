@@ -76,7 +76,7 @@ fun Route.delbestillingApiAuthenticated(
             call.respond(statusKode, resultat)
         } catch (e: Exception) {
             log.error(e) { "Innsending av bestilling feilet" }
-            slackClient.varsleOmInnsendingFeilet(call.request.headers[CORRELATION_ID_HEADER])
+            slackClient.varsleOmInnsendingFeilet(call.request.headers[CORRELATION_ID_HEADER] ?: "UKJENT")
             call.respond(HttpStatusCode.InternalServerError)
         }
     }
