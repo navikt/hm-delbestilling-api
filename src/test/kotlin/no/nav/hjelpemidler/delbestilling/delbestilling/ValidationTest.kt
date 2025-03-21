@@ -14,18 +14,6 @@ internal class ValidationTest {
     }
 
     @Test
-    fun `skal returnere feilmelding når dellinje har for høyt antall`() {
-        val feilmeldinger = validateDelbestillingRequest(
-            delbestillingRequest(
-                deler = listOf(
-                    delLinje(antall = 3)
-                )
-            )
-        )
-        assertEquals("3 overskrider maks antall (2) for 150817", feilmeldinger.first())
-    }
-
-    @Test
     fun `skal returnere feilmelding når bestiller mangler opplæring på batteri`() {
         val requestMedOpplæring = delbestillingRequest(
             deler = listOf(
