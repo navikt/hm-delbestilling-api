@@ -10,8 +10,10 @@ import io.ktor.server.routing.get
 import io.ktor.server.routing.post
 import io.ktor.server.routing.put
 import io.ktor.server.util.getOrFail
+import no.nav.hjelpemidler.delbestilling.CORRELATION_ID_HEADER
 import no.nav.hjelpemidler.delbestilling.isDev
 import no.nav.hjelpemidler.delbestilling.plugins.delbestillerRolleKey
+import no.nav.hjelpemidler.delbestilling.slack.SlackClient
 import no.nav.hjelpemidler.delbestilling.tokenXUser
 import java.time.LocalDate
 
@@ -48,6 +50,7 @@ fun Route.delbestillingApiPublic(
 
 fun Route.delbestillingApiAuthenticated(
     delbestillingService: DelbestillingService,
+    slackClient: SlackClient,
 ) {
     post("/delbestilling") {
         try {
@@ -73,6 +76,7 @@ fun Route.delbestillingApiAuthenticated(
             call.respond(statusKode, resultat)
         } catch (e: Exception) {
             log.error(e) { "Innsending av bestilling feilet" }
+            slackClient.varsleOmInnsendingFeilet(call.request.headers[CORRELATION_ID_HEADER])
             call.respond(HttpStatusCode.InternalServerError)
         }
     }

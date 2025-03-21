@@ -39,7 +39,7 @@ fun Application.setupRoutes() {
             authenticate(TokenXAuthenticator.name) {
                 medDelbestillerRolle(ctx.rolleService)
 
-                delbestillingApiAuthenticated(ctx.delbestillingService)
+                delbestillingApiAuthenticated(ctx.delbestillingService, ctx.slackClient)
             }
 
             rateLimit(RateLimitName("public")) {
