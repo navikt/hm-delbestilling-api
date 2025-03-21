@@ -11,6 +11,7 @@ import kotlin.test.Ignore
 fun main() = runBlocking {
     val grunndataClient = GrunndataClient(baseUrl = "https://finnhjelpemiddel.nav.no")
     val hovedhjelpemidler = hmsnrTilHjelpemiddel
+    val harAlleDeler = mutableListOf<String>()
     hovedhjelpemidler.forEach{
         val hmsnr = it.key
 
@@ -22,11 +23,14 @@ fun main() = runBlocking {
             val grunndataDeler = grunndataClient.hentDeler(seriesId = grunndataHjelpemiddel.seriesId, produktId = grunndataHjelpemiddel.id).produkter.map{ it.hmsArtNr }.toSet()
             if (grunndataDeler.containsAll(manuelleDeler)) {
                 println("$hmsnr har alle deler i grunndata som i manuell liste")
+                harAlleDeler.add(hmsnr)
             } else {
                 println("$hmsnr har deler i manuell liste: $manuelleDeler")
                 println("$hmsnr har deler i grunndata: $grunndataDeler")
             }
         }
     }
+
+    println("Helt ferdig! Følgende hmsnr har alle tilsvarende deler både i manuell liste og grunndata: $harAlleDeler")
 }
 
