@@ -2,7 +2,6 @@ package no.nav.hjelpemidler.delbestilling.hjelpemidler
 
 import io.github.oshai.kotlinlogging.KotlinLogging
 import io.ktor.http.HttpStatusCode
-import kotlinx.coroutines.runBlocking
 import no.nav.hjelpemidler.delbestilling.delbestilling.AlleHjelpemidlerMedDelerResultat
 import no.nav.hjelpemidler.delbestilling.grunndata.GrunndataClient
 import no.nav.hjelpemidler.delbestilling.hjelpemidler.data.hmsnr2Hjm
@@ -13,12 +12,6 @@ private val logger = KotlinLogging.logger { }
 class HjelpemidlerService(
     val grunndataClient: GrunndataClient,
 ) {
-
-    fun hentAlleHjelpemidlerMedDeler(): AlleHjelpemidlerMedDelerResultat {
-        val alleHjelpemidlerMedDeler = hmsnr2Hjm.values.toList()
-        return AlleHjelpemidlerMedDelerResultat(alleHjelpemidlerMedDeler, HttpStatusCode.OK)
-    }
-
     suspend fun hentAlleHjelpemiddelTitler(): Set<String> {
         val alleDelerSomKanBestilles = grunndataClient.hentAlleDelerSomKanBestilles()
         val produktIDs = alleDelerSomKanBestilles.produkter.map {
