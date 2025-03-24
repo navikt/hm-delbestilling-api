@@ -19,15 +19,20 @@ class SlackClient(
     private val delbestillingRepository: DelbestillingRepository
 ) {
     private val slackClient by lazy { slack(engine = CIO.create()) }
-    private val channel = when(isProd()) {
+    private val channel = when (isProd()) {
         true -> "#digihot-delbestillinger-alerts"
         else -> "#digihot-delbestillinger-alerts-dev"
     }
     private val username = "hm-delbestilling-api"
 
-    suspend fun varsleOmInnsending(brukerKommunenr: String, brukersKommunenavn: String, delbestillingSak: DelbestillingSak) {
+    suspend fun varsleOmInnsending(
+        brukerKommunenr: String,
+        brukersKommunenavn: String,
+        delbestillingSak: DelbestillingSak
+    ) {
         try {
-            val antallDelbestillingerFraKommune = delbestillingRepository.hentDelbestillingerForKommune(brukerKommunenr).size
+            val antallDelbestillingerFraKommune =
+                delbestillingRepository.hentDelbestillingerForKommune(brukerKommunenr).size
             log.info { "antallDelbestillingerFraKommune for $brukersKommunenavn (brukerKommunenr: $brukerKommunenr): $antallDelbestillingerFraKommune" }
             if (antallDelbestillingerFraKommune == 1) {
                 slackClient.sendMessage(
@@ -45,27 +50,40 @@ class SlackClient(
                 )
             }
 
-            val delerFraUtvidetSortiment19Feb = delbestillingSak.delbestilling.deler.filter { it.del.datoLagtTil == LocalDate.of(2025, 2, 19) }
+            val delerFraUtvidetSortiment19Feb =
+                delbestillingSak.delbestilling.deler.filter { it.del.datoLagtTil == LocalDate.of(2025, 2, 19) }
             log.info { "delerFraUtvidetSortiment19Feb: $delerFraUtvidetSortiment19Feb" }
             if (delerFraUtvidetSortiment19Feb.isNotEmpty()) {
                 slackClient.sendMessage(
                     username = username,
                     slackIconEmoji(":tada:"),
                     channel = channel,
-                    message = "En delbestilling har kommet inn med nye deler som ble lagt til 19 februar, i ${brukersKommunenavn} kommune! Disse delene var: ${delerFraUtvidetSortiment19Feb.joinToString(", ") { "${it.del.hmsnr} ${it.del.navn}" }}"
+                    message = "En delbestilling har kommet inn med nye deler som ble lagt til 19 februar, i ${brukersKommunenavn} kommune! Disse delene var: ${
+                        delerFraUtvidetSortiment19Feb.joinToString(
+                            ", "
+                        ) { "${it.del.hmsnr} ${it.del.navn}" }
+                    }"
                 )
             }
 
             val delerFraGrunndata = delbestillingSak.delbestilling.deler.filter { it.del.kilde == Kilde.GRUNNDATA }
             log.info { "delerFraGrunndata: $delerFraGrunndata" }
             if (delerFraGrunndata.isNotEmpty()) {
-                var message = "En delbestilling har kommet inn med deler fra grunndata, i ${brukersKommunenavn} kommune! Disse delene var: ${delerFraGrunndata.joinToString(", ") { "${it.del.hmsnr} ${it.del.navn}" }}"
+                var message =
+                    "En delbestilling har kommet inn med deler fra grunndata, i ${brukersKommunenavn} kommune! Disse delene var: ${
+                        delerFraGrunndata.joinToString(", ") { "${it.del.hmsnr} ${it.del.navn}" }
+                    }"
 
                 val delerIManuellListe = hmsnrTilDel.values.toList()
-                val delerSomOgsåFinnesIManuellListe = delerFraGrunndata.filter {del -> delerIManuellListe.find { it.hmsnr == del.del.hmsnr } != null }
+                val delerSomOgsåFinnesIManuellListe =
+                    delerFraGrunndata.filter { del -> delerIManuellListe.find { it.hmsnr == del.del.hmsnr } != null }
 
                 if (delerSomOgsåFinnesIManuellListe.isNotEmpty()) {
-                    message += ".\nFølgende deler finnes også i manuell liste: ${delerSomOgsåFinnesIManuellListe.joinToString(", ") { "${it.del.hmsnr} ${it.del.navn}" }}"
+                    message += ".\nFølgende deler finnes også i manuell liste: ${
+                        delerSomOgsåFinnesIManuellListe.joinToString(
+                            ", "
+                        ) { "${it.del.hmsnr} ${it.del.navn}" }
+                    }"
                 }
 
                 slackClient.sendMessage(
@@ -117,7 +135,9 @@ class SlackClient(
             username = username,
             slackIconEmoji(":clippy:"),
             channel = channel,
-            message = "Antall utlån og delbestillinger per hjelpemiddel: $hjelpemiddel"
+            message = "Antall utlån og delbestillinger per hjelpemiddel: ${
+                hjelpemiddel.joinToString(separator = ",") { "(${it.hmnsr},${it.utlån},${it.bestillinger})" }
+            }"
         )
     }
 }
