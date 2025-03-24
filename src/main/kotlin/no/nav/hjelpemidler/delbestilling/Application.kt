@@ -54,7 +54,7 @@ fun Application.setupRoutes() {
         internal()
     }
 
-    Rapportering().rapporter()
+    // Rapportering().rapporter()
 }
 
 fun ApplicationCall.tokenXUser() = TokenXUserFactory.createTokenXUser(this)
