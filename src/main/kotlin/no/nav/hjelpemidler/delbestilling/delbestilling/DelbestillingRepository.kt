@@ -29,7 +29,7 @@ class DelbestillingRepository(val ds: DataSource) {
         bestillerFnr: String,
         brukerFnr: String,
         brukerKommunenr: String,
-        delbestilling: Delbestilling, 
+        delbestilling: Delbestilling,
         brukersKommunenavn: String,
         bestillersOrganisasjon: Organisasjon,
         bestillerType: BestillerType,
@@ -66,16 +66,28 @@ class DelbestillingRepository(val ds: DataSource) {
         )
     }
 
-    fun hentDelbestillingerForKommune(brukerKommunenr: String): List<DelbestillingSak> = using(sessionOf(ds)) { session ->
-        session.run(
-            queryOf(
-                """
+    fun hentDelbestillingerForKommune(brukerKommunenr: String): List<DelbestillingSak> =
+        using(sessionOf(ds)) { session ->
+            session.run(
+                queryOf(
+                    """
                     SELECT * 
                     FROM delbestilling
                     WHERE brukers_kommunenr = :brukers_kommunenr
                 """.trimIndent(),
-                mapOf("brukers_kommunenr" to brukerKommunenr)
-            ).map { it.toLagretDelbestilling() }.asList
+                    mapOf("brukers_kommunenr" to brukerKommunenr)
+                ).map { it.toLagretDelbestilling() }.asList
+            )
+        }
+
+    fun hentDelbestillinger(): List<DelbestillingSak> = using(sessionOf(ds)) { session ->
+        session.run(queryOf(
+            """
+            SELECT * 
+            FROM delbestilling
+        """.trimIndent(),
+            mapOf()
+        ).map { it.toLagretDelbestilling() }.asList
         )
     }
 

@@ -111,4 +111,13 @@ class SlackClient(
             // Ikke kast feil videre, ikke krise hvis denne feiler
         }
     }
+
+    suspend fun rapporterHjelpemidlerUtenDelbestillingOgMax10Utlån(hmsnr: List<Pair<String, Int?>>) {
+        slackClient.sendMessage(
+            username = username,
+            slackIconEmoji(":clippy:"),
+            channel = channel,
+            message = "Følgende hjelpemidler har det aldri blitt bestilt deler til, og de har mindre enn 10 utlån: $hmsnr"
+        )
+    }
 }
