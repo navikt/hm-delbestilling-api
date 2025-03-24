@@ -372,9 +372,11 @@ class DelbestillingService(
         val lagerstatusForDeler =
             oebsService.hentLagerstatus(brukersKommunenummer, hjelpemiddelMedDeler.deler.map { it.hmsnr })
 
-        // Koble hver del til lagerstatus
+        // Koble hver del til lagerstatus, og sorter på navn
         hjelpemiddelMedDeler.deler =
-            hjelpemiddelMedDeler.deler.map { del -> del.copy(lagerstatus = lagerstatusForDeler.find { it.artikkelnummer == del.hmsnr }) }
+            hjelpemiddelMedDeler.deler.map {
+                del -> del.copy(lagerstatus = lagerstatusForDeler.find { it.artikkelnummer == del.hmsnr })
+            }.sortedBy { it.navn }
 
         val sentral = hjelpemiddelMedDeler.deler.first().lagerstatus?.organisasjons_navn ?: "UKJENT"
         val antallPåLager = hjelpemiddelMedDeler.deler.count { it.lagerstatus?.minmax == true }
