@@ -6,6 +6,8 @@ import no.nav.hjelpemidler.delbestilling.delbestilling.DelbestillingRepository
 import no.nav.hjelpemidler.delbestilling.delbestilling.DelbestillingSak
 import no.nav.hjelpemidler.delbestilling.delbestilling.Kilde
 import no.nav.hjelpemidler.delbestilling.grunndata.Produkt
+import no.nav.hjelpemidler.delbestilling.hjelpemidler.data.hmsnrHjmTilHmsnrDeler
+import no.nav.hjelpemidler.delbestilling.hjelpemidler.data.hmsnrTilDel
 import no.nav.hjelpemidler.delbestilling.isProd
 import no.nav.hjelpemidler.http.slack.slack
 import no.nav.hjelpemidler.http.slack.slackIconEmoji
@@ -57,11 +59,20 @@ class SlackClient(
             val delerFraGrunndata = delbestillingSak.delbestilling.deler.filter { it.del.kilde == Kilde.GRUNNDATA }
             log.info { "delerFraGrunndata: $delerFraGrunndata" }
             if (delerFraGrunndata.isNotEmpty()) {
+                var message = "En delbestilling har kommet inn med deler fra grunndata, i ${brukersKommunenavn} kommune! Disse delene var: ${delerFraGrunndata.joinToString(", ") { "${it.del.hmsnr} ${it.del.navn}" }}"
+
+                val delerIManuellListe = hmsnrTilDel.values.toList()
+                val delerSomOgsåFinnesIManuellListe = delerFraGrunndata.filter {del -> delerIManuellListe.find { it.hmsnr == del.del.hmsnr } != null }
+
+                if (delerSomOgsåFinnesIManuellListe.isNotEmpty()) {
+                    message += ".\nFølgende deler finnes også i manuell liste: $delerSomOgsåFinnesIManuellListe"
+                }
+
                 slackClient.sendMessage(
                     username = username,
                     slackIconEmoji(":very_nice:"),
                     channel = channel,
-                    message = "En delbestilling har kommet inn med deler fra grunndata, i ${brukersKommunenavn} kommune! Disse delene var: ${delerFraGrunndata.joinToString(", ") { "${it.del.hmsnr} ${it.del.navn}" }}"
+                    message = message
                 )
             }
         } catch (e: Exception) {
