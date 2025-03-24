@@ -6,9 +6,9 @@ import no.nav.hjelpemidler.delbestilling.delbestilling.DelbestillingRepository
 import no.nav.hjelpemidler.delbestilling.delbestilling.DelbestillingSak
 import no.nav.hjelpemidler.delbestilling.delbestilling.Kilde
 import no.nav.hjelpemidler.delbestilling.grunndata.Produkt
-import no.nav.hjelpemidler.delbestilling.hjelpemidler.data.hmsnrHjmTilHmsnrDeler
 import no.nav.hjelpemidler.delbestilling.hjelpemidler.data.hmsnrTilDel
 import no.nav.hjelpemidler.delbestilling.isProd
+import no.nav.hjelpemidler.delbestilling.rapport.Hjelpemiddel
 import no.nav.hjelpemidler.http.slack.slack
 import no.nav.hjelpemidler.http.slack.slackIconEmoji
 import java.time.LocalDate
@@ -112,12 +112,12 @@ class SlackClient(
         }
     }
 
-    suspend fun rapporterHjelpemidlerUtenDelbestillingOgMax10Utlån(hmsnr: List<Pair<String, Int?>>) {
+    suspend fun rapporterAntallBestillingerOgUtlånForHjelpemidler(hjelpemiddel: List<Hjelpemiddel>) {
         slackClient.sendMessage(
             username = username,
             slackIconEmoji(":clippy:"),
             channel = channel,
-            message = "Følgende hjelpemidler har det aldri blitt bestilt deler til, og de har mindre enn 10 utlån: $hmsnr"
+            message = "Antall utlån og delbestillinger per hjelpemiddel: $hjelpemiddel"
         )
     }
 }

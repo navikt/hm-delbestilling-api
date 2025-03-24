@@ -32,13 +32,26 @@ class Rapportering {
         slackClient: SlackClient,
         delbestillingRepository: DelbestillingRepository
     ) {
-        val alleDelbestillinger = delbestillingRepository.hentDelbestillinger()
-        val hjelpemiddelMedDelbestilling = alleDelbestillinger.map { it.delbestilling.hmsnr }.toSet()
-        val hmsnrMedMax10UtlånOgUtenDelbestilling = ANTALL_UTLÅN
-            .filter { it.value < 10 }
-            .filter { it.key !in hjelpemiddelMedDelbestilling}
-            .map { it.key to ANTALL_UTLÅN[it.key] }
+        val telling = ANTALL_UTLÅN.map {
+            it.key to Hjelpemiddel(it.key, it.value)
+        }.toMap()
 
-        slackClient.rapporterHjelpemidlerUtenDelbestillingOgMax10Utlån(hmsnrMedMax10UtlånOgUtenDelbestilling)
+        val alleDelbestillinger = delbestillingRepository.hentDelbestillinger()
+
+        alleDelbestillinger.forEach { bestilling ->
+            if (bestilling.delbestilling.hmsnr in telling) {
+                telling[bestilling.delbestilling.hmsnr]?.bestillinger++
+            }
+        }
+
+        val resultat = telling.values.toList().sortedBy { it.utlån }
+
+        slackClient.rapporterAntallBestillingerOgUtlånForHjelpemidler(resultat)
     }
 }
+
+data class Hjelpemiddel(
+    val hmnsr: String,
+    val utlån: Int,
+    var bestillinger: Int = 0,
+)
