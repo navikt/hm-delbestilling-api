@@ -37,8 +37,7 @@ class Rapportering {
         val hmsnrMedMax10UtlånOgUtenDelbestilling = ANTALL_UTLÅN
             .filter { it.value < 10 }
             .filter { it.key !in hjelpemiddelMedDelbestilling}
-            .map { it.key }
-            .toSet()
+            .map { it.key to ANTALL_UTLÅN[it.key] }
 
         slackClient.rapporterHjelpemidlerUtenDelbestillingOgMax10Utlån(hmsnrMedMax10UtlånOgUtenDelbestilling)
     }

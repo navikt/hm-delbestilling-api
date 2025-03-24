@@ -4,7 +4,6 @@ import io.github.oshai.kotlinlogging.KotlinLogging
 import io.ktor.client.engine.cio.CIO
 import no.nav.hjelpemidler.delbestilling.delbestilling.DelbestillingRepository
 import no.nav.hjelpemidler.delbestilling.delbestilling.DelbestillingSak
-import no.nav.hjelpemidler.delbestilling.delbestilling.HjelpemiddelMedDeler
 import no.nav.hjelpemidler.delbestilling.delbestilling.Kilde
 import no.nav.hjelpemidler.delbestilling.grunndata.Produkt
 import no.nav.hjelpemidler.delbestilling.isProd
@@ -92,7 +91,7 @@ class SlackClient(
         )
     }
 
-    suspend fun rapporterHjelpemidlerUtenDelbestillingOgMax10Utlån(hmsnr: Set<String>) {
+    suspend fun rapporterHjelpemidlerUtenDelbestillingOgMax10Utlån(hmsnr: List<Pair<String, Int?>>) {
         slackClient.sendMessage(
             username = username,
             slackIconEmoji(":clippy:"),
