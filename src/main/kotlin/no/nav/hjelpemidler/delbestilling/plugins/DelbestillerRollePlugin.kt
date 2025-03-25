@@ -6,13 +6,12 @@ import io.ktor.server.application.install
 import io.ktor.server.auth.AuthenticationChecked
 import io.ktor.server.response.respond
 import io.ktor.server.routing.Route
-import io.github.oshai.kotlinlogging.KotlinLogging
 import io.ktor.util.AttributeKey
+import no.nav.hjelpemidler.delbestilling.infrastructure.monitoring.Logg
 import no.nav.hjelpemidler.delbestilling.roller.Delbestiller
 import no.nav.hjelpemidler.delbestilling.roller.RolleService
 import no.nav.hjelpemidler.delbestilling.tokenXUser
 
-private val log = KotlinLogging.logger {}
 
 class DelbestillerRollePluginConfig {
     lateinit var rolleService: RolleService
@@ -39,7 +38,7 @@ val DelbestillerRollePlugin = createRouteScopedPlugin(
             call.attributes.put(delbestillerRolleKey, resultat)
             
         } catch (e: Exception) {
-            log.error(e) { "Kunne ikke sjekke rolle med DelbestillerRollePlugin " }
+            Logg.error(e) { "Kunne ikke sjekke rolle med DelbestillerRollePlugin " }
             throw e
         }
     }
