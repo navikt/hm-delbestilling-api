@@ -6,7 +6,7 @@ import com.fasterxml.jackson.databind.node.ObjectNode
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.jacksonMapperBuilder
 import no.nav.hjelpemidler.delbestilling.Config.kafkaProducerProperties
-import no.nav.hjelpemidler.delbestilling.infrastructure.monitoring.Logg
+import no.nav.hjelpemidler.delbestilling.infrastructure.monitoring.logger2
 import org.apache.kafka.clients.producer.KafkaProducer
 import org.apache.kafka.clients.producer.Producer
 import org.apache.kafka.clients.producer.ProducerConfig
@@ -17,6 +17,7 @@ import java.util.Properties
 import java.util.UUID
 import java.util.concurrent.TimeUnit
 
+private val log = logger2()
 
 class KafkaService(
     properties: Properties = kafkaProducerProperties,
@@ -65,7 +66,7 @@ class KafkaService(
     }
 
     private fun shutdownHook() {
-        Logg.info { "received shutdown signal, stopping app" }
+        log.info { "received shutdown signal, stopping app" }
         producer.close()
     }
 }

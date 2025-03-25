@@ -19,6 +19,8 @@ class PdlResponseMissingData(message: String = "") :
 
 class TilgangException(message: String) : RuntimeException("Innlogget bruker har ikke riktig tilgang. $message")
 
+private val log = logger2()
+
 fun Application.configureStatusPages() {
     install(StatusPages) {
         exception<PersonNotFoundInPdl> { call, cause ->
@@ -37,16 +39,16 @@ fun Application.configureStatusPages() {
             call.respond(HttpStatusCode.Forbidden, cause.message!!)
         }
         exception<RequestValidationException> { call, cause ->
-            Logg.error(cause) { "BadRequest (fix validering i frontend)" }
+            log.error(cause) { "BadRequest (fix validering i frontend)" }
             call.respond(HttpStatusCode.BadRequest, cause.reasons.joinToString())
         }
         exception<Exception> { call, cause ->
-            Logg.error(cause) { "Unhandled exception." }
+            log.error(cause) { "Unhandled exception." }
             call.respond(HttpStatusCode.InternalServerError)
         }
         exception<MissingRequestParameterException> {call, cause ->
             val message = "Mangler \"${cause.parameterName}\" parameter i request"
-            Logg.error(cause) { message }
+            log.error(cause) { message }
             call.respond(HttpStatusCode.BadRequest, message)
         }
     }

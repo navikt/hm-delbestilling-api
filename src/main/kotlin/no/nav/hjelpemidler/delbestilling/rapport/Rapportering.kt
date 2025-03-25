@@ -7,9 +7,10 @@ import kotlinx.coroutines.launch
 import no.nav.hjelpemidler.delbestilling.Database
 import no.nav.hjelpemidler.delbestilling.delbestilling.DelbestillingRepository
 import no.nav.hjelpemidler.delbestilling.infrastructure.grunndata.GrunndataClient
-import no.nav.hjelpemidler.delbestilling.infrastructure.monitoring.Logg
+import no.nav.hjelpemidler.delbestilling.infrastructure.monitoring.logger2
 import no.nav.hjelpemidler.delbestilling.slack.SlackClient
 
+private val log = logger2()
 
 class Rapportering {
 
@@ -22,7 +23,7 @@ class Rapportering {
                 val slackClient = SlackClient(delbestillingRepository)
                 rapporterHjelpemidlerUtenDelbestillingOgMax10Utlån(slackClient, delbestillingRepository)
             } catch (e: Exception) {
-                Logg.error(e) { "Rapportering feilet" }
+                log.error(e) { "Rapportering feilet" }
             }
         }
     }

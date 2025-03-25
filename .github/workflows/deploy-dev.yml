@@ -8,7 +8,7 @@ on:
       - "CODEOWNERS"
     branches:
       - main
-      - rapportering
+      - fix-logger
 
 jobs:
   build-and-deploy:
