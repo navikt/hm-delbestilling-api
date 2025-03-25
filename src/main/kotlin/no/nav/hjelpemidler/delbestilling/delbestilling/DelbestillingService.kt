@@ -389,7 +389,8 @@ class DelbestillingService(
             log.info { "$sentral har ikke alle deler på lager for $hmsnr. Ikke på lager: $ikkePåLager, mangler lagerstatus: $manglerLagerstatus." }
         }
 
-        log.info { "Antall deler for hmsnr $hmsnr: ${hjelpemiddelMedDeler.deler.size}, antall unike kategorier: ${hjelpemiddelMedDeler.deler.distinctBy { it.kategori }.size}" }
+        log.info { "Antall deler for hmsnr $hmsnr: ${hjelpemiddelMedDeler.deler.size}, antall unike kategorier: ${hjelpemiddelMedDeler.antallKategorier()}" }
+        metrics.antallKategorier(hjelpemiddelMedDeler.antallKategorier())
 
         return OppslagResultat(hjelpemiddelMedDeler, null, HttpStatusCode.OK)
     }

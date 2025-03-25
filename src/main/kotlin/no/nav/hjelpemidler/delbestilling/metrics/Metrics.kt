@@ -9,7 +9,7 @@ private val log = KotlinLogging.logger {}
 class Metrics(
     private val kafkaService: KafkaService,
 ) {
-    private suspend fun registerPoint(
+    private fun registerPoint(
         measurement: String,
         tags: Map<String, String>,
         fields: Map<String, Any> = mapOf("counter" to 1L),
@@ -21,7 +21,7 @@ class Metrics(
         }
     }
 
-    suspend fun registrerDelbestillingInnsendt(
+    fun registrerDelbestillingInnsendt(
         hmsnrDel: String,
         navnDel: String,
         hmsnrHovedprodukt: String,
@@ -42,7 +42,7 @@ class Metrics(
         )
     }
 
-    suspend fun grunndataHjelpemiddelManglerDeler(
+    fun grunndataHjelpemiddelManglerDeler(
         hmsnr: Hmsnr,
         navn: String,
     ) {
@@ -51,6 +51,15 @@ class Metrics(
             mapOf(
                 "hmsnr" to hmsnr,
                 "navn" to navn,
+            )
+        )
+    }
+
+    fun antallKategorier(antallKategorier: Int) {
+        registerPoint(
+            "delbestilling.antallKategorier",
+            mapOf(
+                "antallKategorier" to antallKategorier.toString(),
             )
         )
     }

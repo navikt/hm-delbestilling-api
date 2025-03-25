@@ -46,8 +46,10 @@ data class XKLagerResponse (
 data class HjelpemiddelMedDeler(
     val navn: String,
     val hmsnr: String,
-    var deler: List<Del>,
-)
+    var deler: List<Del>, // TODO gjør om til val. Da kan også antallKategorier gjøres om til val.
+) {
+    fun antallKategorier(): Int = deler.distinctBy { it.kategori }.size
+}
 
 data class Del(
     val hmsnr: Hmsnr,
