@@ -12,21 +12,22 @@ fun main() = runBlocking {
     val grunndataClient = GrunndataClient(baseUrl = "https://finnhjelpemiddel.nav.no")
     val hovedhjelpemidler = hmsnrTilHjelpemiddel
     val harAlleDeler = mutableListOf<String>()
-    hovedhjelpemidler.forEach{
+    hovedhjelpemidler.onEachIndexed { index, it ->
         val hmsnr = it.key
+        val progress = "(${index+1}/${hovedhjelpemidler.size})"
 
         val grunndataHjelpemiddel = grunndataClient.hentHjelpemiddel(hmsnr).produkt
         if (grunndataHjelpemiddel == null) {
-            println("$hmsnr finnes ikke i grunndata, hopper over")
+            println("$progress $hmsnr finnes ikke i grunndata, hopper over")
         } else {
             val manuelleDeler = hmsnrHjmTilHmsnrDeler[hmsnr]?.toList() ?: emptyList()
             val grunndataDeler = grunndataClient.hentDeler(seriesId = grunndataHjelpemiddel.seriesId, produktId = grunndataHjelpemiddel.id).produkter.map{ it.hmsArtNr }.toSet()
             if (grunndataDeler.containsAll(manuelleDeler)) {
-                println("$hmsnr har alle deler i grunndata som i manuell liste")
+                println("$progress $hmsnr har alle deler i grunndata som i manuell liste")
                 harAlleDeler.add(hmsnr)
             } else {
-                println("$hmsnr har deler i manuell liste: $manuelleDeler")
-                println("$hmsnr har deler i grunndata: $grunndataDeler")
+                println("$progress $hmsnr har disse delene i manuell liste: $manuelleDeler")
+                println("$progress $hmsnr har disse delene i grunndata: $grunndataDeler")
             }
         }
     }
