@@ -1,10 +1,10 @@
-package no.nav.hjelpemidler.delbestilling.grunndata.requests
+package no.nav.hjelpemidler.delbestilling.infrastructure.grunndata.queries
 
 import com.fasterxml.jackson.databind.JsonNode
+import no.nav.hjelpemidler.delbestilling.delbestilling.Hmsnr
 import no.nav.hjelpemidler.delbestilling.jsonMapper
-import java.util.UUID
 
-fun alleDelerSomKanBestillesRequest(): JsonNode {
+fun hmsArtNrQuery(hmsnr: Hmsnr): JsonNode {
     return jsonMapper.readTree(
         """
         {
@@ -13,18 +13,13 @@ fun alleDelerSomKanBestillesRequest(): JsonNode {
                     "must": [
                         {
                             "match": {
-                                "attributes.egnetForKommunalTekniker": "true"
-                            }
-                        },
-                        {
-                            "match": {
-                                "sparePart": "true"
+                                "hmsArtNr": "$hmsnr"
                             }
                         }
                     ]
                 }
             },
-            "size": "10000"
+            "size": "1"
         }
     """.trimIndent()
     )

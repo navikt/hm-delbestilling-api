@@ -1,10 +1,10 @@
-package no.nav.hjelpemidler.delbestilling.grunndata.requests
+package no.nav.hjelpemidler.delbestilling.infrastructure.grunndata.queries
 
 import com.fasterxml.jackson.databind.JsonNode
 import no.nav.hjelpemidler.delbestilling.jsonMapper
 import java.util.UUID
 
-fun alleHjmMedIdEllerSeriesIdRequest(seriesIds: Set<UUID>, produktIds: Set<UUID>): JsonNode {
+fun compatibleWithQuery(seriesId: UUID, produktId: UUID): JsonNode {
     return jsonMapper.readTree(
         """
         {
@@ -12,27 +12,32 @@ fun alleHjmMedIdEllerSeriesIdRequest(seriesIds: Set<UUID>, produktIds: Set<UUID>
                 "bool": {
                     "should": [
                         {
-                            "terms": {
-                                "seriesId": [${seriesIds.joinToString(separator = ","){ "\"$it\"" }}]
+                            "match": {
+                                "attributes.compatibleWith.seriesIds": "$seriesId"
                             }
                         },
                         {
-                            "terms": {
-                                "id": [${produktIds.joinToString(separator = ","){ "\"$it\"" }}]
+                            "match": {
+                                "attributes.compatibleWith.productIds": "$produktId"
                             }
                         }
                     ],
                     "must": [
                         {
                             "match": {
-                                "main": "true"
+                                "attributes.egnetForKommunalTekniker": "true"
+                            }
+                        },
+                        {
+                            "match": {
+                                "sparePart": "true"
                             }
                         }
                     ],
                     "minimum_should_match": 1
                 }
             },
-            "size": 10000
+            "size": "10000"
         }
     """.trimIndent()
     )

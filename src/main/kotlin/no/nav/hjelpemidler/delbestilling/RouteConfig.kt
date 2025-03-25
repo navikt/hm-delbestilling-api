@@ -25,7 +25,7 @@ import no.nav.hjelpemidler.delbestilling.delbestilling.DelbestillingRequest
 import no.nav.hjelpemidler.delbestilling.delbestilling.OppslagRequest
 import no.nav.hjelpemidler.delbestilling.delbestilling.validateDelbestillingRequest
 import no.nav.hjelpemidler.delbestilling.delbestilling.validateOppslagRequest
-import no.nav.hjelpemidler.delbestilling.exceptions.configureStatusPages
+import no.nav.hjelpemidler.delbestilling.infrastructure.monitoring.configureStatusPages
 import no.nav.tms.token.support.azure.validation.azure
 import no.nav.tms.token.support.tokenx.validation.mock.LevelOfAssurance
 import no.nav.tms.token.support.tokenx.validation.mock.tokenXMock

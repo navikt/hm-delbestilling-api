@@ -14,8 +14,8 @@ import io.mockk.every
 import io.mockk.mockk
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.test.runTest
-import no.nav.hjelpemidler.delbestilling.exceptions.PersonNotAccessibleInPdl
-import no.nav.hjelpemidler.delbestilling.exceptions.PersonNotFoundInPdl
+import no.nav.hjelpemidler.delbestilling.infrastructure.monitoring.PersonNotAccessibleInPdl
+import no.nav.hjelpemidler.delbestilling.infrastructure.monitoring.PersonNotFoundInPdl
 import no.nav.hjelpemidler.http.openid.OpenIDClient
 import no.nav.hjelpemidler.http.openid.TokenSet
 import org.intellij.lang.annotations.Language

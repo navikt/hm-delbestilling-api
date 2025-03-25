@@ -7,7 +7,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import no.nav.hjelpemidler.delbestilling.Database
 import no.nav.hjelpemidler.delbestilling.delbestilling.DelbestillingRepository
-import no.nav.hjelpemidler.delbestilling.grunndata.GrunndataClient
+import no.nav.hjelpemidler.delbestilling.infrastructure.grunndata.GrunndataClient
 import no.nav.hjelpemidler.delbestilling.slack.SlackClient
 
 private val log = KotlinLogging.logger {}

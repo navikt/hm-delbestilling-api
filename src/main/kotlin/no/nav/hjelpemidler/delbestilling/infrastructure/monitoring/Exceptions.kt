@@ -1,4 +1,4 @@
-package no.nav.hjelpemidler.delbestilling.exceptions
+package no.nav.hjelpemidler.delbestilling.infrastructure.monitoring
 
 import io.ktor.http.HttpStatusCode
 import io.ktor.server.application.Application
@@ -7,7 +7,6 @@ import io.ktor.server.plugins.MissingRequestParameterException
 import io.ktor.server.plugins.requestvalidation.RequestValidationException
 import io.ktor.server.plugins.statuspages.StatusPages
 import io.ktor.server.response.respond
-import io.ktor.server.response.respondText
 import io.github.oshai.kotlinlogging.KotlinLogging
 
 private val log = KotlinLogging.logger {}

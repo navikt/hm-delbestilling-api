@@ -5,11 +5,11 @@ import io.ktor.http.HttpStatusCode
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 import no.bekk.bekkopen.date.NorwegianDateUtil
-import no.nav.hjelpemidler.delbestilling.exceptions.PersonNotAccessibleInPdl
-import no.nav.hjelpemidler.delbestilling.exceptions.PersonNotFoundInPdl
-import no.nav.hjelpemidler.delbestilling.grunndata.GrunndataClient
+import no.nav.hjelpemidler.delbestilling.infrastructure.monitoring.PersonNotAccessibleInPdl
+import no.nav.hjelpemidler.delbestilling.infrastructure.monitoring.PersonNotFoundInPdl
 import no.nav.hjelpemidler.delbestilling.hjelpemidler.data.hmsnr2Hjm
 import no.nav.hjelpemidler.delbestilling.hjelpemidler.defaultAntall
+import no.nav.hjelpemidler.delbestilling.infrastructure.grunndata.Grunndata
 import no.nav.hjelpemidler.delbestilling.isDev
 import no.nav.hjelpemidler.delbestilling.isLocal
 import no.nav.hjelpemidler.delbestilling.isProd
@@ -37,7 +37,7 @@ class DelbestillingService(
     private val oppslagService: OppslagService,
     private val metrics: Metrics,
     private val slackClient: SlackClient,
-    private val grunndataClient: GrunndataClient,
+    private val grunndata: Grunndata,
 ) {
     suspend fun opprettDelbestilling(
         request: DelbestillingRequest,
@@ -276,10 +276,10 @@ class DelbestillingService(
 
     suspend fun slåOppHjelpemiddel(hmsnr: String, serienr: String): OppslagResultat {
         val hjelpemiddelMedDelerGrunndata = try {
-            val grunndataHjelpemiddel = grunndataClient.hentHjelpemiddel(hmsnr).produkt
+            val grunndataHjelpemiddel = grunndata.hentHjelpemiddel(hmsnr)
 
             if (grunndataHjelpemiddel != null) {
-                val deler = grunndataClient.hentDeler(grunndataHjelpemiddel.seriesId, grunndataHjelpemiddel.id).produkter
+                val deler = grunndata.hentDeler(grunndataHjelpemiddel.seriesId, grunndataHjelpemiddel.id)
                 if (deler.isEmpty()) {
                     log.info { "Fant hmsnr $hmsnr i grunndata, men den har ingen egnede deler knyttet til seg" }
                     slackClient.varsleOmIngenDelerTilGrunndataHjelpemiddel(grunndataHjelpemiddel)

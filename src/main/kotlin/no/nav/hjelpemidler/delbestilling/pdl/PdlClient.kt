@@ -15,15 +15,14 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import io.github.oshai.kotlinlogging.KotlinLogging
 import no.nav.hjelpemidler.delbestilling.Config
-import no.nav.hjelpemidler.delbestilling.exceptions.PdlRequestFailedException
-import no.nav.hjelpemidler.delbestilling.exceptions.PdlResponseMissingData
-import no.nav.hjelpemidler.delbestilling.exceptions.PersonNotAccessibleInPdl
-import no.nav.hjelpemidler.delbestilling.exceptions.PersonNotFoundInPdl
+import no.nav.hjelpemidler.delbestilling.infrastructure.monitoring.PdlRequestFailedException
+import no.nav.hjelpemidler.delbestilling.infrastructure.monitoring.PdlResponseMissingData
+import no.nav.hjelpemidler.delbestilling.infrastructure.monitoring.PersonNotAccessibleInPdl
+import no.nav.hjelpemidler.delbestilling.infrastructure.monitoring.PersonNotFoundInPdl
 import no.nav.hjelpemidler.delbestilling.navCorrelationId
 import no.nav.hjelpemidler.http.createHttpClient
 import no.nav.hjelpemidler.http.openid.OpenIDClient
 import no.nav.hjelpemidler.http.openid.bearerAuth
-import java.util.UUID
 
 private val log = KotlinLogging.logger {}
 
