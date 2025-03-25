@@ -1,16 +1,18 @@
 package no.nav.hjelpemidler.delbestilling.oebs
 
-import no.nav.hjelpemidler.delbestilling.infrastructure.monitoring.Logg
+import io.github.oshai.kotlinlogging.KotlinLogging
 import no.nav.hjelpemidler.delbestilling.kafka.KafkaService
 
 
 private const val OPPRETT_DELBESTILLING_EVENTNAME = "hm-OpprettDelbestilling"
 
+private val log = KotlinLogging.logger {}
+
 class OebsSinkClient(
     private val kafkaService: KafkaService
 ) {
     fun sendDelbestilling(opprettBestillingsordreRequest: OpprettBestillingsordreRequest) {
-        Logg.info { "Sender '$OPPRETT_DELBESTILLING_EVENTNAME'-event for saksnummer '${opprettBestillingsordreRequest.saksnummer}'" }
+        log.info { "Sender '$OPPRETT_DELBESTILLING_EVENTNAME'-event for saksnummer '${opprettBestillingsordreRequest.saksnummer}'" }
         try {
             kafkaService.publish(
                 key = opprettBestillingsordreRequest.saksnummer,
@@ -18,7 +20,7 @@ class OebsSinkClient(
                 value = opprettBestillingsordreRequest,
             )
         } catch (t: Throwable) {
-            Logg.error(t) { "Sending av delbestilling til Kafka feilet." }
+            log.error(t) { "Sending av delbestilling til Kafka feilet." }
             throw t
         }
     }

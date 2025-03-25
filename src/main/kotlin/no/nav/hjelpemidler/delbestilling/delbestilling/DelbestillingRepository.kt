@@ -1,5 +1,6 @@
 package no.nav.hjelpemidler.delbestilling.delbestilling
 
+import io.github.oshai.kotlinlogging.KotlinLogging
 import kotliquery.Row
 import kotliquery.queryOf
 import kotliquery.sessionOf
@@ -7,12 +8,12 @@ import kotliquery.using
 import no.nav.hjelpemidler.database.JdbcOperations
 import no.nav.hjelpemidler.database.pgObjectOf
 import no.nav.hjelpemidler.database.transactionAsync
-import no.nav.hjelpemidler.delbestilling.infrastructure.monitoring.Logg
 import no.nav.hjelpemidler.delbestilling.json
 import no.nav.hjelpemidler.delbestilling.jsonMapper
 import no.nav.hjelpemidler.delbestilling.roller.Organisasjon
 import javax.sql.DataSource
 
+private val log = KotlinLogging.logger {}
 
 class DelbestillingRepository(val ds: DataSource) {
 
@@ -33,7 +34,7 @@ class DelbestillingRepository(val ds: DataSource) {
         bestillersOrganisasjon: Organisasjon,
         bestillerType: BestillerType,
     ): Long? {
-        Logg.info { "Lagrer delbestilling '${delbestilling.id}'" }
+        log.info { "Lagrer delbestilling '${delbestilling.id}'" }
         return tx.updateAndReturnGeneratedKey(
             """
                 INSERT INTO delbestilling (brukers_kommunenr, fnr_bruker, fnr_bestiller, delbestilling_json, status, brukers_kommunenavn, bestillers_organisasjon, bestiller_type)
@@ -119,7 +120,7 @@ class DelbestillingRepository(val ds: DataSource) {
             mapOf("status" to status.name, "saksnummer" to saksnummer)
         )
     } catch (e: Exception) {
-        Logg.error(e) { "Oppdatering av status feilet" }
+        log.error(e) { "Oppdatering av status feilet" }
         throw e
     }
 
@@ -133,7 +134,7 @@ class DelbestillingRepository(val ds: DataSource) {
             mapOf("oebs_ordrenummer" to oebsOrdrenummer, "saksnummer" to saksnummer)
         )
     } catch (e: Exception) {
-        Logg.error(e) { "Oppdatering av oebs_ordrenummer feilet" }
+        log.error(e) { "Oppdatering av oebs_ordrenummer feilet" }
         throw e
     }
 
@@ -147,7 +148,7 @@ class DelbestillingRepository(val ds: DataSource) {
             mapOf("delbestilling_json" to pgJsonbOf(delbestilling), "saksnummer" to saksnummer)
         )
     } catch (e: Exception) {
-        Logg.error(e) { "Oppdatering av delbestilling_json feilet" }
+        log.error(e) { "Oppdatering av delbestilling_json feilet" }
         throw e
     }
 }

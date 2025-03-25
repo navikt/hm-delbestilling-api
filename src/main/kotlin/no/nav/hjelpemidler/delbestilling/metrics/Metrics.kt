@@ -1,9 +1,10 @@
 package no.nav.hjelpemidler.delbestilling.metrics
 
+import io.github.oshai.kotlinlogging.KotlinLogging
 import no.nav.hjelpemidler.delbestilling.delbestilling.Hmsnr
-import no.nav.hjelpemidler.delbestilling.infrastructure.monitoring.Logg
 import no.nav.hjelpemidler.delbestilling.kafka.KafkaService
 
+private val log = KotlinLogging.logger {}
 
 class Metrics(
     private val kafkaService: KafkaService,
@@ -16,7 +17,7 @@ class Metrics(
         try {
             kafkaService.hendelseOpprettet(measurement, fields, tags)
         } catch (e: Exception) {
-            Logg.error(e) { "Feil under registrering av metric <$measurement>" }
+            log.error(e) { "Feil under registrering av metric <$measurement>" }
         }
     }
 

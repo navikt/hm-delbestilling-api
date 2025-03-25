@@ -1,5 +1,6 @@
 package no.nav.hjelpemidler.delbestilling.pdl
 
+import io.github.oshai.kotlinlogging.KotlinLogging
 import io.ktor.client.call.body
 import io.ktor.client.engine.HttpClientEngine
 import io.ktor.client.engine.cio.CIO
@@ -14,7 +15,6 @@ import io.ktor.http.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import no.nav.hjelpemidler.delbestilling.Config
-import no.nav.hjelpemidler.delbestilling.infrastructure.monitoring.Logg
 import no.nav.hjelpemidler.delbestilling.infrastructure.monitoring.PdlRequestFailedException
 import no.nav.hjelpemidler.delbestilling.infrastructure.monitoring.PdlResponseMissingData
 import no.nav.hjelpemidler.delbestilling.infrastructure.monitoring.PersonNotAccessibleInPdl
@@ -24,6 +24,7 @@ import no.nav.hjelpemidler.http.createHttpClient
 import no.nav.hjelpemidler.http.openid.OpenIDClient
 import no.nav.hjelpemidler.http.openid.bearerAuth
 
+private val log = KotlinLogging.logger {}
 
 class PdlClient(
     private val azureAdClient: OpenIDClient,
@@ -93,9 +94,9 @@ class PdlClient(
     private fun loggAdvarsler(response: PdlPersonResponse) {
         response.extensions?.warnings?.forEach { pdlWarning ->
             if (pdlWarning.details.isNullOrEmpty()) {
-                Logg.warn { pdlWarning.message }
+                log.warn { pdlWarning.message }
             } else {
-                Logg.warn { "${pdlWarning.message} (detaljer: ${pdlWarning.details})" }
+                log.warn { "${pdlWarning.message} (detaljer: ${pdlWarning.details})" }
             }
         }
     }

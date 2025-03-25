@@ -3,6 +3,7 @@ package no.nav.hjelpemidler.delbestilling.oebs
 import com.fasterxml.jackson.databind.DeserializationFeature
 import com.fasterxml.jackson.databind.SerializationFeature
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
+import io.github.oshai.kotlinlogging.KotlinLogging
 import io.ktor.client.call.body
 import io.ktor.client.engine.HttpClientEngine
 import io.ktor.client.engine.cio.CIO
@@ -23,13 +24,13 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import no.nav.hjelpemidler.delbestilling.Config
 import no.nav.hjelpemidler.delbestilling.delbestilling.Lagerstatus
-import no.nav.hjelpemidler.delbestilling.infrastructure.monitoring.Logg
 import no.nav.hjelpemidler.delbestilling.isDev
 import no.nav.hjelpemidler.delbestilling.navCorrelationId
 import no.nav.hjelpemidler.http.createHttpClient
 import no.nav.hjelpemidler.http.openid.OpenIDClient
 import no.nav.hjelpemidler.http.openid.bearerAuth
 
+private val log = KotlinLogging.logger {}
 
 class OebsApiProxyClient(
     private val azureAdClient: OpenIDClient,
@@ -64,7 +65,7 @@ class OebsApiProxyClient(
     suspend fun hentUtlånPåArtnrOgSerienr(artnr: String, serienr: String): Utlån? {
         return withContext(Dispatchers.IO) {
             try {
-                Logg.info { "henter utlån for $artnr + $serienr fra $baseUrl/utlanSerienrArtnr" }
+                log.info { "henter utlån for $artnr + $serienr fra $baseUrl/utlanSerienrArtnr" }
                 val tokenSet = azureAdClient.grant(apiScope)
                 val httpResponse = client.request("$baseUrl/utlanSerienrArtnr") {
                     method = HttpMethod.Post
@@ -75,12 +76,12 @@ class OebsApiProxyClient(
                 val response = httpResponse.body<UtlånPåArtnrOgSerienrResponse>()
 
                 if (isDev()) {
-                    Logg.info { "OeBS /utlanSerienrArtnr response $response" }
+                    log.info { "OeBS /utlanSerienrArtnr response $response" }
                 }
 
                 response.utlån
             } catch (e: Throwable) {
-                Logg.error(e) { "Klarte ikke hente utlån på artnr og serienr" }
+                log.error(e) { "Klarte ikke hente utlån på artnr og serienr" }
                 throw e
             }
         }
@@ -89,7 +90,7 @@ class OebsApiProxyClient(
     suspend fun hentFnrSomHarUtlånPåArtnr(artnr: String): List<String> {
         return withContext(Dispatchers.IO) {
             try {
-                Logg.info { "henter utlån for $artnr fra $baseUrl/utlanArtnr" }
+                log.info { "henter utlån for $artnr fra $baseUrl/utlanArtnr" }
                 val tokenSet = azureAdClient.grant(apiScope)
                 val httpResponse = client.request("$baseUrl/utlanArtnr") {
                     method = HttpMethod.Post
@@ -99,7 +100,7 @@ class OebsApiProxyClient(
                 }
                 httpResponse.body()
             } catch (e: Throwable) {
-                Logg.error(e) { "Klarte ikke hente utlån på artnr" }
+                log.error(e) { "Klarte ikke hente utlån på artnr" }
                 throw e
             }
         }
@@ -117,7 +118,7 @@ class OebsApiProxyClient(
                 }
                 httpResponse.body()
             } catch (e: Exception) {
-                Logg.error(e) { "Klarte ikke hente leveringsadresse fra OEBS" }
+                log.error(e) { "Klarte ikke hente leveringsadresse fra OEBS" }
                 throw e
             }
         }
@@ -135,7 +136,7 @@ class OebsApiProxyClient(
                 }
                 httpResponse.body()
             } catch (e: Exception) {
-                Logg.error(e) { "Klarte ikke hente info om brukerpass fra OEBS" }
+                log.error(e) { "Klarte ikke hente info om brukerpass fra OEBS" }
                 throw e
             }
         }
@@ -144,7 +145,7 @@ class OebsApiProxyClient(
     suspend fun hentLagerstatus(kommunenummer: String, hmsnrs: List<String>): List<Lagerstatus> {
         return withContext(Dispatchers.IO) {
             try {
-                Logg.info { "henter lagerstatus for kommunenummer $kommunenummer for hmsnrs $hmsnrs fra $baseUrl/lager/sentral/$kommunenummer" }
+                log.info { "henter lagerstatus for kommunenummer $kommunenummer for hmsnrs $hmsnrs fra $baseUrl/lager/sentral/$kommunenummer" }
                 val tokenSet = azureAdClient.grant(apiScope)
                 val httpResponse = client.request("$baseUrl/lager/sentral/$kommunenummer") {
                     method = HttpMethod.Post
@@ -154,7 +155,7 @@ class OebsApiProxyClient(
                 }
                 httpResponse.body()
             } catch (e: Throwable) {
-                Logg.error(e) { "Klarte ikke hente lagerstatus for hmsnrs" }
+                log.error(e) { "Klarte ikke hente lagerstatus for hmsnrs" }
                 throw e
             }
         }
