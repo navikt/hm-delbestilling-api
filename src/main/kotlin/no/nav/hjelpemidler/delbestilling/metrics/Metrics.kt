@@ -1,6 +1,7 @@
 package no.nav.hjelpemidler.delbestilling.metrics
 
 import io.github.oshai.kotlinlogging.KotlinLogging
+import no.nav.hjelpemidler.delbestilling.delbestilling.Hmsnr
 import no.nav.hjelpemidler.delbestilling.kafka.KafkaService
 
 private val log = KotlinLogging.logger {}
@@ -37,6 +38,19 @@ class Metrics(
                 "navnHovedprodukt" to navnHovedprodukt,
                 "rolleInnsender" to rolleInnsender,
                 "hjmbrukerHarBrukerpass" to hjmbrukerHarBrukerpass.toString(),
+            )
+        )
+    }
+
+    suspend fun grunndataHjelpemiddelManglerDeler(
+        hmsnr: Hmsnr,
+        navn: String,
+    ) {
+        registerPoint(
+            "delbestilling.manglerDeler",
+            mapOf(
+                "hmsnr" to hmsnr,
+                "navn" to navn,
             )
         )
     }

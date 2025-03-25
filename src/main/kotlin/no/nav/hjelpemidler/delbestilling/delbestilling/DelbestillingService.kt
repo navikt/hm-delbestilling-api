@@ -283,6 +283,7 @@ class DelbestillingService(
                 if (deler.isEmpty()) {
                     log.info { "Fant hmsnr $hmsnr i grunndata, men den har ingen egnede deler knyttet til seg" }
                     slackClient.varsleOmIngenDelerTilGrunndataHjelpemiddel(grunndataHjelpemiddel)
+                    metrics.grunndataHjelpemiddelManglerDeler(grunndataHjelpemiddel.hmsArtNr, grunndataHjelpemiddel.articleName)
                     null
                 } else {
                     val hjelpemiddelMedDeler =
