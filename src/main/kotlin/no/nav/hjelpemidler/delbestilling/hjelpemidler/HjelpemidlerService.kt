@@ -1,28 +1,23 @@
 package no.nav.hjelpemidler.delbestilling.hjelpemidler
 
-import io.github.oshai.kotlinlogging.KotlinLogging
-import io.ktor.http.HttpStatusCode
-import no.nav.hjelpemidler.delbestilling.delbestilling.AlleHjelpemidlerMedDelerResultat
-import no.nav.hjelpemidler.delbestilling.grunndata.GrunndataClient
-import no.nav.hjelpemidler.delbestilling.hjelpemidler.data.hmsnr2Hjm
 import no.nav.hjelpemidler.delbestilling.hjelpemidler.data.hmsnrTilHjelpemiddel
+import no.nav.hjelpemidler.delbestilling.infrastructure.grunndata.Grunndata
 
-private val logger = KotlinLogging.logger { }
 
 class HjelpemidlerService(
-    val grunndataClient: GrunndataClient,
+    val grunndata: Grunndata,
 ) {
     suspend fun hentAlleHjelpemiddelTitler(): Set<String> {
-        val alleDelerSomKanBestilles = grunndataClient.hentAlleDelerSomKanBestilles()
-        val produktIDs = alleDelerSomKanBestilles.produkter.map {
+        val alleDelerSomKanBestilles = grunndata.hentAlleDelerSomKanBestilles()
+        val produktIDs = alleDelerSomKanBestilles.map {
             it.attributes.compatibleWith?.productIds ?: emptyList()
         }.flatten().toSet()
-        val serieIDs = alleDelerSomKanBestilles.produkter.map {
+        val serieIDs = alleDelerSomKanBestilles.map {
             it.attributes.compatibleWith?.seriesIds ?: emptyList()
         }.flatten().toSet()
-        val hjelpemidler = grunndataClient.hentAlleHjmMedIdEllerSeriesId(seriesIds = serieIDs, produktIds = produktIDs)
+        val hjelpemidler = grunndata.hentAlleHjmMedIdEllerSeriesId(seriesIds = serieIDs, produktIds = produktIDs)
 
-        val hjelpemiddelNavnFraGrunndata = hjelpemidler.produkter.map { it.title.trim() }.toSet()
+        val hjelpemiddelNavnFraGrunndata = hjelpemidler.map { it.title.trim() }.toSet()
 
         return (hjelpemiddelNavnFraGrunndata + hjelpemiddelNavnFraManuellListe()).toSortedSet()
     }

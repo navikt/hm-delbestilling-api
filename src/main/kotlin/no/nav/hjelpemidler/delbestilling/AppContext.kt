@@ -1,10 +1,10 @@
 package no.nav.hjelpemidler.delbestilling
 
-import io.github.oshai.kotlinlogging.KotlinLogging
 import no.nav.hjelpemidler.delbestilling.delbestilling.DelbestillingRepository
 import no.nav.hjelpemidler.delbestilling.delbestilling.DelbestillingService
-import no.nav.hjelpemidler.delbestilling.grunndata.GrunndataClient
 import no.nav.hjelpemidler.delbestilling.hjelpemidler.HjelpemidlerService
+import no.nav.hjelpemidler.delbestilling.infrastructure.grunndata.Grunndata
+import no.nav.hjelpemidler.delbestilling.infrastructure.grunndata.GrunndataClient
 import no.nav.hjelpemidler.delbestilling.kafka.KafkaService
 import no.nav.hjelpemidler.delbestilling.metrics.Metrics
 import no.nav.hjelpemidler.delbestilling.oebs.OebsApiProxyClient
@@ -21,7 +21,6 @@ import no.nav.hjelpemidler.http.openid.azureADClient
 import no.nav.tms.token.support.tokendings.exchange.TokendingsServiceBuilder
 import kotlin.time.Duration.Companion.seconds
 
-private val logger = KotlinLogging.logger {}
 
 class AppContext {
     private val tokendingsService = TokendingsServiceBuilder.buildTokendingsService()
@@ -32,7 +31,7 @@ class AppContext {
         }
     }
 
-    private val grunndataClient = GrunndataClient()
+    private val grunndata = Grunndata(GrunndataClient())
 
     private val rolleClient = RolleClient(tokendingsService)
 
@@ -69,8 +68,8 @@ class AppContext {
         oppslagService,
         metrics,
         slackClient,
-        grunndataClient,
+        grunndata,
     )
 
-    val hjelpemidlerService = HjelpemidlerService(grunndataClient)
+    val hjelpemidlerService = HjelpemidlerService(grunndata)
 }

@@ -1,4 +1,4 @@
-package no.nav.hjelpemidler.delbestilling.grunndata
+package no.nav.hjelpemidler.delbestilling.infrastructure.grunndata
 
 import no.nav.hjelpemidler.delbestilling.delbestilling.Hmsnr
 import java.util.UUID

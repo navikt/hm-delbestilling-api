@@ -1,12 +1,9 @@
 package no.nav.hjelpemidler.delbestilling.grunndata
 
 import kotlinx.coroutines.runBlocking
-import kotlinx.coroutines.test.runTest
 import no.nav.hjelpemidler.delbestilling.hjelpemidler.data.hmsnrHjmTilHmsnrDeler
-import no.nav.hjelpemidler.delbestilling.hjelpemidler.data.hmsnrTilDel
 import no.nav.hjelpemidler.delbestilling.hjelpemidler.data.hmsnrTilHjelpemiddel
-import org.junit.jupiter.api.Test
-import kotlin.test.Ignore
+import no.nav.hjelpemidler.delbestilling.infrastructure.grunndata.GrunndataClient
 
 fun main() = runBlocking {
     val grunndataClient = GrunndataClient(baseUrl = "https://finnhjelpemiddel.nav.no")

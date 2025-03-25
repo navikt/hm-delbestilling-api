@@ -1,6 +1,6 @@
 package no.nav.hjelpemidler.delbestilling.pdl
 
-import no.nav.hjelpemidler.delbestilling.exceptions.PdlRequestFailedException
+import no.nav.hjelpemidler.delbestilling.infrastructure.monitoring.PdlRequestFailedException
 
 class PdlService(private val pdlClient: PdlClient) {
 

@@ -1,4 +1,4 @@
-package no.nav.hjelpemidler.delbestilling.exceptions
+package no.nav.hjelpemidler.delbestilling.infrastructure.monitoring
 
 import io.ktor.http.HttpStatusCode
 import io.ktor.server.application.Application
@@ -7,10 +7,6 @@ import io.ktor.server.plugins.MissingRequestParameterException
 import io.ktor.server.plugins.requestvalidation.RequestValidationException
 import io.ktor.server.plugins.statuspages.StatusPages
 import io.ktor.server.response.respond
-import io.ktor.server.response.respondText
-import io.github.oshai.kotlinlogging.KotlinLogging
-
-private val log = KotlinLogging.logger {}
 
 class PersonNotFoundInPdl(message: String) : RuntimeException(message)
 
@@ -41,16 +37,16 @@ fun Application.configureStatusPages() {
             call.respond(HttpStatusCode.Forbidden, cause.message!!)
         }
         exception<RequestValidationException> { call, cause ->
-            log.error(cause) { "BadRequest (fix validering i frontend)" }
+            Logg.error(cause) { "BadRequest (fix validering i frontend)" }
             call.respond(HttpStatusCode.BadRequest, cause.reasons.joinToString())
         }
         exception<Exception> { call, cause ->
-            log.error(cause) { "Unhandled exception." }
+            Logg.error(cause) { "Unhandled exception." }
             call.respond(HttpStatusCode.InternalServerError)
         }
         exception<MissingRequestParameterException> {call, cause ->
             val message = "Mangler \"${cause.parameterName}\" parameter i request"
-            log.error(cause) { message }
+            Logg.error(cause) { message }
             call.respond(HttpStatusCode.BadRequest, message)
         }
     }
