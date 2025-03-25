@@ -2,6 +2,7 @@ package no.nav.hjelpemidler.delbestilling.slack
 
 import io.github.oshai.kotlinlogging.KotlinLogging
 import io.ktor.client.engine.cio.CIO
+import no.nav.hjelpemidler.delbestilling.delbestilling.Del
 import no.nav.hjelpemidler.delbestilling.delbestilling.DelbestillingRepository
 import no.nav.hjelpemidler.delbestilling.delbestilling.DelbestillingSak
 import no.nav.hjelpemidler.delbestilling.delbestilling.Kilde
@@ -99,13 +100,19 @@ class SlackClient(
         }
     }
 
-    suspend fun varsleOmIngenDelerTilGrunndataHjelpemiddel(produkt: Produkt) {
+    suspend fun varsleOmIngenDelerTilGrunndataHjelpemiddel(produkt: Produkt, delerIManuellListe: List<Del>) {
+        var message = "Det ble gjort et oppslag på `${produkt.hmsArtNr} ${produkt.articleName}` som finnes i grunndata, men har ingen egnede deler der."
+        if (delerIManuellListe.isNotEmpty()) {
+            message += "\nDette produktet har disse delene i manuell liste: ${delerIManuellListe.joinToString(", "){"`${it.hmsnr} ${it.navn}`"}}."
+        } else {
+            message += "\nDette produktet har heller ingen deler i manuell liste."
+        }
         try {
             slackClient.sendMessage(
                 username = username,
                 slackIconEmoji(":sadcat:"),
                 channel = channel,
-                message = "Det ble gjort et oppslag på `${produkt.hmsArtNr} ${produkt.articleName}` som finnes i grunndata, men har ingen egnede deler der. Kanskje noe å se på?"
+                message = message
             )
         } catch (e: Exception) {
             log.error(e) { "Klarte ikke sende varsle til Slack om manglende deler til grunndatahjelpemiddel " }

@@ -275,6 +275,12 @@ class DelbestillingService(
     }
 
     suspend fun slåOppHjelpemiddel(hmsnr: String, serienr: String): OppslagResultat {
+        val hjelpemiddelMedDelerManuell = hmsnr2Hjm[hmsnr].also {
+            if (it == null) {
+                log.info {"Fant ikke ${hmsnr} i manuell liste"}
+            }
+        }
+
         val hjelpemiddelMedDelerGrunndata = try {
             val grunndataHjelpemiddel = grunndataClient.hentHjelpemiddel(hmsnr).produkt
 
@@ -282,7 +288,7 @@ class DelbestillingService(
                 val deler = grunndataClient.hentDeler(grunndataHjelpemiddel.seriesId, grunndataHjelpemiddel.id).produkter
                 if (deler.isEmpty()) {
                     log.info { "Fant hmsnr $hmsnr i grunndata, men den har ingen egnede deler knyttet til seg" }
-                    slackClient.varsleOmIngenDelerTilGrunndataHjelpemiddel(grunndataHjelpemiddel)
+                    slackClient.varsleOmIngenDelerTilGrunndataHjelpemiddel(produkt = grunndataHjelpemiddel, delerIManuellListe = hjelpemiddelMedDelerManuell?.deler ?: emptyList())
                     metrics.grunndataHjelpemiddelManglerDeler(grunndataHjelpemiddel.hmsArtNr, grunndataHjelpemiddel.articleName)
                     null
                 } else {
@@ -310,12 +316,6 @@ class DelbestillingService(
         } catch (e: Exception) {
             log.info(e) { "Klarte ikke å sjekke $hmsnr i grunndata" }
             null
-        }
-
-        val hjelpemiddelMedDelerManuell = hmsnr2Hjm[hmsnr].also {
-            if (it == null) {
-                log.info {"Fant ikke ${hmsnr} i manuell liste"}
-            }
         }
 
         val deler = mutableListOf<Del>()
