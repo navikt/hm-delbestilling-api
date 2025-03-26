@@ -393,6 +393,11 @@ class DelbestillingService(
         log.info { "Antall deler for hmsnr $hmsnr: ${hjelpemiddelMedDeler.deler.size}, antall unike kategorier: ${hjelpemiddelMedDeler.antallKategorier()}" }
         metrics.antallKategorier(hjelpemiddelMedDeler.antallKategorier())
 
+        val antallDelerTilgjengeligMenIkkePåMinmax = hjelpemiddelMedDeler.deler.count { it.lagerstatus != null && !it.lagerstatus!!.minmax && it.lagerstatus!!.tilgjengelig > 0 }
+        if (antallDelerTilgjengeligMenIkkePåMinmax > 0) {
+            log.info { "Antall tilgjengelig deler (ikke minmax) for $hmsnr: $antallDelerTilgjengeligMenIkkePåMinmax" }
+        }
+
         return OppslagResultat(hjelpemiddelMedDeler, null, HttpStatusCode.OK)
     }
 
