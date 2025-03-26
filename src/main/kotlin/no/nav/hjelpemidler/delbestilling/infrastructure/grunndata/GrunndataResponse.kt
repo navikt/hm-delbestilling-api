@@ -26,6 +26,7 @@ data class Produkt(
     val hmsArtNr: Hmsnr,
     val supplierRef: String,
     val attributes: Attributes,
+    val isoCategory: String,
 )
 
 data class Attributes(
