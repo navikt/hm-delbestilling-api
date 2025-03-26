@@ -105,7 +105,7 @@ class SlackClient(
     suspend fun varsleOmIngenDelerTilGrunndataHjelpemiddel(produkt: Produkt, delerIManuellListe: List<Del>) {
         var message = "Det ble gjort et oppslag på `${produkt.hmsArtNr} ${produkt.articleName}` som finnes i grunndata, men har ingen egnede deler der."
         message += if (delerIManuellListe.isNotEmpty()) {
-            "\nDette produktet har disse delene i manuell liste: ```${delerIManuellListe.sortedBy { it.navn }.joinToString("\n"){"${it.hmsnr} ${it.navn}"}}```."
+            "\nDette produktet har disse delene i manuell liste: ```${delerIManuellListe.sortedBy { it.navn }.joinToString("\n"){"${it.hmsnr} ${it.navn}"}}```"
         } else {
             "\nDette produktet har heller ingen deler i manuell liste."
         }
