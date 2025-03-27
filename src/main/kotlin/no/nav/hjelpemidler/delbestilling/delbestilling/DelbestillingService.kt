@@ -447,7 +447,7 @@ class DelbestillingService(
         return harXKLager(kommunenummer)
     }
 
-    private fun sjekkOmGrunndataDekkerManuellListeForHjm(
+    private suspend fun sjekkOmGrunndataDekkerManuellListeForHjm(
         manuell: HjelpemiddelMedDeler?,
         grunndata: HjelpemiddelMedDeler?
     ) {
