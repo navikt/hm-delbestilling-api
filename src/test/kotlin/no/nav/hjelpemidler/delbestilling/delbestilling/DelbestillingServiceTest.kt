@@ -239,4 +239,25 @@ internal class DelbestillingServiceTest {
             delbestillingService.slåOppHjelpemiddel(azaleaHmsnr, azaleaSerienr)
         }
     }
+
+    /*
+    @Test
+    fun `skal returnere antall dager siden forrige batteribestilling`() = runTest {
+        val batteriHmsnr = "196027"
+        val x850Hmsnr = "145668"
+        val azaleaHmsnr = "097765"
+        val azaleaSerienr = "123456"
+        coEvery { oebsService.hentUtlånPåArtnrOgSerienr(azaleaHmsnr, azaleaSerienr) } returns Utlån(
+            fnr = "1234567890",
+            artnr = azaleaHmsnr,
+            serienr = azaleaSerienr,
+            utlånsDato = "2020-05-01"
+        )
+        coEvery { oebsService.hentLagerstatus(any(), any()) } returns emptyList()
+
+        assertThrows<IllegalStateException> {
+            delbestillingService.slåOppHjelpemiddel(azaleaHmsnr, azaleaSerienr)
+        }
+    }
+    */
 }
