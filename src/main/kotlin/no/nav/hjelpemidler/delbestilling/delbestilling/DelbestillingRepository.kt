@@ -99,7 +99,9 @@ class DelbestillingRepository(val ds: DataSource) {
                     """
                     SELECT * 
                     FROM delbestilling
-                    WHERE hmsnr = :hmsnr AND serienr = :serienr
+                    WHERE
+                        delbestilling_json ->> 'hmsnr' = :hmsnr AND
+                        delbestilling_json ->> 'serienr' = :serienr
                     """.trimIndent(),
                     mapOf("hmsnr" to hmsnr, "serienr" to serienr)
                 ).map { it.toLagretDelbestilling() }.asList
