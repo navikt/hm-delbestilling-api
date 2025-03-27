@@ -27,10 +27,9 @@ jobs:
           IMAGE=$REGISTRY/$APP:$VERSION_TAG
           echo "IMAGE=${IMAGE}" >> $GITHUB_ENV
           echo $IMAGE
-      - uses: nais/deploy/actions/deploy@v1
+      - uses: nais/deploy/actions/deploy@v2
         name: deploy to prod-gcp
         env:
-          APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY }}
           CLUSTER: prod-gcp
           RESOURCE: .nais/nais-prod.yaml
       - name: post-production
