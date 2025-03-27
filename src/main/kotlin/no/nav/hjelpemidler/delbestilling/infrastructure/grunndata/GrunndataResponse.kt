@@ -33,14 +33,10 @@ data class Produkt(
 data class Media(
     val uri: String,
     val priority: Int,
-    val type: MediaType,
+    val type: String, // TODO: heller bruk enum
     val text: String,
     val source: String
 )
-
-enum class MediaType {
-    IMAGE
-}
 
 data class Attributes(
     val compatibleWith: CompatibleWith? = null,

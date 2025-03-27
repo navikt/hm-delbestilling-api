@@ -10,7 +10,6 @@ import no.nav.hjelpemidler.delbestilling.hjelpemidler.defaultAntall
 import no.nav.hjelpemidler.delbestilling.hjelpemidler.maksAntall
 import no.nav.hjelpemidler.delbestilling.infrastructure.grunndata.Grunndata
 import no.nav.hjelpemidler.delbestilling.infrastructure.grunndata.Media
-import no.nav.hjelpemidler.delbestilling.infrastructure.grunndata.MediaType
 import no.nav.hjelpemidler.delbestilling.infrastructure.monitoring.PersonNotAccessibleInPdl
 import no.nav.hjelpemidler.delbestilling.infrastructure.monitoring.PersonNotFoundInPdl
 import no.nav.hjelpemidler.delbestilling.isDev
@@ -439,7 +438,7 @@ class DelbestillingService(
 
     private fun grunndataBildeUrl(media: List<Media>): String? {
         if (media.isEmpty()) return null
-        val bilde = media.filter { it.type == MediaType.IMAGE }.minByOrNull { it.priority }
+        val bilde = media.filter { it.type == "IMAGE" }.minByOrNull { it.priority }
         if (bilde != null) {
             return "https://finnhjelpemiddel.nav.no/imageproxy/400d/${bilde.uri}"
         }
