@@ -279,7 +279,7 @@ class DelbestillingService(
     suspend fun slåOppHjelpemiddel(hmsnr: String, serienr: String): OppslagResultat {
         val hjelpemiddelMedDelerManuell = hmsnr2Hjm[hmsnr].also {
             if (it == null) {
-                log.info {"Fant ikke ${hmsnr} i manuell liste"}
+                log.info { "Fant ikke ${hmsnr} i manuell liste" }
             }
         }
 
@@ -290,35 +290,46 @@ class DelbestillingService(
                 val deler = grunndata.hentDeler(grunndataHjelpemiddel.seriesId, grunndataHjelpemiddel.id)
                 if (deler.isEmpty()) {
                     log.info { "Fant hmsnr $hmsnr i grunndata, men den har ingen egnede deler knyttet til seg" }
-                    slackClient.varsleOmIngenDelerTilGrunndataHjelpemiddel(produkt = grunndataHjelpemiddel, delerIManuellListe = hjelpemiddelMedDelerManuell?.deler ?: emptyList())
-                    metrics.grunndataHjelpemiddelManglerDeler(grunndataHjelpemiddel.hmsArtNr, grunndataHjelpemiddel.articleName)
+                    slackClient.varsleOmIngenDelerTilGrunndataHjelpemiddel(
+                        produkt = grunndataHjelpemiddel,
+                        delerIManuellListe = hjelpemiddelMedDelerManuell?.deler ?: emptyList()
+                    )
+                    metrics.grunndataHjelpemiddelManglerDeler(
+                        grunndataHjelpemiddel.hmsArtNr,
+                        grunndataHjelpemiddel.articleName
+                    )
                     null
                 } else {
                     val hjelpemiddelMedDeler =
-                        HjelpemiddelMedDeler(navn = grunndataHjelpemiddel.articleName, hmsnr = grunndataHjelpemiddel.hmsArtNr, deler = deler.map {
-                            val kategori = it.articleName.split(" ").first()
-                            Del(
-                                hmsnr = it.hmsArtNr,
-                                navn = it.articleName,
-                                levArtNr = it.supplierRef,
-                                kategori = kategori,
-                                maksAntall = maksAntall(kategori, it.isoCategory),
-                                kilde = Kilde.GRUNNDATA,
-                                defaultAntall = defaultAntall(kategori)
-                            )
-                        })
+                        HjelpemiddelMedDeler(
+                            navn = grunndataHjelpemiddel.articleName,
+                            hmsnr = grunndataHjelpemiddel.hmsArtNr,
+                            deler = deler.map {
+                                val kategori = it.articleName.split(" ").first()
+                                Del(
+                                    hmsnr = it.hmsArtNr,
+                                    navn = it.articleName,
+                                    levArtNr = it.supplierRef,
+                                    kategori = kategori,
+                                    maksAntall = maksAntall(kategori, it.isoCategory),
+                                    kilde = Kilde.GRUNNDATA,
+                                    defaultAntall = defaultAntall(kategori)
+                                )
+                            })
 
                     log.info { "Fant hmsnr ${hjelpemiddelMedDeler.hmsnr} ${hjelpemiddelMedDeler.navn} i grunndata. Denne har ${hjelpemiddelMedDeler.deler.size} egnede deler fra grunndata knyttet til seg" }
                     hjelpemiddelMedDeler
                 }
             } else {
-                log.info {"Fant ikke ${hmsnr} i grunndata"}
+                log.info { "Fant ikke ${hmsnr} i grunndata" }
                 null
             }
         } catch (e: Exception) {
             log.info(e) { "Klarte ikke å sjekke $hmsnr i grunndata" }
             null
         }
+
+        sjekkOmGrunndataDekkerManuellListeForHjm(hjelpemiddelMedDelerManuell, hjelpemiddelMedDelerGrunndata)
 
         val deler = mutableListOf<Del>()
 
@@ -328,7 +339,7 @@ class DelbestillingService(
 
         if (hjelpemiddelMedDelerManuell != null) {
             hjelpemiddelMedDelerManuell.deler.forEach { del ->
-                if (!deler.any{it.hmsnr == del.hmsnr }) {
+                if (!deler.any { it.hmsnr == del.hmsnr }) {
                     deler.add(del)
                 }
             }
@@ -353,17 +364,18 @@ class DelbestillingService(
         log.info { "hjelpemiddelMedDeler: $hjelpemiddelMedDeler" }
 
         if (hjelpemiddelMedDeler == null) {
-            log.info {"Fant $hmsnr verken i grunndata eller manuell liste, returnerer TILBYR_IKKE_HJELPEMIDDEL"}
+            log.info { "Fant $hmsnr verken i grunndata eller manuell liste, returnerer TILBYR_IKKE_HJELPEMIDDEL" }
             return OppslagResultat(null, OppslagFeil.TILBYR_IKKE_HJELPEMIDDEL, HttpStatusCode.NotFound)
         }
 
         if (hjelpemiddelMedDeler.deler.isEmpty()) {
-            log.info {"Fant ingen deler i verken grunndata eller manuell liste for $hmsnr, returnerer TILBYR_IKKE_HJELPEMIDDEL"}
+            log.info { "Fant ingen deler i verken grunndata eller manuell liste for $hmsnr, returnerer TILBYR_IKKE_HJELPEMIDDEL" }
             return OppslagResultat(null, OppslagFeil.TILBYR_IKKE_HJELPEMIDDEL, HttpStatusCode.NotFound)
         }
 
         // For sjekk av hvilke deler som inneholder "batteri" i navnet, for å se om vi må utvide batteri-sjekk
-        val delerMedBatteriINavn = hjelpemiddelMedDeler.deler.filter { it.navn.lowercase().contains("batteri") }.map { it.navn }.toSet()
+        val delerMedBatteriINavn =
+            hjelpemiddelMedDeler.deler.filter { it.navn.lowercase().contains("batteri") }.map { it.navn }.toSet()
         if (delerMedBatteriINavn.isNotEmpty()) {
             log.info { "Deler med 'batteri' i navnet på oppslag: $delerMedBatteriINavn" }
         }
@@ -377,8 +389,8 @@ class DelbestillingService(
 
         // Koble hver del til lagerstatus, og sorter på navn
         hjelpemiddelMedDeler.deler =
-            hjelpemiddelMedDeler.deler.map {
-                del -> del.copy(lagerstatus = lagerstatusForDeler.find { it.artikkelnummer == del.hmsnr })
+            hjelpemiddelMedDeler.deler.map { del ->
+                del.copy(lagerstatus = lagerstatusForDeler.find { it.artikkelnummer == del.hmsnr })
             }.sortedBy { it.navn }
 
         val sentral = hjelpemiddelMedDeler.deler.first().lagerstatus?.organisasjons_navn ?: "UKJENT"
@@ -394,7 +406,8 @@ class DelbestillingService(
         log.info { "Antall deler for hmsnr $hmsnr: ${hjelpemiddelMedDeler.deler.size}, antall unike kategorier: ${hjelpemiddelMedDeler.antallKategorier()}" }
         metrics.antallKategorier(hjelpemiddelMedDeler.antallKategorier())
 
-        val antallDelerTilgjengeligMenIkkePåMinmax = hjelpemiddelMedDeler.deler.count { it.lagerstatus != null && !it.lagerstatus!!.minmax && it.lagerstatus!!.tilgjengelig > 0 }
+        val antallDelerTilgjengeligMenIkkePåMinmax =
+            hjelpemiddelMedDeler.deler.count { it.lagerstatus != null && !it.lagerstatus!!.minmax && it.lagerstatus!!.tilgjengelig > 0 }
         if (antallDelerTilgjengeligMenIkkePåMinmax > 0) {
             log.info { "Antall tilgjengelig deler (ikke minmax) for $hmsnr: $antallDelerTilgjengeligMenIkkePåMinmax" }
         }
@@ -432,6 +445,21 @@ class DelbestillingService(
             ?: error("Fant ikke utlån for $hmsnr $serienr")
         val kommunenummer = pdlService.hentKommunenummer(utlån.fnr)
         return harXKLager(kommunenummer)
+    }
+
+    private fun sjekkOmGrunndataDekkerManuellListeForHjm(
+        manuell: HjelpemiddelMedDeler?,
+        grunndata: HjelpemiddelMedDeler?
+    ) {
+        if (manuell == null || grunndata == null) {
+            return
+        }
+        val hmsnrManuell = manuell.deler.map { it.hmsnr }.toSet()
+        val hmsnrGrunndata = grunndata.deler.map { it.hmsnr }.toSet()
+
+        if (hmsnrGrunndata.containsAll(hmsnrManuell)) {
+            slackClient.varsleGrunndataDekkerManuellListeForHjelpemiddel(manuell.hmsnr, manuell.navn)
+        }
     }
 }
 

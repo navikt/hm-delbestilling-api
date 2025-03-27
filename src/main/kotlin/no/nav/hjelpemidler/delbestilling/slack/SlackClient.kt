@@ -103,9 +103,12 @@ class SlackClient(
     }
 
     suspend fun varsleOmIngenDelerTilGrunndataHjelpemiddel(produkt: Produkt, delerIManuellListe: List<Del>) {
-        var message = "Det ble gjort et oppslag på `${produkt.hmsArtNr} ${produkt.articleName}` som finnes i grunndata, men har ingen egnede deler der."
+        var message =
+            "Det ble gjort et oppslag på `${produkt.hmsArtNr} ${produkt.articleName}` som finnes i grunndata, men har ingen egnede deler der."
         message += if (delerIManuellListe.isNotEmpty()) {
-            "\nDette produktet har disse delene i manuell liste: ```${delerIManuellListe.sortedBy { it.navn }.joinToString("\n"){"${it.hmsnr} ${it.navn}"}}```"
+            "\nDette produktet har disse delene i manuell liste: ```${
+                delerIManuellListe.sortedBy { it.navn }.joinToString("\n") { "${it.hmsnr} ${it.navn}" }
+            }```"
         } else {
             "\nDette produktet har heller ingen deler i manuell liste."
         }
@@ -147,6 +150,15 @@ class SlackClient(
             message = "Antall utlån og delbestillinger per hjelpemiddel: ${
                 hjelpemiddel.joinToString(separator = ",") { "(${it.hmnsr},${it.utlån},${it.bestillinger})" }
             }"
+        )
+    }
+
+    suspend fun varsleGrunndataDekkerManuellListeForHjelpemiddel(hmsnr: String, navn: String) {
+        slackClient.sendMessage(
+            username = username,
+            slackIconEmoji(":pepe-peek:"),
+            channel = channel,
+            message = "Hjelpemiddelet $hmsnr '$navn' har alle deler fra manuell liste i grunndata også. Det kan dermed fjernes fra den manuelle listen :broom:"
         )
     }
 }
