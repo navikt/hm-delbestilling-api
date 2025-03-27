@@ -19,8 +19,8 @@ import kotlinx.coroutines.withContext
 import no.nav.hjelpemidler.delbestilling.Config
 import no.nav.hjelpemidler.delbestilling.infrastructure.grunndata.queries.alleDelerSomKanBestillesQuery
 import no.nav.hjelpemidler.delbestilling.infrastructure.grunndata.queries.alleHjelpemiddelMedIdEllerSeriesIdQuery
-import no.nav.hjelpemidler.delbestilling.infrastructure.grunndata.queries.hmsArtNrQuery
 import no.nav.hjelpemidler.delbestilling.infrastructure.grunndata.queries.compatibleWithQuery
+import no.nav.hjelpemidler.delbestilling.infrastructure.grunndata.queries.hmsArtNrQuery
 import no.nav.hjelpemidler.delbestilling.isProd
 import no.nav.hjelpemidler.delbestilling.navCorrelationId
 import no.nav.hjelpemidler.http.createHttpClient
@@ -39,7 +39,7 @@ class GrunndataClient(
             exponentialDelay()
         }
         install(Logging) {
-            level = if (isProd()) LogLevel.INFO else LogLevel.INFO
+            level = if (isProd()) LogLevel.INFO else LogLevel.BODY
         }
         defaultRequest {
             accept(ContentType.Application.Json)
