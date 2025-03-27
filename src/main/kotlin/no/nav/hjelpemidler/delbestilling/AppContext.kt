@@ -5,11 +5,11 @@ import no.nav.hjelpemidler.delbestilling.delbestilling.DelbestillingService
 import no.nav.hjelpemidler.delbestilling.hjelpemidler.HjelpemidlerService
 import no.nav.hjelpemidler.delbestilling.infrastructure.grunndata.Grunndata
 import no.nav.hjelpemidler.delbestilling.infrastructure.grunndata.GrunndataClient
+import no.nav.hjelpemidler.delbestilling.infrastructure.oebs.Oebs
+import no.nav.hjelpemidler.delbestilling.infrastructure.oebs.OebsApiProxyClient
+import no.nav.hjelpemidler.delbestilling.infrastructure.oebs.OebsSink
 import no.nav.hjelpemidler.delbestilling.kafka.KafkaService
 import no.nav.hjelpemidler.delbestilling.metrics.Metrics
-import no.nav.hjelpemidler.delbestilling.oebs.OebsApiProxyClient
-import no.nav.hjelpemidler.delbestilling.oebs.OebsService
-import no.nav.hjelpemidler.delbestilling.oebs.OebsSinkClient
 import no.nav.hjelpemidler.delbestilling.oppslag.OppslagClient
 import no.nav.hjelpemidler.delbestilling.oppslag.OppslagService
 import no.nav.hjelpemidler.delbestilling.pdl.PdlClient
@@ -43,7 +43,7 @@ class AppContext {
 
     private val metrics = Metrics(kafkaService)
 
-    private val oebsSinkClient = OebsSinkClient(kafkaService)
+    private val oebsSinkClient = OebsSink(kafkaService)
 
     private val pdlClient = PdlClient(azureClient)
 
@@ -53,7 +53,7 @@ class AppContext {
 
     private val pdlService = PdlService(pdlClient)
 
-    private val oebsService = OebsService(oebsApiProxyClient, oebsSinkClient)
+    private val oebs = Oebs(oebsApiProxyClient, oebsSinkClient)
 
     private val oppslagService = OppslagService(oppslagClient)
 
@@ -64,7 +64,7 @@ class AppContext {
     val delbestillingService = DelbestillingService(
         delbestillingRepository,
         pdlService,
-        oebsService,
+        oebs,
         oppslagService,
         metrics,
         slackClient,

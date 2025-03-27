@@ -13,15 +13,16 @@ import no.nav.hjelpemidler.delbestilling.delbestilling.delbestillingApiPublic
 import no.nav.hjelpemidler.delbestilling.hjelpemidler.data.validerData
 import no.nav.hjelpemidler.delbestilling.hjelpemidler.hjelpemiddelApi
 import no.nav.hjelpemidler.delbestilling.plugins.medDelbestillerRolle
+import no.nav.hjelpemidler.domain.person.TILLAT_SYNTETISKE_FØDSELSNUMRE
 import no.nav.tms.token.support.azure.validation.AzureAuthenticator
 import no.nav.tms.token.support.tokenx.validation.TokenXAuthenticator
 import no.nav.tms.token.support.tokenx.validation.user.TokenXUserFactory
 
 fun main(args: Array<String>): Unit = io.ktor.server.cio.EngineMain.main(args)
 
-
-
 fun Application.module() {
+    TILLAT_SYNTETISKE_FØDSELSNUMRE = !isProd()
+
     validerData()
     configure()
     setupRoutes()
