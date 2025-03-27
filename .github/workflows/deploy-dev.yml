@@ -8,7 +8,7 @@ on:
       - "CODEOWNERS"
     branches:
       - main
-      - fix-logger
+      - siste-batteribestilling
 
 jobs:
   build-and-deploy:

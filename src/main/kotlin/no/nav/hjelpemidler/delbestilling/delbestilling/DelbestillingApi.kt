@@ -100,6 +100,13 @@ fun Route.delbestillingApiAuthenticated(
         val delbestillinger = delbestillingService.hentDelbestillinger(bestillerFnr)
         call.respond(delbestillinger)
     }
+
+    get("/siste-batteribestilling/{hmsnr}/{serienr}") {
+        val hmsnr = requireNotNull(call.parameters["hmsnr"])
+        val serienr = requireNotNull(call.parameters["serienr"]) // TODO: Mer validering av hmsnr og serienr?
+        val antallDagerSiden = delbestillingService.antallDagerSidenSisteBatteribestilling(hmsnr, serienr)
+        call.respond(SisteBatteribestillingResponse(antallDagerSiden))
+    }
 }
 
 fun Route.azureRoutes(
@@ -132,4 +139,8 @@ private data class DellinjeStatusOppdateringDto(
     val status: DellinjeStatus,
     val hmsnr: Hmsnr,
     val datoOppdatert: LocalDate,
+)
+
+private data class SisteBatteribestillingResponse (
+    val antallDagerSiden: Long?
 )
