@@ -439,14 +439,9 @@ class DelbestillingService(
     }
 
     private fun bildeUrls(media: List<Media>): List<String> {
-        if (media.isEmpty()) {
-            return emptyList()
-        }
-
-        val bilder = media.filter { it.type == "IMAGE" }.sortedBy { it.priority }
-        return bilder.map {
-            "https://finnhjelpemiddel.nav.no/imageproxy/400d/${it.uri}"
-        }
+        return media.filter { it.type == "IMAGE" }
+            .sortedBy { it.priority }
+            .map { "https://finnhjelpemiddel.nav.no/imageproxy/400d/${it.uri}" }
     }
 }
 
