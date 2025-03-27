@@ -298,6 +298,7 @@ class DelbestillingService(
                     val hjelpemiddelMedDeler =
                         HjelpemiddelMedDeler(navn = grunndataHjelpemiddel.articleName, hmsnr = grunndataHjelpemiddel.hmsArtNr, deler = deler.map {
                             val kategori = it.articleName.split(" ").first()
+                            val bilder = bildeUrls(it.media)
                             Del(
                                 hmsnr = it.hmsArtNr,
                                 navn = it.articleName,
@@ -306,7 +307,8 @@ class DelbestillingService(
                                 maksAntall = maksAntall(kategori, it.isoCategory),
                                 kilde = Kilde.GRUNNDATA,
                                 defaultAntall = defaultAntall(kategori),
-                                img = grunndataBildeUrl(it.media),
+                                img = bilder.firstOrNull(),
+                                imgs = bilder,
                             )
                         })
 
@@ -436,14 +438,15 @@ class DelbestillingService(
         return harXKLager(kommunenummer)
     }
 
-    private fun grunndataBildeUrl(media: List<Media>): String? {
-        if (media.isEmpty()) return null
-        val bilde = media.filter { it.type == "IMAGE" }.minByOrNull { it.priority }
-        if (bilde != null) {
-            return "https://finnhjelpemiddel.nav.no/imageproxy/400d/${bilde.uri}"
+    private fun bildeUrls(media: List<Media>): List<String> {
+        if (media.isEmpty()) {
+            return emptyList()
         }
 
-        return null
+        val bilder = media.filter { it.type == "IMAGE" }.sortedBy { it.priority }
+        return bilder.map {
+            "https://finnhjelpemiddel.nav.no/imageproxy/400d/${it.uri}"
+        }
     }
 }
 

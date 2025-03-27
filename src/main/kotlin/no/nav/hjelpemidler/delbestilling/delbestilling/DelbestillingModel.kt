@@ -58,7 +58,8 @@ data class Del(
     val kategori: String,
     val defaultAntall: Int = defaultAntall(kategori),
     val maksAntall: Int, // TODO kan ofte utlede maksAntall fra kategori også
-    val img: String? = null,
+    val img: String? = null, // Skal deprecates til fordel for imgs
+    val imgs: List<String> = emptyList(),
     val datoLagtTil: LocalDate? = null,
     var lagerstatus: Lagerstatus? = null, // TODO: denne bør kanskje ikke være nullable?
     val kilde: Kilde? = Kilde.MANUELL_LISTE,
