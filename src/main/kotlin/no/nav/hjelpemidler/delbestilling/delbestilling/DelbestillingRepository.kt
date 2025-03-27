@@ -92,6 +92,20 @@ class DelbestillingRepository(val ds: DataSource) {
         )
     }
 
+    fun hentDelbestillinger(hmsnr: String, serienr: String): List<DelbestillingSak> =
+        using(sessionOf(ds)) { session ->
+            session.run(
+                queryOf(
+                    """
+                    SELECT * 
+                    FROM delbestilling
+                    WHERE hmsnr = :hmsnr AND serienr = :serienr
+                    """.trimIndent(),
+                    mapOf("hmsnr" to hmsnr, "serienr" to serienr)
+                ).map { it.toLagretDelbestilling() }.asList
+            )
+        }
+
     fun hentDelbestilling(tx: JdbcOperations, saksnummer: Long): DelbestillingSak? = tx.singleOrNull(
         """
             SELECT * 
@@ -152,20 +166,6 @@ class DelbestillingRepository(val ds: DataSource) {
         log.error(e) { "Oppdatering av delbestilling_json feilet" }
         throw e
     }
-
-    fun hentSisteBatteribestilling(hmsnr: String, serienr: String): List<DelbestillingSak> =
-        using(sessionOf(ds)) { session ->
-            session.run(
-                queryOf(
-                    """
-                    SELECT * 
-                    FROM delbestilling
-                    WHERE hmsnr = :hmsnr AND serienr = :serienr
-                    """.trimIndent(),
-                    mapOf("hmsnr" to hmsnr, "serienr" to serienr)
-                ).map { it.toLagretDelbestilling() }.asList
-            )
-        }
 }
 
 private fun Row.toLagretDelbestilling() = DelbestillingSak(

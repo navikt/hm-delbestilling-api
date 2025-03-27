@@ -464,7 +464,7 @@ class DelbestillingService(
     }
     
     fun antallDagerSidenSisteBatteribestilling(hmsnr: String, serienr: String): Long? {
-        val dellbestillinger = delbestillingRepository.hentSisteBatteribestilling(hmsnr, serienr)
+        val dellbestillinger = delbestillingRepository.hentDelbestillinger(hmsnr, serienr)
 
         val sisteBatteribestilling = dellbestillinger.filter { bestilling ->
             bestilling.delbestilling.deler.any { dellinje ->
