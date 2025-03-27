@@ -9,6 +9,8 @@ import no.nav.hjelpemidler.delbestilling.hjelpemidler.data.hmsnr2Hjm
 import no.nav.hjelpemidler.delbestilling.hjelpemidler.defaultAntall
 import no.nav.hjelpemidler.delbestilling.hjelpemidler.maksAntall
 import no.nav.hjelpemidler.delbestilling.infrastructure.grunndata.Grunndata
+import no.nav.hjelpemidler.delbestilling.infrastructure.grunndata.Media
+import no.nav.hjelpemidler.delbestilling.infrastructure.grunndata.MediaType
 import no.nav.hjelpemidler.delbestilling.infrastructure.monitoring.PersonNotAccessibleInPdl
 import no.nav.hjelpemidler.delbestilling.infrastructure.monitoring.PersonNotFoundInPdl
 import no.nav.hjelpemidler.delbestilling.isDev
@@ -304,7 +306,8 @@ class DelbestillingService(
                                 kategori = kategori,
                                 maksAntall = maksAntall(kategori, it.isoCategory),
                                 kilde = Kilde.GRUNNDATA,
-                                defaultAntall = defaultAntall(kategori)
+                                defaultAntall = defaultAntall(kategori),
+                                img = grunndataBildeUrl(it.media),
                             )
                         })
 
@@ -432,6 +435,16 @@ class DelbestillingService(
             ?: error("Fant ikke utlån for $hmsnr $serienr")
         val kommunenummer = pdlService.hentKommunenummer(utlån.fnr)
         return harXKLager(kommunenummer)
+    }
+
+    private fun grunndataBildeUrl(media: List<Media>): String? {
+        if (media.isEmpty()) return null
+        val bilde = media.filter { it.type == MediaType.IMAGE }.minByOrNull { it.priority }
+        if (bilde != null) {
+            return "https://finnhjelpemiddel.nav.no/imageproxy/400d/${bilde.uri}"
+        }
+
+        return null
     }
 }
 

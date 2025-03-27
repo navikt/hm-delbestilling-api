@@ -27,7 +27,20 @@ data class Produkt(
     val supplierRef: String,
     val attributes: Attributes,
     val isoCategory: String,
+    val media: List<Media>,
 )
+
+data class Media(
+    val uri: String,
+    val priority: Int,
+    val type: MediaType,
+    val text: String,
+    val source: String
+)
+
+enum class MediaType {
+    IMAGE
+}
 
 data class Attributes(
     val compatibleWith: CompatibleWith? = null,
