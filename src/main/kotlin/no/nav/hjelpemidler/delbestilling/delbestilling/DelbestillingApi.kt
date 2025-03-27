@@ -102,9 +102,11 @@ fun Route.delbestillingApiAuthenticated(
     }
 
     get("/siste-batteribestilling/{hmsnr}/{serienr}") {
-        val hmsnr = requireNotNull(call.parameters["hmsnr"])
-        val serienr = requireNotNull(call.parameters["serienr"]) // TODO: Mer validering av hmsnr og serienr?
+        val hmsnr = requireHmsnr(call.parameters["hmsnr"])
+        val serienr = requireSerienr(call.parameters["serienr"])
+
         val antallDagerSiden = delbestillingService.antallDagerSidenSisteBatteribestilling(hmsnr, serienr)
+
         if (antallDagerSiden == null) {
             call.respond(HttpStatusCode.NoContent)
         } else {
@@ -145,6 +147,6 @@ private data class DellinjeStatusOppdateringDto(
     val datoOppdatert: LocalDate,
 )
 
-private data class SisteBatteribestillingResponse (
+private data class SisteBatteribestillingResponse(
     val antallDagerSiden: Long
 )
