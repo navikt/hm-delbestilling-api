@@ -33,7 +33,7 @@ class DelbestillingRepository(val ds: DataSource) {
         brukersKommunenavn: String,
         bestillersOrganisasjon: Organisasjon,
         bestillerType: BestillerType,
-    ): Long? {
+    ): Long {
         log.info { "Lagrer delbestilling '${delbestilling.id}'" }
         return tx.updateAndReturnGeneratedKey(
             """
@@ -92,7 +92,7 @@ class DelbestillingRepository(val ds: DataSource) {
         )
     }
 
-    fun hentDelbestillinger(hmsnr: String, serienr: String): List<DelbestillingSak> =
+    fun hentDelbestillinger(hmsnr: Hmsnr, serienr: Serienr): List<DelbestillingSak> =
         using(sessionOf(ds)) { session ->
             session.run(
                 queryOf(
