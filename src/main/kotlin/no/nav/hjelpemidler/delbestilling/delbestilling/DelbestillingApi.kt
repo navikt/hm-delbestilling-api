@@ -105,7 +105,11 @@ fun Route.delbestillingApiAuthenticated(
         val hmsnr = requireNotNull(call.parameters["hmsnr"])
         val serienr = requireNotNull(call.parameters["serienr"]) // TODO: Mer validering av hmsnr og serienr?
         val antallDagerSiden = delbestillingService.antallDagerSidenSisteBatteribestilling(hmsnr, serienr)
-        call.respond(SisteBatteribestillingResponse(antallDagerSiden))
+        if (antallDagerSiden == null) {
+            call.respond(HttpStatusCode.NoContent)
+        } else {
+            call.respond(SisteBatteribestillingResponse(antallDagerSiden))
+        }
     }
 }
 
@@ -142,5 +146,5 @@ private data class DellinjeStatusOppdateringDto(
 )
 
 private data class SisteBatteribestillingResponse (
-    val antallDagerSiden: Long?
+    val antallDagerSiden: Long
 )
