@@ -24,7 +24,7 @@ dependencies {
 
     // Cache
     implementation(libs.cache.api)
-    implementation(libs.ehcache)
+    implementation(libs.caffeine)
 
     // Kafka
     implementation(libs.kafka.clients)

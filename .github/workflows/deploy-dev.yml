@@ -8,7 +8,7 @@ on:
       - "CODEOWNERS"
     branches:
       - main
-      - refactor-oebs
+      - caching-hjmtitler
 
 jobs:
   build-and-deploy:
