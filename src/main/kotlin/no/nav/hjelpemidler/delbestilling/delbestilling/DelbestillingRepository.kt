@@ -33,7 +33,7 @@ class DelbestillingRepository(val ds: DataSource) {
         brukersKommunenavn: String,
         bestillersOrganisasjon: Organisasjon,
         bestillerType: BestillerType,
-    ): Long? {
+    ): Long {
         log.info { "Lagrer delbestilling '${delbestilling.id}'" }
         return tx.updateAndReturnGeneratedKey(
             """
@@ -81,15 +81,32 @@ class DelbestillingRepository(val ds: DataSource) {
         }
 
     fun hentDelbestillinger(): List<DelbestillingSak> = using(sessionOf(ds)) { session ->
-        session.run(queryOf(
-            """
+        session.run(
+            queryOf(
+                """
             SELECT * 
             FROM delbestilling
         """.trimIndent(),
-            mapOf()
-        ).map { it.toLagretDelbestilling() }.asList
+                mapOf()
+            ).map { it.toLagretDelbestilling() }.asList
         )
     }
+
+    fun hentDelbestillinger(hmsnr: Hmsnr, serienr: Serienr): List<DelbestillingSak> =
+        using(sessionOf(ds)) { session ->
+            session.run(
+                queryOf(
+                    """
+                    SELECT * 
+                    FROM delbestilling
+                    WHERE
+                        delbestilling_json ->> 'hmsnr' = :hmsnr AND
+                        delbestilling_json ->> 'serienr' = :serienr
+                    """.trimIndent(),
+                    mapOf("hmsnr" to hmsnr, "serienr" to serienr)
+                ).map { it.toLagretDelbestilling() }.asList
+            )
+        }
 
     fun hentDelbestilling(tx: JdbcOperations, saksnummer: Long): DelbestillingSak? = tx.singleOrNull(
         """

@@ -5,11 +5,15 @@ import io.mockk.just
 import io.mockk.mockk
 import io.mockk.runs
 import io.mockk.slot
+import jdk.internal.org.jline.keymap.KeyMap.del
 import kotlinx.coroutines.test.runTest
 import no.nav.hjelpemidler.delbestilling.MockException
 import no.nav.hjelpemidler.delbestilling.TestDatabase
+import no.nav.hjelpemidler.delbestilling.delLinje
 import no.nav.hjelpemidler.delbestilling.delbestillerRolle
+import no.nav.hjelpemidler.delbestilling.delbestilling
 import no.nav.hjelpemidler.delbestilling.delbestillingRequest
+import no.nav.hjelpemidler.delbestilling.delbestillingSak
 import no.nav.hjelpemidler.delbestilling.infrastructure.grunndata.Grunndata
 import no.nav.hjelpemidler.delbestilling.kommune
 import no.nav.hjelpemidler.delbestilling.oebs.OebsPersoninfo
@@ -17,6 +21,7 @@ import no.nav.hjelpemidler.delbestilling.oebs.OebsService
 import no.nav.hjelpemidler.delbestilling.oebs.OpprettBestillingsordreRequest
 import no.nav.hjelpemidler.delbestilling.oebs.Utlån
 import no.nav.hjelpemidler.delbestilling.oppslag.OppslagService
+import no.nav.hjelpemidler.delbestilling.organisasjon
 import no.nav.hjelpemidler.delbestilling.pdl.PdlService
 import no.nav.hjelpemidler.delbestilling.slack.SlackClient
 import org.junit.jupiter.api.BeforeEach
@@ -24,6 +29,7 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertDoesNotThrow
 import org.junit.jupiter.api.assertThrows
 import java.time.LocalDate
+import java.time.LocalDateTime
 import kotlin.test.assertEquals
 import kotlin.test.assertNull
 
@@ -239,4 +245,76 @@ internal class DelbestillingServiceTest {
             delbestillingService.slåOppHjelpemiddel(azaleaHmsnr, azaleaSerienr)
         }
     }
+
+    @Test
+    fun `skal retunere null dersom det ikke eksisterer en tidligere batteribestilling`() = runTest {
+        val hmsnr = "145668"
+        val serienr = "123456"
+
+        delbestillingRepository.withTransaction(returnGeneratedKeys = true) { tx ->
+            delbestillingRepository.lagreDelbestilling(
+                tx,
+                bestillerFnr,
+                "12345678910",
+                brukersKommunenr,
+                delbestilling(hmsnr = hmsnr, serienr = serienr),
+                "Oslo",
+                organisasjon(),
+                BestillerType.KOMMUNAL
+            )
+        }
+        assertNull(delbestillingService.antallDagerSidenSisteBatteribestilling(hmsnr, serienr))
+    }
+
+    @Test
+    fun `skal returnere antall dager siden forrige batteribestilling`() = runTest {
+        val hmsnr = "145668"
+        val serienr = "123456"
+
+        delbestillingRepository.withTransaction(returnGeneratedKeys = true) { tx ->
+            delbestillingRepository.lagreDelbestilling(
+                tx,
+                bestillerFnr,
+                "12345678910",
+                brukersKommunenr,
+                delbestilling(
+                    hmsnr = hmsnr,
+                    serienr = serienr,
+                    deler = listOf(delLinje(), delLinje(kategori = "Batteri"))
+                ),
+                "Oslo",
+                organisasjon(),
+                BestillerType.KOMMUNAL
+            )
+        }
+        assertEquals(0, delbestillingService.antallDagerSidenSisteBatteribestilling(hmsnr, serienr))
+    }
+
+    @Test
+    fun `skal returnere antall dager siden forrige batteribestilling når det finnes flere tidligere batteribestillinger`() =
+        runTest {
+            val repository = mockk<DelbestillingRepository>().also {
+                val delbestilling = delbestilling(deler = listOf(delLinje(), delLinje(kategori = "Batteri")))
+                coEvery {
+                    it.hentDelbestillinger(
+                        any(),
+                        any()
+                    )
+                } returns listOf(
+                    delbestillingSak(delbestilling = delbestilling, opprettet = LocalDateTime.now().minusDays(77)),
+                    delbestillingSak(delbestilling = delbestilling, opprettet = LocalDateTime.now().minusDays(14)),
+                    delbestillingSak(delbestilling = delbestilling, opprettet = LocalDateTime.now().minusDays(102)),
+                )
+            }
+            val delbestillingService = DelbestillingService(
+                repository, pdlService,
+                oebsService,
+                oppslagService,
+                mockk(relaxed = true),
+                slackClient,
+                grunndata,
+            )
+            assertEquals(14, delbestillingService.antallDagerSidenSisteBatteribestilling("hmsnr", "serienr"))
+        }
+
 }

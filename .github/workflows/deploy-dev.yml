@@ -8,7 +8,7 @@ on:
       - "CODEOWNERS"
     branches:
       - main
-      - fix-logger
+      - siste-batteribestilling
 
 jobs:
   build-and-deploy:
@@ -51,9 +51,8 @@ jobs:
           tag: ${{ env.VERSION_TAG }}
 
       - name: deploy to dev-gcp
-        uses: nais/deploy/actions/deploy@v1
+        uses: nais/deploy/actions/deploy@v2
         env:
-          APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY }}
           CLUSTER: dev-gcp
           RESOURCE: .nais/nais-dev.yaml
           IMAGE: ${{steps.docker-build-push.outputs.image}}

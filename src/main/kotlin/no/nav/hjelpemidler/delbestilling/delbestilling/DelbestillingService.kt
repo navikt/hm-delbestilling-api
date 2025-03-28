@@ -25,6 +25,7 @@ import no.nav.hjelpemidler.delbestilling.slack.SlackClient
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.ZoneId
+import java.time.temporal.ChronoUnit
 import java.util.Date
 
 
@@ -460,6 +461,21 @@ class DelbestillingService(
         if (hmsnrGrunndata.containsAll(hmsnrManuell)) {
             slackClient.varsleGrunndataDekkerManuellListeForHjelpemiddel(manuell.hmsnr, manuell.navn)
         }
+    }
+    
+    fun antallDagerSidenSisteBatteribestilling(hmsnr: String, serienr: String): Long? {
+        val dellbestillinger = delbestillingRepository.hentDelbestillinger(hmsnr, serienr)
+
+        val sisteBatteribestilling = dellbestillinger.filter { bestilling ->
+            bestilling.delbestilling.deler.any { dellinje ->
+                dellinje.del.kategori == "Batteri"
+            }
+        }.maxByOrNull { it.opprettet } ?: return null
+
+        val antallDagerSiden = sisteBatteribestilling.opprettet.toLocalDate()
+            .until(LocalDate.now(), ChronoUnit.DAYS)
+
+        return antallDagerSiden
     }
 }
 
