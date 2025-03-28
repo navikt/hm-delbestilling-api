@@ -25,6 +25,7 @@ val hmsnrTilDel: Map<Hmsnr, Del> = listOf<Del>(
         kategori = "Dekk",
         maksAntall = 2,
         img = "https://storage.googleapis.com/hm_delbestilling_bilder/150817.jpg",
+        imgs = listOf("https://storage.googleapis.com/hm_delbestilling_bilder/150817.jpg"),
         datoLagtTil = LocalDate.of(2023, 6, 20),
     ),
     Del(
@@ -33,6 +34,7 @@ val hmsnrTilDel: Map<Hmsnr, Del> = listOf<Del>(
         kategori = "Hjul",
         maksAntall = 2,
         img = "https://storage.googleapis.com/hm_delbestilling_bilder/157312.png",
+        imgs = listOf("https://storage.googleapis.com/hm_delbestilling_bilder/157312.png"),
         datoLagtTil = LocalDate.of(2023, 6, 20),
     ),
     Del(
@@ -41,6 +43,7 @@ val hmsnrTilDel: Map<Hmsnr, Del> = listOf<Del>(
         kategori = "Hjul",
         maksAntall = 2,
         img = "https://storage.googleapis.com/hm_delbestilling_bilder/157314.png",
+        imgs = listOf("https://storage.googleapis.com/hm_delbestilling_bilder/157314.png"),
         datoLagtTil = LocalDate.of(2023, 6, 20),
     ),
     Del(
@@ -50,6 +53,7 @@ val hmsnrTilDel: Map<Hmsnr, Del> = listOf<Del>(
         kategori = "Dekk",
         maksAntall = 2,
         img = "https://storage.googleapis.com/hm_delbestilling_bilder/178498.jpg",
+        imgs = listOf("https://storage.googleapis.com/hm_delbestilling_bilder/178498.jpg"),
         datoLagtTil = LocalDate.of(2023, 6, 20),
     ),
     Del(
@@ -59,6 +63,7 @@ val hmsnrTilDel: Map<Hmsnr, Del> = listOf<Del>(
         kategori = "Svinghjul",
         maksAntall = 2,
         img = "https://storage.googleapis.com/hm_delbestilling_bilder/184589.jpg",
+        imgs = listOf("https://storage.googleapis.com/hm_delbestilling_bilder/184589.jpg"),
         datoLagtTil = LocalDate.of(2023, 6, 20),
     ),
     Del(
@@ -69,6 +74,7 @@ val hmsnrTilDel: Map<Hmsnr, Del> = listOf<Del>(
         defaultAntall = 2,
         maksAntall = 2,
         img = "https://storage.googleapis.com/hm_delbestilling_bilder/196027.png",
+        imgs = listOf("https://storage.googleapis.com/hm_delbestilling_bilder/196027.png"),
         datoLagtTil = LocalDate.of(2023, 6, 20),
     ),
     Del(
@@ -78,6 +84,7 @@ val hmsnrTilDel: Map<Hmsnr, Del> = listOf<Del>(
         kategori = "Dekk",
         maksAntall = 2,
         img = "https://storage.googleapis.com/hm_delbestilling_bilder/196602.jpg",
+        imgs = listOf("https://storage.googleapis.com/hm_delbestilling_bilder/196602.jpg"),
         datoLagtTil = LocalDate.of(2023, 6, 20),
     ),
     Del(
@@ -86,6 +93,7 @@ val hmsnrTilDel: Map<Hmsnr, Del> = listOf<Del>(
         kategori = "Hjul",
         maksAntall = 4,
         img = "https://storage.googleapis.com/hm_delbestilling_bilder/200842.png",
+        imgs = listOf("https://storage.googleapis.com/hm_delbestilling_bilder/200842.png"),
         datoLagtTil = LocalDate.of(2023, 6, 20),
     ),
     Del(
@@ -95,6 +103,7 @@ val hmsnrTilDel: Map<Hmsnr, Del> = listOf<Del>(
         kategori = "Dekk",
         maksAntall = 2,
         img = "https://storage.googleapis.com/hm_delbestilling_bilder/202326.jpg",
+        imgs = listOf("https://storage.googleapis.com/hm_delbestilling_bilder/202326.jpg"),
         datoLagtTil = LocalDate.of(2023, 6, 20),
     ),
     Del(
@@ -104,6 +113,7 @@ val hmsnrTilDel: Map<Hmsnr, Del> = listOf<Del>(
         kategori = "Slange",
         maksAntall = 2,
         img = "https://storage.googleapis.com/hm_delbestilling_bilder/211449.jpg",
+        imgs = listOf("https://storage.googleapis.com/hm_delbestilling_bilder/211449.jpg"),
         datoLagtTil = LocalDate.of(2023, 6, 20),
     ),
     Del(
@@ -120,6 +130,7 @@ val hmsnrTilDel: Map<Hmsnr, Del> = listOf<Del>(
         kategori = "Svinghjul",
         maksAntall = 2,
         img = "https://storage.googleapis.com/hm_delbestilling_bilder/232810.jpg",
+        imgs = listOf("https://storage.googleapis.com/hm_delbestilling_bilder/232810.jpg"),
         datoLagtTil = LocalDate.of(2023, 6, 20),
     ),
     Del(
@@ -136,6 +147,7 @@ val hmsnrTilDel: Map<Hmsnr, Del> = listOf<Del>(
         kategori = "Hjul",
         maksAntall = 2,
         img = "https://storage.googleapis.com/hm_delbestilling_bilder/238403.png",
+        imgs = listOf("https://storage.googleapis.com/hm_delbestilling_bilder/238403.png"),
         datoLagtTil = LocalDate.of(2023, 6, 20),
     ),
     Del(
@@ -145,6 +157,7 @@ val hmsnrTilDel: Map<Hmsnr, Del> = listOf<Del>(
         kategori = "Lader",
         maksAntall = 2,
         img = "https://storage.googleapis.com/hm_delbestilling_bilder/249612.jpg",
+        imgs = listOf("https://storage.googleapis.com/hm_delbestilling_bilder/249612.jpg"),
         datoLagtTil = LocalDate.of(2023, 6, 20),
     ),
     Del(
@@ -154,6 +167,7 @@ val hmsnrTilDel: Map<Hmsnr, Del> = listOf<Del>(
         kategori = "Hjul",
         maksAntall = 4,
         img = "https://storage.googleapis.com/hm_delbestilling_bilder/253277.jpg",
+        imgs = listOf("https://storage.googleapis.com/hm_delbestilling_bilder/253277.jpg"),
         datoLagtTil = LocalDate.of(2023, 6, 20),
     ),
     Del(
@@ -163,6 +177,7 @@ val hmsnrTilDel: Map<Hmsnr, Del> = listOf<Del>(
         kategori = "Hjul",
         maksAntall = 2,
         img = "https://storage.googleapis.com/hm_delbestilling_bilder/256634.png",
+        imgs = listOf("https://storage.googleapis.com/hm_delbestilling_bilder/256634.png"),
         datoLagtTil = LocalDate.of(2023, 6, 20),
     ),
     Del(
@@ -190,6 +205,7 @@ val hmsnrTilDel: Map<Hmsnr, Del> = listOf<Del>(
         kategori = "Hjul",
         maksAntall = 2,
         img = "https://storage.googleapis.com/hm_delbestilling_bilder/269827.png",
+        imgs = listOf("https://storage.googleapis.com/hm_delbestilling_bilder/269827.png"),
         datoLagtTil = LocalDate.of(2023, 6, 20),
     ),
     Del(
@@ -198,6 +214,7 @@ val hmsnrTilDel: Map<Hmsnr, Del> = listOf<Del>(
         kategori = "Dekk",
         maksAntall = 2,
         img = "https://storage.googleapis.com/hm_delbestilling_bilder/278033.png",
+        imgs = listOf("https://storage.googleapis.com/hm_delbestilling_bilder/278033.png"),
         datoLagtTil = LocalDate.of(2023, 6, 20),
     ),
     Del(
@@ -213,6 +230,7 @@ val hmsnrTilDel: Map<Hmsnr, Del> = listOf<Del>(
         kategori = "Hjul",
         maksAntall = 4,
         img = "https://storage.googleapis.com/hm_delbestilling_bilder/291356.png",
+        imgs = listOf("https://storage.googleapis.com/hm_delbestilling_bilder/291356.png"),
         datoLagtTil = LocalDate.of(2023, 6, 20),
     ),
     Del(
@@ -221,6 +239,7 @@ val hmsnrTilDel: Map<Hmsnr, Del> = listOf<Del>(
         kategori = "Hjul",
         maksAntall = 4,
         img = "https://storage.googleapis.com/hm_delbestilling_bilder/291358.png",
+        imgs = listOf("https://storage.googleapis.com/hm_delbestilling_bilder/291358.png"),
         datoLagtTil = LocalDate.of(2023, 6, 20),
     ),
     Del(
@@ -230,6 +249,7 @@ val hmsnrTilDel: Map<Hmsnr, Del> = listOf<Del>(
         maksAntall = 2,
         levArtNr = "1523-1103",
         img = "https://storage.googleapis.com/hm_delbestilling_bilder/302543.jpg",
+        imgs = listOf("https://storage.googleapis.com/hm_delbestilling_bilder/302543.jpg"),
         datoLagtTil = LocalDate.of(2023, 8, 18),
     ),
     Del(
@@ -240,6 +260,7 @@ val hmsnrTilDel: Map<Hmsnr, Del> = listOf<Del>(
         defaultAntall = 2,
         maksAntall = 2,
         img = "https://storage.googleapis.com/hm_delbestilling_bilder/304570.png",
+        imgs = listOf("https://storage.googleapis.com/hm_delbestilling_bilder/304570.png"),
         datoLagtTil = LocalDate.of(2023, 6, 20),
     ),
     Del(
@@ -249,6 +270,7 @@ val hmsnrTilDel: Map<Hmsnr, Del> = listOf<Del>(
         kategori = "Hjul",
         maksAntall = 2,
         img = "https://storage.googleapis.com/hm_delbestilling_bilder/309144.png",
+        imgs = listOf("https://storage.googleapis.com/hm_delbestilling_bilder/309144.png"),
         datoLagtTil = LocalDate.of(2023, 6, 20),
     ),
     Del(
@@ -274,6 +296,7 @@ val hmsnrTilDel: Map<Hmsnr, Del> = listOf<Del>(
         kategori = "Annet",
         maksAntall = TODO_BESTEM_MAX_ANTALL,
         img = "https://storage.googleapis.com/hm_delbestilling_bilder/149965.png",
+        imgs = listOf("https://storage.googleapis.com/hm_delbestilling_bilder/149965.png"),
         datoLagtTil = LocalDate.of(2023, 11, 28),
     ),
     Del(
@@ -283,6 +306,7 @@ val hmsnrTilDel: Map<Hmsnr, Del> = listOf<Del>(
         kategori = "Annet",
         maksAntall = 1,
         img = "https://storage.googleapis.com/hm_delbestilling_bilder/173483.png",
+        imgs = listOf("https://storage.googleapis.com/hm_delbestilling_bilder/173483.png"),
         datoLagtTil = LocalDate.of(2023, 11, 28),
     ),
     Del(
@@ -292,6 +316,7 @@ val hmsnrTilDel: Map<Hmsnr, Del> = listOf<Del>(
         kategori = "Annet",
         maksAntall = TODO_BESTEM_MAX_ANTALL,
         img = "https://storage.googleapis.com/hm_delbestilling_bilder/028152.png",
+        imgs = listOf("https://storage.googleapis.com/hm_delbestilling_bilder/028152.png"),
         datoLagtTil = LocalDate.of(2023, 11, 28),
     ),
     Del(
@@ -301,6 +326,7 @@ val hmsnrTilDel: Map<Hmsnr, Del> = listOf<Del>(
         kategori = "Annet",
         maksAntall = 1,
         img = "https://storage.googleapis.com/hm_delbestilling_bilder/255826.png",
+        imgs = listOf("https://storage.googleapis.com/hm_delbestilling_bilder/255826.png"),
         datoLagtTil = LocalDate.of(2023, 11, 28),
     ),
     Del(
@@ -310,6 +336,7 @@ val hmsnrTilDel: Map<Hmsnr, Del> = listOf<Del>(
         kategori = "Annet",
         maksAntall = 1,
         img = "https://storage.googleapis.com/hm_delbestilling_bilder/028158.png",
+        imgs = listOf("https://storage.googleapis.com/hm_delbestilling_bilder/028158.png"),
         datoLagtTil = LocalDate.of(2023, 11, 28),
     ),
     Del(
@@ -319,6 +346,7 @@ val hmsnrTilDel: Map<Hmsnr, Del> = listOf<Del>(
         kategori = "Annet",
         maksAntall = TODO_BESTEM_MAX_ANTALL,
         img = "https://storage.googleapis.com/hm_delbestilling_bilder/149963.png",
+        imgs = listOf("https://storage.googleapis.com/hm_delbestilling_bilder/149963.png"),
         datoLagtTil = LocalDate.of(2023, 11, 28),
     ),
     Del(
@@ -328,6 +356,7 @@ val hmsnrTilDel: Map<Hmsnr, Del> = listOf<Del>(
         kategori = "Annet",
         maksAntall = TODO_BESTEM_MAX_ANTALL,
         img = "https://storage.googleapis.com/hm_delbestilling_bilder/232849.png",
+        imgs = listOf("https://storage.googleapis.com/hm_delbestilling_bilder/232849.png"),
         datoLagtTil = LocalDate.of(2023, 11, 28),
     ),
     Del(
@@ -337,6 +366,7 @@ val hmsnrTilDel: Map<Hmsnr, Del> = listOf<Del>(
         kategori = "Batteripakke",
         maksAntall = 1,
         img = "https://storage.googleapis.com/hm_delbestilling_bilder/159563.png",
+        imgs = listOf("https://storage.googleapis.com/hm_delbestilling_bilder/159563.png"),
         datoLagtTil = LocalDate.of(2023, 12, 14),
     ),
     Del(
@@ -346,6 +376,7 @@ val hmsnrTilDel: Map<Hmsnr, Del> = listOf<Del>(
         kategori = "Lader",
         maksAntall = 1,
         img = "https://storage.googleapis.com/hm_delbestilling_bilder/262846.png",
+        imgs = listOf("https://storage.googleapis.com/hm_delbestilling_bilder/262846.png"),
         datoLagtTil = LocalDate.of(2023, 12, 14),
     ),
     Del(

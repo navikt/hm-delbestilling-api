@@ -6,6 +6,7 @@ import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 import no.bekk.bekkopen.date.NorwegianDateUtil
 import no.nav.hjelpemidler.delbestilling.hjelpemidler.data.hmsnr2Hjm
+import no.nav.hjelpemidler.delbestilling.hjelpemidler.data.hmsnrTilDel
 import no.nav.hjelpemidler.delbestilling.hjelpemidler.defaultAntall
 import no.nav.hjelpemidler.delbestilling.hjelpemidler.maksAntall
 import no.nav.hjelpemidler.delbestilling.infrastructure.grunndata.Grunndata
@@ -298,7 +299,7 @@ class DelbestillingService(
                     val hjelpemiddelMedDeler =
                         HjelpemiddelMedDeler(navn = grunndataHjelpemiddel.articleName, hmsnr = grunndataHjelpemiddel.hmsArtNr, deler = deler.map {
                             val kategori = it.articleName.split(" ").first()
-                            val bilder = bildeUrls(it.media)
+                            val bilder = bildeUrls(it.media, it.hmsArtNr)
                             Del(
                                 hmsnr = it.hmsArtNr,
                                 navn = it.articleName,
@@ -438,10 +439,18 @@ class DelbestillingService(
         return harXKLager(kommunenummer)
     }
 
-    private fun bildeUrls(media: List<Media>): List<String> {
-        return media.filter { it.type == "IMAGE" }
+    private fun bildeUrls(media: List<Media>, hmsnr: String): List<String> {
+        val resultat = media.filter { it.type == "IMAGE" }
             .sortedBy { it.priority }
             .map { "https://finnhjelpemiddel.nav.no/imageproxy/400d/${it.uri}" }
+
+        if (resultat.isNotEmpty()) {
+            return resultat
+        }
+
+        // Prøv fallback til bilde fra manuell liste
+        val manuellDel = hmsnrTilDel[hmsnr]
+        return manuellDel?.imgs ?: emptyList()
     }
 }
 
