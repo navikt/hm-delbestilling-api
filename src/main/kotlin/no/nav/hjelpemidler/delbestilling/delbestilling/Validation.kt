@@ -16,12 +16,12 @@ fun validateDelbestillingRequest(req: DelbestillingRequest): List<String> = list
 
 fun validateHmsnr(hmsnr: Hmsnr) = listOfNotNull(
     if (hmsnr.length != 6) "Hmsnr må ha 6 siffer" else null,
-    if (hmsnr.any { !it.isDigit() }) "Hmsnr skal kun bestå av tall" else null,
+    if (!hmsnr.allDigits()) "Hmsnr skal kun bestå av tall" else null,
 )
 
 fun validateSerienr(serienr: Serienr) = listOfNotNull(
     if (serienr.length != 6) "Serienr må ha 6 siffer" else null,
-    if (serienr.any { !it.isDigit() }) "Serienr skal kun bestå av tall" else null,
+    if (!serienr.allDigits()) "Serienr skal kun bestå av tall" else null,
 )
 
 fun validateOpplæringBatteri(delbestilling: Delbestilling) = listOfNotNull(
@@ -29,3 +29,21 @@ fun validateOpplæringBatteri(delbestilling: Delbestilling) = listOfNotNull(
         "Tekniker må bekrefte opplæring i bytting av batteriene"
     } else null
 )
+
+fun requireHmsnr(value: String?): String {
+    requireNotNull(value)
+    requireNoErrors { validateHmsnr(value) }
+    return value
+}
+
+fun requireSerienr(value: String?): String {
+    requireNotNull(value)
+    requireNoErrors { validateSerienr(value) }
+    return value
+}
+
+fun requireNoErrors(validate: () -> List<String>) {
+    validate().firstOrNull()?.let { throw IllegalArgumentException(it) }
+}
+
+private fun String.allDigits() = this.all { it.isDigit() }

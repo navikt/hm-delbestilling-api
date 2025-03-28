@@ -6,6 +6,10 @@ import no.nav.hjelpemidler.delbestilling.hjelpemidler.data.hmsnrTilHjelpemiddel
 import no.nav.hjelpemidler.delbestilling.infrastructure.grunndata.GrunndataClient
 
 fun main() = runBlocking {
+    finnHjelpemidlerIManuellListeSomErDekketAvGrunndata()
+}
+
+private suspend fun finnHjelpemidlerIManuellListeSomErDekketAvGrunndata() {
     val grunndataClient = GrunndataClient(baseUrl = "https://finnhjelpemiddel.nav.no")
     val hovedhjelpemidler = hmsnrTilHjelpemiddel
     val harAlleDeler = mutableListOf<String>()
@@ -31,4 +35,3 @@ fun main() = runBlocking {
 
     println("Helt ferdig! Følgende hmsnr har alle tilsvarende deler både i manuell liste og grunndata: $harAlleDeler")
 }
-
