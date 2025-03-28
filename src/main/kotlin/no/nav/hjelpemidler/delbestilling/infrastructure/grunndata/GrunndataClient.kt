@@ -6,6 +6,8 @@ import io.ktor.client.engine.HttpClientEngine
 import io.ktor.client.engine.cio.CIO
 import io.ktor.client.plugins.HttpRequestRetry
 import io.ktor.client.plugins.defaultRequest
+import io.ktor.client.plugins.logging.LogLevel
+import io.ktor.client.plugins.logging.Logging
 import io.ktor.client.request.accept
 import io.ktor.client.request.headers
 import io.ktor.client.request.post
@@ -17,8 +19,9 @@ import kotlinx.coroutines.withContext
 import no.nav.hjelpemidler.delbestilling.Config
 import no.nav.hjelpemidler.delbestilling.infrastructure.grunndata.queries.alleDelerSomKanBestillesQuery
 import no.nav.hjelpemidler.delbestilling.infrastructure.grunndata.queries.alleHjelpemiddelMedIdEllerSeriesIdQuery
-import no.nav.hjelpemidler.delbestilling.infrastructure.grunndata.queries.hmsArtNrQuery
 import no.nav.hjelpemidler.delbestilling.infrastructure.grunndata.queries.compatibleWithQuery
+import no.nav.hjelpemidler.delbestilling.infrastructure.grunndata.queries.hmsArtNrQuery
+import no.nav.hjelpemidler.delbestilling.isProd
 import no.nav.hjelpemidler.delbestilling.navCorrelationId
 import no.nav.hjelpemidler.http.createHttpClient
 import java.util.UUID
@@ -34,6 +37,9 @@ class GrunndataClient(
         install(HttpRequestRetry) {
             retryOnExceptionOrServerErrors(maxRetries = 5)
             exponentialDelay()
+        }
+        install(Logging) {
+            level = if (isProd()) LogLevel.INFO else LogLevel.BODY
         }
         defaultRequest {
             accept(ContentType.Application.Json)

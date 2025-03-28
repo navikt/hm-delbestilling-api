@@ -11,17 +11,16 @@ import no.nav.hjelpemidler.delbestilling.hjelpemidler.maksAntall
 import no.nav.hjelpemidler.delbestilling.infrastructure.grunndata.Grunndata
 import no.nav.hjelpemidler.delbestilling.infrastructure.monitoring.PersonNotAccessibleInPdl
 import no.nav.hjelpemidler.delbestilling.infrastructure.monitoring.PersonNotFoundInPdl
+import no.nav.hjelpemidler.delbestilling.infrastructure.oebs.Oebs
 import no.nav.hjelpemidler.delbestilling.isDev
 import no.nav.hjelpemidler.delbestilling.isLocal
 import no.nav.hjelpemidler.delbestilling.isProd
 import no.nav.hjelpemidler.delbestilling.metrics.Metrics
-import no.nav.hjelpemidler.delbestilling.oebs.Artikkel
-import no.nav.hjelpemidler.delbestilling.oebs.OebsService
-import no.nav.hjelpemidler.delbestilling.oebs.OpprettBestillingsordreRequest
 import no.nav.hjelpemidler.delbestilling.oppslag.OppslagService
 import no.nav.hjelpemidler.delbestilling.pdl.PdlService
 import no.nav.hjelpemidler.delbestilling.roller.Delbestiller
 import no.nav.hjelpemidler.delbestilling.slack.SlackClient
+import no.nav.hjelpemidler.domain.person.Fødselsnummer
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.ZoneId
@@ -36,7 +35,7 @@ private val log = KotlinLogging.logger {}
 class DelbestillingService(
     private val delbestillingRepository: DelbestillingRepository,
     private val pdlService: PdlService,
-    private val oebsService: OebsService,
+    private val oebs: Oebs,
     private val oppslagService: OppslagService,
     private val metrics: Metrics,
     private val slackClient: SlackClient,
@@ -58,13 +57,8 @@ class DelbestillingService(
             return DelbestillingResultat(id, feil = feil)
         }
 
-        val levering = request.delbestilling.levering
-        val deler = request.delbestilling.deler
-
-        val utlån = oebsService.hentUtlånPåArtnrOgSerienr(hmsnr, serienr)
+        val brukersFnr = oebs.hentFnrLeietaker(hmsnr, serienr)
             ?: return DelbestillingResultat(id, feil = DelbestillingFeil.INGET_UTLÅN)
-
-        val brukersFnr = utlån.fnr
 
         val brukerKommunenr = try {
             pdlService.hentKommunenummer(brukersFnr)
@@ -93,7 +87,7 @@ class DelbestillingService(
         }
 
         // Sjekk at PDL og OEBS kommunenr på bruker stemmer overens
-        val oebsBrukerinfo = oebsService.hentPersoninfo(brukersFnr)
+        val oebsBrukerinfo = oebs.hentPersoninfo(brukersFnr)
         val brukerHarSammeKommunenrIOebsOgPdl = oebsBrukerinfo.any { it.leveringKommune == brukerKommunenr }
         if (!brukerHarSammeKommunenrIOebsOgPdl) {
             log.info { "Ulik leveringsadresse. OEBS: $oebsBrukerinfo, PDL: $brukerKommunenr" }
@@ -116,9 +110,6 @@ class DelbestillingService(
         }
 
         val bestillersNavn = pdlService.hentFornavn(bestillerFnr, validerAdressebeskyttelse = false)
-        val artikler = deler.map { Artikkel(it.del.hmsnr, it.antall) }
-        val xkLagerInfo = if (levering == Levering.TIL_XK_LAGER) "XK-Lager " else ""
-        val forsendelsesinfo = "${xkLagerInfo}Del bestilt av: $bestillersNavn"
 
         val delbestillingSak = delbestillingRepository.withTransaction(returnGeneratedKeys = true) { tx ->
             val saksnummer = delbestillingRepository.lagreDelbestilling(
@@ -133,32 +124,20 @@ class DelbestillingService(
             )
 
             // Hent ut den nye delbestillingsaken
-            val nyDelbestillingSak = if (saksnummer != null) {
-                delbestillingRepository.hentDelbestilling(tx, saksnummer)
-            } else {
-                null
-            }
+            val nyDelbestillingSak = delbestillingRepository.hentDelbestilling(tx, saksnummer)
 
             if (nyDelbestillingSak == null) {
                 throw RuntimeException("Klarte ikke hente ut delbestillingsak for saksnummer $saksnummer")
             }
 
-            oebsService.sendDelbestilling(
-                OpprettBestillingsordreRequest(
-                    brukersFnr = brukersFnr,
-                    saksnummer = saksnummer.toString(),
-                    innsendernavn = bestillersNavn,
-                    artikler = artikler,
-                    forsendelsesinfo = forsendelsesinfo,
-                )
-            )
+            oebs.sendDelbestilling(nyDelbestillingSak, Fødselsnummer(brukersFnr), bestillersNavn)
 
             nyDelbestillingSak
         }
 
         log.info { "Delbestilling '$id' sendt inn med saksnummer '${delbestillingSak.saksnummer}'" }
 
-        sendStatistikk(request.delbestilling, utlån.fnr)
+        sendStatistikk(request.delbestilling, brukersFnr)
 
         if (!isLocal()) {
             slackClient.varsleOmInnsending(brukerKommunenr, brukersKommunenavn, delbestillingSak)
@@ -171,7 +150,7 @@ class DelbestillingService(
         launch {
             try {
                 val navnHovedprodukt = hmsnr2Hjm[delbestilling.hmsnr]?.navn ?: "Ukjent"
-                val hjmbrukerHarBrukerpass = oebsService.harBrukerpass(fnrBruker)
+                val hjmbrukerHarBrukerpass = oebs.harBrukerpass(fnrBruker)
                 delbestilling.deler.forEach {
                     metrics.registrerDelbestillingInnsendt(
                         hmsnrDel = it.del.hmsnr,
@@ -381,12 +360,12 @@ class DelbestillingService(
             log.info { "Deler med 'batteri' i navnet på oppslag: $delerMedBatteriINavn" }
         }
 
-        val utlån = oebsService.hentUtlånPåArtnrOgSerienr(hmsnr, serienr)
+        val brukersFnr = oebs.hentFnrLeietaker(hmsnr, serienr)
             ?: return OppslagResultat(null, OppslagFeil.INGET_UTLÅN, HttpStatusCode.NotFound)
 
-        val brukersKommunenummer = pdlService.hentKommunenummer(utlån.fnr)
+        val brukersKommunenummer = pdlService.hentKommunenummer(brukersFnr)
         val lagerstatusForDeler =
-            oebsService.hentLagerstatus(brukersKommunenummer, hjelpemiddelMedDeler.deler.map { it.hmsnr })
+            oebs.hentLagerstatus(brukersKommunenummer, hjelpemiddelMedDeler.deler.map { it.hmsnr })
 
         // Koble hver del til lagerstatus, og sorter på navn
         hjelpemiddelMedDeler.deler =
@@ -424,7 +403,7 @@ class DelbestillingService(
         val fnrCache = mutableSetOf<String>()
         hmsnr2Hjm.keys.forEach { artnr ->
             log.info { "Leter etter testpersoner med utlån på $artnr" }
-            val fnrMedUtlånPåHjm = oebsService.hentFnrSomHarUtlånPåArtnr(artnr)
+            val fnrMedUtlånPåHjm = oebs.hentFnrSomHarUtlånPåArtnr(artnr)
             fnrMedUtlånPåHjm.forEach { fnr ->
                 try {
                     if (fnr !in fnrCache) {
@@ -442,9 +421,9 @@ class DelbestillingService(
     }
 
     suspend fun sjekkXKLager(hmsnr: Hmsnr, serienr: Serienr): Boolean {
-        val utlån = oebsService.hentUtlånPåArtnrOgSerienr(artnr = hmsnr, serienr = serienr)
+        val brukersFnr = oebs.hentFnrLeietaker(artnr = hmsnr, serienr = serienr)
             ?: error("Fant ikke utlån for $hmsnr $serienr")
-        val kommunenummer = pdlService.hentKommunenummer(utlån.fnr)
+        val kommunenummer = pdlService.hentKommunenummer(brukersFnr)
         return harXKLager(kommunenummer)
     }
 
