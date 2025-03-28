@@ -434,12 +434,12 @@ class DelbestillingService(
     }
 
     private fun bildeUrls(media: List<Media>, hmsnr: String): List<String> {
-        val resultat = media.filter { it.type == "IMAGE" }
+        val grunndataUrls = media.filter { it.type == "IMAGE" }
             .sortedBy { it.priority }
             .map { "https://finnhjelpemiddel.nav.no/imageproxy/400d/${it.uri}" }
 
-        if (resultat.isNotEmpty()) {
-            return resultat
+        if (grunndataUrls.isNotEmpty()) {
+            return grunndataUrls
         }
 
         // Prøv fallback til bilde fra manuell liste
