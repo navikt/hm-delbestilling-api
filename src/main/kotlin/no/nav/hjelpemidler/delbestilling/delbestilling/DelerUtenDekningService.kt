@@ -3,6 +3,7 @@ package no.nav.hjelpemidler.delbestilling.delbestilling
 import io.github.oshai.kotlinlogging.KotlinLogging
 import no.nav.hjelpemidler.database.JdbcOperations
 import no.nav.hjelpemidler.delbestilling.infrastructure.oebs.Oebs
+import no.nav.hjelpemidler.delbestilling.isDev
 import no.nav.hjelpemidler.delbestilling.slack.SlackClient
 import no.nav.hjelpemidler.hjelpemidlerdigitalSoknadapi.tjenester.norg.NorgService
 import kotlin.math.abs
@@ -22,6 +23,10 @@ class DelerUtenDekningService(
 
         val delerUtenDekning = sak.delbestilling.deler.mapNotNull { delLinje ->
             val lagerstatus = requireNotNull(lagerstatuser[delLinje.del.hmsnr])
+
+            if (isDev()) {
+                log.info { "Lagerstatus for ${delLinje.del.hmsnr}: $lagerstatus" }
+            }
 
             if (lagerstatus.minmax) {
                 // Dersom delen er på minmax så har den dekning
