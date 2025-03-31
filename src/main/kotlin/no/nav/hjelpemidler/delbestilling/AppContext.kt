@@ -71,7 +71,7 @@ class AppContext {
 
     val norgService = NorgService(norgClient)
 
-    val delerUtenDekningService = DelerUtenDekningService(delerUtenDekningRepository, oebs, norgService)
+    val delerUtenDekningService = DelerUtenDekningService(delerUtenDekningRepository, oebs, norgService, slackClient)
 
     val delbestillingService = DelbestillingService(
         delbestillingRepository,

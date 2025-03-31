@@ -3,6 +3,7 @@ package no.nav.hjelpemidler.delbestilling.delbestilling
 import io.github.oshai.kotlinlogging.KotlinLogging
 import no.nav.hjelpemidler.database.JdbcOperations
 import no.nav.hjelpemidler.delbestilling.infrastructure.oebs.Oebs
+import no.nav.hjelpemidler.delbestilling.slack.SlackClient
 import no.nav.hjelpemidler.hjelpemidlerdigitalSoknadapi.tjenester.norg.NorgService
 import kotlin.math.abs
 
@@ -12,6 +13,7 @@ class DelerUtenDekningService(
     private val repository: DelerUtenDekningRepository,
     private val oebs: Oebs,
     private val norgService: NorgService,
+    private val slackClient: SlackClient,
 ) {
     suspend fun lagreDelerUtenDekning(sak: DelbestillingSak, tx: JdbcOperations) {
         val hmsnrDeler = sak.delbestilling.deler.map { it.del.hmsnr }
@@ -45,6 +47,10 @@ class DelerUtenDekningService(
         val enhet = norgService.hentHmsEnhet(sak.brukersKommunenummer)
 
         log.info { "Dekningsjekk: lagrer følgende delerUtenDekning: $delerUtenDekning" }
+
+        if (delerUtenDekning.isNotEmpty()) {
+            slackClient.rapporterOmDelerUtenDekning(delerUtenDekning)
+        }
 
         delerUtenDekning.forEach { del ->
             repository.lagreDelerUtenDekning(

@@ -3,6 +3,7 @@ package no.nav.hjelpemidler.delbestilling.slack
 import io.github.oshai.kotlinlogging.KotlinLogging
 import io.ktor.client.engine.cio.CIO
 import no.nav.hjelpemidler.delbestilling.delbestilling.Del
+import no.nav.hjelpemidler.delbestilling.delbestilling.DelUtdenDekning
 import no.nav.hjelpemidler.delbestilling.delbestilling.DelbestillingRepository
 import no.nav.hjelpemidler.delbestilling.delbestilling.DelbestillingSak
 import no.nav.hjelpemidler.delbestilling.delbestilling.Kilde
@@ -160,5 +161,19 @@ class SlackClient(
             channel = channel,
             message = "Hjelpemiddelet $hmsnr '$navn' har alle deler fra manuell liste i grunndata også. Det kan dermed fjernes fra den manuelle listen :broom:"
         )
+    }
+
+    suspend fun rapporterOmDelerUtenDekning(delerUtenDekning: List<DelUtdenDekning>) {
+        try {
+            slackClient.sendMessage(
+                username = username,
+                slackIconEmoji(":pepe_cowboy:"),
+                channel = channel,
+                message = "Det har kommet inn delbestilling med følgende deler som ikke har dekning: ```${delerUtenDekning.joinToString { "\n${it.hmsnr} ${it.navn} (${it.antall}stk)" }}```"
+            )
+        }  catch (e: Exception) {
+            log.error(e) { "Klarte ikke sende varsle til Slack deler uten dekning" }
+            // Ikke kast feil videre, ikke krise hvis denne feiler
+        }
     }
 }
