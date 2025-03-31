@@ -169,10 +169,7 @@ class SlackClient(
                 username = username,
                 slackIconEmoji(":pepe_cowboy:"),
                 channel = channel,
-                message = """
-                    Det har kommet inn delbestilling med følgende deler som ikke har dekning hos enhet $enhetnr (kommune: ${brukersKommunenavn}): 
-                    ```${delerUtenDekning.joinToString { "\n${it.hmsnr} ${it.navn} (${it.antall}stk)" }}```\n
-                """,
+                message = "Det har kommet inn delbestilling med følgende deler som ikke har dekning hos enhet $enhetnr (kommune: ${brukersKommunenavn}):```${delerUtenDekning.joinToString { "\n${it.hmsnr} ${it.navn} (${it.antall}stk)" }}```",
             )
         }  catch (e: Exception) {
             log.error(e) { "Klarte ikke sende varsle til Slack deler uten dekning" }
