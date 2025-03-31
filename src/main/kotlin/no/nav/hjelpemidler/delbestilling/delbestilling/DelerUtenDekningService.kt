@@ -25,7 +25,7 @@ class DelerUtenDekningService(
             val lagerstatus = requireNotNull(lagerstatuser[delLinje.del.hmsnr])
 
             if (isDev()) {
-                log.info { "Lagerstatus for ${delLinje.del.hmsnr}: $lagerstatus" }
+                log.info { "Dekningsjekk: lagerstatus for ${delLinje.del.hmsnr}: $lagerstatus" }
             }
 
             if (lagerstatus.minmax) {
