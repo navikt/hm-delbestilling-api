@@ -32,7 +32,7 @@ fun Route.delbestillingApiPublic(
                 log.info { "Oppslag på hmsnr:${request.hmsnr} serienr:${request.serienr} returnerte feilkode:${resultat.feil}" }
             }
 
-            val oppslagResponse = OppslagResponse(resultat.hjelpemiddel, resultat.feil)
+            val oppslagResponse = OppslagResponse(resultat.hjelpemiddel, resultat.feil, resultat.piloter)
 
             call.respond(resultat.httpStatusCode, oppslagResponse)
         } catch (e: Exception) {
