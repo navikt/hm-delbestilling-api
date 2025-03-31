@@ -46,11 +46,11 @@ class DelerUtenDekningService(
             )
         }
 
-        log.info { "Dekningsjekk: lagrer følgende delerUtenDekning: $delerUtenDekning" }
-
         if (delerUtenDekning.isNotEmpty()) {
             slackClient.rapporterOmDelerUtenDekning(delerUtenDekning, sak.brukersKommunenavn, enhet.enhetNr)
         }
+
+        log.info { "Dekningsjekk: lagrer følgende delerUtenDekning: $delerUtenDekning" }
 
         delerUtenDekning.forEach { del ->
             repository.lagreDelerUtenDekning(
