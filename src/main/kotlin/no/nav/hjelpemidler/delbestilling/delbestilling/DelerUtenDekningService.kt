@@ -18,24 +18,26 @@ class DelerUtenDekningService(
     suspend fun lagreDelerUtenDekning(sak: DelbestillingSak, tx: JdbcOperations) {
         val hmsnrDeler = sak.delbestilling.deler.map { it.del.hmsnr }
         val lagerstatuser = oebs.hentLagerstatus(sak.brukersKommunenummer, hmsnrDeler).associateBy { it.artikkelnummer }
+        val enhet = norgService.hentHmsEnhet(sak.brukersKommunenummer)
+
         val delerUtenDekning = sak.delbestilling.deler.mapNotNull { delLinje ->
             val lagerstatus = requireNotNull(lagerstatuser[delLinje.del.hmsnr])
 
             if (lagerstatus.minmax) {
                 // Dersom delen er på minmax så har den dekning
-                log.info { "Dekningsjekk: ${delLinje.del.hmsnr} er på minmax, har dermed dekning" }
+                log.info { "Dekningsjekk: ${delLinje.del.hmsnr} er på minmax hos enhet ${enhet.enhetNr}, har dermed dekning" }
                 return@mapNotNull null
             }
 
             val antallPåLager = lagerstatus.antallDelerPåLager
             if (antallPåLager > delLinje.antall) {
                 // Flere på lager enn det er bestilt
-                log.info { "Dekningsjekk: ${delLinje.del.hmsnr} er det flere av på lager (${antallPåLager}) enn bestilt (${delLinje.antall}), har dermed dekning" }
+                log.info { "Dekningsjekk: ${delLinje.del.hmsnr} er det flere av på lager (${antallPåLager}) enn bestilt (${delLinje.antall}) hos enhet ${enhet.enhetNr}, har dermed dekning" }
                 return@mapNotNull null
             }
 
             val antallIkkePåLager = abs(antallPåLager - delLinje.antall)
-            log.info { "Dekningsjekk: antallIkkePåLager for ${delLinje.del.hmsnr}: $antallIkkePåLager" }
+            log.info { "Dekningsjekk: antallIkkePåLager for ${delLinje.del.hmsnr}: $antallIkkePåLager hos enhet ${enhet.enhetNr}" }
 
             DelUtdenDekning(
                 hmsnr = delLinje.del.hmsnr,
@@ -44,12 +46,10 @@ class DelerUtenDekningService(
             )
         }
 
-        val enhet = norgService.hentHmsEnhet(sak.brukersKommunenummer)
-
         log.info { "Dekningsjekk: lagrer følgende delerUtenDekning: $delerUtenDekning" }
 
         if (delerUtenDekning.isNotEmpty()) {
-            slackClient.rapporterOmDelerUtenDekning(delerUtenDekning)
+            slackClient.rapporterOmDelerUtenDekning(delerUtenDekning, sak.brukersKommunenavn, enhet.enhetNr)
         }
 
         delerUtenDekning.forEach { del ->
