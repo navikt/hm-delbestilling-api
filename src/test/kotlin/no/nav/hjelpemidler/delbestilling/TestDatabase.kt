@@ -1,7 +1,7 @@
 package no.nav.hjelpemidler.delbestilling
 
 import com.zaxxer.hikari.HikariDataSource
-import no.nav.hjelpemidler.delbestilling.Database.migrate
+import no.nav.hjelpemidler.delbestilling.config.DatabaseConfig.migrate
 import org.flywaydb.core.Flyway
 import org.testcontainers.containers.PostgreSQLContainer
 import org.testcontainers.containers.wait.strategy.Wait

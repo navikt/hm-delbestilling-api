@@ -1,5 +1,12 @@
 package no.nav.hjelpemidler.delbestilling
 
+import io.ktor.client.engine.mock.MockRequestHandleScope
+import io.ktor.client.engine.mock.respond
+import io.ktor.client.request.HttpResponseData
+import io.ktor.http.HttpHeaders
+import io.ktor.http.HttpStatusCode
+import io.ktor.http.headersOf
+import io.ktor.utils.io.ByteReadChannel
 import no.nav.hjelpemidler.delbestilling.delbestilling.Del
 import no.nav.hjelpemidler.delbestilling.delbestilling.DelLinje
 import no.nav.hjelpemidler.delbestilling.delbestilling.Delbestilling
@@ -8,7 +15,7 @@ import no.nav.hjelpemidler.delbestilling.delbestilling.DelbestillingSak
 import no.nav.hjelpemidler.delbestilling.delbestilling.Hmsnr
 import no.nav.hjelpemidler.delbestilling.delbestilling.Levering
 import no.nav.hjelpemidler.delbestilling.delbestilling.Status
-import no.nav.hjelpemidler.delbestilling.oppslag.KommuneDto
+import no.nav.hjelpemidler.delbestilling.infrastructure.geografi.KommuneDto
 import no.nav.hjelpemidler.delbestilling.roller.Delbestiller
 import no.nav.hjelpemidler.delbestilling.roller.Organisasjon
 import java.time.LocalDateTime
@@ -69,13 +76,6 @@ fun delbestillingSak(
     status = Status.INNSENDT,
     sistOppdatert = LocalDateTime.now(),
     oebsOrdrenummer = "4523",
-)
-
-fun kommune() = KommuneDto(
-    fylkesnummer = "3",
-    fylkesnavn = "Oslo",
-    kommunenavn = "Oslo",
-    kommunenummer = "0301",
 )
 
 fun organisasjon(orgnr: String = "123456789", navn: String = "Reperasjon AS") = Organisasjon(

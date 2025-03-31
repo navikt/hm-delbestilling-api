@@ -1,6 +1,6 @@
 package no.nav.hjelpemidler.delbestilling.delbestilling
 
-import no.nav.hjelpemidler.delbestilling.isDev
+import no.nav.hjelpemidler.delbestilling.config.isDev
 
 private val kommunenrMedXKLager = if(isDev()) {
     setOf(

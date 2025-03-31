@@ -10,9 +10,9 @@ import io.ktor.server.routing.get
 import io.ktor.server.routing.post
 import io.ktor.server.routing.put
 import io.ktor.server.util.getOrFail
-import no.nav.hjelpemidler.delbestilling.CORRELATION_ID_HEADER
-import no.nav.hjelpemidler.delbestilling.isDev
-import no.nav.hjelpemidler.delbestilling.plugins.delbestillerRolleKey
+import no.nav.hjelpemidler.delbestilling.infrastructure.CORRELATION_ID_HEADER
+import no.nav.hjelpemidler.delbestilling.config.isDev
+import no.nav.hjelpemidler.delbestilling.infrastructure.security.delbestillerRolleKey
 import no.nav.hjelpemidler.delbestilling.slack.SlackClient
 import no.nav.hjelpemidler.delbestilling.tokenXUser
 import java.time.LocalDate

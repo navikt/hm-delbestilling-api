@@ -1,11 +1,11 @@
-package no.nav.hjelpemidler.delbestilling.rapport
+package no.nav.hjelpemidler.delbestilling.infrastructure.monitoring.rapport
 
 import ANTALL_UTLÅN
 import io.github.oshai.kotlinlogging.KotlinLogging
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import no.nav.hjelpemidler.delbestilling.Database
+import no.nav.hjelpemidler.delbestilling.config.DatabaseConfig
 import no.nav.hjelpemidler.delbestilling.delbestilling.DelbestillingRepository
 import no.nav.hjelpemidler.delbestilling.infrastructure.grunndata.GrunndataClient
 import no.nav.hjelpemidler.delbestilling.slack.SlackClient
@@ -18,7 +18,7 @@ class Rapportering {
         CoroutineScope(Dispatchers.IO).launch {
             try {
                 val grunndataClient = GrunndataClient(baseUrl = "https://finnhjelpemiddel.nav.no")
-                val ds = Database.migratedDataSource
+                val ds = DatabaseConfig.migratedDataSource
                 val delbestillingRepository = DelbestillingRepository(ds)
                 val slackClient = SlackClient(delbestillingRepository)
                 rapporterHjelpemidlerUtenDelbestillingOgMax10Utlån(slackClient, delbestillingRepository)
@@ -40,7 +40,7 @@ class Rapportering {
 
         alleDelbestillinger.forEach { bestilling ->
             if (bestilling.delbestilling.hmsnr in telling) {
-                telling[bestilling.delbestilling.hmsnr]?.bestillinger++
+                telling[bestilling.delbestilling.hmsnr]!!.bestillinger++
             }
         }
 

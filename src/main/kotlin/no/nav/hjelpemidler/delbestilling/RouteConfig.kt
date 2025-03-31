@@ -21,10 +21,13 @@ import io.ktor.server.request.httpMethod
 import io.ktor.server.request.path
 import io.ktor.server.request.uri
 import io.ktor.server.routing.IgnoreTrailingSlash
+import no.nav.hjelpemidler.delbestilling.config.isLocal
 import no.nav.hjelpemidler.delbestilling.delbestilling.DelbestillingRequest
 import no.nav.hjelpemidler.delbestilling.delbestilling.OppslagRequest
 import no.nav.hjelpemidler.delbestilling.delbestilling.validateDelbestillingRequest
 import no.nav.hjelpemidler.delbestilling.delbestilling.validateOppslagRequest
+import no.nav.hjelpemidler.delbestilling.infrastructure.CORRELATION_ID_HEADER
+import no.nav.hjelpemidler.delbestilling.infrastructure.CORRELATION_ID_KEY
 import no.nav.hjelpemidler.delbestilling.infrastructure.monitoring.configureStatusPages
 import no.nav.tms.token.support.azure.validation.azure
 import no.nav.tms.token.support.tokenx.validation.mock.LevelOfAssurance

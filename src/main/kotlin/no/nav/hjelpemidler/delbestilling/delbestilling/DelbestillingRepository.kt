@@ -8,8 +8,8 @@ import kotliquery.using
 import no.nav.hjelpemidler.database.JdbcOperations
 import no.nav.hjelpemidler.database.pgObjectOf
 import no.nav.hjelpemidler.database.transactionAsync
-import no.nav.hjelpemidler.delbestilling.json
-import no.nav.hjelpemidler.delbestilling.jsonMapper
+import no.nav.hjelpemidler.delbestilling.infrastructure.json
+import no.nav.hjelpemidler.delbestilling.infrastructure.jsonMapper
 import no.nav.hjelpemidler.delbestilling.roller.Organisasjon
 import javax.sql.DataSource
 

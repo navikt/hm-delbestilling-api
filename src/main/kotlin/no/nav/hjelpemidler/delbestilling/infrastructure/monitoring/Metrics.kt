@@ -1,13 +1,13 @@
-package no.nav.hjelpemidler.delbestilling.metrics
+package no.nav.hjelpemidler.delbestilling.infrastructure.monitoring
 
 import io.github.oshai.kotlinlogging.KotlinLogging
 import no.nav.hjelpemidler.delbestilling.delbestilling.Hmsnr
-import no.nav.hjelpemidler.delbestilling.kafka.KafkaService
+import no.nav.hjelpemidler.delbestilling.infrastructure.kafka.Kafka
 
 private val log = KotlinLogging.logger {}
 
 class Metrics(
-    private val kafkaService: KafkaService,
+    private val kafka: Kafka,
 ) {
     private fun registerPoint(
         measurement: String,
@@ -15,7 +15,7 @@ class Metrics(
         fields: Map<String, Any> = mapOf("counter" to 1L),
     ) {
         try {
-            kafkaService.hendelseOpprettet(measurement, fields, tags)
+            kafka.hendelseOpprettet(measurement, fields, tags)
         } catch (e: Exception) {
             log.error(e) { "Feil under registrering av metric <$measurement>" }
         }

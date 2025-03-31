@@ -1,4 +1,4 @@
-package no.nav.hjelpemidler.delbestilling.plugins
+package no.nav.hjelpemidler.delbestilling.infrastructure.security
 
 import io.github.oshai.kotlinlogging.KotlinLogging
 import io.ktor.http.HttpStatusCode

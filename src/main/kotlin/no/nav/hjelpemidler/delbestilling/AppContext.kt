@@ -1,5 +1,6 @@
 package no.nav.hjelpemidler.delbestilling
 
+import no.nav.hjelpemidler.delbestilling.config.DatabaseConfig
 import no.nav.hjelpemidler.delbestilling.delbestilling.DelbestillingRepository
 import no.nav.hjelpemidler.delbestilling.delbestilling.DelbestillingService
 import no.nav.hjelpemidler.delbestilling.hjelpemidler.HjelpemidlerService
@@ -8,12 +9,12 @@ import no.nav.hjelpemidler.delbestilling.infrastructure.grunndata.GrunndataClien
 import no.nav.hjelpemidler.delbestilling.infrastructure.oebs.Oebs
 import no.nav.hjelpemidler.delbestilling.infrastructure.oebs.OebsApiProxyClient
 import no.nav.hjelpemidler.delbestilling.infrastructure.oebs.OebsSink
-import no.nav.hjelpemidler.delbestilling.kafka.KafkaService
-import no.nav.hjelpemidler.delbestilling.metrics.Metrics
-import no.nav.hjelpemidler.delbestilling.oppslag.OppslagClient
-import no.nav.hjelpemidler.delbestilling.oppslag.OppslagService
-import no.nav.hjelpemidler.delbestilling.pdl.PdlClient
-import no.nav.hjelpemidler.delbestilling.pdl.PdlService
+import no.nav.hjelpemidler.delbestilling.infrastructure.kafka.Kafka
+import no.nav.hjelpemidler.delbestilling.infrastructure.monitoring.Metrics
+import no.nav.hjelpemidler.delbestilling.infrastructure.geografi.DigihotOppslagClient
+import no.nav.hjelpemidler.delbestilling.infrastructure.geografi.Kommuneoppslag
+import no.nav.hjelpemidler.delbestilling.infrastructure.pdl.PdlClient
+import no.nav.hjelpemidler.delbestilling.infrastructure.pdl.Pdl
 import no.nav.hjelpemidler.delbestilling.roller.RolleClient
 import no.nav.hjelpemidler.delbestilling.roller.RolleService
 import no.nav.hjelpemidler.delbestilling.slack.SlackClient
@@ -37,25 +38,25 @@ class AppContext {
 
     private val oebsApiProxyClient = OebsApiProxyClient(azureClient)
 
-    private val oppslagClient = OppslagClient()
+    private val digihotOppslagClient = DigihotOppslagClient()
 
-    private val kafkaService = KafkaService()
+    private val kafka = Kafka()
 
-    private val metrics = Metrics(kafkaService)
+    private val metrics = Metrics(kafka)
 
-    private val oebsSinkClient = OebsSink(kafkaService)
+    private val oebsSinkClient = OebsSink(kafka)
 
     private val pdlClient = PdlClient(azureClient)
 
-    private val ds = Database.migratedDataSource
+    private val ds = DatabaseConfig.migratedDataSource
 
     private val delbestillingRepository = DelbestillingRepository(ds)
 
-    private val pdlService = PdlService(pdlClient)
+    private val pdl = Pdl(pdlClient)
 
     private val oebs = Oebs(oebsApiProxyClient, oebsSinkClient)
 
-    private val oppslagService = OppslagService(oppslagClient)
+    private val kommuneoppslag = Kommuneoppslag(digihotOppslagClient)
 
     val rolleService = RolleService(rolleClient)
 
@@ -63,9 +64,9 @@ class AppContext {
 
     val delbestillingService = DelbestillingService(
         delbestillingRepository,
-        pdlService,
+        pdl,
         oebs,
-        oppslagService,
+        kommuneoppslag,
         metrics,
         slackClient,
         grunndata,

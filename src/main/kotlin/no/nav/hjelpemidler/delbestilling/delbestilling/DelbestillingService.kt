@@ -12,12 +12,12 @@ import no.nav.hjelpemidler.delbestilling.infrastructure.grunndata.Grunndata
 import no.nav.hjelpemidler.delbestilling.infrastructure.monitoring.PersonNotAccessibleInPdl
 import no.nav.hjelpemidler.delbestilling.infrastructure.monitoring.PersonNotFoundInPdl
 import no.nav.hjelpemidler.delbestilling.infrastructure.oebs.Oebs
-import no.nav.hjelpemidler.delbestilling.isDev
-import no.nav.hjelpemidler.delbestilling.isLocal
-import no.nav.hjelpemidler.delbestilling.isProd
-import no.nav.hjelpemidler.delbestilling.metrics.Metrics
-import no.nav.hjelpemidler.delbestilling.oppslag.OppslagService
-import no.nav.hjelpemidler.delbestilling.pdl.PdlService
+import no.nav.hjelpemidler.delbestilling.config.isDev
+import no.nav.hjelpemidler.delbestilling.config.isLocal
+import no.nav.hjelpemidler.delbestilling.config.isProd
+import no.nav.hjelpemidler.delbestilling.infrastructure.monitoring.Metrics
+import no.nav.hjelpemidler.delbestilling.infrastructure.geografi.Kommuneoppslag
+import no.nav.hjelpemidler.delbestilling.infrastructure.pdl.Pdl
 import no.nav.hjelpemidler.delbestilling.roller.Delbestiller
 import no.nav.hjelpemidler.delbestilling.slack.SlackClient
 import no.nav.hjelpemidler.domain.person.Fødselsnummer
@@ -34,9 +34,9 @@ private val log = KotlinLogging.logger {}
 
 class DelbestillingService(
     private val delbestillingRepository: DelbestillingRepository,
-    private val pdlService: PdlService,
+    private val pdl: Pdl,
     private val oebs: Oebs,
-    private val oppslagService: OppslagService,
+    private val kommuneoppslag: Kommuneoppslag,
     private val metrics: Metrics,
     private val slackClient: SlackClient,
     private val grunndata: Grunndata,
@@ -61,7 +61,7 @@ class DelbestillingService(
             ?: return DelbestillingResultat(id, feil = DelbestillingFeil.INGET_UTLÅN)
 
         val brukerKommunenr = try {
-            pdlService.hentKommunenummer(brukersFnr)
+            pdl.hentKommunenummer(brukersFnr)
         } catch (e: PersonNotAccessibleInPdl) {
             log.error(e) { "Person ikke tilgjengelig i PDL" }
             return DelbestillingResultat(id, feil = DelbestillingFeil.KAN_IKKE_BESTILLE)
@@ -71,13 +71,6 @@ class DelbestillingService(
         } catch (e: Exception) {
             log.error(e) { "Klarte ikke å hente bruker fra PDL" }
             throw e
-        }
-
-        val brukersKommunenavn = try {
-            oppslagService.hentKommune(brukerKommunenr).kommunenavn
-        } catch (e: Exception) {
-            // Svelg feil, kommunenavn brukes bare til statistikk så ikke krise hvis den feiler
-            "Ukjent"
         }
 
         // Det skal ikke være mulig å bestille til seg selv (disabler i dev pga testdata)
@@ -109,7 +102,8 @@ class DelbestillingService(
             )
         }
 
-        val bestillersNavn = pdlService.hentFornavn(bestillerFnr, validerAdressebeskyttelse = false)
+        val bestillersNavn = pdl.hentFornavn(bestillerFnr)
+        val brukersKommunenavn = kommuneoppslag.kommunenavnOrNull(brukerKommunenr) ?: "Ukjent"
 
         val delbestillingSak = delbestillingRepository.withTransaction(returnGeneratedKeys = true) { tx ->
             val saksnummer = delbestillingRepository.lagreDelbestilling(
@@ -363,7 +357,7 @@ class DelbestillingService(
         val brukersFnr = oebs.hentFnrLeietaker(hmsnr, serienr)
             ?: return OppslagResultat(null, OppslagFeil.INGET_UTLÅN, HttpStatusCode.NotFound)
 
-        val brukersKommunenummer = pdlService.hentKommunenummer(brukersFnr)
+        val brukersKommunenummer = pdl.hentKommunenummer(brukersFnr)
         val lagerstatusForDeler =
             oebs.hentLagerstatus(brukersKommunenummer, hjelpemiddelMedDeler.deler.map { it.hmsnr })
 
@@ -407,7 +401,7 @@ class DelbestillingService(
             fnrMedUtlånPåHjm.forEach { fnr ->
                 try {
                     if (fnr !in fnrCache) {
-                        val kommunenr = pdlService.hentKommunenummer(fnr)
+                        val kommunenr = pdl.hentKommunenummer(fnr)
                         return mapOf("fnr" to fnr, "artnr" to artnr, "kommunenr" to kommunenr)
                     }
                 } catch (e: Exception) {
@@ -423,7 +417,7 @@ class DelbestillingService(
     suspend fun sjekkXKLager(hmsnr: Hmsnr, serienr: Serienr): Boolean {
         val brukersFnr = oebs.hentFnrLeietaker(artnr = hmsnr, serienr = serienr)
             ?: error("Fant ikke utlån for $hmsnr $serienr")
-        val kommunenummer = pdlService.hentKommunenummer(brukersFnr)
+        val kommunenummer = pdl.hentKommunenummer(brukersFnr)
         return harXKLager(kommunenummer)
     }
 
