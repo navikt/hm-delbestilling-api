@@ -393,6 +393,7 @@ class DelbestillingService(
         }
 
         val piloter = hentPiloter(brukersKommunenummer)
+        log.info { "returnerer piloter her: $piloter" }
 
         return OppslagResultat(hjelpemiddelMedDeler, null, HttpStatusCode.OK, piloter = piloter)
     }
