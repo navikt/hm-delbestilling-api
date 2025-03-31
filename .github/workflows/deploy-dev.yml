@@ -8,7 +8,7 @@ on:
       - "CODEOWNERS"
     branches:
       - main
-      - caching-hjmtitler
+      - bestille-alle-deler
 
 jobs:
   build-and-deploy:

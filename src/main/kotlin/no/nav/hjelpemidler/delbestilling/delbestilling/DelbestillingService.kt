@@ -392,7 +392,9 @@ class DelbestillingService(
             log.info { "Antall tilgjengelig deler (ikke minmax) for $hmsnr: $antallDelerTilgjengeligMenIkkePåMinmax" }
         }
 
-        return OppslagResultat(hjelpemiddelMedDeler, null, HttpStatusCode.OK)
+        val piloter = hentPiloter(brukersKommunenummer)
+
+        return OppslagResultat(hjelpemiddelMedDeler, null, HttpStatusCode.OK, piloter = piloter)
     }
 
     fun hentDelbestillinger(bestillerFnr: String): List<DelbestillingSak> {

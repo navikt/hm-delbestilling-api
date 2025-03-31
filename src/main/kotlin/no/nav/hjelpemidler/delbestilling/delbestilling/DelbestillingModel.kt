@@ -15,6 +15,7 @@ data class OppslagResultat(
     val hjelpemiddel: HjelpemiddelMedDeler?,
     val feil: OppslagFeil? = null,
     val httpStatusCode: HttpStatusCode,
+    val piloter: List<Pilot> = emptyList(),
 ) {
     init {
         hjelpemiddel?.deler?.forEach {
@@ -33,7 +34,12 @@ data class AlleHjelpemidlerMedDelerResultat(
 data class OppslagResponse(
     val hjelpemiddel: HjelpemiddelMedDeler?,
     val feil: OppslagFeil? = null,
+    val piloter: List<Pilot> = emptyList(),
 )
+
+enum class Pilot {
+    BESTILLE_IKKE_FASTE_LAGERVARER
+}
 
 enum class OppslagFeil {
     TILBYR_IKKE_HJELPEMIDDEL, INGET_UTLÅN
