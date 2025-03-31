@@ -21,19 +21,19 @@ class DelerUtenDekningService(
 
             if (lagerstatus.minmax) {
                 // Dersom delen er på minmax så har den dekning
-                log.info { "${delLinje.del.hmsnr} er på minmax, har dermed dekning" }
+                log.info { "Dekningsjekk: ${delLinje.del.hmsnr} er på minmax, har dermed dekning" }
                 return@mapNotNull null
             }
 
             val antallPåLager = lagerstatus.antallDelerPåLager
             if (antallPåLager > delLinje.antall) {
                 // Flere på lager enn det er bestilt
-                log.info { "${delLinje.del.hmsnr} er det flere av på lager (${antallPåLager}) enn bestilt (${delLinje.antall}), har dermed dekning" }
+                log.info { "Dekningsjekk: ${delLinje.del.hmsnr} er det flere av på lager (${antallPåLager}) enn bestilt (${delLinje.antall}), har dermed dekning" }
                 return@mapNotNull null
             }
 
             val antallIkkePåLager = abs(antallPåLager - delLinje.antall)
-            log.info { "antallIkkePåLager for ${delLinje.del.hmsnr}: $antallIkkePåLager" }
+            log.info { "Dekningsjekk: antallIkkePåLager for ${delLinje.del.hmsnr}: $antallIkkePåLager" }
 
             DelUtdenDekning(
                 hmsnr = delLinje.del.hmsnr,
@@ -44,7 +44,7 @@ class DelerUtenDekningService(
 
         val enhet = norgService.hentHmsEnhet(sak.brukersKommunenummer)
 
-        log.info { "Lagrer følgende delerUtenDekning: $delerUtenDekning" }
+        log.info { "Dekningsjekk: lagrer følgende delerUtenDekning: $delerUtenDekning" }
 
         delerUtenDekning.forEach { del ->
             repository.lagreDelerUtenDekning(
