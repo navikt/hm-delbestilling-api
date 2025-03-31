@@ -171,12 +171,14 @@ class DelbestillingRepository(val ds: DataSource) {
 }
 
 private fun Row.toLagretDelbestilling() = DelbestillingSak(
-    this.long("saksnummer"),
-    this.json("delbestilling_json"),
-    this.localDateTime("opprettet"),
-    Status.valueOf(this.string("status")),
-    this.localDateTime("sist_oppdatert"),
-    this.stringOrNull("oebs_ordrenummer"),
+    saksnummer = this.long("saksnummer"),
+    delbestilling = this.json("delbestilling_json"),
+    opprettet = this.localDateTime("opprettet"),
+    status = Status.valueOf(this.string("status")),
+    sistOppdatert = this.localDateTime("sist_oppdatert"),
+    oebsOrdrenummer = this.stringOrNull("oebs_ordrenummer"),
+    brukersKommunenummer = this.string("brukers_kommunenr"),
+    brukersKommunenavn = this.string("brukers_kommunenavn"),
 )
 
 private fun <T> pgJsonbOf(value: T): Any =

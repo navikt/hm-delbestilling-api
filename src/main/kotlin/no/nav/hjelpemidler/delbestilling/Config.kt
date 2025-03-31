@@ -20,6 +20,9 @@ object Config {
     // Grunndata
     val GRUNNDATA_API_URL by EnvironmentVariable
 
+    // Norg
+    val NORG_API_URL by EnvironmentVariable
+
     // Roller
     val ROLLER_API_URL by EnvironmentVariable
     val ROLLER_API_SCOPE by EnvironmentVariable

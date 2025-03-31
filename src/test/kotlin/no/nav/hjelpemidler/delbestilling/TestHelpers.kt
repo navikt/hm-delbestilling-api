@@ -69,6 +69,8 @@ fun delbestillingSak(
     status = Status.INNSENDT,
     sistOppdatert = LocalDateTime.now(),
     oebsOrdrenummer = "4523",
+    brukersKommunenummer = "0301",
+    brukersKommunenavn = "Oslo",
 )
 
 fun kommune() = KommuneDto(

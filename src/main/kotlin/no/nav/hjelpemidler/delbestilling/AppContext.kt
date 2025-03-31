@@ -2,6 +2,8 @@ package no.nav.hjelpemidler.delbestilling
 
 import no.nav.hjelpemidler.delbestilling.delbestilling.DelbestillingRepository
 import no.nav.hjelpemidler.delbestilling.delbestilling.DelbestillingService
+import no.nav.hjelpemidler.delbestilling.delbestilling.DelerUtenDekningRepository
+import no.nav.hjelpemidler.delbestilling.delbestilling.DelerUtenDekningService
 import no.nav.hjelpemidler.delbestilling.hjelpemidler.HjelpemidlerService
 import no.nav.hjelpemidler.delbestilling.infrastructure.grunndata.Grunndata
 import no.nav.hjelpemidler.delbestilling.infrastructure.grunndata.GrunndataClient
@@ -17,6 +19,8 @@ import no.nav.hjelpemidler.delbestilling.pdl.PdlService
 import no.nav.hjelpemidler.delbestilling.roller.RolleClient
 import no.nav.hjelpemidler.delbestilling.roller.RolleService
 import no.nav.hjelpemidler.delbestilling.slack.SlackClient
+import no.nav.hjelpemidler.hjelpemidlerdigitalSoknadapi.tjenester.norg.NorgClient
+import no.nav.hjelpemidler.hjelpemidlerdigitalSoknadapi.tjenester.norg.NorgService
 import no.nav.hjelpemidler.http.openid.azureADClient
 import no.nav.tms.token.support.tokendings.exchange.TokendingsServiceBuilder
 import kotlin.time.Duration.Companion.seconds
@@ -51,6 +55,8 @@ class AppContext {
 
     private val delbestillingRepository = DelbestillingRepository(ds)
 
+    val delerUtenDekningRepository = DelerUtenDekningRepository(ds)
+
     private val pdlService = PdlService(pdlClient)
 
     private val oebs = Oebs(oebsApiProxyClient, oebsSinkClient)
@@ -61,6 +67,12 @@ class AppContext {
 
     val slackClient = SlackClient(delbestillingRepository)
 
+    val norgClient = NorgClient()
+
+    val norgService = NorgService(norgClient)
+
+    val delerUtenDekningService = DelerUtenDekningService(delerUtenDekningRepository, oebs, norgService)
+
     val delbestillingService = DelbestillingService(
         delbestillingRepository,
         pdlService,
@@ -69,6 +81,7 @@ class AppContext {
         metrics,
         slackClient,
         grunndata,
+        delerUtenDekningService,
     )
 
     val hjelpemidlerService = HjelpemidlerService(grunndata)

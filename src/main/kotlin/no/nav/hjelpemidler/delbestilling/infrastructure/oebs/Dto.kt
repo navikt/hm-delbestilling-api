@@ -52,6 +52,7 @@ data class LagerstatusRequest(
 )
 
 data class LagerstatusResponse(
+    val antallDelerPåLager: Int,
     val erPåLager: Boolean,
     val organisasjons_id: Int,
     val organisasjons_navn: String,
@@ -78,5 +79,6 @@ data class LagerstatusResponse(
         artikkelnummer = this.artikkelnummer,
         minmax = this.minmax,
         tilgjengelig = this.tilgjengelig,
+        antallDelerPåLager = this.antallDelerPåLager,
     )
 }

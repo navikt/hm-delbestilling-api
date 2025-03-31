@@ -81,6 +81,7 @@ data class Lagerstatus(
     val artikkelnummer: String,
     val minmax: Boolean,
     val tilgjengelig: Int,
+    val antallDelerPåLager: Int,
 )
 
 data class DelLinje(
@@ -133,6 +134,8 @@ data class DelbestillingSak(
     val status: Status,
     val sistOppdatert: LocalDateTime,
     val oebsOrdrenummer: String?,
+    val brukersKommunenummer: String,
+    val brukersKommunenavn: String,
 )
 
 typealias Hmsnr = String

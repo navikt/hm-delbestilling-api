@@ -40,6 +40,7 @@ class DelbestillingService(
     private val metrics: Metrics,
     private val slackClient: SlackClient,
     private val grunndata: Grunndata,
+    private val delerUtenDekningService: DelerUtenDekningService,
 ) {
     suspend fun opprettDelbestilling(
         request: DelbestillingRequest,
@@ -129,6 +130,8 @@ class DelbestillingService(
             if (nyDelbestillingSak == null) {
                 throw RuntimeException("Klarte ikke hente ut delbestillingsak for saksnummer $saksnummer")
             }
+
+            delerUtenDekningService.lagreDelerUtenDekning(nyDelbestillingSak, tx)
 
             oebs.sendDelbestilling(nyDelbestillingSak, Fødselsnummer(brukersFnr), bestillersNavn)
 
