@@ -3,6 +3,7 @@ package no.nav.hjelpemidler.delbestilling.infrastructure.oebs
 import io.github.oshai.kotlinlogging.KotlinLogging
 import no.nav.hjelpemidler.delbestilling.delbestilling.DelbestillingSak
 import no.nav.hjelpemidler.delbestilling.delbestilling.Lagerstatus
+import no.nav.hjelpemidler.delbestilling.isDev
 import no.nav.hjelpemidler.domain.person.Fødselsnummer
 
 private val log = KotlinLogging.logger {}
@@ -13,11 +14,17 @@ class Oebs(
 ) {
     suspend fun hentFnrLeietaker(artnr: String, serienr: String): String? {
         log.info { "Henter leietaker for utlån: artnr=$artnr, serienr=$serienr" }
+        if (isDev()) {
+            return "26848497710" // Berømt aktivitet
+        }
         return client.hentUtlånPåArtnrOgSerienr(artnr, serienr).utlån?.fnr
     }
 
     suspend fun hentPersoninfo(fnr: String): List<OebsPersoninfo> {
         log.info { "Henter personinfo" }
+        if (isDev()) {
+            return listOf(OebsPersoninfo(leveringKommune = "5601"))
+        }
         return client.hentPersoninfo(fnr)
     }
 
