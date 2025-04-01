@@ -19,6 +19,7 @@ import no.nav.hjelpemidler.delbestilling.metrics.Metrics
 import no.nav.hjelpemidler.delbestilling.oppslag.OppslagService
 import no.nav.hjelpemidler.delbestilling.pdl.PdlService
 import no.nav.hjelpemidler.delbestilling.roller.Delbestiller
+import no.nav.hjelpemidler.delbestilling.roller.Organisasjon
 import no.nav.hjelpemidler.delbestilling.slack.SlackClient
 import no.nav.hjelpemidler.domain.person.Fødselsnummer
 import java.time.LocalDate
@@ -96,7 +97,7 @@ class DelbestillingService(
         }
 
         // Sjekk om en av innsenders organisasjoner tilhører brukers kommuner
-        val innsendersRepresenterteOrganisasjon =
+        var innsendersRepresenterteOrganisasjon =
             delbestillerRolle.kommunaleOrgs.find { it.kommunenummer == brukerKommunenr }
                 ?: delbestillerRolle.godkjenteIkkeKommunaleOrgs.find { it.kommunenummer == brukerKommunenr }
         val bestillerType: BestillerType =
@@ -104,10 +105,14 @@ class DelbestillingService(
 
         if (innsendersRepresenterteOrganisasjon == null) {
             log.info { "Brukers kommunenr: $brukerKommunenr, innsenders kommuner: ${delbestillerRolle.kommunaleOrgs}, innsenders godkjente ikke-kommunale orgs: ${delbestillerRolle.godkjenteIkkeKommunaleOrgs}" }
-            return DelbestillingResultat(
-                id,
-                feil = DelbestillingFeil.ULIK_GEOGRAFISK_TILKNYTNING,
-            )
+            if (isDev()) {
+                innsendersRepresenterteOrganisasjon = Organisasjon("1234", navn = "Testorg for dev")
+            } else {
+                return DelbestillingResultat(
+                    id,
+                    feil = DelbestillingFeil.ULIK_GEOGRAFISK_TILKNYTNING,
+                )
+            }
         }
 
         val bestillersNavn = pdlService.hentFornavn(bestillerFnr, validerAdressebeskyttelse = false)
@@ -395,7 +400,12 @@ class DelbestillingService(
             log.info { "Antall tilgjengelig deler (ikke minmax) for $hmsnr: $antallDelerTilgjengeligMenIkkePåMinmax" }
         }
 
-        return OppslagResultat(hjelpemiddelMedDeler, null, HttpStatusCode.OK, piloter = hentPiloter(brukersKommunenummer))
+        return OppslagResultat(
+            hjelpemiddelMedDeler,
+            null,
+            HttpStatusCode.OK,
+            piloter = hentPiloter(brukersKommunenummer)
+        )
     }
 
     fun hentDelbestillinger(bestillerFnr: String): List<DelbestillingSak> {
@@ -411,7 +421,7 @@ class DelbestillingService(
                 try {
                     if (fnr !in fnrCache) {
                         val kommunenr = pdlService.hentKommunenummer(fnr)
-                        log.info {"Fant testperson $fnr med utlån på $artnr, $serienr i kommune $kommunenr"}
+                        log.info { "Fant testperson $fnr med utlån på $artnr, $serienr i kommune $kommunenr" }
                         return mapOf("fnr" to fnr, "artnr" to artnr, "serienr" to serienr, "kommunenr" to kommunenr)
                     }
                 } catch (e: Exception) {
@@ -445,7 +455,7 @@ class DelbestillingService(
             slackClient.varsleGrunndataDekkerManuellListeForHjelpemiddel(manuell.hmsnr, manuell.navn)
         }
     }
-    
+
     fun antallDagerSidenSisteBatteribestilling(hmsnr: String, serienr: String): Long? {
         val dellbestillinger = delbestillingRepository.hentDelbestillinger(hmsnr, serienr)
 
