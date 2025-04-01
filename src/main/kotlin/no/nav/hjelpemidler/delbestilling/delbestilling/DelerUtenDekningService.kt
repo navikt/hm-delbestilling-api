@@ -117,6 +117,10 @@ class DelerUtenDekningService(
 
             val melding = delerUtenDekning.joinToString("\n") { "${it.hmsnr} ${it.navn}, må anmodes: ${it.antall}stk" }
             log.info { "melding: $melding" }
+
+            if (melding.isNotBlank()) {
+                slackClient.rapporterOmUtsendingAvRapport(melding, enhetnr)
+            }
         }
     }
 }

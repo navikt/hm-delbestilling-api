@@ -176,4 +176,18 @@ class SlackClient(
             // Ikke kast feil videre, ikke krise hvis denne feiler
         }
     }
+
+    suspend fun rapporterOmUtsendingAvRapport(melding: String, enhetnr: String) {
+        try {
+            slackClient.sendMessage(
+                username = username,
+                slackIconEmoji(":mailbox:"),
+                channel = channel,
+                message = "Følgende melding sendes til enhetnr $enhetnr:\n >${melding}",
+            )
+        }  catch (e: Exception) {
+            log.error(e) { "Klarte ikke sende varsle til Slack om utsending av rapport" }
+            // Ikke kast feil videre, ikke krise hvis denne feiler
+        }
+    }
 }
