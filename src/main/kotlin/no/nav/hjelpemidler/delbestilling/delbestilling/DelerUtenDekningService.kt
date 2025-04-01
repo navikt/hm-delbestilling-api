@@ -18,7 +18,8 @@ class DelerUtenDekningService(
 ) {
     suspend fun lagreDelerUtenDekning(sak: DelbestillingSak, tx: JdbcOperations) {
         val hmsnrDeler = sak.delbestilling.deler.map { it.del.hmsnr }
-        val lagerstatuser = oebs.hentLagerstatusForKommunenummer(sak.brukersKommunenummer, hmsnrDeler).associateBy { it.artikkelnummer }
+        val lagerstatuser =
+            oebs.hentLagerstatusForKommunenummer(sak.brukersKommunenummer, hmsnrDeler).associateBy { it.artikkelnummer }
         val enhet = norgService.hentHmsEnhet(sak.brukersKommunenummer)
 
         val delerUtenDekning = sak.delbestilling.deler.mapNotNull { delLinje ->
@@ -80,15 +81,27 @@ class DelerUtenDekningService(
         log.info { "Rapporterer dagens dekning uten deler" }
         log.info { "enhetnrs: $enhetnrs" }
 
-        enhetnrs.forEach {enhetnr ->
+        enhetnrs.forEach { enhetnr ->
             val potensielleDelerUtenDekning = repository.hentBestilteDeler(enhetnr)
             log.info { "delerUtenDekning for enhet $enhetnr: $potensielleDelerUtenDekning" }
 
-            val lagerstatuser = oebs.hentLagerstatusForEnhetnr(enhetnr = enhetnr, hmsnrs = potensielleDelerUtenDekning.map { it.hmsnr }).associateBy { it.artikkelnummer }
+            val lagerstatuser =
+                oebs.hentLagerstatusForEnhetnr(enhetnr = enhetnr, hmsnrs = potensielleDelerUtenDekning.map { it.hmsnr })
+                    .associateBy { it.artikkelnummer }
 
-            val delerUtenDekning = potensielleDelerUtenDekning.mapNotNull {delUtenDekning ->
+            val rapport = Rapport(enhetnr)
+
+            val delerUtenDekning = potensielleDelerUtenDekning.mapNotNull { delUtenDekning ->
+                val rapportlinje = Rapportlinje(
+                    hmsnr = delUtenDekning.hmsnr,
+                    antallBestilt = delUtenDekning.antall,
+                )
+                rapport.deler.add(rapportlinje)
+
                 // Sjekk lagerstatus på nytt
                 val lagerstatus = requireNotNull(lagerstatuser[delUtenDekning.hmsnr])
+                rapportlinje.lagerstatus = lagerstatus.antallDelerPåLager
+                rapportlinje.minmax = lagerstatus.minmax
 
                 // TODO: se hva som kan gjenbrukes
                 if (isDev()) {
@@ -98,6 +111,7 @@ class DelerUtenDekningService(
                 if (lagerstatus.minmax) {
                     // Dersom delen er på minmax så har den dekning
                     log.info { "Dekningsjekk: ${delUtenDekning.hmsnr} er på minmax hos enhet ${enhetnr}, har dermed dekning" }
+                    rapportlinje.status = RapportlinjeStatus.ER_PÅ_MINMAX
                     return@mapNotNull null
                 }
 
@@ -105,11 +119,15 @@ class DelerUtenDekningService(
                 if (antallPåLager > delUtenDekning.antall) {
                     // Flere på lager enn det er bestilt
                     log.info { "Dekningsjekk: ${delUtenDekning.hmsnr} er det flere av på lager (${antallPåLager}) enn bestilt (${delUtenDekning.antall}) hos enhet ${enhetnr}, har dermed dekning" }
+                    rapportlinje.status = RapportlinjeStatus.HAR_LAGERDEKNING
                     return@mapNotNull null
                 }
 
                 val antallIkkePåLager = abs(antallPåLager - delUtenDekning.antall)
                 log.info { "Dekningsjekk: antallIkkePåLager for ${delUtenDekning.hmsnr}: $antallIkkePåLager hos enhet ${enhetnr}" }
+
+                rapportlinje.status = RapportlinjeStatus.TIL_RAPPORTERING
+                rapportlinje.antallTilAnmoding = antallIkkePåLager
 
                 DelUtenDekning(
                     hmsnr = delUtenDekning.hmsnr,
@@ -122,7 +140,7 @@ class DelerUtenDekningService(
             log.info { "melding: $melding" }
 
             if (melding.isNotBlank()) {
-                slackClient.rapporterOmUtsendingAvRapport(melding, enhetnr)
+                slackClient.rapporterOmUtsendingAvRapport(melding, enhetnr, rapport)
             }
             // TODO send mail
 
@@ -130,13 +148,31 @@ class DelerUtenDekningService(
         }
     }
 
-    suspend fun markerDelerSomIkkeRapportert() {
+    fun markerDelerSomIkkeRapportert() {
         repository.markerDelerSomIkkeRapportert()
     }
 }
 
-data class DelUtenDekning (
+data class DelUtenDekning(
     val hmsnr: String,
     val navn: String,
     val antall: Int,
 )
+
+data class Rapportlinje(
+    val hmsnr: Hmsnr,
+    val antallBestilt: Int,
+    var lagerstatus: Int = -1,
+    var minmax: Boolean? = null,
+    var antallTilAnmoding: Int = 0,
+    var status: RapportlinjeStatus? = null,
+)
+
+data class Rapport(
+    val enhet: String,
+    val deler: MutableList<Rapportlinje> = mutableListOf(),
+)
+
+enum class RapportlinjeStatus {
+    ER_PÅ_MINMAX, HAR_LAGERDEKNING, TIL_RAPPORTERING
+}

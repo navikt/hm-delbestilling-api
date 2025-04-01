@@ -7,9 +7,11 @@ import no.nav.hjelpemidler.delbestilling.delbestilling.DelUtenDekning
 import no.nav.hjelpemidler.delbestilling.delbestilling.DelbestillingRepository
 import no.nav.hjelpemidler.delbestilling.delbestilling.DelbestillingSak
 import no.nav.hjelpemidler.delbestilling.delbestilling.Kilde
+import no.nav.hjelpemidler.delbestilling.delbestilling.Rapport
 import no.nav.hjelpemidler.delbestilling.hjelpemidler.data.hmsnrTilDel
 import no.nav.hjelpemidler.delbestilling.infrastructure.grunndata.Produkt
 import no.nav.hjelpemidler.delbestilling.isProd
+import no.nav.hjelpemidler.delbestilling.jsonMapper
 import no.nav.hjelpemidler.delbestilling.rapport.Hjelpemiddel
 import no.nav.hjelpemidler.http.slack.slack
 import no.nav.hjelpemidler.http.slack.slackIconEmoji
@@ -177,13 +179,19 @@ class SlackClient(
         }
     }
 
-    suspend fun rapporterOmUtsendingAvRapport(melding: String, enhetnr: String) {
+    suspend fun rapporterOmUtsendingAvRapport(melding: String, enhetnr: String, rapport: Rapport) {
         try {
+            val rapportJson = jsonMapper.writeValueAsString(rapport)
             slackClient.sendMessage(
                 username = username,
                 slackIconEmoji(":mailbox:"),
                 channel = channel,
-                message = "Følgende melding sendes til enhetnr $enhetnr:\n >${melding}",
+                message = """
+                    Følgende melding sendes til enhetnr $enhetnr:
+                    >${melding}
+                    Rapport: 
+                    ```$rapportJson```
+                """.trimIndent(),
             )
         }  catch (e: Exception) {
             log.error(e) { "Klarte ikke sende varsle til Slack om utsending av rapport" }
