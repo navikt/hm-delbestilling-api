@@ -18,7 +18,7 @@ class DelerUtenDekningService(
 ) {
     suspend fun lagreDelerUtenDekning(sak: DelbestillingSak, tx: JdbcOperations) {
         val hmsnrDeler = sak.delbestilling.deler.map { it.del.hmsnr }
-        val lagerstatuser = oebs.hentLagerstatus(sak.brukersKommunenummer, hmsnrDeler).associateBy { it.artikkelnummer }
+        val lagerstatuser = oebs.hentLagerstatusForKommunenummer(sak.brukersKommunenummer, hmsnrDeler).associateBy { it.artikkelnummer }
         val enhet = norgService.hentHmsEnhet(sak.brukersKommunenummer)
 
         val delerUtenDekning = sak.delbestilling.deler.mapNotNull { delLinje ->
@@ -47,7 +47,7 @@ class DelerUtenDekningService(
             DelUtenDekning(
                 hmsnr = delLinje.del.hmsnr,
                 navn = delLinje.del.navn,
-                antall = antallIkkePåLager
+                antall = antallIkkePåLager,
             )
         }
 
@@ -77,9 +77,46 @@ class DelerUtenDekningService(
         log.info { "Rapporterer dagens dekning uten deler" }
         log.info { "enhetnrs: $enhetnrs" }
 
-        enhetnrs.forEach{enhetnr ->
-            val delerUtenDekning = repository.hentDagensDelerUtenDekning(enhetnr)
-            log.info { "delerUtenDekning for enhet $enhetnr: $delerUtenDekning" }
+        enhetnrs.forEach {enhetnr ->
+            val potensielleDelerUtenDekning = repository.hentDagensDelerUtenDekning(enhetnr)
+            log.info { "delerUtenDekning for enhet $enhetnr: $potensielleDelerUtenDekning" }
+
+            val lagerstatuser = oebs.hentLagerstatusForEnhetnr(enhetnr = enhetnr, hmsnrs = potensielleDelerUtenDekning.map { it.hmsnr }).associateBy { it.artikkelnummer }
+
+            val delerUtenDekning = potensielleDelerUtenDekning.mapNotNull {delUtenDekning ->
+                // Sjekk lagerstatus på nytt
+                val lagerstatus = requireNotNull(lagerstatuser[delUtenDekning.hmsnr])
+
+                // TODO: se hva som kan gjenbrukes
+                if (isDev()) {
+                    log.info { "Dekningsjekk: lagerstatus for ${delUtenDekning.hmsnr} for enhet ${enhetnr}: $lagerstatus" }
+                }
+
+                if (lagerstatus.minmax) {
+                    // Dersom delen er på minmax så har den dekning
+                    log.info { "Dekningsjekk: ${delUtenDekning.hmsnr} er på minmax hos enhet ${enhetnr}, har dermed dekning" }
+                    return@mapNotNull null
+                }
+
+                val antallPåLager = lagerstatus.antallDelerPåLager
+                if (antallPåLager > delUtenDekning.antall) {
+                    // Flere på lager enn det er bestilt
+                    log.info { "Dekningsjekk: ${delUtenDekning.hmsnr} er det flere av på lager (${antallPåLager}) enn bestilt (${delUtenDekning.antall}) hos enhet ${enhetnr}, har dermed dekning" }
+                    return@mapNotNull null
+                }
+
+                val antallIkkePåLager = abs(antallPåLager - delUtenDekning.antall)
+                log.info { "Dekningsjekk: antallIkkePåLager for ${delUtenDekning.hmsnr}: $antallIkkePåLager hos enhet ${enhetnr}" }
+
+                DelUtenDekning(
+                    hmsnr = delUtenDekning.hmsnr,
+                    navn = delUtenDekning.navn,
+                    antall = antallIkkePåLager,
+                )
+            }
+
+            val melding = delerUtenDekning.joinToString("\n") { "${it.hmsnr} ${it.navn} ${it.antall}" }
+            log.info { "melding: $melding" }
         }
     }
 }

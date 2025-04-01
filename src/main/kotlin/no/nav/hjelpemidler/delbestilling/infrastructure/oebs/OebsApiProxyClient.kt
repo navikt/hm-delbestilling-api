@@ -21,7 +21,6 @@ import io.ktor.serialization.jackson.jackson
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import no.nav.hjelpemidler.delbestilling.Config
-import no.nav.hjelpemidler.delbestilling.delbestilling.Lagerstatus
 import no.nav.hjelpemidler.delbestilling.isProd
 import no.nav.hjelpemidler.delbestilling.navCorrelationId
 import no.nav.hjelpemidler.http.createHttpClient
@@ -92,9 +91,11 @@ class OebsApiProxyClient(
     suspend fun hentBrukerpassinfo(fnr: String): Brukerpass =
         post("$baseUrl/hent-brukerpass", FnrDto(fnr))
 
-    suspend fun hentLagerstatus(kommunenummer: String, hmsnrs: List<String>): List<LagerstatusResponse> =
+    suspend fun hentLagerstatusForKommunenummer(kommunenummer: String, hmsnrs: List<String>): List<LagerstatusResponse> =
         post("$baseUrl/lager/sentral/$kommunenummer", LagerstatusRequest(hmsnrs))
 
+    suspend fun hentLagerstatusForEnhetnr(enhetnr: String, hmsnrs: List<String>): List<LagerstatusResponse> =
+        post("$baseUrl/lager/sentral/enhet/$enhetnr", LagerstatusRequest(hmsnrs))
 }
 
 

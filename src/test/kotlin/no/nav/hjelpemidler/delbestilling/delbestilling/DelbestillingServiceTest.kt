@@ -216,7 +216,7 @@ internal class DelbestillingServiceTest {
         val azaleaHmsnr = "097765"
         val azaleaSerienr = "123456"
         coEvery { oebs.hentFnrLeietaker(azaleaHmsnr, azaleaSerienr) } returns brukersFnr
-        coEvery { oebs.hentLagerstatus(any(), any()) } returns emptyList()
+        coEvery { oebs.hentLagerstatusForKommunenummer(any(), any()) } returns emptyList()
 
         assertThrows<IllegalStateException> {
             delbestillingService.slåOppHjelpemiddel(azaleaHmsnr, azaleaSerienr)

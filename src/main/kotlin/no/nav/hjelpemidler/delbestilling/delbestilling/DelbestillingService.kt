@@ -368,7 +368,7 @@ class DelbestillingService(
 
         val brukersKommunenummer = pdlService.hentKommunenummer(brukersFnr)
         val lagerstatusForDeler =
-            oebs.hentLagerstatus(brukersKommunenummer, hjelpemiddelMedDeler.deler.map { it.hmsnr })
+            oebs.hentLagerstatusForKommunenummer(brukersKommunenummer, hjelpemiddelMedDeler.deler.map { it.hmsnr })
 
         // Koble hver del til lagerstatus, og sorter på navn
         hjelpemiddelMedDeler.deler =

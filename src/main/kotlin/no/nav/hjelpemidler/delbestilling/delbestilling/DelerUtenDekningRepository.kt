@@ -73,9 +73,10 @@ class DelerUtenDekningRepository(val ds: DataSource) {
             session.run(
                 queryOf(
                     """
-                    SELECT * 
+                    SELECT hmsnr, navn, SUM(antall_uten_dekning) as antall
                     FROM deler_uten_dekning
                     WHERE enhetnr = :enhetnr
+                    GROUP BY hmsnr, navn
                 """.trimIndent(),
                 mapOf("enhetnr" to enhetnr)
                 ).map { it.toDelUtenDekning() }.asList
@@ -83,7 +84,7 @@ class DelerUtenDekningRepository(val ds: DataSource) {
         }
 
     private fun Row.toDelUtenDekning() = DelUtenDekning(
-        hmsnr = this.string("saksnummer"),
+        hmsnr = this.string("hmsnr"),
         navn = this.string("navn"),
         antall = this.int("antall"),
     )

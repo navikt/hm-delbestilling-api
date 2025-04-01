@@ -38,9 +38,15 @@ class Oebs(
         return client.hentFnrSomHarUtlånPåArtnr(artnr)
     }
 
-    suspend fun hentLagerstatus(kommunenummer: String, hmsnrs: List<String>): List<Lagerstatus> {
+    suspend fun hentLagerstatusForKommunenummer(kommunenummer: String, hmsnrs: List<String>): List<Lagerstatus> {
         log.info { "Henter lagerstatus for kommunenummer $kommunenummer for hmsnrs $hmsnrs" }
-        val response = client.hentLagerstatus(kommunenummer, hmsnrs)
+        val response = client.hentLagerstatusForKommunenummer(kommunenummer, hmsnrs)
+        return response.map { it.tilLagerstatus() }
+    }
+
+    suspend fun hentLagerstatusForEnhetnr(enhetnr: String, hmsnrs: List<String>): List<Lagerstatus> {
+        log.info { "Henter lagerstatus for enhetnr $enhetnr for hmsnrs $hmsnrs" }
+        val response = client.hentLagerstatusForEnhetnr(enhetnr, hmsnrs)
         return response.map { it.tilLagerstatus() }
     }
 
