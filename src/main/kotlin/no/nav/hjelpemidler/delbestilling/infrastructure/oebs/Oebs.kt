@@ -33,7 +33,7 @@ class Oebs(
         return client.hentBrukerpassinfo(fnr).brukerpass
     }
 
-    suspend fun hentFnrSomHarUtlånPåArtnr(artnr: String): List<String> {
+    suspend fun hentFnrSomHarUtlånPåArtnr(artnr: String): List<Utlån> {
         log.info { "Henter utlån for $artnr" }
         return client.hentFnrSomHarUtlånPåArtnr(artnr)
     }

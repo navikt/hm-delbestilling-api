@@ -406,12 +406,13 @@ class DelbestillingService(
         val fnrCache = mutableSetOf<String>()
         hmsnr2Hjm.keys.forEach { artnr ->
             log.info { "Leter etter testpersoner med utlån på $artnr" }
-            val fnrMedUtlånPåHjm = oebs.hentFnrSomHarUtlånPåArtnr(artnr)
-            fnrMedUtlånPåHjm.forEach { fnr ->
+            val utlån = oebs.hentFnrSomHarUtlånPåArtnr(artnr)
+            utlån.forEach { (fnr, artnr, serienr, utlånsDato) ->
                 try {
                     if (fnr !in fnrCache) {
                         val kommunenr = pdlService.hentKommunenummer(fnr)
-                        return mapOf("fnr" to fnr, "artnr" to artnr, "kommunenr" to kommunenr)
+                        log.info {"Fant testperson $fnr med utlån på $artnr, $serienr i kommune $kommunenr"}
+                        return mapOf("fnr" to fnr, "artnr" to artnr, "serienr" to serienr, "kommunenr" to kommunenr)
                     }
                 } catch (e: Exception) {
                     // Peronen finnes ikke i PDL. Ignorer og let videre.

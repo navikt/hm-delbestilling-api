@@ -82,7 +82,7 @@ class OebsApiProxyClient(
     suspend fun hentUtlånPåArtnrOgSerienr(artnr: String, serienr: String): UtlånPåArtnrOgSerienrResponse =
         post("$baseUrl/utlanSerienrArtnr", UtlånPåArtnrOgSerienrRequest(artnr, serienr))
 
-    suspend fun hentFnrSomHarUtlånPåArtnr(artnr: String): List<String> =
+    suspend fun hentFnrSomHarUtlånPåArtnr(artnr: String): List<Utlån> =
         post("$baseUrl/utlanArtnr", artnr)
 
     suspend fun hentPersoninfo(fnr: String): List<OebsPersoninfo> =
