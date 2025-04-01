@@ -51,8 +51,8 @@ fun Route.delbestillingApiPublic(
 
             val request = call.receive<RapporteringRequest>()
             when (request.handling) {
-                Handling.RAPPORTER.name -> delbestillingService.rapporterDelerUtenDeking()
-                Handling.TILBAKESTILL.name -> delerUtenDekningService.markerDelerSomIkkeRapportert()
+                Handling.RAPPORTER.name -> return@post call.respond(delbestillingService.rapporterDelerUtenDeking())
+                Handling.TILBAKESTILL.name -> return@post call.respond(delerUtenDekningService.markerDelerSomIkkeRapportert())
 
                 else -> return@post call.respond(
                     HttpStatusCode.BadRequest, """
@@ -64,7 +64,7 @@ fun Route.delbestillingApiPublic(
                     """.trimIndent()
                 )
             }
-            call.respond(HttpStatusCode.OK)
+            call.respond("Ingen kode ble kjørt?")
         }
     }
 }

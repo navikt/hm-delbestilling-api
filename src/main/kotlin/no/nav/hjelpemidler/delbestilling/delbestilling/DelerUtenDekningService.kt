@@ -72,7 +72,7 @@ class DelerUtenDekningService(
         }
     }
 
-    suspend fun hentDagensDelerUtenDekning() {
+    suspend fun hentDagensDelerUtenDekning(): MutableMap<String, Rapport> {
 
         // TODO kjør kun 1 gang per døgn, kl 0100
 
@@ -80,6 +80,8 @@ class DelerUtenDekningService(
         val enhetnrs = repository.hentUnikeEnhetnrs()
         log.info { "Rapporterer dagens dekning uten deler" }
         log.info { "enhetnrs: $enhetnrs" }
+
+        val rapporter = mutableMapOf<String, Rapport>()
 
         enhetnrs.forEach { enhetnr ->
             val potensielleDelerUtenDekning = repository.hentBestilteDeler(enhetnr)
@@ -90,6 +92,7 @@ class DelerUtenDekningService(
                     .associateBy { it.artikkelnummer }
 
             val rapport = Rapport(enhetnr)
+            rapporter[enhetnr] = rapport
 
             val delerUtenDekning = potensielleDelerUtenDekning.mapNotNull { delUtenDekning ->
                 val rapportlinje = Rapportlinje(
@@ -146,6 +149,8 @@ class DelerUtenDekningService(
 
             repository.markerDelerSomRapportert(enhetnr)
         }
+
+        return rapporter
     }
 
     fun markerDelerSomIkkeRapportert() {

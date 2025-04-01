@@ -471,7 +471,7 @@ class DelbestillingService(
         return antallDagerSiden
     }
 
-    suspend fun rapporterDelerUtenDeking() {
+    suspend fun rapporterDelerUtenDeking(): MutableMap<String, Rapport> {
         return try {
             delerUtenDekningService.hentDagensDelerUtenDekning()
         } catch (t: Throwable) {
