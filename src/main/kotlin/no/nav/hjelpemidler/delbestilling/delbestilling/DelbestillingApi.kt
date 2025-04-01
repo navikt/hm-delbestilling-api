@@ -60,7 +60,7 @@ fun Route.delbestillingApiPublic(
                     {
 	                    "handling": "X"
                     }
-                    med X satt til en av ${Handling.entries.toTypedArray()}
+                    med X satt til en av ${Handling.entries.joinToString()}
                     """.trimIndent()
                 )
             }
