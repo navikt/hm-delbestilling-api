@@ -45,6 +45,10 @@ fun Route.delbestillingApiPublic(
         get("/finnGyldigTestbruker") {
             call.respond(delbestillingService.finnTestpersonMedTestbartUtlån())
         }
+
+        post("/rapporter-deler-uten-dekning") {
+            call.respond(delbestillingService.rapporterDelerUtenDeking())
+        }
     }
 }
 

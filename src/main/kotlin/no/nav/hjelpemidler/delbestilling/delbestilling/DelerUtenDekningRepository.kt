@@ -1,13 +1,13 @@
 package no.nav.hjelpemidler.delbestilling.delbestilling
 
 import io.github.oshai.kotlinlogging.KotlinLogging
+import kotliquery.Row
 import kotliquery.queryOf
 import kotliquery.sessionOf
 import kotliquery.using
 import no.nav.hjelpemidler.database.JdbcOperations
 import no.nav.hjelpemidler.database.transactionAsync
-import no.nav.hjelpemidler.delbestilling.jsonMapper
-import no.nav.hjelpemidler.delbestilling.roller.Organisasjon
+import no.nav.hjelpemidler.delbestilling.json
 import javax.sql.DataSource
 
 private val log = KotlinLogging.logger {}
@@ -54,4 +54,37 @@ class DelerUtenDekningRepository(val ds: DataSource) {
         )
     }
 
+    fun hentUnikeEnhetnrs(): List<String> =
+        // TODO: også sjekk dato
+        using(sessionOf(ds)) { session ->
+            session.run(
+                queryOf(
+                    """
+                    SELECT DISTINCT(enhetnr)
+                    FROM deler_uten_dekning
+                """.trimIndent()
+                ).map { row -> row.string("enhetnr") }.asList
+            )
+        }
+
+    fun hentDagensDelerUtenDekning(enhetnr: String): List<DelUtenDekning> =
+        // TODO: også sjekk dato
+        using(sessionOf(ds)) { session ->
+            session.run(
+                queryOf(
+                    """
+                    SELECT * 
+                    FROM deler_uten_dekning
+                    WHERE enhetnr = :enhetnr
+                """.trimIndent(),
+                mapOf("enhetnr" to enhetnr)
+                ).map { it.toDelUtenDekning() }.asList
+            )
+        }
+
+    private fun Row.toDelUtenDekning() = DelUtenDekning(
+        hmsnr = this.string("saksnummer"),
+        navn = this.string("navn"),
+        antall = this.int("antall"),
+    )
 }

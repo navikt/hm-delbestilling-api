@@ -459,6 +459,10 @@ class DelbestillingService(
 
         return antallDagerSiden
     }
+
+    suspend fun rapporterDelerUtenDeking() {
+        return delerUtenDekningService.hentDagensDelerUtenDekning()
+    }
 }
 
 private fun LocalDate.toDate() = Date.from(this.atStartOfDay(ZoneId.systemDefault()).toInstant())

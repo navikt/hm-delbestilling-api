@@ -70,6 +70,18 @@ class DelerUtenDekningService(
             )
         }
     }
+
+    suspend fun hentDagensDelerUtenDekning() {
+        // Hent først alle unike enhetnr
+        val enhetnrs = repository.hentUnikeEnhetnrs()
+        log.info { "Rapporterer dagens dekning uten deler" }
+        log.info { "enhetnrs: $enhetnrs" }
+
+        enhetnrs.forEach{enhetnr ->
+            val delerUtenDekning = repository.hentDagensDelerUtenDekning(enhetnr)
+            log.info { "delerUtenDekning for enhet $enhetnr: $delerUtenDekning" }
+        }
+    }
 }
 
 data class DelUtenDekning (
