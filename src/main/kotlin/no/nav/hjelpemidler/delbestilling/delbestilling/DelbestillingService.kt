@@ -462,7 +462,13 @@ class DelbestillingService(
     }
 
     suspend fun rapporterDelerUtenDeking() {
-        return delerUtenDekningService.hentDagensDelerUtenDekning()
+        return try {
+            delerUtenDekningService.hentDagensDelerUtenDekning()
+        } catch (t: Throwable) {
+            log.error(t) { "Rapportering av nødvendige anmodninger feilet." }
+            slackClient.varsleOmRapporteringFeilet()
+            throw t
+        }
     }
 }
 

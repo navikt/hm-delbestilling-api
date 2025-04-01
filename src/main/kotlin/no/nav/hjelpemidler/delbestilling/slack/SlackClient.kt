@@ -190,4 +190,18 @@ class SlackClient(
             // Ikke kast feil videre, ikke krise hvis denne feiler
         }
     }
+
+    suspend fun varsleOmRapporteringFeilet() {
+        try {
+            slackClient.sendMessage(
+                username = username,
+                slackIconEmoji(":error:"),
+                channel = channel,
+                message = "Utsending av mail til HMS om deler som må anmodes feilet. Må følges opp manuelt.",
+            )
+        }  catch (e: Exception) {
+            log.error(e) { "Klarte ikke sende varsek til Slack feilende rapportering av nødvendige anmodninger" }
+            // Ikke kast feil videre, ikke krise hvis denne feiler
+        }
+    }
 }
