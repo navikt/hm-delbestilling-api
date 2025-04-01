@@ -90,7 +90,7 @@ class DelbestillingService(
         // Sjekk at PDL og OEBS kommunenr på bruker stemmer overens
         val oebsBrukerinfo = oebs.hentPersoninfo(brukersFnr)
         val brukerHarSammeKommunenrIOebsOgPdl = oebsBrukerinfo.any { it.leveringKommune == brukerKommunenr }
-        if (!brukerHarSammeKommunenrIOebsOgPdl) {
+        if (!isDev() || !brukerHarSammeKommunenrIOebsOgPdl) {
             log.info { "Ulik leveringsadresse. OEBS: $oebsBrukerinfo, PDL: $brukerKommunenr" }
             return DelbestillingResultat(id, feil = DelbestillingFeil.ULIK_ADRESSE_PDL_OEBS)
         }
