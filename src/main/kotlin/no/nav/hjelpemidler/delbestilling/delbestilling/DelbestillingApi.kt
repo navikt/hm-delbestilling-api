@@ -6,6 +6,7 @@ import io.ktor.server.application.call
 import io.ktor.server.request.receive
 import io.ktor.server.response.respond
 import io.ktor.server.routing.Route
+import io.ktor.server.routing.delete
 import io.ktor.server.routing.get
 import io.ktor.server.routing.post
 import io.ktor.server.routing.put
@@ -48,32 +49,14 @@ fun Route.delbestillingApiPublic(
         }
 
         post("/rapporter-deler-uten-dekning") {
+            call.respond(delbestillingService.rapporterDelerUtenDeking())
+        }
 
-            val request = call.receive<RapporteringRequest>()
-            when (request.handling) {
-                Handling.RAPPORTER.name -> return@post call.respond(delbestillingService.rapporterDelerUtenDeking())
-                Handling.TILBAKESTILL.name -> return@post call.respond(delerUtenDekningService.markerDelerSomIkkeRapportert())
-
-                else -> return@post call.respond(
-                    HttpStatusCode.BadRequest, """
-                    Forventet body:
-                    {
-	                    "handling": "X"
-                    }
-                    med X satt til en av ${Handling.entries.joinToString()}
-                    """.trimIndent()
-                )
-            }
-            call.respond("Ingen kode ble kjørt?")
+        delete("/rapporter-deler-uten-dekning") {
+            call.respond(delerUtenDekningService.markerDelerSomIkkeRapportert())
         }
     }
 }
-
-enum class Handling {
-    RAPPORTER, TILBAKESTILL
-}
-
-data class RapporteringRequest(val handling: String)
 
 fun Route.delbestillingApiAuthenticated(
     delbestillingService: DelbestillingService,
