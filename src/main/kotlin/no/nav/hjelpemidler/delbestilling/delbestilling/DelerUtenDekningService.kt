@@ -44,7 +44,7 @@ class DelerUtenDekningService(
             val antallIkkePåLager = abs(antallPåLager - delLinje.antall)
             log.info { "Dekningsjekk: antallIkkePåLager for ${delLinje.del.hmsnr}: $antallIkkePåLager hos enhet ${enhet.enhetNr}" }
 
-            DelUtdenDekning(
+            DelUtenDekning(
                 hmsnr = delLinje.del.hmsnr,
                 navn = delLinje.del.navn,
                 antall = antallIkkePåLager
@@ -72,7 +72,7 @@ class DelerUtenDekningService(
     }
 }
 
-data class DelUtdenDekning (
+data class DelUtenDekning (
     val hmsnr: String,
     val navn: String,
     val antall: Int,

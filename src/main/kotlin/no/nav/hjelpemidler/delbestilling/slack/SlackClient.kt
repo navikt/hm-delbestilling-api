@@ -3,7 +3,7 @@ package no.nav.hjelpemidler.delbestilling.slack
 import io.github.oshai.kotlinlogging.KotlinLogging
 import io.ktor.client.engine.cio.CIO
 import no.nav.hjelpemidler.delbestilling.delbestilling.Del
-import no.nav.hjelpemidler.delbestilling.delbestilling.DelUtdenDekning
+import no.nav.hjelpemidler.delbestilling.delbestilling.DelUtenDekning
 import no.nav.hjelpemidler.delbestilling.delbestilling.DelbestillingRepository
 import no.nav.hjelpemidler.delbestilling.delbestilling.DelbestillingSak
 import no.nav.hjelpemidler.delbestilling.delbestilling.Kilde
@@ -163,7 +163,7 @@ class SlackClient(
         )
     }
 
-    suspend fun rapporterOmDelerUtenDekning(delerUtenDekning: List<DelUtdenDekning>, brukersKommunenavn: String, enhetnr: String) {
+    suspend fun rapporterOmDelerUtenDekning(delerUtenDekning: List<DelUtenDekning>, brukersKommunenavn: String, enhetnr: String) {
         try {
             slackClient.sendMessage(
                 username = username,
