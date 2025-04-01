@@ -395,10 +395,7 @@ class DelbestillingService(
             log.info { "Antall tilgjengelig deler (ikke minmax) for $hmsnr: $antallDelerTilgjengeligMenIkkePåMinmax" }
         }
 
-        val piloter = hentPiloter(brukersKommunenummer)
-        log.info { "returnerer piloter her: $piloter" }
-
-        return OppslagResultat(hjelpemiddelMedDeler, null, HttpStatusCode.OK, piloter = piloter)
+        return OppslagResultat(hjelpemiddelMedDeler, null, HttpStatusCode.OK, piloter = hentPiloter(brukersKommunenummer))
     }
 
     fun hentDelbestillinger(bestillerFnr: String): List<DelbestillingSak> {

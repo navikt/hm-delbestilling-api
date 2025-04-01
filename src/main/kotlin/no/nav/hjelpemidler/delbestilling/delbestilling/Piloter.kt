@@ -13,7 +13,5 @@ fun hentPiloter(brukersKommunenummer: String): List<Pilot> {
         piloter.add(Pilot.BESTILLE_IKKE_FASTE_LAGERVARER)
     }
 
-    log.info{"piloter: $piloter"}
-
     return piloter
 }
