@@ -72,13 +72,16 @@ class DelerUtenDekningService(
     }
 
     suspend fun hentDagensDelerUtenDekning() {
+
+        // TODO kjør kun 1 gang per døgn, kl 0100
+
         // Hent først alle unike enhetnr
         val enhetnrs = repository.hentUnikeEnhetnrs()
         log.info { "Rapporterer dagens dekning uten deler" }
         log.info { "enhetnrs: $enhetnrs" }
 
         enhetnrs.forEach {enhetnr ->
-            val potensielleDelerUtenDekning = repository.hentDagensDelerUtenDekning(enhetnr)
+            val potensielleDelerUtenDekning = repository.hentBestilteDeler(enhetnr)
             log.info { "delerUtenDekning for enhet $enhetnr: $potensielleDelerUtenDekning" }
 
             val lagerstatuser = oebs.hentLagerstatusForEnhetnr(enhetnr = enhetnr, hmsnrs = potensielleDelerUtenDekning.map { it.hmsnr }).associateBy { it.artikkelnummer }
@@ -121,6 +124,9 @@ class DelerUtenDekningService(
             if (melding.isNotBlank()) {
                 slackClient.rapporterOmUtsendingAvRapport(melding, enhetnr)
             }
+            // TODO send mail
+
+            repository.markerDelerSomRapportert(enhetnr)
         }
     }
 }

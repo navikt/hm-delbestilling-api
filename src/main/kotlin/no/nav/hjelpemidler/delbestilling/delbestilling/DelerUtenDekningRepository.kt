@@ -7,14 +7,9 @@ import kotliquery.sessionOf
 import kotliquery.using
 import no.nav.hjelpemidler.database.JdbcOperations
 import no.nav.hjelpemidler.database.transactionAsync
-import no.nav.hjelpemidler.delbestilling.json
 import javax.sql.DataSource
 
 private val log = KotlinLogging.logger {}
-
-enum class DelUtenDekningStatus {
-    BESTILT, RAPPORTERT
-}
 
 class DelerUtenDekningRepository(val ds: DataSource) {
 
@@ -38,8 +33,8 @@ class DelerUtenDekningRepository(val ds: DataSource) {
         log.info { "Lagrer del uten dekning $hmsnr ($antallUtenDekning)" }
         return tx.updateAndReturnGeneratedKey(
             """
-                INSERT INTO deler_uten_dekning (saksnummer, hmsnr, navn, antall_uten_dekning, brukers_kommunenr, brukers_kommunenavn, enhetnr, status)
-                VALUES (:saksnummer, :hmsnr, :navn, :antall_uten_dekning, :brukers_kommunenr, :brukers_kommunenavn, :enhetnr, :status)
+                INSERT INTO deler_uten_dekning (saksnummer, hmsnr, navn, antall_uten_dekning, brukers_kommunenr, brukers_kommunenavn, enhetnr)
+                VALUES (:saksnummer, :hmsnr, :navn, :antall_uten_dekning, :brukers_kommunenr, :brukers_kommunenavn, :enhetnr)
             """.trimIndent(),
             mapOf(
                 "saksnummer" to saksnummer,
@@ -48,40 +43,54 @@ class DelerUtenDekningRepository(val ds: DataSource) {
                 "antall_uten_dekning" to antallUtenDekning,
                 "brukers_kommunenr" to bukersKommunenummer,
                 "brukers_kommunenavn" to brukersKommunenavn,
-                "enhetnr" to enhetnr,
-                "status" to DelUtenDekningStatus.BESTILT.name
+                "enhetnr" to enhetnr
             ),
         )
     }
 
     fun hentUnikeEnhetnrs(): List<String> =
-        // TODO: også sjekk dato
         using(sessionOf(ds)) { session ->
             session.run(
                 queryOf(
                     """
                     SELECT DISTINCT(enhetnr)
                     FROM deler_uten_dekning
+                    WHERE rapportert_tidspunkt IS NULL
                 """.trimIndent()
                 ).map { row -> row.string("enhetnr") }.asList
             )
         }
 
-    fun hentDagensDelerUtenDekning(enhetnr: String): List<DelUtenDekning> =
-        // TODO: også sjekk dato
+    fun hentBestilteDeler(enhetnr: String): List<DelUtenDekning> =
         using(sessionOf(ds)) { session ->
             session.run(
                 queryOf(
                     """
                     SELECT hmsnr, navn, SUM(antall_uten_dekning) as antall
                     FROM deler_uten_dekning
-                    WHERE enhetnr = :enhetnr
+                    WHERE enhetnr = :enhetnr AND rapportert_tidspunkt IS NULL
                     GROUP BY hmsnr, navn
                 """.trimIndent(),
-                mapOf("enhetnr" to enhetnr)
+                    mapOf("enhetnr" to enhetnr)
                 ).map { it.toDelUtenDekning() }.asList
             )
         }
+
+    fun markerDelerSomRapportert(enhetnr: String) {
+        using(sessionOf(ds)) { session ->
+            session.run(
+                queryOf(
+                    """
+                    UPDATE deler_uten_dekning
+                    SET rapportert_tidspunkt = CURRENT_TIMESTAMP, sist_oppdatert = CURRENT_TIMESTAMP 
+                    WHERE enhetnr = :enhetnr AND rapportert_tidspunkt IS NULL
+                    GROUP BY hmsnr, navn
+                """.trimIndent(),
+                    mapOf("enhetnr" to enhetnr)
+                ).map { it.toDelUtenDekning() }.asList
+            )
+        }
+    }
 
     private fun Row.toDelUtenDekning() = DelUtenDekning(
         hmsnr = this.string("hmsnr"),
