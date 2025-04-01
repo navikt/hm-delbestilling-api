@@ -2,8 +2,8 @@ package no.nav.hjelpemidler.delbestilling
 
 import no.nav.hjelpemidler.delbestilling.delbestilling.DelbestillingRepository
 import no.nav.hjelpemidler.delbestilling.delbestilling.DelbestillingService
-import no.nav.hjelpemidler.delbestilling.delbestilling.DelerUtenDekningRepository
-import no.nav.hjelpemidler.delbestilling.delbestilling.DelerUtenDekningService
+import no.nav.hjelpemidler.delbestilling.delbestilling.anmodning.AnmodningRepository
+import no.nav.hjelpemidler.delbestilling.delbestilling.anmodning.AnmodningService
 import no.nav.hjelpemidler.delbestilling.hjelpemidler.HjelpemidlerService
 import no.nav.hjelpemidler.delbestilling.infrastructure.grunndata.Grunndata
 import no.nav.hjelpemidler.delbestilling.infrastructure.grunndata.GrunndataClient
@@ -55,7 +55,7 @@ class AppContext {
 
     private val delbestillingRepository = DelbestillingRepository(ds)
 
-    val delerUtenDekningRepository = DelerUtenDekningRepository(ds)
+    val anmodningRepository = AnmodningRepository(ds)
 
     private val pdlService = PdlService(pdlClient)
 
@@ -71,7 +71,7 @@ class AppContext {
 
     val norgService = NorgService(norgClient)
 
-    val delerUtenDekningService = DelerUtenDekningService(delerUtenDekningRepository, oebs, norgService, slackClient)
+    val anmodningService = AnmodningService(anmodningRepository, oebs, norgService, slackClient)
 
     val delbestillingService = DelbestillingService(
         delbestillingRepository,
@@ -81,7 +81,7 @@ class AppContext {
         metrics,
         slackClient,
         grunndata,
-        delerUtenDekningService,
+        anmodningService,
     )
 
     val hjelpemidlerService = HjelpemidlerService(grunndata)

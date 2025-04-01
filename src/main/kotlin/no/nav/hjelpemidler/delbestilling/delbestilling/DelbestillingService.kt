@@ -5,6 +5,8 @@ import io.ktor.http.HttpStatusCode
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 import no.bekk.bekkopen.date.NorwegianDateUtil
+import no.nav.hjelpemidler.delbestilling.delbestilling.anmodning.AnmodningService
+import no.nav.hjelpemidler.delbestilling.delbestilling.anmodning.Anmodningrapport
 import no.nav.hjelpemidler.delbestilling.hjelpemidler.data.hmsnr2Hjm
 import no.nav.hjelpemidler.delbestilling.hjelpemidler.defaultAntall
 import no.nav.hjelpemidler.delbestilling.hjelpemidler.maksAntall
@@ -41,7 +43,7 @@ class DelbestillingService(
     private val metrics: Metrics,
     private val slackClient: SlackClient,
     private val grunndata: Grunndata,
-    private val delerUtenDekningService: DelerUtenDekningService,
+    private val anmodningService: AnmodningService,
 ) {
     suspend fun opprettDelbestilling(
         request: DelbestillingRequest,
@@ -136,7 +138,7 @@ class DelbestillingService(
                 throw RuntimeException("Klarte ikke hente ut delbestillingsak for saksnummer $saksnummer")
             }
 
-            delerUtenDekningService.lagreDelerUtenDekning(nyDelbestillingSak, tx)
+            anmodningService.lagreDelerTilAnmodning(nyDelbestillingSak, tx)
 
             oebs.sendDelbestilling(nyDelbestillingSak, Fødselsnummer(brukersFnr), bestillersNavn)
 
@@ -471,9 +473,12 @@ class DelbestillingService(
         return antallDagerSiden
     }
 
-    suspend fun rapporterDelerUtenDeking(): MutableMap<String, Rapport> {
+    suspend fun rapporterDelerUtenDeking(): List<Anmodningrapport> {
         return try {
-            delerUtenDekningService.hentDagensDelerUtenDekning()
+            // TODO kjør kun 1 gang per døgn, kl 0100
+            // TODO Lagre hva som ble rapportert for å kunne kontrollere i ettertid? (jsonb?)
+            // TODO send mail
+            anmodningService.genererAnmodningsrapporter()
         } catch (t: Throwable) {
             log.error(t) { "Rapportering av nødvendige anmodninger feilet." }
             slackClient.varsleOmRapporteringFeilet()

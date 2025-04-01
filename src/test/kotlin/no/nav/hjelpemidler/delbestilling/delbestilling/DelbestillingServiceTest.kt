@@ -8,6 +8,7 @@ import no.nav.hjelpemidler.delbestilling.TestDatabase
 import no.nav.hjelpemidler.delbestilling.delLinje
 import no.nav.hjelpemidler.delbestilling.delbestillerRolle
 import no.nav.hjelpemidler.delbestilling.delbestilling
+import no.nav.hjelpemidler.delbestilling.delbestilling.anmodning.AnmodningService
 import no.nav.hjelpemidler.delbestilling.delbestillingRequest
 import no.nav.hjelpemidler.delbestilling.delbestillingSak
 import no.nav.hjelpemidler.delbestilling.infrastructure.grunndata.Grunndata
@@ -50,7 +51,7 @@ internal class DelbestillingServiceTest {
     }
     private val slackClient = mockk<SlackClient>()
     private val grunndata = mockk<Grunndata>()
-    private val delerUtenDekningService = mockk<DelerUtenDekningService>(relaxed = true)
+    private val anmodningService = mockk<AnmodningService>(relaxed = true)
     private val delbestillingService =
         DelbestillingService(
             delbestillingRepository,
@@ -60,7 +61,7 @@ internal class DelbestillingServiceTest {
             mockk(relaxed = true),
             slackClient,
             grunndata,
-            delerUtenDekningService,
+            anmodningService,
         )
 
     @BeforeEach

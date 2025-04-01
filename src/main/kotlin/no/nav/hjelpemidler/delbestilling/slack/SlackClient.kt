@@ -3,15 +3,14 @@ package no.nav.hjelpemidler.delbestilling.slack
 import io.github.oshai.kotlinlogging.KotlinLogging
 import io.ktor.client.engine.cio.CIO
 import no.nav.hjelpemidler.delbestilling.delbestilling.Del
-import no.nav.hjelpemidler.delbestilling.delbestilling.DelUtenDekning
 import no.nav.hjelpemidler.delbestilling.delbestilling.DelbestillingRepository
 import no.nav.hjelpemidler.delbestilling.delbestilling.DelbestillingSak
 import no.nav.hjelpemidler.delbestilling.delbestilling.Kilde
-import no.nav.hjelpemidler.delbestilling.delbestilling.Rapport
+import no.nav.hjelpemidler.delbestilling.delbestilling.anmodning.Anmodningrapport
+import no.nav.hjelpemidler.delbestilling.delbestilling.anmodning.AnmodningsbehovForDel
 import no.nav.hjelpemidler.delbestilling.hjelpemidler.data.hmsnrTilDel
 import no.nav.hjelpemidler.delbestilling.infrastructure.grunndata.Produkt
 import no.nav.hjelpemidler.delbestilling.isProd
-import no.nav.hjelpemidler.delbestilling.jsonMapper
 import no.nav.hjelpemidler.delbestilling.rapport.Hjelpemiddel
 import no.nav.hjelpemidler.http.slack.slack
 import no.nav.hjelpemidler.http.slack.slackIconEmoji
@@ -165,36 +164,40 @@ class SlackClient(
         )
     }
 
-    suspend fun rapporterOmDelerUtenDekning(delerUtenDekning: List<DelUtenDekning>, brukersKommunenavn: String, enhetnr: String) {
+    suspend fun rapporterOmDelerUtenDekning(
+        deler: List<AnmodningsbehovForDel>,
+        brukersKommunenavn: String,
+        enhetnr: String
+    ) {
         try {
             slackClient.sendMessage(
                 username = username,
                 slackIconEmoji(":pepe_cowboy:"),
                 channel = channel,
-                message = "Det har kommet inn delbestilling med følgende deler som ikke har dekning hos enhet $enhetnr (kommune: ${brukersKommunenavn}):```${delerUtenDekning.joinToString { "\n${it.hmsnr} ${it.navn} (${it.antall}stk)" }}```",
+                message = """
+                    Det har kommet inn delbestilling med følgende deler som ikke har dekning hos enhet $enhetnr (kommune: ${brukersKommunenavn}):
+                    ```${deler.joinToString("\n")}```
+                    """.trimIndent(),
             )
-        }  catch (e: Exception) {
+        } catch (e: Exception) {
             log.error(e) { "Klarte ikke sende varsle til Slack deler uten dekning" }
             // Ikke kast feil videre, ikke krise hvis denne feiler
         }
     }
 
-    suspend fun rapporterOmUtsendingAvRapport(melding: String, enhetnr: String, rapport: Rapport) {
+    suspend fun varsleOmAnmodningrapportSomMåSendesTilEnhet(rapport: Anmodningrapport) {
         try {
-            val rapportJson = jsonMapper.writeValueAsString(rapport)
             slackClient.sendMessage(
                 username = username,
                 slackIconEmoji(":mailbox:"),
                 channel = channel,
                 message = """
-                    Følgende melding sendes til enhetnr $enhetnr:
-                    >${melding}
-                    Rapport: 
-                    ```$rapportJson```
+                    Følgende deler må anmodes til enhetnr ${rapport.enhet}:
+                    ${rapport.anmodningsbehov.joinToString("\n")}
                 """.trimIndent(),
             )
-        }  catch (e: Exception) {
-            log.error(e) { "Klarte ikke sende varsle til Slack om utsending av rapport" }
+        } catch (e: Exception) {
+            log.error(e) { "Klarte ikke sende varsle til Slack anmodningrapport som må sendes til enhet" }
             // Ikke kast feil videre, ikke krise hvis denne feiler
         }
     }
@@ -207,7 +210,7 @@ class SlackClient(
                 channel = channel,
                 message = "Utsending av mail til HMS om deler som må anmodes feilet. Må følges opp manuelt.",
             )
-        }  catch (e: Exception) {
+        } catch (e: Exception) {
             log.error(e) { "Klarte ikke sende varsek til Slack feilende rapportering av nødvendige anmodninger" }
             // Ikke kast feil videre, ikke krise hvis denne feiler
         }

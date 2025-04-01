@@ -12,6 +12,7 @@ import io.ktor.server.routing.post
 import io.ktor.server.routing.put
 import io.ktor.server.util.getOrFail
 import no.nav.hjelpemidler.delbestilling.CORRELATION_ID_HEADER
+import no.nav.hjelpemidler.delbestilling.delbestilling.anmodning.AnmodningService
 import no.nav.hjelpemidler.delbestilling.isDev
 import no.nav.hjelpemidler.delbestilling.plugins.delbestillerRolleKey
 import no.nav.hjelpemidler.delbestilling.slack.SlackClient
@@ -22,7 +23,7 @@ private val log = KotlinLogging.logger {}
 
 fun Route.delbestillingApiPublic(
     delbestillingService: DelbestillingService,
-    delerUtenDekningService: DelerUtenDekningService,
+    anmodningService: AnmodningService,
 ) {
     post("/oppslag") {
         try {
@@ -53,7 +54,7 @@ fun Route.delbestillingApiPublic(
         }
 
         delete("/rapporter-deler-uten-dekning") {
-            call.respond(delerUtenDekningService.markerDelerSomIkkeRapportert())
+            call.respond(anmodningService.markerDelerSomIkkeRapportert())
         }
     }
 }

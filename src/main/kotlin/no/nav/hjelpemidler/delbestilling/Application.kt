@@ -40,7 +40,7 @@ fun Application.setupRoutes() {
             }
 
             rateLimit(RateLimitName("public")) {
-                delbestillingApiPublic(ctx.delbestillingService, ctx.delerUtenDekningService)
+                delbestillingApiPublic(ctx.delbestillingService, ctx.anmodningService)
             }
 
             authenticate(AzureAuthenticator.name) {

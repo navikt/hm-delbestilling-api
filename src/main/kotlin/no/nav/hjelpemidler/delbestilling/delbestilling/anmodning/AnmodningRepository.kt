@@ -1,4 +1,4 @@
-package no.nav.hjelpemidler.delbestilling.delbestilling
+package no.nav.hjelpemidler.delbestilling.delbestilling.anmodning
 
 import io.github.oshai.kotlinlogging.KotlinLogging
 import kotliquery.Row
@@ -7,12 +7,13 @@ import kotliquery.sessionOf
 import kotliquery.using
 import no.nav.hjelpemidler.database.JdbcOperations
 import no.nav.hjelpemidler.database.transactionAsync
+import no.nav.hjelpemidler.delbestilling.delbestilling.Hmsnr
 import no.nav.hjelpemidler.delbestilling.isDev
 import javax.sql.DataSource
 
 private val log = KotlinLogging.logger {}
 
-class DelerUtenDekningRepository(val ds: DataSource) {
+class AnmodningRepository(val ds: DataSource) {
 
     // OBS! Denne transaksjonen må sendes inn og brukes med tx.run() for å ha noen effekt.
     // using(sessionOf(ds)) { session -> ... } vil ikke bli en del av transaksjonen
@@ -62,8 +63,9 @@ class DelerUtenDekningRepository(val ds: DataSource) {
             )
         }
 
-    fun hentBestilteDeler(enhetnr: String): List<DelUtenDekning> =
-        using(sessionOf(ds)) { session ->
+    fun hentDelerTilRapportering(enhetnr: String): List<Del> {
+        log.info { "Henter deler til rapportering for $enhetnr" }
+        return using(sessionOf(ds)) { session ->
             session.run(
                 queryOf(
                     """
@@ -76,8 +78,11 @@ class DelerUtenDekningRepository(val ds: DataSource) {
                 ).map { it.toDelUtenDekning() }.asList
             )
         }
+    }
+
 
     fun markerDelerSomRapportert(enhetnr: String) {
+        log.info { "Marker deler som rapportert for $enhetnr" }
         using(sessionOf(ds)) { session ->
             session.run(
                 queryOf(
@@ -92,6 +97,7 @@ class DelerUtenDekningRepository(val ds: DataSource) {
         }
     }
 
+    // Kun til testing i dev
     fun markerDelerSomIkkeRapportert() {
         check(isDev()) {"markerDelerSomIkkeRapportert skal kun kalles i dev"}
 
@@ -107,7 +113,7 @@ class DelerUtenDekningRepository(val ds: DataSource) {
         }
     }
 
-    private fun Row.toDelUtenDekning() = DelUtenDekning(
+    private fun Row.toDelUtenDekning() = Del(
         hmsnr = this.string("hmsnr"),
         navn = this.string("navn"),
         antall = this.int("antall"),
