@@ -7,6 +7,7 @@ import kotliquery.sessionOf
 import kotliquery.using
 import no.nav.hjelpemidler.database.JdbcOperations
 import no.nav.hjelpemidler.database.transactionAsync
+import no.nav.hjelpemidler.delbestilling.isDev
 import javax.sql.DataSource
 
 private val log = KotlinLogging.logger {}
@@ -84,10 +85,24 @@ class DelerUtenDekningRepository(val ds: DataSource) {
                     UPDATE deler_uten_dekning
                     SET rapportert_tidspunkt = CURRENT_TIMESTAMP, sist_oppdatert = CURRENT_TIMESTAMP 
                     WHERE enhetnr = :enhetnr AND rapportert_tidspunkt IS NULL
-                    GROUP BY hmsnr, navn
                 """.trimIndent(),
                     mapOf("enhetnr" to enhetnr)
-                ).map { it.toDelUtenDekning() }.asList
+                ).asUpdate
+            )
+        }
+    }
+
+    fun markerDelerSomIkkeRapportert() {
+        check(isDev()) {"markerDelerSomIkkeRapportert skal kun kalles i dev"}
+
+        using(sessionOf(ds)) { session ->
+            session.run(
+                queryOf(
+                    """
+                    UPDATE deler_uten_dekning
+                    SET rapportert_tidspunkt = NULL, sist_oppdatert = CURRENT_TIMESTAMP 
+                """.trimIndent(),
+                ).asUpdate
             )
         }
     }

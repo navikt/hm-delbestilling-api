@@ -21,6 +21,7 @@ private val log = KotlinLogging.logger {}
 
 fun Route.delbestillingApiPublic(
     delbestillingService: DelbestillingService,
+    delerUtenDekningService: DelerUtenDekningService,
 ) {
     post("/oppslag") {
         try {
@@ -47,10 +48,32 @@ fun Route.delbestillingApiPublic(
         }
 
         post("/rapporter-deler-uten-dekning") {
-            call.respond(delbestillingService.rapporterDelerUtenDeking())
+
+            val request = call.receive<RapporteringRequest>()
+            when (request.handling) {
+                Handling.RAPPORTER.name -> delbestillingService.rapporterDelerUtenDeking()
+                Handling.TILBAKESTILL.name -> delerUtenDekningService.markerDelerSomIkkeRapportert()
+
+                else -> return@post call.respond(
+                    HttpStatusCode.BadRequest, """
+                    Forventet body:
+                    {
+	                    "handling": "X"
+                    }
+                    med X satt til en av ${Handling.entries.toTypedArray()}
+                    """.trimIndent()
+                )
+            }
+            call.respond(HttpStatusCode.OK)
         }
     }
 }
+
+enum class Handling {
+    RAPPORTER, TILBAKESTILL
+}
+
+data class RapporteringRequest(val handling: String)
 
 fun Route.delbestillingApiAuthenticated(
     delbestillingService: DelbestillingService,

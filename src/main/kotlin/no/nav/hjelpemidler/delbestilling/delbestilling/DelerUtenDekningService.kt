@@ -129,6 +129,10 @@ class DelerUtenDekningService(
             repository.markerDelerSomRapportert(enhetnr)
         }
     }
+
+    suspend fun markerDelerSomIkkeRapportert() {
+        repository.markerDelerSomIkkeRapportert()
+    }
 }
 
 data class DelUtenDekning (
