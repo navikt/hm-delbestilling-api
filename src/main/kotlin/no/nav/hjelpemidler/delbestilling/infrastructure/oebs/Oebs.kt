@@ -14,17 +14,11 @@ class Oebs(
 ) {
     suspend fun hentFnrLeietaker(artnr: String, serienr: String): String? {
         log.info { "Henter leietaker for utlån: artnr=$artnr, serienr=$serienr" }
-        if (isDev()) {
-            return "26848497710" // Berømt aktivitet
-        }
         return client.hentUtlånPåArtnrOgSerienr(artnr, serienr).utlån?.fnr
     }
 
     suspend fun hentPersoninfo(fnr: String): List<OebsPersoninfo> {
         log.info { "Henter personinfo" }
-        if (isDev()) {
-            return listOf(OebsPersoninfo(leveringKommune = "5601"))
-        }
         return client.hentPersoninfo(fnr)
     }
 
