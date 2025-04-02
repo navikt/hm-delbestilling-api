@@ -21,7 +21,7 @@ spec:
   - name: DELBESTILLING_API_URL
     value: http://hm-delbestilling-api.teamdigihot.svc.cluster.local
   - name: DELBESTILLING_API_SCOPE
-    value: dev-gcp:teamdigihot:hm-delbestilling-api/.default
+    value: api://dev-gcp.teamdigihot:hm-delbestilling-api/.default
   envFrom:
     - secret: hm-slack-hook
   secureLogs:
