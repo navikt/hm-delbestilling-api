@@ -1,4 +1,4 @@
-name: job-rapporter-deler-uten-lagerdekning
+name: job-rapporter-deler-til-anmodning
 on:
   push:
     paths-ignore:
@@ -46,7 +46,7 @@ jobs:
         id: docker-build-push
         with:
           team: teamdigihot
-      - name: Deploy to Nais
+      - name: Deploy to Nais (dev)
         uses: nais/deploy/actions/deploy@v2
         env:
           CLUSTER: dev
