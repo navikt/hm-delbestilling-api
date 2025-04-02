@@ -38,7 +38,7 @@ fun Application.module() {
 }
 
 fun rapporterManglendeDeler() {
-    logg.info { "Her prøver vi å rapportere manglende deler.." }
+    logg.info { "Her prøver vi å rapportere manglende deler xx.." }
 }
 
 fun Application.setupRoutes() {
