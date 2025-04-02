@@ -18,12 +18,10 @@ spec:
   env:
   - name: CRONJOB_TYPE
     value: RAPPORTER_DELER_TIL_ANMODNING
-  - name: OEBS_API_URL
-    value: https://hm-oebs-api-proxy.dev-fss-pub.nais.io
-  - name: OEBS_API_SCOPE
-    value: api://dev-fss.teamdigihot.hm-oebs-api-proxy/.default
-  - name: NORG_API_URL
-    value: https://norg2.dev-fss-pub.nais.io/norg2/api/v1
+  - name: DELBESTILLING_API_URL
+    value: http://hm-delbestilling-api.teamdigihot.svc.cluster.local
+  - name: DELBESTILLING_API_SCOPE
+    value: dev-gcp:teamdigihot:hm-delbestilling-api
   envFrom:
     - secret: hm-slack-hook
   secureLogs:
@@ -32,3 +30,5 @@ spec:
     outbound:
       external:
         - host: hooks.slack.com
+      rules:
+        - application: hm-delbestilling-api

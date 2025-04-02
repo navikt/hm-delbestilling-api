@@ -1,39 +1,31 @@
 package no.nav.hjelpemidler.delbestilling
 
-import no.nav.hjelpemidler.delbestilling.delbestilling.DelbestillingRepository
-import no.nav.hjelpemidler.delbestilling.delbestilling.anmodning.AnmodningRepository
-import no.nav.hjelpemidler.delbestilling.delbestilling.anmodning.AnmodningService
-import no.nav.hjelpemidler.delbestilling.infrastructure.oebs.Oebs
-import no.nav.hjelpemidler.delbestilling.infrastructure.oebs.OebsApiProxyClient
-import no.nav.hjelpemidler.delbestilling.slack.SlackClient
-import no.nav.hjelpemidler.hjelpemidlerdigitalSoknadapi.tjenester.norg.NorgClient
-import no.nav.hjelpemidler.hjelpemidlerdigitalSoknadapi.tjenester.norg.NorgService
-import no.nav.hjelpemidler.http.openid.azureADClient
-import kotlin.time.Duration.Companion.seconds
+import io.ktor.client.engine.cio.CIO
+import io.ktor.client.plugins.HttpRequestRetry
+import io.ktor.client.plugins.defaultRequest
+import io.ktor.client.plugins.logging.LogLevel
+import io.ktor.client.plugins.logging.Logging
+import io.ktor.client.request.accept
+import io.ktor.http.ContentType
+import io.ktor.http.contentType
+import no.nav.hjelpemidler.http.createHttpClient
+
 
 
 class JobContext {
-    private val azureClient = azureADClient {
-        cache(leeway = 10.seconds) {
-            maximumSize = 100
+    val client = createHttpClient(engine = CIO.create()) {
+        expectSuccess = true
+        install(HttpRequestRetry) {
+            retryOnExceptionOrServerErrors(maxRetries = 5)
+            exponentialDelay()
+        }
+        install(Logging) {
+            level = if (isProd()) LogLevel.INFO else LogLevel.BODY
+        }
+        defaultRequest {
+            accept(ContentType.Application.Json)
+            contentType(ContentType.Application.Json)
         }
     }
 
-    private val oebsApiProxyClient = OebsApiProxyClient(azureClient)
-
-    private val ds = Database.migratedDataSource
-
-    private val delbestillingRepository = DelbestillingRepository(ds)
-
-    val anmodningRepository = AnmodningRepository(ds)
-
-    private val oebs = Oebs(oebsApiProxyClient)
-
-    val slackClient = SlackClient(delbestillingRepository)
-
-    val norgClient = NorgClient()
-
-    val norgService = NorgService(norgClient)
-
-    val anmodningService = AnmodningService(anmodningRepository, oebs, norgService, slackClient)
 }

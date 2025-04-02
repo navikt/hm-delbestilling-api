@@ -1,6 +1,8 @@
 package no.nav.hjelpemidler.delbestilling
 
 import io.github.oshai.kotlinlogging.KotlinLogging
+import io.ktor.client.request.delete
+import io.ktor.client.request.post
 import io.ktor.server.application.Application
 import io.ktor.server.application.ApplicationCall
 import io.ktor.server.auth.authenticate
@@ -9,6 +11,7 @@ import io.ktor.server.plugins.ratelimit.rateLimit
 import io.ktor.server.routing.route
 import io.ktor.server.routing.routing
 import kotlinx.coroutines.runBlocking
+import no.nav.hjelpemidler.configuration.EnvironmentVariable
 import no.nav.hjelpemidler.delbestilling.delbestilling.azureRoutes
 import no.nav.hjelpemidler.delbestilling.delbestilling.delbestillingApiAuthenticated
 import no.nav.hjelpemidler.delbestilling.delbestilling.delbestillingApiPublic
@@ -40,13 +43,17 @@ fun Application.module() {
 
 fun rapporterDelerTilAnmodning() {
     val ctx = JobContext()
+    val DELBESTILLING_API_URL by EnvironmentVariable
+
     log.info { "Kjører jobb for å rapportere deler til anmodning" }
+
     runBlocking {
         if (isDev()) {
             log.info { "Resetter deler som er rapportert i dev" }
-            ctx.anmodningService.markerDelerSomIkkeRapportert()
+            ctx.client.delete("${DELBESTILLING_API_URL}/api/rapporter-deler-uten-dekning")
         }
-        ctx.anmodningService.genererAnmodningsrapporter()
+
+        ctx.client.post("${DELBESTILLING_API_URL}/api/rapporter-deler-uten-dekning")
     }
 }
 
