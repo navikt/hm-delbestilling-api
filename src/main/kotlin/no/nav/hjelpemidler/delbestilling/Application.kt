@@ -39,14 +39,14 @@ fun Application.module() {
 }
 
 fun rapporterDelerTilAnmodning() {
-    val ctx = AppContext()
+    val ctx = JobContext()
     log.info { "Kjører jobb for å rapportere deler til anmodning" }
     runBlocking {
         if (isDev()) {
             log.info { "Resetter deler som er rapportert i dev" }
             ctx.anmodningService.markerDelerSomIkkeRapportert()
         }
-        ctx.delbestillingService.rapporterDelerUtenDeking()
+        ctx.anmodningService.genererAnmodningsrapporter()
     }
 }
 

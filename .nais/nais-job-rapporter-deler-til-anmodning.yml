@@ -12,6 +12,9 @@ spec:
   ttlSecondsAfterFinished: 14400
   restartPolicy: Never
   image: {{image}}
+  azure:
+    application:
+      enabled: true
   env:
   - name: CRONJOB_TYPE
     value: RAPPORTER_DELER_TIL_ANMODNING
