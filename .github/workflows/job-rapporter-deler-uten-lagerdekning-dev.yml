@@ -1,4 +1,4 @@
-name: job-rapporter-manglende-deler
+name: job-rapporter-deler-uten-lagerdekning
 on:
   push:
     paths-ignore:
