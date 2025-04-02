@@ -14,6 +14,7 @@ import no.nav.hjelpemidler.delbestilling.delbestillingSak
 import no.nav.hjelpemidler.delbestilling.infrastructure.grunndata.Grunndata
 import no.nav.hjelpemidler.delbestilling.infrastructure.oebs.Oebs
 import no.nav.hjelpemidler.delbestilling.infrastructure.oebs.OebsPersoninfo
+import no.nav.hjelpemidler.delbestilling.infrastructure.oebs.OebsSinkService
 import no.nav.hjelpemidler.delbestilling.kommune
 import no.nav.hjelpemidler.delbestilling.oppslag.OppslagService
 import no.nav.hjelpemidler.delbestilling.organisasjon
@@ -49,6 +50,7 @@ internal class DelbestillingServiceTest {
         coEvery { hentPersoninfo(any()) } returns listOf(OebsPersoninfo(brukersKommunenr))
         coEvery { hentFnrLeietaker(any(), any()) } returns brukersFnr
     }
+    private val oebsSinkService = mockk<OebsSinkService>(relaxed = true)
     private val slackClient = mockk<SlackClient>()
     private val grunndata = mockk<Grunndata>()
     private val anmodningService = mockk<AnmodningService>(relaxed = true)
@@ -58,6 +60,7 @@ internal class DelbestillingServiceTest {
             delbestillingRepository,
             pdlService,
             oebs,
+            oebsSinkService,
             oppslagService,
             mockk(relaxed = true),
             slackClient,
@@ -103,7 +106,7 @@ internal class DelbestillingServiceTest {
 
     @Test
     fun `skal ikke lagre delbestilling dersom sending til OEBS feiler`() = runTest {
-        coEvery { oebs.sendDelbestilling(any(), any(), any()) } throws MockException("Kafka er nede")
+        coEvery { oebsSinkService.sendDelbestilling(any(), any(), any()) } throws MockException("Kafka er nede")
         assertEquals(0, delbestillingService.hentDelbestillinger(bestillerFnr).size)
         assertThrows<MockException> {
             delbestillingService.opprettDelbestilling(delbestillingRequest(), bestillerFnr, delbestillerRolle())
@@ -289,6 +292,7 @@ internal class DelbestillingServiceTest {
             val delbestillingService = DelbestillingService(
                 repository, pdlService,
                 oebs,
+                mockk(relaxed = true),
                 oppslagService,
                 mockk(relaxed = true),
                 slackClient,
