@@ -1,7 +1,7 @@
 apiVersion: nais.io/v1
 kind: Naisjob
 metadata:
-  name: hm-delbestilling-api-rapporter-deler-uten-lagerdekning
+  name: hm-delbestilling-api-rapporter-deler-til-anmodning
   namespace: teamdigihot
   labels:
     team: teamdigihot
@@ -14,7 +14,7 @@ spec:
   image: {{image}}
   env:
   - name: CRONJOB_TYPE
-    value: RAPPORTER_DELER_UTEN_LAGERDEKNING
+    value: RAPPORTER_DELER_TIL_ANMODNING
   envFrom:
     - secret: hm-slack-hook
   secureLogs:

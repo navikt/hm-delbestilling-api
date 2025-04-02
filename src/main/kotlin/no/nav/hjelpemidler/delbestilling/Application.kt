@@ -25,7 +25,7 @@ private val log = KotlinLogging.logger{}
 
 fun main(args: Array<String>): Unit {
     when (System.getenv("CRONJOB_TYPE")) {
-        "RAPPORTER_DELER_UTEN_LAGERDEKNING" -> rapporterDelerUtenLagerDekning()
+        "RAPPORTER_DELER_TIL_ANMODNING" -> rapporterDelerTilAnmodning()
         else -> io.ktor.server.cio.EngineMain.main(args)
     }
 }
@@ -38,9 +38,9 @@ fun Application.module() {
     setupRoutes()
 }
 
-fun rapporterDelerUtenLagerDekning() {
+fun rapporterDelerTilAnmodning() {
     val ctx = AppContext()
-    log.info { "Kjører jobb for å rapportere deler uten dekning" }
+    log.info { "Kjører jobb for å rapportere deler til anmodning" }
     runBlocking {
         if (isDev()) {
             log.info { "Resetter deler som er rapportert i dev" }
