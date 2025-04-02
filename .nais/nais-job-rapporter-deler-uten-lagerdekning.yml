@@ -14,7 +14,7 @@ spec:
   image: {{image}}
   env:
   - name: CRONJOB_TYPE
-    value: RAPPORTER_MANGLENDE_DELER
+    value: RAPPORTER_DELER_UTEN_LAGERDEKNING
   envFrom:
     - secret: hm-slack-hook
   secureLogs:

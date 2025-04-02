@@ -8,6 +8,7 @@ import io.ktor.server.plugins.ratelimit.RateLimitName
 import io.ktor.server.plugins.ratelimit.rateLimit
 import io.ktor.server.routing.route
 import io.ktor.server.routing.routing
+import kotlinx.coroutines.runBlocking
 import no.nav.hjelpemidler.delbestilling.delbestilling.azureRoutes
 import no.nav.hjelpemidler.delbestilling.delbestilling.delbestillingApiAuthenticated
 import no.nav.hjelpemidler.delbestilling.delbestilling.delbestillingApiPublic
@@ -24,7 +25,7 @@ private val log = KotlinLogging.logger{}
 
 fun main(args: Array<String>): Unit {
     when (System.getenv("CRONJOB_TYPE")) {
-        "RAPPORTER_MANGLENDE_DELER" -> rapporterManglendeDeler()
+        "RAPPORTER_DELER_UTEN_LAGERDEKNING" -> rapporterDelerUtenLagerDekning()
         else -> io.ktor.server.cio.EngineMain.main(args)
     }
 }
@@ -37,8 +38,16 @@ fun Application.module() {
     setupRoutes()
 }
 
-fun rapporterManglendeDeler() {
-    log.info { "Her prøver vi å rapportere manglende deler xx.." }
+fun rapporterDelerUtenLagerDekning() {
+    val ctx = AppContext()
+    log.info { "Kjører jobb for å rapportere deler uten dekning" }
+    runBlocking {
+        if (isDev()) {
+            log.info { "Resetter deler som er rapportert i dev" }
+            ctx.anmodningService.markerDelerSomIkkeRapportert()
+        }
+        ctx.delbestillingService.rapporterDelerUtenDeking()
+    }
 }
 
 fun Application.setupRoutes() {
