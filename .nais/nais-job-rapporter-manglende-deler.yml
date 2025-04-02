@@ -1,0 +1,25 @@
+apiVersion: nais.io/v1
+kind: Naisjob
+metadata:
+  name: hm-delbestilling-api-rapporter-manglende-deler-job
+  namespace: teamdigihot
+  labels:
+    team: teamdigihot
+spec:
+  #schedule: '*/5 5-18 * * MON-SAT' # 05-18 (UTC): 06-19 (UTC+1 / CET) eller 07-20 (UTC+2 / CEST)
+  schedule: '* * * * *' # hvert minutt
+  successfulJobsHistoryLimit: 1
+  ttlSecondsAfterFinished: 14400
+  restartPolicy: Never
+  image: {{image}}
+  env:
+  - name: CRONJOB_TYPE
+    value: RAPPORTER_MANGLENDE_DELER
+  envFrom:
+    - secret: hm-slack-hook
+  secureLogs:
+    enabled: true
+  accessPolicy:
+    outbound:
+      external:
+        - host: hooks.slack.com
