@@ -59,7 +59,14 @@ class Email() {
         body.content = content
         message.body = body
 
-        log.info { "E-post til avsending: $message" }
+        log.info { """
+            E-post til avsending:
+            To: $to
+            Subject: ${message.subject}
+            ContentType: ${message.body!!.contentType}
+            Body: ${message.body!!.content}
+            Avsender: $avsender
+        """.trimIndent() }
 
         try {
             graphClient.users(avsender).sendMail(
