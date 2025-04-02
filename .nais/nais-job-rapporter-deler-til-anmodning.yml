@@ -18,6 +18,10 @@ spec:
   env:
   - name: CRONJOB_TYPE
     value: RAPPORTER_DELER_TIL_ANMODNING
+  - name: OEBS_API_URL
+    value: https://hm-oebs-api-proxy.dev-fss-pub.nais.io
+  - name: NORG_API_URL
+    value: https://norg2.dev-fss-pub.nais.io/norg2/api/v1
   envFrom:
     - secret: hm-slack-hook
   secureLogs:
