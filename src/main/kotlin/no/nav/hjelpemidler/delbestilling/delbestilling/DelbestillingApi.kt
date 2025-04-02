@@ -144,6 +144,10 @@ fun Route.azureRoutes(
         delbestillingService.oppdaterDellinjeStatus(oebsOrdrenummer, status, hmsnr, datoOppdatert)
         call.respond(HttpStatusCode.OK)
     }
+
+    post("/anmodning/rapporter-deler-til-anmodning") {
+        call.respond(delbestillingService.rapporterDelerUtenDeking())
+    }
 }
 
 

@@ -9,10 +9,17 @@ import io.ktor.client.request.accept
 import io.ktor.http.ContentType
 import io.ktor.http.contentType
 import no.nav.hjelpemidler.http.createHttpClient
-
+import no.nav.hjelpemidler.http.openid.azureADClient
+import kotlin.time.Duration.Companion.seconds
 
 
 class JobContext {
+    val azureClient = azureADClient {
+        cache(leeway = 10.seconds) {
+            maximumSize = 100
+        }
+    }
+
     val client = createHttpClient(engine = CIO.create()) {
         expectSuccess = true
         install(HttpRequestRetry) {
