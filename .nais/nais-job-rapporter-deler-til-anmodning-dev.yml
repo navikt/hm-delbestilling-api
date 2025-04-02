@@ -20,6 +20,8 @@ spec:
     value: RAPPORTER_DELER_TIL_ANMODNING
   - name: OEBS_API_URL
     value: https://hm-oebs-api-proxy.dev-fss-pub.nais.io
+  - name: OEBS_API_SCOPE
+    value: api://dev-fss.teamdigihot.hm-oebs-api-proxy/.default
   - name: NORG_API_URL
     value: https://norg2.dev-fss-pub.nais.io/norg2/api/v1
   envFrom:
