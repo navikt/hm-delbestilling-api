@@ -46,6 +46,9 @@ spec:
         - host: pdl-api.dev-fss-pub.nais.io
         - host: hooks.slack.com
         - host: finnhjelpemiddel.nav.no
+        - host: login.microsoftonline.com
+        - host: graph.microsoft.com
+
   kafka:
     pool: nav-dev
   envFrom:

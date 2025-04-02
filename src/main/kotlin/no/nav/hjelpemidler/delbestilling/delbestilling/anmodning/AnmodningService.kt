@@ -76,12 +76,14 @@ class AnmodningService(
                 slackClient.varsleOmAnmodningrapportSomMåSendesTilEnhet(rapport)
             }
 
-            repository.markerDelerSomRapportert(enhetnr)
-
             rapport
         }
 
         return rapporter
+    }
+
+    fun markerDelerSomRapportert(enhetnr: String) {
+        repository.markerDelerSomRapportert(enhetnr)
     }
 
     fun markerDelerSomIkkeRapportert() {

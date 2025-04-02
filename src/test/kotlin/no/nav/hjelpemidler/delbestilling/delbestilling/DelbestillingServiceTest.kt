@@ -11,6 +11,7 @@ import no.nav.hjelpemidler.delbestilling.delbestilling
 import no.nav.hjelpemidler.delbestilling.delbestilling.anmodning.AnmodningService
 import no.nav.hjelpemidler.delbestilling.delbestillingRequest
 import no.nav.hjelpemidler.delbestilling.delbestillingSak
+import no.nav.hjelpemidler.delbestilling.infrastructure.email.Email
 import no.nav.hjelpemidler.delbestilling.infrastructure.grunndata.Grunndata
 import no.nav.hjelpemidler.delbestilling.infrastructure.oebs.Oebs
 import no.nav.hjelpemidler.delbestilling.infrastructure.oebs.OebsPersoninfo
@@ -55,6 +56,7 @@ internal class DelbestillingServiceTest {
     private val grunndata = mockk<Grunndata>()
     private val anmodningService = mockk<AnmodningService>(relaxed = true)
     private val piloterService = mockk<PiloterService>(relaxed = true)
+    private val email = mockk<Email>(relaxed = true)
     private val delbestillingService =
         DelbestillingService(
             delbestillingRepository,
@@ -67,6 +69,7 @@ internal class DelbestillingServiceTest {
             grunndata,
             anmodningService,
             piloterService,
+            email,
         )
 
     @BeforeEach
@@ -299,6 +302,7 @@ internal class DelbestillingServiceTest {
                 grunndata,
                 mockk(relaxed = true),
                 mockk(relaxed = true),
+                email,
             )
             assertEquals(14, delbestillingService.antallDagerSidenSisteBatteribestilling("hmsnr", "serienr"))
         }

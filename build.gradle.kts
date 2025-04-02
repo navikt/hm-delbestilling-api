@@ -48,6 +48,10 @@ dependencies {
     implementation(libs.slf4j.api)
     implementation(libs.bundles.logging.runtime)
 
+    // Microsoft Graph
+    implementation("com.microsoft.graph:microsoft-graph:5.77.0")
+    implementation("com.azure:azure-identity:1.12.2")
+
     // TokenX + AzureAD
     implementation(libs.tokendings.exchange)
     implementation(libs.tokenx.validation)

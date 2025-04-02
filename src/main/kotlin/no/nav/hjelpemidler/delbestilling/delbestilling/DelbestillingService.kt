@@ -1,5 +1,6 @@
 package no.nav.hjelpemidler.delbestilling.delbestilling
 
+import com.microsoft.graph.models.BodyType
 import io.github.oshai.kotlinlogging.KotlinLogging
 import io.ktor.http.HttpStatusCode
 import kotlinx.coroutines.coroutineScope
@@ -10,6 +11,8 @@ import no.nav.hjelpemidler.delbestilling.delbestilling.anmodning.Anmodningrappor
 import no.nav.hjelpemidler.delbestilling.hjelpemidler.data.hmsnr2Hjm
 import no.nav.hjelpemidler.delbestilling.hjelpemidler.defaultAntall
 import no.nav.hjelpemidler.delbestilling.hjelpemidler.maksAntall
+import no.nav.hjelpemidler.delbestilling.infrastructure.email.Email
+import no.nav.hjelpemidler.delbestilling.infrastructure.email.enhetTilEpostadresse
 import no.nav.hjelpemidler.delbestilling.infrastructure.grunndata.Grunndata
 import no.nav.hjelpemidler.delbestilling.infrastructure.monitoring.PersonNotAccessibleInPdl
 import no.nav.hjelpemidler.delbestilling.infrastructure.monitoring.PersonNotFoundInPdl
@@ -48,6 +51,7 @@ class DelbestillingService(
     private val grunndata: Grunndata,
     private val anmodningService: AnmodningService,
     private val piloterService: PiloterService,
+    private val email: Email,
 ) {
     suspend fun opprettDelbestilling(
         request: DelbestillingRequest,
@@ -482,7 +486,32 @@ class DelbestillingService(
             // TODO kjør kun 1 gang per døgn, kl 0100
             // TODO Lagre hva som ble rapportert for å kunne kontrollere i ettertid? (jsonb?)
             // TODO send mail
-            anmodningService.genererAnmodningsrapporter()
+            val rapporter = anmodningService.genererAnmodningsrapporter()
+
+            rapporter.forEach { rapport ->
+                email.sendSimpleMessage(
+                    to = enhetTilEpostadresse(rapport.enhet),
+                    subject = "Deler som må anmodes",
+                    contentType = BodyType.TEXT,
+                    content = """
+                        Hei!
+                        
+                        Følgende deler har nylig blitt bestilt digitalt, uten lagerdekning, og må derfor anmodes manuelt.
+                        
+                        ${rapport.anmodningsbehov.joinToString("\n") { "${it.hmsnr} (${it.navn}): Må anmodes ${it.antallSomMåAnmodes} stk." }}
+                        
+                        
+                        Dersom dere har spørsmål til dette så kan dere svare oss tilbake på denne e-posten.
+                        
+                        Vennlig hilsen
+                        DigiHoT
+                    """.trimIndent()
+                )
+
+                anmodningService.markerDelerSomRapportert(rapport.enhet)
+            }
+
+            rapporter
         } catch (t: Throwable) {
             log.error(t) { "Rapportering av nødvendige anmodninger feilet." }
             slackClient.varsleOmRapporteringFeilet()

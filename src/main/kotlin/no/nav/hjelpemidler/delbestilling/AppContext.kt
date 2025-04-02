@@ -6,6 +6,7 @@ import no.nav.hjelpemidler.delbestilling.delbestilling.PiloterService
 import no.nav.hjelpemidler.delbestilling.delbestilling.anmodning.AnmodningRepository
 import no.nav.hjelpemidler.delbestilling.delbestilling.anmodning.AnmodningService
 import no.nav.hjelpemidler.delbestilling.hjelpemidler.HjelpemidlerService
+import no.nav.hjelpemidler.delbestilling.infrastructure.email.Email
 import no.nav.hjelpemidler.delbestilling.infrastructure.grunndata.Grunndata
 import no.nav.hjelpemidler.delbestilling.infrastructure.grunndata.GrunndataClient
 import no.nav.hjelpemidler.delbestilling.infrastructure.oebs.Oebs
@@ -78,6 +79,8 @@ class AppContext {
 
     val piloterService = PiloterService(norgService)
 
+    val email = Email()
+
     val delbestillingService = DelbestillingService(
         delbestillingRepository,
         pdlService,
@@ -89,6 +92,7 @@ class AppContext {
         grunndata,
         anmodningService,
         piloterService,
+        email,
     )
 
     val hjelpemidlerService = HjelpemidlerService(grunndata)
