@@ -2,6 +2,7 @@ package no.nav.hjelpemidler.delbestilling
 
 import no.nav.hjelpemidler.delbestilling.delbestilling.DelbestillingRepository
 import no.nav.hjelpemidler.delbestilling.delbestilling.DelbestillingService
+import no.nav.hjelpemidler.delbestilling.delbestilling.PiloterService
 import no.nav.hjelpemidler.delbestilling.delbestilling.anmodning.AnmodningRepository
 import no.nav.hjelpemidler.delbestilling.delbestilling.anmodning.AnmodningService
 import no.nav.hjelpemidler.delbestilling.hjelpemidler.HjelpemidlerService
@@ -73,6 +74,8 @@ class AppContext {
 
     val anmodningService = AnmodningService(anmodningRepository, oebs, norgService, slackClient)
 
+    val piloterService = PiloterService(norgService)
+
     val delbestillingService = DelbestillingService(
         delbestillingRepository,
         pdlService,
@@ -82,6 +85,7 @@ class AppContext {
         slackClient,
         grunndata,
         anmodningService,
+        piloterService,
     )
 
     val hjelpemidlerService = HjelpemidlerService(grunndata)

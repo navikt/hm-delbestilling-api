@@ -52,6 +52,7 @@ internal class DelbestillingServiceTest {
     private val slackClient = mockk<SlackClient>()
     private val grunndata = mockk<Grunndata>()
     private val anmodningService = mockk<AnmodningService>(relaxed = true)
+    private val piloterService = mockk<PiloterService>(relaxed = true)
     private val delbestillingService =
         DelbestillingService(
             delbestillingRepository,
@@ -62,6 +63,7 @@ internal class DelbestillingServiceTest {
             slackClient,
             grunndata,
             anmodningService,
+            piloterService,
         )
 
     @BeforeEach
@@ -291,6 +293,7 @@ internal class DelbestillingServiceTest {
                 mockk(relaxed = true),
                 slackClient,
                 grunndata,
+                mockk(relaxed = true),
                 mockk(relaxed = true),
             )
             assertEquals(14, delbestillingService.antallDagerSidenSisteBatteribestilling("hmsnr", "serienr"))

@@ -44,6 +44,7 @@ class DelbestillingService(
     private val slackClient: SlackClient,
     private val grunndata: Grunndata,
     private val anmodningService: AnmodningService,
+    private val piloterService: PiloterService,
 ) {
     suspend fun opprettDelbestilling(
         request: DelbestillingRequest,
@@ -406,7 +407,7 @@ class DelbestillingService(
             hjelpemiddelMedDeler,
             null,
             HttpStatusCode.OK,
-            piloter = hentPiloter(brukersKommunenummer)
+            piloter = piloterService.hentPiloter(brukersKommunenummer)
         )
     }
 
