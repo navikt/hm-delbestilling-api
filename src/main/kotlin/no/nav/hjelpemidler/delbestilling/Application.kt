@@ -1,10 +1,7 @@
 package no.nav.hjelpemidler.delbestilling
 
-import com.microsoft.graph.models.BodyType
-import io.github.oshai.kotlinlogging.KotlinLogging
 import io.ktor.server.application.Application
 import io.ktor.server.application.ApplicationCall
-import io.ktor.server.application.log
 import io.ktor.server.auth.authenticate
 import io.ktor.server.plugins.ratelimit.RateLimitName
 import io.ktor.server.plugins.ratelimit.rateLimit
@@ -20,8 +17,6 @@ import no.nav.hjelpemidler.domain.person.TILLAT_SYNTETISKE_FØDSELSNUMRE
 import no.nav.tms.token.support.azure.validation.AzureAuthenticator
 import no.nav.tms.token.support.tokenx.validation.TokenXAuthenticator
 import no.nav.tms.token.support.tokenx.validation.user.TokenXUserFactory
-
-private val logger = KotlinLogging.logger { }
 
 fun main(args: Array<String>): Unit = io.ktor.server.cio.EngineMain.main(args)
 
@@ -59,17 +54,6 @@ fun Application.setupRoutes() {
     }
 
     // Rapportering().rapporter()
-    try {
-        ctx.email.sendSimpleMessage(
-            to = "digitalisering.av.hjelpemidler.og.tilrettelegging@nav.no",
-            subject = "TEST av utsending fra hm-delbestilling-api",
-            contentType = BodyType.TEXT,
-            content = "Dette er bare en test. Ignorer meg. Mvh Hugin",
-        )
-    } catch (e: Exception) {
-        logger.error(e) { "Sending av epost feilet." }
-    }
-
 }
 
 fun ApplicationCall.tokenXUser() = TokenXUserFactory.createTokenXUser(this)

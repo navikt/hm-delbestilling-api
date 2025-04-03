@@ -56,7 +56,6 @@ object Config {
 
     // Azure
     val AZURE_APP_CLIENT_ID by EnvironmentVariable
-    val AZURE_APP_CLIENT_SECRET by EnvironmentVariable
     val AZURE_APP_TENANT_ID by EnvironmentVariable
     val AZURE_APP_JWK by EnvironmentVariable
     val AZURE_OPENID_CONFIG_ISSUER by EnvironmentVariable
