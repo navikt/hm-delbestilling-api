@@ -11,6 +11,7 @@ import no.nav.hjelpemidler.delbestilling.delbestilling.Status
 import no.nav.hjelpemidler.delbestilling.oppslag.KommuneDto
 import no.nav.hjelpemidler.delbestilling.roller.Delbestiller
 import no.nav.hjelpemidler.delbestilling.roller.Organisasjon
+import no.nav.hjelpemidler.hjelpemidlerdigitalSoknadapi.tjenester.norg.ArbeidsfordelingEnhet
 import java.time.LocalDateTime
 import java.util.UUID
 
@@ -83,6 +84,12 @@ fun kommune() = KommuneDto(
 fun organisasjon(orgnr: String = "123456789", navn: String = "Reperasjon AS") = Organisasjon(
     orgnr = orgnr,
     navn = navn,
+)
+
+fun enhet(nummer: String = "4703") = ArbeidsfordelingEnhet(
+    navn = nummer,
+    enhetNr = nummer,
+    type = ""
 )
 
 class MockException(msg: String) : RuntimeException("MockException: $msg")

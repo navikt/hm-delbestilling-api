@@ -21,20 +21,13 @@ class AnmodningService(
 ) {
 
     suspend fun lagreDelerTilAnmodning(sak: DelbestillingSak, tx: JdbcOperations) {
-        val hmsnrDeler = sak.delbestilling.deler.map { it.del.hmsnr }
-        val lagerstatuser = oebs.hentLagerstatusForKommunenummer(sak.brukersKommunenummer, hmsnrDeler)
-            .associateBy { it.artikkelnummer }
-        val enhet = norgService.hentHmsEnhet(sak.brukersKommunenummer)
 
-        val delerSomMåAnmodes = sak.delbestilling.deler.map { dellinje ->
-            val lagerstatus = requireNotNull(lagerstatuser[dellinje.del.hmsnr])
-            beregnAnmodningsbehovForDel(dellinje, lagerstatus)
-        }.filter { it.antallSomMåAnmodes > 0 }
+        val delerSomMåAnmodes = delerSomMåAnmodes(sak)
+        val enhet = norgService.hentHmsEnhet(sak.brukersKommunenummer)
 
         if (delerSomMåAnmodes.isNotEmpty()) {
             slackClient.rapporterOmDelerUtenDekning(delerSomMåAnmodes, sak.brukersKommunenavn, enhet.enhetNr)
         }
-
         log.info { "Dekningsjekk: lagrer følgende deler som må anmodes: ${delerSomMåAnmodes.joinToString("\n")}" }
 
         delerSomMåAnmodes.forEach { del ->
@@ -49,6 +42,19 @@ class AnmodningService(
                 enhetnr = enhet.enhetNr,
             )
         }
+    }
+
+    suspend fun delerSomMåAnmodes(sak: DelbestillingSak): List<AnmodningsbehovForDel> {
+        val hmsnrDeler = sak.delbestilling.deler.map { it.del.hmsnr }
+        val lagerstatuser = oebs.hentLagerstatusForKommunenummer(sak.brukersKommunenummer, hmsnrDeler)
+            .associateBy { it.artikkelnummer }
+
+        val delerSomMåAnmodes = sak.delbestilling.deler.map { dellinje ->
+            val lagerstatus = requireNotNull(lagerstatuser[dellinje.del.hmsnr])
+            beregnAnmodningsbehovForDel(dellinje, lagerstatus)
+        }.filter { it.antallSomMåAnmodes > 0 }
+
+        return delerSomMåAnmodes
     }
 
     suspend fun genererAnmodningsrapporter(): List<Anmodningrapport> {

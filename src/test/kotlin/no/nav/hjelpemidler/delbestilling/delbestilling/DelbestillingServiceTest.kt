@@ -8,9 +8,13 @@ import no.nav.hjelpemidler.delbestilling.TestDatabase
 import no.nav.hjelpemidler.delbestilling.delLinje
 import no.nav.hjelpemidler.delbestilling.delbestillerRolle
 import no.nav.hjelpemidler.delbestilling.delbestilling
+import no.nav.hjelpemidler.delbestilling.delbestilling.anmodning.AnmodningRepository
 import no.nav.hjelpemidler.delbestilling.delbestilling.anmodning.AnmodningService
+import no.nav.hjelpemidler.delbestilling.delbestilling.anmodning.del
+import no.nav.hjelpemidler.delbestilling.delbestilling.anmodning.lagerstatus
 import no.nav.hjelpemidler.delbestilling.delbestillingRequest
 import no.nav.hjelpemidler.delbestilling.delbestillingSak
+import no.nav.hjelpemidler.delbestilling.enhet
 import no.nav.hjelpemidler.delbestilling.infrastructure.email.Email
 import no.nav.hjelpemidler.delbestilling.infrastructure.grunndata.Grunndata
 import no.nav.hjelpemidler.delbestilling.infrastructure.oebs.Oebs
@@ -21,6 +25,8 @@ import no.nav.hjelpemidler.delbestilling.oppslag.OppslagService
 import no.nav.hjelpemidler.delbestilling.organisasjon
 import no.nav.hjelpemidler.delbestilling.pdl.PdlService
 import no.nav.hjelpemidler.delbestilling.slack.SlackClient
+import no.nav.hjelpemidler.hjelpemidlerdigitalSoknadapi.tjenester.norg.ArbeidsfordelingEnhet
+import no.nav.hjelpemidler.hjelpemidlerdigitalSoknadapi.tjenester.norg.NorgService
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertDoesNotThrow
@@ -52,7 +58,7 @@ internal class DelbestillingServiceTest {
         coEvery { hentFnrLeietaker(any(), any()) } returns brukersFnr
     }
     private val oebsSinkService = mockk<OebsSinkService>(relaxed = true)
-    private val slackClient = mockk<SlackClient>()
+    private val slackClient = mockk<SlackClient>(relaxed = true)
     private val grunndata = mockk<Grunndata>()
     private val anmodningService = mockk<AnmodningService>(relaxed = true)
     private val piloterService = mockk<PiloterService>(relaxed = true)
@@ -305,4 +311,52 @@ internal class DelbestillingServiceTest {
             assertEquals(14, delbestillingService.antallDagerSidenSisteBatteribestilling("hmsnr", "serienr"))
         }
 
+    @Test
+    fun `skal lagre anmodingsbehov ved ny delbestilling`() = runTest {
+        val enhetnr = "4703"
+        val anmodningRepository = AnmodningRepository(ds)
+        val norgService = mockk<NorgService>().also { coEvery { it.hentHmsEnhet(any()) } returns enhet(enhetnr) }
+        val anmodningService =
+            AnmodningService(anmodningRepository, oebs, norgService, mockk(relaxed = true), mockk(relaxed = true))
+        val delbestillingService =
+            DelbestillingService(
+                delbestillingRepository,
+                pdlService,
+                oebs,
+                oebsSinkService,
+                oppslagService,
+                mockk(relaxed = true),
+                slackClient,
+                grunndata,
+                anmodningService,
+                piloterService,
+            )
+
+        val dellinje = delLinje(antall = 5)
+        coEvery { oebs.hentLagerstatusForKommunenummer(any(), any()) } returns listOf(
+            lagerstatus(
+                antall = 3,
+                hmsnr = dellinje.del.hmsnr
+            )
+        )
+        delbestillingService.opprettDelbestilling(
+            delbestillingRequest(deler = listOf(dellinje)),
+            bestillerFnr,
+            delbestillerRolle()
+        )
+
+        val delerTilRapportering = anmodningRepository.hentDelerTilRapportering(enhetnr)
+        assertEquals(1, delerTilRapportering.size)
+        assertEquals(dellinje.del.hmsnr, delerTilRapportering.first().hmsnr)
+        assertEquals(2, delerTilRapportering.first().antall)
+
+        coEvery { oebs.hentLagerstatusForEnhetnr(any(), any()) } returns listOf(
+            lagerstatus(
+                antall = 0,
+                hmsnr = dellinje.del.hmsnr
+            )
+        )
+        delbestillingService.rapporterDelerTilAnmodning()
+        assertEquals(0, anmodningRepository.hentDelerTilRapportering(enhetnr).size, "Det skal ikke lenger eksistere deler til rapportering")
+    }
 }
