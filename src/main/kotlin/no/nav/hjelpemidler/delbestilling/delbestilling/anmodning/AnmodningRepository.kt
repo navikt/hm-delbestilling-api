@@ -99,7 +99,7 @@ class AnmodningRepository(val ds: DataSource) {
             tx.update(
                 """
                     INSERT INTO anmodninger (enhetnr, hmsnr, navn, antall_anmodet, antall_på_lager)
-                    VALUES (:enhetnr,: hmsnr, :navn, :antall_anmodet, :antall_paa_lager)
+                    VALUES (:enhetnr, :hmsnr, :navn, :antall_anmodet, :antall_paa_lager)
                 """.trimIndent(),
                 mapOf(
                     "enhetnr" to rapport.enhet,
