@@ -3,6 +3,7 @@ package no.nav.hjelpemidler.delbestilling
 import no.nav.hjelpemidler.delbestilling.delbestilling.DelbestillingRepository
 import no.nav.hjelpemidler.delbestilling.delbestilling.DelbestillingService
 import no.nav.hjelpemidler.delbestilling.hjelpemidler.HjelpemidlerService
+import no.nav.hjelpemidler.delbestilling.infrastructure.email.Email
 import no.nav.hjelpemidler.delbestilling.infrastructure.grunndata.Grunndata
 import no.nav.hjelpemidler.delbestilling.infrastructure.grunndata.GrunndataClient
 import no.nav.hjelpemidler.delbestilling.infrastructure.oebs.Oebs
@@ -60,6 +61,8 @@ class AppContext {
     val rolleService = RolleService(rolleClient)
 
     val slackClient = SlackClient(delbestillingRepository)
+
+    val email = Email()
 
     val delbestillingService = DelbestillingService(
         delbestillingRepository,
