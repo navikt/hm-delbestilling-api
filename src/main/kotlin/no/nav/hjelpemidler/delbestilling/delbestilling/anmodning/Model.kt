@@ -9,7 +9,7 @@ data class Del(
 )
 
 data class Anmodningrapport(
-    val enhet: String,
+    val enhetnr: String,
     val anmodningsbehov: List<AnmodningsbehovForDel>
 )
 

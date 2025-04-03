@@ -93,7 +93,7 @@ class AnmodningRepository(val ds: DataSource) {
     }
 
     fun lagreAnmodninger(tx: JdbcOperations, rapport: Anmodningrapport) {
-        log.info { "Lagrer anmodninger for ${rapport.enhet}" }
+        log.info { "Lagrer anmodninger for ${rapport.enhetnr}" }
 
         rapport.anmodningsbehov.forEach { anmodning ->
             tx.update(
@@ -102,7 +102,7 @@ class AnmodningRepository(val ds: DataSource) {
                     VALUES (:enhetnr, :hmsnr, :navn, :antall_anmodet, :antall_paa_lager)
                 """.trimIndent(),
                 mapOf(
-                    "enhetnr" to rapport.enhet,
+                    "enhetnr" to rapport.enhetnr,
                     "hmsnr" to anmodning.hmsnr,
                     "navn" to anmodning.navn,
                     "antall_anmodet" to anmodning.antallSomMåAnmodes,

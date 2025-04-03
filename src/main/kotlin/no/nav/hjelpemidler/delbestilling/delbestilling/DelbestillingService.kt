@@ -491,7 +491,7 @@ class DelbestillingService(
             rapporter.forEach { rapport ->
                 if (rapport.anmodningsbehov.isNotEmpty()) {
                     val message = anmodningService.sendAnmodning(rapport)
-                    slackClient.varsleOmAnmodningrapportSomErSendtTilEnhet(rapport.enhet, message)
+                    slackClient.varsleOmAnmodningrapportSomErSendtTilEnhet(rapport.enhetnr, message)
                 }
             }
 

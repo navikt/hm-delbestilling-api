@@ -73,7 +73,7 @@ class AnmodningService(
                 beregnAnmodningsbehovForDel(del, lagerstatus)
             }.filter { it.antallSomMåAnmodes > 0 }
 
-            val rapport = Anmodningrapport(enhet = enhetnr, anmodningsbehov = delerSomFremdelesMåAnmodes)
+            val rapport = Anmodningrapport(enhetnr = enhetnr, anmodningsbehov = delerSomFremdelesMåAnmodes)
             log.info { "Anmodingrapport for enhet $enhetnr: $rapport" }
 
             rapport
@@ -102,10 +102,10 @@ class AnmodningService(
         """.trimIndent()
 
         repository.withTransaction { tx ->
-            repository.markerDelerSomRapportert(tx, rapport.enhet)
+            repository.markerDelerSomRapportert(tx, rapport.enhetnr)
             repository.lagreAnmodninger(tx, rapport)
             email.sendSimpleMessage(
-                to = enhetTilEpostadresse(rapport.enhet),
+                to = enhetTilEpostadresse(rapport.enhetnr),
                 subject = "Deler som må anmodes",
                 contentType = BodyType.TEXT,
                 content = message
