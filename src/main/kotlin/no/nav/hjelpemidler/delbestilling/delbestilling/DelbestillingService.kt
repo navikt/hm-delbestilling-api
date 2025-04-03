@@ -1,6 +1,5 @@
 package no.nav.hjelpemidler.delbestilling.delbestilling
 
-import com.microsoft.graph.models.BodyType
 import io.github.oshai.kotlinlogging.KotlinLogging
 import io.ktor.http.HttpStatusCode
 import kotlinx.coroutines.coroutineScope
@@ -491,10 +490,8 @@ class DelbestillingService(
 
             rapporter.forEach { rapport ->
                 if (rapport.anmodningsbehov.isNotEmpty()) {
-
-                    anmodningService.sendAnmodning(rapport)
-
-                    slackClient.varsleOmAnmodningrapportSomMåSendesTilEnhet(rapport)
+                    val message = anmodningService.sendAnmodning(rapport)
+                    slackClient.varsleOmAnmodningrapportSomErSendtTilEnhet(rapport.enhet, message)
                 }
             }
 

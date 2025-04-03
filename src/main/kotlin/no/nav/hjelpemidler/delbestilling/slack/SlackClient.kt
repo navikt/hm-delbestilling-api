@@ -9,6 +9,7 @@ import no.nav.hjelpemidler.delbestilling.delbestilling.Kilde
 import no.nav.hjelpemidler.delbestilling.delbestilling.anmodning.Anmodningrapport
 import no.nav.hjelpemidler.delbestilling.delbestilling.anmodning.AnmodningsbehovForDel
 import no.nav.hjelpemidler.delbestilling.hjelpemidler.data.hmsnrTilDel
+import no.nav.hjelpemidler.delbestilling.infrastructure.email.enhetTilEpostadresse
 import no.nav.hjelpemidler.delbestilling.infrastructure.grunndata.Produkt
 import no.nav.hjelpemidler.delbestilling.isProd
 import no.nav.hjelpemidler.delbestilling.rapport.Hjelpemiddel
@@ -212,15 +213,19 @@ class SlackClient(
         }
     }
 
-    suspend fun varsleOmAnmodningrapportSomMåSendesTilEnhet(rapport: Anmodningrapport) {
+    suspend fun varsleOmAnmodningrapportSomErSendtTilEnhet(enhetnr: String, melding: String) {
+        val tilEpost = enhetTilEpostadresse(enhetnr)
+
         try {
             slackClient.sendMessage(
                 username = username,
                 slackIconEmoji(":mailbox:"),
                 channel = channel,
                 message = """
-                    Følgende deler må anmodes til enhetnr ${rapport.enhet}:
-                    ${rapport.anmodningsbehov.joinToString("\n")}
+                    Følgende mail ble sendt til enhet $enhetnr ($tilEpost):
+                    ```
+                    $melding
+                    ```
                 """.trimIndent(),
             )
         } catch (e: Exception) {

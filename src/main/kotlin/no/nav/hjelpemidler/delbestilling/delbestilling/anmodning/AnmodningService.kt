@@ -87,7 +87,20 @@ class AnmodningService(
         repository.markerDelerSomIkkeRapportert()
     }
 
-    suspend fun sendAnmodning(rapport: Anmodningrapport) {
+    suspend fun sendAnmodning(rapport: Anmodningrapport): String {
+        val message = """
+            Hei!
+            
+            Følgende deler har nylig blitt bestilt digitalt, uten lagerdekning, og må derfor anmodes manuelt.
+            
+            ${rapport.anmodningsbehov.joinToString("\n") { "${it.hmsnr} (${it.navn}): Må anmodes ${it.antallSomMåAnmodes} stk." }}
+            
+            Dersom dere har spørsmål til dette så kan dere svare oss tilbake på denne e-posten.
+            
+            Vennlig hilsen
+            DigiHoT
+        """.trimIndent()
+
         repository.withTransaction { tx ->
             repository.markerDelerSomRapportert(tx, rapport.enhet)
             repository.lagreAnmodninger(tx, rapport)
@@ -95,21 +108,10 @@ class AnmodningService(
                 to = enhetTilEpostadresse(rapport.enhet),
                 subject = "Deler som må anmodes",
                 contentType = BodyType.TEXT,
-                content =
-                """
-            Hei!
-            
-            Følgende deler har nylig blitt bestilt digitalt, uten lagerdekning, og må derfor anmodes manuelt.
-            
-            ${rapport.anmodningsbehov.joinToString("\n") { "${it.hmsnr} (${it.navn}): Må anmodes ${it.antallSomMåAnmodes} stk." }}
-            
-            
-            Dersom dere har spørsmål til dette så kan dere svare oss tilbake på denne e-posten.
-            
-            Vennlig hilsen
-            DigiHoT
-            """.trimIndent()
+                content = message
             )
         }
+
+        return message
     }
 }
