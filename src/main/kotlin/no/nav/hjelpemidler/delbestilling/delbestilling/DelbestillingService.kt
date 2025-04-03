@@ -362,11 +362,13 @@ class DelbestillingService(
 
         if (hjelpemiddelMedDeler == null) {
             log.info { "Fant $hmsnr verken i grunndata eller manuell liste, returnerer TILBYR_IKKE_HJELPEMIDDEL" }
+            slackClient.varsleOmManglendeHmsnr(hmsnr)
             return OppslagResultat(null, OppslagFeil.TILBYR_IKKE_HJELPEMIDDEL, HttpStatusCode.NotFound)
         }
 
         if (hjelpemiddelMedDeler.deler.isEmpty()) {
             log.info { "Fant ingen deler i verken grunndata eller manuell liste for $hmsnr, returnerer TILBYR_IKKE_HJELPEMIDDEL" }
+            slackClient.varsleOmIngenDeler(hjelpemiddelMedDeler.hmsnr, hjelpemiddelMedDeler.navn)
             return OppslagResultat(null, OppslagFeil.TILBYR_IKKE_HJELPEMIDDEL, HttpStatusCode.NotFound)
         }
 
