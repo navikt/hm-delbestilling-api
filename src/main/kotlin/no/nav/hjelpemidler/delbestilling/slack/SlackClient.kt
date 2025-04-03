@@ -168,7 +168,7 @@ class SlackClient(
                 username = username,
                 slackIconEmoji(":thinkies:"),
                 channel = channel,
-                message = "Det ble gjort et oppslag på hmsnr $hmsnr, men dette er et produkt som verken finnes i manuell liste eller i grunndata."
+                message = "Det ble gjort et oppslag på `$hmsnr`, men dette er et produkt som verken finnes i manuell liste eller i grunndata."
             )
         } catch (e: Exception) {
             log.error(e) { "Klarte ikke sende varsle til Slack om manglende hmsnr" }
@@ -182,7 +182,7 @@ class SlackClient(
                 username = username,
                 slackIconEmoji(":sadge:"),
                 channel = channel,
-                message = "Det ble gjort et oppslag på hmsnr `$hmsnr $navn`, men dette produktet har ingen deler, verken i manuell liste eller i grunndata."
+                message = "Det ble gjort et oppslag på `$hmsnr $navn`, men dette produktet har ingen deler, verken i manuell liste eller i grunndata."
             )
         } catch (e: Exception) {
             log.error(e) { "Klarte ikke sende varsle til Slack om ingen deler" }
