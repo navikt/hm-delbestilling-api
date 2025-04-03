@@ -79,27 +79,42 @@ class AnmodningRepository(val ds: DataSource) {
             )
         }
     }
-
-
-    fun markerDelerSomRapportert(enhetnr: String) {
+    
+    fun markerDelerSomRapportert(tx: JdbcOperations, enhetnr: String) {
         log.info { "Marker deler som rapportert for $enhetnr" }
-        using(sessionOf(ds)) { session ->
-            session.run(
-                queryOf(
-                    """
-                    UPDATE deler_uten_dekning
-                    SET rapportert_tidspunkt = CURRENT_TIMESTAMP, sist_oppdatert = CURRENT_TIMESTAMP 
-                    WHERE enhetnr = :enhetnr AND rapportert_tidspunkt IS NULL
+        tx.update(
+            """
+                UPDATE deler_uten_dekning
+                SET rapportert_tidspunkt = CURRENT_TIMESTAMP, sist_oppdatert = CURRENT_TIMESTAMP 
+                WHERE enhetnr = :enhetnr AND rapportert_tidspunkt IS NULL
+            """.trimIndent(),
+            mapOf("enhetnr" to enhetnr)
+        )
+    }
+
+    fun lagreAnmodninger(tx: JdbcOperations, rapport: Anmodningrapport) {
+        log.info { "Lagrer anmodninger for ${rapport.enhet}" }
+
+        rapport.anmodningsbehov.forEach { anmodning ->
+            tx.update(
+                """
+                    INSERT INTO anmodninger (enhetnr, hmsnr, navn, antall_anmodet, antall_på_lager)
+                    VALUES (:enhetnr,: hmsnr, :navn, :antall_anmodet, :antall_på_lager)
                 """.trimIndent(),
-                    mapOf("enhetnr" to enhetnr)
-                ).asUpdate
+                mapOf(
+                    "enhetnr" to rapport.enhet,
+                    "hmsnr" to anmodning.hmsnr,
+                    "navn" to anmodning.navn,
+                    "antall_anmodet" to anmodning.antallSomMåAnmodes,
+                    "antall_på_lager" to anmodning.antallPåLager,
+                )
             )
         }
     }
 
     // Kun til testing i dev
     fun markerDelerSomIkkeRapportert() {
-        check(isDev()) {"markerDelerSomIkkeRapportert skal kun kalles i dev"}
+        check(isDev()) { "markerDelerSomIkkeRapportert skal kun kalles i dev" }
 
         using(sessionOf(ds)) { session ->
             session.run(

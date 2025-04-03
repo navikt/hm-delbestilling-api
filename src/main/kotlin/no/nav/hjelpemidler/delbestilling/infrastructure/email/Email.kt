@@ -72,6 +72,11 @@ class Email() {
             Avsender: $avsender
         """.trimIndent() }
 
+        if (isDev()) {
+            log.info { "Ignorerer utsending av epost i dev." }
+            return
+        }
+
         try {
             graphClient.users(avsender).sendMail(
                 UserSendMailParameterSet
@@ -85,7 +90,7 @@ class Email() {
             log.info { "Mail to $to sent" }
         } catch (e: Exception) {
             log.error(e) { "Got error sending mail: to=$to, subject=$subject, contentType=$contentType, content=$content" }
-            // TODO kast feil slik at delene ikke blir markert som rapportert.
+            throw e
         }
     }
 }

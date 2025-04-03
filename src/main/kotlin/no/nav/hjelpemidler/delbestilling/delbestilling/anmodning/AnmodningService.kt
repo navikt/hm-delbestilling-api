@@ -1,8 +1,11 @@
 package no.nav.hjelpemidler.delbestilling.delbestilling.anmodning
 
+import com.microsoft.graph.models.BodyType
 import io.github.oshai.kotlinlogging.KotlinLogging
 import no.nav.hjelpemidler.database.JdbcOperations
 import no.nav.hjelpemidler.delbestilling.delbestilling.DelbestillingSak
+import no.nav.hjelpemidler.delbestilling.infrastructure.email.Email
+import no.nav.hjelpemidler.delbestilling.infrastructure.email.enhetTilEpostadresse
 import no.nav.hjelpemidler.delbestilling.infrastructure.oebs.Oebs
 import no.nav.hjelpemidler.delbestilling.slack.SlackClient
 import no.nav.hjelpemidler.hjelpemidlerdigitalSoknadapi.tjenester.norg.NorgService
@@ -14,6 +17,7 @@ class AnmodningService(
     private val oebs: Oebs,
     private val norgService: NorgService,
     private val slackClient: SlackClient,
+    private val email: Email,
 ) {
 
     suspend fun lagreDelerTilAnmodning(sak: DelbestillingSak, tx: JdbcOperations) {
@@ -78,11 +82,34 @@ class AnmodningService(
         return rapporter
     }
 
-    fun markerDelerSomRapportert(enhetnr: String) {
-        repository.markerDelerSomRapportert(enhetnr)
-    }
 
     fun markerDelerSomIkkeRapportert() {
         repository.markerDelerSomIkkeRapportert()
+    }
+
+    suspend fun sendAnmodning(rapport: Anmodningrapport) {
+        repository.withTransaction { tx ->
+            repository.markerDelerSomRapportert(tx, rapport.enhet)
+            repository.lagreAnmodninger(tx, rapport)
+            email.sendSimpleMessage(
+                to = enhetTilEpostadresse(rapport.enhet),
+                subject = "Deler som må anmodes",
+                contentType = BodyType.TEXT,
+                content =
+                """
+            Hei!
+            
+            Følgende deler har nylig blitt bestilt digitalt, uten lagerdekning, og må derfor anmodes manuelt.
+            
+            ${rapport.anmodningsbehov.joinToString("\n") { "${it.hmsnr} (${it.navn}): Må anmodes ${it.antallSomMåAnmodes} stk." }}
+            
+            
+            Dersom dere har spørsmål til dette så kan dere svare oss tilbake på denne e-posten.
+            
+            Vennlig hilsen
+            DigiHoT
+            """.trimIndent()
+            )
+        }
     }
 }

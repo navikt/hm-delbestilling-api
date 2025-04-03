@@ -490,32 +490,12 @@ class DelbestillingService(
     suspend fun rapporterDelerTilAnmodning(): List<Anmodningrapport> {
         return try {
             // TODO kjør kun 1 gang per døgn, kl 0100
-            // TODO Lagre hva som ble rapportert for å kunne kontrollere i ettertid? (jsonb?)
-            // TODO send mail
             val rapporter = anmodningService.genererAnmodningsrapporter()
 
             rapporter.forEach { rapport ->
                 if (rapport.anmodningsbehov.isNotEmpty()) {
-                    email.sendSimpleMessage(
-                        to = enhetTilEpostadresse(rapport.enhet),
-                        subject = "Deler som må anmodes",
-                        contentType = BodyType.TEXT,
-                        content = """
-                        Hei!
-                        
-                        Følgende deler har nylig blitt bestilt digitalt, uten lagerdekning, og må derfor anmodes manuelt.
-                        
-                        ${rapport.anmodningsbehov.joinToString("\n") { "${it.hmsnr} (${it.navn}): Må anmodes ${it.antallSomMåAnmodes} stk." }}
-                        
-                        
-                        Dersom dere har spørsmål til dette så kan dere svare oss tilbake på denne e-posten.
-                        
-                        Vennlig hilsen
-                        DigiHoT
-                    """.trimIndent()
-                    )
 
-                    anmodningService.markerDelerSomRapportert(rapport.enhet)
+                    anmodningService.sendAnmodning(rapport)
 
                     slackClient.varsleOmAnmodningrapportSomMåSendesTilEnhet(rapport)
                 }
