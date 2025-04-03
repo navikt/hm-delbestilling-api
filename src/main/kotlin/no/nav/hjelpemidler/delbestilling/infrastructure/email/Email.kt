@@ -11,6 +11,7 @@ import com.microsoft.graph.models.UserSendMailParameterSet
 import com.microsoft.graph.requests.GraphServiceClient
 import io.github.oshai.kotlinlogging.KotlinLogging
 import no.nav.hjelpemidler.delbestilling.Config
+import no.nav.hjelpemidler.delbestilling.isDev
 import java.util.LinkedList
 
 private val log = KotlinLogging.logger {}
@@ -52,7 +53,10 @@ class Email() {
         toRecipientsList.add(toRecipients)
         message.toRecipients = toRecipientsList
 
-        message.subject = "[TEST] $subject"
+        message.subject = when(isDev()) {
+            true -> "[TEST] $subject"
+            else -> subject
+        }
 
         val body = ItemBody()
         body.contentType = contentType
