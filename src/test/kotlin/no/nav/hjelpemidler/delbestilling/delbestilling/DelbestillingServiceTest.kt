@@ -69,7 +69,6 @@ internal class DelbestillingServiceTest {
             grunndata,
             anmodningService,
             piloterService,
-            email,
         )
 
     @BeforeEach
@@ -302,7 +301,6 @@ internal class DelbestillingServiceTest {
                 grunndata,
                 mockk(relaxed = true),
                 mockk(relaxed = true),
-                email,
             )
             assertEquals(14, delbestillingService.antallDagerSidenSisteBatteribestilling("hmsnr", "serienr"))
         }
