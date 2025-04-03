@@ -278,7 +278,12 @@ class DelbestillingService(
                         grunndataHjelpemiddel.hmsArtNr,
                         grunndataHjelpemiddel.articleName
                     )
-                    null
+
+                    HjelpemiddelMedDeler(
+                        navn = grunndataHjelpemiddel.articleName,
+                        hmsnr = grunndataHjelpemiddel.hmsArtNr,
+                        deler = emptyList()
+                    )
                 } else {
                     val hjelpemiddelMedDeler =
                         HjelpemiddelMedDeler(
