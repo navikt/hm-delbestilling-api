@@ -50,7 +50,7 @@ fun Route.delbestillingApiPublic(
         }
 
         post("/rapporter-deler-uten-dekning") {
-            call.respond(delbestillingService.rapporterDelerUtenDeking())
+            call.respond(delbestillingService.rapporterDelerTilAnmodning())
         }
 
         delete("/rapporter-deler-uten-dekning") {
@@ -146,7 +146,7 @@ fun Route.azureRoutes(
     }
 
     post("/anmodning/rapporter-deler-til-anmodning") {
-        call.respond(delbestillingService.rapporterDelerUtenDeking())
+        call.respond(delbestillingService.rapporterDelerTilAnmodning())
     }
 }
 

@@ -69,12 +69,8 @@ class AnmodningService(
                 beregnAnmodningsbehovForDel(del, lagerstatus)
             }.filter { it.antallSomMåAnmodes > 0 }
 
-
-            val rapport = Anmodningrapport(enhetnr, delerSomFremdelesMåAnmodes)
+            val rapport = Anmodningrapport(enhet = enhetnr, anmodningsbehov = delerSomFremdelesMåAnmodes)
             log.info { "Anmodingrapport for enhet $enhetnr: $rapport" }
-            if (rapport.anmodningsbehov.isNotEmpty()) {
-                slackClient.varsleOmAnmodningrapportSomMåSendesTilEnhet(rapport)
-            }
 
             rapport
         }

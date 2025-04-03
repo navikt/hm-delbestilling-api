@@ -17,7 +17,6 @@ import no.nav.hjelpemidler.delbestilling.infrastructure.grunndata.Grunndata
 import no.nav.hjelpemidler.delbestilling.infrastructure.monitoring.PersonNotAccessibleInPdl
 import no.nav.hjelpemidler.delbestilling.infrastructure.monitoring.PersonNotFoundInPdl
 import no.nav.hjelpemidler.delbestilling.infrastructure.oebs.Oebs
-import no.nav.hjelpemidler.delbestilling.infrastructure.oebs.OebsSinkClient
 import no.nav.hjelpemidler.delbestilling.infrastructure.oebs.OebsSinkService
 import no.nav.hjelpemidler.delbestilling.isDev
 import no.nav.hjelpemidler.delbestilling.isLocal
@@ -481,7 +480,7 @@ class DelbestillingService(
         return antallDagerSiden
     }
 
-    suspend fun rapporterDelerUtenDeking(): List<Anmodningrapport> {
+    suspend fun rapporterDelerTilAnmodning(): List<Anmodningrapport> {
         return try {
             // TODO kjør kun 1 gang per døgn, kl 0100
             // TODO Lagre hva som ble rapportert for å kunne kontrollere i ettertid? (jsonb?)
@@ -489,11 +488,12 @@ class DelbestillingService(
             val rapporter = anmodningService.genererAnmodningsrapporter()
 
             rapporter.forEach { rapport ->
-                email.sendSimpleMessage(
-                    to = enhetTilEpostadresse(rapport.enhet),
-                    subject = "Deler som må anmodes",
-                    contentType = BodyType.TEXT,
-                    content = """
+                if (rapport.anmodningsbehov.isNotEmpty()) {
+                    email.sendSimpleMessage(
+                        to = enhetTilEpostadresse(rapport.enhet),
+                        subject = "Deler som må anmodes",
+                        contentType = BodyType.TEXT,
+                        content = """
                         Hei!
                         
                         Følgende deler har nylig blitt bestilt digitalt, uten lagerdekning, og må derfor anmodes manuelt.
@@ -506,9 +506,12 @@ class DelbestillingService(
                         Vennlig hilsen
                         DigiHoT
                     """.trimIndent()
-                )
+                    )
 
-                anmodningService.markerDelerSomRapportert(rapport.enhet)
+                    anmodningService.markerDelerSomRapportert(rapport.enhet)
+
+                    slackClient.varsleOmAnmodningrapportSomMåSendesTilEnhet(rapport)
+                }
             }
 
             rapporter
