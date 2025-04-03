@@ -75,11 +75,11 @@ class AppContext {
 
     val norgService = NorgService(norgClient)
 
-    val anmodningService = AnmodningService(anmodningRepository, oebs, norgService, slackClient)
+    val email = Email()
+
+    val anmodningService = AnmodningService(anmodningRepository, oebs, norgService, slackClient, email)
 
     val piloterService = PiloterService(norgService)
-
-    val email = Email()
 
     val delbestillingService = DelbestillingService(
         delbestillingRepository,
@@ -92,7 +92,6 @@ class AppContext {
         grunndata,
         anmodningService,
         piloterService,
-        email,
     )
 
     val hjelpemidlerService = HjelpemidlerService(grunndata)

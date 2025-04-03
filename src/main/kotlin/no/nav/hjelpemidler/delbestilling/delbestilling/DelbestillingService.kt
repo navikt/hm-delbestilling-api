@@ -11,8 +11,6 @@ import no.nav.hjelpemidler.delbestilling.delbestilling.anmodning.Anmodningrappor
 import no.nav.hjelpemidler.delbestilling.hjelpemidler.data.hmsnr2Hjm
 import no.nav.hjelpemidler.delbestilling.hjelpemidler.defaultAntall
 import no.nav.hjelpemidler.delbestilling.hjelpemidler.maksAntall
-import no.nav.hjelpemidler.delbestilling.infrastructure.email.Email
-import no.nav.hjelpemidler.delbestilling.infrastructure.email.enhetTilEpostadresse
 import no.nav.hjelpemidler.delbestilling.infrastructure.grunndata.Grunndata
 import no.nav.hjelpemidler.delbestilling.infrastructure.monitoring.PersonNotAccessibleInPdl
 import no.nav.hjelpemidler.delbestilling.infrastructure.monitoring.PersonNotFoundInPdl
@@ -50,7 +48,6 @@ class DelbestillingService(
     private val grunndata: Grunndata,
     private val anmodningService: AnmodningService,
     private val piloterService: PiloterService,
-    private val email: Email,
 ) {
     suspend fun opprettDelbestilling(
         request: DelbestillingRequest,
