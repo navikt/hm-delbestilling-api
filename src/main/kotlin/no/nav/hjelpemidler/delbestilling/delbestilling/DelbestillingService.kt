@@ -278,33 +278,27 @@ class DelbestillingService(
                         grunndataHjelpemiddel.hmsArtNr,
                         grunndataHjelpemiddel.articleName
                     )
+                }
 
+                val hjelpemiddelMedDeler =
                     HjelpemiddelMedDeler(
                         navn = grunndataHjelpemiddel.articleName,
                         hmsnr = grunndataHjelpemiddel.hmsArtNr,
-                        deler = emptyList()
-                    )
-                } else {
-                    val hjelpemiddelMedDeler =
-                        HjelpemiddelMedDeler(
-                            navn = grunndataHjelpemiddel.articleName,
-                            hmsnr = grunndataHjelpemiddel.hmsArtNr,
-                            deler = deler.map {
-                                val kategori = it.articleName.split(" ").first()
-                                Del(
-                                    hmsnr = it.hmsArtNr,
-                                    navn = it.articleName,
-                                    levArtNr = it.supplierRef,
-                                    kategori = kategori,
-                                    maksAntall = maksAntall(kategori, it.isoCategory),
-                                    kilde = Kilde.GRUNNDATA,
-                                    defaultAntall = defaultAntall(kategori)
-                                )
-                            })
+                        deler = deler.map {
+                            val kategori = it.articleName.split(" ").first()
+                            Del(
+                                hmsnr = it.hmsArtNr,
+                                navn = it.articleName,
+                                levArtNr = it.supplierRef,
+                                kategori = kategori,
+                                maksAntall = maksAntall(kategori, it.isoCategory),
+                                kilde = Kilde.GRUNNDATA,
+                                defaultAntall = defaultAntall(kategori)
+                            )
+                        })
 
-                    log.info { "Fant hmsnr ${hjelpemiddelMedDeler.hmsnr} ${hjelpemiddelMedDeler.navn} i grunndata. Denne har ${hjelpemiddelMedDeler.deler.size} egnede deler fra grunndata knyttet til seg" }
-                    hjelpemiddelMedDeler
-                }
+                log.info { "Fant hmsnr ${hjelpemiddelMedDeler.hmsnr} ${hjelpemiddelMedDeler.navn} i grunndata. Denne har ${hjelpemiddelMedDeler.deler.size} egnede deler fra grunndata knyttet til seg" }
+                hjelpemiddelMedDeler
             } else {
                 log.info { "Fant ikke ${hmsnr} i grunndata" }
                 null
@@ -356,7 +350,6 @@ class DelbestillingService(
 
         if (hjelpemiddelMedDeler.deler.isEmpty()) {
             log.info { "Fant ingen deler i verken grunndata eller manuell liste for $hmsnr, returnerer TILBYR_IKKE_HJELPEMIDDEL" }
-            slackClient.varsleOmIngenDeler(hjelpemiddelMedDeler.hmsnr, hjelpemiddelMedDeler.navn)
             return OppslagResultat(null, OppslagFeil.TILBYR_IKKE_HJELPEMIDDEL, HttpStatusCode.NotFound)
         }
 
