@@ -22,34 +22,35 @@ class AnmodningService(
     private val grunndata: Grunndata,
 ) {
 
-    suspend fun lagreDelerTilAnmodning(sak: DelbestillingSak, tx: JdbcOperations) {
-        val delerUtenDekning = delerUtenDekning(sak)
+    suspend fun lagreDelerUtenDekning(sak: DelbestillingSak, tx: JdbcOperations) {
+        val delerUtenDekning = finnDelerUtenDekning(sak)
         val enhet = norgService.hentHmsEnhet(sak.brukersKommunenummer)
 
+        log.info { "Dekningsjekk: lagrer følgende deler uten dekning: ${delerUtenDekning.joinToString("\n")}" }
+
         if (delerUtenDekning.isNotEmpty()) {
+            delerUtenDekning.forEach { del ->
+                repository.lagreDelerUtenDekning(
+                    tx = tx,
+                    saksnummer = sak.saksnummer,
+                    hmsnr = del.hmsnr,
+                    navn = del.navn,
+                    antallUtenDekning = del.antallSomMåAnmodes,
+                    bukersKommunenummer = sak.brukersKommunenummer,
+                    brukersKommunenavn = sak.brukersKommunenavn,
+                    enhetnr = enhet.enhetNr,
+                )
+            }
+
             slackClient.rapporterOmDelerUtenDekning(delerUtenDekning, sak.brukersKommunenavn, enhet.enhetNr)
-        }
-
-        log.info { "Dekningsjekk: lagrer følgende deler som må anmodes: ${delerUtenDekning.joinToString("\n")}" }
-
-        delerUtenDekning.forEach { del ->
-            repository.lagreDelerUtenDekning(
-                tx = tx,
-                saksnummer = sak.saksnummer,
-                hmsnr = del.hmsnr,
-                navn = del.navn,
-                antallUtenDekning = del.antallSomMåAnmodes,
-                bukersKommunenummer = sak.brukersKommunenummer,
-                brukersKommunenavn = sak.brukersKommunenavn,
-                enhetnr = enhet.enhetNr,
-            )
         }
     }
 
-    suspend fun delerUtenDekning(sak: DelbestillingSak): List<AnmodningsbehovForDel> {
-        val hmsnrDeler = sak.delbestilling.deler.map { it.del.hmsnr }
-        val lagerstatuser = oebs.hentLagerstatusForKommunenummer(sak.brukersKommunenummer, hmsnrDeler)
-            .associateBy { it.artikkelnummer }
+    suspend fun finnDelerUtenDekning(sak: DelbestillingSak): List<AnmodningsbehovForDel> {
+        val lagerstatuser = oebs.hentLagerstatusForKommunenummer(
+            kommunenummer = sak.brukersKommunenummer,
+            hmsnrs = sak.delbestilling.deler.map { it.del.hmsnr }
+        ).associateBy { it.artikkelnummer }
 
         val delerUtenDekning = sak.delbestilling.deler.map { dellinje ->
             val lagerstatus = requireNotNull(lagerstatuser[dellinje.del.hmsnr])
@@ -64,11 +65,11 @@ class AnmodningService(
 
         // Hent først alle unike enhetnr
         val hmsEnheter = repository.hentUnikeEnhetnrs()
-        log.info { "enheter med bestillinger som potensielt må anmodes: $hmsEnheter" }
+        log.info { "Enheter med deler som potensielt må anmodes: $hmsEnheter" }
 
         val rapporter = hmsEnheter.map { enhetnr ->
             val delerSomMangletDekningVedInnsending = repository.hentDelerTilRapportering(enhetnr)
-            log.info { "deler som manglet dekning ved innsending for enhet $enhetnr: $delerSomMangletDekningVedInnsending" }
+            log.info { "Deler som manglet dekning ved innsending for enhet $enhetnr: $delerSomMangletDekningVedInnsending" }
 
             val lagerstatuser = oebs.hentLagerstatusForEnhetnr(
                 enhetnr = enhetnr,

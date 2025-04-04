@@ -141,7 +141,7 @@ class DelbestillingService(
                 throw RuntimeException("Klarte ikke hente ut delbestillingsak for saksnummer $saksnummer")
             }
 
-            anmodningService.lagreDelerTilAnmodning(nyDelbestillingSak, tx)
+            anmodningService.lagreDelerUtenDekning(nyDelbestillingSak, tx)
 
             oebsSinkService.sendDelbestilling(nyDelbestillingSak, Fødselsnummer(brukersFnr), bestillersNavn)
 

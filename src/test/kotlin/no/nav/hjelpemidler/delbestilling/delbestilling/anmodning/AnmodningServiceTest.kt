@@ -51,7 +51,7 @@ class AnmodningServiceTest {
                 )
             )
         )
-        val delerUtenDekning = anmodningService.delerUtenDekning(sak)
+        val delerUtenDekning = anmodningService.finnDelerUtenDekning(sak)
 
         assertEquals(1, delerUtenDekning.size)
         assertEquals(hmsnrFåPåLager, delerUtenDekning.first().hmsnr)
