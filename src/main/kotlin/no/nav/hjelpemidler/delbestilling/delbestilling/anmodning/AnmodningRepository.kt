@@ -98,8 +98,8 @@ class AnmodningRepository(val ds: DataSource) {
         rapport.anmodningsbehov.forEach { anmodning ->
             tx.update(
                 """
-                    INSERT INTO anmodninger (enhetnr, hmsnr, navn, antall_anmodet, antall_paa_lager)
-                    VALUES (:enhetnr, :hmsnr, :navn, :antall_anmodet, :antall_paa_lager)
+                    INSERT INTO anmodninger (enhetnr, hmsnr, navn, antall_anmodet, antall_paa_lager, leverandornavn)
+                    VALUES (:enhetnr, :hmsnr, :navn, :antall_anmodet, :antall_paa_lager, :leverandornavn)
                 """.trimIndent(),
                 mapOf(
                     "enhetnr" to rapport.enhetnr,
@@ -107,6 +107,7 @@ class AnmodningRepository(val ds: DataSource) {
                     "navn" to anmodning.navn,
                     "antall_anmodet" to anmodning.antallSomMåAnmodes,
                     "antall_paa_lager" to anmodning.antallPåLager,
+                    "leverandornavn" to anmodning.leverandørnavn,
                 )
             )
         }

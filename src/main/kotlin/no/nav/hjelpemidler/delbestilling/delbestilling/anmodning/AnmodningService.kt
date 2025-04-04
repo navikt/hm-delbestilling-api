@@ -104,7 +104,6 @@ class AnmodningService(
     }
 
     suspend fun sendAnmodning(rapport: Anmodningrapport): String {
-
         val message = rapportTilMessage(rapport)
 
         repository.withTransaction { tx ->
