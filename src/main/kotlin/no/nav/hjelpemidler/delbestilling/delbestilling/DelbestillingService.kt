@@ -390,7 +390,11 @@ class DelbestillingService(
         // Koble hver del til lagerstatus, og sorter på navn
         hjelpemiddelMedDeler.deler =
             hjelpemiddelMedDeler.deler.map { del ->
-                del.copy(lagerstatus = lagerstatusForDeler.find { it.artikkelnummer == del.hmsnr })
+                val lagerstatus = lagerstatusForDeler.find { it.artikkelnummer == del.hmsnr }
+                if(isDev()) {
+                    log.info { "Lagerstatus for ${del.hmsnr}: $lagerstatus" }
+                }
+                del.copy(lagerstatus = lagerstatus)
             }.sortedBy { it.navn }
 
         val sentral = hjelpemiddelMedDeler.deler.first().lagerstatus?.organisasjons_navn ?: "UKJENT"
