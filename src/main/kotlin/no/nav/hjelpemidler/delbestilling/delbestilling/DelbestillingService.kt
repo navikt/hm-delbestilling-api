@@ -492,6 +492,8 @@ class DelbestillingService(
                 if (rapport.anmodningsbehov.isNotEmpty()) {
                     val message = anmodningService.sendAnmodning(rapport)
                     slackClient.varsleOmAnmodningrapportSomErSendtTilEnhet(rapport.enhetnr, message)
+                } else {
+                    log.info { "Anmodningsbehov for enhetnr ${rapport.enhetnr} er tomt, alle deler har dermed fått dekning etter innsending. Hopper over." }
                 }
             }
 
