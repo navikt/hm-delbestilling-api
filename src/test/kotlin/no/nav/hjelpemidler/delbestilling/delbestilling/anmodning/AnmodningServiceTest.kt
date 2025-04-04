@@ -7,7 +7,6 @@ import no.nav.hjelpemidler.delbestilling.TestDatabase
 import no.nav.hjelpemidler.delbestilling.delLinje
 import no.nav.hjelpemidler.delbestilling.delbestilling
 import no.nav.hjelpemidler.delbestilling.delbestillingSak
-import no.nav.hjelpemidler.delbestilling.enhet
 import no.nav.hjelpemidler.delbestilling.infrastructure.email.Email
 import no.nav.hjelpemidler.delbestilling.infrastructure.oebs.Oebs
 import no.nav.hjelpemidler.delbestilling.slack.SlackClient
@@ -52,7 +51,7 @@ class AnmodningServiceTest {
                 )
             )
         )
-        val delerUtenDekning = anmodningService.delerSomMåAnmodes(sak)
+        val delerUtenDekning = anmodningService.delerUtenDekning(sak)
 
         assertEquals(1, delerUtenDekning.size)
         assertEquals(hmsnrFåPåLager, delerUtenDekning.first().hmsnr)
@@ -66,7 +65,7 @@ class AnmodningServiceTest {
 
     @Test
     fun `test generering av epostmelding`() = runTest {
-        val melding = anmodningService.sendAnmodning(
+        val melding = anmodningService.sendAnmodningRapport(
             Anmodningrapport(
                 enhetnr = "4703",
                 anmodningsbehov = listOf(

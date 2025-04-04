@@ -23,16 +23,16 @@ class AnmodningService(
 ) {
 
     suspend fun lagreDelerTilAnmodning(sak: DelbestillingSak, tx: JdbcOperations) {
-
-        val delerSomMåAnmodes = delerSomMåAnmodes(sak)
+        val delerUtenDekning = delerUtenDekning(sak)
         val enhet = norgService.hentHmsEnhet(sak.brukersKommunenummer)
 
-        if (delerSomMåAnmodes.isNotEmpty()) {
-            slackClient.rapporterOmDelerUtenDekning(delerSomMåAnmodes, sak.brukersKommunenavn, enhet.enhetNr)
+        if (delerUtenDekning.isNotEmpty()) {
+            slackClient.rapporterOmDelerUtenDekning(delerUtenDekning, sak.brukersKommunenavn, enhet.enhetNr)
         }
-        log.info { "Dekningsjekk: lagrer følgende deler som må anmodes: ${delerSomMåAnmodes.joinToString("\n")}" }
 
-        delerSomMåAnmodes.forEach { del ->
+        log.info { "Dekningsjekk: lagrer følgende deler som må anmodes: ${delerUtenDekning.joinToString("\n")}" }
+
+        delerUtenDekning.forEach { del ->
             repository.lagreDelerUtenDekning(
                 tx = tx,
                 saksnummer = sak.saksnummer,
@@ -46,17 +46,17 @@ class AnmodningService(
         }
     }
 
-    suspend fun delerSomMåAnmodes(sak: DelbestillingSak): List<AnmodningsbehovForDel> {
+    suspend fun delerUtenDekning(sak: DelbestillingSak): List<AnmodningsbehovForDel> {
         val hmsnrDeler = sak.delbestilling.deler.map { it.del.hmsnr }
         val lagerstatuser = oebs.hentLagerstatusForKommunenummer(sak.brukersKommunenummer, hmsnrDeler)
             .associateBy { it.artikkelnummer }
 
-        val delerSomMåAnmodes = sak.delbestilling.deler.map { dellinje ->
+        val delerUtenDekning = sak.delbestilling.deler.map { dellinje ->
             val lagerstatus = requireNotNull(lagerstatuser[dellinje.del.hmsnr])
             beregnAnmodningsbehovForDel(dellinje, lagerstatus)
         }.filter { it.antallSomMåAnmodes > 0 }
 
-        return delerSomMåAnmodes
+        return delerUtenDekning
     }
 
     suspend fun genererAnmodningsrapporter(): List<Anmodningrapport> {
@@ -103,8 +103,8 @@ class AnmodningService(
         repository.markerDelerSomIkkeRapportert()
     }
 
-    suspend fun sendAnmodning(rapport: Anmodningrapport): String {
-        val message = rapportTilMessage(rapport)
+    suspend fun sendAnmodningRapport(rapport: Anmodningrapport): String {
+        val melding = rapportTilMelding(rapport)
 
         repository.withTransaction { tx ->
             repository.markerDelerSomRapportert(tx, rapport.enhetnr)
@@ -113,10 +113,10 @@ class AnmodningService(
                 to = enhetTilEpostadresse(rapport.enhetnr),
                 subject = "Deler som må anmodes",
                 contentType = BodyType.TEXT,
-                content = message
+                content = melding
             )
         }
 
-        return message
+        return melding
     }
 }

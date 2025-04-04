@@ -1,6 +1,6 @@
 package no.nav.hjelpemidler.delbestilling.delbestilling.anmodning
 
-fun rapportTilMessage(rapport: Anmodningrapport): String {
+fun rapportTilMelding(rapport: Anmodningrapport): String {
     val anmodningerPerLeverandør = rapport.anmodningsbehov.groupBy { it.leverandørnavn }
 
     val leverandørMeldinger = anmodningerPerLeverandør.map { (leverandør, anmodninger) ->
