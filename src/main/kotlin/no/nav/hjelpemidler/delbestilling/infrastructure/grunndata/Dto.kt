@@ -27,12 +27,19 @@ data class Produkt(
     val supplierRef: String,
     val attributes: Attributes,
     val isoCategory: String,
+    val supplier: Supplier
 )
 
 data class Attributes(
     val compatibleWith: CompatibleWith? = null,
 )
+
 data class CompatibleWith(
     val seriesIds: List<UUID>? = null,
     val productIds: List<UUID>? = null,
+)
+
+data class Supplier(
+    val name: String,
+    val id: UUID,
 )

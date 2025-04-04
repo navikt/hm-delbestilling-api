@@ -277,7 +277,7 @@ class DelbestillingService(
         }
 
         val hjelpemiddelMedDelerGrunndata = try {
-            val grunndataHjelpemiddel = grunndata.hentHjelpemiddel(hmsnr)
+            val grunndataHjelpemiddel = grunndata.hentProdukt(hmsnr)
 
             if (grunndataHjelpemiddel != null) {
                 val deler = grunndata.hentDeler(grunndataHjelpemiddel.seriesId, grunndataHjelpemiddel.id)

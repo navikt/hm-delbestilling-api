@@ -8,9 +8,9 @@ private val log = KotlinLogging.logger {}
 
 class Grunndata(private val client: GrunndataClient) {
 
-    suspend fun hentHjelpemiddel(hmsnr: Hmsnr): Produkt? {
-        log.info { "Henter hjelpemiddel $hmsnr fra grunndata" }
-        return client.hentHjelpemiddel(hmsnr).produkt
+    suspend fun hentProdukt(hmsnr: Hmsnr): Produkt? {
+        log.info { "Henter produkt $hmsnr fra grunndata" }
+        return client.hentProdukt(hmsnr).produkt
     }
 
     suspend fun hentDeler(seriesId: UUID, produktId: UUID): List<Produkt> {

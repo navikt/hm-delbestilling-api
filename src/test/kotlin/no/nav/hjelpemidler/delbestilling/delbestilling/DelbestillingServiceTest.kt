@@ -317,7 +317,7 @@ internal class DelbestillingServiceTest {
         val anmodningRepository = AnmodningRepository(ds)
         val norgService = mockk<NorgService>().also { coEvery { it.hentHmsEnhet(any()) } returns enhet(enhetnr) }
         val anmodningService =
-            AnmodningService(anmodningRepository, oebs, norgService, mockk(relaxed = true), mockk(relaxed = true))
+            AnmodningService(anmodningRepository, oebs, norgService, mockk(relaxed = true), mockk(relaxed = true), mockk(relaxed = true))
         val delbestillingService =
             DelbestillingService(
                 delbestillingRepository,
@@ -372,7 +372,7 @@ internal class DelbestillingServiceTest {
         val anmodningRepository = AnmodningRepository(ds)
         val norgService = mockk<NorgService>().also { coEvery { it.hentHmsEnhet(any()) } returns enhet(enhetnr) }
         val anmodningService =
-            AnmodningService(anmodningRepository, oebs, norgService, mockk(relaxed = true), mockk(relaxed = true))
+            AnmodningService(anmodningRepository, oebs, norgService, mockk(relaxed = true), mockk(relaxed = true), mockk(relaxed = true))
         val delbestillingService =
             DelbestillingService(
                 delbestillingRepository,

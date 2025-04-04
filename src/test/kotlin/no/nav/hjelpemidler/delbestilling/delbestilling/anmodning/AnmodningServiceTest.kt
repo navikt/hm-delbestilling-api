@@ -25,7 +25,7 @@ class AnmodningServiceTest {
     val norg = mockk<NorgService>()
     val slack = mockk<SlackClient>(relaxed = true)
     val email = mockk<Email>(relaxed = true)
-    val anmodningService = AnmodningService(repository, oebs, norg, slack, email)
+    val anmodningService = AnmodningService(repository, oebs, norg, slack, email, mockk())
 
     @BeforeEach
     fun setup() {
@@ -65,7 +65,51 @@ class AnmodningServiceTest {
     }
 
     @Test
-    fun `test sendAnmodning`() = runTest {
-        // anmodningService.sendAnmodning()
+    fun `test generering av epostmelding`() = runTest {
+        val melding = anmodningService.sendAnmodning(
+            Anmodningrapport(
+                enhetnr = "4703",
+                anmodningsbehov = listOf(
+                    AnmodningsbehovForDel(
+                        hmsnr = "123456",
+                        navn = "Batteri 80A inkl poler",
+                        antallBestilt = 10,
+                        antallPåLager = 0,
+                        erPåMinmax = false,
+                        antallSomMåAnmodes = 5,
+                        leverandørnavn = "Etac AS"
+                    ),
+                    AnmodningsbehovForDel(
+                        hmsnr = "478294",
+                        navn = "Dekk Schwalbe Marathon Plus punkteringsbeskyttet 24",
+                        antallBestilt = 10,
+                        antallPåLager = 0,
+                        erPåMinmax = false,
+                        antallSomMåAnmodes = 15,
+                        leverandørnavn = "Etac AS"
+                    ),
+                    AnmodningsbehovForDel(
+                        hmsnr = "738137",
+                        navn = "Hjul bak",
+                        antallBestilt = 10,
+                        antallPåLager = 0,
+                        erPåMinmax = false,
+                        antallSomMåAnmodes = 7,
+                        leverandørnavn = "Invacare"
+                    ),
+                    AnmodningsbehovForDel(
+                        hmsnr = "738923",
+                        navn = "Hjul foran",
+                        antallBestilt = 10,
+                        antallPåLager = 0,
+                        erPåMinmax = false,
+                        antallSomMåAnmodes = 107,
+                        leverandørnavn = "Invacare"
+                    )
+                )
+            )
+        )
+
+        println(melding)
     }
 }

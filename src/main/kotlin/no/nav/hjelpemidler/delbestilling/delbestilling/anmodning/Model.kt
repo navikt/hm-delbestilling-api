@@ -20,4 +20,5 @@ data class AnmodningsbehovForDel(
     val erPåMinmax: Boolean,
     val antallPåLager: Int,
     val antallSomMåAnmodes: Int,
+    var leverandørnavn: String = "Ukjent",
 )

@@ -77,7 +77,7 @@ class AppContext {
 
     val email = Email()
 
-    val anmodningService = AnmodningService(anmodningRepository, oebs, norgService, slackClient, email)
+    val anmodningService = AnmodningService(anmodningRepository, oebs, norgService, slackClient, email, grunndata)
 
     val piloterService = PiloterService(norgService)
 

@@ -6,6 +6,7 @@ import no.nav.hjelpemidler.database.JdbcOperations
 import no.nav.hjelpemidler.delbestilling.delbestilling.DelbestillingSak
 import no.nav.hjelpemidler.delbestilling.infrastructure.email.Email
 import no.nav.hjelpemidler.delbestilling.infrastructure.email.enhetTilEpostadresse
+import no.nav.hjelpemidler.delbestilling.infrastructure.grunndata.Grunndata
 import no.nav.hjelpemidler.delbestilling.infrastructure.oebs.Oebs
 import no.nav.hjelpemidler.delbestilling.slack.SlackClient
 import no.nav.hjelpemidler.hjelpemidlerdigitalSoknadapi.tjenester.norg.NorgService
@@ -18,6 +19,7 @@ class AnmodningService(
     private val norgService: NorgService,
     private val slackClient: SlackClient,
     private val email: Email,
+    private val grunndata: Grunndata,
 ) {
 
     suspend fun lagreDelerTilAnmodning(sak: DelbestillingSak, tx: JdbcOperations) {
@@ -82,6 +84,14 @@ class AnmodningService(
             val rapport = Anmodningrapport(enhetnr = enhetnr, anmodningsbehov = delerSomFremdelesMåAnmodes)
             log.info { "Anmodingrapport for enhet $enhetnr: $rapport" }
 
+            // Berik med leverandørnavn
+            rapport.anmodningsbehov.forEach { behov ->
+                val leverandørnavn =
+                    grunndata.hentProdukt(behov.hmsnr)?.supplier?.name ?: manuelleLeverandørnavn[behov.hmsnr]
+                    ?: "Ukjent"
+                behov.leverandørnavn = leverandørnavn
+            }
+
             rapport
         }
 
@@ -94,18 +104,8 @@ class AnmodningService(
     }
 
     suspend fun sendAnmodning(rapport: Anmodningrapport): String {
-        val message = """
-            Hei!
-            
-            Følgende deler har nylig blitt bestilt digitalt, uten lagerdekning, og må derfor anmodes manuelt.
-            
-            ${rapport.anmodningsbehov.joinToString("\n") { "${it.hmsnr} (${it.navn}): Må anmodes ${it.antallSomMåAnmodes} stk." }}
-            
-            Dersom dere har spørsmål til dette så kan dere svare oss tilbake på denne e-posten.
-            
-            Vennlig hilsen
-            DigiHoT
-        """.trimIndent()
+
+        val message = rapportTilMessage(rapport)
 
         repository.withTransaction { tx ->
             repository.markerDelerSomRapportert(tx, rapport.enhetnr)

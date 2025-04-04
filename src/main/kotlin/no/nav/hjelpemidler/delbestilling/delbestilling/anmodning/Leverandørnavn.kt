@@ -1,0 +1,28 @@
+package no.nav.hjelpemidler.delbestilling.delbestilling.anmodning
+
+val manuelleLeverandørnavn = mapOf<String, String>(
+    "157312" to "Ukjent",
+    "157314" to "Ukjent",
+    "200842" to "Ukjent",
+    "256634" to "Ukjent",
+    "256635" to "Ukjent",
+    "159563" to "Ukjent",
+    "262846" to "Ukjent",
+    "211200" to "Ukjent",
+    "157311" to "Ukjent",
+    "157747" to "Ukjent",
+    "157310" to "Ukjent",
+    "168802" to "Ukjent",
+    "168803" to "Ukjent",
+    "198643" to "Ukjent",
+    "198644" to "Ukjent",
+    "186621" to "Ukjent",
+    "196252" to "Ukjent",
+    "201800" to "Ukjent",
+    "140928" to "Ukjent",
+    "016136" to "Ukjent",
+    "006428" to "Ukjent",
+    "006429" to "Ukjent",
+    "215101" to "Ukjent",
+    "219466" to "Ukjent",
+)
