@@ -312,7 +312,7 @@ internal class DelbestillingServiceTest {
         }
 
     @Test
-    fun `skal lagre anmodingsbehov ved ny delbestilling`() = runTest {
+    fun `skal lagre anmodningsbehov ved ny delbestilling`() = runTest {
         val enhetnr = "4703"
         val anmodningRepository = AnmodningRepository(ds)
         val norgService = mockk<NorgService>().also { coEvery { it.hentHmsEnhet(any()) } returns enhet(enhetnr) }
@@ -357,6 +357,72 @@ internal class DelbestillingServiceTest {
             )
         )
         delbestillingService.rapporterDelerTilAnmodning()
-        assertEquals(0, anmodningRepository.hentDelerTilRapportering(enhetnr).size, "Det skal ikke lenger eksistere deler til rapportering")
+        assertEquals(
+            0,
+            anmodningRepository.hentDelerTilRapportering(enhetnr).size,
+            "Det skal ikke lenger eksistere deler til rapportering"
+        )
+    }
+
+    @Test
+    fun `skal summere anmodningsbehov`() = runTest {
+        val enhetnr = "4703"
+        val hmsnr1 = "111111"
+        val hmsnr2 = "222222"
+        val anmodningRepository = AnmodningRepository(ds)
+        val norgService = mockk<NorgService>().also { coEvery { it.hentHmsEnhet(any()) } returns enhet(enhetnr) }
+        val anmodningService =
+            AnmodningService(anmodningRepository, oebs, norgService, mockk(relaxed = true), mockk(relaxed = true))
+        val delbestillingService =
+            DelbestillingService(
+                delbestillingRepository,
+                pdlService,
+                oebs,
+                oebsSinkService,
+                oppslagService,
+                mockk(relaxed = true),
+                slackClient,
+                grunndata,
+                anmodningService,
+                piloterService,
+            )
+
+        // Første delbestilling
+        coEvery { oebs.hentLagerstatusForKommunenummer(any(), any()) } returns listOf(
+            lagerstatus(antall = 3, hmsnr = hmsnr1),
+            lagerstatus(antall = 1, hmsnr = hmsnr2)
+        )
+        delbestillingService.opprettDelbestilling(
+            delbestillingRequest(
+                deler = listOf(
+                    delLinje(antall = 3, hmsnr = hmsnr1),
+                    delLinje(antall = 2, hmsnr = hmsnr2)
+                )
+            ),
+            bestillerFnr,
+            delbestillerRolle()
+        )
+
+        // Andre delbestilling
+        coEvery { oebs.hentLagerstatusForKommunenummer(any(), any()) } returns listOf(
+            lagerstatus(antall = 0, hmsnr = hmsnr1),
+            lagerstatus(antall = 0, hmsnr = hmsnr2)
+        )
+        delbestillingService.opprettDelbestilling(
+            delbestillingRequest(
+                deler = listOf(
+                    delLinje(antall = 2, hmsnr = hmsnr1),
+                    delLinje(antall = 2, hmsnr = hmsnr2)
+                )
+            ),
+            bestillerFnr,
+            delbestillerRolle()
+        )
+
+        // Sjekk at anmodningsbehov er summert for begge delbestillingene
+        val delerTilRapportering = anmodningRepository.hentDelerTilRapportering(enhetnr)
+        assertEquals(2, delerTilRapportering.size)
+        assertEquals(2, delerTilRapportering.find { it.hmsnr == hmsnr1 }!!.antall)
+        assertEquals(3, delerTilRapportering.find { it.hmsnr == hmsnr2 }!!.antall)
     }
 }
