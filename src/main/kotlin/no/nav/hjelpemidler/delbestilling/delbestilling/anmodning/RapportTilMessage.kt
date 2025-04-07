@@ -13,7 +13,7 @@ ${anmodninger.joinToString("\n") { "${it.hmsnr} (${it.navn}): Må anmodes ${it.a
     return """
 Hei!
 
-Følgende deler har nylig blitt bestilt digitalt, uten lagerdekning, og må derfor anmodes manuelt.
+Disse delene er bestilt digitalt, men er ikke på lager. Dere må derfor sende anmodning på følgende:
 
 ${leverandørMeldinger.joinToString("\n\n") { it }}
 
