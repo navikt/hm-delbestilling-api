@@ -486,7 +486,6 @@ class DelbestillingService(
 
     suspend fun rapporterDelerTilAnmodning(): List<Anmodningrapport> {
         return try {
-            // TODO kjør kun 1 gang per døgn, kl 0100
             val rapporter = anmodningService.genererAnmodningsrapporter()
 
             rapporter.forEach { rapport ->
