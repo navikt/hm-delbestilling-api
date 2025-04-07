@@ -1,8 +1,13 @@
 package no.nav.hjelpemidler.delbestilling.metrics
 
 import io.github.oshai.kotlinlogging.KotlinLogging
-import no.nav.hjelpemidler.delbestilling.delbestilling.Hmsnr
+import no.nav.hjelpemidler.delbestilling.delbestilling.model.DelLinje
+import no.nav.hjelpemidler.delbestilling.delbestilling.model.DelbestillingSak
+import no.nav.hjelpemidler.delbestilling.delbestilling.model.Hmsnr
 import no.nav.hjelpemidler.delbestilling.kafka.KafkaService
+import java.time.LocalDate
+import java.time.LocalDateTime
+import java.time.temporal.ChronoUnit
 
 private val log = KotlinLogging.logger {}
 
@@ -63,4 +68,27 @@ class Metrics(
             )
         )
     }
+
+    fun delSkipningsbekreftet(sak: DelbestillingSak, dellinje: DelLinje, skipningsbekreftet: LocalDate) {
+        val lagerstatus = dellinje.lagerstatusPåBestillingstidspunkt
+        val lagerstatusType = when {
+            lagerstatus == null -> return // Bakoverkompabilitet
+            lagerstatus.minmax -> "MINMAX"
+            lagerstatus.antallDelerPåLager <= 0 -> "IKKE_PÅ_LAGER"
+            lagerstatus.antallDelerPåLager < dellinje.antall -> "DELVIS_PÅ_LAGER"
+            else -> "PÅ_LAGER"
+        }
+        registerPoint(
+            "delbestilling.delSkipningsbekreftet",
+            mapOf(
+                "hmsnr" to dellinje.del.hmsnr,
+                "dagerTilSkipningsbekreftelse" to dagerMellom(sak.opprettet, skipningsbekreftet).toString(),
+                "lagerstatusVedBestilling" to lagerstatusType,
+            )
+        )
+    }
+
 }
+
+private fun dagerMellom(fra: LocalDateTime, til: LocalDate) = ChronoUnit.DAYS.between(fra.toLocalDate(), til)
+

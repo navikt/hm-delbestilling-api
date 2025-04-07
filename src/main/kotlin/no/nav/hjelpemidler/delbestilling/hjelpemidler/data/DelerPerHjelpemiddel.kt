@@ -1,6 +1,6 @@
 package no.nav.hjelpemidler.delbestilling.hjelpemidler.data
 
-import no.nav.hjelpemidler.delbestilling.delbestilling.Hmsnr
+import no.nav.hjelpemidler.delbestilling.delbestilling.model.Hmsnr
 
 val hmsnrHjmTilHmsnrDeler = mapOf<Hmsnr, Set<Hmsnr>>(
     "097765" to setOf("168802", "168803", "198643", "198644", "186621"),

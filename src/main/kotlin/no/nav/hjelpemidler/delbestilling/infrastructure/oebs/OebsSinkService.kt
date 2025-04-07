@@ -1,7 +1,7 @@
 package no.nav.hjelpemidler.delbestilling.infrastructure.oebs
 
 import io.github.oshai.kotlinlogging.KotlinLogging
-import no.nav.hjelpemidler.delbestilling.delbestilling.DelbestillingSak
+import no.nav.hjelpemidler.delbestilling.delbestilling.model.DelbestillingSak
 import no.nav.hjelpemidler.domain.person.Fødselsnummer
 
 private val log = KotlinLogging.logger {}

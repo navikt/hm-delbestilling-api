@@ -2,11 +2,10 @@ package no.nav.hjelpemidler.delbestilling.slack
 
 import io.github.oshai.kotlinlogging.KotlinLogging
 import io.ktor.client.engine.cio.CIO
-import no.nav.hjelpemidler.delbestilling.delbestilling.Del
+import no.nav.hjelpemidler.delbestilling.delbestilling.model.Del
 import no.nav.hjelpemidler.delbestilling.delbestilling.DelbestillingRepository
-import no.nav.hjelpemidler.delbestilling.delbestilling.DelbestillingSak
-import no.nav.hjelpemidler.delbestilling.delbestilling.Kilde
-import no.nav.hjelpemidler.delbestilling.delbestilling.anmodning.Anmodningrapport
+import no.nav.hjelpemidler.delbestilling.delbestilling.model.DelbestillingSak
+import no.nav.hjelpemidler.delbestilling.delbestilling.model.Kilde
 import no.nav.hjelpemidler.delbestilling.delbestilling.anmodning.AnmodningsbehovForDel
 import no.nav.hjelpemidler.delbestilling.hjelpemidler.data.hmsnrTilDel
 import no.nav.hjelpemidler.delbestilling.infrastructure.email.enhetTilEpostadresse

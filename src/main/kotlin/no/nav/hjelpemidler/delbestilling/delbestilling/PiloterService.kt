@@ -1,5 +1,6 @@
 package no.nav.hjelpemidler.delbestilling.delbestilling
 
+import no.nav.hjelpemidler.delbestilling.delbestilling.model.Pilot
 import no.nav.hjelpemidler.delbestilling.isDev
 import no.nav.hjelpemidler.hjelpemidlerdigitalSoknadapi.tjenester.norg.NorgService
 

@@ -1,13 +1,14 @@
 package no.nav.hjelpemidler.delbestilling
 
-import no.nav.hjelpemidler.delbestilling.delbestilling.Del
-import no.nav.hjelpemidler.delbestilling.delbestilling.DelLinje
-import no.nav.hjelpemidler.delbestilling.delbestilling.Delbestilling
-import no.nav.hjelpemidler.delbestilling.delbestilling.DelbestillingRequest
-import no.nav.hjelpemidler.delbestilling.delbestilling.DelbestillingSak
-import no.nav.hjelpemidler.delbestilling.delbestilling.Hmsnr
-import no.nav.hjelpemidler.delbestilling.delbestilling.Levering
-import no.nav.hjelpemidler.delbestilling.delbestilling.Status
+import no.nav.hjelpemidler.delbestilling.delbestilling.model.Del
+import no.nav.hjelpemidler.delbestilling.delbestilling.model.DelLinje
+import no.nav.hjelpemidler.delbestilling.delbestilling.model.Delbestilling
+import no.nav.hjelpemidler.delbestilling.delbestilling.model.DelbestillingRequest
+import no.nav.hjelpemidler.delbestilling.delbestilling.model.DelbestillingSak
+import no.nav.hjelpemidler.delbestilling.delbestilling.model.Hmsnr
+import no.nav.hjelpemidler.delbestilling.delbestilling.model.Lagerstatus
+import no.nav.hjelpemidler.delbestilling.delbestilling.model.Levering
+import no.nav.hjelpemidler.delbestilling.delbestilling.model.Status
 import no.nav.hjelpemidler.delbestilling.oppslag.KommuneDto
 import no.nav.hjelpemidler.delbestilling.roller.Delbestiller
 import no.nav.hjelpemidler.delbestilling.roller.Organisasjon
@@ -48,17 +49,19 @@ fun deler() = listOf(
     delLinje(hmsnr = "278247", kategori = "Slange"),
 )
 
-fun delLinje(antall: Int = 1, hmsnr: String = "150817", kategori: String = "Dekk") = DelLinje(
-    Del(
-        navn = "del",
-        hmsnr = hmsnr,
-        levArtNr = "1000038",
-        img = "",
-        kategori = kategori,
-        maksAntall = 2,
-    ),
-    antall = antall,
-)
+fun delLinje(antall: Int = 1, hmsnr: String = "150817", kategori: String = "Dekk", lagerstatus: Lagerstatus? = null) =
+    DelLinje(
+        Del(
+            navn = "del",
+            hmsnr = hmsnr,
+            levArtNr = "1000038",
+            img = "",
+            kategori = kategori,
+            maksAntall = 2,
+        ),
+        antall = antall,
+        lagerstatusPåBestillingstidspunkt = lagerstatus,
+    )
 
 fun delbestillingSak(
     delbestilling: Delbestilling = delbestilling(),

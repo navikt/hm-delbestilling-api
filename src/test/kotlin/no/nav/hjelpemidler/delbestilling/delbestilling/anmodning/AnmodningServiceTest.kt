@@ -36,18 +36,25 @@ class AnmodningServiceTest {
         val hmsnrMinmax = "333333"
         val hmsnrPåLager = "444444"
         val hmsnrFåPåLager = "555555"
-        coEvery { oebs.hentLagerstatusForKommunenummer(any(), any()) } returns listOf(
-            lagerstatus(hmsnr = hmsnrMinmax, antall = 1, minmax = true),
-            lagerstatus(hmsnr = hmsnrPåLager, antall = 20),
-            lagerstatus(hmsnr = hmsnrFåPåLager, antall = 1)
-        )
 
         val sak = delbestillingSak(
             delbestilling(
                 deler = listOf(
-                    delLinje(antall = 3, hmsnr = hmsnrMinmax),
-                    delLinje(antall = 4, hmsnr = hmsnrPåLager),
-                    delLinje(antall = 5, hmsnr = hmsnrFåPåLager),
+                    delLinje(
+                        antall = 3,
+                        hmsnr = hmsnrMinmax,
+                        lagerstatus = lagerstatus(hmsnr = hmsnrMinmax, antall = 1, minmax = true)
+                    ),
+                    delLinje(
+                        antall = 4,
+                        hmsnr = hmsnrPåLager,
+                        lagerstatus = lagerstatus(hmsnr = hmsnrPåLager, antall = 20)
+                    ),
+                    delLinje(
+                        antall = 5,
+                        hmsnr = hmsnrFåPåLager,
+                        lagerstatus = lagerstatus(hmsnr = hmsnrFåPåLager, antall = 1)
+                    ),
                 )
             )
         )

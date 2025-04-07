@@ -1,4 +1,4 @@
-package no.nav.hjelpemidler.delbestilling.delbestilling
+package no.nav.hjelpemidler.delbestilling.delbestilling.model
 
 import io.ktor.http.HttpStatusCode
 import no.nav.hjelpemidler.delbestilling.hjelpemidler.defaultAntall
@@ -90,6 +90,7 @@ data class DelLinje(
     val status: DellinjeStatus? = null,
     val datoSkipningsbekreftet: LocalDate? = null,
     val forventetLeveringsdato: LocalDate? = null,
+    val lagerstatusPåBestillingstidspunkt: Lagerstatus? = null
 )
 
 enum class Levering {

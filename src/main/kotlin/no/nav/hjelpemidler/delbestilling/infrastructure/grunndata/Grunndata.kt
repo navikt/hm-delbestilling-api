@@ -1,7 +1,7 @@
 package no.nav.hjelpemidler.delbestilling.infrastructure.grunndata
 
 import io.github.oshai.kotlinlogging.KotlinLogging
-import no.nav.hjelpemidler.delbestilling.delbestilling.Hmsnr
+import no.nav.hjelpemidler.delbestilling.delbestilling.model.Hmsnr
 import java.util.UUID
 
 private val log = KotlinLogging.logger {}

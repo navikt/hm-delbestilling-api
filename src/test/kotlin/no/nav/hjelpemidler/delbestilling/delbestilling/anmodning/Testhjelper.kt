@@ -1,11 +1,7 @@
 package no.nav.hjelpemidler.delbestilling.delbestilling.anmodning
 
-import no.nav.hjelpemidler.delbestilling.delbestilling.Delbestilling
-import no.nav.hjelpemidler.delbestilling.delbestilling.DelbestillingSak
-import no.nav.hjelpemidler.delbestilling.delbestilling.Hmsnr
-import no.nav.hjelpemidler.delbestilling.delbestilling.Lagerstatus
-import no.nav.hjelpemidler.delbestilling.delbestilling.Status
-import java.time.LocalDateTime
+import no.nav.hjelpemidler.delbestilling.delbestilling.model.Hmsnr
+import no.nav.hjelpemidler.delbestilling.delbestilling.model.Lagerstatus
 
 
 fun del(

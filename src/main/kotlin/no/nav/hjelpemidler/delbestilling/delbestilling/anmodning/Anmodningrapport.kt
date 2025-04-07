@@ -1,8 +1,8 @@
 package no.nav.hjelpemidler.delbestilling.delbestilling.anmodning
 
 import io.github.oshai.kotlinlogging.KotlinLogging
-import no.nav.hjelpemidler.delbestilling.delbestilling.DelLinje
-import no.nav.hjelpemidler.delbestilling.delbestilling.Lagerstatus
+import no.nav.hjelpemidler.delbestilling.delbestilling.model.DelLinje
+import no.nav.hjelpemidler.delbestilling.delbestilling.model.Lagerstatus
 import kotlin.math.abs
 
 private val log = KotlinLogging.logger { }

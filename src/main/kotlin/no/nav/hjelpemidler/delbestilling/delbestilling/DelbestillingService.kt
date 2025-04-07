@@ -7,6 +7,21 @@ import kotlinx.coroutines.launch
 import no.bekk.bekkopen.date.NorwegianDateUtil
 import no.nav.hjelpemidler.delbestilling.delbestilling.anmodning.AnmodningService
 import no.nav.hjelpemidler.delbestilling.delbestilling.anmodning.Anmodningrapport
+import no.nav.hjelpemidler.delbestilling.delbestilling.model.BestillerType
+import no.nav.hjelpemidler.delbestilling.delbestilling.model.Del
+import no.nav.hjelpemidler.delbestilling.delbestilling.model.Delbestilling
+import no.nav.hjelpemidler.delbestilling.delbestilling.model.DelbestillingFeil
+import no.nav.hjelpemidler.delbestilling.delbestilling.model.DelbestillingRequest
+import no.nav.hjelpemidler.delbestilling.delbestilling.model.DelbestillingResultat
+import no.nav.hjelpemidler.delbestilling.delbestilling.model.DelbestillingSak
+import no.nav.hjelpemidler.delbestilling.delbestilling.model.DellinjeStatus
+import no.nav.hjelpemidler.delbestilling.delbestilling.model.HjelpemiddelMedDeler
+import no.nav.hjelpemidler.delbestilling.delbestilling.model.Hmsnr
+import no.nav.hjelpemidler.delbestilling.delbestilling.model.Kilde
+import no.nav.hjelpemidler.delbestilling.delbestilling.model.OppslagFeil
+import no.nav.hjelpemidler.delbestilling.delbestilling.model.OppslagResultat
+import no.nav.hjelpemidler.delbestilling.delbestilling.model.Serienr
+import no.nav.hjelpemidler.delbestilling.delbestilling.model.Status
 import no.nav.hjelpemidler.delbestilling.hjelpemidler.data.hmsnr2Hjm
 import no.nav.hjelpemidler.delbestilling.hjelpemidler.defaultAntall
 import no.nav.hjelpemidler.delbestilling.hjelpemidler.maksAntall
@@ -122,13 +137,23 @@ class DelbestillingService(
 
         val bestillersNavn = pdlService.hentFornavn(bestillerFnr, validerAdressebeskyttelse = false)
 
+        // TODO rydd og splitt ut logikk i egne klasser etc.
+        val delerHmsnr = request.delbestilling.deler.map { it.del.hmsnr }
+        val lagerstatuser = oebs.hentLagerstatusForKommunenummer(brukerKommunenr, delerHmsnr)
+        val berikedeDellinjer = request.delbestilling.deler.map { dellinje ->
+            val lagerstatus =
+                checkNotNull(lagerstatuser.find { it.artikkelnummer == dellinje.del.hmsnr }) { "Mangler lagerstatus for ${dellinje.del.hmsnr}" }
+            dellinje.copy(lagerstatusPåBestillingstidspunkt = lagerstatus)
+        }
+        val delbestilling = request.delbestilling.copy(deler = berikedeDellinjer)
+
         val delbestillingSak = delbestillingRepository.withTransaction(returnGeneratedKeys = true) { tx ->
             val saksnummer = delbestillingRepository.lagreDelbestilling(
                 tx,
                 bestillerFnr,
                 brukersFnr,
                 brukerKommunenr,
-                request.delbestilling,
+                delbestilling,
                 brukersKommunenavn,
                 innsendersRepresenterteOrganisasjon,
                 bestillerType,
@@ -224,6 +249,7 @@ class DelbestillingService(
             // Oppdater status på dellinje
             val deler = lagretDelbestilling.delbestilling.deler.map { delLinje ->
                 if (delLinje.del.hmsnr == hmsnr) {
+                    metrics.delSkipningsbekreftet(lagretDelbestilling, delLinje, datoOppdatert)
                     val forventetLeveringsdato = NorwegianDateUtil.addWorkingDaysToDate(
                         datoOppdatert.toDate(),
                         LEVERINGSDAGER_FRA_SKIPNINGSBEKREFTELSE
@@ -233,6 +259,7 @@ class DelbestillingService(
                         datoSkipningsbekreftet = datoOppdatert,
                         forventetLeveringsdato = forventetLeveringsdato.toLocalDate(),
                     )
+
                 } else {
                     delLinje
                 }
@@ -381,7 +408,7 @@ class DelbestillingService(
         hjelpemiddelMedDeler.deler =
             hjelpemiddelMedDeler.deler.map { del ->
                 val lagerstatus = lagerstatusForDeler.find { it.artikkelnummer == del.hmsnr }
-                if(isDev()) {
+                if (isDev()) {
                     log.info { "Lagerstatus for ${del.hmsnr}: $lagerstatus" }
                 }
                 del.copy(lagerstatus = lagerstatus)

@@ -3,7 +3,7 @@ package no.nav.hjelpemidler.delbestilling.delbestilling.anmodning
 import com.microsoft.graph.models.BodyType
 import io.github.oshai.kotlinlogging.KotlinLogging
 import no.nav.hjelpemidler.database.JdbcOperations
-import no.nav.hjelpemidler.delbestilling.delbestilling.DelbestillingSak
+import no.nav.hjelpemidler.delbestilling.delbestilling.model.DelbestillingSak
 import no.nav.hjelpemidler.delbestilling.infrastructure.email.Email
 import no.nav.hjelpemidler.delbestilling.infrastructure.email.enhetTilEpostadresse
 import no.nav.hjelpemidler.delbestilling.infrastructure.grunndata.Grunndata
@@ -46,14 +46,9 @@ class AnmodningService(
         }
     }
 
-    suspend fun finnDelerUtenDekning(sak: DelbestillingSak): List<AnmodningsbehovForDel> {
-        val lagerstatuser = oebs.hentLagerstatusForKommunenummer(
-            kommunenummer = sak.brukersKommunenummer,
-            hmsnrs = sak.delbestilling.deler.map { it.del.hmsnr }
-        ).associateBy { it.artikkelnummer }
-
+    fun finnDelerUtenDekning(sak: DelbestillingSak): List<AnmodningsbehovForDel> {
         val delerUtenDekning = sak.delbestilling.deler.map { dellinje ->
-            val lagerstatus = requireNotNull(lagerstatuser[dellinje.del.hmsnr])
+            val lagerstatus = requireNotNull(dellinje.lagerstatusPåBestillingstidspunkt)
             beregnAnmodningsbehovForDel(dellinje, lagerstatus)
         }.filter { it.antallSomMåAnmodes > 0 }
 

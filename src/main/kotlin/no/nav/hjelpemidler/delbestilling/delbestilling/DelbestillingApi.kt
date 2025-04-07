@@ -13,6 +13,14 @@ import io.ktor.server.routing.put
 import io.ktor.server.util.getOrFail
 import no.nav.hjelpemidler.delbestilling.CORRELATION_ID_HEADER
 import no.nav.hjelpemidler.delbestilling.delbestilling.anmodning.AnmodningService
+import no.nav.hjelpemidler.delbestilling.delbestilling.model.DelbestillingFeil
+import no.nav.hjelpemidler.delbestilling.delbestilling.model.DelbestillingRequest
+import no.nav.hjelpemidler.delbestilling.delbestilling.model.DellinjeStatus
+import no.nav.hjelpemidler.delbestilling.delbestilling.model.Hmsnr
+import no.nav.hjelpemidler.delbestilling.delbestilling.model.OppslagRequest
+import no.nav.hjelpemidler.delbestilling.delbestilling.model.OppslagResponse
+import no.nav.hjelpemidler.delbestilling.delbestilling.model.Status
+import no.nav.hjelpemidler.delbestilling.delbestilling.model.XKLagerResponse
 import no.nav.hjelpemidler.delbestilling.isDev
 import no.nav.hjelpemidler.delbestilling.plugins.delbestillerRolleKey
 import no.nav.hjelpemidler.delbestilling.slack.SlackClient

@@ -10,8 +10,11 @@ import no.nav.hjelpemidler.delbestilling.delbestillerRolle
 import no.nav.hjelpemidler.delbestilling.delbestilling
 import no.nav.hjelpemidler.delbestilling.delbestilling.anmodning.AnmodningRepository
 import no.nav.hjelpemidler.delbestilling.delbestilling.anmodning.AnmodningService
-import no.nav.hjelpemidler.delbestilling.delbestilling.anmodning.del
 import no.nav.hjelpemidler.delbestilling.delbestilling.anmodning.lagerstatus
+import no.nav.hjelpemidler.delbestilling.delbestilling.model.BestillerType
+import no.nav.hjelpemidler.delbestilling.delbestilling.model.DelbestillingFeil
+import no.nav.hjelpemidler.delbestilling.delbestilling.model.DellinjeStatus
+import no.nav.hjelpemidler.delbestilling.delbestilling.model.Status
 import no.nav.hjelpemidler.delbestilling.delbestillingRequest
 import no.nav.hjelpemidler.delbestilling.delbestillingSak
 import no.nav.hjelpemidler.delbestilling.enhet
@@ -25,7 +28,6 @@ import no.nav.hjelpemidler.delbestilling.oppslag.OppslagService
 import no.nav.hjelpemidler.delbestilling.organisasjon
 import no.nav.hjelpemidler.delbestilling.pdl.PdlService
 import no.nav.hjelpemidler.delbestilling.slack.SlackClient
-import no.nav.hjelpemidler.hjelpemidlerdigitalSoknadapi.tjenester.norg.ArbeidsfordelingEnhet
 import no.nav.hjelpemidler.hjelpemidlerdigitalSoknadapi.tjenester.norg.NorgService
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -53,16 +55,21 @@ internal class DelbestillingServiceTest {
     private val oppslagService = mockk<OppslagService>(relaxed = true).apply {
         coEvery { hentKommune(any()) } returns kommune()
     }
+    private val lagerstatusMock = listOf(
+        lagerstatus(hmsnr = "150817", antall = 10),
+        lagerstatus(hmsnr = "278247", antall = 10),
+    )
     private val oebs = mockk<Oebs>(relaxed = true).apply {
         coEvery { hentPersoninfo(any()) } returns listOf(OebsPersoninfo(brukersKommunenr))
         coEvery { hentFnrLeietaker(any(), any()) } returns brukersFnr
+        coEvery { hentLagerstatusForKommunenummer(any(), any()) } returns lagerstatusMock
     }
+
     private val oebsSinkService = mockk<OebsSinkService>(relaxed = true)
     private val slackClient = mockk<SlackClient>(relaxed = true)
     private val grunndata = mockk<Grunndata>()
     private val anmodningService = mockk<AnmodningService>(relaxed = true)
     private val piloterService = mockk<PiloterService>(relaxed = true)
-    private val email = mockk<Email>(relaxed = true)
     private val delbestillingService =
         DelbestillingService(
             delbestillingRepository,
@@ -317,7 +324,14 @@ internal class DelbestillingServiceTest {
         val anmodningRepository = AnmodningRepository(ds)
         val norgService = mockk<NorgService>().also { coEvery { it.hentHmsEnhet(any()) } returns enhet(enhetnr) }
         val anmodningService =
-            AnmodningService(anmodningRepository, oebs, norgService, mockk(relaxed = true), mockk(relaxed = true), mockk(relaxed = true))
+            AnmodningService(
+                anmodningRepository,
+                oebs,
+                norgService,
+                mockk(relaxed = true),
+                mockk(relaxed = true),
+                mockk(relaxed = true)
+            )
         val delbestillingService =
             DelbestillingService(
                 delbestillingRepository,
@@ -372,7 +386,14 @@ internal class DelbestillingServiceTest {
         val anmodningRepository = AnmodningRepository(ds)
         val norgService = mockk<NorgService>().also { coEvery { it.hentHmsEnhet(any()) } returns enhet(enhetnr) }
         val anmodningService =
-            AnmodningService(anmodningRepository, oebs, norgService, mockk(relaxed = true), mockk(relaxed = true), mockk(relaxed = true))
+            AnmodningService(
+                anmodningRepository,
+                oebs,
+                norgService,
+                mockk(relaxed = true),
+                mockk(relaxed = true),
+                mockk(relaxed = true)
+            )
         val delbestillingService =
             DelbestillingService(
                 delbestillingRepository,

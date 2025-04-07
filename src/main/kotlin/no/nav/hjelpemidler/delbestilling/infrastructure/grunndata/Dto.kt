@@ -1,6 +1,6 @@
 package no.nav.hjelpemidler.delbestilling.infrastructure.grunndata
 
-import no.nav.hjelpemidler.delbestilling.delbestilling.Hmsnr
+import no.nav.hjelpemidler.delbestilling.delbestilling.model.Hmsnr
 import java.util.UUID
 
 data class ProduktResponse(
