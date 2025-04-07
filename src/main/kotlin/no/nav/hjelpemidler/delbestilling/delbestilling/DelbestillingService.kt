@@ -136,10 +136,7 @@ class DelbestillingService(
 
             // Hent ut den nye delbestillingsaken
             val nyDelbestillingSak = delbestillingRepository.hentDelbestilling(tx, saksnummer)
-
-            if (nyDelbestillingSak == null) {
-                throw RuntimeException("Klarte ikke hente ut delbestillingsak for saksnummer $saksnummer")
-            }
+                ?: throw RuntimeException("Klarte ikke hente ut delbestillingsak for saksnummer $saksnummer")
 
             anmodningService.lagreDelerUtenDekning(nyDelbestillingSak, tx)
 
