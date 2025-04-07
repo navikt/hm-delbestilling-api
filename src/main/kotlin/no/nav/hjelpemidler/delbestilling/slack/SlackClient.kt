@@ -199,20 +199,6 @@ class SlackClient(
         }
     }
 
-    suspend fun varsleOmIngenDeler(hmsnr: String, navn: String) {
-        try {
-            slackClient.sendMessage(
-                username = username,
-                slackIconEmoji(":sadge:"),
-                channel = channel,
-                message = "Det ble gjort et oppslag på `$hmsnr $navn`, men dette produktet har ingen deler, verken i manuell liste eller i grunndata."
-            )
-        } catch (e: Exception) {
-            log.error(e) { "Klarte ikke sende varsle til Slack om ingen deler" }
-            // Ikke kast feil videre, ikke krise hvis denne feiler
-        }
-    }
-
     suspend fun varsleOmAnmodningrapportSomErSendtTilEnhet(enhetnr: String, melding: String) {
         val tilEpost = enhetTilEpostadresse(enhetnr)
 
