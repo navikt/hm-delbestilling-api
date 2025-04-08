@@ -78,8 +78,7 @@ class AnmodningService(
             }.filter { it.antallSomMåAnmodes > 0 }
 
             val rapport = Anmodningrapport(enhetnr = enhetnr, anmodningsbehov = delerSomFremdelesMåAnmodes)
-            log.info { "Anmodingrapport for enhet $enhetnr: $rapport" }
-
+            
             // Berik med leverandørnavn
             rapport.anmodningsbehov.forEach { behov ->
                 val leverandørnavn =
@@ -87,6 +86,8 @@ class AnmodningService(
                     ?: "Ukjent"
                 behov.leverandørnavn = leverandørnavn
             }
+
+            log.info { "Anmodingrapport for enhet $enhetnr: $rapport" }
 
             rapport
         }
