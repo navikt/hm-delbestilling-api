@@ -203,10 +203,10 @@ class DelbestillingService(
     }
 
     suspend fun oppdaterStatus(saksnummer: Long, status: Status, oebsOrdrenummer: String) {
-        delbestillingRepository.withTransaction { tx ->
+        val delbestilling = delbestillingRepository.withTransaction { tx ->
             val lagretDelbestilling = delbestillingRepository.hentDelbestilling(tx, saksnummer) ?: if (isDev()) {
                 log.info { "Delbestilling $saksnummer finnes ikke i dev. Antar ugyldig testdata fra OeBS og skipper statusoppdatering." }
-                return@withTransaction
+                return@withTransaction null
             } else {
                 error("Kunne ikke oppdatere status for delbestilling $saksnummer fordi den ikke finnes.")
             }
@@ -220,6 +220,20 @@ class DelbestillingService(
             if (lagretDelbestilling.status.ordinal < status.ordinal) {
                 delbestillingRepository.oppdaterStatus(tx, saksnummer, status)
             }
+
+            return@withTransaction lagretDelbestilling
+        }
+
+        try {
+            if (delbestilling != null && status == Status.KLARGJORT) {
+                val lagerstatus = oebs.hentLagerstatusForKommunenummer(
+                    delbestilling.brukersKommunenummer,
+                    delbestilling.delbestilling.deler.map { it.del.hmsnr })
+                val lagerstatusVedInnsending = delbestilling.delbestilling.deler.map { it.lagerstatusPåBestillingstidspunkt }
+                log.info { "Lagerstatus ved status=$status: $lagerstatus. Lagerstatus ved innsending: $lagerstatusVedInnsending" }
+            }
+        } catch (t: Throwable) {
+            log.info(t) { "Forsøk på logging av lagerstatus ved status $status feilet. Ignorerer." }
         }
     }
 
