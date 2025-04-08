@@ -73,7 +73,6 @@ class Metrics(
         val lagerstatus = dellinje.lagerstatusPåBestillingstidspunkt
         val lagerstatusType = when {
             lagerstatus == null -> return // Bakoverkompabilitet
-            lagerstatus.minmax -> "MINMAX"
             lagerstatus.antallDelerPåLager <= 0 -> "IKKE_PÅ_LAGER"
             lagerstatus.antallDelerPåLager < dellinje.antall -> "DELVIS_PÅ_LAGER"
             else -> "PÅ_LAGER"
@@ -84,6 +83,7 @@ class Metrics(
                 "hmsnr" to dellinje.del.hmsnr,
                 "dagerTilSkipningsbekreftelse" to dagerMellom(sak.opprettet, skipningsbekreftet).toString(),
                 "lagerstatusVedBestilling" to lagerstatusType,
+                "minmax" to lagerstatus.minmax.toString(),
             )
         )
     }
