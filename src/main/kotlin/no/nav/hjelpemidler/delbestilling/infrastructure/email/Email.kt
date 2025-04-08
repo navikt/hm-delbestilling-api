@@ -12,13 +12,14 @@ import com.microsoft.graph.requests.GraphServiceClient
 import io.github.oshai.kotlinlogging.KotlinLogging
 import no.nav.hjelpemidler.delbestilling.Config
 import no.nav.hjelpemidler.delbestilling.isDev
+import no.nav.hjelpemidler.delbestilling.isProd
 import java.util.LinkedList
 
 private val log = KotlinLogging.logger {}
 
-class Email() {
+class Email {
     private val scopes = listOf("https://graph.microsoft.com/.default")
-    private val avsender = "digitalisering.av.hjelpemidler.og.tilrettelegging@nav.no"
+    private val avsender = Config.EPOST_AVSENDER
 
     private val credential =
         ClientSecretCredentialBuilder()
@@ -53,7 +54,7 @@ class Email() {
         toRecipientsList.add(toRecipients)
         message.toRecipients = toRecipientsList
 
-        message.subject = when(isDev()) {
+        message.subject = when (isDev()) {
             true -> "[TEST] $subject"
             else -> subject
         }
@@ -63,14 +64,16 @@ class Email() {
         body.content = content
         message.body = body
 
-        log.info { """
+        log.info {
+            """
             E-post til avsending:
             To: $to
             Subject: ${message.subject}
             ContentType: ${message.body!!.contentType}
             Body: ${message.body!!.content}
             Avsender: $avsender
-        """.trimIndent() }
+        """.trimIndent()
+        }
 
         if (isDev()) {
             log.info { "Ignorerer utsending av epost i dev." }

@@ -80,6 +80,9 @@ object Config {
 
     @External
     val DB_PASSWORD by EnvironmentVariable
+
+    // Epost
+    val EPOST_AVSENDER by EnvironmentVariable
 }
 
 fun isLocal() = Environment.current.tier.isLocal

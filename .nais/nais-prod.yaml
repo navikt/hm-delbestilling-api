@@ -86,3 +86,5 @@ spec:
       value: https://hm-grunndata-search.intern.nav.no
     - name: NORG_API_URL
       value: https://norg2.prod-fss-pub.nais.io/norg2/api/v1
+    - name: EPOST_AVSENDER
+      value: "digitalisering.av.hjelpemidler.og.tilrettelegging@nav.no"
