@@ -6,8 +6,7 @@ metadata:
   labels:
     team: teamdigihot
 spec:
-  #schedule: '*/5 5-18 * * MON-SAT' # 05-18 (UTC): 06-19 (UTC+1 / CET) eller 07-20 (UTC+2 / CEST)
-  schedule: '*/30 6-14 * * MON-FRI' # hvert 5. minutt 08-16 (UTC+2) man til fre
+  schedule: '*/30 6-14 * * MON-FRI' # hvert 30. minutt 08-16 (UTC+2) man til fre
   successfulJobsHistoryLimit: 1
   ttlSecondsAfterFinished: 14400
   restartPolicy: Never

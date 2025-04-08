@@ -8,6 +8,7 @@ import no.nav.hjelpemidler.delbestilling.infrastructure.email.Email
 import no.nav.hjelpemidler.delbestilling.infrastructure.email.enhetTilEpostadresse
 import no.nav.hjelpemidler.delbestilling.infrastructure.grunndata.Grunndata
 import no.nav.hjelpemidler.delbestilling.infrastructure.oebs.Oebs
+import no.nav.hjelpemidler.delbestilling.isProd
 import no.nav.hjelpemidler.delbestilling.slack.SlackClient
 import no.nav.hjelpemidler.hjelpemidlerdigitalSoknadapi.tjenester.norg.NorgService
 
@@ -101,6 +102,12 @@ class AnmodningService(
     }
 
     suspend fun sendAnmodningRapport(rapport: Anmodningrapport): String {
+        // TODO: fjern denne
+        if (isProd()) {
+            log.info { "rapport før exception kastes: $rapport" }
+            throw RuntimeException("Prøver å sende en anmodningsrapport på mail, stopper her")
+        }
+
         val melding = rapportTilMelding(rapport)
 
         repository.withTransaction { tx ->
@@ -115,5 +122,14 @@ class AnmodningService(
         }
 
         return melding
+    }
+
+    suspend fun sendTestMail() {
+        email.sendSimpleMessage(
+            to = "hakonhagen2@gmail.com",
+            subject = "TESTMAIL FRA DIGIHOT",
+            contentType = BodyType.TEXT,
+            content = "Hei på deg."
+        )
     }
 }

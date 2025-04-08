@@ -531,6 +531,9 @@ class DelbestillingService(
                 }
             }
 
+            // TODO: fjern denne
+            anmodningService.sendTestMail()
+
             rapporter
         } catch (t: Throwable) {
             log.error(t) { "Rapportering av nødvendige anmodninger feilet." }
