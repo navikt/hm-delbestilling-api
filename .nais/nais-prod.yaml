@@ -33,7 +33,7 @@ spec:
       rules:
         - application: hm-delbestilling
         - application: hm-soknadsbehandling
-        - application: hm-grunndata-search
+        - application: hm-delbestilling-api-rapporter-deler-til-anmodning
     outbound:
       rules:
         - application: hm-oebs-api-proxy
@@ -45,6 +45,8 @@ spec:
         - host: pdl-api.prod-fss-pub.nais.io
         - host: hooks.slack.com
         - host: hm-grunndata-search.intern.nav.no
+        - host: login.microsoftonline.com
+        - host: graph.microsoft.com
   kafka:
     pool: nav-prod
   envFrom:

@@ -230,7 +230,7 @@ class DelbestillingService(
                     delbestilling.brukersKommunenummer,
                     delbestilling.delbestilling.deler.map { it.del.hmsnr })
                 val lagerstatusVedInnsending = delbestilling.delbestilling.deler.map { it.lagerstatusPåBestillingstidspunkt }
-                log.info { "Lagerstatus ved status=$status: $lagerstatus. Lagerstatus ved innsending: $lagerstatusVedInnsending" }
+                log.info { "Lagerstatus for sak ${delbestilling.saksnummer} ved status=$status: $lagerstatus. Lagerstatus ved innsending: $lagerstatusVedInnsending" }
             }
         } catch (t: Throwable) {
             log.info(t) { "Forsøk på logging av lagerstatus ved status $status feilet. Ignorerer." }
