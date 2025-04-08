@@ -1,11 +1,10 @@
 package no.nav.hjelpemidler.delbestilling.hjelpemidler.data
 
-import no.nav.hjelpemidler.delbestilling.delbestilling.Del
-import no.nav.hjelpemidler.delbestilling.delbestilling.Hmsnr
+import no.nav.hjelpemidler.delbestilling.delbestilling.model.Del
+import no.nav.hjelpemidler.delbestilling.delbestilling.model.Hmsnr
 import no.nav.hjelpemidler.delbestilling.hjelpemidler.DelMedHjelpemidler
 import no.nav.hjelpemidler.delbestilling.hjelpemidler.Hjelpemiddel
 import java.time.LocalDate
-import kotlin.also
 
 private const val TODO_BESTEM_MAX_ANTALL = 8 // Finn ut hva som er et fornuftig max antall på disse
 

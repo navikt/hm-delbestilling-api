@@ -8,6 +8,12 @@ import kotliquery.using
 import no.nav.hjelpemidler.database.JdbcOperations
 import no.nav.hjelpemidler.database.pgObjectOf
 import no.nav.hjelpemidler.database.transactionAsync
+import no.nav.hjelpemidler.delbestilling.delbestilling.model.BestillerType
+import no.nav.hjelpemidler.delbestilling.delbestilling.model.Delbestilling
+import no.nav.hjelpemidler.delbestilling.delbestilling.model.DelbestillingSak
+import no.nav.hjelpemidler.delbestilling.delbestilling.model.Hmsnr
+import no.nav.hjelpemidler.delbestilling.delbestilling.model.Serienr
+import no.nav.hjelpemidler.delbestilling.delbestilling.model.Status
 import no.nav.hjelpemidler.delbestilling.json
 import no.nav.hjelpemidler.delbestilling.jsonMapper
 import no.nav.hjelpemidler.delbestilling.roller.Organisasjon
@@ -171,12 +177,14 @@ class DelbestillingRepository(val ds: DataSource) {
 }
 
 private fun Row.toLagretDelbestilling() = DelbestillingSak(
-    this.long("saksnummer"),
-    this.json("delbestilling_json"),
-    this.localDateTime("opprettet"),
-    Status.valueOf(this.string("status")),
-    this.localDateTime("sist_oppdatert"),
-    this.stringOrNull("oebs_ordrenummer"),
+    saksnummer = this.long("saksnummer"),
+    delbestilling = this.json("delbestilling_json"),
+    opprettet = this.localDateTime("opprettet"),
+    status = Status.valueOf(this.string("status")),
+    sistOppdatert = this.localDateTime("sist_oppdatert"),
+    oebsOrdrenummer = this.stringOrNull("oebs_ordrenummer"),
+    brukersKommunenummer = this.string("brukers_kommunenr"),
+    brukersKommunenavn = this.string("brukers_kommunenavn"),
 )
 
 private fun <T> pgJsonbOf(value: T): Any =

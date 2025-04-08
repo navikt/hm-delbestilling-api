@@ -2,11 +2,13 @@ package no.nav.hjelpemidler.delbestilling.slack
 
 import io.github.oshai.kotlinlogging.KotlinLogging
 import io.ktor.client.engine.cio.CIO
-import no.nav.hjelpemidler.delbestilling.delbestilling.Del
+import no.nav.hjelpemidler.delbestilling.delbestilling.model.Del
 import no.nav.hjelpemidler.delbestilling.delbestilling.DelbestillingRepository
-import no.nav.hjelpemidler.delbestilling.delbestilling.DelbestillingSak
-import no.nav.hjelpemidler.delbestilling.delbestilling.Kilde
+import no.nav.hjelpemidler.delbestilling.delbestilling.model.DelbestillingSak
+import no.nav.hjelpemidler.delbestilling.delbestilling.model.Kilde
+import no.nav.hjelpemidler.delbestilling.delbestilling.anmodning.AnmodningsbehovForDel
 import no.nav.hjelpemidler.delbestilling.hjelpemidler.data.hmsnrTilDel
+import no.nav.hjelpemidler.delbestilling.infrastructure.email.enhetTilEpostadresse
 import no.nav.hjelpemidler.delbestilling.infrastructure.grunndata.Produkt
 import no.nav.hjelpemidler.delbestilling.isProd
 import no.nav.hjelpemidler.delbestilling.rapport.Hjelpemiddel
@@ -162,6 +164,26 @@ class SlackClient(
         )
     }
 
+    suspend fun rapporterOmDelerUtenDekning(
+        deler: List<AnmodningsbehovForDel>,
+        brukersKommunenavn: String,
+        enhetnr: String
+    ) {
+        try {
+            slackClient.sendMessage(
+                username = username,
+                slackIconEmoji(":pepe_cowboy:"),
+                channel = channel,
+                message = """
+                    Det har kommet inn delbestilling med følgende deler som ikke har dekning hos enhet $enhetnr (kommune: ${brukersKommunenavn}):
+                    ```${deler.joinToString("\n")}```
+                    """.trimIndent(),
+            )
+        } catch (e: Exception) {
+            log.error(e) { "Klarte ikke sende varsle til Slack deler uten dekning" }
+        }
+    }
+
     suspend fun varsleOmManglendeHmsnr(hmsnr: String) {
         try {
             slackClient.sendMessage(
@@ -173,6 +195,40 @@ class SlackClient(
         } catch (e: Exception) {
             log.error(e) { "Klarte ikke sende varsle til Slack om manglende hmsnr" }
             // Ikke kast feil videre, ikke krise hvis denne feiler
+        }
+    }
+
+    suspend fun varsleOmAnmodningrapportSomErSendtTilEnhet(enhetnr: String, melding: String) {
+        val tilEpost = enhetTilEpostadresse(enhetnr)
+
+        try {
+            slackClient.sendMessage(
+                username = username,
+                slackIconEmoji(":mailbox:"),
+                channel = channel,
+                message = """
+                    Følgende mail ble sendt til enhet $enhetnr ($tilEpost):
+                    ```
+                    $melding
+                    ```
+                """.trimIndent(),
+            )
+        } catch (e: Exception) {
+            log.error(e) { "Klarte ikke sende varsle til Slack anmodningrapport som må sendes til enhet" }
+            // Ikke kast feil videre, ikke krise hvis denne feiler
+        }
+    }
+
+    suspend fun varsleOmRapporteringFeilet() {
+        try {
+            slackClient.sendMessage(
+                username = username,
+                slackIconEmoji(":error:"),
+                channel = channel,
+                message = "Utsending av mail til HMS om deler som må anmodes feilet. Må følges opp manuelt.",
+            )
+        } catch (e: Exception) {
+            log.error(e) { "Klarte ikke sende varsek til Slack feilende rapportering av nødvendige anmodninger" }
         }
     }
 }

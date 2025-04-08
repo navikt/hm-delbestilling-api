@@ -8,7 +8,7 @@ private const val OPPRETT_DELBESTILLING_EVENTNAME = "hm-OpprettDelbestilling"
 
 private val log = KotlinLogging.logger {}
 
-class OebsSink(
+class OebsSinkClient(
     private val kafkaService: KafkaService
 ) {
     fun sendDelbestilling(opprettBestillingsordreRequest: Ordre) {

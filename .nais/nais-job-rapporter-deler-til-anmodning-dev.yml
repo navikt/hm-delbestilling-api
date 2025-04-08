@@ -1,0 +1,33 @@
+apiVersion: nais.io/v1
+kind: Naisjob
+metadata:
+  name: hm-delbestilling-api-rapporter-deler-til-anmodning
+  namespace: teamdigihot
+  labels:
+    team: teamdigihot
+spec:
+  schedule: '*/30 6-14 * * MON-FRI' # hvert 30. minutt 08-16 (UTC+2) man til fre
+  successfulJobsHistoryLimit: 1
+  ttlSecondsAfterFinished: 14400
+  restartPolicy: Never
+  image: {{image}}
+  azure:
+    application:
+      enabled: true
+  env:
+  - name: CRONJOB_TYPE
+    value: RAPPORTER_DELER_TIL_ANMODNING
+  - name: DELBESTILLING_API_URL
+    value: http://hm-delbestilling-api.teamdigihot.svc.cluster.local
+  - name: DELBESTILLING_API_SCOPE
+    value: api://dev-gcp.teamdigihot.hm-delbestilling-api/.default
+  envFrom:
+    - secret: hm-slack-hook
+  secureLogs:
+    enabled: true
+  accessPolicy:
+    outbound:
+      external:
+        - host: hooks.slack.com
+      rules:
+        - application: hm-delbestilling-api

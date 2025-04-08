@@ -6,11 +6,21 @@ import io.ktor.server.application.call
 import io.ktor.server.request.receive
 import io.ktor.server.response.respond
 import io.ktor.server.routing.Route
+import io.ktor.server.routing.delete
 import io.ktor.server.routing.get
 import io.ktor.server.routing.post
 import io.ktor.server.routing.put
 import io.ktor.server.util.getOrFail
 import no.nav.hjelpemidler.delbestilling.CORRELATION_ID_HEADER
+import no.nav.hjelpemidler.delbestilling.delbestilling.anmodning.AnmodningService
+import no.nav.hjelpemidler.delbestilling.delbestilling.model.DelbestillingFeil
+import no.nav.hjelpemidler.delbestilling.delbestilling.model.DelbestillingRequest
+import no.nav.hjelpemidler.delbestilling.delbestilling.model.DellinjeStatus
+import no.nav.hjelpemidler.delbestilling.delbestilling.model.Hmsnr
+import no.nav.hjelpemidler.delbestilling.delbestilling.model.OppslagRequest
+import no.nav.hjelpemidler.delbestilling.delbestilling.model.OppslagResponse
+import no.nav.hjelpemidler.delbestilling.delbestilling.model.Status
+import no.nav.hjelpemidler.delbestilling.delbestilling.model.XKLagerResponse
 import no.nav.hjelpemidler.delbestilling.isDev
 import no.nav.hjelpemidler.delbestilling.plugins.delbestillerRolleKey
 import no.nav.hjelpemidler.delbestilling.slack.SlackClient
@@ -21,6 +31,7 @@ private val log = KotlinLogging.logger {}
 
 fun Route.delbestillingApiPublic(
     delbestillingService: DelbestillingService,
+    anmodningService: AnmodningService,
 ) {
     post("/oppslag") {
         try {
@@ -32,7 +43,7 @@ fun Route.delbestillingApiPublic(
                 log.info { "Oppslag på hmsnr:${request.hmsnr} serienr:${request.serienr} returnerte feilkode:${resultat.feil}" }
             }
 
-            val oppslagResponse = OppslagResponse(resultat.hjelpemiddel, resultat.feil)
+            val oppslagResponse = OppslagResponse(resultat.hjelpemiddel, resultat.feil, resultat.piloter)
 
             call.respond(resultat.httpStatusCode, oppslagResponse)
         } catch (e: Exception) {
@@ -44,6 +55,14 @@ fun Route.delbestillingApiPublic(
     if (isDev()) {
         get("/finnGyldigTestbruker") {
             call.respond(delbestillingService.finnTestpersonMedTestbartUtlån())
+        }
+
+        post("/rapporter-deler-uten-dekning") {
+            call.respond(delbestillingService.rapporterDelerTilAnmodning())
+        }
+
+        delete("/rapporter-deler-uten-dekning") {
+            call.respond(anmodningService.markerDelerSomIkkeRapportert())
         }
     }
 }
@@ -132,6 +151,10 @@ fun Route.azureRoutes(
         val (status, hmsnr, datoOppdatert) = call.receive<DellinjeStatusOppdateringDto>()
         delbestillingService.oppdaterDellinjeStatus(oebsOrdrenummer, status, hmsnr, datoOppdatert)
         call.respond(HttpStatusCode.OK)
+    }
+
+    post("/anmodning/rapporter-deler-til-anmodning") {
+        call.respond(delbestillingService.rapporterDelerTilAnmodning())
     }
 }
 

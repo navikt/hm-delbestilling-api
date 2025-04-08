@@ -1,7 +1,7 @@
 package no.nav.hjelpemidler.delbestilling.hjelpemidler.data
 
-import no.nav.hjelpemidler.delbestilling.delbestilling.Del
-import no.nav.hjelpemidler.delbestilling.delbestilling.Hmsnr
+import no.nav.hjelpemidler.delbestilling.delbestilling.model.Del
+import no.nav.hjelpemidler.delbestilling.delbestilling.model.Hmsnr
 import no.nav.hjelpemidler.delbestilling.hjelpemidler.Hjelpemiddel
 
 fun main() = validerData() // For lokal kjøring

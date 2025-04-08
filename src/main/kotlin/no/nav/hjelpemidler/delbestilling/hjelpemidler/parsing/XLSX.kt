@@ -1,6 +1,6 @@
 package no.nav.hjelpemidler.delbestilling.hjelpemidler.parsing
 
-import no.nav.hjelpemidler.delbestilling.delbestilling.Hmsnr
+import no.nav.hjelpemidler.delbestilling.delbestilling.model.Hmsnr
 import no.nav.hjelpemidler.delbestilling.hjelpemidler.Navn
 import org.apache.poi.ss.usermodel.CellType
 import org.apache.poi.ss.usermodel.DataFormatter

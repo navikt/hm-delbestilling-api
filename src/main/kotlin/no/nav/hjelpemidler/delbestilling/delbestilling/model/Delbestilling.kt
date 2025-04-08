@@ -1,4 +1,4 @@
-package no.nav.hjelpemidler.delbestilling.delbestilling
+package no.nav.hjelpemidler.delbestilling.delbestilling.model
 
 import io.ktor.http.HttpStatusCode
 import no.nav.hjelpemidler.delbestilling.hjelpemidler.defaultAntall
@@ -15,6 +15,7 @@ data class OppslagResultat(
     val hjelpemiddel: HjelpemiddelMedDeler?,
     val feil: OppslagFeil? = null,
     val httpStatusCode: HttpStatusCode,
+    val piloter: List<Pilot> = emptyList(),
 ) {
     init {
         hjelpemiddel?.deler?.forEach {
@@ -33,7 +34,12 @@ data class AlleHjelpemidlerMedDelerResultat(
 data class OppslagResponse(
     val hjelpemiddel: HjelpemiddelMedDeler?,
     val feil: OppslagFeil? = null,
+    val piloter: List<Pilot> = emptyList(),
 )
+
+enum class Pilot {
+    BESTILLE_IKKE_FASTE_LAGERVARER
+}
 
 enum class OppslagFeil {
     TILBYR_IKKE_HJELPEMIDDEL, INGET_UTLÅN
@@ -75,6 +81,7 @@ data class Lagerstatus(
     val artikkelnummer: String,
     val minmax: Boolean,
     val tilgjengelig: Int,
+    val antallDelerPåLager: Int,
 )
 
 data class DelLinje(
@@ -83,6 +90,7 @@ data class DelLinje(
     val status: DellinjeStatus? = null,
     val datoSkipningsbekreftet: LocalDate? = null,
     val forventetLeveringsdato: LocalDate? = null,
+    val lagerstatusPåBestillingstidspunkt: Lagerstatus? = null
 )
 
 enum class Levering {
@@ -127,6 +135,8 @@ data class DelbestillingSak(
     val status: Status,
     val sistOppdatert: LocalDateTime,
     val oebsOrdrenummer: String?,
+    val brukersKommunenummer: String,
+    val brukersKommunenavn: String,
 )
 
 typealias Hmsnr = String

@@ -5,6 +5,23 @@ import io.ktor.http.HttpStatusCode
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 import no.bekk.bekkopen.date.NorwegianDateUtil
+import no.nav.hjelpemidler.delbestilling.delbestilling.anmodning.AnmodningService
+import no.nav.hjelpemidler.delbestilling.delbestilling.anmodning.Anmodningrapport
+import no.nav.hjelpemidler.delbestilling.delbestilling.model.BestillerType
+import no.nav.hjelpemidler.delbestilling.delbestilling.model.Del
+import no.nav.hjelpemidler.delbestilling.delbestilling.model.Delbestilling
+import no.nav.hjelpemidler.delbestilling.delbestilling.model.DelbestillingFeil
+import no.nav.hjelpemidler.delbestilling.delbestilling.model.DelbestillingRequest
+import no.nav.hjelpemidler.delbestilling.delbestilling.model.DelbestillingResultat
+import no.nav.hjelpemidler.delbestilling.delbestilling.model.DelbestillingSak
+import no.nav.hjelpemidler.delbestilling.delbestilling.model.DellinjeStatus
+import no.nav.hjelpemidler.delbestilling.delbestilling.model.HjelpemiddelMedDeler
+import no.nav.hjelpemidler.delbestilling.delbestilling.model.Hmsnr
+import no.nav.hjelpemidler.delbestilling.delbestilling.model.Kilde
+import no.nav.hjelpemidler.delbestilling.delbestilling.model.OppslagFeil
+import no.nav.hjelpemidler.delbestilling.delbestilling.model.OppslagResultat
+import no.nav.hjelpemidler.delbestilling.delbestilling.model.Serienr
+import no.nav.hjelpemidler.delbestilling.delbestilling.model.Status
 import no.nav.hjelpemidler.delbestilling.hjelpemidler.data.hmsnr2Hjm
 import no.nav.hjelpemidler.delbestilling.hjelpemidler.defaultAntall
 import no.nav.hjelpemidler.delbestilling.hjelpemidler.maksAntall
@@ -12,6 +29,7 @@ import no.nav.hjelpemidler.delbestilling.infrastructure.grunndata.Grunndata
 import no.nav.hjelpemidler.delbestilling.infrastructure.monitoring.PersonNotAccessibleInPdl
 import no.nav.hjelpemidler.delbestilling.infrastructure.monitoring.PersonNotFoundInPdl
 import no.nav.hjelpemidler.delbestilling.infrastructure.oebs.Oebs
+import no.nav.hjelpemidler.delbestilling.infrastructure.oebs.OebsSinkService
 import no.nav.hjelpemidler.delbestilling.isDev
 import no.nav.hjelpemidler.delbestilling.isLocal
 import no.nav.hjelpemidler.delbestilling.isProd
@@ -19,6 +37,7 @@ import no.nav.hjelpemidler.delbestilling.metrics.Metrics
 import no.nav.hjelpemidler.delbestilling.oppslag.OppslagService
 import no.nav.hjelpemidler.delbestilling.pdl.PdlService
 import no.nav.hjelpemidler.delbestilling.roller.Delbestiller
+import no.nav.hjelpemidler.delbestilling.roller.Organisasjon
 import no.nav.hjelpemidler.delbestilling.slack.SlackClient
 import no.nav.hjelpemidler.domain.person.Fødselsnummer
 import java.time.LocalDate
@@ -36,10 +55,13 @@ class DelbestillingService(
     private val delbestillingRepository: DelbestillingRepository,
     private val pdlService: PdlService,
     private val oebs: Oebs,
+    private val oebsSinkService: OebsSinkService,
     private val oppslagService: OppslagService,
     private val metrics: Metrics,
     private val slackClient: SlackClient,
     private val grunndata: Grunndata,
+    private val anmodningService: AnmodningService,
+    private val piloterService: PiloterService,
 ) {
     suspend fun opprettDelbestilling(
         request: DelbestillingRequest,
@@ -89,13 +111,13 @@ class DelbestillingService(
         // Sjekk at PDL og OEBS kommunenr på bruker stemmer overens
         val oebsBrukerinfo = oebs.hentPersoninfo(brukersFnr)
         val brukerHarSammeKommunenrIOebsOgPdl = oebsBrukerinfo.any { it.leveringKommune == brukerKommunenr }
-        if (!brukerHarSammeKommunenrIOebsOgPdl) {
+        if (!isDev() && !brukerHarSammeKommunenrIOebsOgPdl) {
             log.info { "Ulik leveringsadresse. OEBS: $oebsBrukerinfo, PDL: $brukerKommunenr" }
             return DelbestillingResultat(id, feil = DelbestillingFeil.ULIK_ADRESSE_PDL_OEBS)
         }
 
         // Sjekk om en av innsenders organisasjoner tilhører brukers kommuner
-        val innsendersRepresenterteOrganisasjon =
+        var innsendersRepresenterteOrganisasjon =
             delbestillerRolle.kommunaleOrgs.find { it.kommunenummer == brukerKommunenr }
                 ?: delbestillerRolle.godkjenteIkkeKommunaleOrgs.find { it.kommunenummer == brukerKommunenr }
         val bestillerType: BestillerType =
@@ -103,13 +125,27 @@ class DelbestillingService(
 
         if (innsendersRepresenterteOrganisasjon == null) {
             log.info { "Brukers kommunenr: $brukerKommunenr, innsenders kommuner: ${delbestillerRolle.kommunaleOrgs}, innsenders godkjente ikke-kommunale orgs: ${delbestillerRolle.godkjenteIkkeKommunaleOrgs}" }
-            return DelbestillingResultat(
-                id,
-                feil = DelbestillingFeil.ULIK_GEOGRAFISK_TILKNYTNING,
-            )
+            if (isDev()) {
+                innsendersRepresenterteOrganisasjon = Organisasjon("1234", navn = "Testorg for dev")
+            } else {
+                return DelbestillingResultat(
+                    id,
+                    feil = DelbestillingFeil.ULIK_GEOGRAFISK_TILKNYTNING,
+                )
+            }
         }
 
         val bestillersNavn = pdlService.hentFornavn(bestillerFnr, validerAdressebeskyttelse = false)
+
+        // TODO rydd og splitt ut logikk i egne klasser etc.
+        val delerHmsnr = request.delbestilling.deler.map { it.del.hmsnr }
+        val lagerstatuser = oebs.hentLagerstatusForKommunenummer(brukerKommunenr, delerHmsnr)
+        val berikedeDellinjer = request.delbestilling.deler.map { dellinje ->
+            val lagerstatus =
+                checkNotNull(lagerstatuser.find { it.artikkelnummer == dellinje.del.hmsnr }) { "Mangler lagerstatus for ${dellinje.del.hmsnr}" }
+            dellinje.copy(lagerstatusPåBestillingstidspunkt = lagerstatus)
+        }
+        val delbestilling = request.delbestilling.copy(deler = berikedeDellinjer)
 
         val delbestillingSak = delbestillingRepository.withTransaction(returnGeneratedKeys = true) { tx ->
             val saksnummer = delbestillingRepository.lagreDelbestilling(
@@ -117,7 +153,7 @@ class DelbestillingService(
                 bestillerFnr,
                 brukersFnr,
                 brukerKommunenr,
-                request.delbestilling,
+                delbestilling,
                 brukersKommunenavn,
                 innsendersRepresenterteOrganisasjon,
                 bestillerType,
@@ -125,12 +161,11 @@ class DelbestillingService(
 
             // Hent ut den nye delbestillingsaken
             val nyDelbestillingSak = delbestillingRepository.hentDelbestilling(tx, saksnummer)
+                ?: throw RuntimeException("Klarte ikke hente ut delbestillingsak for saksnummer $saksnummer")
 
-            if (nyDelbestillingSak == null) {
-                throw RuntimeException("Klarte ikke hente ut delbestillingsak for saksnummer $saksnummer")
-            }
+            anmodningService.lagreDelerUtenDekning(nyDelbestillingSak, tx)
 
-            oebs.sendDelbestilling(nyDelbestillingSak, Fødselsnummer(brukersFnr), bestillersNavn)
+            oebsSinkService.sendDelbestilling(nyDelbestillingSak, Fødselsnummer(brukersFnr), bestillersNavn)
 
             nyDelbestillingSak
         }
@@ -168,10 +203,10 @@ class DelbestillingService(
     }
 
     suspend fun oppdaterStatus(saksnummer: Long, status: Status, oebsOrdrenummer: String) {
-        delbestillingRepository.withTransaction { tx ->
+        val delbestilling = delbestillingRepository.withTransaction { tx ->
             val lagretDelbestilling = delbestillingRepository.hentDelbestilling(tx, saksnummer) ?: if (isDev()) {
                 log.info { "Delbestilling $saksnummer finnes ikke i dev. Antar ugyldig testdata fra OeBS og skipper statusoppdatering." }
-                return@withTransaction
+                return@withTransaction null
             } else {
                 error("Kunne ikke oppdatere status for delbestilling $saksnummer fordi den ikke finnes.")
             }
@@ -185,6 +220,20 @@ class DelbestillingService(
             if (lagretDelbestilling.status.ordinal < status.ordinal) {
                 delbestillingRepository.oppdaterStatus(tx, saksnummer, status)
             }
+
+            return@withTransaction lagretDelbestilling
+        }
+
+        try {
+            if (delbestilling != null && status == Status.KLARGJORT) {
+                val lagerstatus = oebs.hentLagerstatusForKommunenummer(
+                    delbestilling.brukersKommunenummer,
+                    delbestilling.delbestilling.deler.map { it.del.hmsnr })
+                val lagerstatusVedInnsending = delbestilling.delbestilling.deler.map { it.lagerstatusPåBestillingstidspunkt }
+                log.info { "Lagerstatus ved status=$status: $lagerstatus. Lagerstatus ved innsending: $lagerstatusVedInnsending" }
+            }
+        } catch (t: Throwable) {
+            log.info(t) { "Forsøk på logging av lagerstatus ved status $status feilet. Ignorerer." }
         }
     }
 
@@ -214,6 +263,7 @@ class DelbestillingService(
             // Oppdater status på dellinje
             val deler = lagretDelbestilling.delbestilling.deler.map { delLinje ->
                 if (delLinje.del.hmsnr == hmsnr) {
+                    metrics.delSkipningsbekreftet(lagretDelbestilling, delLinje, datoOppdatert)
                     val forventetLeveringsdato = NorwegianDateUtil.addWorkingDaysToDate(
                         datoOppdatert.toDate(),
                         LEVERINGSDAGER_FRA_SKIPNINGSBEKREFTELSE
@@ -223,6 +273,7 @@ class DelbestillingService(
                         datoSkipningsbekreftet = datoOppdatert,
                         forventetLeveringsdato = forventetLeveringsdato.toLocalDate(),
                     )
+
                 } else {
                     delLinje
                 }
@@ -264,7 +315,7 @@ class DelbestillingService(
         }
 
         val hjelpemiddelMedDelerGrunndata = try {
-            val grunndataHjelpemiddel = grunndata.hentHjelpemiddel(hmsnr)
+            val grunndataHjelpemiddel = grunndata.hentProdukt(hmsnr)
 
             if (grunndataHjelpemiddel != null) {
                 val deler = grunndata.hentDeler(grunndataHjelpemiddel.seriesId, grunndataHjelpemiddel.id)
@@ -365,12 +416,16 @@ class DelbestillingService(
 
         val brukersKommunenummer = pdlService.hentKommunenummer(brukersFnr)
         val lagerstatusForDeler =
-            oebs.hentLagerstatus(brukersKommunenummer, hjelpemiddelMedDeler.deler.map { it.hmsnr })
+            oebs.hentLagerstatusForKommunenummer(brukersKommunenummer, hjelpemiddelMedDeler.deler.map { it.hmsnr })
 
         // Koble hver del til lagerstatus, og sorter på navn
         hjelpemiddelMedDeler.deler =
             hjelpemiddelMedDeler.deler.map { del ->
-                del.copy(lagerstatus = lagerstatusForDeler.find { it.artikkelnummer == del.hmsnr })
+                val lagerstatus = lagerstatusForDeler.find { it.artikkelnummer == del.hmsnr }
+                if (isDev()) {
+                    log.info { "Lagerstatus for ${del.hmsnr}: $lagerstatus" }
+                }
+                del.copy(lagerstatus = lagerstatus)
             }.sortedBy { it.navn }
 
         val sentral = hjelpemiddelMedDeler.deler.first().lagerstatus?.organisasjons_navn ?: "UKJENT"
@@ -392,7 +447,12 @@ class DelbestillingService(
             log.info { "Antall tilgjengelig deler (ikke minmax) for $hmsnr: $antallDelerTilgjengeligMenIkkePåMinmax" }
         }
 
-        return OppslagResultat(hjelpemiddelMedDeler, null, HttpStatusCode.OK)
+        return OppslagResultat(
+            hjelpemiddelMedDeler,
+            null,
+            HttpStatusCode.OK,
+            piloter = piloterService.hentPiloter(brukersKommunenummer)
+        )
     }
 
     fun hentDelbestillinger(bestillerFnr: String): List<DelbestillingSak> {
@@ -403,12 +463,13 @@ class DelbestillingService(
         val fnrCache = mutableSetOf<String>()
         hmsnr2Hjm.keys.forEach { artnr ->
             log.info { "Leter etter testpersoner med utlån på $artnr" }
-            val fnrMedUtlånPåHjm = oebs.hentFnrSomHarUtlånPåArtnr(artnr)
-            fnrMedUtlånPåHjm.forEach { fnr ->
+            val utlån = oebs.hentFnrSomHarUtlånPåArtnr(artnr)
+            utlån.forEach { (fnr, artnr, serienr, utlånsDato) ->
                 try {
                     if (fnr !in fnrCache) {
                         val kommunenr = pdlService.hentKommunenummer(fnr)
-                        return mapOf("fnr" to fnr, "artnr" to artnr, "kommunenr" to kommunenr)
+                        log.info { "Fant testperson $fnr med utlån på $artnr, $serienr i kommune $kommunenr" }
+                        return mapOf("fnr" to fnr, "artnr" to artnr, "serienr" to serienr, "kommunenr" to kommunenr)
                     }
                 } catch (e: Exception) {
                     // Peronen finnes ikke i PDL. Ignorer og let videre.
@@ -441,7 +502,7 @@ class DelbestillingService(
             slackClient.varsleGrunndataDekkerManuellListeForHjelpemiddel(manuell.hmsnr, manuell.navn)
         }
     }
-    
+
     fun antallDagerSidenSisteBatteribestilling(hmsnr: String, serienr: String): Long? {
         val dellbestillinger = delbestillingRepository.hentDelbestillinger(hmsnr, serienr)
 
@@ -455,6 +516,30 @@ class DelbestillingService(
             .until(LocalDate.now(), ChronoUnit.DAYS)
 
         return antallDagerSiden
+    }
+
+    suspend fun rapporterDelerTilAnmodning(): List<Anmodningrapport> {
+        return try {
+            val rapporter = anmodningService.genererAnmodningsrapporter()
+
+            rapporter.forEach { rapport ->
+                if (rapport.anmodningsbehov.isNotEmpty()) {
+                    val melding = anmodningService.sendAnmodningRapport(rapport)
+                    slackClient.varsleOmAnmodningrapportSomErSendtTilEnhet(rapport.enhetnr, melding)
+                } else {
+                    log.info { "Anmodningsbehov for enhetnr ${rapport.enhetnr} er tomt, alle deler har dermed fått dekning etter innsending. Hopper over." }
+                }
+            }
+
+            // TODO: fjern denne
+            anmodningService.sendTestMail()
+
+            rapporter
+        } catch (t: Throwable) {
+            log.error(t) { "Rapportering av nødvendige anmodninger feilet." }
+            slackClient.varsleOmRapporteringFeilet()
+            throw t
+        }
     }
 }
 

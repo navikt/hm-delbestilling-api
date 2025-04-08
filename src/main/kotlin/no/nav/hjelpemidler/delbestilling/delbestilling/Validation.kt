@@ -1,5 +1,12 @@
 package no.nav.hjelpemidler.delbestilling.delbestilling
 
+import no.nav.hjelpemidler.delbestilling.delbestilling.model.DelLinje
+import no.nav.hjelpemidler.delbestilling.delbestilling.model.Delbestilling
+import no.nav.hjelpemidler.delbestilling.delbestilling.model.DelbestillingRequest
+import no.nav.hjelpemidler.delbestilling.delbestilling.model.Hmsnr
+import no.nav.hjelpemidler.delbestilling.delbestilling.model.OppslagRequest
+import no.nav.hjelpemidler.delbestilling.delbestilling.model.Serienr
+
 fun validateOppslagRequest(req: OppslagRequest) = listOf(
     validateHmsnr(req.hmsnr),
     validateSerienr(req.serienr)
@@ -12,7 +19,12 @@ fun validateDelbestillingRequest(req: DelbestillingRequest): List<String> = list
     listOfNotNull(
         if (req.delbestilling.deler.isEmpty()) "Delbestillingen må inneholde minst én dellinje" else null
     ),
+    validateDeler(req.delbestilling.deler),
 ).flatten()
+
+fun validateDeler(deler: List<DelLinje>) = deler.mapNotNull { del ->
+    if (del.antall < 1) "Kan ikke ha antall < 1. Fant antall=${del.antall} for hmsnr ${del.del.hmsnr}" else null
+}
 
 fun validateHmsnr(hmsnr: Hmsnr) = listOfNotNull(
     if (hmsnr.length != 6) "Hmsnr må ha 6 siffer" else null,
