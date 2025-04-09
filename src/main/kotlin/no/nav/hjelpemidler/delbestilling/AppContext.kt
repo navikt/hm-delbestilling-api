@@ -2,6 +2,7 @@ package no.nav.hjelpemidler.delbestilling
 
 import no.nav.hjelpemidler.delbestilling.delbestilling.DelbestillingRepository
 import no.nav.hjelpemidler.delbestilling.delbestilling.DelbestillingService
+import no.nav.hjelpemidler.delbestilling.delbestilling.Hjelpemiddeldeler
 import no.nav.hjelpemidler.delbestilling.delbestilling.PiloterService
 import no.nav.hjelpemidler.delbestilling.delbestilling.anmodning.AnmodningRepository
 import no.nav.hjelpemidler.delbestilling.delbestilling.anmodning.AnmodningService
@@ -16,7 +17,7 @@ import no.nav.hjelpemidler.delbestilling.infrastructure.oebs.OebsSinkService
 import no.nav.hjelpemidler.delbestilling.kafka.KafkaService
 import no.nav.hjelpemidler.delbestilling.metrics.Metrics
 import no.nav.hjelpemidler.delbestilling.oppslag.OppslagClient
-import no.nav.hjelpemidler.delbestilling.oppslag.OppslagService
+import no.nav.hjelpemidler.delbestilling.oppslag.GeografiService
 import no.nav.hjelpemidler.delbestilling.pdl.PdlClient
 import no.nav.hjelpemidler.delbestilling.pdl.PdlService
 import no.nav.hjelpemidler.delbestilling.roller.RolleClient
@@ -65,7 +66,7 @@ class AppContext {
 
     private val oebs = Oebs(oebsApiProxyClient)
 
-    private val oppslagService = OppslagService(oppslagClient)
+    private val geografiService = GeografiService(oppslagClient)
 
     val rolleService = RolleService(rolleClient)
 
@@ -81,17 +82,20 @@ class AppContext {
 
     val piloterService = PiloterService(norgService)
 
+    val hjelpemiddeldeler = Hjelpemiddeldeler(grunndata)
+
     val delbestillingService = DelbestillingService(
         delbestillingRepository,
         pdlService,
         oebs,
         oebsSinkService,
-        oppslagService,
+        geografiService,
         metrics,
         slackClient,
         grunndata,
         anmodningService,
         piloterService,
+        hjelpemiddeldeler
     )
 
     val hjelpemidlerService = HjelpemidlerService(grunndata)

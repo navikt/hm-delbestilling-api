@@ -8,7 +8,7 @@ on:
       - "CODEOWNERS"
     branches:
       - main
-      - bestille-alle-deler
+      - oppslag-hmsnr
 
 jobs:
   build-and-deploy:

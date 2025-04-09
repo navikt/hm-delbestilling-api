@@ -32,6 +32,8 @@ spec:
     inbound:
       rules:
         - application: hm-delbestilling
+        - application: hm-delbestilling-ekstern
+        - application: hm-delbestilling-prod-mirror
         - application: hm-soknadsbehandling
         - application: hm-delbestilling-api-rapporter-deler-til-anmodning
         - application: tokenx-token-generator

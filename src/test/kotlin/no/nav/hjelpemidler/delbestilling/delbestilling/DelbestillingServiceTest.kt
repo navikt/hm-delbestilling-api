@@ -18,13 +18,12 @@ import no.nav.hjelpemidler.delbestilling.delbestilling.model.Status
 import no.nav.hjelpemidler.delbestilling.delbestillingRequest
 import no.nav.hjelpemidler.delbestilling.delbestillingSak
 import no.nav.hjelpemidler.delbestilling.enhet
-import no.nav.hjelpemidler.delbestilling.infrastructure.email.Email
 import no.nav.hjelpemidler.delbestilling.infrastructure.grunndata.Grunndata
 import no.nav.hjelpemidler.delbestilling.infrastructure.oebs.Oebs
 import no.nav.hjelpemidler.delbestilling.infrastructure.oebs.OebsPersoninfo
 import no.nav.hjelpemidler.delbestilling.infrastructure.oebs.OebsSinkService
 import no.nav.hjelpemidler.delbestilling.kommune
-import no.nav.hjelpemidler.delbestilling.oppslag.OppslagService
+import no.nav.hjelpemidler.delbestilling.oppslag.GeografiService
 import no.nav.hjelpemidler.delbestilling.organisasjon
 import no.nav.hjelpemidler.delbestilling.pdl.PdlService
 import no.nav.hjelpemidler.delbestilling.slack.SlackClient
@@ -52,7 +51,7 @@ internal class DelbestillingServiceTest {
         coEvery { hentKommunenummer(any()) } returns brukersKommunenr
         coEvery { hentFornavn(any(), any()) } returns teknikerNavn
     }
-    private val oppslagService = mockk<OppslagService>(relaxed = true).apply {
+    private val geografiService = mockk<GeografiService>(relaxed = true).apply {
         coEvery { hentKommune(any()) } returns kommune()
     }
     private val lagerstatusMock = listOf(
@@ -76,12 +75,13 @@ internal class DelbestillingServiceTest {
             pdlService,
             oebs,
             oebsSinkService,
-            oppslagService,
+            geografiService,
             mockk(relaxed = true),
             slackClient,
             grunndata,
             anmodningService,
             piloterService,
+            mockk(relaxed = true),
         )
 
     @BeforeEach
@@ -308,10 +308,11 @@ internal class DelbestillingServiceTest {
                 repository, pdlService,
                 oebs,
                 mockk(relaxed = true),
-                oppslagService,
+                geografiService,
                 mockk(relaxed = true),
                 slackClient,
                 grunndata,
+                mockk(relaxed = true),
                 mockk(relaxed = true),
                 mockk(relaxed = true),
             )
@@ -338,12 +339,13 @@ internal class DelbestillingServiceTest {
                 pdlService,
                 oebs,
                 oebsSinkService,
-                oppslagService,
+                geografiService,
                 mockk(relaxed = true),
                 slackClient,
                 grunndata,
                 anmodningService,
                 piloterService,
+                mockk(relaxed = true),
             )
 
         val dellinje = delLinje(antall = 5)
@@ -400,12 +402,13 @@ internal class DelbestillingServiceTest {
                 pdlService,
                 oebs,
                 oebsSinkService,
-                oppslagService,
+                geografiService,
                 mockk(relaxed = true),
                 slackClient,
                 grunndata,
                 anmodningService,
                 piloterService,
+                mockk(relaxed = true),
             )
 
         // Første delbestilling
