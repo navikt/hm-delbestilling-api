@@ -75,12 +75,10 @@ class Email {
         """.trimIndent()
         }
 
-        /*
         if (isDev()) {
             log.info { "Ignorerer utsending av epost i dev." }
             return
         }
-         */
 
         try {
             graphClient.users(avsender).sendMail(
