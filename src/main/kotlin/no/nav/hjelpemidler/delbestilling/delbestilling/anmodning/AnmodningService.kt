@@ -123,13 +123,4 @@ class AnmodningService(
 
         return melding
     }
-
-    suspend fun sendTestMail() {
-        email.sendSimpleMessage(
-            to = "hakonhagen2@gmail.com",
-            subject = "TESTMAIL FRA DIGIHOT",
-            contentType = BodyType.TEXT,
-            content = "Hei på deg."
-        )
-    }
 }
