@@ -347,7 +347,7 @@ class DelbestillingService(
                         hmsnr = grunndataHjelpemiddel.hmsArtNr,
                         deler = deler.map {
                             val kategori = it.articleName.split(" ").first()
-                            val bilder = bildeUrls(it.media, it.hmsArtNr)
+                            val bilder = it.bildeUrls(it.hmsArtNr)
                             Del(
                                 hmsnr = it.hmsArtNr,
                                 navn = it.articleName,
@@ -500,20 +500,6 @@ class DelbestillingService(
             ?: error("Fant ikke utlån for $hmsnr $serienr")
         val kommunenummer = pdlService.hentKommunenummer(brukersFnr)
         return harXKLager(kommunenummer)
-    }
-
-    private fun bildeUrls(media: List<Media>, hmsnr: String): List<String> {
-        val grunndataUrls = media.filter { it.type == "IMAGE" }
-            .sortedBy { it.priority }
-            .map { "https://finnhjelpemiddel.nav.no/imageproxy/400d/${it.uri}" }
-
-        if (grunndataUrls.isNotEmpty()) {
-            return grunndataUrls
-        }
-
-        // Prøv fallback til bilde fra manuell liste
-        val manuellDel = hmsnrTilDel[hmsnr]
-        return manuellDel?.imgs ?: emptyList()
     }
 
     private suspend fun sjekkOmGrunndataDekkerManuellListeForHjm(
