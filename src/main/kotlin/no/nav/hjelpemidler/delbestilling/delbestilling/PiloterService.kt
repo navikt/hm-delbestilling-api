@@ -10,7 +10,7 @@ class PiloterService(
     private val norgService: NorgService
 ) {
     suspend fun hentPiloter(brukersKommunenummer: String): List<Pilot> {
-        val brukersEnhetnr = norgService.hentHmsEnhet(brukersKommunenummer).enhetNr
+        val brukersEnhetnr = norgService.hentArbeidsfordelingenhet(brukersKommunenummer).enhetNr
 
         val piloter = mutableListOf<Pilot>()
 
