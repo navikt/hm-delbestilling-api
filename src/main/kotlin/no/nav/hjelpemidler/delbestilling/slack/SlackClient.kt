@@ -56,22 +56,6 @@ class SlackClient(
                 )
             }
 
-            val delerFraUtvidetSortiment19Feb =
-                delbestillingSak.delbestilling.deler.filter { it.del.datoLagtTil == LocalDate.of(2025, 2, 19) }
-            log.info { "delerFraUtvidetSortiment19Feb: $delerFraUtvidetSortiment19Feb" }
-            if (delerFraUtvidetSortiment19Feb.isNotEmpty()) {
-                slackClient.sendMessage(
-                    username = username,
-                    slackIconEmoji(":tada:"),
-                    channel = channel,
-                    message = "En delbestilling har kommet inn med nye deler som ble lagt til 19 februar, i ${brukersKommunenavn} kommune! Disse delene var: ${
-                        delerFraUtvidetSortiment19Feb.joinToString(
-                            ", "
-                        ) { "${it.del.hmsnr} ${it.del.navn}" }
-                    }"
-                )
-            }
-
             val delerFraGrunndata = delbestillingSak.delbestilling.deler.filter { it.del.kilde == Kilde.GRUNNDATA }
             log.info { "delerFraGrunndata: $delerFraGrunndata" }
             if (delerFraGrunndata.isNotEmpty()) {
