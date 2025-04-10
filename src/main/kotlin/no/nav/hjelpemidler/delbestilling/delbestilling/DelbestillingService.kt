@@ -362,7 +362,6 @@ class DelbestillingService(
                         })
 
                 log.info { "Fant hmsnr ${hjelpemiddelMedDeler.hmsnr} ${hjelpemiddelMedDeler.navn} i grunndata. Denne har ${hjelpemiddelMedDeler.deler.size} egnede deler fra grunndata knyttet til seg" }
-
                 hjelpemiddelMedDeler
             } else {
                 log.info { "Fant ikke ${hmsnr} i grunndata" }
