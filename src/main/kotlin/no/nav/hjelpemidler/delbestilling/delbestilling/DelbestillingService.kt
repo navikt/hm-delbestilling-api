@@ -531,6 +531,10 @@ class DelbestillingService(
                 }
             }
 
+            if (rapporter.isEmpty() || rapporter.all { it.anmodningsbehov.isEmpty() }) {
+                slackClient.varsleOmIngenAnmodninger()
+            }
+
             rapporter
         } catch (t: Throwable) {
             log.error(t) { "Rapportering av nødvendige anmodninger feilet." }
