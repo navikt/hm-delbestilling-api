@@ -102,12 +102,6 @@ class AnmodningService(
     }
 
     suspend fun sendAnmodningRapport(rapport: Anmodningrapport): String {
-        // TODO: fjern denne
-        if (isProd()) {
-            log.info { "rapport før exception kastes: $rapport" }
-            throw RuntimeException("Prøver å sende en anmodningsrapport på mail, stopper her")
-        }
-
         val melding = rapportTilMelding(rapport)
 
         repository.withTransaction { tx ->
