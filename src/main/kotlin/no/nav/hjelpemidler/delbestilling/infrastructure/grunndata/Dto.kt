@@ -27,6 +27,7 @@ data class Produkt(
     val supplierRef: String,
     val attributes: Attributes,
     val isoCategory: String,
+    val supplier: Supplier,
     val media: List<Media>,
 )
 
@@ -36,7 +37,6 @@ data class Media(
     val type: String, // TODO: heller bruk enum
     val text: String,
     val source: String,
-    val supplier: Supplier
 )
 
 data class Attributes(
