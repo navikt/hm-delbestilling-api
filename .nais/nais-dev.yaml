@@ -29,7 +29,7 @@ spec:
     application:
       enabled: true
   ingresses:
-    - https://hm-delbestilling-api.ekstern.dev.nav.no/api/oppslag-ekstern-dev
+    - https://hjelpemidler.ekstern.dev.nav.no/api/oppslag-ekstern-dev
   accessPolicy:
     inbound:
       rules:
