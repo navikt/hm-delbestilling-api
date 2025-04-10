@@ -14,7 +14,6 @@ import no.nav.hjelpemidler.delbestilling.isProd
 import no.nav.hjelpemidler.delbestilling.rapport.Hjelpemiddel
 import no.nav.hjelpemidler.http.slack.slack
 import no.nav.hjelpemidler.http.slack.slackIconEmoji
-import java.time.LocalDate
 
 val log = KotlinLogging.logger { }
 
@@ -151,7 +150,7 @@ class SlackClient(
         )
     }
 
-    suspend fun rapporterOmDelerUtenDekning(
+    suspend fun varsleOmDelerUtenDekning(
         deler: List<AnmodningsbehovForDel>,
         brukersKommunenavn: String,
         enhetnr: String
@@ -164,6 +163,7 @@ class SlackClient(
                 message = """
                     Det har kommet inn delbestilling med følgende deler som ikke har dekning hos enhet $enhetnr (kommune: ${brukersKommunenavn}):
                     ```${deler.joinToString("\n")}```
+                    Disse må kanskje anmodes, ny sjekk gjøres i natt.
                     """.trimIndent(),
             )
         } catch (e: Exception) {

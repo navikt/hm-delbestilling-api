@@ -43,7 +43,7 @@ class AnmodningService(
                 )
             }
 
-            slackClient.rapporterOmDelerUtenDekning(delerUtenDekning, sak.brukersKommunenavn, enhet.enhetNr)
+            slackClient.varsleOmDelerUtenDekning(delerUtenDekning, sak.brukersKommunenavn, enhet.enhetNr)
         }
     }
 
