@@ -5,6 +5,7 @@ import io.ktor.http.HttpStatusCode
 import no.nav.hjelpemidler.delbestilling.delbestilling.model.Del
 import no.nav.hjelpemidler.delbestilling.delbestilling.model.HjelpemiddelMedDeler
 import no.nav.hjelpemidler.delbestilling.delbestilling.model.Kilde
+import no.nav.hjelpemidler.delbestilling.delbestilling.model.Lagerstatus
 import no.nav.hjelpemidler.delbestilling.delbestilling.model.OppslagFeil
 import no.nav.hjelpemidler.delbestilling.delbestilling.model.OppslagResultat
 import no.nav.hjelpemidler.delbestilling.hjelpemidler.data.hmsnr2Hjm
@@ -112,6 +113,20 @@ class Hjelpemiddeldeler(
 
         // Sorter på navn
         hjelpemiddelMedDeler.deler = hjelpemiddelMedDeler.deler.sortedBy { it.navn }
+
+        // legg på pseudo-random lagerstatus
+        hjelpemiddelMedDeler.deler.forEach {
+            val erMinmax = it.hmsnr.toInt() % 3 != 0                // Gjør ca 66% tilgjengelig
+            val antallPåLager = it.hmsnr.takeLast(1).toInt()    // Antall tilgjengelig = siste siffer i hmsnr
+            it.lagerstatus = Lagerstatus(
+                organisasjons_id = 292,
+                organisasjons_navn = "*19 Troms",
+                artikkelnummer = it.hmsnr,
+                minmax = erMinmax,
+                tilgjengelig = antallPåLager,
+                antallDelerPåLager = antallPåLager
+            )
+        }
 
         return OppslagResultat(hjelpemiddelMedDeler, null, HttpStatusCode.OK)
     }

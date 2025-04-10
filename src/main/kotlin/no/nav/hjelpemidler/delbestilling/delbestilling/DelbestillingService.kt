@@ -312,23 +312,7 @@ class DelbestillingService(
 
     suspend fun slåOppHjelpemiddel(hmsnr: String): OppslagResultat {
         log.info { "Slår opp deler til hjelpemiddel $hmsnr" }
-        val tilgjengeligeDeler = hjelpemiddeldeler.finnTilgjengeligeDeler(hmsnr)
-
-        // legg på pseudo-random lagerstatus
-        tilgjengeligeDeler.hjelpemiddel?.deler?.forEach {
-            val erMinmax = it.hmsnr.toInt() % 3 != 0                // Gjør ca 66% tilgjengelig
-            val antallPåLager = it.hmsnr.takeLast(1).toInt()    // Antall tilgjengelig = siste siffer i hmsnr
-            it.lagerstatus = Lagerstatus(
-                organisasjons_id = 292,
-                organisasjons_navn = "*19 Troms",
-                artikkelnummer = it.hmsnr,
-                minmax = erMinmax,
-                tilgjengelig = antallPåLager,
-                antallDelerPåLager = antallPåLager
-            )
-        }
-
-        return tilgjengeligeDeler
+        return hjelpemiddeldeler.finnTilgjengeligeDeler(hmsnr)
     }
 
     suspend fun slåOppHjelpemiddel(hmsnr: String, serienr: String): OppslagResultat {
