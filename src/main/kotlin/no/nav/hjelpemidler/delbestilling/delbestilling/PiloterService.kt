@@ -17,8 +17,8 @@ class PiloterService(
     private val norgService: NorgService
 ) {
     private val cache = Caffeine.newBuilder()
-        .expireAfterWrite(2, TimeUnit.HOURS)
-        .maximumSize(1)
+        .expireAfterWrite(7, TimeUnit.DAYS)
+        .maximumSize(400)
         .build<String, Deferred<List<Pilot>>>()
 
     suspend fun hentPiloter(brukersKommunenummer: String): List<Pilot> = cache.get("piloter_for_kommunenr_$brukersKommunenummer") {
