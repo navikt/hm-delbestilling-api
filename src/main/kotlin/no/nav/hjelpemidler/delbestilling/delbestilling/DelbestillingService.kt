@@ -339,32 +339,6 @@ class DelbestillingService(
                         grunndataHjelpemiddel.hmsArtNr,
                         grunndataHjelpemiddel.articleName
                     )
-
-                    null
-                } else {
-                    val hjelpemiddelMedDeler =
-                        HjelpemiddelMedDeler(
-                            navn = grunndataHjelpemiddel.articleName,
-                            hmsnr = grunndataHjelpemiddel.hmsArtNr,
-                            deler = deler.map {
-                                val kategori = it.articleName.split(" ").first()
-                                val bilder = bildeUrls(it.media, it.hmsArtNr)
-                                Del(
-                                    hmsnr = it.hmsArtNr,
-                                    navn = it.articleName,
-                                    levArtNr = it.supplierRef,
-                                    kategori = kategori,
-                                    maksAntall = maksAntall(kategori, it.isoCategory),
-                                    kilde = Kilde.GRUNNDATA,
-                                    defaultAntall = defaultAntall(kategori),
-                                    img = bilder.firstOrNull(),
-                                    imgs = bilder,
-                                )
-                            })
-
-
-                    log.info { "Fant hmsnr ${hjelpemiddelMedDeler.hmsnr} ${hjelpemiddelMedDeler.navn} i grunndata. Denne har ${hjelpemiddelMedDeler.deler.size} egnede deler fra grunndata knyttet til seg" }
-                    hjelpemiddelMedDeler
                 }
 
                 val hjelpemiddelMedDeler =
@@ -373,6 +347,7 @@ class DelbestillingService(
                         hmsnr = grunndataHjelpemiddel.hmsArtNr,
                         deler = deler.map {
                             val kategori = it.articleName.split(" ").first()
+                            val bilder = bildeUrls(it.media, it.hmsArtNr)
                             Del(
                                 hmsnr = it.hmsArtNr,
                                 navn = it.articleName,
@@ -380,11 +355,14 @@ class DelbestillingService(
                                 kategori = kategori,
                                 maksAntall = maksAntall(kategori, it.isoCategory),
                                 kilde = Kilde.GRUNNDATA,
-                                defaultAntall = defaultAntall(kategori)
+                                defaultAntall = defaultAntall(kategori),
+                                img = bilder.firstOrNull(),
+                                imgs = bilder,
                             )
                         })
 
                 log.info { "Fant hmsnr ${hjelpemiddelMedDeler.hmsnr} ${hjelpemiddelMedDeler.navn} i grunndata. Denne har ${hjelpemiddelMedDeler.deler.size} egnede deler fra grunndata knyttet til seg" }
+
                 hjelpemiddelMedDeler
             } else {
                 log.info { "Fant ikke ${hmsnr} i grunndata" }
