@@ -20,6 +20,9 @@ object Config {
     // Grunndata
     val GRUNNDATA_API_URL by EnvironmentVariable
 
+    // Norg
+    val NORG_API_URL by EnvironmentVariable
+
     // Roller
     val ROLLER_API_URL by EnvironmentVariable
     val ROLLER_API_SCOPE by EnvironmentVariable
@@ -56,6 +59,7 @@ object Config {
 
     // Azure
     val AZURE_APP_CLIENT_ID by EnvironmentVariable
+    val AZURE_APP_CLIENT_SECRET by EnvironmentVariable
     val AZURE_APP_TENANT_ID by EnvironmentVariable
     val AZURE_APP_JWK by EnvironmentVariable
     val AZURE_OPENID_CONFIG_ISSUER by EnvironmentVariable
@@ -76,6 +80,9 @@ object Config {
 
     @External
     val DB_PASSWORD by EnvironmentVariable
+
+    // Epost
+    val EPOST_AVSENDER by EnvironmentVariable
 }
 
 fun isLocal() = Environment.current.tier.isLocal

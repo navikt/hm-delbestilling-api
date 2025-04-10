@@ -1,0 +1,55 @@
+name: build-deploy-dev (job-rapporter-deler-til-anmodning)
+on:
+  push:
+    paths-ignore:
+      - "**.md"
+      - ".gitignore"
+      - "LICENCE"
+      - "CODEOWNERS"
+    branches:
+      - main
+      - bestille-alle-deler
+jobs:
+  build_and_deploy:
+    name: Build, push and deploy
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      id-token: write
+    steps:
+      - name: Checkout latest code
+        uses: actions/checkout@v4
+
+      - name: Set up JDK
+        uses: actions/setup-java@v3
+        with:
+          distribution: temurin
+          java-version: 17
+          cache: gradle
+
+      - name: Validate Gradle wrapper
+        uses: gradle/actions/wrapper-validation@v3
+
+      - uses: gradle/gradle-build-action@v2.7.0
+        env: # Eksluder test dependencies
+          DEPENDENCY_GRAPH_INCLUDE_CONFIGURATIONS: compileClasspath|runtimeClasspath
+        with:
+          arguments: build
+
+      - name: pre-deploy
+        uses: navikt/digihot-deploy/actions/pre-deploy@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build and push image and SBOM to OCI registry
+        uses: nais/docker-build-push@v0
+        id: docker-build-push
+        with:
+          team: teamdigihot
+      - name: Deploy to Nais (dev)
+        uses: nais/deploy/actions/deploy@v2
+        env:
+          CLUSTER: dev
+          RESOURCE: .nais/nais-job-rapporter-deler-til-anmodning-dev.yml
+          VAR: image=${{ steps.docker-build-push.outputs.image }}
+          TELEMETRY: ${{ steps.docker-build-push.outputs.telemetry }}

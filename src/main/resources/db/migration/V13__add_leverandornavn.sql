@@ -1,0 +1,1 @@
+ALTER TABLE anmodninger ADD COLUMN leverandornavn varchar(255) NOT NULL DEFAULT 'Ukjent';

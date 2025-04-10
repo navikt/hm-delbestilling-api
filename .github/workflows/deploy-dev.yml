@@ -28,7 +28,7 @@ jobs:
           cache: gradle
 
       - name: Validate Gradle wrapper
-        uses: gradle/wrapper-validation-action@v1
+        uses: gradle/actions/wrapper-validation@v3
 
       - uses: gradle/gradle-build-action@v2.7.0
         env: # Eksluder test dependencies

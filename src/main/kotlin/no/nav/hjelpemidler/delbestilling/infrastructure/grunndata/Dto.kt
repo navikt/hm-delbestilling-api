@@ -1,6 +1,6 @@
 package no.nav.hjelpemidler.delbestilling.infrastructure.grunndata
 
-import no.nav.hjelpemidler.delbestilling.delbestilling.Hmsnr
+import no.nav.hjelpemidler.delbestilling.delbestilling.model.Hmsnr
 import java.util.UUID
 
 data class ProduktResponse(
@@ -35,13 +35,20 @@ data class Media(
     val priority: Int,
     val type: String, // TODO: heller bruk enum
     val text: String,
-    val source: String
+    val source: String,
+    val supplier: Supplier
 )
 
 data class Attributes(
     val compatibleWith: CompatibleWith? = null,
 )
+
 data class CompatibleWith(
     val seriesIds: List<UUID>? = null,
     val productIds: List<UUID>? = null,
+)
+
+data class Supplier(
+    val name: String,
+    val id: UUID,
 )

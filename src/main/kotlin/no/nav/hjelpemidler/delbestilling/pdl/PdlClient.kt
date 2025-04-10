@@ -25,6 +25,7 @@ import no.nav.hjelpemidler.http.openid.OpenIDClient
 import no.nav.hjelpemidler.http.openid.bearerAuth
 
 private val log = KotlinLogging.logger {}
+private val secureLog = KotlinLogging.logger("tjenestekall")
 
 class PdlClient(
     private val azureAdClient: OpenIDClient,
@@ -49,6 +50,7 @@ class PdlClient(
         val response = pdlRequest<PdlPersonResponse>(hentKommunenummerQuery(fnummer))
         validerPdlOppslag(response, validerAdressebeskyttelse = true)
         loggAdvarsler(response)
+        secureLog.info{"PDLResponse i hentKommunenummer: $response"}
         return getKommunenr(response)
     }
 

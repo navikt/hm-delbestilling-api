@@ -1,6 +1,6 @@
 package no.nav.hjelpemidler.delbestilling.hjelpemidler.data
 
-import no.nav.hjelpemidler.delbestilling.delbestilling.Hmsnr
+import no.nav.hjelpemidler.delbestilling.delbestilling.model.Hmsnr
 
 val hmsnrHjmTilHmsnrDeler = mapOf<Hmsnr, Set<Hmsnr>>(
     "097765" to setOf("168802", "168803", "198643", "198644", "186621"),
@@ -45,7 +45,6 @@ val hmsnrHjmTilHmsnrDeler = mapOf<Hmsnr, Set<Hmsnr>>(
     "168848" to setOf("211200", "157311", "157747", "157310"),
     "132946" to setOf("211200", "157311", "157747", "157310"),
     "154342" to setOf("211200", "157311", "157747", "157310"),
-    "167624" to setOf("238403", "269827", "304570", "249612"),
     "167625" to setOf("238403", "269827", "304570", "249612"),
     "203102" to setOf("238403", "269827", "304570", "249612"),
     "238379" to setOf("238403", "269827", "304570", "249612"),

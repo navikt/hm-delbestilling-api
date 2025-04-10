@@ -2,17 +2,18 @@ package no.nav.hjelpemidler.delbestilling.slack
 
 import io.github.oshai.kotlinlogging.KotlinLogging
 import io.ktor.client.engine.cio.CIO
-import no.nav.hjelpemidler.delbestilling.delbestilling.Del
+import no.nav.hjelpemidler.delbestilling.delbestilling.model.Del
 import no.nav.hjelpemidler.delbestilling.delbestilling.DelbestillingRepository
-import no.nav.hjelpemidler.delbestilling.delbestilling.DelbestillingSak
-import no.nav.hjelpemidler.delbestilling.delbestilling.Kilde
+import no.nav.hjelpemidler.delbestilling.delbestilling.model.DelbestillingSak
+import no.nav.hjelpemidler.delbestilling.delbestilling.model.Kilde
+import no.nav.hjelpemidler.delbestilling.delbestilling.anmodning.AnmodningsbehovForDel
 import no.nav.hjelpemidler.delbestilling.hjelpemidler.data.hmsnrTilDel
+import no.nav.hjelpemidler.delbestilling.infrastructure.email.enhetTilEpostadresse
 import no.nav.hjelpemidler.delbestilling.infrastructure.grunndata.Produkt
 import no.nav.hjelpemidler.delbestilling.isProd
 import no.nav.hjelpemidler.delbestilling.rapport.Hjelpemiddel
 import no.nav.hjelpemidler.http.slack.slack
 import no.nav.hjelpemidler.http.slack.slackIconEmoji
-import java.time.LocalDate
 
 val log = KotlinLogging.logger { }
 
@@ -35,35 +36,22 @@ class SlackClient(
             val antallDelbestillingerFraKommune =
                 delbestillingRepository.hentDelbestillingerForKommune(brukerKommunenr).size
             log.info { "antallDelbestillingerFraKommune for $brukersKommunenavn (brukerKommunenr: $brukerKommunenr): $antallDelbestillingerFraKommune" }
+
+            val kommuneVåpenEmoji = ":${brukersKommunenavn.lowercase().replace('æ', 'e').replace('ø', 'o').replace('å', 'a').replace(' ', '_')}_vapen:"
+
             if (antallDelbestillingerFraKommune == 1) {
                 slackClient.sendMessage(
                     username = username,
                     slackIconEmoji(":news:"),
                     channel = channel,
-                    message = "Ny kommune har for første gang sendt inn digital delbestilling! Denne gangen var det ${brukersKommunenavn} kommune (kommunenummer: $brukerKommunenr)"
+                    message = "$kommuneVåpenEmoji Ny kommune har for første gang sendt inn digital delbestilling! Denne gangen var det ${brukersKommunenavn} kommune (kommunenummer: $brukerKommunenr)"
                 )
             } else if (antallDelbestillingerFraKommune == 4) {
                 slackClient.sendMessage(
                     username = username,
                     slackIconEmoji(":chart_with_upwards_trend:"),
                     channel = channel,
-                    message = "Ny kommune har sendt inn 4 digitale delbestillinger! Denne gangen var det ${brukersKommunenavn} kommune (kommunenummer: $brukerKommunenr)"
-                )
-            }
-
-            val delerFraUtvidetSortiment19Feb =
-                delbestillingSak.delbestilling.deler.filter { it.del.datoLagtTil == LocalDate.of(2025, 2, 19) }
-            log.info { "delerFraUtvidetSortiment19Feb: $delerFraUtvidetSortiment19Feb" }
-            if (delerFraUtvidetSortiment19Feb.isNotEmpty()) {
-                slackClient.sendMessage(
-                    username = username,
-                    slackIconEmoji(":tada:"),
-                    channel = channel,
-                    message = "En delbestilling har kommet inn med nye deler som ble lagt til 19 februar, i ${brukersKommunenavn} kommune! Disse delene var: ${
-                        delerFraUtvidetSortiment19Feb.joinToString(
-                            ", "
-                        ) { "${it.del.hmsnr} ${it.del.navn}" }
-                    }"
+                    message = "$kommuneVåpenEmoji Ny kommune har sendt inn 4 digitale delbestillinger! Denne gangen var det ${brukersKommunenavn} kommune (kommunenummer: $brukerKommunenr)"
                 )
             }
 
@@ -160,5 +148,90 @@ class SlackClient(
             channel = channel,
             message = "Hjelpemiddelet $hmsnr '$navn' har alle deler fra manuell liste i grunndata også. Det kan dermed fjernes fra den manuelle listen :broom:"
         )
+    }
+
+    suspend fun varsleOmDelerUtenDekning(
+        deler: List<AnmodningsbehovForDel>,
+        brukersKommunenavn: String,
+        enhetnr: String
+    ) {
+        try {
+            slackClient.sendMessage(
+                username = username,
+                slackIconEmoji(":pepe_cowboy:"),
+                channel = channel,
+                message = """
+                    Det har kommet inn delbestilling med følgende deler som ikke har dekning hos enhet $enhetnr (kommune: ${brukersKommunenavn}):
+                    ```${deler.joinToString("\n")}```
+                    Disse må kanskje anmodes, ny sjekk gjøres i natt.
+                    """.trimIndent(),
+            )
+        } catch (e: Exception) {
+            log.error(e) { "Klarte ikke sende varsle til Slack deler uten dekning" }
+        }
+    }
+
+    suspend fun varsleOmManglendeHmsnr(hmsnr: String) {
+        try {
+            slackClient.sendMessage(
+                username = username,
+                slackIconEmoji(":thinkies:"),
+                channel = channel,
+                message = "Det ble gjort et oppslag på `$hmsnr`, men dette er et produkt som verken finnes i manuell liste eller i grunndata."
+            )
+        } catch (e: Exception) {
+            log.error(e) { "Klarte ikke sende varsle til Slack om manglende hmsnr" }
+            // Ikke kast feil videre, ikke krise hvis denne feiler
+        }
+    }
+
+    suspend fun varsleOmAnmodningrapportSomErSendtTilEnhet(enhetnr: String, melding: String) {
+        val tilEpost = enhetTilEpostadresse(enhetnr)
+
+        try {
+            slackClient.sendMessage(
+                username = username,
+                slackIconEmoji(":mailbox:"),
+                channel = channel,
+                message = """
+                    Følgende mail ble sendt til enhet $enhetnr ($tilEpost):
+                    ```
+                    $melding
+                    ```
+                """.trimIndent(),
+            )
+        } catch (e: Exception) {
+            log.error(e) { "Klarte ikke sende varsle til Slack anmodningrapport som må sendes til enhet" }
+            // Ikke kast feil videre, ikke krise hvis denne feiler
+        }
+    }
+
+    suspend fun varsleOmIngenAnmodninger() {
+        try {
+            slackClient.sendMessage(
+                username = username,
+                slackIconEmoji(":such-empty:"),
+                channel = channel,
+                message = """
+                    Ingen anmodningsrapporter ble sendt ut; alle bestilte deler har hatt lagerdekning.
+                """.trimIndent(),
+            )
+        } catch (e: Exception) {
+            log.error(e) { "Klarte ikke sende varsle til Slack om ingen anmodningsrapporter" }
+            // Ikke kast feil videre, ikke krise hvis denne feiler
+        }
+    }
+
+    suspend fun varsleOmRapporteringFeilet() {
+        try {
+            slackClient.sendMessage(
+                username = username,
+                slackIconEmoji(":error:"),
+                channel = channel,
+                message = "Utsending av mail til HMS om deler som må anmodes feilet. Må følges opp manuelt.",
+            )
+        } catch (e: Exception) {
+            log.error(e) { "Klarte ikke sende varsek til Slack feilende rapportering av nødvendige anmodninger" }
+        }
     }
 }

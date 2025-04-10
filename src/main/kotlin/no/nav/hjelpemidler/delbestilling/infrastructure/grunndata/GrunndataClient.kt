@@ -58,7 +58,7 @@ class GrunndataClient(
         }
     }
 
-    suspend fun hentHjelpemiddel(hmsnr: String): ProduktResponse {
+    suspend fun hentProdukt(hmsnr: String): ProduktResponse {
         return executeQuery(hmsArtNrQuery(hmsnr))
     }
 

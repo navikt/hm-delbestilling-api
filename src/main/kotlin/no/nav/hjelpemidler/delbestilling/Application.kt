@@ -1,5 +1,9 @@
 package no.nav.hjelpemidler.delbestilling
 
+import io.github.oshai.kotlinlogging.KotlinLogging
+import no.nav.hjelpemidler.http.openid.bearerAuth
+import io.ktor.client.request.delete
+import io.ktor.client.request.post
 import io.ktor.server.application.Application
 import io.ktor.server.application.ApplicationCall
 import io.ktor.server.auth.authenticate
@@ -7,6 +11,8 @@ import io.ktor.server.plugins.ratelimit.RateLimitName
 import io.ktor.server.plugins.ratelimit.rateLimit
 import io.ktor.server.routing.route
 import io.ktor.server.routing.routing
+import kotlinx.coroutines.runBlocking
+import no.nav.hjelpemidler.configuration.EnvironmentVariable
 import no.nav.hjelpemidler.delbestilling.delbestilling.azureRoutes
 import no.nav.hjelpemidler.delbestilling.delbestilling.delbestillingApiAuthenticated
 import no.nav.hjelpemidler.delbestilling.delbestilling.delbestillingApiPublic
@@ -14,11 +20,19 @@ import no.nav.hjelpemidler.delbestilling.hjelpemidler.data.validerData
 import no.nav.hjelpemidler.delbestilling.hjelpemidler.hjelpemiddelApi
 import no.nav.hjelpemidler.delbestilling.plugins.medDelbestillerRolle
 import no.nav.hjelpemidler.domain.person.TILLAT_SYNTETISKE_FØDSELSNUMRE
+import no.nav.hjelpemidler.delbestilling.slack.log
 import no.nav.tms.token.support.azure.validation.AzureAuthenticator
 import no.nav.tms.token.support.tokenx.validation.TokenXAuthenticator
 import no.nav.tms.token.support.tokenx.validation.user.TokenXUserFactory
 
-fun main(args: Array<String>): Unit = io.ktor.server.cio.EngineMain.main(args)
+private val log = KotlinLogging.logger{}
+
+fun main(args: Array<String>): Unit {
+    when (System.getenv("CRONJOB_TYPE")) {
+        "RAPPORTER_DELER_TIL_ANMODNING" -> rapporterDelerTilAnmodning()
+        else -> io.ktor.server.cio.EngineMain.main(args)
+    }
+}
 
 fun Application.module() {
     TILLAT_SYNTETISKE_FØDSELSNUMRE = !isProd()
@@ -26,6 +40,26 @@ fun Application.module() {
     validerData()
     configure()
     setupRoutes()
+}
+
+fun rapporterDelerTilAnmodning() {
+    val ctx = JobContext()
+    val DELBESTILLING_API_URL by EnvironmentVariable
+    val DELBESTILLING_API_SCOPE by EnvironmentVariable
+
+    log.info { "Kjører jobb for å rapportere deler til anmodning" }
+
+    runBlocking {
+        if (isDev()) {
+            log.info { "Resetter deler som er rapportert i dev" }
+            ctx.client.delete("${DELBESTILLING_API_URL}/api/rapporter-deler-uten-dekning")
+        }
+
+        val tokenSet = ctx.azureClient.grant(DELBESTILLING_API_SCOPE)
+        ctx.client.post("${DELBESTILLING_API_URL}/api/anmodning/rapporter-deler-til-anmodning") {
+            bearerAuth(tokenSet)
+        }
+    }
 }
 
 fun Application.setupRoutes() {
@@ -40,7 +74,7 @@ fun Application.setupRoutes() {
             }
 
             rateLimit(RateLimitName("public")) {
-                delbestillingApiPublic(ctx.delbestillingService)
+                delbestillingApiPublic(ctx.delbestillingService, ctx.anmodningService)
             }
 
             authenticate(AzureAuthenticator.name) {

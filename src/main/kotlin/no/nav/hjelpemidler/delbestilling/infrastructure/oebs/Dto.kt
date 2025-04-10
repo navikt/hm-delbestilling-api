@@ -1,6 +1,6 @@
 package no.nav.hjelpemidler.delbestilling.infrastructure.oebs
 
-import no.nav.hjelpemidler.delbestilling.delbestilling.Lagerstatus
+import no.nav.hjelpemidler.delbestilling.delbestilling.model.Lagerstatus
 import java.time.LocalDate
 
 data class FnrDto(
@@ -52,6 +52,7 @@ data class LagerstatusRequest(
 )
 
 data class LagerstatusResponse(
+    val antallPåLager: Int,
     val erPåLager: Boolean,
     val organisasjons_id: Int,
     val organisasjons_navn: String,
@@ -78,5 +79,6 @@ data class LagerstatusResponse(
         artikkelnummer = this.artikkelnummer,
         minmax = this.minmax,
         tilgjengelig = this.tilgjengelig,
+        antallDelerPåLager = this.antallPåLager,
     )
 }

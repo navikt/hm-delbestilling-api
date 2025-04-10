@@ -1,4 +1,4 @@
-package no.nav.hjelpemidler.delbestilling.delbestilling
+package no.nav.hjelpemidler.delbestilling.delbestilling.model
 
 enum class Status {
     INNSENDT,
