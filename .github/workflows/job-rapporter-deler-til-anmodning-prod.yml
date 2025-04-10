@@ -1,4 +1,4 @@
-name: deploy-prod
+name: deploy-prod (job-rapporter-deler-til-anmodning)
 on:
   release:
     types: [published]
