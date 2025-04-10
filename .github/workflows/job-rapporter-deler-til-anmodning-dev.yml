@@ -1,4 +1,4 @@
-name: job-rapporter-deler-til-anmodning
+name: build-deploy-dev (job-rapporter-deler-til-anmodning)
 on:
   push:
     paths-ignore:
