@@ -37,19 +37,22 @@ class SlackClient(
             val antallDelbestillingerFraKommune =
                 delbestillingRepository.hentDelbestillingerForKommune(brukerKommunenr).size
             log.info { "antallDelbestillingerFraKommune for $brukersKommunenavn (brukerKommunenr: $brukerKommunenr): $antallDelbestillingerFraKommune" }
+
+            val kommuneVåpenEmoji = ":${brukersKommunenavn.lowercase().replace('æ', 'e').replace('ø', 'o').replace('å', 'a').replace(' ', '_')}_vapen:"
+
             if (antallDelbestillingerFraKommune == 1) {
                 slackClient.sendMessage(
                     username = username,
                     slackIconEmoji(":news:"),
                     channel = channel,
-                    message = "Ny kommune har for første gang sendt inn digital delbestilling! Denne gangen var det ${brukersKommunenavn} kommune (kommunenummer: $brukerKommunenr)"
+                    message = "$kommuneVåpenEmoji Ny kommune har for første gang sendt inn digital delbestilling! Denne gangen var det ${brukersKommunenavn} kommune (kommunenummer: $brukerKommunenr)"
                 )
             } else if (antallDelbestillingerFraKommune == 4) {
                 slackClient.sendMessage(
                     username = username,
                     slackIconEmoji(":chart_with_upwards_trend:"),
                     channel = channel,
-                    message = "Ny kommune har sendt inn 4 digitale delbestillinger! Denne gangen var det ${brukersKommunenavn} kommune (kommunenummer: $brukerKommunenr)"
+                    message = "$kommuneVåpenEmoji Ny kommune har sendt inn 4 digitale delbestillinger! Denne gangen var det ${brukersKommunenavn} kommune (kommunenummer: $brukerKommunenr)"
                 )
             }
 
