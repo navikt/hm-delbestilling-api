@@ -206,6 +206,22 @@ class SlackClient(
         }
     }
 
+    suspend fun varsleOmIngenAnmodninger() {
+        try {
+            slackClient.sendMessage(
+                username = username,
+                slackIconEmoji(":such-empty:"),
+                channel = channel,
+                message = """
+                    Ingen anmodningsrapporter ble sendt ut; alle bestilte deler har hatt lagerdekning.
+                """.trimIndent(),
+            )
+        } catch (e: Exception) {
+            log.error(e) { "Klarte ikke sende varsle til Slack om ingen anmodningsrapporter" }
+            // Ikke kast feil videre, ikke krise hvis denne feiler
+        }
+    }
+
     suspend fun varsleOmRapporteringFeilet() {
         try {
             slackClient.sendMessage(
