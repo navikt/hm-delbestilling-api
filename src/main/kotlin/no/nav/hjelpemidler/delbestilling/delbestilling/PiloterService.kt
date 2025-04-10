@@ -1,24 +1,38 @@
 package no.nav.hjelpemidler.delbestilling.delbestilling
 
+import com.github.benmanes.caffeine.cache.Caffeine
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Deferred
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
 import no.nav.hjelpemidler.delbestilling.delbestilling.model.Pilot
 import no.nav.hjelpemidler.delbestilling.isDev
 import no.nav.hjelpemidler.hjelpemidlerdigitalSoknadapi.tjenester.norg.NorgService
+import java.util.concurrent.TimeUnit
 
 private val ENHETNR_OSLO = "4703"
+private val PILOTENHETER_BESTILLE_IKKE_FASTE_LAGERVARER = listOf(ENHETNR_OSLO)
 
 class PiloterService(
-    val norgService: NorgService
+    private val norgService: NorgService
 ) {
-    suspend fun hentPiloter(brukersKommunenummer: String): List<Pilot> {
-        val brukersEnhetnr = norgService.hentHmsEnhet(brukersKommunenummer).enhetNr
+    private val cache = Caffeine.newBuilder()
+        .expireAfterWrite(2, TimeUnit.HOURS)
+        .maximumSize(1)
+        .build<String, Deferred<List<Pilot>>>()
 
-        val piloter = mutableListOf<Pilot>()
+    suspend fun hentPiloter(brukersKommunenummer: String): List<Pilot> = cache.get("piloter_for_kommunenr_$brukersKommunenummer") {
+        CoroutineScope(Dispatchers.IO).async {
+            val brukersEnhetnr = norgService.hentHmsEnhet(brukersKommunenummer).enhetNr
 
-        if (brukersEnhetnr == ENHETNR_OSLO || isDev()) {
-            piloter.add(Pilot.BESTILLE_IKKE_FASTE_LAGERVARER)
+            val piloter = mutableListOf<Pilot>()
+
+            if (isDev() || PILOTENHETER_BESTILLE_IKKE_FASTE_LAGERVARER.contains(brukersEnhetnr)) {
+                piloter.add(Pilot.BESTILLE_IKKE_FASTE_LAGERVARER)
+            }
+
+            piloter
         }
-
-        return piloter
-    }
+    }.await()
 }
 
