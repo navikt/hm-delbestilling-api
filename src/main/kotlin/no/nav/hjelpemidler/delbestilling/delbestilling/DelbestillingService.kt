@@ -18,6 +18,7 @@ import no.nav.hjelpemidler.delbestilling.delbestilling.model.DellinjeStatus
 import no.nav.hjelpemidler.delbestilling.delbestilling.model.HjelpemiddelMedDeler
 import no.nav.hjelpemidler.delbestilling.delbestilling.model.Hmsnr
 import no.nav.hjelpemidler.delbestilling.delbestilling.model.Kilde
+import no.nav.hjelpemidler.delbestilling.delbestilling.model.Lagerstatus
 import no.nav.hjelpemidler.delbestilling.delbestilling.model.OppslagFeil
 import no.nav.hjelpemidler.delbestilling.delbestilling.model.OppslagResultat
 import no.nav.hjelpemidler.delbestilling.delbestilling.model.Serienr
@@ -34,7 +35,7 @@ import no.nav.hjelpemidler.delbestilling.isDev
 import no.nav.hjelpemidler.delbestilling.isLocal
 import no.nav.hjelpemidler.delbestilling.isProd
 import no.nav.hjelpemidler.delbestilling.metrics.Metrics
-import no.nav.hjelpemidler.delbestilling.oppslag.OppslagService
+import no.nav.hjelpemidler.delbestilling.oppslag.GeografiService
 import no.nav.hjelpemidler.delbestilling.pdl.PdlService
 import no.nav.hjelpemidler.delbestilling.roller.Delbestiller
 import no.nav.hjelpemidler.delbestilling.roller.Organisasjon
@@ -56,12 +57,13 @@ class DelbestillingService(
     private val pdlService: PdlService,
     private val oebs: Oebs,
     private val oebsSinkService: OebsSinkService,
-    private val oppslagService: OppslagService,
+    private val geografiService: GeografiService,
     private val metrics: Metrics,
     private val slackClient: SlackClient,
     private val grunndata: Grunndata,
     private val anmodningService: AnmodningService,
     private val piloterService: PiloterService,
+    private val hjelpemiddeldeler: Hjelpemiddeldeler,
 ) {
     suspend fun opprettDelbestilling(
         request: DelbestillingRequest,
@@ -96,7 +98,7 @@ class DelbestillingService(
         }
 
         val brukersKommunenavn = try {
-            oppslagService.hentKommune(brukerKommunenr).kommunenavn
+            geografiService.hentKommune(brukerKommunenr).kommunenavn
         } catch (e: Exception) {
             // Svelg feil, kommunenavn brukes bare til statistikk så ikke krise hvis den feiler
             "Ukjent"
@@ -229,7 +231,8 @@ class DelbestillingService(
                 val lagerstatus = oebs.hentLagerstatusForKommunenummer(
                     delbestilling.brukersKommunenummer,
                     delbestilling.delbestilling.deler.map { it.del.hmsnr })
-                val lagerstatusVedInnsending = delbestilling.delbestilling.deler.map { it.lagerstatusPåBestillingstidspunkt }
+                val lagerstatusVedInnsending =
+                    delbestilling.delbestilling.deler.map { it.lagerstatusPåBestillingstidspunkt }
                 log.info { "Lagerstatus for sak ${delbestilling.saksnummer} ved status=$status: $lagerstatus. Lagerstatus ved innsending: $lagerstatusVedInnsending" }
             }
         } catch (t: Throwable) {
@@ -305,6 +308,11 @@ class DelbestillingService(
             return DelbestillingFeil.FOR_MANGE_BESTILLINGER_SISTE_24_TIMER
         }
         return null
+    }
+
+    suspend fun slåOppHjelpemiddel(hmsnr: String): OppslagResultat {
+        log.info { "Slår opp deler til hjelpemiddel $hmsnr" }
+        return hjelpemiddeldeler.finnTilgjengeligeDeler(hmsnr)
     }
 
     suspend fun slåOppHjelpemiddel(hmsnr: String, serienr: String): OppslagResultat {

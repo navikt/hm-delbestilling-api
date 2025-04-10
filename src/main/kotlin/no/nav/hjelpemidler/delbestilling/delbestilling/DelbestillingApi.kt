@@ -53,6 +53,12 @@ fun Route.delbestillingApiPublic(
     }
 
     if (isDev()) {
+        post("/oppslag-ekstern-dev") {
+            // Endepunkt for å slå opp deler til hjm. i ekstern-dev. Ignorerer serienr
+            val hmsnr = requireHmsnr(call.receive<OppslagRequest>().hmsnr)
+            call.respond(delbestillingService.slåOppHjelpemiddel(hmsnr))
+        }
+
         get("/finnGyldigTestbruker") {
             call.respond(delbestillingService.finnTestpersonMedTestbartUtlån())
         }
