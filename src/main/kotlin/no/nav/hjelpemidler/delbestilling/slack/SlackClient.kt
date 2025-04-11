@@ -59,9 +59,9 @@ class SlackClient(
             log.info { "delerFraGrunndata: $delerFraGrunndata" }
             if (delerFraGrunndata.isNotEmpty()) {
                 var message =
-                    "En delbestilling har kommet inn med deler fra grunndata, i ${brukersKommunenavn} kommune! Disse delene var: ${
-                        delerFraGrunndata.joinToString(", ") { "`${it.del.hmsnr} ${it.del.navn}`" }
-                    }"
+                    "En delbestilling har kommet inn med deler fra grunndata, i ${brukersKommunenavn} kommune! Disse delene var: ```${
+                        delerFraGrunndata.joinToString("\n") { "`${it.del.hmsnr} ${it.del.navn}`" }
+                    }```"
 
                 val delerIManuellListe = hmsnrTilDel.values.toList()
                 val delerSomOgsåFinnesIManuellListe =
