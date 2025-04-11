@@ -58,20 +58,18 @@ class NorgClient(
             val url = "$baseUrl/arbeidsfordeling/enheter/bestmatch"
             log.info { "Henter arbeidsfordelingenhet med url: '$url'" }
 
-            return@async withContext(Dispatchers.IO) {
-                client.post(url) {
-                    navCorrelationId()
-                    accept(ContentType.Application.Json)
-                    contentType(ContentType.Application.Json)
-                    setBody(
-                        mapOf(
-                            "geografiskOmraade" to kommunenummer,
-                            "tema" to "HJE",
-                            "temagruppe" to "HJLPM",
-                        ),
-                    )
-                }.body<List<ArbeidsfordelingEnhet>>()
-            }
+            client.post(url) {
+                navCorrelationId()
+                accept(ContentType.Application.Json)
+                contentType(ContentType.Application.Json)
+                setBody(
+                    mapOf(
+                        "geografiskOmraade" to kommunenummer,
+                        "tema" to "HJE",
+                        "temagruppe" to "HJLPM",
+                    ),
+                )
+            }.body<List<ArbeidsfordelingEnhet>>()
         }
     }.await()
 }
