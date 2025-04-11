@@ -24,9 +24,11 @@ import no.nav.hjelpemidler.delbestilling.delbestilling.model.OppslagResultat
 import no.nav.hjelpemidler.delbestilling.delbestilling.model.Serienr
 import no.nav.hjelpemidler.delbestilling.delbestilling.model.Status
 import no.nav.hjelpemidler.delbestilling.hjelpemidler.data.hmsnr2Hjm
+import no.nav.hjelpemidler.delbestilling.hjelpemidler.data.hmsnrTilDel
 import no.nav.hjelpemidler.delbestilling.hjelpemidler.defaultAntall
 import no.nav.hjelpemidler.delbestilling.hjelpemidler.maksAntall
 import no.nav.hjelpemidler.delbestilling.infrastructure.grunndata.Grunndata
+import no.nav.hjelpemidler.delbestilling.infrastructure.grunndata.Media
 import no.nav.hjelpemidler.delbestilling.infrastructure.monitoring.PersonNotAccessibleInPdl
 import no.nav.hjelpemidler.delbestilling.infrastructure.monitoring.PersonNotFoundInPdl
 import no.nav.hjelpemidler.delbestilling.infrastructure.oebs.Oebs
@@ -345,6 +347,7 @@ class DelbestillingService(
                         hmsnr = grunndataHjelpemiddel.hmsArtNr,
                         deler = deler.map {
                             val kategori = it.articleName.split(" ").first()
+                            val bilder = it.bildeUrls(it.hmsArtNr)
                             Del(
                                 hmsnr = it.hmsArtNr,
                                 navn = it.articleName,
@@ -352,7 +355,9 @@ class DelbestillingService(
                                 kategori = kategori,
                                 maksAntall = maksAntall(kategori, it.isoCategory),
                                 kilde = Kilde.GRUNNDATA,
-                                defaultAntall = defaultAntall(kategori)
+                                defaultAntall = defaultAntall(kategori),
+                                img = bilder.firstOrNull(),
+                                imgs = bilder,
                             )
                         })
 

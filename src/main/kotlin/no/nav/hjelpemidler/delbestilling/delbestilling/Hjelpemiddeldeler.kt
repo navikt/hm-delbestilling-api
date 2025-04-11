@@ -40,6 +40,7 @@ class Hjelpemiddeldeler(
                         hmsnr = grunndataHjelpemiddel.hmsArtNr,
                         deler = deler.map {
                             val kategori = it.articleName.split(" ").first()
+                            val bilder = it.bildeUrls(it.hmsArtNr)
                             Del(
                                 hmsnr = it.hmsArtNr,
                                 navn = it.articleName,
@@ -47,7 +48,9 @@ class Hjelpemiddeldeler(
                                 kategori = kategori,
                                 maksAntall = maksAntall(kategori, it.isoCategory),
                                 kilde = Kilde.GRUNNDATA,
-                                defaultAntall = defaultAntall(kategori)
+                                defaultAntall = defaultAntall(kategori),
+                                img = bilder.firstOrNull(),
+                                imgs = bilder,
                             )
                         })
 
