@@ -1,5 +1,6 @@
 package no.nav.hjelpemidler.hjelpemidlerdigitalSoknadapi.tjenester.norg
 
+import com.github.benmanes.caffeine.cache.Caffeine
 import io.github.oshai.kotlinlogging.KotlinLogging
 import io.ktor.client.call.body
 import io.ktor.client.engine.HttpClientEngine
@@ -13,12 +14,17 @@ import io.ktor.client.request.post
 import io.ktor.client.request.setBody
 import io.ktor.http.ContentType
 import io.ktor.http.contentType
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
 import kotlinx.coroutines.withContext
 import no.nav.hjelpemidler.delbestilling.Config
+import no.nav.hjelpemidler.delbestilling.delbestilling.model.Pilot
 import no.nav.hjelpemidler.delbestilling.isProd
 import no.nav.hjelpemidler.delbestilling.navCorrelationId
 import no.nav.hjelpemidler.http.createHttpClient
+import java.util.concurrent.TimeUnit
 
 private val log = KotlinLogging.logger {}
 
@@ -42,11 +48,16 @@ class NorgClient(
         }
     }
 
-    internal suspend fun hentArbeidsfordelingenheter(kommunenummer: String): List<ArbeidsfordelingEnhet> {
-        val url = "$baseUrl/arbeidsfordeling/enheter/bestmatch"
-        log.info { "Henter arbeidsfordelingenhet med url: '$url'" }
+    private val cache = Caffeine.newBuilder()
+        .expireAfterWrite(7, TimeUnit.DAYS)
+        .maximumSize(400)
+        .build<String, Deferred<List<ArbeidsfordelingEnhet>>>()
 
-        return withContext(Dispatchers.IO) {
+    internal suspend fun hentArbeidsfordelingenheter(kommunenummer: String): List<ArbeidsfordelingEnhet> = cache.get("arbeidsfordelingenheter_for_kommunenr_$kommunenummer") {
+        CoroutineScope(Dispatchers.IO).async {
+            val url = "$baseUrl/arbeidsfordeling/enheter/bestmatch"
+            log.info { "Henter arbeidsfordelingenhet med url: '$url'" }
+
             client.post(url) {
                 navCorrelationId()
                 accept(ContentType.Application.Json)
@@ -58,7 +69,7 @@ class NorgClient(
                         "temagruppe" to "HJLPM",
                     ),
                 )
-            }.body()
+            }.body<List<ArbeidsfordelingEnhet>>()
         }
-    }
+    }.await()
 }

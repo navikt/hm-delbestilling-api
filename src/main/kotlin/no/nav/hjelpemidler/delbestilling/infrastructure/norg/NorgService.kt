@@ -5,8 +5,7 @@ import io.github.oshai.kotlinlogging.KotlinLogging
 private val log = KotlinLogging.logger {}
 
 class NorgService(private val norgClient: NorgClient) {
-
-    suspend fun hentHmsEnhet(kommunenummer: String): ArbeidsfordelingEnhet {
+    suspend fun hentArbeidsfordelingenhet(kommunenummer: String): ArbeidsfordelingEnhet {
         val enheter = norgClient.hentArbeidsfordelingenheter(kommunenummer)
         if (enheter.size > 1) {
             log.error { "Mottok flere enheter for kommunenummer $kommunenummer: $enheter" }
