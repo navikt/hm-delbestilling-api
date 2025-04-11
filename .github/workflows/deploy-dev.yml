@@ -8,7 +8,7 @@ on:
       - "CODEOWNERS"
     branches:
       - main
-      - oppslag-hmsnr
+      - grunndatabilder
 
 jobs:
   build-and-deploy:

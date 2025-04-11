@@ -1,6 +1,7 @@
 package no.nav.hjelpemidler.delbestilling.infrastructure.grunndata
 
 import no.nav.hjelpemidler.delbestilling.delbestilling.model.Hmsnr
+import no.nav.hjelpemidler.delbestilling.hjelpemidler.data.hmsnrTilDel
 import java.util.UUID
 
 data class ProduktResponse(
@@ -27,7 +28,30 @@ data class Produkt(
     val supplierRef: String,
     val attributes: Attributes,
     val isoCategory: String,
-    val supplier: Supplier
+    val supplier: Supplier,
+    val media: List<Media>,
+) {
+    fun bildeUrls(hmsnr: String): List<String> {
+        val grunndataBildeUrls = media.filter { it.type == "IMAGE" }
+            .sortedBy { it.priority }
+            .map { "https://finnhjelpemiddel.nav.no/imageproxy/400d/${it.uri}" }
+
+        if (grunndataBildeUrls.isNotEmpty()) {
+            return grunndataBildeUrls
+        }
+
+        // Prøv fallback til bilde fra manuell liste
+        val manuellDel = hmsnrTilDel[hmsnr]
+        return manuellDel?.imgs ?: emptyList()
+    }
+}
+
+data class Media(
+    val uri: String,
+    val priority: Int,
+    val type: String, // TODO: heller bruk enum
+    val text: String,
+    val source: String,
 )
 
 data class Attributes(
