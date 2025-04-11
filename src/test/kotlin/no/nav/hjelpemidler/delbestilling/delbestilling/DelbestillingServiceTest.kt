@@ -323,7 +323,7 @@ internal class DelbestillingServiceTest {
     fun `skal lagre anmodningsbehov ved ny delbestilling`() = runTest {
         val enhetnr = "4703"
         val anmodningRepository = AnmodningRepository(ds)
-        val norgService = mockk<NorgService>().also { coEvery { it.hentHmsEnhet(any()) } returns enhet(enhetnr) }
+        val norgService = mockk<NorgService>().also { coEvery { it.hentArbeidsfordelingenhet(any()) } returns enhet(enhetnr) }
         val anmodningService =
             AnmodningService(
                 anmodningRepository,
@@ -386,7 +386,7 @@ internal class DelbestillingServiceTest {
         val hmsnr1 = "111111"
         val hmsnr2 = "222222"
         val anmodningRepository = AnmodningRepository(ds)
-        val norgService = mockk<NorgService>().also { coEvery { it.hentHmsEnhet(any()) } returns enhet(enhetnr) }
+        val norgService = mockk<NorgService>().also { coEvery { it.hentArbeidsfordelingenhet(any()) } returns enhet(enhetnr) }
         val anmodningService =
             AnmodningService(
                 anmodningRepository,

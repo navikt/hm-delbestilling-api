@@ -8,7 +8,6 @@ import no.nav.hjelpemidler.delbestilling.infrastructure.email.Email
 import no.nav.hjelpemidler.delbestilling.infrastructure.email.enhetTilEpostadresse
 import no.nav.hjelpemidler.delbestilling.infrastructure.grunndata.Grunndata
 import no.nav.hjelpemidler.delbestilling.infrastructure.oebs.Oebs
-import no.nav.hjelpemidler.delbestilling.isProd
 import no.nav.hjelpemidler.delbestilling.slack.SlackClient
 import no.nav.hjelpemidler.hjelpemidlerdigitalSoknadapi.tjenester.norg.NorgService
 
@@ -25,7 +24,7 @@ class AnmodningService(
 
     suspend fun lagreDelerUtenDekning(sak: DelbestillingSak, tx: JdbcOperations) {
         val delerUtenDekning = finnDelerUtenDekning(sak)
-        val enhet = norgService.hentHmsEnhet(sak.brukersKommunenummer)
+        val enhet = norgService.hentArbeidsfordelingenhet(sak.brukersKommunenummer)
 
         log.info { "Dekningsjekk: lagrer følgende deler uten dekning: ${delerUtenDekning.joinToString("\n")}" }
 
