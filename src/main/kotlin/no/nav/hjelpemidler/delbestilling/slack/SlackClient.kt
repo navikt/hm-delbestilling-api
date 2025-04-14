@@ -68,7 +68,7 @@ class SlackClient(
                     delerFraGrunndata.filter { del -> delerIManuellListe.find { it.hmsnr == del.del.hmsnr } != null }
 
                 message += if (delerSomOgsåFinnesIManuellListe.isNotEmpty()) {
-                    "Følgende deler finnes også i manuell liste: ```${
+                    "\nFølgende deler finnes også i manuell liste: ```${
                         delerSomOgsåFinnesIManuellListe.joinToString(
                             "\n"
                         ) { "${it.del.hmsnr} ${it.del.navn}" }
