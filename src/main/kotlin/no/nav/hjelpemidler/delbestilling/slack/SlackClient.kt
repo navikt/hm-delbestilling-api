@@ -60,7 +60,7 @@ class SlackClient(
             if (delerFraGrunndata.isNotEmpty()) {
                 var message =
                     "En delbestilling har kommet inn med deler fra grunndata, i ${brukersKommunenavn} kommune! Disse delene var: ```${
-                        delerFraGrunndata.joinToString("\n") { "`${it.del.hmsnr} ${it.del.navn}`" }
+                        delerFraGrunndata.joinToString("\n") { "${it.del.hmsnr} ${it.del.navn}" }
                     }```"
 
                 val delerIManuellListe = hmsnrTilDel.values.toList()
@@ -68,7 +68,7 @@ class SlackClient(
                     delerFraGrunndata.filter { del -> delerIManuellListe.find { it.hmsnr == del.del.hmsnr } != null }
 
                 message += if (delerSomOgsåFinnesIManuellListe.isNotEmpty()) {
-                    ".\nFølgende deler finnes også i manuell liste: ```${
+                    "Følgende deler finnes også i manuell liste: ```${
                         delerSomOgsåFinnesIManuellListe.joinToString(
                             "\n"
                         ) { "${it.del.hmsnr} ${it.del.navn}" }
