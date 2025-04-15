@@ -14,6 +14,7 @@ import io.mockk.every
 import io.mockk.mockk
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.test.runTest
+import no.nav.hjelpemidler.delbestilling.infrastructure.defaultHttpClient
 import no.nav.hjelpemidler.delbestilling.infrastructure.monitoring.PersonNotAccessibleInPdl
 import no.nav.hjelpemidler.delbestilling.infrastructure.monitoring.PersonNotFoundInPdl
 import no.nav.hjelpemidler.http.openid.OpenIDClient
@@ -42,10 +43,9 @@ internal class PdlClientTest {
         val fnr = "123"
         val kommunenr = "3801"
 
-        val mockEngine = MockEngine {
-            respondWithBody(pdlRespons(kommunenr))
-        }
-        val pdlClient = PdlClient(azureAdClient, mockEngine, "test", "test")
+        val mockClient = mockHttpClient(pdlRespons(kommunenr))
+
+        val pdlClient = PdlClient(azureAdClient, mockClient, "test", "test")
         assertEquals(kommunenr, pdlClient.hentKommunenummer(fnr))
     }
 
@@ -54,10 +54,9 @@ internal class PdlClientTest {
         val fnr = "123"
 
         assertThrows<PersonNotFoundInPdl> {
-            val mockEngine = MockEngine {
-                respondWithBody(pdlFeilRespons())
-            }
-            val pdlClient = PdlClient(azureAdClient, mockEngine, "test", "test")
+            val mockClient = mockHttpClient(pdlFeilRespons())
+
+            val pdlClient = PdlClient(azureAdClient, mockClient, "test", "test")
             pdlClient.hentKommunenummer(fnr)
         }
     }
@@ -70,10 +69,9 @@ internal class PdlClientTest {
         println(pdlKode6Respons(kommunenr))
 
         assertThrows<PersonNotAccessibleInPdl> {
-            val mockEngine = MockEngine {
-                respondWithBody(pdlKode6Respons(kommunenr))
-            }
-            val pdlClient = PdlClient(azureAdClient, mockEngine, "test", "test")
+            val mockClient = mockHttpClient(pdlKode6Respons(kommunenr))
+
+            val pdlClient = PdlClient(azureAdClient, mockClient, "test", "test")
             pdlClient.hentKommunenummer(fnr)
         }
     }
@@ -86,10 +84,9 @@ internal class PdlClientTest {
         println(pdlKode6Respons(kommunenr))
 
         assertThrows<PersonNotAccessibleInPdl> {
-            val mockEngine = MockEngine {
-                respondWithBody(pdlKode7Respons(kommunenr))
-            }
-            val pdlClient = PdlClient(azureAdClient, mockEngine, "test", "test")
+            val mockClient = mockHttpClient(pdlKode7Respons(kommunenr))
+
+            val pdlClient = PdlClient(azureAdClient, mockClient, "test", "test")
             pdlClient.hentKommunenummer(fnr)
         }
     }
@@ -99,10 +96,10 @@ internal class PdlClientTest {
         val fnr = "123"
 
         assertThrows<ResponseException> {
-            val mockEngine = MockEngine { _ ->
+            val mockClient = defaultHttpClient(MockEngine { _ ->
                 respondBadRequest()
-            }
-            val pdlClient = PdlClient(azureAdClient, mockEngine, "test", "test")
+            })
+            val pdlClient = PdlClient(azureAdClient, mockClient, "test", "test")
             pdlClient.hentKommunenummer(fnr)
         }
     }
@@ -110,8 +107,8 @@ internal class PdlClientTest {
     @Test
     fun `kan ignorere adressebeskyttelse på navneoppslag`() = runTest {
         val fnr = "123"
-        val mockEngine = MockEngine { respondWithBody(pdlNavnRespons("fornavn", "etternavn")) }
-        val pdlClient = PdlClient(azureAdClient, mockEngine, "test", "test")
+        val mockClient = mockHttpClient(pdlNavnRespons("fornavn", "etternavn"))
+        val pdlClient = PdlClient(azureAdClient, mockClient, "test", "test")
         val response = pdlClient.hentPersonNavn(fnr, validerAdressebeskyttelse = false)
         assertEquals("fornavn", response.data!!.hentPerson!!.navn[0].fornavn)
     }
@@ -230,6 +227,8 @@ fun pdlNavnRespons(fornavn: String, etternavn: String) =
   }
 }
     """.trimIndent()
+
+private fun mockHttpClient(response: String) = defaultHttpClient(MockEngine { respondWithBody(response) })
 
 private fun MockRequestHandleScope.respondWithBody(body: String): HttpResponseData =
     respond(

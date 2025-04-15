@@ -25,6 +25,8 @@ import no.nav.hjelpemidler.delbestilling.delbestilling.model.DelbestillingReques
 import no.nav.hjelpemidler.delbestilling.delbestilling.model.OppslagRequest
 import no.nav.hjelpemidler.delbestilling.delbestilling.validateDelbestillingRequest
 import no.nav.hjelpemidler.delbestilling.delbestilling.validateOppslagRequest
+import no.nav.hjelpemidler.delbestilling.infrastructure.CORRELATION_ID_HEADER
+import no.nav.hjelpemidler.delbestilling.infrastructure.CORRELATION_ID_KEY
 import no.nav.hjelpemidler.delbestilling.infrastructure.monitoring.configureStatusPages
 import no.nav.tms.token.support.azure.validation.azure
 import no.nav.tms.token.support.tokenx.validation.mock.LevelOfAssurance

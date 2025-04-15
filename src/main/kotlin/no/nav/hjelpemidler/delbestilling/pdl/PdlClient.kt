@@ -1,26 +1,21 @@
 package no.nav.hjelpemidler.delbestilling.pdl
 
 import io.github.oshai.kotlinlogging.KotlinLogging
+import io.ktor.client.HttpClient
 import io.ktor.client.call.body
-import io.ktor.client.engine.HttpClientEngine
-import io.ktor.client.engine.cio.CIO
-import io.ktor.client.plugins.HttpRequestRetry
-import io.ktor.client.plugins.defaultRequest
-import io.ktor.client.request.accept
 import io.ktor.client.request.header
 import io.ktor.client.request.headers
 import io.ktor.client.request.post
 import io.ktor.client.request.setBody
-import io.ktor.http.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import no.nav.hjelpemidler.delbestilling.Config
+import no.nav.hjelpemidler.delbestilling.infrastructure.defaultHttpClient
 import no.nav.hjelpemidler.delbestilling.infrastructure.monitoring.PdlRequestFailedException
 import no.nav.hjelpemidler.delbestilling.infrastructure.monitoring.PdlResponseMissingData
 import no.nav.hjelpemidler.delbestilling.infrastructure.monitoring.PersonNotAccessibleInPdl
 import no.nav.hjelpemidler.delbestilling.infrastructure.monitoring.PersonNotFoundInPdl
-import no.nav.hjelpemidler.delbestilling.navCorrelationId
-import no.nav.hjelpemidler.http.createHttpClient
+import no.nav.hjelpemidler.delbestilling.infrastructure.navCorrelationId
 import no.nav.hjelpemidler.http.openid.OpenIDClient
 import no.nav.hjelpemidler.http.openid.bearerAuth
 
@@ -29,22 +24,10 @@ private val secureLog = KotlinLogging.logger("tjenestekall")
 
 class PdlClient(
     private val azureAdClient: OpenIDClient,
-    engine: HttpClientEngine = CIO.create(),
+    private val client: HttpClient = defaultHttpClient(),
     private val baseUrl: String = Config.PDL_GRAPHQL_URL,
     private val apiScope: String = Config.PDL_API_SCOPE,
 ) {
-
-    private val client = createHttpClient(engine = engine) {
-        expectSuccess = true
-        install(HttpRequestRetry) {
-            retryOnExceptionOrServerErrors(maxRetries = 5)
-            exponentialDelay()
-        }
-        defaultRequest {
-            accept(ContentType.Application.Json)
-            contentType(ContentType.Application.Json)
-        }
-    }
 
     suspend fun hentKommunenummer(fnummer: String): String {
         val response = pdlRequest<PdlPersonResponse>(hentKommunenummerQuery(fnummer))

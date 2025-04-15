@@ -1,44 +1,26 @@
 package no.nav.hjelpemidler.delbestilling.roller
 
+import io.github.oshai.kotlinlogging.KotlinLogging
+import io.ktor.client.HttpClient
 import io.ktor.client.call.body
-import io.ktor.client.engine.HttpClientEngine
-import io.ktor.client.engine.cio.CIO
-import io.ktor.client.plugins.HttpRequestRetry
-import io.ktor.client.plugins.defaultRequest
-import io.ktor.client.request.accept
 import io.ktor.client.request.get
 import io.ktor.client.request.header
 import io.ktor.client.request.headers
-import io.ktor.http.ContentType
-import io.ktor.http.contentType
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import io.github.oshai.kotlinlogging.KotlinLogging
 import no.nav.hjelpemidler.delbestilling.Config
-import no.nav.hjelpemidler.delbestilling.navCorrelationId
-import no.nav.hjelpemidler.http.createHttpClient
+import no.nav.hjelpemidler.delbestilling.infrastructure.defaultHttpClient
+import no.nav.hjelpemidler.delbestilling.infrastructure.navCorrelationId
 import no.nav.tms.token.support.tokendings.exchange.TokendingsService
 
 private val logger = KotlinLogging.logger { }
 
 class RolleClient(
     private val tokendingsService: TokendingsService,
-    engine: HttpClientEngine = CIO.create(),
+    private val client: HttpClient = defaultHttpClient(),
     private val url: String = Config.ROLLER_API_URL,
     private val scope: String = Config.ROLLER_API_SCOPE
 ) {
-
-    private val client = createHttpClient(engine = engine) {
-        expectSuccess = true
-        install(HttpRequestRetry) {
-            retryOnExceptionOrServerErrors(maxRetries = 5)
-            exponentialDelay()
-        }
-        defaultRequest {
-            accept(ContentType.Application.Json)
-            contentType(ContentType.Application.Json)
-        }
-    }
 
     suspend fun hentDelbestillerRolle(token: String): DelbestillerResponse {
         val exchangedToken = tokendingsService.exchangeToken(token, scope)

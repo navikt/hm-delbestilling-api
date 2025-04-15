@@ -11,7 +11,7 @@ import io.ktor.server.routing.get
 import io.ktor.server.routing.post
 import io.ktor.server.routing.put
 import io.ktor.server.util.getOrFail
-import no.nav.hjelpemidler.delbestilling.CORRELATION_ID_HEADER
+import no.nav.hjelpemidler.delbestilling.infrastructure.CORRELATION_ID_HEADER
 import no.nav.hjelpemidler.delbestilling.delbestilling.anmodning.AnmodningService
 import no.nav.hjelpemidler.delbestilling.delbestilling.model.DelbestillingFeil
 import no.nav.hjelpemidler.delbestilling.delbestilling.model.DelbestillingRequest
