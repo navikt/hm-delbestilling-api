@@ -1,12 +1,9 @@
-package no.nav.hjelpemidler.delbestilling.kafka
+package no.nav.hjelpemidler.delbestilling.infrastructure.kafka
 
-import com.fasterxml.jackson.databind.SerializationFeature
-import com.fasterxml.jackson.databind.json.JsonMapper
 import com.fasterxml.jackson.databind.node.ObjectNode
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
-import com.fasterxml.jackson.module.kotlin.jacksonMapperBuilder
 import io.github.oshai.kotlinlogging.KotlinLogging
 import no.nav.hjelpemidler.delbestilling.Config.kafkaProducerProperties
+import no.nav.hjelpemidler.delbestilling.jsonMapper
 import org.apache.kafka.clients.producer.KafkaProducer
 import org.apache.kafka.clients.producer.Producer
 import org.apache.kafka.clients.producer.ProducerConfig
@@ -19,13 +16,16 @@ import java.util.concurrent.TimeUnit
 
 private val log = KotlinLogging.logger {}
 
-class KafkaService(
+class Kafka(
     properties: Properties = kafkaProducerProperties,
     private val producer: Producer<String, String> = createProducer(properties),
 ) {
 
     init {
-        Runtime.getRuntime().addShutdownHook(Thread(::shutdownHook))
+        Runtime.getRuntime().addShutdownHook(Thread {
+            log.info { "received shutdown signal, stopping app" }
+            producer.close()
+        })
     }
 
     fun hendelseOpprettet(
@@ -64,17 +64,7 @@ class KafkaService(
     private fun publish(key: String, event: String) {
         producer.send(ProducerRecord("teamdigihot.hm-soknadsbehandling-v1", key, event)).get(5, TimeUnit.SECONDS)
     }
-
-    private fun shutdownHook() {
-        log.info { "received shutdown signal, stopping app" }
-        producer.close()
-    }
 }
-
-private val jsonMapper: JsonMapper = jacksonMapperBuilder()
-    .addModule(JavaTimeModule())
-    .disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS)
-    .build()
 
 private fun createProducer(properties: Properties): Producer<String, String> {
     properties[ProducerConfig.ACKS_CONFIG] = "all"
