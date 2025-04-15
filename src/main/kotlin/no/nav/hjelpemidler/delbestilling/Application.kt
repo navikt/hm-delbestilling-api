@@ -18,6 +18,7 @@ import no.nav.hjelpemidler.delbestilling.delbestilling.delbestillingApiAuthentic
 import no.nav.hjelpemidler.delbestilling.delbestilling.delbestillingApiPublic
 import no.nav.hjelpemidler.delbestilling.hjelpemidler.data.validerData
 import no.nav.hjelpemidler.delbestilling.hjelpemidler.hjelpemiddelApi
+import no.nav.hjelpemidler.delbestilling.infrastructure.monitoring.helsesjekkApi
 import no.nav.hjelpemidler.delbestilling.plugins.medDelbestillerRolle
 import no.nav.hjelpemidler.domain.person.TILLAT_SYNTETISKE_FØDSELSNUMRE
 import no.nav.hjelpemidler.delbestilling.slack.log
@@ -84,7 +85,7 @@ fun Application.setupRoutes() {
             hjelpemiddelApi(ctx.hjelpemidlerService)
         }
 
-        internal()
+        helsesjekkApi()
     }
 
     // Rapportering().rapporter()
