@@ -10,7 +10,7 @@ import no.nav.hjelpemidler.delbestilling.delbestilling.anmodning.Anmodningsbehov
 import no.nav.hjelpemidler.delbestilling.hjelpemidler.data.hmsnrTilDel
 import no.nav.hjelpemidler.delbestilling.infrastructure.email.enhetTilEpostadresse
 import no.nav.hjelpemidler.delbestilling.infrastructure.grunndata.Produkt
-import no.nav.hjelpemidler.delbestilling.isProd
+import no.nav.hjelpemidler.delbestilling.config.isProd
 import no.nav.hjelpemidler.delbestilling.rapport.Hjelpemiddel
 import no.nav.hjelpemidler.http.slack.slack
 import no.nav.hjelpemidler.http.slack.slackIconEmoji

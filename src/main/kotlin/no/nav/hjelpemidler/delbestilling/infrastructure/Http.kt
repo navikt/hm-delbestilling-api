@@ -12,7 +12,7 @@ import io.ktor.http.ContentType
 import io.ktor.http.HttpHeaders
 import io.ktor.http.HttpMessageBuilder
 import io.ktor.http.contentType
-import no.nav.hjelpemidler.delbestilling.isProd
+import no.nav.hjelpemidler.delbestilling.config.isProd
 import no.nav.hjelpemidler.http.createHttpClient
 import org.slf4j.MDC
 

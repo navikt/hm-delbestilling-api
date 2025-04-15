@@ -8,7 +8,7 @@ import io.ktor.client.request.header
 import io.ktor.client.request.headers
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import no.nav.hjelpemidler.delbestilling.Config
+import no.nav.hjelpemidler.delbestilling.config.Config
 import no.nav.hjelpemidler.delbestilling.infrastructure.defaultHttpClient
 import no.nav.hjelpemidler.delbestilling.infrastructure.navCorrelationId
 import no.nav.tms.token.support.tokendings.exchange.TokendingsService

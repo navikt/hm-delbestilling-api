@@ -1,4 +1,4 @@
-package no.nav.hjelpemidler.delbestilling
+package no.nav.hjelpemidler.delbestilling.config
 
 import no.nav.hjelpemidler.configuration.Environment
 import no.nav.hjelpemidler.configuration.EnvironmentVariable
@@ -64,22 +64,6 @@ object Config {
     val AZURE_APP_JWK by EnvironmentVariable
     val AZURE_OPENID_CONFIG_ISSUER by EnvironmentVariable
     val AZURE_OPENID_CONFIG_TOKEN_ENDPOINT by EnvironmentVariable
-
-    // Database
-    @External
-    val DB_HOST by EnvironmentVariable
-
-    @External
-    val DB_PORT by EnvironmentVariable
-
-    @External
-    val DB_DATABASE by EnvironmentVariable
-
-    @External
-    val DB_USERNAME by EnvironmentVariable
-
-    @External
-    val DB_PASSWORD by EnvironmentVariable
 
     // Epost
     val EPOST_AVSENDER by EnvironmentVariable

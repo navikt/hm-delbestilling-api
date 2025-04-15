@@ -1,5 +1,6 @@
 package no.nav.hjelpemidler.delbestilling
 
+import no.nav.hjelpemidler.delbestilling.config.DatabaseConfig
 import no.nav.hjelpemidler.delbestilling.delbestilling.DelbestillingRepository
 import no.nav.hjelpemidler.delbestilling.delbestilling.DelbestillingService
 import no.nav.hjelpemidler.delbestilling.delbestilling.Hjelpemiddeldeler
@@ -56,7 +57,7 @@ class AppContext {
 
     private val pdlClient = PdlClient(azureClient)
 
-    private val ds = Database.migratedDataSource
+    private val ds = DatabaseConfig.migratedDataSource
 
     private val delbestillingRepository = DelbestillingRepository(ds)
 

@@ -2,8 +2,8 @@ package no.nav.hjelpemidler.delbestilling.infrastructure.kafka
 
 import com.fasterxml.jackson.databind.node.ObjectNode
 import io.github.oshai.kotlinlogging.KotlinLogging
-import no.nav.hjelpemidler.delbestilling.Config.kafkaProducerProperties
-import no.nav.hjelpemidler.delbestilling.jsonMapper
+import no.nav.hjelpemidler.delbestilling.config.Config.kafkaProducerProperties
+import no.nav.hjelpemidler.delbestilling.infrastructure.jsonMapper
 import org.apache.kafka.clients.producer.KafkaProducer
 import org.apache.kafka.clients.producer.Producer
 import org.apache.kafka.clients.producer.ProducerConfig

@@ -8,7 +8,7 @@ import io.ktor.client.request.post
 import io.ktor.client.request.setBody
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import no.nav.hjelpemidler.delbestilling.Config
+import no.nav.hjelpemidler.delbestilling.config.Config
 import no.nav.hjelpemidler.delbestilling.infrastructure.defaultHttpClient
 import no.nav.hjelpemidler.delbestilling.infrastructure.grunndata.queries.alleDelerSomKanBestillesQuery
 import no.nav.hjelpemidler.delbestilling.infrastructure.grunndata.queries.alleHjelpemiddelMedIdEllerSeriesIdQuery

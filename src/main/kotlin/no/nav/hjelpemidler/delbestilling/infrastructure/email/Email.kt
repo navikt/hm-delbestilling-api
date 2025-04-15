@@ -10,9 +10,8 @@ import com.microsoft.graph.models.Recipient
 import com.microsoft.graph.models.UserSendMailParameterSet
 import com.microsoft.graph.requests.GraphServiceClient
 import io.github.oshai.kotlinlogging.KotlinLogging
-import no.nav.hjelpemidler.delbestilling.Config
-import no.nav.hjelpemidler.delbestilling.isDev
-import no.nav.hjelpemidler.delbestilling.isProd
+import no.nav.hjelpemidler.delbestilling.config.Config
+import no.nav.hjelpemidler.delbestilling.config.isDev
 import java.util.LinkedList
 
 private val log = KotlinLogging.logger {}

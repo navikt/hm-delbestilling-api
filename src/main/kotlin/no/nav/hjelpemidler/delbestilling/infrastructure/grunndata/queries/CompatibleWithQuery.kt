@@ -1,7 +1,7 @@
 package no.nav.hjelpemidler.delbestilling.infrastructure.grunndata.queries
 
 import com.fasterxml.jackson.databind.JsonNode
-import no.nav.hjelpemidler.delbestilling.jsonMapper
+import no.nav.hjelpemidler.delbestilling.infrastructure.jsonMapper
 import java.util.UUID
 
 fun compatibleWithQuery(seriesId: UUID, produktId: UUID): JsonNode {

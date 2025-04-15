@@ -1,4 +1,4 @@
-package no.nav.hjelpemidler.delbestilling
+package no.nav.hjelpemidler.delbestilling.config
 
 import com.fasterxml.jackson.databind.DeserializationFeature
 import com.fasterxml.jackson.databind.SerializationFeature

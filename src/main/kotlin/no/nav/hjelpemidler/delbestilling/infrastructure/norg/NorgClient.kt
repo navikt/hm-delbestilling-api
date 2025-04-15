@@ -13,7 +13,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
-import no.nav.hjelpemidler.delbestilling.Config
+import no.nav.hjelpemidler.delbestilling.config.Config
 import no.nav.hjelpemidler.delbestilling.infrastructure.defaultHttpClient
 import no.nav.hjelpemidler.delbestilling.infrastructure.navCorrelationId
 import java.util.concurrent.TimeUnit

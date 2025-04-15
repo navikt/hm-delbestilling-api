@@ -14,8 +14,8 @@ import no.nav.hjelpemidler.delbestilling.delbestilling.model.DelbestillingSak
 import no.nav.hjelpemidler.delbestilling.delbestilling.model.Hmsnr
 import no.nav.hjelpemidler.delbestilling.delbestilling.model.Serienr
 import no.nav.hjelpemidler.delbestilling.delbestilling.model.Status
-import no.nav.hjelpemidler.delbestilling.json
-import no.nav.hjelpemidler.delbestilling.jsonMapper
+import no.nav.hjelpemidler.delbestilling.infrastructure.json
+import no.nav.hjelpemidler.delbestilling.infrastructure.jsonMapper
 import no.nav.hjelpemidler.delbestilling.roller.Organisasjon
 import javax.sql.DataSource
 

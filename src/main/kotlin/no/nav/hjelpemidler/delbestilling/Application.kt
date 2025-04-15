@@ -13,6 +13,9 @@ import io.ktor.server.routing.route
 import io.ktor.server.routing.routing
 import kotlinx.coroutines.runBlocking
 import no.nav.hjelpemidler.configuration.EnvironmentVariable
+import no.nav.hjelpemidler.delbestilling.config.configure
+import no.nav.hjelpemidler.delbestilling.config.isDev
+import no.nav.hjelpemidler.delbestilling.config.isProd
 import no.nav.hjelpemidler.delbestilling.delbestilling.azureRoutes
 import no.nav.hjelpemidler.delbestilling.delbestilling.delbestillingApiAuthenticated
 import no.nav.hjelpemidler.delbestilling.delbestilling.delbestillingApiPublic
