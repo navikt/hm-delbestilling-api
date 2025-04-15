@@ -21,7 +21,6 @@ import no.nav.hjelpemidler.delbestilling.enhet
 import no.nav.hjelpemidler.delbestilling.infrastructure.grunndata.Grunndata
 import no.nav.hjelpemidler.delbestilling.infrastructure.oebs.Oebs
 import no.nav.hjelpemidler.delbestilling.infrastructure.oebs.OebsPersoninfo
-import no.nav.hjelpemidler.delbestilling.infrastructure.oebs.OebsSinkService
 import no.nav.hjelpemidler.delbestilling.kommune
 import no.nav.hjelpemidler.delbestilling.oppslag.GeografiService
 import no.nav.hjelpemidler.delbestilling.organisasjon
@@ -64,7 +63,6 @@ internal class DelbestillingServiceTest {
         coEvery { hentLagerstatusForKommunenummer(any(), any()) } returns lagerstatusMock
     }
 
-    private val oebsSinkService = mockk<OebsSinkService>(relaxed = true)
     private val slackClient = mockk<SlackClient>(relaxed = true)
     private val grunndata = mockk<Grunndata>()
     private val anmodningService = mockk<AnmodningService>(relaxed = true)
@@ -74,7 +72,6 @@ internal class DelbestillingServiceTest {
             delbestillingRepository,
             pdlService,
             oebs,
-            oebsSinkService,
             geografiService,
             mockk(relaxed = true),
             slackClient,
@@ -121,7 +118,7 @@ internal class DelbestillingServiceTest {
 
     @Test
     fun `skal ikke lagre delbestilling dersom sending til OEBS feiler`() = runTest {
-        coEvery { oebsSinkService.sendDelbestilling(any(), any(), any()) } throws MockException("Kafka er nede")
+        coEvery { oebs.sendDelbestilling(any(), any(), any()) } throws MockException("Kafka er nede")
         assertEquals(0, delbestillingService.hentDelbestillinger(bestillerFnr).size)
         assertThrows<MockException> {
             delbestillingService.opprettDelbestilling(delbestillingRequest(), bestillerFnr, delbestillerRolle())
@@ -307,7 +304,6 @@ internal class DelbestillingServiceTest {
             val delbestillingService = DelbestillingService(
                 repository, pdlService,
                 oebs,
-                mockk(relaxed = true),
                 geografiService,
                 mockk(relaxed = true),
                 slackClient,
@@ -338,7 +334,6 @@ internal class DelbestillingServiceTest {
                 delbestillingRepository,
                 pdlService,
                 oebs,
-                oebsSinkService,
                 geografiService,
                 mockk(relaxed = true),
                 slackClient,
@@ -401,7 +396,6 @@ internal class DelbestillingServiceTest {
                 delbestillingRepository,
                 pdlService,
                 oebs,
-                oebsSinkService,
                 geografiService,
                 mockk(relaxed = true),
                 slackClient,

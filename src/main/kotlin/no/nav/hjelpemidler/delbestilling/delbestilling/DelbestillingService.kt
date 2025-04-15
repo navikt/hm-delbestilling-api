@@ -29,7 +29,6 @@ import no.nav.hjelpemidler.delbestilling.infrastructure.grunndata.Grunndata
 import no.nav.hjelpemidler.delbestilling.infrastructure.monitoring.PersonNotAccessibleInPdl
 import no.nav.hjelpemidler.delbestilling.infrastructure.monitoring.PersonNotFoundInPdl
 import no.nav.hjelpemidler.delbestilling.infrastructure.oebs.Oebs
-import no.nav.hjelpemidler.delbestilling.infrastructure.oebs.OebsSinkService
 import no.nav.hjelpemidler.delbestilling.config.isDev
 import no.nav.hjelpemidler.delbestilling.config.isLocal
 import no.nav.hjelpemidler.delbestilling.config.isProd
@@ -55,7 +54,6 @@ class DelbestillingService(
     private val delbestillingRepository: DelbestillingRepository,
     private val pdlService: PdlService,
     private val oebs: Oebs,
-    private val oebsSinkService: OebsSinkService,
     private val geografiService: GeografiService,
     private val metrics: Metrics,
     private val slackClient: SlackClient,
@@ -166,7 +164,7 @@ class DelbestillingService(
 
             anmodningService.lagreDelerUtenDekning(nyDelbestillingSak, tx)
 
-            oebsSinkService.sendDelbestilling(nyDelbestillingSak, Fødselsnummer(brukersFnr), bestillersNavn)
+            oebs.sendDelbestilling(nyDelbestillingSak, Fødselsnummer(brukersFnr), bestillersNavn)
 
             nyDelbestillingSak
         }
