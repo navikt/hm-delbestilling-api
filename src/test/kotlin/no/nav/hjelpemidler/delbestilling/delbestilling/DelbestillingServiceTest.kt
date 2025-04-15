@@ -25,7 +25,7 @@ import no.nav.hjelpemidler.delbestilling.kommune
 import no.nav.hjelpemidler.delbestilling.oppslag.GeografiService
 import no.nav.hjelpemidler.delbestilling.organisasjon
 import no.nav.hjelpemidler.delbestilling.pdl.PdlService
-import no.nav.hjelpemidler.delbestilling.slack.SlackClient
+import no.nav.hjelpemidler.delbestilling.infrastructure.slack.Slack
 import no.nav.hjelpemidler.hjelpemidlerdigitalSoknadapi.tjenester.norg.NorgService
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -63,7 +63,7 @@ internal class DelbestillingServiceTest {
         coEvery { hentLagerstatusForKommunenummer(any(), any()) } returns lagerstatusMock
     }
 
-    private val slackClient = mockk<SlackClient>(relaxed = true)
+    private val slack = mockk<Slack>(relaxed = true)
     private val grunndata = mockk<Grunndata>()
     private val anmodningService = mockk<AnmodningService>(relaxed = true)
     private val piloterService = mockk<PiloterService>(relaxed = true)
@@ -74,7 +74,7 @@ internal class DelbestillingServiceTest {
             oebs,
             geografiService,
             mockk(relaxed = true),
-            slackClient,
+            slack,
             grunndata,
             anmodningService,
             piloterService,
@@ -306,7 +306,7 @@ internal class DelbestillingServiceTest {
                 oebs,
                 geografiService,
                 mockk(relaxed = true),
-                slackClient,
+                slack,
                 grunndata,
                 mockk(relaxed = true),
                 mockk(relaxed = true),
@@ -336,7 +336,7 @@ internal class DelbestillingServiceTest {
                 oebs,
                 geografiService,
                 mockk(relaxed = true),
-                slackClient,
+                slack,
                 grunndata,
                 anmodningService,
                 piloterService,
@@ -398,7 +398,7 @@ internal class DelbestillingServiceTest {
                 oebs,
                 geografiService,
                 mockk(relaxed = true),
-                slackClient,
+                slack,
                 grunndata,
                 anmodningService,
                 piloterService,

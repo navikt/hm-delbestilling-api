@@ -37,7 +37,7 @@ import no.nav.hjelpemidler.delbestilling.oppslag.GeografiService
 import no.nav.hjelpemidler.delbestilling.pdl.PdlService
 import no.nav.hjelpemidler.delbestilling.roller.Delbestiller
 import no.nav.hjelpemidler.delbestilling.roller.Organisasjon
-import no.nav.hjelpemidler.delbestilling.slack.SlackClient
+import no.nav.hjelpemidler.delbestilling.infrastructure.slack.Slack
 import no.nav.hjelpemidler.domain.person.Fødselsnummer
 import java.time.LocalDate
 import java.time.LocalDateTime
@@ -56,7 +56,7 @@ class DelbestillingService(
     private val oebs: Oebs,
     private val geografiService: GeografiService,
     private val metrics: Metrics,
-    private val slackClient: SlackClient,
+    private val slack: Slack,
     private val grunndata: Grunndata,
     private val anmodningService: AnmodningService,
     private val piloterService: PiloterService,
@@ -174,7 +174,7 @@ class DelbestillingService(
         sendStatistikk(request.delbestilling, brukersFnr)
 
         if (!isLocal()) {
-            slackClient.varsleOmInnsending(brukerKommunenr, brukersKommunenavn, delbestillingSak)
+            slack.varsleOmInnsending(brukerKommunenr, brukersKommunenavn, delbestillingSak)
         }
 
         return DelbestillingResultat(id, null, delbestillingSak.saksnummer, delbestillingSak)
@@ -326,7 +326,7 @@ class DelbestillingService(
                 val deler = grunndata.hentDeler(grunndataHjelpemiddel.seriesId, grunndataHjelpemiddel.id)
                 if (deler.isEmpty()) {
                     log.info { "Fant hmsnr $hmsnr i grunndata, men den har ingen egnede deler knyttet til seg" }
-                    slackClient.varsleOmIngenDelerTilGrunndataHjelpemiddel(
+                    slack.varsleOmIngenDelerTilGrunndataHjelpemiddel(
                         produkt = grunndataHjelpemiddel,
                         delerIManuellListe = hjelpemiddelMedDelerManuell?.deler ?: emptyList()
                     )
@@ -403,7 +403,7 @@ class DelbestillingService(
 
         if (hjelpemiddelMedDeler == null) {
             log.info { "Fant $hmsnr verken i grunndata eller manuell liste, returnerer TILBYR_IKKE_HJELPEMIDDEL" }
-            slackClient.varsleOmManglendeHmsnr(hmsnr)
+            slack.varsleOmManglendeHmsnr(hmsnr)
             return OppslagResultat(null, OppslagFeil.TILBYR_IKKE_HJELPEMIDDEL, HttpStatusCode.NotFound)
         }
 
@@ -507,7 +507,7 @@ class DelbestillingService(
         val hmsnrGrunndata = grunndata.deler.map { it.hmsnr }.toSet()
 
         if (hmsnrGrunndata.containsAll(hmsnrManuell)) {
-            slackClient.varsleGrunndataDekkerManuellListeForHjelpemiddel(manuell.hmsnr, manuell.navn)
+            slack.varsleGrunndataDekkerManuellListeForHjelpemiddel(manuell.hmsnr, manuell.navn)
         }
     }
 
@@ -533,20 +533,20 @@ class DelbestillingService(
             rapporter.forEach { rapport ->
                 if (rapport.anmodningsbehov.isNotEmpty()) {
                     val melding = anmodningService.sendAnmodningRapport(rapport)
-                    slackClient.varsleOmAnmodningrapportSomErSendtTilEnhet(rapport.enhetnr, melding)
+                    slack.varsleOmAnmodningrapportSomErSendtTilEnhet(rapport.enhetnr, melding)
                 } else {
                     log.info { "Anmodningsbehov for enhetnr ${rapport.enhetnr} er tomt, alle deler har dermed fått dekning etter innsending. Hopper over." }
                 }
             }
 
             if (rapporter.isEmpty() || rapporter.all { it.anmodningsbehov.isEmpty() }) {
-                slackClient.varsleOmIngenAnmodninger()
+                slack.varsleOmIngenAnmodninger()
             }
 
             rapporter
         } catch (t: Throwable) {
             log.error(t) { "Rapportering av nødvendige anmodninger feilet." }
-            slackClient.varsleOmRapporteringFeilet()
+            slack.varsleOmRapporteringFeilet()
             throw t
         }
     }

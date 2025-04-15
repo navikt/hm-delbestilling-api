@@ -24,7 +24,7 @@ import no.nav.hjelpemidler.delbestilling.hjelpemidler.hjelpemiddelApi
 import no.nav.hjelpemidler.delbestilling.infrastructure.monitoring.helsesjekkApi
 import no.nav.hjelpemidler.delbestilling.infrastructure.security.medDelbestillerRolle
 import no.nav.hjelpemidler.domain.person.TILLAT_SYNTETISKE_FØDSELSNUMRE
-import no.nav.hjelpemidler.delbestilling.slack.log
+import no.nav.hjelpemidler.delbestilling.infrastructure.slack.log
 import no.nav.tms.token.support.azure.validation.AzureAuthenticator
 import no.nav.tms.token.support.tokenx.validation.TokenXAuthenticator
 import no.nav.tms.token.support.tokenx.validation.user.TokenXUserFactory
@@ -74,7 +74,7 @@ fun Application.setupRoutes() {
             authenticate(TokenXAuthenticator.name) {
                 medDelbestillerRolle(ctx.rolleService)
 
-                delbestillingApiAuthenticated(ctx.delbestillingService, ctx.slackClient)
+                delbestillingApiAuthenticated(ctx.delbestillingService, ctx.slack)
             }
 
             rateLimit(RateLimitName("public")) {

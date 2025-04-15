@@ -22,7 +22,7 @@ import no.nav.hjelpemidler.delbestilling.pdl.PdlClient
 import no.nav.hjelpemidler.delbestilling.pdl.PdlService
 import no.nav.hjelpemidler.delbestilling.roller.RolleClient
 import no.nav.hjelpemidler.delbestilling.roller.RolleService
-import no.nav.hjelpemidler.delbestilling.slack.SlackClient
+import no.nav.hjelpemidler.delbestilling.infrastructure.slack.Slack
 import no.nav.hjelpemidler.hjelpemidlerdigitalSoknadapi.tjenester.norg.NorgClient
 import no.nav.hjelpemidler.hjelpemidlerdigitalSoknadapi.tjenester.norg.NorgService
 import no.nav.hjelpemidler.http.openid.azureADClient
@@ -69,7 +69,7 @@ class AppContext {
 
     val rolleService = RolleService(rolleClient)
 
-    val slackClient = SlackClient(delbestillingRepository)
+    val slack = Slack(delbestillingRepository)
 
     val norgClient = NorgClient()
 
@@ -77,7 +77,7 @@ class AppContext {
 
     val email = Email()
 
-    val anmodningService = AnmodningService(anmodningRepository, oebs, norgService, slackClient, email, grunndata)
+    val anmodningService = AnmodningService(anmodningRepository, oebs, norgService, slack, email, grunndata)
 
     val piloterService = PiloterService(norgService)
 
@@ -89,7 +89,7 @@ class AppContext {
         oebs,
         geografiService,
         metrics,
-        slackClient,
+        slack,
         grunndata,
         anmodningService,
         piloterService,

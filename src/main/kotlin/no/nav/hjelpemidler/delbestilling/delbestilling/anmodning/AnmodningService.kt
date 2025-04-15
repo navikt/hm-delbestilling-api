@@ -8,7 +8,7 @@ import no.nav.hjelpemidler.delbestilling.infrastructure.email.Email
 import no.nav.hjelpemidler.delbestilling.infrastructure.email.enhetTilEpostadresse
 import no.nav.hjelpemidler.delbestilling.infrastructure.grunndata.Grunndata
 import no.nav.hjelpemidler.delbestilling.infrastructure.oebs.Oebs
-import no.nav.hjelpemidler.delbestilling.slack.SlackClient
+import no.nav.hjelpemidler.delbestilling.infrastructure.slack.Slack
 import no.nav.hjelpemidler.hjelpemidlerdigitalSoknadapi.tjenester.norg.NorgService
 
 private val log = KotlinLogging.logger {}
@@ -17,7 +17,7 @@ class AnmodningService(
     private val repository: AnmodningRepository,
     private val oebs: Oebs,
     private val norgService: NorgService,
-    private val slackClient: SlackClient,
+    private val slack: Slack,
     private val email: Email,
     private val grunndata: Grunndata,
 ) {
@@ -42,7 +42,7 @@ class AnmodningService(
                 )
             }
 
-            slackClient.varsleOmDelerUtenDekning(delerUtenDekning, sak.brukersKommunenavn, enhet.enhetNr)
+            slack.varsleOmDelerUtenDekning(delerUtenDekning, sak.brukersKommunenavn, enhet.enhetNr)
         }
     }
 

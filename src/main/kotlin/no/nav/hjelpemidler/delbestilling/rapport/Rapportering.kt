@@ -8,7 +8,7 @@ import kotlinx.coroutines.launch
 import no.nav.hjelpemidler.delbestilling.config.DatabaseConfig
 import no.nav.hjelpemidler.delbestilling.delbestilling.DelbestillingRepository
 import no.nav.hjelpemidler.delbestilling.infrastructure.grunndata.GrunndataClient
-import no.nav.hjelpemidler.delbestilling.slack.SlackClient
+import no.nav.hjelpemidler.delbestilling.infrastructure.slack.Slack
 
 private val log = KotlinLogging.logger {}
 
@@ -20,8 +20,8 @@ class Rapportering {
                 val grunndataClient = GrunndataClient(baseUrl = "https://finnhjelpemiddel.nav.no")
                 val ds = DatabaseConfig.migratedDataSource
                 val delbestillingRepository = DelbestillingRepository(ds)
-                val slackClient = SlackClient(delbestillingRepository)
-                rapporterHjelpemidlerUtenDelbestillingOgMax10Utlån(slackClient, delbestillingRepository)
+                val slack = Slack(delbestillingRepository)
+                rapporterHjelpemidlerUtenDelbestillingOgMax10Utlån(slack, delbestillingRepository)
             } catch (e: Exception) {
                 log.error(e) { "Rapportering feilet" }
             }
@@ -29,7 +29,7 @@ class Rapportering {
     }
 
     suspend fun rapporterHjelpemidlerUtenDelbestillingOgMax10Utlån(
-        slackClient: SlackClient,
+        slack: Slack,
         delbestillingRepository: DelbestillingRepository
     ) {
         val telling = ANTALL_UTLÅN.map {
@@ -46,7 +46,7 @@ class Rapportering {
 
         val resultat = telling.values.toList().sortedBy { it.utlån }
 
-        slackClient.rapporterAntallBestillingerOgUtlånForHjelpemidler(resultat)
+        slack.rapporterAntallBestillingerOgUtlånForHjelpemidler(resultat)
     }
 }
 

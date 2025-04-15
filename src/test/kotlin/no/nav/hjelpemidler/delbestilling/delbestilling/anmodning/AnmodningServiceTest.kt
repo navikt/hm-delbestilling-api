@@ -1,6 +1,5 @@
 package no.nav.hjelpemidler.delbestilling.delbestilling.anmodning
 
-import io.mockk.coEvery
 import io.mockk.mockk
 import kotlinx.coroutines.test.runTest
 import no.nav.hjelpemidler.delbestilling.TestDatabase
@@ -9,7 +8,7 @@ import no.nav.hjelpemidler.delbestilling.delbestilling
 import no.nav.hjelpemidler.delbestilling.delbestillingSak
 import no.nav.hjelpemidler.delbestilling.infrastructure.email.Email
 import no.nav.hjelpemidler.delbestilling.infrastructure.oebs.Oebs
-import no.nav.hjelpemidler.delbestilling.slack.SlackClient
+import no.nav.hjelpemidler.delbestilling.infrastructure.slack.Slack
 import no.nav.hjelpemidler.hjelpemidlerdigitalSoknadapi.tjenester.norg.NorgService
 import org.junit.jupiter.api.Test
 
@@ -22,7 +21,7 @@ class AnmodningServiceTest {
     val repository = AnmodningRepository(ds)
     val oebs = mockk<Oebs>()
     val norg = mockk<NorgService>()
-    val slack = mockk<SlackClient>(relaxed = true)
+    val slack = mockk<Slack>(relaxed = true)
     val email = mockk<Email>(relaxed = true)
     val anmodningService = AnmodningService(repository, oebs, norg, slack, email, mockk())
 
