@@ -7,7 +7,7 @@ metadata:
     team: teamdigihot
 spec:
   timeZone: Europe/Oslo
-  schedule: '0 8-16 * * MON-FRI' # hvert 60. minutt 08-16 man til fre
+  schedule: '0 12 * * MON-FRI' # kl 12 man til fre
   successfulJobsHistoryLimit: 1
   ttlSecondsAfterFinished: 14400
   restartPolicy: Never
