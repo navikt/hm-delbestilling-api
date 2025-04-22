@@ -23,8 +23,8 @@ import no.nav.hjelpemidler.delbestilling.delbestilling.model.Status
 import no.nav.hjelpemidler.delbestilling.delbestilling.model.XKLagerResponse
 import no.nav.hjelpemidler.delbestilling.config.isDev
 import no.nav.hjelpemidler.delbestilling.infrastructure.security.delbestillerRolleKey
+import no.nav.hjelpemidler.delbestilling.infrastructure.security.tokenXUser
 import no.nav.hjelpemidler.delbestilling.infrastructure.slack.Slack
-import no.nav.hjelpemidler.delbestilling.tokenXUser
 import java.time.LocalDate
 
 private val log = KotlinLogging.logger {}

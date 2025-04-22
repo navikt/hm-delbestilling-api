@@ -7,6 +7,7 @@ import no.nav.hjelpemidler.delbestilling.delbestilling.Hjelpemiddeldeler
 import no.nav.hjelpemidler.delbestilling.delbestilling.PiloterService
 import no.nav.hjelpemidler.delbestilling.delbestilling.anmodning.AnmodningRepository
 import no.nav.hjelpemidler.delbestilling.delbestilling.anmodning.AnmodningService
+import no.nav.hjelpemidler.delbestilling.hjelpemidler.HjelpemiddelRefresher
 import no.nav.hjelpemidler.delbestilling.hjelpemidler.HjelpemidlerService
 import no.nav.hjelpemidler.delbestilling.infrastructure.email.Email
 import no.nav.hjelpemidler.delbestilling.infrastructure.grunndata.Grunndata
@@ -97,4 +98,6 @@ class AppContext {
     )
 
     val hjelpemidlerService = HjelpemidlerService(grunndata)
+
+    val hjelpemiddelRefresher = HjelpemiddelRefresher(hjelpemidlerService)
 }

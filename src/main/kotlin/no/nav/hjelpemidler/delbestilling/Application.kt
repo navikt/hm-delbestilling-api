@@ -6,6 +6,7 @@ import io.ktor.client.request.delete
 import io.ktor.client.request.post
 import io.ktor.server.application.Application
 import io.ktor.server.application.ApplicationCall
+import io.ktor.server.application.ApplicationStopped
 import io.ktor.server.auth.authenticate
 import io.ktor.server.plugins.ratelimit.RateLimitName
 import io.ktor.server.plugins.ratelimit.rateLimit
@@ -41,9 +42,15 @@ fun main(args: Array<String>): Unit {
 fun Application.module() {
     TILLAT_SYNTETISKE_FØDSELSNUMRE = !isProd()
 
+    val ctx = AppContext()
+
     validerData()
     configure()
-    setupRoutes()
+    setupRoutes(ctx)
+
+    environment.monitor.subscribe(ApplicationStopped) {
+        ctx.hjelpemiddelRefresher.cancel()
+    }
 }
 
 fun rapporterDelerTilAnmodning() {
@@ -66,9 +73,7 @@ fun rapporterDelerTilAnmodning() {
     }
 }
 
-fun Application.setupRoutes() {
-    val ctx = AppContext()
-
+fun Application.setupRoutes(ctx: AppContext) {
     routing {
         route("/api") {
             authenticate(TokenXAuthenticator.name) {
@@ -90,8 +95,4 @@ fun Application.setupRoutes() {
 
         helsesjekkApi()
     }
-
-    // Rapportering().rapporter()
 }
-
-fun ApplicationCall.tokenXUser() = TokenXUserFactory.createTokenXUser(this)

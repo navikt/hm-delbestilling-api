@@ -10,7 +10,6 @@ import io.ktor.server.routing.Route
 import io.ktor.util.AttributeKey
 import no.nav.hjelpemidler.delbestilling.roller.Delbestiller
 import no.nav.hjelpemidler.delbestilling.roller.RolleService
-import no.nav.hjelpemidler.delbestilling.tokenXUser
 
 private val log = KotlinLogging.logger {}
 
