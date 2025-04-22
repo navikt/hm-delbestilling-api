@@ -37,7 +37,7 @@ class Slack(
                 message = message
             )
         } catch (e: Exception) {
-            log.error(e) { "Klarte ikke sende varsle til Slack om manglende deler til grunndatahjelpemiddel " }
+            log.error(e) { "Klarte ikke sende varsel til Slack" }
             // Ikke kast feil videre, ikke krise hvis denne feiler
         }
     }
