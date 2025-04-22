@@ -4,7 +4,8 @@ import no.nav.hjelpemidler.delbestilling.config.isDev
 import no.nav.hjelpemidler.hjelpemidlerdigitalSoknadapi.tjenester.norg.NorgService
 
 private val ENHETNR_OSLO = "4703"
-private val PILOTENHETER_BESTILLE_IKKE_FASTE_LAGERVARER = listOf(ENHETNR_OSLO)
+private val ENHETNR_ØST_VIKEN = "4701"
+private val PILOTENHETER_BESTILLE_IKKE_FASTE_LAGERVARER = listOf(ENHETNR_OSLO, ENHETNR_ØST_VIKEN)
 
 class PiloterService(
     private val norgService: NorgService
@@ -21,4 +22,3 @@ class PiloterService(
         return piloter
     }
 }
-

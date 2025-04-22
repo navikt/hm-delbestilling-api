@@ -9,6 +9,7 @@ fun enhetTilEpostadresse(enhetnr: String): String {
 
     return when (enhetnr) {
         "4703" -> "nav.hot.oslo.teknisk.ordrekontor@nav.no"
+        "4701" -> "nav.hot.ost-viken.teknisk.ordrekontor@nav.no"
         else -> throw IllegalArgumentException("Mangler epostadresse for enhet $enhetnr")
     }
 }
