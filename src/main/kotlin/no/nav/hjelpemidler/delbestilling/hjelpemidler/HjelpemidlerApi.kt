@@ -10,7 +10,7 @@ fun Route.hjelpemiddelApi(
 ) {
     get("/hjelpemiddel-titler") {
         call.respond(
-            HjelpemiddelTitlerResponse(hjelpemidlerService.hentAlleHjelpemiddelTitler())
+            HjelpemiddelTitlerResponse(hjelpemidlerService.hentAlleHjelpemiddelTitlerCached())
         )
     }
 }

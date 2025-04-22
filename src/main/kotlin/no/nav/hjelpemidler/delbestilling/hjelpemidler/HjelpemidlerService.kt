@@ -1,47 +1,64 @@
 package no.nav.hjelpemidler.delbestilling.hjelpemidler
 
+import com.github.benmanes.caffeine.cache.AsyncLoadingCache
 import com.github.benmanes.caffeine.cache.Caffeine
-import io.github.oshai.kotlinlogging.KotlinLogging
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.async
+import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.future.await
+import kotlinx.coroutines.future.future
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 import no.nav.hjelpemidler.cache.refreshAfterWrite
 import no.nav.hjelpemidler.delbestilling.hjelpemidler.data.hmsnrTilHjelpemiddel
 import no.nav.hjelpemidler.delbestilling.infrastructure.grunndata.Grunndata
-import java.util.concurrent.TimeUnit
+import kotlin.time.Duration
 import kotlin.time.Duration.Companion.hours
+import kotlin.time.Duration.Companion.seconds
 
-private val cacheDuration = 2.hours
 
 class HjelpemidlerService(
     val grunndata: Grunndata,
+    private val scope: CoroutineScope = CoroutineScope(SupervisorJob() + Dispatchers.Default),
+    cacheDuration: Duration = 2.hours
 ) {
 
-    private val cache = Caffeine.newBuilder()
+    private val cacheKey = "hjelpemidler"
+
+    private val cache: AsyncLoadingCache<String, Set<String>> = Caffeine.newBuilder()
         .refreshAfterWrite(cacheDuration)
         .maximumSize(1)
-        .build<String, Deferred<Set<String>>>()
+        .buildAsync { _, _ -> scope.future { hentAlleHjelpemiddelTitler() } }
 
-    suspend fun hentAlleHjelpemiddelTitler(): Set<String> = cache.get("hjelpemiddeltittler") {
-        CoroutineScope(Dispatchers.IO).async {
-            val alleDelerSomKanBestilles = grunndata.hentAlleDelerSomKanBestilles()
-            val produktIDs = alleDelerSomKanBestilles.map {
-                it.attributes.compatibleWith?.productIds ?: emptyList()
-            }.flatten().toSet()
-            val serieIDs = alleDelerSomKanBestilles.map {
-                it.attributes.compatibleWith?.seriesIds ?: emptyList()
-            }.flatten().toSet()
-            val hjelpemidler = grunndata.hentAlleHjmMedIdEllerSeriesId(seriesIds = serieIDs, produktIds = produktIDs)
-
-            val hjelpemiddelNavnFraGrunndata = hjelpemidler.map { it.title.trim() }.toSet()
-
-            (hjelpemiddelNavnFraGrunndata + hjelpemiddelNavnFraManuellListe()).toSortedSet()
+    init {
+        // Prepopuler cachen og refresh den jevnlig
+        scope.launch {
+            while (isActive) {
+                cache.synchronous().refresh(cacheKey)
+                delay(cacheDuration.plus(1.seconds)) // Legg på 1 sek for å sikre at cachen er utdatert før vi refresher
+            }
         }
-    }.await()
+    }
+
+    suspend fun hentAlleHjelpemiddelTitlerCached(): Set<String> {
+        return cache.get(cacheKey).await()
+    }
+
+    private suspend fun hentAlleHjelpemiddelTitler(): Set<String> {
+        val alleDelerSomKanBestilles = grunndata.hentAlleDelerSomKanBestilles()
+        val produktIDs = alleDelerSomKanBestilles.map {
+            it.attributes.compatibleWith?.productIds ?: emptyList()
+        }.flatten().toSet()
+        val serieIDs = alleDelerSomKanBestilles.map {
+            it.attributes.compatibleWith?.seriesIds ?: emptyList()
+        }.flatten().toSet()
+        val hjelpemidler = grunndata.hentAlleHjmMedIdEllerSeriesId(seriesIds = serieIDs, produktIds = produktIDs)
+
+        val hjelpemiddelNavnFraGrunndata = hjelpemidler.map { it.title.trim() }.toSet()
+
+        return (hjelpemiddelNavnFraGrunndata + hjelpemiddelNavnFraManuellListe()).toSortedSet()
+    }
 }
 
 private fun hjelpemiddelNavnFraManuellListe(): Set<String> {
@@ -53,27 +70,4 @@ private fun hjelpemiddelNavnFraManuellListe(): Set<String> {
     }.toSet()
 
     return hjelpemiddelNavn
-}
-
-class HjelpemiddelRefresher(
-    hjelpemidlerService: HjelpemidlerService,
-    coroutineScope: CoroutineScope = CoroutineScope(Dispatchers.Default),
-) {
-    private val log = KotlinLogging.logger { }
-
-    // Prepopuler cachen og holder den oppdatert
-    val job = coroutineScope.launch {
-        while (isActive) {
-            try {
-                hjelpemidlerService.hentAlleHjelpemiddelTitler()
-            } catch (e: Exception) {
-                log.error(e) { "Feil ved oppvarming/refresh av cache." }
-            }
-            delay(cacheDuration)
-        }
-    }
-
-    fun cancel() {
-        job.cancel()
-    }
 }

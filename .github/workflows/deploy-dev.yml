@@ -8,7 +8,7 @@ on:
       - "CODEOWNERS"
     branches:
       - main
-      - grunndatabilder
+      - refresh-cache
 
 jobs:
   build-and-deploy:
