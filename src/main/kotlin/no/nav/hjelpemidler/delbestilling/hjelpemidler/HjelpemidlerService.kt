@@ -2,6 +2,7 @@ package no.nav.hjelpemidler.delbestilling.hjelpemidler
 
 import com.github.benmanes.caffeine.cache.AsyncLoadingCache
 import com.github.benmanes.caffeine.cache.Caffeine
+import io.github.oshai.kotlinlogging.KotlinLogging
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
@@ -13,10 +14,12 @@ import kotlinx.coroutines.launch
 import no.nav.hjelpemidler.cache.refreshAfterWrite
 import no.nav.hjelpemidler.delbestilling.hjelpemidler.data.hmsnrTilHjelpemiddel
 import no.nav.hjelpemidler.delbestilling.infrastructure.grunndata.Grunndata
+import kotlin.system.measureTimeMillis
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.hours
 import kotlin.time.Duration.Companion.seconds
 
+private val log = KotlinLogging.logger {}
 
 class HjelpemidlerService(
     val grunndata: Grunndata,
@@ -32,11 +35,18 @@ class HjelpemidlerService(
         .buildAsync { _, _ -> scope.future { hentAlleHjelpemiddelTitler() } }
 
     init {
-        // Prepopuler cachen og refresh den jevnlig
+        scope.launch {
+            log.info { "Prepopulerer hjelpemidler cache" }
+            measureTimeMillis {
+                cache.get(cacheKey).await()
+            }.also { log.info { "Prepopulering tok $it ms." } }
+        }
+
         scope.launch {
             while (isActive) {
-                cache.synchronous().refresh(cacheKey)
                 delay(cacheDuration.plus(1.seconds)) // Legg på 1 sek for å sikre at cachen er utdatert før vi refresher
+                log.info { "Refresher hjelpemiddel cache" }
+                cache.synchronous().refresh(cacheKey)
             }
         }
     }

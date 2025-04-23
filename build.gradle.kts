@@ -25,7 +25,7 @@ dependencies {
     // Cache
     implementation(libs.cache.api)
     implementation(libs.caffeine)
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-jdk8:1.10.2") // await() is an extension function from kotlinx-coroutines-jdk8 that turns a CompletableFuture<T> into a T in suspend context.
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-jdk8:1.10.2")
 
     // Kafka
     implementation(libs.kafka.clients)
