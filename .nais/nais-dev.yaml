@@ -28,10 +28,6 @@ spec:
   azure:
     application:
       enabled: true
-  observability:
-    autoInstrumentation:
-      enabled: true
-      runtime: java
   ingresses:
     - https://hjelpemidler.ekstern.dev.nav.no/api/oppslag-ekstern-dev
   accessPolicy:
