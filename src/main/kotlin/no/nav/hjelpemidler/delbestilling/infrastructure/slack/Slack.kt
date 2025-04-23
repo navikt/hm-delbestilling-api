@@ -14,6 +14,7 @@ import no.nav.hjelpemidler.delbestilling.infrastructure.grunndata.Produkt
 import no.nav.hjelpemidler.delbestilling.rapport.Hjelpemiddel
 import no.nav.hjelpemidler.http.slack.slack
 import no.nav.hjelpemidler.http.slack.slackIconEmoji
+import kotlin.system.measureTimeMillis
 
 val log = KotlinLogging.logger { }
 
@@ -30,12 +31,12 @@ class Slack(
 
     private suspend fun sendSafely(emoji: String, message: String) {
         try {
-            client.sendMessage(
+            measureTimeMillis { client.sendMessage(
                 username = username,
                 slackIconEmoji(":$emoji:"),
                 channel = channel,
                 message = message
-            )
+            )}.also { log.info { "Slack melding tok $it ms å sende." } }
         } catch (e: Exception) {
             log.error(e) { "Klarte ikke sende varsel til Slack" }
             // Ikke kast feil videre, ikke krise hvis denne feiler
