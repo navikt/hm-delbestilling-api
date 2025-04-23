@@ -4,6 +4,7 @@ import io.github.oshai.kotlinlogging.KotlinLogging
 import io.ktor.client.request.delete
 import io.ktor.client.request.post
 import io.ktor.server.application.Application
+import io.ktor.server.application.ApplicationStopped
 import io.ktor.server.auth.authenticate
 import io.ktor.server.plugins.ratelimit.RateLimitName
 import io.ktor.server.plugins.ratelimit.rateLimit
@@ -44,6 +45,10 @@ fun Application.module() {
     validerData()
     configure()
     setupRoutes(ctx)
+
+    environment.monitor.subscribe(ApplicationStopped) {
+        ctx.shutdown()
+    }
 }
 
 fun rapporterDelerTilAnmodning() {

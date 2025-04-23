@@ -1,5 +1,9 @@
 package no.nav.hjelpemidler.delbestilling
 
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.cancel
 import no.nav.hjelpemidler.delbestilling.config.DatabaseConfig
 import no.nav.hjelpemidler.delbestilling.delbestilling.DelbestillingRepository
 import no.nav.hjelpemidler.delbestilling.delbestilling.DelbestillingService
@@ -31,6 +35,8 @@ import kotlin.time.Duration.Companion.seconds
 
 
 class AppContext {
+    private val backgroundScope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
+
     private val tokendingsService = TokendingsServiceBuilder.buildTokendingsService()
 
     private val azureClient = azureADClient {
@@ -69,7 +75,7 @@ class AppContext {
 
     val rolleService = RolleService(rolleClient)
 
-    val slack = Slack(delbestillingRepository)
+    val slack = Slack(delbestillingRepository, backgroundScope)
 
     val norgClient = NorgClient()
 
@@ -96,6 +102,9 @@ class AppContext {
         hjelpemiddeldeler
     )
 
-    val hjelpemidlerService = HjelpemidlerService(grunndata)
+    val hjelpemidlerService = HjelpemidlerService(grunndata, backgroundScope)
 
+    fun shutdown() {
+        backgroundScope.cancel("Shutting down application")
+    }
 }
