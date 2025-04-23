@@ -2,6 +2,8 @@ package no.nav.hjelpemidler.delbestilling.delbestilling
 
 import io.github.oshai.kotlinlogging.KotlinLogging
 import io.ktor.http.HttpStatusCode
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 import no.bekk.bekkopen.date.NorwegianDateUtil
@@ -312,7 +314,13 @@ class DelbestillingService(
         return hjelpemiddeldeler.finnTilgjengeligeDeler(hmsnr)
     }
 
-    suspend fun slåOppHjelpemiddel(hmsnr: String, serienr: String): OppslagResultat {
+    suspend fun slåOppHjelpemiddel(hmsnr: String, serienr: String): OppslagResultat = coroutineScope {
+        val brukersKommunenummerResult = async {
+            val brukersFnr = oebs.hentFnrLeietaker(hmsnr, serienr)
+                ?: return@async null
+            pdlService.hentKommunenummer(brukersFnr)
+        }
+
         val hjelpemiddelMedDelerManuell = hmsnr2Hjm[hmsnr].also {
             if (it == null) {
                 log.info { "Fant ikke ${hmsnr} i manuell liste" }
@@ -324,7 +332,7 @@ class DelbestillingService(
 
             if (grunndataHjelpemiddel != null) {
                 if (!grunndataHjelpemiddel.main) {
-                    return OppslagResultat(null, OppslagFeil.IKKE_HOVEDHJELPEMIDDEL, HttpStatusCode.NotFound)
+                    return@coroutineScope OppslagResultat(null, OppslagFeil.IKKE_HOVEDHJELPEMIDDEL, HttpStatusCode.NotFound)
                 }
 
                 val deler = grunndata.hentDeler(grunndataHjelpemiddel.seriesId, grunndataHjelpemiddel.id)
@@ -408,12 +416,12 @@ class DelbestillingService(
         if (hjelpemiddelMedDeler == null) {
             log.info { "Fant $hmsnr verken i grunndata eller manuell liste, returnerer TILBYR_IKKE_HJELPEMIDDEL" }
             slack.varsleOmManglendeHmsnr(hmsnr)
-            return OppslagResultat(null, OppslagFeil.TILBYR_IKKE_HJELPEMIDDEL, HttpStatusCode.NotFound)
+            return@coroutineScope OppslagResultat(null, OppslagFeil.TILBYR_IKKE_HJELPEMIDDEL, HttpStatusCode.NotFound)
         }
 
         if (hjelpemiddelMedDeler.deler.isEmpty()) {
             log.info { "Fant ingen deler i verken grunndata eller manuell liste for $hmsnr, returnerer TILBYR_IKKE_HJELPEMIDDEL" }
-            return OppslagResultat(null, OppslagFeil.TILBYR_IKKE_HJELPEMIDDEL, HttpStatusCode.NotFound)
+            return@coroutineScope OppslagResultat(null, OppslagFeil.TILBYR_IKKE_HJELPEMIDDEL, HttpStatusCode.NotFound)
         }
 
         // For sjekk av hvilke deler som inneholder "batteri" i navnet, for å se om vi må utvide batteri-sjekk
@@ -423,10 +431,7 @@ class DelbestillingService(
             log.info { "Deler med 'batteri' i navnet på oppslag: $delerMedBatteriINavn" }
         }
 
-        val brukersFnr = oebs.hentFnrLeietaker(hmsnr, serienr)
-            ?: return OppslagResultat(null, OppslagFeil.INGET_UTLÅN, HttpStatusCode.NotFound)
-
-        val brukersKommunenummer = pdlService.hentKommunenummer(brukersFnr)
+        val brukersKommunenummer = brukersKommunenummerResult.await() ?: return@coroutineScope OppslagResultat(null, OppslagFeil.INGET_UTLÅN, HttpStatusCode.NotFound)
         val lagerstatusForDeler =
             oebs.hentLagerstatusForKommunenummer(brukersKommunenummer, hjelpemiddelMedDeler.deler.map { it.hmsnr })
 
@@ -459,7 +464,7 @@ class DelbestillingService(
             log.info { "Antall tilgjengelig deler (ikke minmax) for $hmsnr: $antallDelerTilgjengeligMenIkkePåMinmax" }
         }
 
-        return OppslagResultat(
+        OppslagResultat(
             hjelpemiddelMedDeler,
             null,
             HttpStatusCode.OK,
@@ -500,7 +505,7 @@ class DelbestillingService(
         return harXKLager(kommunenummer)
     }
 
-    private suspend fun sjekkOmGrunndataDekkerManuellListeForHjm(
+    private fun sjekkOmGrunndataDekkerManuellListeForHjm(
         manuell: HjelpemiddelMedDeler?,
         grunndata: HjelpemiddelMedDeler?
     ) {
