@@ -78,13 +78,13 @@ class Slack(
 
                 val delerIManuellListe = hmsnrTilDel.values.toList()
                 val delerSomOgsåFinnesIManuellListe =
-                    delerFraGrunndata.filter { del -> delerIManuellListe.find { it.hmsnr == del.del.hmsnr } != null }
+                    delerIManuellListe.filter { del -> delerFraGrunndata.find { it.del.hmsnr == del.hmsnr } != null }
 
                 message += if (delerSomOgsåFinnesIManuellListe.isNotEmpty()) {
                     "\nFølgende deler finnes også i manuell liste: ```${
                         delerSomOgsåFinnesIManuellListe.joinToString(
                             "\n"
-                        ) { "${it.del.hmsnr} ${it.del.navn}" }
+                        ) { "${it.hmsnr} ${it.navn}" }
                     }```"
                 } else {
                     "\nIngen av delene finnes i manuell liste; kun i grunndata!"
