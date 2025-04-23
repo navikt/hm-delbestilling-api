@@ -30,6 +30,9 @@ data class Produkt(
     val isoCategory: String,
     val supplier: Supplier,
     val media: List<Media>,
+    val accessory: Boolean,
+    val sparePart: Boolean,
+    val main: Boolean,
 ) {
     fun bildeUrls(hmsnr: String): List<String> {
         val grunndataBildeUrls = media.filter { it.type == "IMAGE" }

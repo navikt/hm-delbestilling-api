@@ -42,7 +42,7 @@ enum class Pilot {
 }
 
 enum class OppslagFeil {
-    TILBYR_IKKE_HJELPEMIDDEL, INGET_UTLÅN
+    TILBYR_IKKE_HJELPEMIDDEL, INGET_UTLÅN, IKKE_HOVEDHJELPEMIDDEL
 }
 
 data class XKLagerResponse (

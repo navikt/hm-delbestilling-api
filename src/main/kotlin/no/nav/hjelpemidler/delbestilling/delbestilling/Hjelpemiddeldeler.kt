@@ -29,6 +29,9 @@ class Hjelpemiddeldeler(
             val grunndataHjelpemiddel = grunndata.hentProdukt(hmsnr)
 
             if (grunndataHjelpemiddel != null) {
+                if (!grunndataHjelpemiddel.main) {
+                    return OppslagResultat(null, OppslagFeil.IKKE_HOVEDHJELPEMIDDEL, HttpStatusCode.NotFound)
+                }
                 val deler = grunndata.hentDeler(grunndataHjelpemiddel.seriesId, grunndataHjelpemiddel.id)
                 if (deler.isEmpty()) {
                     log.info { "Fant hmsnr $hmsnr i grunndata, men den har ingen egnede deler knyttet til seg" }
