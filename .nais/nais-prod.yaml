@@ -14,8 +14,10 @@ spec:
     max: 4
   liveness:
     path: /isalive
+    initialDelay: 40
   readiness:
     path: /isready
+    initialDelay: 40
   resources:
     limits:
       cpu: 500m
