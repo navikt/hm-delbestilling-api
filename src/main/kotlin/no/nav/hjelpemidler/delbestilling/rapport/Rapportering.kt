@@ -20,7 +20,7 @@ class Rapportering {
                 val grunndataClient = GrunndataClient(baseUrl = "https://finnhjelpemiddel.nav.no")
                 val ds = DatabaseConfig.migratedDataSource
                 val delbestillingRepository = DelbestillingRepository(ds)
-                val slack = Slack(delbestillingRepository)
+                val slack = Slack(delbestillingRepository, this)
                 rapporterHjelpemidlerUtenDelbestillingOgMax10Utlån(slack, delbestillingRepository)
             } catch (e: Exception) {
                 log.error(e) { "Rapportering feilet" }

@@ -2,6 +2,9 @@ package no.nav.hjelpemidler.delbestilling.infrastructure.slack
 
 import io.github.oshai.kotlinlogging.KotlinLogging
 import io.ktor.client.engine.cio.CIO
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import no.nav.hjelpemidler.delbestilling.config.isProd
 import no.nav.hjelpemidler.delbestilling.delbestilling.DelbestillingRepository
 import no.nav.hjelpemidler.delbestilling.delbestilling.anmodning.AnmodningsbehovForDel
@@ -14,12 +17,12 @@ import no.nav.hjelpemidler.delbestilling.infrastructure.grunndata.Produkt
 import no.nav.hjelpemidler.delbestilling.rapport.Hjelpemiddel
 import no.nav.hjelpemidler.http.slack.slack
 import no.nav.hjelpemidler.http.slack.slackIconEmoji
-import kotlin.system.measureTimeMillis
 
 val log = KotlinLogging.logger { }
 
 class Slack(
-    private val delbestillingRepository: DelbestillingRepository
+    private val delbestillingRepository: DelbestillingRepository,
+    private val scope: CoroutineScope,
 ) {
 
     private val client = slack(engine = CIO.create())
@@ -29,21 +32,21 @@ class Slack(
     }
     private val username = "hm-delbestilling-api"
 
-    private suspend fun sendSafely(emoji: String, message: String) {
+    private fun sendSafely(emoji: String, message: String) = scope.launch(Dispatchers.IO) {
         try {
-            measureTimeMillis { client.sendMessage(
+            client.sendMessage(
                 username = username,
                 slackIconEmoji(":$emoji:"),
                 channel = channel,
                 message = message
-            )}.also { log.info { "Slack melding tok $it ms å sende." } }
+            )
         } catch (e: Exception) {
             log.error(e) { "Klarte ikke sende varsel til Slack" }
             // Ikke kast feil videre, ikke krise hvis denne feiler
         }
     }
 
-    suspend fun varsleOmInnsending(
+    fun varsleOmInnsending(
         brukerKommunenr: String,
         brukersKommunenavn: String,
         delbestillingSak: DelbestillingSak
@@ -102,7 +105,7 @@ class Slack(
         }
     }
 
-    suspend fun varsleOmIngenDelerTilGrunndataHjelpemiddel(produkt: Produkt, delerIManuellListe: List<Del>) {
+    fun varsleOmIngenDelerTilGrunndataHjelpemiddel(produkt: Produkt, delerIManuellListe: List<Del>) {
         var message =
             "Det ble gjort et oppslag på `${produkt.hmsArtNr} ${produkt.articleName}` som finnes i grunndata, men har ingen egnede deler der."
         message += if (delerIManuellListe.isNotEmpty()) {
@@ -116,7 +119,7 @@ class Slack(
         sendSafely(emoji = "sadcat", message = message)
     }
 
-    suspend fun varsleOmInnsendingFeilet(correlationId: String) {
+    fun varsleOmInnsendingFeilet(correlationId: String) {
         val url =
             """https://logs.adeo.no/app/discover#/?_g=(filters:!(),refreshInterval:(pause:!t,value:60000),time:(from:now-2d,to:now))&_a=(columns:!(level,message,envclass,application,pod),dataSource:(dataViewId:'96e648c0-980a-11e9-830a-e17bbd64b4db',type:dataView),filters:!(),hideChart:!f,interval:auto,query:(language:kuery,query:'application:%22hm-delbestilling-api%22%20and%20envclass:%22p%22%20%20and%20x_correlationId:%22${correlationId}%22'),sort:!(!('@timestamp',desc)))"""
         sendSafely(
@@ -125,19 +128,19 @@ class Slack(
         )
     }
 
-    suspend fun rapporterAntallBestillingerOgUtlånForHjelpemidler(hjelpemiddel: List<Hjelpemiddel>) = sendSafely(
+    fun rapporterAntallBestillingerOgUtlånForHjelpemidler(hjelpemiddel: List<Hjelpemiddel>) = sendSafely(
         emoji = "clippy",
         message = "Antall utlån og delbestillinger per hjelpemiddel: ${
             hjelpemiddel.joinToString(separator = ",") { "(${it.hmnsr},${it.utlån},${it.bestillinger})" }
         }"
     )
 
-    suspend fun varsleGrunndataDekkerManuellListeForHjelpemiddel(hmsnr: String, navn: String) = sendSafely(
+    fun varsleGrunndataDekkerManuellListeForHjelpemiddel(hmsnr: String, navn: String) = sendSafely(
         emoji = "pepe-peek",
         message = "Hjelpemiddelet $hmsnr '$navn' har alle deler fra manuell liste i grunndata også. Det kan dermed fjernes fra den manuelle listen :broom:"
     )
 
-    suspend fun varsleOmDelerUtenDekning(
+    fun varsleOmDelerUtenDekning(
         deler: List<AnmodningsbehovForDel>,
         brukersKommunenavn: String,
         enhetnr: String
@@ -150,12 +153,12 @@ class Slack(
             """.trimIndent(),
     )
 
-    suspend fun varsleOmManglendeHmsnr(hmsnr: String) = sendSafely(
+    fun varsleOmManglendeHmsnr(hmsnr: String) = sendSafely(
         emoji = "thinkies",
         message = "Det ble gjort et oppslag på `$hmsnr`, men dette er et produkt som verken finnes i manuell liste eller i grunndata."
     )
 
-    suspend fun varsleOmAnmodningrapportSomErSendtTilEnhet(enhetnr: String, melding: String) {
+    fun varsleOmAnmodningrapportSomErSendtTilEnhet(enhetnr: String, melding: String) {
         val tilEpost = enhetTilEpostadresse(enhetnr)
         sendSafely(
             emoji = "mailbox",
@@ -168,12 +171,12 @@ class Slack(
         )
     }
 
-    suspend fun varsleOmIngenAnmodninger() = sendSafely(
+    fun varsleOmIngenAnmodninger() = sendSafely(
         emoji = "such-empty",
         message = "Ingen anmodningsrapporter ble sendt ut; alle bestilte deler har hatt lagerdekning."
     )
 
-    suspend fun varsleOmRapporteringFeilet() = sendSafely(
+    fun varsleOmRapporteringFeilet() = sendSafely(
         emoji = "error",
         message = "Utsending av mail til HMS om deler som må anmodes feilet. Må følges opp manuelt."
     )

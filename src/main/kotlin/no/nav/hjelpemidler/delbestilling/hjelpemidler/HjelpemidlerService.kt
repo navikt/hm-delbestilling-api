@@ -23,7 +23,7 @@ private val log = KotlinLogging.logger {}
 
 class HjelpemidlerService(
     val grunndata: Grunndata,
-    private val scope: CoroutineScope = CoroutineScope(SupervisorJob() + Dispatchers.Default),
+    private val scope: CoroutineScope,
     cacheDuration: Duration = 2.hours
 ) {
 
