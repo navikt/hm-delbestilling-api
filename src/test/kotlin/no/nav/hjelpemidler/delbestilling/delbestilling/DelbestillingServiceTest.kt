@@ -319,7 +319,8 @@ internal class DelbestillingServiceTest {
     fun `skal lagre anmodningsbehov ved ny delbestilling`() = runTest {
         val enhetnr = "4703"
         val anmodningRepository = AnmodningRepository(ds)
-        val norgService = mockk<NorgService>().also { coEvery { it.hentArbeidsfordelingenhet(any()) } returns enhet(enhetnr) }
+        val norgService =
+            mockk<NorgService>().also { coEvery { it.hentArbeidsfordelingenhet(any()) } returns enhet(enhetnr) }
         val anmodningService =
             AnmodningService(
                 anmodningRepository,
@@ -343,36 +344,59 @@ internal class DelbestillingServiceTest {
                 mockk(relaxed = true),
             )
 
-        val dellinje = delLinje(antall = 5)
+        val hmsnrEtterfylt = "111111"
+        val hmsnrMedDekning = "222222"
+        val hmsnrIkkeDekning = "333333"
+
         coEvery { oebs.hentLagerstatusForKommunenummer(any(), any()) } returns listOf(
             lagerstatus(
-                antall = 3,
-                hmsnr = dellinje.del.hmsnr
+                antall = 2,
+                hmsnr = hmsnrEtterfylt
+            ),
+            lagerstatus(
+                antall = 2,
+                hmsnr = hmsnrMedDekning
+            ),
+            lagerstatus(
+                antall = 2,
+                hmsnr = hmsnrIkkeDekning
             )
         )
         delbestillingService.opprettDelbestilling(
-            delbestillingRequest(deler = listOf(dellinje)),
+            delbestillingRequest(
+                deler = listOf(
+                    delLinje(antall = 3, hmsnr = hmsnrEtterfylt),
+                    delLinje(antall = 2, hmsnr = hmsnrMedDekning),
+                    delLinje(antall = 4, hmsnr = hmsnrIkkeDekning)
+                )
+            ),
             bestillerFnr,
             delbestillerRolle()
         )
 
         val delerTilRapportering = anmodningRepository.hentDelerTilRapportering(enhetnr)
-        assertEquals(1, delerTilRapportering.size)
-        assertEquals(dellinje.del.hmsnr, delerTilRapportering.first().hmsnr)
-        assertEquals(2, delerTilRapportering.first().antall)
+        assertEquals(2, delerTilRapportering.size)
+        assertEquals(1, delerTilRapportering.find { it.hmsnr == hmsnrEtterfylt }!!.antall)
+        assertEquals(2, delerTilRapportering.find { it.hmsnr == hmsnrIkkeDekning }!!.antall)
 
         coEvery { oebs.hentLagerstatusForEnhetnr(any(), any()) } returns listOf(
             lagerstatus(
-                antall = 0,
-                hmsnr = dellinje.del.hmsnr
+                antall = 0, // Påfyll i løpet av dagen
+                hmsnr = hmsnrEtterfylt
+            ),
+            lagerstatus(
+                antall = -2,
+                hmsnr = hmsnrIkkeDekning
             )
         )
-        delbestillingService.rapporterDelerTilAnmodning()
+        val anmodninger = delbestillingService.rapporterDelerTilAnmodning().first()
         assertEquals(
             0,
             anmodningRepository.hentDelerTilRapportering(enhetnr).size,
             "Det skal ikke lenger eksistere deler til rapportering"
         )
+        assertEquals(1, anmodninger.anmodningsbehov.size)
+        assertEquals(2, anmodninger.anmodningsbehov.find { it.hmsnr == hmsnrIkkeDekning }!!.antallSomMåAnmodes)
     }
 
     @Test
@@ -381,7 +405,8 @@ internal class DelbestillingServiceTest {
         val hmsnr1 = "111111"
         val hmsnr2 = "222222"
         val anmodningRepository = AnmodningRepository(ds)
-        val norgService = mockk<NorgService>().also { coEvery { it.hentArbeidsfordelingenhet(any()) } returns enhet(enhetnr) }
+        val norgService =
+            mockk<NorgService>().also { coEvery { it.hentArbeidsfordelingenhet(any()) } returns enhet(enhetnr) }
         val anmodningService =
             AnmodningService(
                 anmodningRepository,

@@ -39,7 +39,20 @@ fun beregnAnmodningsbehovForDelVedInnsending(
         )
     }
 
-    val antallTilAnmodning =  abs(antallPåLager - antallBestilt)
+    if (antallPåLager > 0) {
+        val antallTilAnmodning =  antallBestilt - antallPåLager
+        log.info { "$hmsnr har ikke dekning på lager (antallPåLager: $antallPåLager, antallBestilt: $antallBestilt). Det må anmodes $antallTilAnmodning" }
+        return AnmodningsbehovForDel(
+            hmsnr = hmsnr,
+            navn = navn,
+            antallBestilt = antallBestilt,
+            erPåMinmax = false,
+            antallPåLager = lagerstatus.antallDelerPåLager,
+            antallSomMåAnmodes = antallTilAnmodning,
+        )
+    }
+
+    val antallTilAnmodning = antallBestilt
     log.info { "$hmsnr har ikke dekning på lager (antallPåLager: $antallPåLager, antallBestilt: $antallBestilt). Det må anmodes $antallTilAnmodning" }
     return AnmodningsbehovForDel(
         hmsnr = hmsnr,
@@ -70,6 +83,7 @@ fun beregnAnmodningsbehovVedRapportering(
         )
     }
 
+    // OBS: Her vil antallPåLager være medregnet det som er bestilt i løpet av dagen.
     val antallPåLager = lagerstatus.antallDelerPåLager
     if (antallPåLager >= 0) {
         log.info { "$hmsnr har nok dekning på lager (antallPåLager: $antallPåLager, antallBestilt: $antallBestilt) og trenger derfor ikke anmodes" }
