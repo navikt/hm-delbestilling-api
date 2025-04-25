@@ -49,7 +49,10 @@ class AnmodningService(
     fun finnDelerUtenDekning(sak: DelbestillingSak): List<AnmodningsbehovForDel> {
         val delerUtenDekning = sak.delbestilling.deler.map { dellinje ->
             val lagerstatus = requireNotNull(dellinje.lagerstatusPåBestillingstidspunkt)
-            beregnAnmodningsbehovForDel(dellinje, lagerstatus)
+            beregnAnmodningsbehovForDelVedInnsending(
+                Del(hmsnr = dellinje.del.hmsnr, navn = dellinje.del.navn, antall = dellinje.antall),
+                lagerstatus
+            )
         }.filter { it.antallSomMåAnmodes > 0 }
 
         return delerUtenDekning
@@ -74,7 +77,7 @@ class AnmodningService(
             // Sjekk om delene fremdeles må anmodes. Lagerstatus kan ha endret seg siden innsending.
             val delerSomFremdelesMåAnmodes = delerSomMangletDekningVedInnsending.map { del ->
                 val lagerstatus = requireNotNull(lagerstatuser[del.hmsnr])
-                beregnAnmodningsbehovForDel(del, lagerstatus)
+                beregnAnmodningsbehovVedRapportering(del, lagerstatus)
             }.filter { it.antallSomMåAnmodes > 0 }
 
             val rapport = Anmodningrapport(enhetnr = enhetnr, anmodningsbehov = delerSomFremdelesMåAnmodes)
