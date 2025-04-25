@@ -33,4 +33,10 @@ class AnmodningrapportKtTest {
         assertEquals(8, anmodningsbehov.antallSomMåAnmodes)
     }
 
+    @Test
+    fun `skal være annmodningsbehov likt antall bestilt når lagerdekning er negativ`() {
+        val anmodningsbehov = beregnAnmodningsbehovForDelVedInnsending(del(antall = 4), lagerstatus(antall = -2))
+        assertEquals(4, anmodningsbehov.antallSomMåAnmodes)
+    }
+
 }
