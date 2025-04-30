@@ -55,7 +55,7 @@ fun delLinje(antall: Int = 1, hmsnr: String = "150817", kategori: String = "Dekk
             navn = "del",
             hmsnr = hmsnr,
             levArtNr = "1000038",
-            img = "",
+            imgs = emptyList(),
             kategori = kategori,
             maksAntall = 2,
         ),

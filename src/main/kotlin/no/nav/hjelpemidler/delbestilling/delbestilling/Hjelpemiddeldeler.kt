@@ -52,7 +52,6 @@ class Hjelpemiddeldeler(
                                 maksAntall = maksAntall(kategori, it.isoCategory),
                                 kilde = Kilde.GRUNNDATA,
                                 defaultAntall = defaultAntall(kategori),
-                                img = bilder.firstOrNull(),
                                 imgs = bilder,
                             )
                         })

@@ -26,11 +26,6 @@ data class OppslagResultat(
     }
 }
 
-data class AlleHjelpemidlerMedDelerResultat(
-    val hjelpemidlerMedDeler: List<HjelpemiddelMedDeler>,
-    val httpStatusCode: HttpStatusCode,
-)
-
 data class OppslagResponse(
     val hjelpemiddel: HjelpemiddelMedDeler?,
     val feil: OppslagFeil? = null,
@@ -64,8 +59,6 @@ data class Del(
     val kategori: String,
     val defaultAntall: Int = defaultAntall(kategori),
     val maksAntall: Int, // TODO kan ofte utlede maksAntall fra kategori også
-    @Deprecated("Skal deprecates til fordel for imgs")
-    val img: String? = null,
     val imgs: List<String> = emptyList(),
     val datoLagtTil: LocalDate? = null,
     var lagerstatus: Lagerstatus? = null, // TODO: denne bør kanskje ikke være nullable?
