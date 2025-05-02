@@ -21,8 +21,7 @@ import no.nav.hjelpemidler.delbestilling.enhet
 import no.nav.hjelpemidler.delbestilling.infrastructure.grunndata.Grunndata
 import no.nav.hjelpemidler.delbestilling.infrastructure.oebs.Oebs
 import no.nav.hjelpemidler.delbestilling.infrastructure.oebs.OebsPersoninfo
-import no.nav.hjelpemidler.delbestilling.kommune
-import no.nav.hjelpemidler.delbestilling.oppslag.GeografiService
+import no.nav.hjelpemidler.delbestilling.infrastructure.geografi.Kommuneoppslag
 import no.nav.hjelpemidler.delbestilling.organisasjon
 import no.nav.hjelpemidler.delbestilling.pdl.PdlService
 import no.nav.hjelpemidler.delbestilling.infrastructure.slack.Slack
@@ -50,8 +49,8 @@ internal class DelbestillingServiceTest {
         coEvery { hentKommunenummer(any()) } returns brukersKommunenr
         coEvery { hentFornavn(any(), any()) } returns teknikerNavn
     }
-    private val geografiService = mockk<GeografiService>(relaxed = true).apply {
-        coEvery { hentKommune(any()) } returns kommune()
+    private val kommuneoppslag = mockk<Kommuneoppslag>(relaxed = true).apply {
+        coEvery { kommunenavnOrNull(any()) } returns "Oslo"
     }
     private val lagerstatusMock = listOf(
         lagerstatus(hmsnr = "150817", antall = 10),
@@ -72,7 +71,7 @@ internal class DelbestillingServiceTest {
             delbestillingRepository,
             pdlService,
             oebs,
-            geografiService,
+            kommuneoppslag,
             mockk(relaxed = true),
             slack,
             grunndata,
@@ -304,7 +303,7 @@ internal class DelbestillingServiceTest {
             val delbestillingService = DelbestillingService(
                 repository, pdlService,
                 oebs,
-                geografiService,
+                kommuneoppslag,
                 mockk(relaxed = true),
                 slack,
                 grunndata,
@@ -335,7 +334,7 @@ internal class DelbestillingServiceTest {
                 delbestillingRepository,
                 pdlService,
                 oebs,
-                geografiService,
+                kommuneoppslag,
                 mockk(relaxed = true),
                 slack,
                 grunndata,
@@ -421,7 +420,7 @@ internal class DelbestillingServiceTest {
                 delbestillingRepository,
                 pdlService,
                 oebs,
-                geografiService,
+                kommuneoppslag,
                 mockk(relaxed = true),
                 slack,
                 grunndata,

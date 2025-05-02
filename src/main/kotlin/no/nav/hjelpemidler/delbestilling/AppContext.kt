@@ -20,8 +20,8 @@ import no.nav.hjelpemidler.delbestilling.infrastructure.oebs.OebsApiProxyClient
 import no.nav.hjelpemidler.delbestilling.infrastructure.oebs.OebsSinkClient
 import no.nav.hjelpemidler.delbestilling.infrastructure.kafka.Kafka
 import no.nav.hjelpemidler.delbestilling.infrastructure.metrics.Metrics
-import no.nav.hjelpemidler.delbestilling.oppslag.OppslagClient
-import no.nav.hjelpemidler.delbestilling.oppslag.GeografiService
+import no.nav.hjelpemidler.delbestilling.infrastructure.geografi.OppslagClient
+import no.nav.hjelpemidler.delbestilling.infrastructure.geografi.Kommuneoppslag
 import no.nav.hjelpemidler.delbestilling.pdl.PdlClient
 import no.nav.hjelpemidler.delbestilling.pdl.PdlService
 import no.nav.hjelpemidler.delbestilling.roller.RolleClient
@@ -71,7 +71,7 @@ class AppContext {
 
     private val oebs = Oebs(oebsApiProxyClient, oebsSinkClient)
 
-    private val geografiService = GeografiService(oppslagClient)
+    private val kommuneoppslag = Kommuneoppslag(oppslagClient)
 
     val rolleService = RolleService(rolleClient)
 
@@ -93,7 +93,7 @@ class AppContext {
         delbestillingRepository,
         pdlService,
         oebs,
-        geografiService,
+        kommuneoppslag,
         metrics,
         slack,
         grunndata,

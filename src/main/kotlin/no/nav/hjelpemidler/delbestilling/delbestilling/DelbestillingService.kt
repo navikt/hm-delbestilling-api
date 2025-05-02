@@ -2,7 +2,6 @@ package no.nav.hjelpemidler.delbestilling.delbestilling
 
 import io.github.oshai.kotlinlogging.KotlinLogging
 import io.ktor.http.HttpStatusCode
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
@@ -35,7 +34,7 @@ import no.nav.hjelpemidler.delbestilling.config.isDev
 import no.nav.hjelpemidler.delbestilling.config.isLocal
 import no.nav.hjelpemidler.delbestilling.config.isProd
 import no.nav.hjelpemidler.delbestilling.infrastructure.metrics.Metrics
-import no.nav.hjelpemidler.delbestilling.oppslag.GeografiService
+import no.nav.hjelpemidler.delbestilling.infrastructure.geografi.Kommuneoppslag
 import no.nav.hjelpemidler.delbestilling.pdl.PdlService
 import no.nav.hjelpemidler.delbestilling.roller.Delbestiller
 import no.nav.hjelpemidler.delbestilling.roller.Organisasjon
@@ -56,7 +55,7 @@ class DelbestillingService(
     private val delbestillingRepository: DelbestillingRepository,
     private val pdlService: PdlService,
     private val oebs: Oebs,
-    private val geografiService: GeografiService,
+    private val kommuneoppslag: Kommuneoppslag,
     private val metrics: Metrics,
     private val slack: Slack,
     private val grunndata: Grunndata,
@@ -96,12 +95,7 @@ class DelbestillingService(
             throw e
         }
 
-        val brukersKommunenavn = try {
-            geografiService.hentKommune(brukerKommunenr).kommunenavn
-        } catch (e: Exception) {
-            // Svelg feil, kommunenavn brukes bare til statistikk så ikke krise hvis den feiler
-            "Ukjent"
-        }
+        val brukersKommunenavn = kommuneoppslag.kommunenavnOrNull(brukerKommunenr) ?: "Ukjent"
 
         // Det skal ikke være mulig å bestille til seg selv (disabler i dev pga testdata)
         if (isProd() && bestillerFnr == brukersFnr) {

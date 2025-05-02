@@ -9,7 +9,7 @@ import no.nav.hjelpemidler.delbestilling.delbestilling.model.Hmsnr
 import no.nav.hjelpemidler.delbestilling.delbestilling.model.Lagerstatus
 import no.nav.hjelpemidler.delbestilling.delbestilling.model.Levering
 import no.nav.hjelpemidler.delbestilling.delbestilling.model.Status
-import no.nav.hjelpemidler.delbestilling.oppslag.KommuneDto
+import no.nav.hjelpemidler.delbestilling.infrastructure.geografi.KommuneDto
 import no.nav.hjelpemidler.delbestilling.roller.Delbestiller
 import no.nav.hjelpemidler.delbestilling.roller.Organisasjon
 import no.nav.hjelpemidler.hjelpemidlerdigitalSoknadapi.tjenester.norg.ArbeidsfordelingEnhet
@@ -75,13 +75,6 @@ fun delbestillingSak(
     oebsOrdrenummer = "4523",
     brukersKommunenummer = "0301",
     brukersKommunenavn = "Oslo",
-)
-
-fun kommune() = KommuneDto(
-    fylkesnummer = "3",
-    fylkesnavn = "Oslo",
-    kommunenavn = "Oslo",
-    kommunenummer = "0301",
 )
 
 fun organisasjon(orgnr: String = "123456789", navn: String = "Reperasjon AS") = Organisasjon(
