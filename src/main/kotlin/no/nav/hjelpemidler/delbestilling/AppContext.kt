@@ -24,9 +24,9 @@ import no.nav.hjelpemidler.delbestilling.infrastructure.oebs.OebsApiProxyClient
 import no.nav.hjelpemidler.delbestilling.infrastructure.oebs.OebsSinkClient
 import no.nav.hjelpemidler.delbestilling.infrastructure.pdl.Pdl
 import no.nav.hjelpemidler.delbestilling.infrastructure.pdl.PdlClient
-import no.nav.hjelpemidler.delbestilling.infrastructure.slack.Slack
-import no.nav.hjelpemidler.delbestilling.infrastructure.roller.RollerClient
 import no.nav.hjelpemidler.delbestilling.infrastructure.roller.Roller
+import no.nav.hjelpemidler.delbestilling.infrastructure.roller.RollerClient
+import no.nav.hjelpemidler.delbestilling.infrastructure.slack.Slack
 import no.nav.hjelpemidler.hjelpemidlerdigitalSoknadapi.tjenester.norg.NorgClient
 import no.nav.hjelpemidler.hjelpemidlerdigitalSoknadapi.tjenester.norg.NorgService
 import no.nav.hjelpemidler.http.openid.azureADClient
@@ -37,8 +37,6 @@ import kotlin.time.Duration.Companion.seconds
 class AppContext {
     private val backgroundScope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
 
-    private val tokendingsService = TokendingsServiceBuilder.buildTokendingsService()
-
     private val azureClient = azureADClient {
         cache(leeway = 10.seconds) {
             maximumSize = 100
@@ -47,41 +45,22 @@ class AppContext {
 
     private val grunndata = Grunndata(GrunndataClient())
 
-    private val oebsApiProxyClient = OebsApiProxyClient(azureClient)
-
-    private val oppslagClient = OppslagClient()
-
     private val kafka = Kafka()
-
-    private val metrics = Metrics(kafka)
-
-    private val oebsSinkClient = OebsSinkClient(kafka)
-
-    private val pdlClient = PdlClient(azureClient)
 
     private val ds = DatabaseConfig.migratedDataSource
 
     private val delbestillingRepository = DelbestillingRepository(ds)
 
-    val anmodningRepository = AnmodningRepository(ds)
+    private val oebs = Oebs(OebsApiProxyClient(azureClient), OebsSinkClient(kafka))
 
-    private val pdl = Pdl(pdlClient)
-
-    private val oebs = Oebs(oebsApiProxyClient, oebsSinkClient)
-
-    private val kommuneoppslag = Kommuneoppslag(oppslagClient)
-
-    val roller = Roller(RollerClient(tokendingsService))
+    
+    val roller = Roller(RollerClient(TokendingsServiceBuilder.buildTokendingsService()))
 
     val slack = Slack(delbestillingRepository, backgroundScope)
 
-    val norgClient = NorgClient()
+    val norgService = NorgService(NorgClient())
 
-    val norgService = NorgService(norgClient)
-
-    val email = Email()
-
-    val anmodningService = AnmodningService(anmodningRepository, oebs, norgService, slack, email, grunndata)
+    val anmodningService = AnmodningService(AnmodningRepository(ds), oebs, norgService, slack, Email(), grunndata)
 
     val piloterService = PiloterService(norgService)
 
@@ -89,10 +68,10 @@ class AppContext {
 
     val delbestillingService = DelbestillingService(
         delbestillingRepository,
-        pdl,
+        Pdl(PdlClient(azureClient)),
         oebs,
-        kommuneoppslag,
-        metrics,
+        Kommuneoppslag(OppslagClient()),
+        Metrics(kafka),
         slack,
         grunndata,
         anmodningService,
