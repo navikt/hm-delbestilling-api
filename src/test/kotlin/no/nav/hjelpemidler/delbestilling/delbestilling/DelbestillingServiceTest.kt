@@ -18,13 +18,13 @@ import no.nav.hjelpemidler.delbestilling.delbestilling.model.Status
 import no.nav.hjelpemidler.delbestilling.delbestillingRequest
 import no.nav.hjelpemidler.delbestilling.delbestillingSak
 import no.nav.hjelpemidler.delbestilling.enhet
+import no.nav.hjelpemidler.delbestilling.infrastructure.geografi.Kommuneoppslag
 import no.nav.hjelpemidler.delbestilling.infrastructure.grunndata.Grunndata
 import no.nav.hjelpemidler.delbestilling.infrastructure.oebs.Oebs
 import no.nav.hjelpemidler.delbestilling.infrastructure.oebs.OebsPersoninfo
-import no.nav.hjelpemidler.delbestilling.infrastructure.geografi.Kommuneoppslag
-import no.nav.hjelpemidler.delbestilling.organisasjon
-import no.nav.hjelpemidler.delbestilling.pdl.PdlService
+import no.nav.hjelpemidler.delbestilling.infrastructure.pdl.Pdl
 import no.nav.hjelpemidler.delbestilling.infrastructure.slack.Slack
+import no.nav.hjelpemidler.delbestilling.organisasjon
 import no.nav.hjelpemidler.hjelpemidlerdigitalSoknadapi.tjenester.norg.NorgService
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -45,9 +45,9 @@ internal class DelbestillingServiceTest {
 
     private var ds = TestDatabase.testDataSource
     private val delbestillingRepository = DelbestillingRepository(ds)
-    private val pdlService = mockk<PdlService>().apply {
+    private val pdl = mockk<Pdl>().apply {
         coEvery { hentKommunenummer(any()) } returns brukersKommunenr
-        coEvery { hentFornavn(any(), any()) } returns teknikerNavn
+        coEvery { hentFornavn(any()) } returns teknikerNavn
     }
     private val kommuneoppslag = mockk<Kommuneoppslag>(relaxed = true).apply {
         coEvery { kommunenavnOrNull(any()) } returns "Oslo"
@@ -69,7 +69,7 @@ internal class DelbestillingServiceTest {
     private val delbestillingService =
         DelbestillingService(
             delbestillingRepository,
-            pdlService,
+            pdl,
             oebs,
             kommuneoppslag,
             mockk(relaxed = true),
@@ -301,7 +301,7 @@ internal class DelbestillingServiceTest {
                 )
             }
             val delbestillingService = DelbestillingService(
-                repository, pdlService,
+                repository, pdl,
                 oebs,
                 kommuneoppslag,
                 mockk(relaxed = true),
@@ -332,7 +332,7 @@ internal class DelbestillingServiceTest {
         val delbestillingService =
             DelbestillingService(
                 delbestillingRepository,
-                pdlService,
+                pdl,
                 oebs,
                 kommuneoppslag,
                 mockk(relaxed = true),
@@ -418,7 +418,7 @@ internal class DelbestillingServiceTest {
         val delbestillingService =
             DelbestillingService(
                 delbestillingRepository,
-                pdlService,
+                pdl,
                 oebs,
                 kommuneoppslag,
                 mockk(relaxed = true),

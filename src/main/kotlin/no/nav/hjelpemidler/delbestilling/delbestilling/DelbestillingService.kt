@@ -6,6 +6,9 @@ import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 import no.bekk.bekkopen.date.NorwegianDateUtil
+import no.nav.hjelpemidler.delbestilling.config.isDev
+import no.nav.hjelpemidler.delbestilling.config.isLocal
+import no.nav.hjelpemidler.delbestilling.config.isProd
 import no.nav.hjelpemidler.delbestilling.delbestilling.anmodning.AnmodningService
 import no.nav.hjelpemidler.delbestilling.delbestilling.anmodning.Anmodningrapport
 import no.nav.hjelpemidler.delbestilling.delbestilling.model.BestillerType
@@ -26,19 +29,16 @@ import no.nav.hjelpemidler.delbestilling.delbestilling.model.Status
 import no.nav.hjelpemidler.delbestilling.hjelpemidler.data.hmsnr2Hjm
 import no.nav.hjelpemidler.delbestilling.hjelpemidler.defaultAntall
 import no.nav.hjelpemidler.delbestilling.hjelpemidler.maksAntall
+import no.nav.hjelpemidler.delbestilling.infrastructure.geografi.Kommuneoppslag
 import no.nav.hjelpemidler.delbestilling.infrastructure.grunndata.Grunndata
+import no.nav.hjelpemidler.delbestilling.infrastructure.metrics.Metrics
 import no.nav.hjelpemidler.delbestilling.infrastructure.monitoring.PersonNotAccessibleInPdl
 import no.nav.hjelpemidler.delbestilling.infrastructure.monitoring.PersonNotFoundInPdl
 import no.nav.hjelpemidler.delbestilling.infrastructure.oebs.Oebs
-import no.nav.hjelpemidler.delbestilling.config.isDev
-import no.nav.hjelpemidler.delbestilling.config.isLocal
-import no.nav.hjelpemidler.delbestilling.config.isProd
-import no.nav.hjelpemidler.delbestilling.infrastructure.metrics.Metrics
-import no.nav.hjelpemidler.delbestilling.infrastructure.geografi.Kommuneoppslag
-import no.nav.hjelpemidler.delbestilling.pdl.PdlService
+import no.nav.hjelpemidler.delbestilling.infrastructure.pdl.Pdl
+import no.nav.hjelpemidler.delbestilling.infrastructure.slack.Slack
 import no.nav.hjelpemidler.delbestilling.roller.Delbestiller
 import no.nav.hjelpemidler.delbestilling.roller.Organisasjon
-import no.nav.hjelpemidler.delbestilling.infrastructure.slack.Slack
 import no.nav.hjelpemidler.domain.person.Fødselsnummer
 import java.time.LocalDate
 import java.time.LocalDateTime
@@ -53,7 +53,7 @@ private val log = KotlinLogging.logger {}
 
 class DelbestillingService(
     private val delbestillingRepository: DelbestillingRepository,
-    private val pdlService: PdlService,
+    private val pdl: Pdl,
     private val oebs: Oebs,
     private val kommuneoppslag: Kommuneoppslag,
     private val metrics: Metrics,
@@ -83,7 +83,7 @@ class DelbestillingService(
             ?: return DelbestillingResultat(id, feil = DelbestillingFeil.INGET_UTLÅN)
 
         val brukerKommunenr = try {
-            pdlService.hentKommunenummer(brukersFnr)
+            pdl.hentKommunenummer(brukersFnr)
         } catch (e: PersonNotAccessibleInPdl) {
             log.error(e) { "Person ikke tilgjengelig i PDL" }
             return DelbestillingResultat(id, feil = DelbestillingFeil.KAN_IKKE_BESTILLE)
@@ -130,7 +130,7 @@ class DelbestillingService(
             }
         }
 
-        val bestillersNavn = pdlService.hentFornavn(bestillerFnr, validerAdressebeskyttelse = false)
+        val bestillersNavn = pdl.hentFornavn(bestillerFnr)
 
         // TODO rydd og splitt ut logikk i egne klasser etc.
         val delerHmsnr = request.delbestilling.deler.map { it.del.hmsnr }
@@ -312,7 +312,7 @@ class DelbestillingService(
         val brukersKommunenummerResult = async {
             val brukersFnr = oebs.hentFnrLeietaker(hmsnr, serienr)
                 ?: return@async null
-            pdlService.hentKommunenummer(brukersFnr)
+            pdl.hentKommunenummer(brukersFnr)
         }
 
         val hjelpemiddelMedDelerManuell = hmsnr2Hjm[hmsnr].also {
@@ -477,7 +477,7 @@ class DelbestillingService(
             utlån.forEach { (fnr, artnr, serienr, utlånsDato) ->
                 try {
                     if (fnr !in fnrCache) {
-                        val kommunenr = pdlService.hentKommunenummer(fnr)
+                        val kommunenr = pdl.hentKommunenummer(fnr)
                         log.info { "Fant testperson $fnr med utlån på $artnr, $serienr i kommune $kommunenr" }
                         return mapOf("fnr" to fnr, "artnr" to artnr, "serienr" to serienr, "kommunenr" to kommunenr)
                     }
@@ -494,7 +494,7 @@ class DelbestillingService(
     suspend fun sjekkXKLager(hmsnr: Hmsnr, serienr: Serienr): Boolean {
         val brukersFnr = oebs.hentFnrLeietaker(artnr = hmsnr, serienr = serienr)
             ?: error("Fant ikke utlån for $hmsnr $serienr")
-        val kommunenummer = pdlService.hentKommunenummer(brukersFnr)
+        val kommunenummer = pdl.hentKommunenummer(brukersFnr)
         return harXKLager(kommunenummer)
     }
 

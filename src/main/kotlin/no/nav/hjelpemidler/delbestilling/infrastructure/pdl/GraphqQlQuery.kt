@@ -1,4 +1,4 @@
-package no.nav.hjelpemidler.delbestilling.pdl
+package no.nav.hjelpemidler.delbestilling.infrastructure.pdl
 
 fun hentKommunenummerQuery(fnummer: String) = GraphqlQuery(
     hentQuery("hentKommunenummer"),

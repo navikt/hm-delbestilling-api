@@ -14,7 +14,6 @@ import no.nav.hjelpemidler.delbestilling.delbestilling.model.DelbestillingSak
 import no.nav.hjelpemidler.delbestilling.delbestilling.model.Kilde
 import no.nav.hjelpemidler.delbestilling.hjelpemidler.data.hmsnrTilDel
 import no.nav.hjelpemidler.delbestilling.infrastructure.grunndata.Produkt
-import no.nav.hjelpemidler.delbestilling.rapport.Hjelpemiddel
 import no.nav.hjelpemidler.http.slack.slack
 import no.nav.hjelpemidler.http.slack.slackIconEmoji
 
@@ -127,13 +126,6 @@ class Slack(
             message = "En innsending av en delbestilling feilet (correlationId: $correlationId). Sjekk loggene her: ${url}"
         )
     }
-
-    fun rapporterAntallBestillingerOgUtlånForHjelpemidler(hjelpemiddel: List<Hjelpemiddel>) = sendSafely(
-        emoji = "clippy",
-        message = "Antall utlån og delbestillinger per hjelpemiddel: ${
-            hjelpemiddel.joinToString(separator = ",") { "(${it.hmnsr},${it.utlån},${it.bestillinger})" }
-        }"
-    )
 
     fun varsleGrunndataDekkerManuellListeForHjelpemiddel(hmsnr: String, navn: String) = sendSafely(
         emoji = "pepe-peek",

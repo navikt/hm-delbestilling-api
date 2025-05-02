@@ -13,20 +13,20 @@ import no.nav.hjelpemidler.delbestilling.delbestilling.anmodning.AnmodningReposi
 import no.nav.hjelpemidler.delbestilling.delbestilling.anmodning.AnmodningService
 import no.nav.hjelpemidler.delbestilling.hjelpemidler.HjelpemidlerService
 import no.nav.hjelpemidler.delbestilling.infrastructure.email.Email
+import no.nav.hjelpemidler.delbestilling.infrastructure.geografi.Kommuneoppslag
+import no.nav.hjelpemidler.delbestilling.infrastructure.geografi.OppslagClient
 import no.nav.hjelpemidler.delbestilling.infrastructure.grunndata.Grunndata
 import no.nav.hjelpemidler.delbestilling.infrastructure.grunndata.GrunndataClient
+import no.nav.hjelpemidler.delbestilling.infrastructure.kafka.Kafka
+import no.nav.hjelpemidler.delbestilling.infrastructure.metrics.Metrics
 import no.nav.hjelpemidler.delbestilling.infrastructure.oebs.Oebs
 import no.nav.hjelpemidler.delbestilling.infrastructure.oebs.OebsApiProxyClient
 import no.nav.hjelpemidler.delbestilling.infrastructure.oebs.OebsSinkClient
-import no.nav.hjelpemidler.delbestilling.infrastructure.kafka.Kafka
-import no.nav.hjelpemidler.delbestilling.infrastructure.metrics.Metrics
-import no.nav.hjelpemidler.delbestilling.infrastructure.geografi.OppslagClient
-import no.nav.hjelpemidler.delbestilling.infrastructure.geografi.Kommuneoppslag
-import no.nav.hjelpemidler.delbestilling.pdl.PdlClient
-import no.nav.hjelpemidler.delbestilling.pdl.PdlService
+import no.nav.hjelpemidler.delbestilling.infrastructure.pdl.Pdl
+import no.nav.hjelpemidler.delbestilling.infrastructure.pdl.PdlClient
+import no.nav.hjelpemidler.delbestilling.infrastructure.slack.Slack
 import no.nav.hjelpemidler.delbestilling.roller.RolleClient
 import no.nav.hjelpemidler.delbestilling.roller.RolleService
-import no.nav.hjelpemidler.delbestilling.infrastructure.slack.Slack
 import no.nav.hjelpemidler.hjelpemidlerdigitalSoknadapi.tjenester.norg.NorgClient
 import no.nav.hjelpemidler.hjelpemidlerdigitalSoknadapi.tjenester.norg.NorgService
 import no.nav.hjelpemidler.http.openid.azureADClient
@@ -67,7 +67,7 @@ class AppContext {
 
     val anmodningRepository = AnmodningRepository(ds)
 
-    private val pdlService = PdlService(pdlClient)
+    private val pdl = Pdl(pdlClient)
 
     private val oebs = Oebs(oebsApiProxyClient, oebsSinkClient)
 
@@ -91,7 +91,7 @@ class AppContext {
 
     val delbestillingService = DelbestillingService(
         delbestillingRepository,
-        pdlService,
+        pdl,
         oebs,
         kommuneoppslag,
         metrics,
