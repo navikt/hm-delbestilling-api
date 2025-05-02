@@ -1,4 +1,4 @@
-package no.nav.hjelpemidler.delbestilling.grunndata
+package no.nav.hjelpemidler.delbestilling.infrastructure.grunndata
 
 import kotlinx.coroutines.runBlocking
 import no.nav.hjelpemidler.delbestilling.hjelpemidler.data.hmsnrTilDel

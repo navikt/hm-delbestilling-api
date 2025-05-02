@@ -37,8 +37,8 @@ import no.nav.hjelpemidler.delbestilling.infrastructure.monitoring.PersonNotFoun
 import no.nav.hjelpemidler.delbestilling.infrastructure.oebs.Oebs
 import no.nav.hjelpemidler.delbestilling.infrastructure.pdl.Pdl
 import no.nav.hjelpemidler.delbestilling.infrastructure.slack.Slack
-import no.nav.hjelpemidler.delbestilling.roller.Delbestiller
-import no.nav.hjelpemidler.delbestilling.roller.Organisasjon
+import no.nav.hjelpemidler.delbestilling.infrastructure.roller.Delbestiller
+import no.nav.hjelpemidler.delbestilling.infrastructure.roller.Organisasjon
 import no.nav.hjelpemidler.domain.person.Fødselsnummer
 import java.time.LocalDate
 import java.time.LocalDateTime

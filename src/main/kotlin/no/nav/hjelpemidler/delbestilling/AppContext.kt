@@ -25,8 +25,8 @@ import no.nav.hjelpemidler.delbestilling.infrastructure.oebs.OebsSinkClient
 import no.nav.hjelpemidler.delbestilling.infrastructure.pdl.Pdl
 import no.nav.hjelpemidler.delbestilling.infrastructure.pdl.PdlClient
 import no.nav.hjelpemidler.delbestilling.infrastructure.slack.Slack
-import no.nav.hjelpemidler.delbestilling.roller.RolleClient
-import no.nav.hjelpemidler.delbestilling.roller.RolleService
+import no.nav.hjelpemidler.delbestilling.infrastructure.roller.RollerClient
+import no.nav.hjelpemidler.delbestilling.infrastructure.roller.Roller
 import no.nav.hjelpemidler.hjelpemidlerdigitalSoknadapi.tjenester.norg.NorgClient
 import no.nav.hjelpemidler.hjelpemidlerdigitalSoknadapi.tjenester.norg.NorgService
 import no.nav.hjelpemidler.http.openid.azureADClient
@@ -46,8 +46,6 @@ class AppContext {
     }
 
     private val grunndata = Grunndata(GrunndataClient())
-
-    private val rolleClient = RolleClient(tokendingsService)
 
     private val oebsApiProxyClient = OebsApiProxyClient(azureClient)
 
@@ -73,7 +71,7 @@ class AppContext {
 
     private val kommuneoppslag = Kommuneoppslag(oppslagClient)
 
-    val rolleService = RolleService(rolleClient)
+    val roller = Roller(RollerClient(tokendingsService))
 
     val slack = Slack(delbestillingRepository, backgroundScope)
 

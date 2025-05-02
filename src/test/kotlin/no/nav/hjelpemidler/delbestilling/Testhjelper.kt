@@ -10,8 +10,8 @@ import no.nav.hjelpemidler.delbestilling.delbestilling.model.Lagerstatus
 import no.nav.hjelpemidler.delbestilling.delbestilling.model.Levering
 import no.nav.hjelpemidler.delbestilling.delbestilling.model.Status
 import no.nav.hjelpemidler.delbestilling.infrastructure.geografi.KommuneDto
-import no.nav.hjelpemidler.delbestilling.roller.Delbestiller
-import no.nav.hjelpemidler.delbestilling.roller.Organisasjon
+import no.nav.hjelpemidler.delbestilling.infrastructure.roller.Delbestiller
+import no.nav.hjelpemidler.delbestilling.infrastructure.roller.Organisasjon
 import no.nav.hjelpemidler.hjelpemidlerdigitalSoknadapi.tjenester.norg.ArbeidsfordelingEnhet
 import java.time.LocalDateTime
 import java.util.UUID

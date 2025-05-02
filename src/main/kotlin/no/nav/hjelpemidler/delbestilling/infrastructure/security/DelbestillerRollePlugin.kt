@@ -8,13 +8,13 @@ import io.ktor.server.auth.AuthenticationChecked
 import io.ktor.server.response.respond
 import io.ktor.server.routing.Route
 import io.ktor.util.AttributeKey
-import no.nav.hjelpemidler.delbestilling.roller.Delbestiller
-import no.nav.hjelpemidler.delbestilling.roller.RolleService
+import no.nav.hjelpemidler.delbestilling.infrastructure.roller.Delbestiller
+import no.nav.hjelpemidler.delbestilling.infrastructure.roller.Roller
 
 private val log = KotlinLogging.logger {}
 
 class DelbestillerRollePluginConfig {
-    lateinit var rolleService: RolleService
+    lateinit var roller: Roller
 }
 
 val delbestillerRolleKey = AttributeKey<Delbestiller>("delbestillerRolleKey")
@@ -23,7 +23,7 @@ val DelbestillerRollePlugin = createRouteScopedPlugin(
     name = "DelbestillerRollePlugin",
     createConfiguration = ::DelbestillerRollePluginConfig
 ) {
-    val rolleService = pluginConfig.rolleService
+    val rolleService = pluginConfig.roller
 
     on(AuthenticationChecked) { call ->
         try {
@@ -44,7 +44,7 @@ val DelbestillerRollePlugin = createRouteScopedPlugin(
     }
 }
 
-fun Route.medDelbestillerRolle(rolleService: RolleService) =
+fun Route.medDelbestillerRolle(roller: Roller) =
     install(DelbestillerRollePlugin) {
-        this.rolleService = rolleService
+        this.roller = roller
     }

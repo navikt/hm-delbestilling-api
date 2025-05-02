@@ -75,7 +75,7 @@ fun Application.setupRoutes(ctx: AppContext) {
     routing {
         route("/api") {
             authenticate(TokenXAuthenticator.name) {
-                medDelbestillerRolle(ctx.rolleService)
+                medDelbestillerRolle(ctx.roller)
 
                 delbestillingApiAuthenticated(ctx.delbestillingService, ctx.slack)
             }
