@@ -1,6 +1,5 @@
 package no.nav.hjelpemidler.delbestilling.delbestilling.model
 
-import io.ktor.http.HttpStatusCode
 import no.nav.hjelpemidler.delbestilling.oppslag.legacy.defaultAntall
 import java.time.LocalDate
 import java.time.LocalDateTime
@@ -12,13 +11,11 @@ data class OppslagRequest(
 )
 
 data class OppslagResultat(
-    val hjelpemiddel: HjelpemiddelMedDeler?,
-    val feil: OppslagFeil? = null,
-    val httpStatusCode: HttpStatusCode,
+    val hjelpemiddel: HjelpemiddelMedDeler,
     val piloter: List<Pilot> = emptyList(),
 ) {
     init {
-        hjelpemiddel?.deler?.forEach {
+        hjelpemiddel.deler.forEach {
             if (it.lagerstatus == null) {
                 error{"Del $it på hjelpemiddel ${hjelpemiddel.hmsnr} mangler lagerstatus, kan ikke returnere resultat"}
             }
@@ -26,18 +23,8 @@ data class OppslagResultat(
     }
 }
 
-data class OppslagResponse(
-    val hjelpemiddel: HjelpemiddelMedDeler?,
-    val feil: OppslagFeil? = null,
-    val piloter: List<Pilot> = emptyList(),
-)
-
 enum class Pilot {
     BESTILLE_IKKE_FASTE_LAGERVARER
-}
-
-enum class OppslagFeil {
-    TILBYR_IKKE_HJELPEMIDDEL, INGET_UTLÅN, IKKE_HOVEDHJELPEMIDDEL
 }
 
 data class XKLagerResponse (

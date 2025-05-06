@@ -1,12 +1,10 @@
 package no.nav.hjelpemidler.delbestilling.oppslag
 
 import io.github.oshai.kotlinlogging.KotlinLogging
-import io.ktor.http.HttpStatusCode
 import no.nav.hjelpemidler.delbestilling.delbestilling.model.Del
 import no.nav.hjelpemidler.delbestilling.delbestilling.model.HjelpemiddelMedDeler
 import no.nav.hjelpemidler.delbestilling.delbestilling.model.Kilde
 import no.nav.hjelpemidler.delbestilling.delbestilling.model.Lagerstatus
-import no.nav.hjelpemidler.delbestilling.delbestilling.model.OppslagFeil
 import no.nav.hjelpemidler.delbestilling.delbestilling.model.OppslagResultat
 import no.nav.hjelpemidler.delbestilling.infrastructure.grunndata.Grunndata
 import no.nav.hjelpemidler.delbestilling.oppslag.legacy.data.hmsnr2Hjm
@@ -32,7 +30,7 @@ class HjelpemiddeldelerDev(
 
             if (grunndataHjelpemiddel != null) {
                 if (!grunndataHjelpemiddel.main) {
-                    return OppslagResultat(null, OppslagFeil.IKKE_HOVEDHJELPEMIDDEL, HttpStatusCode.NotFound)
+                    throw IkkeHjelpemiddelException("Hmsnr $hmsnr er ikke hjelpemiddel.")
                 }
                 val deler = grunndata.hentDeler(grunndataHjelpemiddel.seriesId, grunndataHjelpemiddel.id)
                 if (deler.isEmpty()) {
@@ -102,13 +100,11 @@ class HjelpemiddeldelerDev(
         log.info { "hjelpemiddelMedDeler: $hjelpemiddelMedDeler" }
 
         if (hjelpemiddelMedDeler == null) {
-            log.info { "Fant $hmsnr verken i grunndata eller manuell liste, returnerer TILBYR_IKKE_HJELPEMIDDEL" }
-            return OppslagResultat(null, OppslagFeil.TILBYR_IKKE_HJELPEMIDDEL, HttpStatusCode.NotFound)
+            throw TilbyrIkkeHjelpemiddelException("Fant ikke $hmsnr verken i grunndata eller manuell liste")
         }
 
         if (hjelpemiddelMedDeler.deler.isEmpty()) {
-            log.info { "Fant ingen deler i verken grunndata eller manuell liste for $hmsnr, returnerer TILBYR_IKKE_HJELPEMIDDEL" }
-            return OppslagResultat(null, OppslagFeil.TILBYR_IKKE_HJELPEMIDDEL, HttpStatusCode.NotFound)
+            throw TilbyrIkkeHjelpemiddelException("Fant ingen deler i verken grunndata eller manuell liste for $hmsnr")
         }
 
         // For sjekk av hvilke deler som inneholder "batteri" i navnet, for å se om vi må utvide batteri-sjekk
@@ -135,6 +131,6 @@ class HjelpemiddeldelerDev(
             )
         }
 
-        return OppslagResultat(hjelpemiddelMedDeler, null, HttpStatusCode.OK)
+        return OppslagResultat(hjelpemiddelMedDeler)
     }
 }

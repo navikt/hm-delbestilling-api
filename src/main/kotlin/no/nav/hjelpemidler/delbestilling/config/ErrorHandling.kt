@@ -12,6 +12,8 @@ import no.nav.hjelpemidler.delbestilling.infrastructure.pdl.PdlRequestFailedExce
 import no.nav.hjelpemidler.delbestilling.infrastructure.pdl.PdlResponseMissingData
 import no.nav.hjelpemidler.delbestilling.infrastructure.pdl.PersonNotAccessibleInPdl
 import no.nav.hjelpemidler.delbestilling.infrastructure.pdl.PersonNotFoundInPdl
+import no.nav.hjelpemidler.delbestilling.oppslag.OppslagException
+import no.nav.hjelpemidler.delbestilling.oppslag.OppslagFeilResponse
 
 private val log = KotlinLogging.logger {}
 
@@ -32,6 +34,11 @@ fun Application.configureErrorHandling() {
         }
         exception<PdlResponseMissingData> { call, cause ->
             call.respond(HttpStatusCode.Forbidden, cause.message.orUnknown())
+        }
+
+        exception<OppslagException> { call, cause ->
+            log.info(cause) { "Oppslag feilet: ${cause.message}" }
+            call.respond(cause.status, OppslagFeilResponse(cause.feil))
         }
 
         // General

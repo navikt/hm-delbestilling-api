@@ -1,7 +1,6 @@
 package no.nav.hjelpemidler.delbestilling.oppslag
 
 import io.github.oshai.kotlinlogging.KotlinLogging
-import io.ktor.http.HttpStatusCode
 import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
 import no.nav.hjelpemidler.delbestilling.config.isDev
@@ -9,7 +8,6 @@ import no.nav.hjelpemidler.delbestilling.delbestilling.PiloterService
 import no.nav.hjelpemidler.delbestilling.delbestilling.model.Del
 import no.nav.hjelpemidler.delbestilling.delbestilling.model.HjelpemiddelMedDeler
 import no.nav.hjelpemidler.delbestilling.delbestilling.model.Kilde
-import no.nav.hjelpemidler.delbestilling.delbestilling.model.OppslagFeil
 import no.nav.hjelpemidler.delbestilling.delbestilling.model.OppslagResultat
 import no.nav.hjelpemidler.delbestilling.infrastructure.grunndata.Grunndata
 import no.nav.hjelpemidler.delbestilling.infrastructure.metrics.Metrics
@@ -41,22 +39,18 @@ class OppslagService(
     suspend fun slåOppHjelpemiddel(hmsnr: String, serienr: String): OppslagResultat = coroutineScope {
         val brukersKommunenummerResult = async {
             val brukersFnr = oebs.hentFnrLeietaker(hmsnr, serienr)
-                ?: return@async null
+                ?: throw IngenUtlånException("Fant ingen utlån for hmsnr $hmsnr og serien $serienr")
             pdl.hentKommunenummer(brukersFnr)
         }
 
-        val hjelpemiddelMedDelerManuell = hmsnr2Hjm[hmsnr].also {
-            if (it == null) {
-                log.info { "Fant ikke ${hmsnr} i manuell liste" }
-            }
-        }
+        val hjelpemiddelMedDelerManuell = hmsnr2Hjm[hmsnr]
 
         val hjelpemiddelMedDelerGrunndata = try {
             val grunndataHjelpemiddel = grunndata.hentProdukt(hmsnr)
 
             if (grunndataHjelpemiddel != null) {
                 if (!grunndataHjelpemiddel.main) {
-                    return@coroutineScope OppslagResultat(null, OppslagFeil.IKKE_HOVEDHJELPEMIDDEL, HttpStatusCode.NotFound)
+                    throw IkkeHjelpemiddelException("Hmsnr $hmsnr er ikke hjelpemiddel.")
                 }
 
                 val deler = grunndata.hentDeler(grunndataHjelpemiddel.seriesId, grunndataHjelpemiddel.id)
@@ -137,14 +131,12 @@ class OppslagService(
         log.info { "hjelpemiddelMedDeler: $hjelpemiddelMedDeler" }
 
         if (hjelpemiddelMedDeler == null) {
-            log.info { "Fant $hmsnr verken i grunndata eller manuell liste, returnerer TILBYR_IKKE_HJELPEMIDDEL" }
             slack.varsleOmManglendeHmsnr(hmsnr)
-            return@coroutineScope OppslagResultat(null, OppslagFeil.TILBYR_IKKE_HJELPEMIDDEL, HttpStatusCode.NotFound)
+            throw TilbyrIkkeHjelpemiddelException("Fant ikke $hmsnr verken i grunndata eller manuell liste")
         }
 
         if (hjelpemiddelMedDeler.deler.isEmpty()) {
-            log.info { "Fant ingen deler i verken grunndata eller manuell liste for $hmsnr, returnerer TILBYR_IKKE_HJELPEMIDDEL" }
-            return@coroutineScope OppslagResultat(null, OppslagFeil.TILBYR_IKKE_HJELPEMIDDEL, HttpStatusCode.NotFound)
+            throw TilbyrIkkeHjelpemiddelException("Fant ingen deler i verken grunndata eller manuell liste for $hmsnr")
         }
 
         // For sjekk av hvilke deler som inneholder "batteri" i navnet, for å se om vi må utvide batteri-sjekk
@@ -154,7 +146,7 @@ class OppslagService(
             log.info { "Deler med 'batteri' i navnet på oppslag: $delerMedBatteriINavn" }
         }
 
-        val brukersKommunenummer = brukersKommunenummerResult.await() ?: return@coroutineScope OppslagResultat(null, OppslagFeil.INGET_UTLÅN, HttpStatusCode.NotFound)
+        val brukersKommunenummer = brukersKommunenummerResult.await()
         val lagerstatusForDeler =
             oebs.hentLagerstatusForKommunenummer(brukersKommunenummer, hjelpemiddelMedDeler.deler.map { it.hmsnr })
 
@@ -187,12 +179,7 @@ class OppslagService(
             log.info { "Antall tilgjengelig deler (ikke minmax) for $hmsnr: $antallDelerTilgjengeligMenIkkePåMinmax" }
         }
 
-        OppslagResultat(
-            hjelpemiddelMedDeler,
-            null,
-            HttpStatusCode.OK,
-            piloter = piloterService.hentPiloter(brukersKommunenummer)
-        )
+        OppslagResultat(hjelpemiddelMedDeler, piloterService.hentPiloter(brukersKommunenummer))
     }
 
     private fun sjekkOmGrunndataDekkerManuellListeForHjm(
