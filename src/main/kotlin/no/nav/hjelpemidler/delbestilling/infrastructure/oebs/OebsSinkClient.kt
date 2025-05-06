@@ -10,13 +10,13 @@ private val log = KotlinLogging.logger {}
 
 class OebsSinkClient(
     private val kafka: Kafka
-) {
-    fun sendDelbestilling(opprettBestillingsordreRequest: Ordre) {
+) : OebsSink {
+    override fun sendDelbestilling(ordre: Ordre) {
         try {
             kafka.publish(
-                key = opprettBestillingsordreRequest.saksnummer,
+                key = ordre.saksnummer,
                 eventName = OPPRETT_DELBESTILLING_EVENTNAME,
-                value = opprettBestillingsordreRequest,
+                value = ordre,
             )
         } catch (t: Throwable) {
             log.error(t) { "Sending av delbestilling til Kafka feilet." }

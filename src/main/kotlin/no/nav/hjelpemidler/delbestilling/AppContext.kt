@@ -7,11 +7,10 @@ import kotlinx.coroutines.cancel
 import no.nav.hjelpemidler.delbestilling.config.DatabaseConfig
 import no.nav.hjelpemidler.delbestilling.delbestilling.DelbestillingRepository
 import no.nav.hjelpemidler.delbestilling.delbestilling.DelbestillingService
-import no.nav.hjelpemidler.delbestilling.delbestilling.Hjelpemiddeldeler
 import no.nav.hjelpemidler.delbestilling.delbestilling.PiloterService
 import no.nav.hjelpemidler.delbestilling.delbestilling.anmodning.AnmodningRepository
 import no.nav.hjelpemidler.delbestilling.delbestilling.anmodning.AnmodningService
-import no.nav.hjelpemidler.delbestilling.hjelpemidler.HjelpemidlerService
+import no.nav.hjelpemidler.delbestilling.oppslag.Hjelpemiddeloversikt
 import no.nav.hjelpemidler.delbestilling.infrastructure.email.Email
 import no.nav.hjelpemidler.delbestilling.infrastructure.geografi.Kommuneoppslag
 import no.nav.hjelpemidler.delbestilling.infrastructure.geografi.OppslagClient
@@ -27,6 +26,9 @@ import no.nav.hjelpemidler.delbestilling.infrastructure.pdl.PdlClient
 import no.nav.hjelpemidler.delbestilling.infrastructure.roller.Roller
 import no.nav.hjelpemidler.delbestilling.infrastructure.roller.RollerClient
 import no.nav.hjelpemidler.delbestilling.infrastructure.slack.Slack
+import no.nav.hjelpemidler.delbestilling.oppslag.BerikMedLagerstatus
+import no.nav.hjelpemidler.delbestilling.oppslag.FinnDelerTilHjelpemiddel
+import no.nav.hjelpemidler.delbestilling.oppslag.OppslagService
 import no.nav.hjelpemidler.hjelpemidlerdigitalSoknadapi.tjenester.norg.Norg
 import no.nav.hjelpemidler.hjelpemidlerdigitalSoknadapi.tjenester.norg.NorgClient
 import no.nav.hjelpemidler.http.openid.azureADClient
@@ -66,20 +68,13 @@ class AppContext {
     val roller = Roller(rollerClient)
 
     // Services
-    private val hjelpemiddeldeler = Hjelpemiddeldeler(grunndata)
     private val piloterService = PiloterService(norg)
+    private val finnDelerTilHjelpemiddel = FinnDelerTilHjelpemiddel(grunndata, slack, metrics)
+    private val berikMedLagerstatus = BerikMedLagerstatus(oebs, metrics)
+
     val anmodningService = AnmodningService(anmodningRepository, oebs, norg, slack, email, grunndata)
-    val hjelpemidlerService = HjelpemidlerService(grunndata, backgroundScope)
-    val delbestillingService = DelbestillingService(
-        delbestillingRepository,
-        pdl,
-        oebs,
-        kommuneoppslag,
-        metrics,
-        slack,
-        grunndata,
-        anmodningService,
-        piloterService,
-        hjelpemiddeldeler
-    )
+    val hjelpemiddeloversikt = Hjelpemiddeloversikt(grunndata, backgroundScope)
+    val delbestillingService =
+        DelbestillingService(delbestillingRepository, pdl, oebs, kommuneoppslag, metrics, slack, anmodningService)
+    val oppslagService = OppslagService(pdl, oebs, piloterService, finnDelerTilHjelpemiddel, berikMedLagerstatus)
 }

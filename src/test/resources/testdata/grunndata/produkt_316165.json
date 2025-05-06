@@ -1,0 +1,228 @@
+{
+  "hits" : {
+    "hits" : [ {
+      "_source" : {
+        "id" : "d068f957-de6b-4e45-8416-48724c704055",
+        "title" : "Netti V",
+        "articleName" : "Netti V sb55",
+        "seriesId" : "70f928c2-0ceb-469e-b5cf-9ac9093bf542",
+        "hmsArtNr" : "316165",
+        "supplierRef" : "94783",
+        "attributes" : {
+          "compatibleWith" : null
+        },
+        "isoCategory" : "12220303",
+        "supplier" : {
+          "name" : "Alu Rehab AS",
+          "id" : "b85c8c06-b776-4416-8fee-cab1223e75ae"
+        },
+        "media" : [ {
+          "uri" : "https://www.youtube.com/watch?v=XZlq5d-I_6w",
+          "priority" : 0,
+          "type" : "VIDEO",
+          "text" : "Netti V",
+          "source" : "EXTERNALURL"
+        }, {
+          "uri" : "orig/66519.jpg",
+          "priority" : 1,
+          "type" : "IMAGE",
+          "text" : "billede",
+          "source" : "HMDB"
+        }, {
+          "uri" : "orig/66519_2.jpg",
+          "priority" : 4,
+          "type" : "IMAGE",
+          "text" : "billede",
+          "source" : "HMDB"
+        }, {
+          "uri" : "orig/66519_3.jpg",
+          "priority" : 7,
+          "type" : "IMAGE",
+          "text" : "billede",
+          "source" : "HMDB"
+        }, {
+          "uri" : "orig/66519_4.jpg",
+          "priority" : 10,
+          "type" : "IMAGE",
+          "text" : "billede",
+          "source" : "HMDB"
+        }, {
+          "uri" : "brugsvejl/66519.pdf",
+          "priority" : 13,
+          "type" : "PDF",
+          "text" : "bruksanvisning",
+          "source" : "HMDB"
+        }, {
+          "uri" : "seriedok/8606/66519.pdf",
+          "priority" : 15,
+          "type" : "PDF",
+          "text" : "quickguide",
+          "source" : "HMDB"
+        }, {
+          "uri" : "video/66519.mp4",
+          "priority" : 16,
+          "type" : "VIDEO",
+          "text" : "video",
+          "source" : "HMDB"
+        }, {
+          "uri" : "register/70f928c2-0ceb-469e-b5cf-9ac9093bf542/94d75b9d-794d-478b-8d01-6e1eb7c3e2db.pdf",
+          "priority" : 17,
+          "type" : "PDF",
+          "text" : "Katalog",
+          "source" : "REGISTER"
+        } ],
+        "accessory" : false,
+        "sparePart" : false,
+        "main" : true
+      }
+    } ]
+  },
+  "produkter" : [ {
+    "id" : "d068f957-de6b-4e45-8416-48724c704055",
+    "title" : "Netti V",
+    "articleName" : "Netti V sb55",
+    "seriesId" : "70f928c2-0ceb-469e-b5cf-9ac9093bf542",
+    "hmsArtNr" : "316165",
+    "supplierRef" : "94783",
+    "attributes" : {
+      "compatibleWith" : null
+    },
+    "isoCategory" : "12220303",
+    "supplier" : {
+      "name" : "Alu Rehab AS",
+      "id" : "b85c8c06-b776-4416-8fee-cab1223e75ae"
+    },
+    "media" : [ {
+      "uri" : "https://www.youtube.com/watch?v=XZlq5d-I_6w",
+      "priority" : 0,
+      "type" : "VIDEO",
+      "text" : "Netti V",
+      "source" : "EXTERNALURL"
+    }, {
+      "uri" : "orig/66519.jpg",
+      "priority" : 1,
+      "type" : "IMAGE",
+      "text" : "billede",
+      "source" : "HMDB"
+    }, {
+      "uri" : "orig/66519_2.jpg",
+      "priority" : 4,
+      "type" : "IMAGE",
+      "text" : "billede",
+      "source" : "HMDB"
+    }, {
+      "uri" : "orig/66519_3.jpg",
+      "priority" : 7,
+      "type" : "IMAGE",
+      "text" : "billede",
+      "source" : "HMDB"
+    }, {
+      "uri" : "orig/66519_4.jpg",
+      "priority" : 10,
+      "type" : "IMAGE",
+      "text" : "billede",
+      "source" : "HMDB"
+    }, {
+      "uri" : "brugsvejl/66519.pdf",
+      "priority" : 13,
+      "type" : "PDF",
+      "text" : "bruksanvisning",
+      "source" : "HMDB"
+    }, {
+      "uri" : "seriedok/8606/66519.pdf",
+      "priority" : 15,
+      "type" : "PDF",
+      "text" : "quickguide",
+      "source" : "HMDB"
+    }, {
+      "uri" : "video/66519.mp4",
+      "priority" : 16,
+      "type" : "VIDEO",
+      "text" : "video",
+      "source" : "HMDB"
+    }, {
+      "uri" : "register/70f928c2-0ceb-469e-b5cf-9ac9093bf542/94d75b9d-794d-478b-8d01-6e1eb7c3e2db.pdf",
+      "priority" : 17,
+      "type" : "PDF",
+      "text" : "Katalog",
+      "source" : "REGISTER"
+    } ],
+    "accessory" : false,
+    "sparePart" : false,
+    "main" : true
+  } ],
+  "produkt" : {
+    "id" : "d068f957-de6b-4e45-8416-48724c704055",
+    "title" : "Netti V",
+    "articleName" : "Netti V sb55",
+    "seriesId" : "70f928c2-0ceb-469e-b5cf-9ac9093bf542",
+    "hmsArtNr" : "316165",
+    "supplierRef" : "94783",
+    "attributes" : {
+      "compatibleWith" : null
+    },
+    "isoCategory" : "12220303",
+    "supplier" : {
+      "name" : "Alu Rehab AS",
+      "id" : "b85c8c06-b776-4416-8fee-cab1223e75ae"
+    },
+    "media" : [ {
+      "uri" : "https://www.youtube.com/watch?v=XZlq5d-I_6w",
+      "priority" : 0,
+      "type" : "VIDEO",
+      "text" : "Netti V",
+      "source" : "EXTERNALURL"
+    }, {
+      "uri" : "orig/66519.jpg",
+      "priority" : 1,
+      "type" : "IMAGE",
+      "text" : "billede",
+      "source" : "HMDB"
+    }, {
+      "uri" : "orig/66519_2.jpg",
+      "priority" : 4,
+      "type" : "IMAGE",
+      "text" : "billede",
+      "source" : "HMDB"
+    }, {
+      "uri" : "orig/66519_3.jpg",
+      "priority" : 7,
+      "type" : "IMAGE",
+      "text" : "billede",
+      "source" : "HMDB"
+    }, {
+      "uri" : "orig/66519_4.jpg",
+      "priority" : 10,
+      "type" : "IMAGE",
+      "text" : "billede",
+      "source" : "HMDB"
+    }, {
+      "uri" : "brugsvejl/66519.pdf",
+      "priority" : 13,
+      "type" : "PDF",
+      "text" : "bruksanvisning",
+      "source" : "HMDB"
+    }, {
+      "uri" : "seriedok/8606/66519.pdf",
+      "priority" : 15,
+      "type" : "PDF",
+      "text" : "quickguide",
+      "source" : "HMDB"
+    }, {
+      "uri" : "video/66519.mp4",
+      "priority" : 16,
+      "type" : "VIDEO",
+      "text" : "video",
+      "source" : "HMDB"
+    }, {
+      "uri" : "register/70f928c2-0ceb-469e-b5cf-9ac9093bf542/94d75b9d-794d-478b-8d01-6e1eb7c3e2db.pdf",
+      "priority" : 17,
+      "type" : "PDF",
+      "text" : "Katalog",
+      "source" : "REGISTER"
+    } ],
+    "accessory" : false,
+    "sparePart" : false,
+    "main" : true
+  }
+}

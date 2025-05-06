@@ -20,7 +20,7 @@ import java.util.UUID
 class GrunndataClient(
     private val client: HttpClient = defaultHttpClient(),
     baseUrl: String = AppConfig.GRUNNDATA_API_URL,
-) {
+) : GrunndataClientInterface {
 
     private val searchUrl = "$baseUrl/products/_search"
 
@@ -35,19 +35,19 @@ class GrunndataClient(
         }
     }
 
-    suspend fun hentProdukt(hmsnr: String): ProduktResponse {
+    override suspend fun hentProdukt(hmsnr: String): ProduktResponse {
         return executeQuery(hmsArtNrQuery(hmsnr))
     }
 
-    suspend fun hentDeler(seriesId: UUID, produktId: UUID): ProduktResponse {
+    override suspend fun hentDeler(seriesId: UUID, produktId: UUID): ProduktResponse {
         return executeQuery(compatibleWithQuery(seriesId, produktId))
     }
 
-    suspend fun hentAlleDelerSomKanBestilles(): ProduktResponse {
+    override suspend fun hentAlleDelerSomKanBestilles(): ProduktResponse {
         return executeQuery(alleDelerSomKanBestillesQuery())
     }
 
-    suspend fun hentAlleHjmMedIdEllerSeriesId(seriesIds: Set<UUID>, produktIds: Set<UUID>): ProduktResponse {
+    override suspend fun hentAlleHjmMedIdEllerSeriesId(seriesIds: Set<UUID>, produktIds: Set<UUID>): ProduktResponse {
         return executeQuery(alleHjelpemiddelMedIdEllerSeriesIdQuery(seriesIds = seriesIds, produktIds = produktIds))
     }
 }

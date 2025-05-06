@@ -3,11 +3,11 @@ package no.nav.hjelpemidler.delbestilling.delbestilling
 import io.mockk.coEvery
 import io.mockk.mockk
 import kotlinx.coroutines.test.runTest
-import no.nav.hjelpemidler.delbestilling.MockException
-import no.nav.hjelpemidler.delbestilling.TestDatabase
-import no.nav.hjelpemidler.delbestilling.delLinje
-import no.nav.hjelpemidler.delbestilling.delbestillerRolle
-import no.nav.hjelpemidler.delbestilling.delbestilling
+import no.nav.hjelpemidler.delbestilling.testdata.MockException
+import no.nav.hjelpemidler.delbestilling.testdata.TestDatabase
+import no.nav.hjelpemidler.delbestilling.testdata.delLinje
+import no.nav.hjelpemidler.delbestilling.testdata.delbestillerRolle
+import no.nav.hjelpemidler.delbestilling.testdata.delbestilling
 import no.nav.hjelpemidler.delbestilling.delbestilling.anmodning.AnmodningRepository
 import no.nav.hjelpemidler.delbestilling.delbestilling.anmodning.AnmodningService
 import no.nav.hjelpemidler.delbestilling.delbestilling.anmodning.lagerstatus
@@ -15,16 +15,14 @@ import no.nav.hjelpemidler.delbestilling.delbestilling.model.BestillerType
 import no.nav.hjelpemidler.delbestilling.delbestilling.model.DelbestillingFeil
 import no.nav.hjelpemidler.delbestilling.delbestilling.model.DellinjeStatus
 import no.nav.hjelpemidler.delbestilling.delbestilling.model.Status
-import no.nav.hjelpemidler.delbestilling.delbestillingRequest
-import no.nav.hjelpemidler.delbestilling.delbestillingSak
-import no.nav.hjelpemidler.delbestilling.enhet
+import no.nav.hjelpemidler.delbestilling.testdata.delbestillingRequest
+import no.nav.hjelpemidler.delbestilling.testdata.delbestillingSak
 import no.nav.hjelpemidler.delbestilling.infrastructure.geografi.Kommuneoppslag
-import no.nav.hjelpemidler.delbestilling.infrastructure.grunndata.Grunndata
 import no.nav.hjelpemidler.delbestilling.infrastructure.oebs.Oebs
 import no.nav.hjelpemidler.delbestilling.infrastructure.oebs.OebsPersoninfo
 import no.nav.hjelpemidler.delbestilling.infrastructure.pdl.Pdl
 import no.nav.hjelpemidler.delbestilling.infrastructure.slack.Slack
-import no.nav.hjelpemidler.delbestilling.organisasjon
+import no.nav.hjelpemidler.delbestilling.testdata.organisasjon
 import no.nav.hjelpemidler.hjelpemidlerdigitalSoknadapi.tjenester.norg.Norg
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -63,9 +61,7 @@ internal class DelbestillingServiceTest {
     }
 
     private val slack = mockk<Slack>(relaxed = true)
-    private val grunndata = mockk<Grunndata>()
     private val anmodningService = mockk<AnmodningService>(relaxed = true)
-    private val piloterService = mockk<PiloterService>(relaxed = true)
     private val delbestillingService =
         DelbestillingService(
             delbestillingRepository,
@@ -74,10 +70,7 @@ internal class DelbestillingServiceTest {
             kommuneoppslag,
             mockk(relaxed = true),
             slack,
-            grunndata,
             anmodningService,
-            piloterService,
-            mockk(relaxed = true),
         )
 
     @BeforeEach
@@ -229,18 +222,6 @@ internal class DelbestillingServiceTest {
     }
 
     @Test
-    fun `skal feile dersom oppslag inneholder deler uten lagerstatus`() = runTest {
-        val azaleaHmsnr = "097765"
-        val azaleaSerienr = "123456"
-        coEvery { oebs.hentFnrLeietaker(azaleaHmsnr, azaleaSerienr) } returns brukersFnr
-        coEvery { oebs.hentLagerstatusForKommunenummer(any(), any()) } returns emptyList()
-
-        assertThrows<IllegalStateException> {
-            delbestillingService.slåOppHjelpemiddel(azaleaHmsnr, azaleaSerienr)
-        }
-    }
-
-    @Test
     fun `skal retunere null dersom det ikke eksisterer en tidligere batteribestilling`() = runTest {
         val hmsnr = "145668"
         val serienr = "123456"
@@ -306,9 +287,6 @@ internal class DelbestillingServiceTest {
                 kommuneoppslag,
                 mockk(relaxed = true),
                 slack,
-                grunndata,
-                mockk(relaxed = true),
-                mockk(relaxed = true),
                 mockk(relaxed = true),
             )
             assertEquals(14, delbestillingService.antallDagerSidenSisteBatteribestilling("hmsnr", "serienr"))
@@ -337,10 +315,7 @@ internal class DelbestillingServiceTest {
                 kommuneoppslag,
                 mockk(relaxed = true),
                 slack,
-                grunndata,
                 anmodningService,
-                piloterService,
-                mockk(relaxed = true),
             )
 
         val hmsnrEtterfylt = "111111"
@@ -423,10 +398,7 @@ internal class DelbestillingServiceTest {
                 kommuneoppslag,
                 mockk(relaxed = true),
                 slack,
-                grunndata,
                 anmodningService,
-                piloterService,
-                mockk(relaxed = true),
             )
 
         // Første delbestilling

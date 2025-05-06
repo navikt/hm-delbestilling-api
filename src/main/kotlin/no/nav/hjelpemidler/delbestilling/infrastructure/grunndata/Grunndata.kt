@@ -1,16 +1,19 @@
 package no.nav.hjelpemidler.delbestilling.infrastructure.grunndata
 
 import io.github.oshai.kotlinlogging.KotlinLogging
+import kotlinx.coroutines.runBlocking
 import no.nav.hjelpemidler.delbestilling.delbestilling.model.Hmsnr
 import java.util.UUID
 
 private val log = KotlinLogging.logger {}
 
-class Grunndata(private val client: GrunndataClient) {
+class Grunndata(private val client: GrunndataClientInterface) {
 
     suspend fun hentProdukt(hmsnr: Hmsnr): Produkt? {
         log.info { "Henter produkt $hmsnr fra grunndata" }
-        return client.hentProdukt(hmsnr).produkt
+        val produkt = client.hentProdukt(hmsnr).produkt
+        log.info { "Produkt for $hmsnr: $produkt" }
+        return produkt
     }
 
     suspend fun hentDeler(seriesId: UUID, produktId: UUID): List<Produkt> {

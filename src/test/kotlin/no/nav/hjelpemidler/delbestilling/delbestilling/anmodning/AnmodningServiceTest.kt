@@ -2,10 +2,10 @@ package no.nav.hjelpemidler.delbestilling.delbestilling.anmodning
 
 import io.mockk.mockk
 import kotlinx.coroutines.test.runTest
-import no.nav.hjelpemidler.delbestilling.TestDatabase
-import no.nav.hjelpemidler.delbestilling.delLinje
-import no.nav.hjelpemidler.delbestilling.delbestilling
-import no.nav.hjelpemidler.delbestilling.delbestillingSak
+import no.nav.hjelpemidler.delbestilling.testdata.TestDatabase
+import no.nav.hjelpemidler.delbestilling.testdata.delLinje
+import no.nav.hjelpemidler.delbestilling.testdata.delbestilling
+import no.nav.hjelpemidler.delbestilling.testdata.delbestillingSak
 import no.nav.hjelpemidler.delbestilling.infrastructure.email.Email
 import no.nav.hjelpemidler.delbestilling.infrastructure.oebs.Oebs
 import no.nav.hjelpemidler.delbestilling.infrastructure.slack.Slack

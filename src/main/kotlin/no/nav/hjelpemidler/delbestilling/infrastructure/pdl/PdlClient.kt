@@ -20,7 +20,7 @@ class PdlClient(
     private val client: HttpClient = defaultHttpClient(),
     private val baseUrl: String = AppConfig.PDL_GRAPHQL_URL,
     private val apiScope: String = AppConfig.PDL_API_SCOPE,
-) {
+) : PdlClientInterface {
 
     private suspend inline fun <reified T : Any> pdlRequest(pdlQuery: GraphqlQuery): T {
         return withContext(Dispatchers.IO) {
@@ -36,7 +36,7 @@ class PdlClient(
         }
     }
 
-    suspend fun hentKommunenummer(fnummer: String): PdlPersonResponse = pdlRequest(hentKommunenummerQuery(fnummer))
+    override suspend fun hentKommunenummer(fnummer: String): PdlPersonResponse = pdlRequest(hentKommunenummerQuery(fnummer))
 
-    suspend fun hentPersonNavn(fnr: String): PdlPersonResponse = pdlRequest(hentPersonNavnQuery(fnr))
+    override suspend fun hentPersonNavn(fnr: String): PdlPersonResponse = pdlRequest(hentPersonNavnQuery(fnr))
 }

@@ -1,7 +1,7 @@
 package no.nav.hjelpemidler.delbestilling.infrastructure.pdl
 
 
-class Pdl(private val client: PdlClient) {
+class Pdl(private val client: PdlClientInterface) {
 
     suspend fun hentKommunenummer(fnr: String): String {
         val response = valider(client.hentKommunenummer(fnr))

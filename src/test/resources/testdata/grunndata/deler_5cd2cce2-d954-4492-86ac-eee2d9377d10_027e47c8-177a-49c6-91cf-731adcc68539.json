@@ -1,0 +1,1087 @@
+{
+  "hits" : {
+    "hits" : [ {
+      "_source" : {
+        "id" : "7850fb67-ac58-4dee-8f6f-6a924ad11a12",
+        "title" : "Benstøtte overdel mrs Azalea vjust hevbar hø m/knepolstring",
+        "articleName" : "Benstøtte overdel mrs Azalea vjust hevbar hø m/knepolstring",
+        "seriesId" : "dfc732dd-4a08-408c-8e59-3c5b55cac172",
+        "hmsArtNr" : "279805",
+        "supplierRef" : "SP60122670",
+        "attributes" : {
+          "compatibleWith" : {
+            "seriesIds" : [ "5cd2cce2-d954-4492-86ac-eee2d9377d10" ],
+            "productIds" : [ "027e47c8-177a-49c6-91cf-731adcc68539", "54843c59-a456-4628-9636-7b8d09d47d80", "df9e75df-41df-48ae-b3c3-537b3a8e88d9" ]
+          }
+        },
+        "isoCategory" : "122291",
+        "supplier" : {
+          "name" : "Invacare AS",
+          "id" : "4f296dbf-9b0e-47d3-ba74-e6e4bd5699bf"
+        },
+        "media" : [ ],
+        "accessory" : false,
+        "sparePart" : true,
+        "main" : false
+      }
+    }, {
+      "_source" : {
+        "id" : "01d0d019-89a6-4eac-bd8d-0849d4805501",
+        "title" : "Polster armlene mrs Azalea ducktail hø/ve",
+        "articleName" : "Polster armlene mrs Azalea ducktail hø/ve",
+        "seriesId" : "b70c1b5f-4d7a-4258-9b47-aaf7895e795a",
+        "hmsArtNr" : "196169",
+        "supplierRef" : "SP1451561",
+        "attributes" : {
+          "compatibleWith" : {
+            "seriesIds" : [ "5cd2cce2-d954-4492-86ac-eee2d9377d10" ],
+            "productIds" : [ "027e47c8-177a-49c6-91cf-731adcc68539", "54843c59-a456-4628-9636-7b8d09d47d80", "df9e75df-41df-48ae-b3c3-537b3a8e88d9" ]
+          }
+        },
+        "isoCategory" : "122291",
+        "supplier" : {
+          "name" : "Invacare AS",
+          "id" : "4f296dbf-9b0e-47d3-ba74-e6e4bd5699bf"
+        },
+        "media" : [ ],
+        "accessory" : false,
+        "sparePart" : true,
+        "main" : false
+      }
+    }, {
+      "_source" : {
+        "id" : "bf604d40-6cc1-423c-8dd7-b81bdfb75514",
+        "title" : "Drivring mrs Azalea 24\" alu",
+        "articleName" : "Drivring mrs Azalea 24\" alu",
+        "seriesId" : "0bb1a5b9-905e-43dc-9209-897addac8759",
+        "hmsArtNr" : "224316",
+        "supplierRef" : "1505291",
+        "attributes" : {
+          "compatibleWith" : {
+            "seriesIds" : [ "5cd2cce2-d954-4492-86ac-eee2d9377d10" ],
+            "productIds" : [ "027e47c8-177a-49c6-91cf-731adcc68539", "54843c59-a456-4628-9636-7b8d09d47d80", "df9e75df-41df-48ae-b3c3-537b3a8e88d9" ]
+          }
+        },
+        "isoCategory" : "122293",
+        "supplier" : {
+          "name" : "Invacare AS",
+          "id" : "4f296dbf-9b0e-47d3-ba74-e6e4bd5699bf"
+        },
+        "media" : [ ],
+        "accessory" : false,
+        "sparePart" : true,
+        "main" : false
+      }
+    }, {
+      "_source" : {
+        "id" : "090ba459-157c-44ae-bf2d-6f17159acfca",
+        "title" : "Tippesikring mrs Azalea kpl",
+        "articleName" : "Tippesikring mrs Azalea kpl",
+        "seriesId" : "c3625ab5-a8fe-45a9-8e70-751412390cf0",
+        "hmsArtNr" : "168790",
+        "supplierRef" : "1439933",
+        "attributes" : {
+          "compatibleWith" : {
+            "seriesIds" : [ "5cd2cce2-d954-4492-86ac-eee2d9377d10" ],
+            "productIds" : [ "027e47c8-177a-49c6-91cf-731adcc68539", "54843c59-a456-4628-9636-7b8d09d47d80", "df9e75df-41df-48ae-b3c3-537b3a8e88d9" ]
+          }
+        },
+        "isoCategory" : "122293",
+        "supplier" : {
+          "name" : "Invacare AS",
+          "id" : "4f296dbf-9b0e-47d3-ba74-e6e4bd5699bf"
+        },
+        "media" : [ ],
+        "accessory" : false,
+        "sparePart" : true,
+        "main" : false
+      }
+    }, {
+      "_source" : {
+        "id" : "0a1eac31-f96e-41cc-bff9-b45b230d7fc2",
+        "title" : "Gassfjærsett sete og rygg mrs Azalea kpl",
+        "articleName" : "Gassfjærsett sete og rygg mrs Azalea kpl",
+        "seriesId" : "c6d51053-6487-4e56-a142-9c7bbff5de0e",
+        "hmsArtNr" : "239594",
+        "supplierRef" : "SP1605256",
+        "attributes" : {
+          "compatibleWith" : {
+            "seriesIds" : [ "5cd2cce2-d954-4492-86ac-eee2d9377d10" ],
+            "productIds" : [ "027e47c8-177a-49c6-91cf-731adcc68539", "54843c59-a456-4628-9636-7b8d09d47d80", "df9e75df-41df-48ae-b3c3-537b3a8e88d9" ]
+          }
+        },
+        "isoCategory" : "122292",
+        "supplier" : {
+          "name" : "Invacare AS",
+          "id" : "4f296dbf-9b0e-47d3-ba74-e6e4bd5699bf"
+        },
+        "media" : [ ],
+        "accessory" : false,
+        "sparePart" : true,
+        "main" : false
+      }
+    }, {
+      "_source" : {
+        "id" : "5df3b7df-a4f8-4559-b70b-d9ec4010758a",
+        "title" : "Benstøtte overdel mrs Azalea vjust hevbar ve m/knepolstring",
+        "articleName" : "Benstøtte overdel mrs Azalea vjust hevbar ve m/knepolstring",
+        "seriesId" : "2468c8c1-b087-48b2-9732-d27de262b96e",
+        "hmsArtNr" : "279806",
+        "supplierRef" : "SP60122669",
+        "attributes" : {
+          "compatibleWith" : {
+            "seriesIds" : [ "5cd2cce2-d954-4492-86ac-eee2d9377d10" ],
+            "productIds" : [ "027e47c8-177a-49c6-91cf-731adcc68539", "54843c59-a456-4628-9636-7b8d09d47d80", "df9e75df-41df-48ae-b3c3-537b3a8e88d9" ]
+          }
+        },
+        "isoCategory" : "122291",
+        "supplier" : {
+          "name" : "Invacare AS",
+          "id" : "4f296dbf-9b0e-47d3-ba74-e6e4bd5699bf"
+        },
+        "media" : [ ],
+        "accessory" : false,
+        "sparePart" : true,
+        "main" : false
+      }
+    }, {
+      "_source" : {
+        "id" : "53a8cb2c-7156-4ccf-8b05-2fc3ee5f039e",
+        "title" : "Drivhjul mrs Azalea/XLT Swing 24 led b kompakt",
+        "articleName" : "Drivhjul mrs Azalea/XLT Swing 24 led b kompakt",
+        "seriesId" : "9ab3c926-3428-430f-96ff-1d406483e127",
+        "hmsArtNr" : "185710",
+        "supplierRef" : "SP60108738",
+        "attributes" : {
+          "compatibleWith" : {
+            "seriesIds" : [ "5cd2cce2-d954-4492-86ac-eee2d9377d10" ],
+            "productIds" : [ "027e47c8-177a-49c6-91cf-731adcc68539", "54843c59-a456-4628-9636-7b8d09d47d80", "df9e75df-41df-48ae-b3c3-537b3a8e88d9" ]
+          }
+        },
+        "isoCategory" : "122293",
+        "supplier" : {
+          "name" : "Invacare AS",
+          "id" : "4f296dbf-9b0e-47d3-ba74-e6e4bd5699bf"
+        },
+        "media" : [ ],
+        "accessory" : false,
+        "sparePart" : true,
+        "main" : false
+      }
+    }, {
+      "_source" : {
+        "id" : "7a4488f7-9e33-4e8b-ad8c-e0dc499c45c4",
+        "title" : "Armlene mrs Azalea kpl ve",
+        "articleName" : "Armlene mrs Azalea kpl ve",
+        "seriesId" : "3084cc77-ca82-4f16-a8ce-3e49fc86e1ea",
+        "hmsArtNr" : "168803",
+        "supplierRef" : "168803",
+        "attributes" : {
+          "compatibleWith" : {
+            "seriesIds" : [ "5cd2cce2-d954-4492-86ac-eee2d9377d10" ],
+            "productIds" : [ "027e47c8-177a-49c6-91cf-731adcc68539", "54843c59-a456-4628-9636-7b8d09d47d80", "df9e75df-41df-48ae-b3c3-537b3a8e88d9" ]
+          }
+        },
+        "isoCategory" : "122291",
+        "supplier" : {
+          "name" : "Invacare AS",
+          "id" : "4f296dbf-9b0e-47d3-ba74-e6e4bd5699bf"
+        },
+        "media" : [ ],
+        "accessory" : false,
+        "sparePart" : true,
+        "main" : false
+      }
+    }, {
+      "_source" : {
+        "id" : "9311278c-7c5a-4735-b715-0cf68751ad2c",
+        "title" : "Armlene mrs Azalea kpl hø",
+        "articleName" : "Armlene mrs Azalea kpl hø",
+        "seriesId" : "8a617b09-b330-4039-8f09-8c1177c651ef",
+        "hmsArtNr" : "168802",
+        "supplierRef" : "1517367",
+        "attributes" : {
+          "compatibleWith" : {
+            "seriesIds" : [ "5cd2cce2-d954-4492-86ac-eee2d9377d10" ],
+            "productIds" : [ "027e47c8-177a-49c6-91cf-731adcc68539", "54843c59-a456-4628-9636-7b8d09d47d80", "df9e75df-41df-48ae-b3c3-537b3a8e88d9" ]
+          }
+        },
+        "isoCategory" : "122291",
+        "supplier" : {
+          "name" : "Invacare AS",
+          "id" : "4f296dbf-9b0e-47d3-ba74-e6e4bd5699bf"
+        },
+        "media" : [ ],
+        "accessory" : false,
+        "sparePart" : true,
+        "main" : false
+      }
+    }, {
+      "_source" : {
+        "id" : "515a9d84-b228-40d1-a538-c8e37c171f12",
+        "title" : "Hodestøtte mrs Azalea/XLT Swing kpl svart",
+        "articleName" : "Hodestøtte mrs Azalea/XLT Swing kpl svart",
+        "seriesId" : "c39e76fd-846c-4809-9612-13cf19c7342d",
+        "hmsArtNr" : "186161",
+        "supplierRef" : "1508848",
+        "attributes" : {
+          "compatibleWith" : {
+            "seriesIds" : [ "5cd2cce2-d954-4492-86ac-eee2d9377d10" ],
+            "productIds" : [ "027e47c8-177a-49c6-91cf-731adcc68539", "54843c59-a456-4628-9636-7b8d09d47d80", "df9e75df-41df-48ae-b3c3-537b3a8e88d9" ]
+          }
+        },
+        "isoCategory" : "122291",
+        "supplier" : {
+          "name" : "Invacare AS",
+          "id" : "4f296dbf-9b0e-47d3-ba74-e6e4bd5699bf"
+        },
+        "media" : [ ],
+        "accessory" : false,
+        "sparePart" : true,
+        "main" : false
+      }
+    }, {
+      "_source" : {
+        "id" : "9c80a303-1b7b-4e05-ade6-1e78afa62402",
+        "title" : "Svinghjul mrs Azalea 8 kompakt smal",
+        "articleName" : "Svinghjul mrs Azalea 8 kompakt smal",
+        "seriesId" : "47e70326-7f30-4025-8037-89741be17150",
+        "hmsArtNr" : "285333",
+        "supplierRef" : "SP1659705",
+        "attributes" : {
+          "compatibleWith" : {
+            "seriesIds" : [ "5cd2cce2-d954-4492-86ac-eee2d9377d10" ],
+            "productIds" : [ "027e47c8-177a-49c6-91cf-731adcc68539", "54843c59-a456-4628-9636-7b8d09d47d80", "df9e75df-41df-48ae-b3c3-537b3a8e88d9" ]
+          }
+        },
+        "isoCategory" : "122293",
+        "supplier" : {
+          "name" : "Invacare AS",
+          "id" : "4f296dbf-9b0e-47d3-ba74-e6e4bd5699bf"
+        },
+        "media" : [ ],
+        "accessory" : false,
+        "sparePart" : true,
+        "main" : false
+      }
+    }, {
+      "_source" : {
+        "id" : "010d603f-7d51-4047-908b-a3b74a8248b1",
+        "title" : "Brems mrs Azalea ufeste hø",
+        "articleName" : "Brems mrs Azalea ufeste hø",
+        "seriesId" : "d65b1bcc-8e83-4b0f-948f-2518e6ed5d8a",
+        "hmsArtNr" : "223918",
+        "supplierRef" : "SP1588552",
+        "attributes" : {
+          "compatibleWith" : {
+            "seriesIds" : [ "5cd2cce2-d954-4492-86ac-eee2d9377d10" ],
+            "productIds" : [ "027e47c8-177a-49c6-91cf-731adcc68539", "54843c59-a456-4628-9636-7b8d09d47d80", "df9e75df-41df-48ae-b3c3-537b3a8e88d9" ]
+          }
+        },
+        "isoCategory" : "122293",
+        "supplier" : {
+          "name" : "Invacare AS",
+          "id" : "4f296dbf-9b0e-47d3-ba74-e6e4bd5699bf"
+        },
+        "media" : [ ],
+        "accessory" : false,
+        "sparePart" : true,
+        "main" : false
+      }
+    }, {
+      "_source" : {
+        "id" : "a3a7846b-1939-4054-b1d6-c09d57f58353",
+        "title" : "Brems mrs Azalea u/feste ve",
+        "articleName" : "Brems mrs Azalea u/feste ve",
+        "seriesId" : "492aad6e-1998-42eb-be89-cbc9338435ef",
+        "hmsArtNr" : "223919",
+        "supplierRef" : "SP1588553",
+        "attributes" : {
+          "compatibleWith" : {
+            "seriesIds" : [ "5cd2cce2-d954-4492-86ac-eee2d9377d10" ],
+            "productIds" : [ "027e47c8-177a-49c6-91cf-731adcc68539", "54843c59-a456-4628-9636-7b8d09d47d80", "df9e75df-41df-48ae-b3c3-537b3a8e88d9" ]
+          }
+        },
+        "isoCategory" : "122293",
+        "supplier" : {
+          "name" : "Invacare AS",
+          "id" : "4f296dbf-9b0e-47d3-ba74-e6e4bd5699bf"
+        },
+        "media" : [ ],
+        "accessory" : false,
+        "sparePart" : true,
+        "main" : false
+      }
+    }, {
+      "_source" : {
+        "id" : "c6c4527c-b470-40e1-b9a4-778d40dca403",
+        "title" : "Pute sete mrs Azalea sb44 sort Plush",
+        "articleName" : "Pute sete mrs Azalea sb44 sort Plush",
+        "seriesId" : "becfdd47-8314-42fa-87e9-2835b1916936",
+        "hmsArtNr" : "226417",
+        "supplierRef" : "1508057-TR35",
+        "attributes" : {
+          "compatibleWith" : {
+            "seriesIds" : [ ],
+            "productIds" : [ "027e47c8-177a-49c6-91cf-731adcc68539" ]
+          }
+        },
+        "isoCategory" : "122292",
+        "supplier" : {
+          "name" : "Invacare AS",
+          "id" : "4f296dbf-9b0e-47d3-ba74-e6e4bd5699bf"
+        },
+        "media" : [ ],
+        "accessory" : false,
+        "sparePart" : true,
+        "main" : false
+      }
+    }, {
+      "_source" : {
+        "id" : "4f8f9bc3-ee71-48b8-95ff-86f81ac175c2",
+        "title" : "Leggpute Küschall Compact FF/Küschall Compact SA 1",
+        "articleName" : "Leggpute Küschall Compact SA sb48-50 kpl 17 hø",
+        "seriesId" : "5180b674-bd51-4a32-892c-73abc36bf5f5",
+        "hmsArtNr" : "280348",
+        "supplierRef" : "SP1605193",
+        "attributes" : {
+          "compatibleWith" : {
+            "seriesIds" : [ ],
+            "productIds" : [ "027e47c8-177a-49c6-91cf-731adcc68539" ]
+          }
+        },
+        "isoCategory" : "122291",
+        "supplier" : {
+          "name" : "Invacare AS",
+          "id" : "4f296dbf-9b0e-47d3-ba74-e6e4bd5699bf"
+        },
+        "media" : [ ],
+        "accessory" : false,
+        "sparePart" : true,
+        "main" : false
+      }
+    }, {
+      "_source" : {
+        "id" : "e472855a-599a-4c02-acf8-a1f372614ad3",
+        "title" : "Rygg borrelås mrs Azalea  sb44 kpl",
+        "articleName" : "Rygg borrelås mrs Azalea  sb44 kpl",
+        "seriesId" : "2100001b-b53d-4b29-8dae-5a316f847a1d",
+        "hmsArtNr" : "189773",
+        "supplierRef" : "SP1554119",
+        "attributes" : {
+          "compatibleWith" : {
+            "seriesIds" : [ ],
+            "productIds" : [ "027e47c8-177a-49c6-91cf-731adcc68539" ]
+          }
+        },
+        "isoCategory" : "122293",
+        "supplier" : {
+          "name" : "Invacare AS",
+          "id" : "4f296dbf-9b0e-47d3-ba74-e6e4bd5699bf"
+        },
+        "media" : [ ],
+        "accessory" : false,
+        "sparePart" : true,
+        "main" : false
+      }
+    }, {
+      "_source" : {
+        "id" : "df0d92b7-c7f5-4715-a84e-1a279784749c",
+        "title" : "Kjørehåndtak mrs Azalea faste kpl (sb39)",
+        "articleName" : "Kjørehåndtak mrs Azalea faste kpl (sb39)",
+        "seriesId" : "3d12f379-9496-4c95-8219-8c66320e741d",
+        "hmsArtNr" : "225994",
+        "supplierRef" : "SP1571966",
+        "attributes" : {
+          "compatibleWith" : {
+            "seriesIds" : [ ],
+            "productIds" : [ "027e47c8-177a-49c6-91cf-731adcc68539" ]
+          }
+        },
+        "isoCategory" : "122292",
+        "supplier" : {
+          "name" : "Invacare AS",
+          "id" : "4f296dbf-9b0e-47d3-ba74-e6e4bd5699bf"
+        },
+        "media" : [ ],
+        "accessory" : false,
+        "sparePart" : true,
+        "main" : false
+      }
+    }, {
+      "_source" : {
+        "id" : "e7a5ee13-a706-414a-91d8-592280842cf6",
+        "title" : "Benstøtte mrs Azalea AA sb44 par",
+        "articleName" : "Benstøtte mrs Azalea AA sb44 par",
+        "seriesId" : "972376fc-14a6-4415-9598-849c8fbeb719",
+        "hmsArtNr" : "292137",
+        "supplierRef" : "AP1657107",
+        "attributes" : {
+          "compatibleWith" : {
+            "seriesIds" : [ ],
+            "productIds" : [ "027e47c8-177a-49c6-91cf-731adcc68539" ]
+          }
+        },
+        "isoCategory" : "122291",
+        "supplier" : {
+          "name" : "Invacare AS",
+          "id" : "4f296dbf-9b0e-47d3-ba74-e6e4bd5699bf"
+        },
+        "media" : [ ],
+        "accessory" : false,
+        "sparePart" : true,
+        "main" : false
+      }
+    }, {
+      "_source" : {
+        "id" : "da9d40b6-f646-445f-8a65-609bd64c73ee",
+        "title" : "Fotplate mrs Azalea sb44 dvreg hælbånd rør langt 197 ve",
+        "articleName" : "Fotplate mrs Azalea sb44 dvreg hælbånd rør langt 197 ve",
+        "seriesId" : "fe31fea6-c88c-4511-9cf9-033aa8fa3a0b",
+        "hmsArtNr" : "279816",
+        "supplierRef" : "SP1603264",
+        "attributes" : {
+          "compatibleWith" : {
+            "seriesIds" : [ ],
+            "productIds" : [ "027e47c8-177a-49c6-91cf-731adcc68539" ]
+          }
+        },
+        "isoCategory" : "122291",
+        "supplier" : {
+          "name" : "Invacare AS",
+          "id" : "4f296dbf-9b0e-47d3-ba74-e6e4bd5699bf"
+        },
+        "media" : [ ],
+        "accessory" : false,
+        "sparePart" : true,
+        "main" : false
+      }
+    }, {
+      "_source" : {
+        "id" : "ce8d91a5-10ec-46b9-b9d9-e4dafee1884b",
+        "title" : "Leggpute Küschall Compact FF/Küschall Compact SA 1",
+        "articleName" : "Leggpute Küschall Compact SA sb48-50 kpl 17 ve",
+        "seriesId" : "5180b674-bd51-4a32-892c-73abc36bf5f5",
+        "hmsArtNr" : "280349",
+        "supplierRef" : "SP1605195",
+        "attributes" : {
+          "compatibleWith" : {
+            "seriesIds" : [ ],
+            "productIds" : [ "027e47c8-177a-49c6-91cf-731adcc68539" ]
+          }
+        },
+        "isoCategory" : "122291",
+        "supplier" : {
+          "name" : "Invacare AS",
+          "id" : "4f296dbf-9b0e-47d3-ba74-e6e4bd5699bf"
+        },
+        "media" : [ ],
+        "accessory" : false,
+        "sparePart" : true,
+        "main" : false
+      }
+    }, {
+      "_source" : {
+        "id" : "122fdcfe-ba9f-411c-9717-810985de48be",
+        "title" : "Ryggoverdrag mrs Azalea 525X540 sort (sb44)",
+        "articleName" : "Ryggoverdrag mrs Azalea 525X540 sort (sb44)",
+        "seriesId" : "5ffc7e41-abca-4e76-b1a6-f1ad550d6f94",
+        "hmsArtNr" : "186289",
+        "supplierRef" : "SP1589930-TR35",
+        "attributes" : {
+          "compatibleWith" : {
+            "seriesIds" : [ ],
+            "productIds" : [ "027e47c8-177a-49c6-91cf-731adcc68539" ]
+          }
+        },
+        "isoCategory" : "122292",
+        "supplier" : {
+          "name" : "Invacare AS",
+          "id" : "4f296dbf-9b0e-47d3-ba74-e6e4bd5699bf"
+        },
+        "media" : [ ],
+        "accessory" : false,
+        "sparePart" : true,
+        "main" : false
+      }
+    }, {
+      "_source" : {
+        "id" : "043d55bd-f8b1-4ee8-8b4a-ad398514077d",
+        "title" : "Kjørehåndtak mrs Azalea sb44 faste",
+        "articleName" : "Kjørehåndtak mrs Azalea sb44 faste",
+        "seriesId" : "a22c1c21-4fbe-4abb-8ed6-41ee4e11ede2",
+        "hmsArtNr" : "225992",
+        "supplierRef" : "SP1571967",
+        "attributes" : {
+          "compatibleWith" : {
+            "seriesIds" : [ ],
+            "productIds" : [ "027e47c8-177a-49c6-91cf-731adcc68539" ]
+          }
+        },
+        "isoCategory" : "122292",
+        "supplier" : {
+          "name" : "Invacare AS",
+          "id" : "4f296dbf-9b0e-47d3-ba74-e6e4bd5699bf"
+        },
+        "media" : [ ],
+        "accessory" : false,
+        "sparePart" : true,
+        "main" : false
+      }
+    }, {
+      "_source" : {
+        "id" : "3d0db805-b9da-4ccb-87e8-a632c9388226",
+        "title" : "Fotplate mrs Azalea sb44 dvreg hælbånd rør langt 197 hø",
+        "articleName" : "Fotplate mrs Azalea sb44 dvreg hælbånd rør langt 197 hø",
+        "seriesId" : "f5fb6418-f3b9-425b-962d-aae56a1f279c",
+        "hmsArtNr" : "279811",
+        "supplierRef" : "SP1603260",
+        "attributes" : {
+          "compatibleWith" : {
+            "seriesIds" : [ ],
+            "productIds" : [ "027e47c8-177a-49c6-91cf-731adcc68539" ]
+          }
+        },
+        "isoCategory" : "122291",
+        "supplier" : {
+          "name" : "Invacare AS",
+          "id" : "4f296dbf-9b0e-47d3-ba74-e6e4bd5699bf"
+        },
+        "media" : [ ],
+        "accessory" : false,
+        "sparePart" : true,
+        "main" : false
+      }
+    } ]
+  },
+  "produkter" : [ {
+    "id" : "7850fb67-ac58-4dee-8f6f-6a924ad11a12",
+    "title" : "Benstøtte overdel mrs Azalea vjust hevbar hø m/knepolstring",
+    "articleName" : "Benstøtte overdel mrs Azalea vjust hevbar hø m/knepolstring",
+    "seriesId" : "dfc732dd-4a08-408c-8e59-3c5b55cac172",
+    "hmsArtNr" : "279805",
+    "supplierRef" : "SP60122670",
+    "attributes" : {
+      "compatibleWith" : {
+        "seriesIds" : [ "5cd2cce2-d954-4492-86ac-eee2d9377d10" ],
+        "productIds" : [ "027e47c8-177a-49c6-91cf-731adcc68539", "54843c59-a456-4628-9636-7b8d09d47d80", "df9e75df-41df-48ae-b3c3-537b3a8e88d9" ]
+      }
+    },
+    "isoCategory" : "122291",
+    "supplier" : {
+      "name" : "Invacare AS",
+      "id" : "4f296dbf-9b0e-47d3-ba74-e6e4bd5699bf"
+    },
+    "media" : [ ],
+    "accessory" : false,
+    "sparePart" : true,
+    "main" : false
+  }, {
+    "id" : "01d0d019-89a6-4eac-bd8d-0849d4805501",
+    "title" : "Polster armlene mrs Azalea ducktail hø/ve",
+    "articleName" : "Polster armlene mrs Azalea ducktail hø/ve",
+    "seriesId" : "b70c1b5f-4d7a-4258-9b47-aaf7895e795a",
+    "hmsArtNr" : "196169",
+    "supplierRef" : "SP1451561",
+    "attributes" : {
+      "compatibleWith" : {
+        "seriesIds" : [ "5cd2cce2-d954-4492-86ac-eee2d9377d10" ],
+        "productIds" : [ "027e47c8-177a-49c6-91cf-731adcc68539", "54843c59-a456-4628-9636-7b8d09d47d80", "df9e75df-41df-48ae-b3c3-537b3a8e88d9" ]
+      }
+    },
+    "isoCategory" : "122291",
+    "supplier" : {
+      "name" : "Invacare AS",
+      "id" : "4f296dbf-9b0e-47d3-ba74-e6e4bd5699bf"
+    },
+    "media" : [ ],
+    "accessory" : false,
+    "sparePart" : true,
+    "main" : false
+  }, {
+    "id" : "bf604d40-6cc1-423c-8dd7-b81bdfb75514",
+    "title" : "Drivring mrs Azalea 24\" alu",
+    "articleName" : "Drivring mrs Azalea 24\" alu",
+    "seriesId" : "0bb1a5b9-905e-43dc-9209-897addac8759",
+    "hmsArtNr" : "224316",
+    "supplierRef" : "1505291",
+    "attributes" : {
+      "compatibleWith" : {
+        "seriesIds" : [ "5cd2cce2-d954-4492-86ac-eee2d9377d10" ],
+        "productIds" : [ "027e47c8-177a-49c6-91cf-731adcc68539", "54843c59-a456-4628-9636-7b8d09d47d80", "df9e75df-41df-48ae-b3c3-537b3a8e88d9" ]
+      }
+    },
+    "isoCategory" : "122293",
+    "supplier" : {
+      "name" : "Invacare AS",
+      "id" : "4f296dbf-9b0e-47d3-ba74-e6e4bd5699bf"
+    },
+    "media" : [ ],
+    "accessory" : false,
+    "sparePart" : true,
+    "main" : false
+  }, {
+    "id" : "090ba459-157c-44ae-bf2d-6f17159acfca",
+    "title" : "Tippesikring mrs Azalea kpl",
+    "articleName" : "Tippesikring mrs Azalea kpl",
+    "seriesId" : "c3625ab5-a8fe-45a9-8e70-751412390cf0",
+    "hmsArtNr" : "168790",
+    "supplierRef" : "1439933",
+    "attributes" : {
+      "compatibleWith" : {
+        "seriesIds" : [ "5cd2cce2-d954-4492-86ac-eee2d9377d10" ],
+        "productIds" : [ "027e47c8-177a-49c6-91cf-731adcc68539", "54843c59-a456-4628-9636-7b8d09d47d80", "df9e75df-41df-48ae-b3c3-537b3a8e88d9" ]
+      }
+    },
+    "isoCategory" : "122293",
+    "supplier" : {
+      "name" : "Invacare AS",
+      "id" : "4f296dbf-9b0e-47d3-ba74-e6e4bd5699bf"
+    },
+    "media" : [ ],
+    "accessory" : false,
+    "sparePart" : true,
+    "main" : false
+  }, {
+    "id" : "0a1eac31-f96e-41cc-bff9-b45b230d7fc2",
+    "title" : "Gassfjærsett sete og rygg mrs Azalea kpl",
+    "articleName" : "Gassfjærsett sete og rygg mrs Azalea kpl",
+    "seriesId" : "c6d51053-6487-4e56-a142-9c7bbff5de0e",
+    "hmsArtNr" : "239594",
+    "supplierRef" : "SP1605256",
+    "attributes" : {
+      "compatibleWith" : {
+        "seriesIds" : [ "5cd2cce2-d954-4492-86ac-eee2d9377d10" ],
+        "productIds" : [ "027e47c8-177a-49c6-91cf-731adcc68539", "54843c59-a456-4628-9636-7b8d09d47d80", "df9e75df-41df-48ae-b3c3-537b3a8e88d9" ]
+      }
+    },
+    "isoCategory" : "122292",
+    "supplier" : {
+      "name" : "Invacare AS",
+      "id" : "4f296dbf-9b0e-47d3-ba74-e6e4bd5699bf"
+    },
+    "media" : [ ],
+    "accessory" : false,
+    "sparePart" : true,
+    "main" : false
+  }, {
+    "id" : "5df3b7df-a4f8-4559-b70b-d9ec4010758a",
+    "title" : "Benstøtte overdel mrs Azalea vjust hevbar ve m/knepolstring",
+    "articleName" : "Benstøtte overdel mrs Azalea vjust hevbar ve m/knepolstring",
+    "seriesId" : "2468c8c1-b087-48b2-9732-d27de262b96e",
+    "hmsArtNr" : "279806",
+    "supplierRef" : "SP60122669",
+    "attributes" : {
+      "compatibleWith" : {
+        "seriesIds" : [ "5cd2cce2-d954-4492-86ac-eee2d9377d10" ],
+        "productIds" : [ "027e47c8-177a-49c6-91cf-731adcc68539", "54843c59-a456-4628-9636-7b8d09d47d80", "df9e75df-41df-48ae-b3c3-537b3a8e88d9" ]
+      }
+    },
+    "isoCategory" : "122291",
+    "supplier" : {
+      "name" : "Invacare AS",
+      "id" : "4f296dbf-9b0e-47d3-ba74-e6e4bd5699bf"
+    },
+    "media" : [ ],
+    "accessory" : false,
+    "sparePart" : true,
+    "main" : false
+  }, {
+    "id" : "53a8cb2c-7156-4ccf-8b05-2fc3ee5f039e",
+    "title" : "Drivhjul mrs Azalea/XLT Swing 24 led b kompakt",
+    "articleName" : "Drivhjul mrs Azalea/XLT Swing 24 led b kompakt",
+    "seriesId" : "9ab3c926-3428-430f-96ff-1d406483e127",
+    "hmsArtNr" : "185710",
+    "supplierRef" : "SP60108738",
+    "attributes" : {
+      "compatibleWith" : {
+        "seriesIds" : [ "5cd2cce2-d954-4492-86ac-eee2d9377d10" ],
+        "productIds" : [ "027e47c8-177a-49c6-91cf-731adcc68539", "54843c59-a456-4628-9636-7b8d09d47d80", "df9e75df-41df-48ae-b3c3-537b3a8e88d9" ]
+      }
+    },
+    "isoCategory" : "122293",
+    "supplier" : {
+      "name" : "Invacare AS",
+      "id" : "4f296dbf-9b0e-47d3-ba74-e6e4bd5699bf"
+    },
+    "media" : [ ],
+    "accessory" : false,
+    "sparePart" : true,
+    "main" : false
+  }, {
+    "id" : "7a4488f7-9e33-4e8b-ad8c-e0dc499c45c4",
+    "title" : "Armlene mrs Azalea kpl ve",
+    "articleName" : "Armlene mrs Azalea kpl ve",
+    "seriesId" : "3084cc77-ca82-4f16-a8ce-3e49fc86e1ea",
+    "hmsArtNr" : "168803",
+    "supplierRef" : "168803",
+    "attributes" : {
+      "compatibleWith" : {
+        "seriesIds" : [ "5cd2cce2-d954-4492-86ac-eee2d9377d10" ],
+        "productIds" : [ "027e47c8-177a-49c6-91cf-731adcc68539", "54843c59-a456-4628-9636-7b8d09d47d80", "df9e75df-41df-48ae-b3c3-537b3a8e88d9" ]
+      }
+    },
+    "isoCategory" : "122291",
+    "supplier" : {
+      "name" : "Invacare AS",
+      "id" : "4f296dbf-9b0e-47d3-ba74-e6e4bd5699bf"
+    },
+    "media" : [ ],
+    "accessory" : false,
+    "sparePart" : true,
+    "main" : false
+  }, {
+    "id" : "9311278c-7c5a-4735-b715-0cf68751ad2c",
+    "title" : "Armlene mrs Azalea kpl hø",
+    "articleName" : "Armlene mrs Azalea kpl hø",
+    "seriesId" : "8a617b09-b330-4039-8f09-8c1177c651ef",
+    "hmsArtNr" : "168802",
+    "supplierRef" : "1517367",
+    "attributes" : {
+      "compatibleWith" : {
+        "seriesIds" : [ "5cd2cce2-d954-4492-86ac-eee2d9377d10" ],
+        "productIds" : [ "027e47c8-177a-49c6-91cf-731adcc68539", "54843c59-a456-4628-9636-7b8d09d47d80", "df9e75df-41df-48ae-b3c3-537b3a8e88d9" ]
+      }
+    },
+    "isoCategory" : "122291",
+    "supplier" : {
+      "name" : "Invacare AS",
+      "id" : "4f296dbf-9b0e-47d3-ba74-e6e4bd5699bf"
+    },
+    "media" : [ ],
+    "accessory" : false,
+    "sparePart" : true,
+    "main" : false
+  }, {
+    "id" : "515a9d84-b228-40d1-a538-c8e37c171f12",
+    "title" : "Hodestøtte mrs Azalea/XLT Swing kpl svart",
+    "articleName" : "Hodestøtte mrs Azalea/XLT Swing kpl svart",
+    "seriesId" : "c39e76fd-846c-4809-9612-13cf19c7342d",
+    "hmsArtNr" : "186161",
+    "supplierRef" : "1508848",
+    "attributes" : {
+      "compatibleWith" : {
+        "seriesIds" : [ "5cd2cce2-d954-4492-86ac-eee2d9377d10" ],
+        "productIds" : [ "027e47c8-177a-49c6-91cf-731adcc68539", "54843c59-a456-4628-9636-7b8d09d47d80", "df9e75df-41df-48ae-b3c3-537b3a8e88d9" ]
+      }
+    },
+    "isoCategory" : "122291",
+    "supplier" : {
+      "name" : "Invacare AS",
+      "id" : "4f296dbf-9b0e-47d3-ba74-e6e4bd5699bf"
+    },
+    "media" : [ ],
+    "accessory" : false,
+    "sparePart" : true,
+    "main" : false
+  }, {
+    "id" : "9c80a303-1b7b-4e05-ade6-1e78afa62402",
+    "title" : "Svinghjul mrs Azalea 8 kompakt smal",
+    "articleName" : "Svinghjul mrs Azalea 8 kompakt smal",
+    "seriesId" : "47e70326-7f30-4025-8037-89741be17150",
+    "hmsArtNr" : "285333",
+    "supplierRef" : "SP1659705",
+    "attributes" : {
+      "compatibleWith" : {
+        "seriesIds" : [ "5cd2cce2-d954-4492-86ac-eee2d9377d10" ],
+        "productIds" : [ "027e47c8-177a-49c6-91cf-731adcc68539", "54843c59-a456-4628-9636-7b8d09d47d80", "df9e75df-41df-48ae-b3c3-537b3a8e88d9" ]
+      }
+    },
+    "isoCategory" : "122293",
+    "supplier" : {
+      "name" : "Invacare AS",
+      "id" : "4f296dbf-9b0e-47d3-ba74-e6e4bd5699bf"
+    },
+    "media" : [ ],
+    "accessory" : false,
+    "sparePart" : true,
+    "main" : false
+  }, {
+    "id" : "010d603f-7d51-4047-908b-a3b74a8248b1",
+    "title" : "Brems mrs Azalea ufeste hø",
+    "articleName" : "Brems mrs Azalea ufeste hø",
+    "seriesId" : "d65b1bcc-8e83-4b0f-948f-2518e6ed5d8a",
+    "hmsArtNr" : "223918",
+    "supplierRef" : "SP1588552",
+    "attributes" : {
+      "compatibleWith" : {
+        "seriesIds" : [ "5cd2cce2-d954-4492-86ac-eee2d9377d10" ],
+        "productIds" : [ "027e47c8-177a-49c6-91cf-731adcc68539", "54843c59-a456-4628-9636-7b8d09d47d80", "df9e75df-41df-48ae-b3c3-537b3a8e88d9" ]
+      }
+    },
+    "isoCategory" : "122293",
+    "supplier" : {
+      "name" : "Invacare AS",
+      "id" : "4f296dbf-9b0e-47d3-ba74-e6e4bd5699bf"
+    },
+    "media" : [ ],
+    "accessory" : false,
+    "sparePart" : true,
+    "main" : false
+  }, {
+    "id" : "a3a7846b-1939-4054-b1d6-c09d57f58353",
+    "title" : "Brems mrs Azalea u/feste ve",
+    "articleName" : "Brems mrs Azalea u/feste ve",
+    "seriesId" : "492aad6e-1998-42eb-be89-cbc9338435ef",
+    "hmsArtNr" : "223919",
+    "supplierRef" : "SP1588553",
+    "attributes" : {
+      "compatibleWith" : {
+        "seriesIds" : [ "5cd2cce2-d954-4492-86ac-eee2d9377d10" ],
+        "productIds" : [ "027e47c8-177a-49c6-91cf-731adcc68539", "54843c59-a456-4628-9636-7b8d09d47d80", "df9e75df-41df-48ae-b3c3-537b3a8e88d9" ]
+      }
+    },
+    "isoCategory" : "122293",
+    "supplier" : {
+      "name" : "Invacare AS",
+      "id" : "4f296dbf-9b0e-47d3-ba74-e6e4bd5699bf"
+    },
+    "media" : [ ],
+    "accessory" : false,
+    "sparePart" : true,
+    "main" : false
+  }, {
+    "id" : "c6c4527c-b470-40e1-b9a4-778d40dca403",
+    "title" : "Pute sete mrs Azalea sb44 sort Plush",
+    "articleName" : "Pute sete mrs Azalea sb44 sort Plush",
+    "seriesId" : "becfdd47-8314-42fa-87e9-2835b1916936",
+    "hmsArtNr" : "226417",
+    "supplierRef" : "1508057-TR35",
+    "attributes" : {
+      "compatibleWith" : {
+        "seriesIds" : [ ],
+        "productIds" : [ "027e47c8-177a-49c6-91cf-731adcc68539" ]
+      }
+    },
+    "isoCategory" : "122292",
+    "supplier" : {
+      "name" : "Invacare AS",
+      "id" : "4f296dbf-9b0e-47d3-ba74-e6e4bd5699bf"
+    },
+    "media" : [ ],
+    "accessory" : false,
+    "sparePart" : true,
+    "main" : false
+  }, {
+    "id" : "4f8f9bc3-ee71-48b8-95ff-86f81ac175c2",
+    "title" : "Leggpute Küschall Compact FF/Küschall Compact SA 1",
+    "articleName" : "Leggpute Küschall Compact SA sb48-50 kpl 17 hø",
+    "seriesId" : "5180b674-bd51-4a32-892c-73abc36bf5f5",
+    "hmsArtNr" : "280348",
+    "supplierRef" : "SP1605193",
+    "attributes" : {
+      "compatibleWith" : {
+        "seriesIds" : [ ],
+        "productIds" : [ "027e47c8-177a-49c6-91cf-731adcc68539" ]
+      }
+    },
+    "isoCategory" : "122291",
+    "supplier" : {
+      "name" : "Invacare AS",
+      "id" : "4f296dbf-9b0e-47d3-ba74-e6e4bd5699bf"
+    },
+    "media" : [ ],
+    "accessory" : false,
+    "sparePart" : true,
+    "main" : false
+  }, {
+    "id" : "e472855a-599a-4c02-acf8-a1f372614ad3",
+    "title" : "Rygg borrelås mrs Azalea  sb44 kpl",
+    "articleName" : "Rygg borrelås mrs Azalea  sb44 kpl",
+    "seriesId" : "2100001b-b53d-4b29-8dae-5a316f847a1d",
+    "hmsArtNr" : "189773",
+    "supplierRef" : "SP1554119",
+    "attributes" : {
+      "compatibleWith" : {
+        "seriesIds" : [ ],
+        "productIds" : [ "027e47c8-177a-49c6-91cf-731adcc68539" ]
+      }
+    },
+    "isoCategory" : "122293",
+    "supplier" : {
+      "name" : "Invacare AS",
+      "id" : "4f296dbf-9b0e-47d3-ba74-e6e4bd5699bf"
+    },
+    "media" : [ ],
+    "accessory" : false,
+    "sparePart" : true,
+    "main" : false
+  }, {
+    "id" : "df0d92b7-c7f5-4715-a84e-1a279784749c",
+    "title" : "Kjørehåndtak mrs Azalea faste kpl (sb39)",
+    "articleName" : "Kjørehåndtak mrs Azalea faste kpl (sb39)",
+    "seriesId" : "3d12f379-9496-4c95-8219-8c66320e741d",
+    "hmsArtNr" : "225994",
+    "supplierRef" : "SP1571966",
+    "attributes" : {
+      "compatibleWith" : {
+        "seriesIds" : [ ],
+        "productIds" : [ "027e47c8-177a-49c6-91cf-731adcc68539" ]
+      }
+    },
+    "isoCategory" : "122292",
+    "supplier" : {
+      "name" : "Invacare AS",
+      "id" : "4f296dbf-9b0e-47d3-ba74-e6e4bd5699bf"
+    },
+    "media" : [ ],
+    "accessory" : false,
+    "sparePart" : true,
+    "main" : false
+  }, {
+    "id" : "e7a5ee13-a706-414a-91d8-592280842cf6",
+    "title" : "Benstøtte mrs Azalea AA sb44 par",
+    "articleName" : "Benstøtte mrs Azalea AA sb44 par",
+    "seriesId" : "972376fc-14a6-4415-9598-849c8fbeb719",
+    "hmsArtNr" : "292137",
+    "supplierRef" : "AP1657107",
+    "attributes" : {
+      "compatibleWith" : {
+        "seriesIds" : [ ],
+        "productIds" : [ "027e47c8-177a-49c6-91cf-731adcc68539" ]
+      }
+    },
+    "isoCategory" : "122291",
+    "supplier" : {
+      "name" : "Invacare AS",
+      "id" : "4f296dbf-9b0e-47d3-ba74-e6e4bd5699bf"
+    },
+    "media" : [ ],
+    "accessory" : false,
+    "sparePart" : true,
+    "main" : false
+  }, {
+    "id" : "da9d40b6-f646-445f-8a65-609bd64c73ee",
+    "title" : "Fotplate mrs Azalea sb44 dvreg hælbånd rør langt 197 ve",
+    "articleName" : "Fotplate mrs Azalea sb44 dvreg hælbånd rør langt 197 ve",
+    "seriesId" : "fe31fea6-c88c-4511-9cf9-033aa8fa3a0b",
+    "hmsArtNr" : "279816",
+    "supplierRef" : "SP1603264",
+    "attributes" : {
+      "compatibleWith" : {
+        "seriesIds" : [ ],
+        "productIds" : [ "027e47c8-177a-49c6-91cf-731adcc68539" ]
+      }
+    },
+    "isoCategory" : "122291",
+    "supplier" : {
+      "name" : "Invacare AS",
+      "id" : "4f296dbf-9b0e-47d3-ba74-e6e4bd5699bf"
+    },
+    "media" : [ ],
+    "accessory" : false,
+    "sparePart" : true,
+    "main" : false
+  }, {
+    "id" : "ce8d91a5-10ec-46b9-b9d9-e4dafee1884b",
+    "title" : "Leggpute Küschall Compact FF/Küschall Compact SA 1",
+    "articleName" : "Leggpute Küschall Compact SA sb48-50 kpl 17 ve",
+    "seriesId" : "5180b674-bd51-4a32-892c-73abc36bf5f5",
+    "hmsArtNr" : "280349",
+    "supplierRef" : "SP1605195",
+    "attributes" : {
+      "compatibleWith" : {
+        "seriesIds" : [ ],
+        "productIds" : [ "027e47c8-177a-49c6-91cf-731adcc68539" ]
+      }
+    },
+    "isoCategory" : "122291",
+    "supplier" : {
+      "name" : "Invacare AS",
+      "id" : "4f296dbf-9b0e-47d3-ba74-e6e4bd5699bf"
+    },
+    "media" : [ ],
+    "accessory" : false,
+    "sparePart" : true,
+    "main" : false
+  }, {
+    "id" : "122fdcfe-ba9f-411c-9717-810985de48be",
+    "title" : "Ryggoverdrag mrs Azalea 525X540 sort (sb44)",
+    "articleName" : "Ryggoverdrag mrs Azalea 525X540 sort (sb44)",
+    "seriesId" : "5ffc7e41-abca-4e76-b1a6-f1ad550d6f94",
+    "hmsArtNr" : "186289",
+    "supplierRef" : "SP1589930-TR35",
+    "attributes" : {
+      "compatibleWith" : {
+        "seriesIds" : [ ],
+        "productIds" : [ "027e47c8-177a-49c6-91cf-731adcc68539" ]
+      }
+    },
+    "isoCategory" : "122292",
+    "supplier" : {
+      "name" : "Invacare AS",
+      "id" : "4f296dbf-9b0e-47d3-ba74-e6e4bd5699bf"
+    },
+    "media" : [ ],
+    "accessory" : false,
+    "sparePart" : true,
+    "main" : false
+  }, {
+    "id" : "043d55bd-f8b1-4ee8-8b4a-ad398514077d",
+    "title" : "Kjørehåndtak mrs Azalea sb44 faste",
+    "articleName" : "Kjørehåndtak mrs Azalea sb44 faste",
+    "seriesId" : "a22c1c21-4fbe-4abb-8ed6-41ee4e11ede2",
+    "hmsArtNr" : "225992",
+    "supplierRef" : "SP1571967",
+    "attributes" : {
+      "compatibleWith" : {
+        "seriesIds" : [ ],
+        "productIds" : [ "027e47c8-177a-49c6-91cf-731adcc68539" ]
+      }
+    },
+    "isoCategory" : "122292",
+    "supplier" : {
+      "name" : "Invacare AS",
+      "id" : "4f296dbf-9b0e-47d3-ba74-e6e4bd5699bf"
+    },
+    "media" : [ ],
+    "accessory" : false,
+    "sparePart" : true,
+    "main" : false
+  }, {
+    "id" : "3d0db805-b9da-4ccb-87e8-a632c9388226",
+    "title" : "Fotplate mrs Azalea sb44 dvreg hælbånd rør langt 197 hø",
+    "articleName" : "Fotplate mrs Azalea sb44 dvreg hælbånd rør langt 197 hø",
+    "seriesId" : "f5fb6418-f3b9-425b-962d-aae56a1f279c",
+    "hmsArtNr" : "279811",
+    "supplierRef" : "SP1603260",
+    "attributes" : {
+      "compatibleWith" : {
+        "seriesIds" : [ ],
+        "productIds" : [ "027e47c8-177a-49c6-91cf-731adcc68539" ]
+      }
+    },
+    "isoCategory" : "122291",
+    "supplier" : {
+      "name" : "Invacare AS",
+      "id" : "4f296dbf-9b0e-47d3-ba74-e6e4bd5699bf"
+    },
+    "media" : [ ],
+    "accessory" : false,
+    "sparePart" : true,
+    "main" : false
+  } ],
+  "produkt" : {
+    "id" : "7850fb67-ac58-4dee-8f6f-6a924ad11a12",
+    "title" : "Benstøtte overdel mrs Azalea vjust hevbar hø m/knepolstring",
+    "articleName" : "Benstøtte overdel mrs Azalea vjust hevbar hø m/knepolstring",
+    "seriesId" : "dfc732dd-4a08-408c-8e59-3c5b55cac172",
+    "hmsArtNr" : "279805",
+    "supplierRef" : "SP60122670",
+    "attributes" : {
+      "compatibleWith" : {
+        "seriesIds" : [ "5cd2cce2-d954-4492-86ac-eee2d9377d10" ],
+        "productIds" : [ "027e47c8-177a-49c6-91cf-731adcc68539", "54843c59-a456-4628-9636-7b8d09d47d80", "df9e75df-41df-48ae-b3c3-537b3a8e88d9" ]
+      }
+    },
+    "isoCategory" : "122291",
+    "supplier" : {
+      "name" : "Invacare AS",
+      "id" : "4f296dbf-9b0e-47d3-ba74-e6e4bd5699bf"
+    },
+    "media" : [ ],
+    "accessory" : false,
+    "sparePart" : true,
+    "main" : false
+  }
+}

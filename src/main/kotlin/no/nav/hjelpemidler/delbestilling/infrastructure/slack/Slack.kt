@@ -9,11 +9,12 @@ import no.nav.hjelpemidler.delbestilling.config.isProd
 import no.nav.hjelpemidler.delbestilling.delbestilling.DelbestillingRepository
 import no.nav.hjelpemidler.delbestilling.delbestilling.anmodning.AnmodningsbehovForDel
 import no.nav.hjelpemidler.delbestilling.delbestilling.enhetTilEpostadresse
-import no.nav.hjelpemidler.delbestilling.delbestilling.model.Del
 import no.nav.hjelpemidler.delbestilling.delbestilling.model.DelbestillingSak
+import no.nav.hjelpemidler.delbestilling.delbestilling.model.Hmsnr
 import no.nav.hjelpemidler.delbestilling.delbestilling.model.Kilde
-import no.nav.hjelpemidler.delbestilling.hjelpemidler.data.hmsnrTilDel
+import no.nav.hjelpemidler.delbestilling.oppslag.legacy.data.hmsnrTilDel
 import no.nav.hjelpemidler.delbestilling.infrastructure.grunndata.Produkt
+import no.nav.hjelpemidler.delbestilling.oppslag.Del
 import no.nav.hjelpemidler.http.slack.slack
 import no.nav.hjelpemidler.http.slack.slackIconEmoji
 
@@ -104,9 +105,9 @@ class Slack(
         }
     }
 
-    fun varsleOmIngenDelerTilGrunndataHjelpemiddel(produkt: Produkt, delerIManuellListe: List<Del>) {
+    fun varsleOmIngenDelerTilGrunndataHjelpemiddel(hmsnr: Hmsnr, navn: String, delerIManuellListe: List<Del>) {
         var message =
-            "Det ble gjort et oppslag på `${produkt.hmsArtNr} ${produkt.articleName}` som finnes i grunndata, men har ingen egnede deler der."
+            "Det ble gjort et oppslag på `$hmsnr $navn` som finnes i grunndata, men har ingen egnede deler der."
         message += if (delerIManuellListe.isNotEmpty()) {
             "\nDette produktet har disse delene i manuell liste: ```${
                 delerIManuellListe.sortedBy { it.navn }.joinToString("\n") { "${it.hmsnr} ${it.navn}" }
@@ -171,6 +172,11 @@ class Slack(
     fun varsleOmRapporteringFeilet() = sendSafely(
         emoji = "error",
         message = "Utsending av mail til HMS om deler som må anmodes feilet. Må følges opp manuelt."
+    )
+
+    fun varsleOmPotensiellBatteriKategorier(deler: List<Del>) = sendSafely(
+        emoji = "low_battery",
+        message = "Følgende deler med 'batteri' i kategorien sin har blitt bestilt. Vurder om de krever kurs eller skal legges inn som 'håndterteBatterikategorier'. ```${deler.joinToString(separator = "\n")}```"
     )
 
 }

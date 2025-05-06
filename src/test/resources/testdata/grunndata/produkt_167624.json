@@ -1,0 +1,120 @@
+{
+  "hits" : {
+    "hits" : [ {
+      "_source" : {
+        "id" : "87785c47-c912-4570-a1d4-9b9a8cb56e12",
+        "title" : "Comet Alpine",
+        "articleName" : "Comet Alpine",
+        "seriesId" : "24485c41-c4ed-4f0c-8bdb-f23c77ae0f13",
+        "hmsArtNr" : "167624",
+        "supplierRef" : "1545993",
+        "attributes" : {
+          "compatibleWith" : null
+        },
+        "isoCategory" : "12230301",
+        "supplier" : {
+          "name" : "Invacare AS",
+          "id" : "4f296dbf-9b0e-47d3-ba74-e6e4bd5699bf"
+        },
+        "media" : [ {
+          "uri" : "orig/28923.jpg",
+          "priority" : 1,
+          "type" : "IMAGE",
+          "text" : "billede",
+          "source" : "HMDB"
+        }, {
+          "uri" : "brugsvejl/28923.pdf",
+          "priority" : 4,
+          "type" : "PDF",
+          "text" : "bruksanvisning",
+          "source" : "HMDB"
+        }, {
+          "uri" : "produktblade/28923.pdf",
+          "priority" : 5,
+          "type" : "PDF",
+          "text" : "brosjyre",
+          "source" : "HMDB"
+        } ],
+        "accessory" : false,
+        "sparePart" : false,
+        "main" : true
+      }
+    } ]
+  },
+  "produkter" : [ {
+    "id" : "87785c47-c912-4570-a1d4-9b9a8cb56e12",
+    "title" : "Comet Alpine",
+    "articleName" : "Comet Alpine",
+    "seriesId" : "24485c41-c4ed-4f0c-8bdb-f23c77ae0f13",
+    "hmsArtNr" : "167624",
+    "supplierRef" : "1545993",
+    "attributes" : {
+      "compatibleWith" : null
+    },
+    "isoCategory" : "12230301",
+    "supplier" : {
+      "name" : "Invacare AS",
+      "id" : "4f296dbf-9b0e-47d3-ba74-e6e4bd5699bf"
+    },
+    "media" : [ {
+      "uri" : "orig/28923.jpg",
+      "priority" : 1,
+      "type" : "IMAGE",
+      "text" : "billede",
+      "source" : "HMDB"
+    }, {
+      "uri" : "brugsvejl/28923.pdf",
+      "priority" : 4,
+      "type" : "PDF",
+      "text" : "bruksanvisning",
+      "source" : "HMDB"
+    }, {
+      "uri" : "produktblade/28923.pdf",
+      "priority" : 5,
+      "type" : "PDF",
+      "text" : "brosjyre",
+      "source" : "HMDB"
+    } ],
+    "accessory" : false,
+    "sparePart" : false,
+    "main" : true
+  } ],
+  "produkt" : {
+    "id" : "87785c47-c912-4570-a1d4-9b9a8cb56e12",
+    "title" : "Comet Alpine",
+    "articleName" : "Comet Alpine",
+    "seriesId" : "24485c41-c4ed-4f0c-8bdb-f23c77ae0f13",
+    "hmsArtNr" : "167624",
+    "supplierRef" : "1545993",
+    "attributes" : {
+      "compatibleWith" : null
+    },
+    "isoCategory" : "12230301",
+    "supplier" : {
+      "name" : "Invacare AS",
+      "id" : "4f296dbf-9b0e-47d3-ba74-e6e4bd5699bf"
+    },
+    "media" : [ {
+      "uri" : "orig/28923.jpg",
+      "priority" : 1,
+      "type" : "IMAGE",
+      "text" : "billede",
+      "source" : "HMDB"
+    }, {
+      "uri" : "brugsvejl/28923.pdf",
+      "priority" : 4,
+      "type" : "PDF",
+      "text" : "bruksanvisning",
+      "source" : "HMDB"
+    }, {
+      "uri" : "produktblade/28923.pdf",
+      "priority" : 5,
+      "type" : "PDF",
+      "text" : "brosjyre",
+      "source" : "HMDB"
+    } ],
+    "accessory" : false,
+    "sparePart" : false,
+    "main" : true
+  }
+}

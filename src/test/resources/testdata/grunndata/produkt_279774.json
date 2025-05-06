@@ -1,0 +1,138 @@
+{
+  "hits" : {
+    "hits" : [ {
+      "_source" : {
+        "id" : "027e47c8-177a-49c6-91cf-731adcc68539",
+        "title" : "REA Azalea",
+        "articleName" : "REA Azalea SB44 SD43-50",
+        "seriesId" : "5cd2cce2-d954-4492-86ac-eee2d9377d10",
+        "hmsArtNr" : "279774",
+        "supplierRef" : "1663952",
+        "attributes" : {
+          "compatibleWith" : null
+        },
+        "isoCategory" : "12220303",
+        "supplier" : {
+          "name" : "Invacare AS",
+          "id" : "4f296dbf-9b0e-47d3-ba74-e6e4bd5699bf"
+        },
+        "media" : [ {
+          "uri" : "orig/64845.jpg",
+          "priority" : 1,
+          "type" : "IMAGE",
+          "text" : "billede",
+          "source" : "HMDB"
+        }, {
+          "uri" : "brugsvejl/64845.pdf",
+          "priority" : 4,
+          "type" : "PDF",
+          "text" : "bruksanvisning",
+          "source" : "HMDB"
+        }, {
+          "uri" : "produktblade/64845.pdf",
+          "priority" : 5,
+          "type" : "PDF",
+          "text" : "brosjyre",
+          "source" : "HMDB"
+        }, {
+          "uri" : "video/64845.mp4",
+          "priority" : 6,
+          "type" : "VIDEO",
+          "text" : "video",
+          "source" : "HMDB"
+        } ],
+        "accessory" : false,
+        "sparePart" : false,
+        "main" : true
+      }
+    } ]
+  },
+  "produkter" : [ {
+    "id" : "027e47c8-177a-49c6-91cf-731adcc68539",
+    "title" : "REA Azalea",
+    "articleName" : "REA Azalea SB44 SD43-50",
+    "seriesId" : "5cd2cce2-d954-4492-86ac-eee2d9377d10",
+    "hmsArtNr" : "279774",
+    "supplierRef" : "1663952",
+    "attributes" : {
+      "compatibleWith" : null
+    },
+    "isoCategory" : "12220303",
+    "supplier" : {
+      "name" : "Invacare AS",
+      "id" : "4f296dbf-9b0e-47d3-ba74-e6e4bd5699bf"
+    },
+    "media" : [ {
+      "uri" : "orig/64845.jpg",
+      "priority" : 1,
+      "type" : "IMAGE",
+      "text" : "billede",
+      "source" : "HMDB"
+    }, {
+      "uri" : "brugsvejl/64845.pdf",
+      "priority" : 4,
+      "type" : "PDF",
+      "text" : "bruksanvisning",
+      "source" : "HMDB"
+    }, {
+      "uri" : "produktblade/64845.pdf",
+      "priority" : 5,
+      "type" : "PDF",
+      "text" : "brosjyre",
+      "source" : "HMDB"
+    }, {
+      "uri" : "video/64845.mp4",
+      "priority" : 6,
+      "type" : "VIDEO",
+      "text" : "video",
+      "source" : "HMDB"
+    } ],
+    "accessory" : false,
+    "sparePart" : false,
+    "main" : true
+  } ],
+  "produkt" : {
+    "id" : "027e47c8-177a-49c6-91cf-731adcc68539",
+    "title" : "REA Azalea",
+    "articleName" : "REA Azalea SB44 SD43-50",
+    "seriesId" : "5cd2cce2-d954-4492-86ac-eee2d9377d10",
+    "hmsArtNr" : "279774",
+    "supplierRef" : "1663952",
+    "attributes" : {
+      "compatibleWith" : null
+    },
+    "isoCategory" : "12220303",
+    "supplier" : {
+      "name" : "Invacare AS",
+      "id" : "4f296dbf-9b0e-47d3-ba74-e6e4bd5699bf"
+    },
+    "media" : [ {
+      "uri" : "orig/64845.jpg",
+      "priority" : 1,
+      "type" : "IMAGE",
+      "text" : "billede",
+      "source" : "HMDB"
+    }, {
+      "uri" : "brugsvejl/64845.pdf",
+      "priority" : 4,
+      "type" : "PDF",
+      "text" : "bruksanvisning",
+      "source" : "HMDB"
+    }, {
+      "uri" : "produktblade/64845.pdf",
+      "priority" : 5,
+      "type" : "PDF",
+      "text" : "brosjyre",
+      "source" : "HMDB"
+    }, {
+      "uri" : "video/64845.mp4",
+      "priority" : 6,
+      "type" : "VIDEO",
+      "text" : "video",
+      "source" : "HMDB"
+    } ],
+    "accessory" : false,
+    "sparePart" : false,
+    "main" : true
+  }
+}

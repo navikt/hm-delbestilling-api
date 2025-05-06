@@ -21,7 +21,7 @@ class OebsApiProxyClient(
     private val client: HttpClient = defaultHttpClient(),
     private val baseUrl: String = AppConfig.OEBS_API_URL,
     private val apiScope: String = AppConfig.OEBS_API_SCOPE,
-) {
+) : OebsApiProxy {
 
     private suspend inline fun <reified T> executeRequest(url: String, method: HttpMethod, body: Any? = null): T {
         try {
@@ -46,22 +46,22 @@ class OebsApiProxyClient(
     private suspend inline fun <reified T> post(url: String, body: Any? = null): T =
         executeRequest(url, HttpMethod.Post, body)
 
-    suspend fun hentUtlånPåArtnrOgSerienr(artnr: String, serienr: String): UtlånPåArtnrOgSerienrResponse =
+    override suspend fun hentUtlånPåArtnrOgSerienr(artnr: String, serienr: String): UtlånPåArtnrOgSerienrResponse =
         post("$baseUrl/utlanSerienrArtnr", UtlånPåArtnrOgSerienrRequest(artnr, serienr))
 
-    suspend fun hentFnrSomHarUtlånPåArtnr(artnr: String): List<Utlån> =
+    override suspend fun hentUtlånPåArtnr(artnr: String): List<Utlån> =
         post("$baseUrl/utlanArtnr", artnr)
 
-    suspend fun hentPersoninfo(fnr: String): List<OebsPersoninfo> =
+    override suspend fun hentPersoninfo(fnr: String): List<OebsPersoninfo> =
         post("$baseUrl/getLeveringsaddresse", fnr)
 
-    suspend fun hentBrukerpassinfo(fnr: String): Brukerpass =
+    override suspend fun hentBrukerpassinfo(fnr: String): Brukerpass =
         post("$baseUrl/hent-brukerpass", FnrDto(fnr))
 
-    suspend fun hentLagerstatusForKommunenummer(kommunenummer: String, hmsnrs: List<String>): List<LagerstatusResponse> =
+    override suspend fun hentLagerstatusForKommunenummer(kommunenummer: String, hmsnrs: List<String>): List<LagerstatusResponse> =
         post("$baseUrl/lager/sentral/$kommunenummer", LagerstatusRequest(hmsnrs))
 
-    suspend fun hentLagerstatusForEnhetnr(enhetnr: String, hmsnrs: List<String>): List<LagerstatusResponse> =
+    override suspend fun hentLagerstatusForEnhetnr(enhetnr: String, hmsnrs: List<String>): List<LagerstatusResponse> =
         post("$baseUrl/lager/sentral/enhet/$enhetnr", LagerstatusRequest(hmsnrs))
 }
 

@@ -1,0 +1,120 @@
+{
+  "hits" : {
+    "hits" : [ {
+      "_source" : {
+        "id" : "5b7f4e3e-2208-44c6-af6b-e8fb3f99cda9",
+        "title" : "Azalea",
+        "articleName" : "Azalea",
+        "seriesId" : "3701a05c-8560-488b-94cd-fd269c967e04",
+        "hmsArtNr" : "185144",
+        "supplierRef" : "1539530",
+        "attributes" : {
+          "compatibleWith" : null
+        },
+        "isoCategory" : "12220303",
+        "supplier" : {
+          "name" : "Invacare AS",
+          "id" : "4f296dbf-9b0e-47d3-ba74-e6e4bd5699bf"
+        },
+        "media" : [ {
+          "uri" : "orig/36658.jpg",
+          "priority" : 1,
+          "type" : "IMAGE",
+          "text" : "billede",
+          "source" : "HMDB"
+        }, {
+          "uri" : "brugsvejl/36658.pdf",
+          "priority" : 4,
+          "type" : "PDF",
+          "text" : "bruksanvisning",
+          "source" : "HMDB"
+        }, {
+          "uri" : "produktblade/36658.pdf",
+          "priority" : 5,
+          "type" : "PDF",
+          "text" : "brosjyre",
+          "source" : "HMDB"
+        } ],
+        "accessory" : false,
+        "sparePart" : false,
+        "main" : true
+      }
+    } ]
+  },
+  "produkter" : [ {
+    "id" : "5b7f4e3e-2208-44c6-af6b-e8fb3f99cda9",
+    "title" : "Azalea",
+    "articleName" : "Azalea",
+    "seriesId" : "3701a05c-8560-488b-94cd-fd269c967e04",
+    "hmsArtNr" : "185144",
+    "supplierRef" : "1539530",
+    "attributes" : {
+      "compatibleWith" : null
+    },
+    "isoCategory" : "12220303",
+    "supplier" : {
+      "name" : "Invacare AS",
+      "id" : "4f296dbf-9b0e-47d3-ba74-e6e4bd5699bf"
+    },
+    "media" : [ {
+      "uri" : "orig/36658.jpg",
+      "priority" : 1,
+      "type" : "IMAGE",
+      "text" : "billede",
+      "source" : "HMDB"
+    }, {
+      "uri" : "brugsvejl/36658.pdf",
+      "priority" : 4,
+      "type" : "PDF",
+      "text" : "bruksanvisning",
+      "source" : "HMDB"
+    }, {
+      "uri" : "produktblade/36658.pdf",
+      "priority" : 5,
+      "type" : "PDF",
+      "text" : "brosjyre",
+      "source" : "HMDB"
+    } ],
+    "accessory" : false,
+    "sparePart" : false,
+    "main" : true
+  } ],
+  "produkt" : {
+    "id" : "5b7f4e3e-2208-44c6-af6b-e8fb3f99cda9",
+    "title" : "Azalea",
+    "articleName" : "Azalea",
+    "seriesId" : "3701a05c-8560-488b-94cd-fd269c967e04",
+    "hmsArtNr" : "185144",
+    "supplierRef" : "1539530",
+    "attributes" : {
+      "compatibleWith" : null
+    },
+    "isoCategory" : "12220303",
+    "supplier" : {
+      "name" : "Invacare AS",
+      "id" : "4f296dbf-9b0e-47d3-ba74-e6e4bd5699bf"
+    },
+    "media" : [ {
+      "uri" : "orig/36658.jpg",
+      "priority" : 1,
+      "type" : "IMAGE",
+      "text" : "billede",
+      "source" : "HMDB"
+    }, {
+      "uri" : "brugsvejl/36658.pdf",
+      "priority" : 4,
+      "type" : "PDF",
+      "text" : "bruksanvisning",
+      "source" : "HMDB"
+    }, {
+      "uri" : "produktblade/36658.pdf",
+      "priority" : 5,
+      "type" : "PDF",
+      "text" : "brosjyre",
+      "source" : "HMDB"
+    } ],
+    "accessory" : false,
+    "sparePart" : false,
+    "main" : true
+  }
+}

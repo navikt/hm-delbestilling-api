@@ -1,0 +1,1087 @@
+{
+  "hits" : {
+    "hits" : [ {
+      "_source" : {
+        "id" : "57dd0472-5a9c-4a65-8a5f-9d0b917dda6d",
+        "title" : "Retningslys ers Comet/Orion Pro bak hø",
+        "articleName" : "Retningslys ers Comet/Orion Pro bak hø",
+        "seriesId" : "3cda6fb0-efe3-44e7-a27b-34e37c82ed38",
+        "hmsArtNr" : "196547",
+        "supplierRef" : "SP1518033",
+        "attributes" : {
+          "compatibleWith" : {
+            "seriesIds" : [ "946536fa-4fc9-4d8b-b075-4e3354d34e67" ],
+            "productIds" : [ "9e85c23d-430b-4581-a899-bbd647290087", "87785c47-c912-4570-a1d4-9b9a8cb56e12", "ef042de6-d1e2-4e33-bd84-f48d05f83345", "64d03429-b3ce-470e-a659-ae68ac1cbcd3" ]
+          }
+        },
+        "isoCategory" : "122393",
+        "supplier" : {
+          "name" : "Invacare AS",
+          "id" : "4f296dbf-9b0e-47d3-ba74-e6e4bd5699bf"
+        },
+        "media" : [ ],
+        "accessory" : false,
+        "sparePart" : true,
+        "main" : false
+      }
+    }, {
+      "_source" : {
+        "id" : "ae3a2849-3069-4d09-832d-67d82b2955d8",
+        "title" : "Retningslys ers Comet/Orion Pro bak hø",
+        "articleName" : "Retningslys ers Comet/Orion Pro bak ve",
+        "seriesId" : "3cda6fb0-efe3-44e7-a27b-34e37c82ed38",
+        "hmsArtNr" : "196548",
+        "supplierRef" : "SP1518034",
+        "attributes" : {
+          "compatibleWith" : {
+            "seriesIds" : [ "6b71f3c1-2193-4053-8770-f725e465a0f5", "1181eaf7-00ce-4362-82fc-bdd271a82d54", "946536fa-4fc9-4d8b-b075-4e3354d34e67" ],
+            "productIds" : [ "9e85c23d-430b-4581-a899-bbd647290087", "87785c47-c912-4570-a1d4-9b9a8cb56e12", "ef042de6-d1e2-4e33-bd84-f48d05f83345", "64d03429-b3ce-470e-a659-ae68ac1cbcd3" ]
+          }
+        },
+        "isoCategory" : "122393",
+        "supplier" : {
+          "name" : "Invacare AS",
+          "id" : "4f296dbf-9b0e-47d3-ba74-e6e4bd5699bf"
+        },
+        "media" : [ ],
+        "accessory" : false,
+        "sparePart" : true,
+        "main" : false
+      }
+    }, {
+      "_source" : {
+        "id" : "b6838725-5677-41f6-b6a5-7ce959b9d9f1",
+        "title" : "Refleks bak ers Comet",
+        "articleName" : "Refleks bak ers Comet",
+        "seriesId" : "c9c6359b-2ef5-4c8a-9283-7bcce6fa2ee5",
+        "hmsArtNr" : "196546",
+        "supplierRef" : "SP1518036",
+        "attributes" : {
+          "compatibleWith" : {
+            "seriesIds" : [ "6b71f3c1-2193-4053-8770-f725e465a0f5", "1181eaf7-00ce-4362-82fc-bdd271a82d54", "946536fa-4fc9-4d8b-b075-4e3354d34e67" ],
+            "productIds" : [ "87785c47-c912-4570-a1d4-9b9a8cb56e12", "ef042de6-d1e2-4e33-bd84-f48d05f83345", "64d03429-b3ce-470e-a659-ae68ac1cbcd3" ]
+          }
+        },
+        "isoCategory" : "122393",
+        "supplier" : {
+          "name" : "Invacare AS",
+          "id" : "4f296dbf-9b0e-47d3-ba74-e6e4bd5699bf"
+        },
+        "media" : [ ],
+        "accessory" : false,
+        "sparePart" : true,
+        "main" : false
+      }
+    }, {
+      "_source" : {
+        "id" : "df4c6096-b31a-40d5-bc23-edfc88376377",
+        "title" : "Mosegummi håndtak ers Comet",
+        "articleName" : "Mosegummi håndtak ers Comet",
+        "seriesId" : "a5c17d68-a71d-4571-9bea-01d0801052d7",
+        "hmsArtNr" : "198415",
+        "supplierRef" : "SP1527792",
+        "attributes" : {
+          "compatibleWith" : {
+            "seriesIds" : [ "6b71f3c1-2193-4053-8770-f725e465a0f5" ],
+            "productIds" : [ "87785c47-c912-4570-a1d4-9b9a8cb56e12", "ef042de6-d1e2-4e33-bd84-f48d05f83345" ]
+          }
+        },
+        "isoCategory" : "122393",
+        "supplier" : {
+          "name" : "Invacare AS",
+          "id" : "4f296dbf-9b0e-47d3-ba74-e6e4bd5699bf"
+        },
+        "media" : [ ],
+        "accessory" : false,
+        "sparePart" : true,
+        "main" : false
+      }
+    }, {
+      "_source" : {
+        "id" : "80de20cd-ace7-4210-a196-ddf7f2be5e5b",
+        "title" : "Bakhjul ers Comet Alpine+ komplett hø",
+        "articleName" : "Bakhjul ers Comet Alpine+ komplett hø",
+        "seriesId" : "a61b3695-35e5-43cf-8236-2b21799f0cdf",
+        "hmsArtNr" : "253224",
+        "supplierRef" : "1654353",
+        "attributes" : {
+          "compatibleWith" : {
+            "seriesIds" : [ "6b71f3c1-2193-4053-8770-f725e465a0f5" ],
+            "productIds" : [ "87785c47-c912-4570-a1d4-9b9a8cb56e12", "ef042de6-d1e2-4e33-bd84-f48d05f83345" ]
+          }
+        },
+        "isoCategory" : "122393",
+        "supplier" : {
+          "name" : "Invacare AS",
+          "id" : "4f296dbf-9b0e-47d3-ba74-e6e4bd5699bf"
+        },
+        "media" : [ ],
+        "accessory" : false,
+        "sparePart" : true,
+        "main" : false
+      }
+    }, {
+      "_source" : {
+        "id" : "f7d65e9a-d8c0-4bff-9ea0-fe44ea88ad5b",
+        "title" : "Retningslys ers Comet/Orion Pro bak hø",
+        "articleName" : "Retningslys ers Comet/Orion Pro foran hø",
+        "seriesId" : "3cda6fb0-efe3-44e7-a27b-34e37c82ed38",
+        "hmsArtNr" : "217249",
+        "supplierRef" : "SP1517734",
+        "attributes" : {
+          "compatibleWith" : {
+            "seriesIds" : [ "6b71f3c1-2193-4053-8770-f725e465a0f5", "1181eaf7-00ce-4362-82fc-bdd271a82d54", "946536fa-4fc9-4d8b-b075-4e3354d34e67" ],
+            "productIds" : [ "9e85c23d-430b-4581-a899-bbd647290087", "87785c47-c912-4570-a1d4-9b9a8cb56e12", "ef042de6-d1e2-4e33-bd84-f48d05f83345", "64d03429-b3ce-470e-a659-ae68ac1cbcd3" ]
+          }
+        },
+        "isoCategory" : "122393",
+        "supplier" : {
+          "name" : "Invacare AS",
+          "id" : "4f296dbf-9b0e-47d3-ba74-e6e4bd5699bf"
+        },
+        "media" : [ ],
+        "accessory" : false,
+        "sparePart" : true,
+        "main" : false
+      }
+    }, {
+      "_source" : {
+        "id" : "3da50eba-fccc-44ed-97a8-3b1d9b9e986f",
+        "title" : "Retningslys ers Comet/Orion Pro bak hø",
+        "articleName" : "Retningslys ers Comet/Orion Pro foran ve",
+        "seriesId" : "3cda6fb0-efe3-44e7-a27b-34e37c82ed38",
+        "hmsArtNr" : "217248",
+        "supplierRef" : "SP1517733",
+        "attributes" : {
+          "compatibleWith" : {
+            "seriesIds" : [ "6b71f3c1-2193-4053-8770-f725e465a0f5", "1181eaf7-00ce-4362-82fc-bdd271a82d54", "946536fa-4fc9-4d8b-b075-4e3354d34e67" ],
+            "productIds" : [ "9e85c23d-430b-4581-a899-bbd647290087", "87785c47-c912-4570-a1d4-9b9a8cb56e12", "ef042de6-d1e2-4e33-bd84-f48d05f83345", "64d03429-b3ce-470e-a659-ae68ac1cbcd3" ]
+          }
+        },
+        "isoCategory" : "122393",
+        "supplier" : {
+          "name" : "Invacare AS",
+          "id" : "4f296dbf-9b0e-47d3-ba74-e6e4bd5699bf"
+        },
+        "media" : [ ],
+        "accessory" : false,
+        "sparePart" : true,
+        "main" : false
+      }
+    }, {
+      "_source" : {
+        "id" : "f1a839cf-b997-4130-86ae-8f37c7db3f10",
+        "title" : "Armlene ers Comet Alpine+ hø",
+        "articleName" : "Armlene ers Comet Alpine+ ve",
+        "seriesId" : "4675d4f0-b8da-4d0f-9e8c-abc657232f74",
+        "hmsArtNr" : "238383",
+        "supplierRef" : "SP1636858",
+        "attributes" : {
+          "compatibleWith" : {
+            "seriesIds" : [ "6b71f3c1-2193-4053-8770-f725e465a0f5" ],
+            "productIds" : [ "9e85c23d-430b-4581-a899-bbd647290087", "87785c47-c912-4570-a1d4-9b9a8cb56e12", "ef042de6-d1e2-4e33-bd84-f48d05f83345", "64d03429-b3ce-470e-a659-ae68ac1cbcd3" ]
+          }
+        },
+        "isoCategory" : "122391",
+        "supplier" : {
+          "name" : "Invacare AS",
+          "id" : "4f296dbf-9b0e-47d3-ba74-e6e4bd5699bf"
+        },
+        "media" : [ ],
+        "accessory" : false,
+        "sparePart" : true,
+        "main" : false
+      }
+    }, {
+      "_source" : {
+        "id" : "3ae6156e-49e8-43a1-821e-1c4a5a04343f",
+        "title" : "Bremselys ers Comet/Orion Pro bak komplett",
+        "articleName" : "Bremselys ers Comet/Orion Pro bak komplett",
+        "seriesId" : "ff43c34c-c57a-4461-a0c9-137fccc67703",
+        "hmsArtNr" : "217250",
+        "supplierRef" : "SP1518035",
+        "attributes" : {
+          "compatibleWith" : {
+            "seriesIds" : [ "946536fa-4fc9-4d8b-b075-4e3354d34e67" ],
+            "productIds" : [ "9e85c23d-430b-4581-a899-bbd647290087", "87785c47-c912-4570-a1d4-9b9a8cb56e12", "ef042de6-d1e2-4e33-bd84-f48d05f83345", "64d03429-b3ce-470e-a659-ae68ac1cbcd3" ]
+          }
+        },
+        "isoCategory" : "122393",
+        "supplier" : {
+          "name" : "Invacare AS",
+          "id" : "4f296dbf-9b0e-47d3-ba74-e6e4bd5699bf"
+        },
+        "media" : [ ],
+        "accessory" : false,
+        "sparePart" : true,
+        "main" : false
+      }
+    }, {
+      "_source" : {
+        "id" : "528dc168-b0cd-465e-b8a5-9736f4bcb690",
+        "title" : "Hovedlykt ers Comet komplett",
+        "articleName" : "Hovedlykt ers Comet komplett",
+        "seriesId" : "ebc3b74d-10dc-4619-bd21-e01819e37888",
+        "hmsArtNr" : "176438",
+        "supplierRef" : "SP1527473",
+        "attributes" : {
+          "compatibleWith" : {
+            "seriesIds" : [ "6b71f3c1-2193-4053-8770-f725e465a0f5", "1181eaf7-00ce-4362-82fc-bdd271a82d54", "946536fa-4fc9-4d8b-b075-4e3354d34e67" ],
+            "productIds" : [ "9e85c23d-430b-4581-a899-bbd647290087", "87785c47-c912-4570-a1d4-9b9a8cb56e12", "ef042de6-d1e2-4e33-bd84-f48d05f83345", "64d03429-b3ce-470e-a659-ae68ac1cbcd3" ]
+          }
+        },
+        "isoCategory" : "122393",
+        "supplier" : {
+          "name" : "Invacare AS",
+          "id" : "4f296dbf-9b0e-47d3-ba74-e6e4bd5699bf"
+        },
+        "media" : [ ],
+        "accessory" : false,
+        "sparePart" : true,
+        "main" : false
+      }
+    }, {
+      "_source" : {
+        "id" : "16571f40-d1f7-4544-8847-1b0e4bb9dbc4",
+        "title" : "Frontlys ers Comet lyspære 12V 15W",
+        "articleName" : "Frontlys ers Comet lyspære 12V 15W",
+        "seriesId" : "277e2f9d-65d3-486a-aa07-614c2c2f176d",
+        "hmsArtNr" : "184625",
+        "supplierRef" : "SP1527474",
+        "attributes" : {
+          "compatibleWith" : {
+            "seriesIds" : [ "6b71f3c1-2193-4053-8770-f725e465a0f5", "1181eaf7-00ce-4362-82fc-bdd271a82d54" ],
+            "productIds" : [ "9e85c23d-430b-4581-a899-bbd647290087", "87785c47-c912-4570-a1d4-9b9a8cb56e12", "ef042de6-d1e2-4e33-bd84-f48d05f83345", "64d03429-b3ce-470e-a659-ae68ac1cbcd3" ]
+          }
+        },
+        "isoCategory" : "122393",
+        "supplier" : {
+          "name" : "Invacare AS",
+          "id" : "4f296dbf-9b0e-47d3-ba74-e6e4bd5699bf"
+        },
+        "media" : [ ],
+        "accessory" : false,
+        "sparePart" : true,
+        "main" : false
+      }
+    }, {
+      "_source" : {
+        "id" : "fa769080-97c1-4cd7-acef-8200ea4e3ce5",
+        "title" : "Slange ers Comet",
+        "articleName" : "Slange ers Comet",
+        "seriesId" : "dd76c199-09e0-43a2-9f40-b8d0d4cd25f2",
+        "hmsArtNr" : "255191",
+        "supplierRef" : "SP1527714",
+        "attributes" : {
+          "compatibleWith" : {
+            "seriesIds" : [ "6b71f3c1-2193-4053-8770-f725e465a0f5", "1181eaf7-00ce-4362-82fc-bdd271a82d54", "946536fa-4fc9-4d8b-b075-4e3354d34e67" ],
+            "productIds" : [ "87785c47-c912-4570-a1d4-9b9a8cb56e12", "ef042de6-d1e2-4e33-bd84-f48d05f83345", "64d03429-b3ce-470e-a659-ae68ac1cbcd3" ]
+          }
+        },
+        "isoCategory" : "122393",
+        "supplier" : {
+          "name" : "Invacare AS",
+          "id" : "4f296dbf-9b0e-47d3-ba74-e6e4bd5699bf"
+        },
+        "media" : [ ],
+        "accessory" : false,
+        "sparePart" : true,
+        "main" : false
+      }
+    }, {
+      "_source" : {
+        "id" : "051dfcff-74ef-46e9-9590-7f8b2ef7bac5",
+        "title" : "Batteri ers Comet/Orion Pro 12V 70-73,6 Ah C20 gele",
+        "articleName" : "Batteri ers Comet/Orion Pro 12V 70-73,6 Ah C20 gele",
+        "seriesId" : "df54140b-8ffd-499e-98ee-f28b453fa74d",
+        "hmsArtNr" : "304570",
+        "supplierRef" : "SPP50016",
+        "attributes" : {
+          "compatibleWith" : {
+            "seriesIds" : [ "6b71f3c1-2193-4053-8770-f725e465a0f5", "1181eaf7-00ce-4362-82fc-bdd271a82d54", "946536fa-4fc9-4d8b-b075-4e3354d34e67" ],
+            "productIds" : [ "9e85c23d-430b-4581-a899-bbd647290087", "87785c47-c912-4570-a1d4-9b9a8cb56e12", "ef042de6-d1e2-4e33-bd84-f48d05f83345", "64d03429-b3ce-470e-a659-ae68ac1cbcd3" ]
+          }
+        },
+        "isoCategory" : "122395",
+        "supplier" : {
+          "name" : "Invacare AS",
+          "id" : "4f296dbf-9b0e-47d3-ba74-e6e4bd5699bf"
+        },
+        "media" : [ ],
+        "accessory" : false,
+        "sparePart" : true,
+        "main" : false
+      }
+    }, {
+      "_source" : {
+        "id" : "cf1659dd-0b77-4e37-a068-16c13caa0008",
+        "title" : "Hjul foran ers Comet komplett",
+        "articleName" : "Hjul foran ers Comet komplett",
+        "seriesId" : "9c7a6d77-2e47-48ef-ab81-7f8f93ebc294",
+        "hmsArtNr" : "269827",
+        "supplierRef" : "SP1654351",
+        "attributes" : {
+          "compatibleWith" : {
+            "seriesIds" : [ "6b71f3c1-2193-4053-8770-f725e465a0f5", "1181eaf7-00ce-4362-82fc-bdd271a82d54", "946536fa-4fc9-4d8b-b075-4e3354d34e67" ],
+            "productIds" : [ "87785c47-c912-4570-a1d4-9b9a8cb56e12", "ef042de6-d1e2-4e33-bd84-f48d05f83345" ]
+          }
+        },
+        "isoCategory" : "122393",
+        "supplier" : {
+          "name" : "Invacare AS",
+          "id" : "4f296dbf-9b0e-47d3-ba74-e6e4bd5699bf"
+        },
+        "media" : [ ],
+        "accessory" : false,
+        "sparePart" : true,
+        "main" : false
+      }
+    }, {
+      "_source" : {
+        "id" : "38d4b0be-7823-48c1-af54-c75a5e3781da",
+        "title" : "Bakhjul ers Comet Alpine+ komplett hø",
+        "articleName" : "Bakhjul ers Comet Alpine+ komplett ve",
+        "seriesId" : "a61b3695-35e5-43cf-8236-2b21799f0cdf",
+        "hmsArtNr" : "238403",
+        "supplierRef" : "SP1654383",
+        "attributes" : {
+          "compatibleWith" : {
+            "seriesIds" : [ "6b71f3c1-2193-4053-8770-f725e465a0f5" ],
+            "productIds" : [ "87785c47-c912-4570-a1d4-9b9a8cb56e12", "ef042de6-d1e2-4e33-bd84-f48d05f83345" ]
+          }
+        },
+        "isoCategory" : "122393",
+        "supplier" : {
+          "name" : "Invacare AS",
+          "id" : "4f296dbf-9b0e-47d3-ba74-e6e4bd5699bf"
+        },
+        "media" : [ ],
+        "accessory" : false,
+        "sparePart" : true,
+        "main" : false
+      }
+    }, {
+      "_source" : {
+        "id" : "ad9cb2f3-f9e9-47e6-8de7-6113c4aeedde",
+        "title" : "Hjul antitipp ers Comet",
+        "articleName" : "Hjul antitipp ers Comet",
+        "seriesId" : "77621e04-fdf9-4565-ba73-b9fda7444f64",
+        "hmsArtNr" : "243235",
+        "supplierRef" : "SP1522021",
+        "attributes" : {
+          "compatibleWith" : {
+            "seriesIds" : [ "6b71f3c1-2193-4053-8770-f725e465a0f5", "1181eaf7-00ce-4362-82fc-bdd271a82d54", "946536fa-4fc9-4d8b-b075-4e3354d34e67" ],
+            "productIds" : [ "9e85c23d-430b-4581-a899-bbd647290087", "87785c47-c912-4570-a1d4-9b9a8cb56e12", "ef042de6-d1e2-4e33-bd84-f48d05f83345", "64d03429-b3ce-470e-a659-ae68ac1cbcd3" ]
+          }
+        },
+        "isoCategory" : "122393",
+        "supplier" : {
+          "name" : "Invacare AS",
+          "id" : "4f296dbf-9b0e-47d3-ba74-e6e4bd5699bf"
+        },
+        "media" : [ ],
+        "accessory" : false,
+        "sparePart" : true,
+        "main" : false
+      }
+    }, {
+      "_source" : {
+        "id" : "e5a5706e-2805-4274-a867-73fcec17cfa5",
+        "title" : "Mutter ers Comet f/feste bakhjul",
+        "articleName" : "Mutter ers Comet f/feste bakhjul",
+        "seriesId" : "ec68434c-95c2-4d88-8bdd-f4be45e477ce",
+        "hmsArtNr" : "243234",
+        "supplierRef" : "SP1557459",
+        "attributes" : {
+          "compatibleWith" : {
+            "seriesIds" : [ "6b71f3c1-2193-4053-8770-f725e465a0f5", "1181eaf7-00ce-4362-82fc-bdd271a82d54", "946536fa-4fc9-4d8b-b075-4e3354d34e67" ],
+            "productIds" : [ "87785c47-c912-4570-a1d4-9b9a8cb56e12", "ef042de6-d1e2-4e33-bd84-f48d05f83345" ]
+          }
+        },
+        "isoCategory" : "122393",
+        "supplier" : {
+          "name" : "Invacare AS",
+          "id" : "4f296dbf-9b0e-47d3-ba74-e6e4bd5699bf"
+        },
+        "media" : [ ],
+        "accessory" : false,
+        "sparePart" : true,
+        "main" : false
+      }
+    }, {
+      "_source" : {
+        "id" : "e2211ffa-0b9d-46bd-b1b9-de978bc75bcf",
+        "title" : "Armlene ers Comet Alpine+ hø",
+        "articleName" : "Armlene ers Comet Alpine+ hø",
+        "seriesId" : "4675d4f0-b8da-4d0f-9e8c-abc657232f74",
+        "hmsArtNr" : "238382",
+        "supplierRef" : "SP1636857",
+        "attributes" : {
+          "compatibleWith" : {
+            "seriesIds" : [ "6b71f3c1-2193-4053-8770-f725e465a0f5" ],
+            "productIds" : [ "9e85c23d-430b-4581-a899-bbd647290087", "87785c47-c912-4570-a1d4-9b9a8cb56e12", "ef042de6-d1e2-4e33-bd84-f48d05f83345", "64d03429-b3ce-470e-a659-ae68ac1cbcd3" ]
+          }
+        },
+        "isoCategory" : "122391",
+        "supplier" : {
+          "name" : "Invacare AS",
+          "id" : "4f296dbf-9b0e-47d3-ba74-e6e4bd5699bf"
+        },
+        "media" : [ ],
+        "accessory" : false,
+        "sparePart" : true,
+        "main" : false
+      }
+    }, {
+      "_source" : {
+        "id" : "047f7ed5-4b5d-4913-8483-53690573ed9f",
+        "title" : "Baklys ers Comet lyspære 24V 5W",
+        "articleName" : "Baklys ers Comet lyspære 24V 5W",
+        "seriesId" : "b2a755af-64d9-43bb-ab44-1c8746f0ff4b",
+        "hmsArtNr" : "253169",
+        "supplierRef" : "SP1522034",
+        "attributes" : {
+          "compatibleWith" : {
+            "seriesIds" : [ "6b71f3c1-2193-4053-8770-f725e465a0f5", "1181eaf7-00ce-4362-82fc-bdd271a82d54", "946536fa-4fc9-4d8b-b075-4e3354d34e67" ],
+            "productIds" : [ "9e85c23d-430b-4581-a899-bbd647290087", "87785c47-c912-4570-a1d4-9b9a8cb56e12", "ef042de6-d1e2-4e33-bd84-f48d05f83345", "64d03429-b3ce-470e-a659-ae68ac1cbcd3" ]
+          }
+        },
+        "isoCategory" : "122393",
+        "supplier" : {
+          "name" : "Invacare AS",
+          "id" : "4f296dbf-9b0e-47d3-ba74-e6e4bd5699bf"
+        },
+        "media" : [ ],
+        "accessory" : false,
+        "sparePart" : true,
+        "main" : false
+      }
+    }, {
+      "_source" : {
+        "id" : "6884ec54-a0de-40bb-a0ec-c793337dbe9b",
+        "title" : "Lader ers OptiCharge Comet/Orion Pro 10Ah EU plugg",
+        "articleName" : "Lader ers OptiCharge Comet/Orion Pro 10Ah EU plugg",
+        "seriesId" : "41874f09-ec17-41be-b4ef-86eaa13a410c",
+        "hmsArtNr" : "249612",
+        "supplierRef" : "SP1606544",
+        "attributes" : {
+          "compatibleWith" : {
+            "seriesIds" : [ "6b71f3c1-2193-4053-8770-f725e465a0f5", "1181eaf7-00ce-4362-82fc-bdd271a82d54", "946536fa-4fc9-4d8b-b075-4e3354d34e67" ],
+            "productIds" : [ "9e85c23d-430b-4581-a899-bbd647290087", "87785c47-c912-4570-a1d4-9b9a8cb56e12", "ef042de6-d1e2-4e33-bd84-f48d05f83345" ]
+          }
+        },
+        "isoCategory" : "122395",
+        "supplier" : {
+          "name" : "Invacare AS",
+          "id" : "4f296dbf-9b0e-47d3-ba74-e6e4bd5699bf"
+        },
+        "media" : [ ],
+        "accessory" : false,
+        "sparePart" : true,
+        "main" : false
+      }
+    }, {
+      "_source" : {
+        "id" : "9c3b8963-2dbd-4013-82af-f891a481c632",
+        "title" : "Bryter fartsreduksjon ers Comet",
+        "articleName" : "Bryter fartsreduksjon ers Comet",
+        "seriesId" : "7b0e8147-7fd3-407f-9a96-15e72de9440d",
+        "hmsArtNr" : "201401",
+        "supplierRef" : "SP1556266",
+        "attributes" : {
+          "compatibleWith" : {
+            "seriesIds" : [ "6b71f3c1-2193-4053-8770-f725e465a0f5", "1181eaf7-00ce-4362-82fc-bdd271a82d54", "946536fa-4fc9-4d8b-b075-4e3354d34e67" ],
+            "productIds" : [ "9e85c23d-430b-4581-a899-bbd647290087", "87785c47-c912-4570-a1d4-9b9a8cb56e12", "ef042de6-d1e2-4e33-bd84-f48d05f83345", "64d03429-b3ce-470e-a659-ae68ac1cbcd3" ]
+          }
+        },
+        "isoCategory" : "122393",
+        "supplier" : {
+          "name" : "Invacare AS",
+          "id" : "4f296dbf-9b0e-47d3-ba74-e6e4bd5699bf"
+        },
+        "media" : [ ],
+        "accessory" : false,
+        "sparePart" : true,
+        "main" : false
+      }
+    }, {
+      "_source" : {
+        "id" : "86f750c5-4ac7-41e3-8797-ba5628420f7e",
+        "title" : "Blinklys ers Comet lyspære 24V 12W",
+        "articleName" : "Blinklys ers Comet lyspære 24V 12W",
+        "seriesId" : "f643e8dd-88da-4a20-9b6c-86b2f8c5d4fb",
+        "hmsArtNr" : "211403",
+        "supplierRef" : "SP1522030",
+        "attributes" : {
+          "compatibleWith" : {
+            "seriesIds" : [ "6b71f3c1-2193-4053-8770-f725e465a0f5", "1181eaf7-00ce-4362-82fc-bdd271a82d54" ],
+            "productIds" : [ "9e85c23d-430b-4581-a899-bbd647290087", "87785c47-c912-4570-a1d4-9b9a8cb56e12", "ef042de6-d1e2-4e33-bd84-f48d05f83345", "64d03429-b3ce-470e-a659-ae68ac1cbcd3" ]
+          }
+        },
+        "isoCategory" : "122393",
+        "supplier" : {
+          "name" : "Invacare AS",
+          "id" : "4f296dbf-9b0e-47d3-ba74-e6e4bd5699bf"
+        },
+        "media" : [ ],
+        "accessory" : false,
+        "sparePart" : true,
+        "main" : false
+      }
+    }, {
+      "_source" : {
+        "id" : "09fa9c11-1d03-4e1a-8b77-73dbfb56b124",
+        "title" : "Ladekontakt ers Comet",
+        "articleName" : "Ladekontakt ers Comet",
+        "seriesId" : "9b6eb85f-9945-4cca-add2-2291b9f66c20",
+        "hmsArtNr" : "211697",
+        "supplierRef" : "1523543",
+        "attributes" : {
+          "compatibleWith" : {
+            "seriesIds" : [ "6b71f3c1-2193-4053-8770-f725e465a0f5", "1181eaf7-00ce-4362-82fc-bdd271a82d54", "946536fa-4fc9-4d8b-b075-4e3354d34e67" ],
+            "productIds" : [ "9e85c23d-430b-4581-a899-bbd647290087", "87785c47-c912-4570-a1d4-9b9a8cb56e12", "ef042de6-d1e2-4e33-bd84-f48d05f83345", "64d03429-b3ce-470e-a659-ae68ac1cbcd3" ]
+          }
+        },
+        "isoCategory" : "122393",
+        "supplier" : {
+          "name" : "Invacare AS",
+          "id" : "4f296dbf-9b0e-47d3-ba74-e6e4bd5699bf"
+        },
+        "media" : [ ],
+        "accessory" : false,
+        "sparePart" : true,
+        "main" : false
+      }
+    } ]
+  },
+  "produkter" : [ {
+    "id" : "57dd0472-5a9c-4a65-8a5f-9d0b917dda6d",
+    "title" : "Retningslys ers Comet/Orion Pro bak hø",
+    "articleName" : "Retningslys ers Comet/Orion Pro bak hø",
+    "seriesId" : "3cda6fb0-efe3-44e7-a27b-34e37c82ed38",
+    "hmsArtNr" : "196547",
+    "supplierRef" : "SP1518033",
+    "attributes" : {
+      "compatibleWith" : {
+        "seriesIds" : [ "946536fa-4fc9-4d8b-b075-4e3354d34e67" ],
+        "productIds" : [ "9e85c23d-430b-4581-a899-bbd647290087", "87785c47-c912-4570-a1d4-9b9a8cb56e12", "ef042de6-d1e2-4e33-bd84-f48d05f83345", "64d03429-b3ce-470e-a659-ae68ac1cbcd3" ]
+      }
+    },
+    "isoCategory" : "122393",
+    "supplier" : {
+      "name" : "Invacare AS",
+      "id" : "4f296dbf-9b0e-47d3-ba74-e6e4bd5699bf"
+    },
+    "media" : [ ],
+    "accessory" : false,
+    "sparePart" : true,
+    "main" : false
+  }, {
+    "id" : "ae3a2849-3069-4d09-832d-67d82b2955d8",
+    "title" : "Retningslys ers Comet/Orion Pro bak hø",
+    "articleName" : "Retningslys ers Comet/Orion Pro bak ve",
+    "seriesId" : "3cda6fb0-efe3-44e7-a27b-34e37c82ed38",
+    "hmsArtNr" : "196548",
+    "supplierRef" : "SP1518034",
+    "attributes" : {
+      "compatibleWith" : {
+        "seriesIds" : [ "6b71f3c1-2193-4053-8770-f725e465a0f5", "1181eaf7-00ce-4362-82fc-bdd271a82d54", "946536fa-4fc9-4d8b-b075-4e3354d34e67" ],
+        "productIds" : [ "9e85c23d-430b-4581-a899-bbd647290087", "87785c47-c912-4570-a1d4-9b9a8cb56e12", "ef042de6-d1e2-4e33-bd84-f48d05f83345", "64d03429-b3ce-470e-a659-ae68ac1cbcd3" ]
+      }
+    },
+    "isoCategory" : "122393",
+    "supplier" : {
+      "name" : "Invacare AS",
+      "id" : "4f296dbf-9b0e-47d3-ba74-e6e4bd5699bf"
+    },
+    "media" : [ ],
+    "accessory" : false,
+    "sparePart" : true,
+    "main" : false
+  }, {
+    "id" : "b6838725-5677-41f6-b6a5-7ce959b9d9f1",
+    "title" : "Refleks bak ers Comet",
+    "articleName" : "Refleks bak ers Comet",
+    "seriesId" : "c9c6359b-2ef5-4c8a-9283-7bcce6fa2ee5",
+    "hmsArtNr" : "196546",
+    "supplierRef" : "SP1518036",
+    "attributes" : {
+      "compatibleWith" : {
+        "seriesIds" : [ "6b71f3c1-2193-4053-8770-f725e465a0f5", "1181eaf7-00ce-4362-82fc-bdd271a82d54", "946536fa-4fc9-4d8b-b075-4e3354d34e67" ],
+        "productIds" : [ "87785c47-c912-4570-a1d4-9b9a8cb56e12", "ef042de6-d1e2-4e33-bd84-f48d05f83345", "64d03429-b3ce-470e-a659-ae68ac1cbcd3" ]
+      }
+    },
+    "isoCategory" : "122393",
+    "supplier" : {
+      "name" : "Invacare AS",
+      "id" : "4f296dbf-9b0e-47d3-ba74-e6e4bd5699bf"
+    },
+    "media" : [ ],
+    "accessory" : false,
+    "sparePart" : true,
+    "main" : false
+  }, {
+    "id" : "df4c6096-b31a-40d5-bc23-edfc88376377",
+    "title" : "Mosegummi håndtak ers Comet",
+    "articleName" : "Mosegummi håndtak ers Comet",
+    "seriesId" : "a5c17d68-a71d-4571-9bea-01d0801052d7",
+    "hmsArtNr" : "198415",
+    "supplierRef" : "SP1527792",
+    "attributes" : {
+      "compatibleWith" : {
+        "seriesIds" : [ "6b71f3c1-2193-4053-8770-f725e465a0f5" ],
+        "productIds" : [ "87785c47-c912-4570-a1d4-9b9a8cb56e12", "ef042de6-d1e2-4e33-bd84-f48d05f83345" ]
+      }
+    },
+    "isoCategory" : "122393",
+    "supplier" : {
+      "name" : "Invacare AS",
+      "id" : "4f296dbf-9b0e-47d3-ba74-e6e4bd5699bf"
+    },
+    "media" : [ ],
+    "accessory" : false,
+    "sparePart" : true,
+    "main" : false
+  }, {
+    "id" : "80de20cd-ace7-4210-a196-ddf7f2be5e5b",
+    "title" : "Bakhjul ers Comet Alpine+ komplett hø",
+    "articleName" : "Bakhjul ers Comet Alpine+ komplett hø",
+    "seriesId" : "a61b3695-35e5-43cf-8236-2b21799f0cdf",
+    "hmsArtNr" : "253224",
+    "supplierRef" : "1654353",
+    "attributes" : {
+      "compatibleWith" : {
+        "seriesIds" : [ "6b71f3c1-2193-4053-8770-f725e465a0f5" ],
+        "productIds" : [ "87785c47-c912-4570-a1d4-9b9a8cb56e12", "ef042de6-d1e2-4e33-bd84-f48d05f83345" ]
+      }
+    },
+    "isoCategory" : "122393",
+    "supplier" : {
+      "name" : "Invacare AS",
+      "id" : "4f296dbf-9b0e-47d3-ba74-e6e4bd5699bf"
+    },
+    "media" : [ ],
+    "accessory" : false,
+    "sparePart" : true,
+    "main" : false
+  }, {
+    "id" : "f7d65e9a-d8c0-4bff-9ea0-fe44ea88ad5b",
+    "title" : "Retningslys ers Comet/Orion Pro bak hø",
+    "articleName" : "Retningslys ers Comet/Orion Pro foran hø",
+    "seriesId" : "3cda6fb0-efe3-44e7-a27b-34e37c82ed38",
+    "hmsArtNr" : "217249",
+    "supplierRef" : "SP1517734",
+    "attributes" : {
+      "compatibleWith" : {
+        "seriesIds" : [ "6b71f3c1-2193-4053-8770-f725e465a0f5", "1181eaf7-00ce-4362-82fc-bdd271a82d54", "946536fa-4fc9-4d8b-b075-4e3354d34e67" ],
+        "productIds" : [ "9e85c23d-430b-4581-a899-bbd647290087", "87785c47-c912-4570-a1d4-9b9a8cb56e12", "ef042de6-d1e2-4e33-bd84-f48d05f83345", "64d03429-b3ce-470e-a659-ae68ac1cbcd3" ]
+      }
+    },
+    "isoCategory" : "122393",
+    "supplier" : {
+      "name" : "Invacare AS",
+      "id" : "4f296dbf-9b0e-47d3-ba74-e6e4bd5699bf"
+    },
+    "media" : [ ],
+    "accessory" : false,
+    "sparePart" : true,
+    "main" : false
+  }, {
+    "id" : "3da50eba-fccc-44ed-97a8-3b1d9b9e986f",
+    "title" : "Retningslys ers Comet/Orion Pro bak hø",
+    "articleName" : "Retningslys ers Comet/Orion Pro foran ve",
+    "seriesId" : "3cda6fb0-efe3-44e7-a27b-34e37c82ed38",
+    "hmsArtNr" : "217248",
+    "supplierRef" : "SP1517733",
+    "attributes" : {
+      "compatibleWith" : {
+        "seriesIds" : [ "6b71f3c1-2193-4053-8770-f725e465a0f5", "1181eaf7-00ce-4362-82fc-bdd271a82d54", "946536fa-4fc9-4d8b-b075-4e3354d34e67" ],
+        "productIds" : [ "9e85c23d-430b-4581-a899-bbd647290087", "87785c47-c912-4570-a1d4-9b9a8cb56e12", "ef042de6-d1e2-4e33-bd84-f48d05f83345", "64d03429-b3ce-470e-a659-ae68ac1cbcd3" ]
+      }
+    },
+    "isoCategory" : "122393",
+    "supplier" : {
+      "name" : "Invacare AS",
+      "id" : "4f296dbf-9b0e-47d3-ba74-e6e4bd5699bf"
+    },
+    "media" : [ ],
+    "accessory" : false,
+    "sparePart" : true,
+    "main" : false
+  }, {
+    "id" : "f1a839cf-b997-4130-86ae-8f37c7db3f10",
+    "title" : "Armlene ers Comet Alpine+ hø",
+    "articleName" : "Armlene ers Comet Alpine+ ve",
+    "seriesId" : "4675d4f0-b8da-4d0f-9e8c-abc657232f74",
+    "hmsArtNr" : "238383",
+    "supplierRef" : "SP1636858",
+    "attributes" : {
+      "compatibleWith" : {
+        "seriesIds" : [ "6b71f3c1-2193-4053-8770-f725e465a0f5" ],
+        "productIds" : [ "9e85c23d-430b-4581-a899-bbd647290087", "87785c47-c912-4570-a1d4-9b9a8cb56e12", "ef042de6-d1e2-4e33-bd84-f48d05f83345", "64d03429-b3ce-470e-a659-ae68ac1cbcd3" ]
+      }
+    },
+    "isoCategory" : "122391",
+    "supplier" : {
+      "name" : "Invacare AS",
+      "id" : "4f296dbf-9b0e-47d3-ba74-e6e4bd5699bf"
+    },
+    "media" : [ ],
+    "accessory" : false,
+    "sparePart" : true,
+    "main" : false
+  }, {
+    "id" : "3ae6156e-49e8-43a1-821e-1c4a5a04343f",
+    "title" : "Bremselys ers Comet/Orion Pro bak komplett",
+    "articleName" : "Bremselys ers Comet/Orion Pro bak komplett",
+    "seriesId" : "ff43c34c-c57a-4461-a0c9-137fccc67703",
+    "hmsArtNr" : "217250",
+    "supplierRef" : "SP1518035",
+    "attributes" : {
+      "compatibleWith" : {
+        "seriesIds" : [ "946536fa-4fc9-4d8b-b075-4e3354d34e67" ],
+        "productIds" : [ "9e85c23d-430b-4581-a899-bbd647290087", "87785c47-c912-4570-a1d4-9b9a8cb56e12", "ef042de6-d1e2-4e33-bd84-f48d05f83345", "64d03429-b3ce-470e-a659-ae68ac1cbcd3" ]
+      }
+    },
+    "isoCategory" : "122393",
+    "supplier" : {
+      "name" : "Invacare AS",
+      "id" : "4f296dbf-9b0e-47d3-ba74-e6e4bd5699bf"
+    },
+    "media" : [ ],
+    "accessory" : false,
+    "sparePart" : true,
+    "main" : false
+  }, {
+    "id" : "528dc168-b0cd-465e-b8a5-9736f4bcb690",
+    "title" : "Hovedlykt ers Comet komplett",
+    "articleName" : "Hovedlykt ers Comet komplett",
+    "seriesId" : "ebc3b74d-10dc-4619-bd21-e01819e37888",
+    "hmsArtNr" : "176438",
+    "supplierRef" : "SP1527473",
+    "attributes" : {
+      "compatibleWith" : {
+        "seriesIds" : [ "6b71f3c1-2193-4053-8770-f725e465a0f5", "1181eaf7-00ce-4362-82fc-bdd271a82d54", "946536fa-4fc9-4d8b-b075-4e3354d34e67" ],
+        "productIds" : [ "9e85c23d-430b-4581-a899-bbd647290087", "87785c47-c912-4570-a1d4-9b9a8cb56e12", "ef042de6-d1e2-4e33-bd84-f48d05f83345", "64d03429-b3ce-470e-a659-ae68ac1cbcd3" ]
+      }
+    },
+    "isoCategory" : "122393",
+    "supplier" : {
+      "name" : "Invacare AS",
+      "id" : "4f296dbf-9b0e-47d3-ba74-e6e4bd5699bf"
+    },
+    "media" : [ ],
+    "accessory" : false,
+    "sparePart" : true,
+    "main" : false
+  }, {
+    "id" : "16571f40-d1f7-4544-8847-1b0e4bb9dbc4",
+    "title" : "Frontlys ers Comet lyspære 12V 15W",
+    "articleName" : "Frontlys ers Comet lyspære 12V 15W",
+    "seriesId" : "277e2f9d-65d3-486a-aa07-614c2c2f176d",
+    "hmsArtNr" : "184625",
+    "supplierRef" : "SP1527474",
+    "attributes" : {
+      "compatibleWith" : {
+        "seriesIds" : [ "6b71f3c1-2193-4053-8770-f725e465a0f5", "1181eaf7-00ce-4362-82fc-bdd271a82d54" ],
+        "productIds" : [ "9e85c23d-430b-4581-a899-bbd647290087", "87785c47-c912-4570-a1d4-9b9a8cb56e12", "ef042de6-d1e2-4e33-bd84-f48d05f83345", "64d03429-b3ce-470e-a659-ae68ac1cbcd3" ]
+      }
+    },
+    "isoCategory" : "122393",
+    "supplier" : {
+      "name" : "Invacare AS",
+      "id" : "4f296dbf-9b0e-47d3-ba74-e6e4bd5699bf"
+    },
+    "media" : [ ],
+    "accessory" : false,
+    "sparePart" : true,
+    "main" : false
+  }, {
+    "id" : "fa769080-97c1-4cd7-acef-8200ea4e3ce5",
+    "title" : "Slange ers Comet",
+    "articleName" : "Slange ers Comet",
+    "seriesId" : "dd76c199-09e0-43a2-9f40-b8d0d4cd25f2",
+    "hmsArtNr" : "255191",
+    "supplierRef" : "SP1527714",
+    "attributes" : {
+      "compatibleWith" : {
+        "seriesIds" : [ "6b71f3c1-2193-4053-8770-f725e465a0f5", "1181eaf7-00ce-4362-82fc-bdd271a82d54", "946536fa-4fc9-4d8b-b075-4e3354d34e67" ],
+        "productIds" : [ "87785c47-c912-4570-a1d4-9b9a8cb56e12", "ef042de6-d1e2-4e33-bd84-f48d05f83345", "64d03429-b3ce-470e-a659-ae68ac1cbcd3" ]
+      }
+    },
+    "isoCategory" : "122393",
+    "supplier" : {
+      "name" : "Invacare AS",
+      "id" : "4f296dbf-9b0e-47d3-ba74-e6e4bd5699bf"
+    },
+    "media" : [ ],
+    "accessory" : false,
+    "sparePart" : true,
+    "main" : false
+  }, {
+    "id" : "051dfcff-74ef-46e9-9590-7f8b2ef7bac5",
+    "title" : "Batteri ers Comet/Orion Pro 12V 70-73,6 Ah C20 gele",
+    "articleName" : "Batteri ers Comet/Orion Pro 12V 70-73,6 Ah C20 gele",
+    "seriesId" : "df54140b-8ffd-499e-98ee-f28b453fa74d",
+    "hmsArtNr" : "304570",
+    "supplierRef" : "SPP50016",
+    "attributes" : {
+      "compatibleWith" : {
+        "seriesIds" : [ "6b71f3c1-2193-4053-8770-f725e465a0f5", "1181eaf7-00ce-4362-82fc-bdd271a82d54", "946536fa-4fc9-4d8b-b075-4e3354d34e67" ],
+        "productIds" : [ "9e85c23d-430b-4581-a899-bbd647290087", "87785c47-c912-4570-a1d4-9b9a8cb56e12", "ef042de6-d1e2-4e33-bd84-f48d05f83345", "64d03429-b3ce-470e-a659-ae68ac1cbcd3" ]
+      }
+    },
+    "isoCategory" : "122395",
+    "supplier" : {
+      "name" : "Invacare AS",
+      "id" : "4f296dbf-9b0e-47d3-ba74-e6e4bd5699bf"
+    },
+    "media" : [ ],
+    "accessory" : false,
+    "sparePart" : true,
+    "main" : false
+  }, {
+    "id" : "cf1659dd-0b77-4e37-a068-16c13caa0008",
+    "title" : "Hjul foran ers Comet komplett",
+    "articleName" : "Hjul foran ers Comet komplett",
+    "seriesId" : "9c7a6d77-2e47-48ef-ab81-7f8f93ebc294",
+    "hmsArtNr" : "269827",
+    "supplierRef" : "SP1654351",
+    "attributes" : {
+      "compatibleWith" : {
+        "seriesIds" : [ "6b71f3c1-2193-4053-8770-f725e465a0f5", "1181eaf7-00ce-4362-82fc-bdd271a82d54", "946536fa-4fc9-4d8b-b075-4e3354d34e67" ],
+        "productIds" : [ "87785c47-c912-4570-a1d4-9b9a8cb56e12", "ef042de6-d1e2-4e33-bd84-f48d05f83345" ]
+      }
+    },
+    "isoCategory" : "122393",
+    "supplier" : {
+      "name" : "Invacare AS",
+      "id" : "4f296dbf-9b0e-47d3-ba74-e6e4bd5699bf"
+    },
+    "media" : [ ],
+    "accessory" : false,
+    "sparePart" : true,
+    "main" : false
+  }, {
+    "id" : "38d4b0be-7823-48c1-af54-c75a5e3781da",
+    "title" : "Bakhjul ers Comet Alpine+ komplett hø",
+    "articleName" : "Bakhjul ers Comet Alpine+ komplett ve",
+    "seriesId" : "a61b3695-35e5-43cf-8236-2b21799f0cdf",
+    "hmsArtNr" : "238403",
+    "supplierRef" : "SP1654383",
+    "attributes" : {
+      "compatibleWith" : {
+        "seriesIds" : [ "6b71f3c1-2193-4053-8770-f725e465a0f5" ],
+        "productIds" : [ "87785c47-c912-4570-a1d4-9b9a8cb56e12", "ef042de6-d1e2-4e33-bd84-f48d05f83345" ]
+      }
+    },
+    "isoCategory" : "122393",
+    "supplier" : {
+      "name" : "Invacare AS",
+      "id" : "4f296dbf-9b0e-47d3-ba74-e6e4bd5699bf"
+    },
+    "media" : [ ],
+    "accessory" : false,
+    "sparePart" : true,
+    "main" : false
+  }, {
+    "id" : "ad9cb2f3-f9e9-47e6-8de7-6113c4aeedde",
+    "title" : "Hjul antitipp ers Comet",
+    "articleName" : "Hjul antitipp ers Comet",
+    "seriesId" : "77621e04-fdf9-4565-ba73-b9fda7444f64",
+    "hmsArtNr" : "243235",
+    "supplierRef" : "SP1522021",
+    "attributes" : {
+      "compatibleWith" : {
+        "seriesIds" : [ "6b71f3c1-2193-4053-8770-f725e465a0f5", "1181eaf7-00ce-4362-82fc-bdd271a82d54", "946536fa-4fc9-4d8b-b075-4e3354d34e67" ],
+        "productIds" : [ "9e85c23d-430b-4581-a899-bbd647290087", "87785c47-c912-4570-a1d4-9b9a8cb56e12", "ef042de6-d1e2-4e33-bd84-f48d05f83345", "64d03429-b3ce-470e-a659-ae68ac1cbcd3" ]
+      }
+    },
+    "isoCategory" : "122393",
+    "supplier" : {
+      "name" : "Invacare AS",
+      "id" : "4f296dbf-9b0e-47d3-ba74-e6e4bd5699bf"
+    },
+    "media" : [ ],
+    "accessory" : false,
+    "sparePart" : true,
+    "main" : false
+  }, {
+    "id" : "e5a5706e-2805-4274-a867-73fcec17cfa5",
+    "title" : "Mutter ers Comet f/feste bakhjul",
+    "articleName" : "Mutter ers Comet f/feste bakhjul",
+    "seriesId" : "ec68434c-95c2-4d88-8bdd-f4be45e477ce",
+    "hmsArtNr" : "243234",
+    "supplierRef" : "SP1557459",
+    "attributes" : {
+      "compatibleWith" : {
+        "seriesIds" : [ "6b71f3c1-2193-4053-8770-f725e465a0f5", "1181eaf7-00ce-4362-82fc-bdd271a82d54", "946536fa-4fc9-4d8b-b075-4e3354d34e67" ],
+        "productIds" : [ "87785c47-c912-4570-a1d4-9b9a8cb56e12", "ef042de6-d1e2-4e33-bd84-f48d05f83345" ]
+      }
+    },
+    "isoCategory" : "122393",
+    "supplier" : {
+      "name" : "Invacare AS",
+      "id" : "4f296dbf-9b0e-47d3-ba74-e6e4bd5699bf"
+    },
+    "media" : [ ],
+    "accessory" : false,
+    "sparePart" : true,
+    "main" : false
+  }, {
+    "id" : "e2211ffa-0b9d-46bd-b1b9-de978bc75bcf",
+    "title" : "Armlene ers Comet Alpine+ hø",
+    "articleName" : "Armlene ers Comet Alpine+ hø",
+    "seriesId" : "4675d4f0-b8da-4d0f-9e8c-abc657232f74",
+    "hmsArtNr" : "238382",
+    "supplierRef" : "SP1636857",
+    "attributes" : {
+      "compatibleWith" : {
+        "seriesIds" : [ "6b71f3c1-2193-4053-8770-f725e465a0f5" ],
+        "productIds" : [ "9e85c23d-430b-4581-a899-bbd647290087", "87785c47-c912-4570-a1d4-9b9a8cb56e12", "ef042de6-d1e2-4e33-bd84-f48d05f83345", "64d03429-b3ce-470e-a659-ae68ac1cbcd3" ]
+      }
+    },
+    "isoCategory" : "122391",
+    "supplier" : {
+      "name" : "Invacare AS",
+      "id" : "4f296dbf-9b0e-47d3-ba74-e6e4bd5699bf"
+    },
+    "media" : [ ],
+    "accessory" : false,
+    "sparePart" : true,
+    "main" : false
+  }, {
+    "id" : "047f7ed5-4b5d-4913-8483-53690573ed9f",
+    "title" : "Baklys ers Comet lyspære 24V 5W",
+    "articleName" : "Baklys ers Comet lyspære 24V 5W",
+    "seriesId" : "b2a755af-64d9-43bb-ab44-1c8746f0ff4b",
+    "hmsArtNr" : "253169",
+    "supplierRef" : "SP1522034",
+    "attributes" : {
+      "compatibleWith" : {
+        "seriesIds" : [ "6b71f3c1-2193-4053-8770-f725e465a0f5", "1181eaf7-00ce-4362-82fc-bdd271a82d54", "946536fa-4fc9-4d8b-b075-4e3354d34e67" ],
+        "productIds" : [ "9e85c23d-430b-4581-a899-bbd647290087", "87785c47-c912-4570-a1d4-9b9a8cb56e12", "ef042de6-d1e2-4e33-bd84-f48d05f83345", "64d03429-b3ce-470e-a659-ae68ac1cbcd3" ]
+      }
+    },
+    "isoCategory" : "122393",
+    "supplier" : {
+      "name" : "Invacare AS",
+      "id" : "4f296dbf-9b0e-47d3-ba74-e6e4bd5699bf"
+    },
+    "media" : [ ],
+    "accessory" : false,
+    "sparePart" : true,
+    "main" : false
+  }, {
+    "id" : "6884ec54-a0de-40bb-a0ec-c793337dbe9b",
+    "title" : "Lader ers OptiCharge Comet/Orion Pro 10Ah EU plugg",
+    "articleName" : "Lader ers OptiCharge Comet/Orion Pro 10Ah EU plugg",
+    "seriesId" : "41874f09-ec17-41be-b4ef-86eaa13a410c",
+    "hmsArtNr" : "249612",
+    "supplierRef" : "SP1606544",
+    "attributes" : {
+      "compatibleWith" : {
+        "seriesIds" : [ "6b71f3c1-2193-4053-8770-f725e465a0f5", "1181eaf7-00ce-4362-82fc-bdd271a82d54", "946536fa-4fc9-4d8b-b075-4e3354d34e67" ],
+        "productIds" : [ "9e85c23d-430b-4581-a899-bbd647290087", "87785c47-c912-4570-a1d4-9b9a8cb56e12", "ef042de6-d1e2-4e33-bd84-f48d05f83345" ]
+      }
+    },
+    "isoCategory" : "122395",
+    "supplier" : {
+      "name" : "Invacare AS",
+      "id" : "4f296dbf-9b0e-47d3-ba74-e6e4bd5699bf"
+    },
+    "media" : [ ],
+    "accessory" : false,
+    "sparePart" : true,
+    "main" : false
+  }, {
+    "id" : "9c3b8963-2dbd-4013-82af-f891a481c632",
+    "title" : "Bryter fartsreduksjon ers Comet",
+    "articleName" : "Bryter fartsreduksjon ers Comet",
+    "seriesId" : "7b0e8147-7fd3-407f-9a96-15e72de9440d",
+    "hmsArtNr" : "201401",
+    "supplierRef" : "SP1556266",
+    "attributes" : {
+      "compatibleWith" : {
+        "seriesIds" : [ "6b71f3c1-2193-4053-8770-f725e465a0f5", "1181eaf7-00ce-4362-82fc-bdd271a82d54", "946536fa-4fc9-4d8b-b075-4e3354d34e67" ],
+        "productIds" : [ "9e85c23d-430b-4581-a899-bbd647290087", "87785c47-c912-4570-a1d4-9b9a8cb56e12", "ef042de6-d1e2-4e33-bd84-f48d05f83345", "64d03429-b3ce-470e-a659-ae68ac1cbcd3" ]
+      }
+    },
+    "isoCategory" : "122393",
+    "supplier" : {
+      "name" : "Invacare AS",
+      "id" : "4f296dbf-9b0e-47d3-ba74-e6e4bd5699bf"
+    },
+    "media" : [ ],
+    "accessory" : false,
+    "sparePart" : true,
+    "main" : false
+  }, {
+    "id" : "86f750c5-4ac7-41e3-8797-ba5628420f7e",
+    "title" : "Blinklys ers Comet lyspære 24V 12W",
+    "articleName" : "Blinklys ers Comet lyspære 24V 12W",
+    "seriesId" : "f643e8dd-88da-4a20-9b6c-86b2f8c5d4fb",
+    "hmsArtNr" : "211403",
+    "supplierRef" : "SP1522030",
+    "attributes" : {
+      "compatibleWith" : {
+        "seriesIds" : [ "6b71f3c1-2193-4053-8770-f725e465a0f5", "1181eaf7-00ce-4362-82fc-bdd271a82d54" ],
+        "productIds" : [ "9e85c23d-430b-4581-a899-bbd647290087", "87785c47-c912-4570-a1d4-9b9a8cb56e12", "ef042de6-d1e2-4e33-bd84-f48d05f83345", "64d03429-b3ce-470e-a659-ae68ac1cbcd3" ]
+      }
+    },
+    "isoCategory" : "122393",
+    "supplier" : {
+      "name" : "Invacare AS",
+      "id" : "4f296dbf-9b0e-47d3-ba74-e6e4bd5699bf"
+    },
+    "media" : [ ],
+    "accessory" : false,
+    "sparePart" : true,
+    "main" : false
+  }, {
+    "id" : "09fa9c11-1d03-4e1a-8b77-73dbfb56b124",
+    "title" : "Ladekontakt ers Comet",
+    "articleName" : "Ladekontakt ers Comet",
+    "seriesId" : "9b6eb85f-9945-4cca-add2-2291b9f66c20",
+    "hmsArtNr" : "211697",
+    "supplierRef" : "1523543",
+    "attributes" : {
+      "compatibleWith" : {
+        "seriesIds" : [ "6b71f3c1-2193-4053-8770-f725e465a0f5", "1181eaf7-00ce-4362-82fc-bdd271a82d54", "946536fa-4fc9-4d8b-b075-4e3354d34e67" ],
+        "productIds" : [ "9e85c23d-430b-4581-a899-bbd647290087", "87785c47-c912-4570-a1d4-9b9a8cb56e12", "ef042de6-d1e2-4e33-bd84-f48d05f83345", "64d03429-b3ce-470e-a659-ae68ac1cbcd3" ]
+      }
+    },
+    "isoCategory" : "122393",
+    "supplier" : {
+      "name" : "Invacare AS",
+      "id" : "4f296dbf-9b0e-47d3-ba74-e6e4bd5699bf"
+    },
+    "media" : [ ],
+    "accessory" : false,
+    "sparePart" : true,
+    "main" : false
+  } ],
+  "produkt" : {
+    "id" : "57dd0472-5a9c-4a65-8a5f-9d0b917dda6d",
+    "title" : "Retningslys ers Comet/Orion Pro bak hø",
+    "articleName" : "Retningslys ers Comet/Orion Pro bak hø",
+    "seriesId" : "3cda6fb0-efe3-44e7-a27b-34e37c82ed38",
+    "hmsArtNr" : "196547",
+    "supplierRef" : "SP1518033",
+    "attributes" : {
+      "compatibleWith" : {
+        "seriesIds" : [ "946536fa-4fc9-4d8b-b075-4e3354d34e67" ],
+        "productIds" : [ "9e85c23d-430b-4581-a899-bbd647290087", "87785c47-c912-4570-a1d4-9b9a8cb56e12", "ef042de6-d1e2-4e33-bd84-f48d05f83345", "64d03429-b3ce-470e-a659-ae68ac1cbcd3" ]
+      }
+    },
+    "isoCategory" : "122393",
+    "supplier" : {
+      "name" : "Invacare AS",
+      "id" : "4f296dbf-9b0e-47d3-ba74-e6e4bd5699bf"
+    },
+    "media" : [ ],
+    "accessory" : false,
+    "sparePart" : true,
+    "main" : false
+  }
+}

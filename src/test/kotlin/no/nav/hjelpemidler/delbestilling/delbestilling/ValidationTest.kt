@@ -1,7 +1,7 @@
 package no.nav.hjelpemidler.delbestilling.delbestilling
 
-import no.nav.hjelpemidler.delbestilling.delLinje
-import no.nav.hjelpemidler.delbestilling.delbestillingRequest
+import no.nav.hjelpemidler.delbestilling.testdata.delLinje
+import no.nav.hjelpemidler.delbestilling.testdata.delbestillingRequest
 import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
 

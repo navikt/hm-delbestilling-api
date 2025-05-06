@@ -1,56 +1,13 @@
 package no.nav.hjelpemidler.delbestilling.delbestilling.model
 
-import io.ktor.http.HttpStatusCode
-import no.nav.hjelpemidler.delbestilling.hjelpemidler.defaultAntall
+import no.nav.hjelpemidler.delbestilling.oppslag.legacy.defaultAntall
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.util.UUID
 
-data class OppslagRequest(
-    val hmsnr: String,
-    val serienr: String,
-)
-
-data class OppslagResultat(
-    val hjelpemiddel: HjelpemiddelMedDeler?,
-    val feil: OppslagFeil? = null,
-    val httpStatusCode: HttpStatusCode,
-    val piloter: List<Pilot> = emptyList(),
-) {
-    init {
-        hjelpemiddel?.deler?.forEach {
-            if (it.lagerstatus == null) {
-                error{"Del $it på hjelpemiddel ${hjelpemiddel.hmsnr} mangler lagerstatus, kan ikke returnere resultat"}
-            }
-        }
-    }
-}
-
-data class OppslagResponse(
-    val hjelpemiddel: HjelpemiddelMedDeler?,
-    val feil: OppslagFeil? = null,
-    val piloter: List<Pilot> = emptyList(),
-)
-
-enum class Pilot {
-    BESTILLE_IKKE_FASTE_LAGERVARER
-}
-
-enum class OppslagFeil {
-    TILBYR_IKKE_HJELPEMIDDEL, INGET_UTLÅN, IKKE_HOVEDHJELPEMIDDEL
-}
-
 data class XKLagerResponse (
     val xkLager: Boolean,
 )
-
-data class HjelpemiddelMedDeler(
-    val navn: String,
-    val hmsnr: String,
-    var deler: List<Del>, // TODO gjør om til val. Da kan også antallKategorier gjøres om til val.
-) {
-    fun antallKategorier(): Int = deler.distinctBy { it.kategori }.size
-}
 
 data class Del(
     val hmsnr: Hmsnr,
@@ -58,10 +15,9 @@ data class Del(
     val levArtNr: String? = null,
     val kategori: String,
     val defaultAntall: Int = defaultAntall(kategori),
-    val maksAntall: Int, // TODO kan ofte utlede maksAntall fra kategori også
+    val maksAntall: Int,
     val imgs: List<String> = emptyList(),
-    val datoLagtTil: LocalDate? = null,
-    var lagerstatus: Lagerstatus? = null, // TODO: denne bør kanskje ikke være nullable?
+    var lagerstatus: Lagerstatus? = null,
     val kilde: Kilde? = Kilde.MANUELL_LISTE,
 )
 
