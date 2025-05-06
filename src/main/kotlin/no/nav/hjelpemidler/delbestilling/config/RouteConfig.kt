@@ -27,7 +27,6 @@ import no.nav.hjelpemidler.delbestilling.delbestilling.validateDelbestillingRequ
 import no.nav.hjelpemidler.delbestilling.delbestilling.validateOppslagRequest
 import no.nav.hjelpemidler.delbestilling.infrastructure.CORRELATION_ID_HEADER
 import no.nav.hjelpemidler.delbestilling.infrastructure.CORRELATION_ID_KEY
-import no.nav.hjelpemidler.delbestilling.infrastructure.monitoring.configureStatusPages
 import no.nav.tms.token.support.azure.validation.azure
 import no.nav.tms.token.support.tokenx.validation.mock.LevelOfAssurance
 import no.nav.tms.token.support.tokenx.validation.mock.tokenXMock
@@ -76,7 +75,7 @@ fun Application.configure() {
         validate<DelbestillingRequest> { toValidationResult(validateDelbestillingRequest(it)) }
     }
 
-    configureStatusPages()
+    configureErrorHandling()
 
     if (isLocal()) {
         authentication {

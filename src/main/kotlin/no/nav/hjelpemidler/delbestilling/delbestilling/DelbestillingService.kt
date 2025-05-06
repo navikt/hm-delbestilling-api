@@ -32,10 +32,10 @@ import no.nav.hjelpemidler.delbestilling.hjelpemidler.maksAntall
 import no.nav.hjelpemidler.delbestilling.infrastructure.geografi.Kommuneoppslag
 import no.nav.hjelpemidler.delbestilling.infrastructure.grunndata.Grunndata
 import no.nav.hjelpemidler.delbestilling.infrastructure.metrics.Metrics
-import no.nav.hjelpemidler.delbestilling.infrastructure.monitoring.PersonNotAccessibleInPdl
-import no.nav.hjelpemidler.delbestilling.infrastructure.monitoring.PersonNotFoundInPdl
 import no.nav.hjelpemidler.delbestilling.infrastructure.oebs.Oebs
 import no.nav.hjelpemidler.delbestilling.infrastructure.pdl.Pdl
+import no.nav.hjelpemidler.delbestilling.infrastructure.pdl.PersonNotAccessibleInPdl
+import no.nav.hjelpemidler.delbestilling.infrastructure.pdl.PersonNotFoundInPdl
 import no.nav.hjelpemidler.delbestilling.infrastructure.slack.Slack
 import no.nav.hjelpemidler.delbestilling.infrastructure.roller.Delbestiller
 import no.nav.hjelpemidler.delbestilling.infrastructure.roller.Organisasjon

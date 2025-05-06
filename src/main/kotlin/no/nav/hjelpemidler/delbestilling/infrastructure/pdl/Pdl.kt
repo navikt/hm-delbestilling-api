@@ -1,7 +1,5 @@
 package no.nav.hjelpemidler.delbestilling.infrastructure.pdl
 
-import no.nav.hjelpemidler.delbestilling.infrastructure.monitoring.PdlResponseMissingData
-
 
 class Pdl(private val client: PdlClient) {
 

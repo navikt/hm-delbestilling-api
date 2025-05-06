@@ -5,9 +5,6 @@ import io.mockk.coEvery
 import io.mockk.mockk
 import kotlinx.coroutines.test.runTest
 import no.nav.hjelpemidler.delbestilling.infrastructure.jsonMapper
-import no.nav.hjelpemidler.delbestilling.infrastructure.monitoring.PdlResponseMissingData
-import no.nav.hjelpemidler.delbestilling.infrastructure.monitoring.PersonNotAccessibleInPdl
-import no.nav.hjelpemidler.delbestilling.infrastructure.monitoring.PersonNotFoundInPdl
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 import kotlin.test.assertEquals

@@ -1,9 +1,5 @@
 package no.nav.hjelpemidler.delbestilling.infrastructure.pdl
 
-import no.nav.hjelpemidler.delbestilling.infrastructure.monitoring.PdlRequestFailedException
-import no.nav.hjelpemidler.delbestilling.infrastructure.monitoring.PersonNotAccessibleInPdl
-import no.nav.hjelpemidler.delbestilling.infrastructure.monitoring.PersonNotFoundInPdl
-
 fun valider(response: PdlPersonResponse): PdlPersonResponse {
 
     if (response.errors.isNotEmpty()) {
