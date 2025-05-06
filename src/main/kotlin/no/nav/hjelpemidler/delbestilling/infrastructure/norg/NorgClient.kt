@@ -13,7 +13,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
-import no.nav.hjelpemidler.delbestilling.config.Config
+import no.nav.hjelpemidler.delbestilling.config.AppConfig
 import no.nav.hjelpemidler.delbestilling.infrastructure.defaultHttpClient
 import no.nav.hjelpemidler.delbestilling.infrastructure.navCorrelationId
 import java.util.concurrent.TimeUnit
@@ -22,7 +22,7 @@ private val log = KotlinLogging.logger {}
 
 class NorgClient(
     private val client: HttpClient = defaultHttpClient(),
-    private val baseUrl: String = Config.NORG_API_URL,
+    private val baseUrl: String = AppConfig.NORG_API_URL,
 ) {
 
     private val cache = Caffeine.newBuilder()

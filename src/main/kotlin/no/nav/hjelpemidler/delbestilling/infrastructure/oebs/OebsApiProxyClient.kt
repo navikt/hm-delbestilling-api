@@ -8,7 +8,7 @@ import io.ktor.client.request.setBody
 import io.ktor.http.HttpMethod
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import no.nav.hjelpemidler.delbestilling.config.Config
+import no.nav.hjelpemidler.delbestilling.config.AppConfig
 import no.nav.hjelpemidler.delbestilling.infrastructure.defaultHttpClient
 import no.nav.hjelpemidler.delbestilling.infrastructure.navCorrelationId
 import no.nav.hjelpemidler.http.openid.OpenIDClient
@@ -19,8 +19,8 @@ private val log = KotlinLogging.logger {}
 class OebsApiProxyClient(
     private val azureAdClient: OpenIDClient,
     private val client: HttpClient = defaultHttpClient(),
-    private val baseUrl: String = Config.OEBS_API_URL,
-    private val apiScope: String = Config.OEBS_API_SCOPE,
+    private val baseUrl: String = AppConfig.OEBS_API_URL,
+    private val apiScope: String = AppConfig.OEBS_API_SCOPE,
 ) {
 
     private suspend inline fun <reified T> executeRequest(url: String, method: HttpMethod, body: Any? = null): T {

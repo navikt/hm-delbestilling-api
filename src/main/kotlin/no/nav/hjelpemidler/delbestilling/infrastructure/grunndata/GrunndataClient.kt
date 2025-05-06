@@ -8,7 +8,7 @@ import io.ktor.client.request.post
 import io.ktor.client.request.setBody
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import no.nav.hjelpemidler.delbestilling.config.Config
+import no.nav.hjelpemidler.delbestilling.config.AppConfig
 import no.nav.hjelpemidler.delbestilling.infrastructure.defaultHttpClient
 import no.nav.hjelpemidler.delbestilling.infrastructure.grunndata.queries.alleDelerSomKanBestillesQuery
 import no.nav.hjelpemidler.delbestilling.infrastructure.grunndata.queries.alleHjelpemiddelMedIdEllerSeriesIdQuery
@@ -19,7 +19,7 @@ import java.util.UUID
 
 class GrunndataClient(
     private val client: HttpClient = defaultHttpClient(),
-    baseUrl: String = Config.GRUNNDATA_API_URL,
+    baseUrl: String = AppConfig.GRUNNDATA_API_URL,
 ) {
 
     private val searchUrl = "$baseUrl/products/_search"

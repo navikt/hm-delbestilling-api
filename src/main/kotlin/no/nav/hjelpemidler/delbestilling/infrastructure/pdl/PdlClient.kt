@@ -8,7 +8,7 @@ import io.ktor.client.request.post
 import io.ktor.client.request.setBody
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import no.nav.hjelpemidler.delbestilling.config.Config
+import no.nav.hjelpemidler.delbestilling.config.AppConfig
 import no.nav.hjelpemidler.delbestilling.infrastructure.defaultHttpClient
 import no.nav.hjelpemidler.delbestilling.infrastructure.navCorrelationId
 import no.nav.hjelpemidler.http.openid.OpenIDClient
@@ -18,8 +18,8 @@ import no.nav.hjelpemidler.http.openid.bearerAuth
 class PdlClient(
     private val azureAdClient: OpenIDClient,
     private val client: HttpClient = defaultHttpClient(),
-    private val baseUrl: String = Config.PDL_GRAPHQL_URL,
-    private val apiScope: String = Config.PDL_API_SCOPE,
+    private val baseUrl: String = AppConfig.PDL_GRAPHQL_URL,
+    private val apiScope: String = AppConfig.PDL_API_SCOPE,
 ) {
 
     private suspend inline fun <reified T : Any> pdlRequest(pdlQuery: GraphqlQuery): T {

@@ -2,7 +2,6 @@ package no.nav.hjelpemidler.delbestilling.config
 
 import no.nav.hjelpemidler.configuration.Environment
 import no.nav.hjelpemidler.configuration.EnvironmentVariable
-import no.nav.hjelpemidler.configuration.External
 import no.nav.hjelpemidler.configuration.KafkaEnvironmentVariable
 import no.nav.hjelpemidler.configuration.NaisEnvironmentVariable
 import org.apache.kafka.clients.CommonClientConfigs
@@ -11,7 +10,7 @@ import org.apache.kafka.common.config.SslConfigs
 import org.apache.kafka.common.security.auth.SecurityProtocol
 import java.util.Properties
 
-object Config {
+object AppConfig {
 
     // OEBS
     val OEBS_API_URL by EnvironmentVariable

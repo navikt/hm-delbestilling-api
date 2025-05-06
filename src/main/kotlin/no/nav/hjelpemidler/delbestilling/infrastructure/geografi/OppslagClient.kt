@@ -6,14 +6,14 @@ import io.ktor.client.request.get
 import io.ktor.client.request.headers
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import no.nav.hjelpemidler.delbestilling.config.Config
+import no.nav.hjelpemidler.delbestilling.config.AppConfig
 import no.nav.hjelpemidler.delbestilling.infrastructure.defaultHttpClient
 import no.nav.hjelpemidler.delbestilling.infrastructure.navCorrelationId
 
 
 class OppslagClient(
     private val client: HttpClient = defaultHttpClient(),
-    private val url: String = Config.OPPSLAG_API_URL,
+    private val url: String = AppConfig.OPPSLAG_API_URL,
 ) {
 
     suspend fun hentKommune(kommunenr: String): KommuneDto {

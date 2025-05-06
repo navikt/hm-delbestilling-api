@@ -27,61 +27,59 @@ import no.nav.hjelpemidler.delbestilling.infrastructure.pdl.PdlClient
 import no.nav.hjelpemidler.delbestilling.infrastructure.roller.Roller
 import no.nav.hjelpemidler.delbestilling.infrastructure.roller.RollerClient
 import no.nav.hjelpemidler.delbestilling.infrastructure.slack.Slack
-import no.nav.hjelpemidler.hjelpemidlerdigitalSoknadapi.tjenester.norg.NorgClient
 import no.nav.hjelpemidler.hjelpemidlerdigitalSoknadapi.tjenester.norg.Norg
+import no.nav.hjelpemidler.hjelpemidlerdigitalSoknadapi.tjenester.norg.NorgClient
 import no.nav.hjelpemidler.http.openid.azureADClient
 import no.nav.tms.token.support.tokendings.exchange.TokendingsServiceBuilder
 import kotlin.time.Duration.Companion.seconds
 
 
 class AppContext {
-    private val backgroundScope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
 
+    // Coroutine
+    private val backgroundScope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
+    fun shutdown() = backgroundScope.cancel("Shutting down application")
+
+    // Database
+    private val ds = DatabaseConfig.migratedDataSource
+    private val anmodningRepository = AnmodningRepository(ds)
+    private val delbestillingRepository = DelbestillingRepository(ds)
+
+    // Infrastructure
     private val azureClient = azureADClient {
         cache(leeway = 10.seconds) {
             maximumSize = 100
         }
     }
-
+    private val email = Email()
     private val grunndata = Grunndata(GrunndataClient())
-
     private val kafka = Kafka()
-
-    private val ds = DatabaseConfig.migratedDataSource
-
-    private val delbestillingRepository = DelbestillingRepository(ds)
-
+    private val kommuneoppslag = Kommuneoppslag(OppslagClient())
+    private val metrics = Metrics(kafka)
+    private val norg = Norg(NorgClient())
     private val oebs = Oebs(OebsApiProxyClient(azureClient), OebsSinkClient(kafka))
-
-    
-    val roller = Roller(RollerClient(TokendingsServiceBuilder.buildTokendingsService()))
-
+    private val pdl = Pdl(PdlClient(azureClient))
+    private val rollerClient = RollerClient(TokendingsServiceBuilder.buildTokendingsService())
     val slack = Slack(delbestillingRepository, backgroundScope)
 
-    val norg = Norg(NorgClient())
+    // Eksponert for custom plugin
+    val roller = Roller(rollerClient)
 
-    val anmodningService = AnmodningService(AnmodningRepository(ds), oebs, norg, slack, Email(), grunndata)
-
-    val piloterService = PiloterService(norg)
-
-    val hjelpemiddeldeler = Hjelpemiddeldeler(grunndata)
-
+    // Services
+    private val hjelpemiddeldeler = Hjelpemiddeldeler(grunndata)
+    private val piloterService = PiloterService(norg)
+    val anmodningService = AnmodningService(anmodningRepository, oebs, norg, slack, email, grunndata)
+    val hjelpemidlerService = HjelpemidlerService(grunndata, backgroundScope)
     val delbestillingService = DelbestillingService(
         delbestillingRepository,
-        Pdl(PdlClient(azureClient)),
+        pdl,
         oebs,
-        Kommuneoppslag(OppslagClient()),
-        Metrics(kafka),
+        kommuneoppslag,
+        metrics,
         slack,
         grunndata,
         anmodningService,
         piloterService,
         hjelpemiddeldeler
     )
-
-    val hjelpemidlerService = HjelpemidlerService(grunndata, backgroundScope)
-
-    fun shutdown() {
-        backgroundScope.cancel("Shutting down application")
-    }
 }

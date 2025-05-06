@@ -10,7 +10,7 @@ import com.microsoft.graph.models.Recipient
 import com.microsoft.graph.models.UserSendMailParameterSet
 import com.microsoft.graph.requests.GraphServiceClient
 import io.github.oshai.kotlinlogging.KotlinLogging
-import no.nav.hjelpemidler.delbestilling.config.Config
+import no.nav.hjelpemidler.delbestilling.config.AppConfig
 import no.nav.hjelpemidler.delbestilling.config.isDev
 import java.util.LinkedList
 
@@ -18,13 +18,13 @@ private val log = KotlinLogging.logger {}
 
 class Email {
     private val scopes = listOf("https://graph.microsoft.com/.default")
-    private val avsender = Config.EPOST_AVSENDER
+    private val avsender = AppConfig.EPOST_AVSENDER
 
     private val credential =
         ClientSecretCredentialBuilder()
-            .clientId(Config.AZURE_APP_CLIENT_ID)
-            .tenantId(Config.AZURE_APP_TENANT_ID)
-            .clientSecret(Config.AZURE_APP_CLIENT_SECRET)
+            .clientId(AppConfig.AZURE_APP_CLIENT_ID)
+            .tenantId(AppConfig.AZURE_APP_TENANT_ID)
+            .clientSecret(AppConfig.AZURE_APP_CLIENT_SECRET)
             .build()
 
     private val authProvider =
