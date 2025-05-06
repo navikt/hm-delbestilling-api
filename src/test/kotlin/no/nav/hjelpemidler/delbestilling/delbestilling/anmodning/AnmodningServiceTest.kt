@@ -9,7 +9,7 @@ import no.nav.hjelpemidler.delbestilling.delbestillingSak
 import no.nav.hjelpemidler.delbestilling.infrastructure.email.Email
 import no.nav.hjelpemidler.delbestilling.infrastructure.oebs.Oebs
 import no.nav.hjelpemidler.delbestilling.infrastructure.slack.Slack
-import no.nav.hjelpemidler.hjelpemidlerdigitalSoknadapi.tjenester.norg.NorgService
+import no.nav.hjelpemidler.hjelpemidlerdigitalSoknadapi.tjenester.norg.Norg
 import org.junit.jupiter.api.Test
 
 import org.junit.jupiter.api.BeforeEach
@@ -20,7 +20,7 @@ class AnmodningServiceTest {
     private val ds = TestDatabase.testDataSource
     val repository = AnmodningRepository(ds)
     val oebs = mockk<Oebs>()
-    val norg = mockk<NorgService>()
+    val norg = mockk<Norg>()
     val slack = mockk<Slack>(relaxed = true)
     val email = mockk<Email>(relaxed = true)
     val anmodningService = AnmodningService(repository, oebs, norg, slack, email, mockk())

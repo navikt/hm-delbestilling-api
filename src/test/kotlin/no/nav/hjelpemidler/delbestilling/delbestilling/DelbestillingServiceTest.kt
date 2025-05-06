@@ -25,7 +25,7 @@ import no.nav.hjelpemidler.delbestilling.infrastructure.oebs.OebsPersoninfo
 import no.nav.hjelpemidler.delbestilling.infrastructure.pdl.Pdl
 import no.nav.hjelpemidler.delbestilling.infrastructure.slack.Slack
 import no.nav.hjelpemidler.delbestilling.organisasjon
-import no.nav.hjelpemidler.hjelpemidlerdigitalSoknadapi.tjenester.norg.NorgService
+import no.nav.hjelpemidler.hjelpemidlerdigitalSoknadapi.tjenester.norg.Norg
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertDoesNotThrow
@@ -318,13 +318,13 @@ internal class DelbestillingServiceTest {
     fun `skal lagre anmodningsbehov ved ny delbestilling`() = runTest {
         val enhetnr = "4703"
         val anmodningRepository = AnmodningRepository(ds)
-        val norgService =
-            mockk<NorgService>().also { coEvery { it.hentArbeidsfordelingenhet(any()) } returns enhet(enhetnr) }
+        val norg =
+            mockk<Norg>().also { coEvery { it.hentEnhetnummer(any()) } returns enhetnr }
         val anmodningService =
             AnmodningService(
                 anmodningRepository,
                 oebs,
-                norgService,
+                norg,
                 mockk(relaxed = true),
                 mockk(relaxed = true),
                 mockk(relaxed = true)
@@ -404,13 +404,13 @@ internal class DelbestillingServiceTest {
         val hmsnr1 = "111111"
         val hmsnr2 = "222222"
         val anmodningRepository = AnmodningRepository(ds)
-        val norgService =
-            mockk<NorgService>().also { coEvery { it.hentArbeidsfordelingenhet(any()) } returns enhet(enhetnr) }
+        val norg =
+            mockk<Norg>().also { coEvery { it.hentEnhetnummer(any()) } returns enhetnr }
         val anmodningService =
             AnmodningService(
                 anmodningRepository,
                 oebs,
-                norgService,
+                norg,
                 mockk(relaxed = true),
                 mockk(relaxed = true),
                 mockk(relaxed = true)

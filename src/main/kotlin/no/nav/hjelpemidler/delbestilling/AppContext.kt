@@ -28,7 +28,7 @@ import no.nav.hjelpemidler.delbestilling.infrastructure.roller.Roller
 import no.nav.hjelpemidler.delbestilling.infrastructure.roller.RollerClient
 import no.nav.hjelpemidler.delbestilling.infrastructure.slack.Slack
 import no.nav.hjelpemidler.hjelpemidlerdigitalSoknadapi.tjenester.norg.NorgClient
-import no.nav.hjelpemidler.hjelpemidlerdigitalSoknadapi.tjenester.norg.NorgService
+import no.nav.hjelpemidler.hjelpemidlerdigitalSoknadapi.tjenester.norg.Norg
 import no.nav.hjelpemidler.http.openid.azureADClient
 import no.nav.tms.token.support.tokendings.exchange.TokendingsServiceBuilder
 import kotlin.time.Duration.Companion.seconds
@@ -58,11 +58,11 @@ class AppContext {
 
     val slack = Slack(delbestillingRepository, backgroundScope)
 
-    val norgService = NorgService(NorgClient())
+    val norg = Norg(NorgClient())
 
-    val anmodningService = AnmodningService(AnmodningRepository(ds), oebs, norgService, slack, Email(), grunndata)
+    val anmodningService = AnmodningService(AnmodningRepository(ds), oebs, norg, slack, Email(), grunndata)
 
-    val piloterService = PiloterService(norgService)
+    val piloterService = PiloterService(norg)
 
     val hjelpemiddeldeler = Hjelpemiddeldeler(grunndata)
 
