@@ -1,7 +1,7 @@
 package no.nav.hjelpemidler.delbestilling.delbestilling.model
 
 import io.ktor.http.HttpStatusCode
-import no.nav.hjelpemidler.delbestilling.hjelpemidler.defaultAntall
+import no.nav.hjelpemidler.delbestilling.oppslag.legacy.defaultAntall
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.util.UUID

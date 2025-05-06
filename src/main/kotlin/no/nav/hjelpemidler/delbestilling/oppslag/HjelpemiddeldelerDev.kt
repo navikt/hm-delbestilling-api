@@ -1,4 +1,4 @@
-package no.nav.hjelpemidler.delbestilling.delbestilling
+package no.nav.hjelpemidler.delbestilling.oppslag
 
 import io.github.oshai.kotlinlogging.KotlinLogging
 import io.ktor.http.HttpStatusCode
@@ -8,14 +8,16 @@ import no.nav.hjelpemidler.delbestilling.delbestilling.model.Kilde
 import no.nav.hjelpemidler.delbestilling.delbestilling.model.Lagerstatus
 import no.nav.hjelpemidler.delbestilling.delbestilling.model.OppslagFeil
 import no.nav.hjelpemidler.delbestilling.delbestilling.model.OppslagResultat
-import no.nav.hjelpemidler.delbestilling.hjelpemidler.data.hmsnr2Hjm
-import no.nav.hjelpemidler.delbestilling.hjelpemidler.defaultAntall
-import no.nav.hjelpemidler.delbestilling.hjelpemidler.maksAntall
 import no.nav.hjelpemidler.delbestilling.infrastructure.grunndata.Grunndata
+import no.nav.hjelpemidler.delbestilling.oppslag.legacy.data.hmsnr2Hjm
+import no.nav.hjelpemidler.delbestilling.oppslag.legacy.defaultAntall
+import no.nav.hjelpemidler.delbestilling.oppslag.legacy.maksAntall
+
 
 private val log = KotlinLogging.logger {}
 
-class Hjelpemiddeldeler(
+// TODO Dette er duplisert kode fra prodoppslag, med random lagerstatus. Slå sammen den felles logikken.
+class HjelpemiddeldelerDev(
     private val grunndata: Grunndata,
 ) {
     suspend fun finnTilgjengeligeDeler(hmsnr: String): OppslagResultat {

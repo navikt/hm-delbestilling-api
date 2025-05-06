@@ -1,4 +1,4 @@
-package no.nav.hjelpemidler.delbestilling.hjelpemidler
+package no.nav.hjelpemidler.delbestilling.oppslag.legacy
 
 fun defaultAntall(kategori: String) = when (kategori) {
     "Dekk" -> 2

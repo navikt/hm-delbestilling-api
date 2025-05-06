@@ -17,12 +17,12 @@ import no.nav.hjelpemidler.delbestilling.config.isDev
 import no.nav.hjelpemidler.delbestilling.config.isProd
 import no.nav.hjelpemidler.delbestilling.delbestilling.azureRoutes
 import no.nav.hjelpemidler.delbestilling.delbestilling.delbestillingApiAuthenticated
-import no.nav.hjelpemidler.delbestilling.delbestilling.delbestillingApiPublic
-import no.nav.hjelpemidler.delbestilling.hjelpemidler.data.validerData
-import no.nav.hjelpemidler.delbestilling.hjelpemidler.hjelpemiddelApi
+import no.nav.hjelpemidler.delbestilling.devtools.devtoolsApi
 import no.nav.hjelpemidler.delbestilling.infrastructure.monitoring.helsesjekkApi
 import no.nav.hjelpemidler.delbestilling.infrastructure.security.medDelbestillerRolle
 import no.nav.hjelpemidler.delbestilling.infrastructure.slack.log
+import no.nav.hjelpemidler.delbestilling.oppslag.legacy.data.validerData
+import no.nav.hjelpemidler.delbestilling.oppslag.oppslagApi
 import no.nav.hjelpemidler.domain.person.TILLAT_SYNTETISKE_FØDSELSNUMRE
 import no.nav.hjelpemidler.http.openid.bearerAuth
 import no.nav.tms.token.support.azure.validation.AzureAuthenticator
@@ -76,19 +76,20 @@ fun Application.setupRoutes(ctx: AppContext) {
         route("/api") {
             authenticate(TokenXAuthenticator.name) {
                 medDelbestillerRolle(ctx.roller)
-
                 delbestillingApiAuthenticated(ctx.delbestillingService, ctx.slack)
-            }
-
-            rateLimit(RateLimitName("public")) {
-                delbestillingApiPublic(ctx.delbestillingService, ctx.anmodningService)
             }
 
             authenticate(AzureAuthenticator.name) {
                 azureRoutes(ctx.delbestillingService)
             }
 
-            hjelpemiddelApi(ctx.hjelpemidlerService)
+            rateLimit(RateLimitName("public")) {
+                oppslagApi(ctx.hjelpemiddeloversikt, ctx.oppslagService)
+
+                if (isDev()) {
+                    devtoolsApi(ctx.delbestillingService, ctx.anmodningService, ctx.oppslagService)
+                }
+            }
         }
 
         helsesjekkApi()

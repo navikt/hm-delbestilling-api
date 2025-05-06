@@ -1,8 +1,8 @@
-package no.nav.hjelpemidler.delbestilling.hjelpemidler
+package no.nav.hjelpemidler.delbestilling.oppslag
 
-import no.nav.hjelpemidler.delbestilling.hjelpemidler.data.hmsnr2Hjm
-import no.nav.hjelpemidler.delbestilling.hjelpemidler.data.hmsnrTilDel
-import no.nav.hjelpemidler.delbestilling.hjelpemidler.data.validerData
+import no.nav.hjelpemidler.delbestilling.oppslag.legacy.data.hmsnr2Hjm
+import no.nav.hjelpemidler.delbestilling.oppslag.legacy.data.hmsnrTilDel
+import no.nav.hjelpemidler.delbestilling.oppslag.legacy.data.validerData
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNotNull
 import org.junit.jupiter.api.Assertions.assertTrue

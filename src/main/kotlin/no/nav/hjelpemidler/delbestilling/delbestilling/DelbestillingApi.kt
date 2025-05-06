@@ -18,7 +18,6 @@ import no.nav.hjelpemidler.delbestilling.delbestilling.model.DelbestillingReques
 import no.nav.hjelpemidler.delbestilling.delbestilling.model.DellinjeStatus
 import no.nav.hjelpemidler.delbestilling.delbestilling.model.Hmsnr
 import no.nav.hjelpemidler.delbestilling.delbestilling.model.OppslagRequest
-import no.nav.hjelpemidler.delbestilling.delbestilling.model.OppslagResponse
 import no.nav.hjelpemidler.delbestilling.delbestilling.model.Status
 import no.nav.hjelpemidler.delbestilling.delbestilling.model.XKLagerResponse
 import no.nav.hjelpemidler.delbestilling.config.isDev
@@ -28,50 +27,6 @@ import no.nav.hjelpemidler.delbestilling.infrastructure.slack.Slack
 import java.time.LocalDate
 
 private val log = KotlinLogging.logger {}
-
-fun Route.delbestillingApiPublic(
-    delbestillingService: DelbestillingService,
-    anmodningService: AnmodningService,
-) {
-    post("/oppslag") {
-        try {
-            val request = call.receive<OppslagRequest>()
-            log.info { "/oppslag request: $request" }
-
-            val resultat = delbestillingService.slåOppHjelpemiddel(request.hmsnr, request.serienr)
-            if (resultat.feil != null) {
-                log.info { "Oppslag på hmsnr:${request.hmsnr} serienr:${request.serienr} returnerte feilkode:${resultat.feil}" }
-            }
-
-            val oppslagResponse = OppslagResponse(resultat.hjelpemiddel, resultat.feil, resultat.piloter)
-
-            call.respond(resultat.httpStatusCode, oppslagResponse)
-        } catch (e: Exception) {
-            log.error(e) { "Klarte ikke gjøre oppslag" }
-            call.respond(HttpStatusCode.InternalServerError)
-        }
-    }
-
-    if (isDev()) {
-        post("/oppslag-ekstern-dev") {
-            // Endepunkt for å slå opp deler til hjm. i ekstern-dev. Ignorerer serienr
-            val hmsnr = requireHmsnr(call.receive<OppslagRequest>().hmsnr)
-            call.respond(delbestillingService.slåOppHjelpemiddel(hmsnr))
-        }
-
-        get("/finnGyldigTestbruker") {
-            call.respond(delbestillingService.finnTestpersonMedTestbartUtlån())
-        }
-
-        post("/rapporter-deler-uten-dekning") {
-            call.respond(delbestillingService.rapporterDelerTilAnmodning())
-        }
-
-        delete("/rapporter-deler-uten-dekning") {
-            call.respond(anmodningService.markerDelerSomIkkeRapportert())
-        }
-    }
-}
 
 fun Route.delbestillingApiAuthenticated(
     delbestillingService: DelbestillingService,

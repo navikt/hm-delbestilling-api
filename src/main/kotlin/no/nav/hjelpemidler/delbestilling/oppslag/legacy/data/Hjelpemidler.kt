@@ -1,8 +1,8 @@
-package no.nav.hjelpemidler.delbestilling.hjelpemidler.data
+package no.nav.hjelpemidler.delbestilling.oppslag.legacy.data
 
 import no.nav.hjelpemidler.delbestilling.delbestilling.model.HjelpemiddelMedDeler
 import no.nav.hjelpemidler.delbestilling.delbestilling.model.Hmsnr
-import no.nav.hjelpemidler.delbestilling.hjelpemidler.Hjelpemiddel
+import no.nav.hjelpemidler.delbestilling.oppslag.legacy.Hjelpemiddel
 
 val hmsnrTilHjelpemiddel: Map<Hmsnr, Hjelpemiddel> = listOf<Hjelpemiddel>(
     Hjelpemiddel(hmsnr = "097765", navn = "Azalea"),

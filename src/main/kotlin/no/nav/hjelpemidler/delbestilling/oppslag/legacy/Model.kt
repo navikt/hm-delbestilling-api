@@ -1,4 +1,4 @@
-package no.nav.hjelpemidler.delbestilling.hjelpemidler
+package no.nav.hjelpemidler.delbestilling.oppslag.legacy
 
 import no.nav.hjelpemidler.delbestilling.delbestilling.model.Del
 import no.nav.hjelpemidler.delbestilling.delbestilling.model.Hmsnr

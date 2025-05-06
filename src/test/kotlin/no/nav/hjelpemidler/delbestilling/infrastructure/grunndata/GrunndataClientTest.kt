@@ -1,8 +1,7 @@
 package no.nav.hjelpemidler.delbestilling.infrastructure.grunndata
 
 import kotlinx.coroutines.runBlocking
-import no.nav.hjelpemidler.delbestilling.hjelpemidler.data.hmsnrTilDel
-import no.nav.hjelpemidler.delbestilling.infrastructure.grunndata.GrunndataClient
+import no.nav.hjelpemidler.delbestilling.oppslag.legacy.data.hmsnrTilDel
 
 fun main() = runBlocking {
     finnHjelpemidlerIManuellListeSomErDekketAvGrunndata()

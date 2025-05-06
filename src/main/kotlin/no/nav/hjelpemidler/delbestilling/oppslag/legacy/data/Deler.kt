@@ -1,9 +1,9 @@
-package no.nav.hjelpemidler.delbestilling.hjelpemidler.data
+package no.nav.hjelpemidler.delbestilling.oppslag.legacy.data
 
 import no.nav.hjelpemidler.delbestilling.delbestilling.model.Del
 import no.nav.hjelpemidler.delbestilling.delbestilling.model.Hmsnr
-import no.nav.hjelpemidler.delbestilling.hjelpemidler.DelMedHjelpemidler
-import no.nav.hjelpemidler.delbestilling.hjelpemidler.Hjelpemiddel
+import no.nav.hjelpemidler.delbestilling.oppslag.legacy.DelMedHjelpemidler
+import no.nav.hjelpemidler.delbestilling.oppslag.legacy.Hjelpemiddel
 import java.time.LocalDate
 
 private const val TODO_BESTEM_MAX_ANTALL = 8 // Finn ut hva som er et fornuftig max antall på disse

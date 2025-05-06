@@ -1,7 +1,6 @@
 package no.nav.hjelpemidler.hjelpemidlerdigitalSoknadapi.tjenester.norg
 
 import com.github.benmanes.caffeine.cache.Caffeine
-import io.github.oshai.kotlinlogging.KotlinLogging
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.request.accept
@@ -18,7 +17,6 @@ import no.nav.hjelpemidler.delbestilling.infrastructure.defaultHttpClient
 import no.nav.hjelpemidler.delbestilling.infrastructure.navCorrelationId
 import java.util.concurrent.TimeUnit
 
-private val log = KotlinLogging.logger {}
 
 class NorgClient(
     private val client: HttpClient = defaultHttpClient(),
@@ -32,10 +30,7 @@ class NorgClient(
 
     internal suspend fun hentArbeidsfordelingenheter(kommunenummer: String): List<ArbeidsfordelingEnhet> = cache.get("arbeidsfordelingenheter_for_kommunenr_$kommunenummer") {
         CoroutineScope(Dispatchers.IO).async {
-            val url = "$baseUrl/arbeidsfordeling/enheter/bestmatch"
-            log.info { "Henter arbeidsfordelingenhet med url: '$url'" }
-
-            client.post(url) {
+            client.post("$baseUrl/arbeidsfordeling/enheter/bestmatch") {
                 navCorrelationId()
                 accept(ContentType.Application.Json)
                 contentType(ContentType.Application.Json)
