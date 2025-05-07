@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertDoesNotThrow
 
-internal class HjelpemiddelDelerTest {
+internal class HjelpemiddelnavnDelerTest {
 
     @Test
     fun `valider data`() {

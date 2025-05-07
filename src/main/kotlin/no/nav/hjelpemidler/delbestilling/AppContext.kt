@@ -7,7 +7,6 @@ import kotlinx.coroutines.cancel
 import no.nav.hjelpemidler.delbestilling.config.DatabaseConfig
 import no.nav.hjelpemidler.delbestilling.delbestilling.DelbestillingRepository
 import no.nav.hjelpemidler.delbestilling.delbestilling.DelbestillingService
-import no.nav.hjelpemidler.delbestilling.oppslag.HjelpemiddeldelerDev
 import no.nav.hjelpemidler.delbestilling.delbestilling.PiloterService
 import no.nav.hjelpemidler.delbestilling.delbestilling.anmodning.AnmodningRepository
 import no.nav.hjelpemidler.delbestilling.delbestilling.anmodning.AnmodningService

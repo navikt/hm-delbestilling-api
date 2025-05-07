@@ -4,8 +4,8 @@ import no.nav.hjelpemidler.delbestilling.delbestilling.model.DelLinje
 import no.nav.hjelpemidler.delbestilling.delbestilling.model.Delbestilling
 import no.nav.hjelpemidler.delbestilling.delbestilling.model.DelbestillingRequest
 import no.nav.hjelpemidler.delbestilling.delbestilling.model.Hmsnr
-import no.nav.hjelpemidler.delbestilling.delbestilling.model.OppslagRequest
 import no.nav.hjelpemidler.delbestilling.delbestilling.model.Serienr
+import no.nav.hjelpemidler.delbestilling.oppslag.OppslagRequest
 
 fun validateOppslagRequest(req: OppslagRequest) = listOf(
     validateHmsnr(req.hmsnr),

@@ -6,24 +6,21 @@ import io.ktor.server.application.call
 import io.ktor.server.request.receive
 import io.ktor.server.response.respond
 import io.ktor.server.routing.Route
-import io.ktor.server.routing.delete
 import io.ktor.server.routing.get
 import io.ktor.server.routing.post
 import io.ktor.server.routing.put
 import io.ktor.server.util.getOrFail
-import no.nav.hjelpemidler.delbestilling.infrastructure.CORRELATION_ID_HEADER
-import no.nav.hjelpemidler.delbestilling.delbestilling.anmodning.AnmodningService
 import no.nav.hjelpemidler.delbestilling.delbestilling.model.DelbestillingFeil
 import no.nav.hjelpemidler.delbestilling.delbestilling.model.DelbestillingRequest
 import no.nav.hjelpemidler.delbestilling.delbestilling.model.DellinjeStatus
 import no.nav.hjelpemidler.delbestilling.delbestilling.model.Hmsnr
-import no.nav.hjelpemidler.delbestilling.delbestilling.model.OppslagRequest
 import no.nav.hjelpemidler.delbestilling.delbestilling.model.Status
 import no.nav.hjelpemidler.delbestilling.delbestilling.model.XKLagerResponse
-import no.nav.hjelpemidler.delbestilling.config.isDev
+import no.nav.hjelpemidler.delbestilling.infrastructure.CORRELATION_ID_HEADER
 import no.nav.hjelpemidler.delbestilling.infrastructure.security.delbestillerRolleKey
 import no.nav.hjelpemidler.delbestilling.infrastructure.security.tokenXUser
 import no.nav.hjelpemidler.delbestilling.infrastructure.slack.Slack
+import no.nav.hjelpemidler.delbestilling.oppslag.OppslagRequest
 import java.time.LocalDate
 
 private val log = KotlinLogging.logger {}

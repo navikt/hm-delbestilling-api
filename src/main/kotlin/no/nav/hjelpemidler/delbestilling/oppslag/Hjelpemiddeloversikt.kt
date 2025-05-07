@@ -10,7 +10,7 @@ import kotlinx.coroutines.future.future
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 import no.nav.hjelpemidler.cache.refreshAfterWrite
-import no.nav.hjelpemidler.delbestilling.oppslag.legacy.data.hmsnrTilHjelpemiddel
+import no.nav.hjelpemidler.delbestilling.oppslag.legacy.data.hmsnrTilHjelpemiddelnavn
 import no.nav.hjelpemidler.delbestilling.infrastructure.grunndata.Grunndata
 import kotlin.system.measureTimeMillis
 import kotlin.time.Duration
@@ -72,7 +72,7 @@ class Hjelpemiddeloversikt(
 private fun hjelpemiddelNavnFraManuellListe(): Set<String> {
     val hjmNavnRegex = Regex("^(.*?)\\s(sb\\d+|K|L|Led|HD|sd\\d+|voksen).*$")
 
-    val hjelpemiddelNavn = hmsnrTilHjelpemiddel.values.map {
+    val hjelpemiddelNavn = hmsnrTilHjelpemiddelnavn.values.map {
         val match = hjmNavnRegex.find(it.navn)
         match?.groups?.get(1)?.value ?: it.navn
     }.toSet()
