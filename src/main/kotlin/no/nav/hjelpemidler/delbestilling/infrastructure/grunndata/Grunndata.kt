@@ -1,6 +1,7 @@
 package no.nav.hjelpemidler.delbestilling.infrastructure.grunndata
 
 import io.github.oshai.kotlinlogging.KotlinLogging
+import kotlinx.coroutines.runBlocking
 import no.nav.hjelpemidler.delbestilling.delbestilling.model.Hmsnr
 import java.util.UUID
 
@@ -10,7 +11,9 @@ class Grunndata(private val client: GrunndataClient) {
 
     suspend fun hentProdukt(hmsnr: Hmsnr): Produkt? {
         log.info { "Henter produkt $hmsnr fra grunndata" }
-        return client.hentProdukt(hmsnr).produkt
+        val produkt = client.hentProdukt(hmsnr).produkt
+        log.info { "Produkt for $hmsnr: $produkt" }
+        return produkt
     }
 
     suspend fun hentDeler(seriesId: UUID, produktId: UUID): List<Produkt> {
@@ -26,5 +29,12 @@ class Grunndata(private val client: GrunndataClient) {
     suspend fun hentAlleHjmMedIdEllerSeriesId(seriesIds: Set<UUID>, produktIds: Set<UUID>): List<Produkt> {
         log.info { "Henter alle hjm med gitte id eller seriesId fra grunndata" }
         return client.hentAlleHjmMedIdEllerSeriesId(seriesIds = seriesIds, produktIds = produktIds).produkter
+    }
+}
+
+fun main() {
+    runBlocking {
+        val grunndata = Grunndata(GrunndataClient(baseUrl = "https://finnhjelpemiddel.nav.no"))
+        grunndata.hentProdukt("279774")
     }
 }

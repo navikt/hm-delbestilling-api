@@ -134,24 +134,21 @@ class FinnDelerTilHjelpemiddel(
 }
 
 private fun slåSammen(hjmGrunndata: Hjelpemiddel?, hjmManuellListe: Hjelpemiddel?): Hjelpemiddel? {
+    // todo testme
     return if (hjmGrunndata != null) {
         Hjelpemiddel(
             navn = hjmGrunndata.navn,
             hmsnr = hjmGrunndata.hmsnr,
             deler = hjmGrunndata.deler.berikMedUnikeDeler(hjmManuellListe?.deler)
         )
-    } else if (hjmManuellListe != null) {
-        hjmManuellListe
-    } else {
-        null
-    }
+    } else hjmManuellListe
 }
 
 private fun List<Del>.berikMedUnikeDeler(other: List<Del>?): List<Del> {
+    // TODO test me
     val eksisterendeHmsnr = this.map { it.hmsnr }
     val nyeDeler = other?.filterNot {
-        // TODO test me
-        it.hmsnr !in eksisterendeHmsnr
+        it.hmsnr in eksisterendeHmsnr
     } ?: emptyList()
     return this + nyeDeler
 }
