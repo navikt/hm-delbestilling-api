@@ -26,6 +26,8 @@ import no.nav.hjelpemidler.delbestilling.infrastructure.pdl.PdlClient
 import no.nav.hjelpemidler.delbestilling.infrastructure.roller.Roller
 import no.nav.hjelpemidler.delbestilling.infrastructure.roller.RollerClient
 import no.nav.hjelpemidler.delbestilling.infrastructure.slack.Slack
+import no.nav.hjelpemidler.delbestilling.oppslag.BerikMedLagerstatus
+import no.nav.hjelpemidler.delbestilling.oppslag.FinnDelerTilHjelpemiddel
 import no.nav.hjelpemidler.delbestilling.oppslag.OppslagService
 import no.nav.hjelpemidler.hjelpemidlerdigitalSoknadapi.tjenester.norg.Norg
 import no.nav.hjelpemidler.hjelpemidlerdigitalSoknadapi.tjenester.norg.NorgClient
@@ -66,11 +68,13 @@ class AppContext {
     val roller = Roller(rollerClient)
 
     // Services
-    private val hjelpemiddeldelerDev = HjelpemiddeldelerDev(grunndata)
     private val piloterService = PiloterService(norg)
+    private val finnDelerTilHjelpemiddel = FinnDelerTilHjelpemiddel(grunndata, slack, metrics)
+    private val berikMedLagerstatus = BerikMedLagerstatus(oebs, metrics)
+
     val anmodningService = AnmodningService(anmodningRepository, oebs, norg, slack, email, grunndata)
     val hjelpemiddeloversikt = Hjelpemiddeloversikt(grunndata, backgroundScope)
     val delbestillingService =
         DelbestillingService(delbestillingRepository, pdl, oebs, kommuneoppslag, metrics, slack, anmodningService)
-    val oppslagService = OppslagService(pdl, oebs, metrics, slack, grunndata, piloterService, hjelpemiddeldelerDev)
+    val oppslagService = OppslagService(pdl, oebs, piloterService, finnDelerTilHjelpemiddel, berikMedLagerstatus)
 }

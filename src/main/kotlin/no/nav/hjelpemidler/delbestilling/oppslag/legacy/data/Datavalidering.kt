@@ -1,7 +1,7 @@
 package no.nav.hjelpemidler.delbestilling.oppslag.legacy.data
 
-import no.nav.hjelpemidler.delbestilling.delbestilling.model.Del
 import no.nav.hjelpemidler.delbestilling.delbestilling.model.Hmsnr
+import no.nav.hjelpemidler.delbestilling.oppslag.Del
 import no.nav.hjelpemidler.delbestilling.oppslag.legacy.Hjelpemiddelnavn
 
 fun main() = validerData() // For lokal kjøring

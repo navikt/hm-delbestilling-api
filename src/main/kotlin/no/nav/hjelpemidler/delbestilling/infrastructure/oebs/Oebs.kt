@@ -2,6 +2,7 @@ package no.nav.hjelpemidler.delbestilling.infrastructure.oebs
 
 import io.github.oshai.kotlinlogging.KotlinLogging
 import no.nav.hjelpemidler.delbestilling.delbestilling.model.DelbestillingSak
+import no.nav.hjelpemidler.delbestilling.delbestilling.model.Hmsnr
 import no.nav.hjelpemidler.delbestilling.delbestilling.model.Lagerstatus
 import no.nav.hjelpemidler.domain.person.Fødselsnummer
 
@@ -31,10 +32,16 @@ class Oebs(
         return client.hentFnrSomHarUtlånPåArtnr(artnr)
     }
 
+    // TODO endre all bruk til å bruke slik som hentLagerstatusForKommunenummerAsMap
     suspend fun hentLagerstatusForKommunenummer(kommunenummer: String, hmsnrs: List<String>): List<Lagerstatus> {
         log.info { "Henter lagerstatus for kommunenummer $kommunenummer for hmsnrs $hmsnrs" }
         val response = client.hentLagerstatusForKommunenummer(kommunenummer, hmsnrs)
         return response.map { it.tilLagerstatus() }
+    }
+
+    suspend fun hentLagerstatusForKommunenummerAsMap(kommunenummer: String, hmsnrs: List<String>): Map<Hmsnr, Lagerstatus> {
+        return hentLagerstatusForKommunenummer(kommunenummer, hmsnrs)
+            .associateBy { it.artikkelnummer }
     }
 
     suspend fun hentLagerstatusForEnhetnr(enhetnr: String, hmsnrs: List<String>): List<Lagerstatus> {

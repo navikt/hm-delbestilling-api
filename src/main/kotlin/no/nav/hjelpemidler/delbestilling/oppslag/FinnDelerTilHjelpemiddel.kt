@@ -24,9 +24,9 @@ class FinnDelerTilHjelpemiddel(
         val hjmManuellListe = hmsnr2Hjm[hmsnr]
         val hjmGrunndata = hentHjelpemiddelFraGrunndata(hmsnr)
 
-        statistikkOgVarsling(hjmGrunndata = hjmGrunndata, hjmManuellListe = hjmManuellListe)
+        sendStatistikkOgVarsling(hjmGrunndata = hjmGrunndata, hjmManuellListe = hjmManuellListe)
 
-        val hjelpemiddel = fusjoner(hjmGrunndata, hjmManuellListe)
+        val hjelpemiddel = slåSammen(hjmGrunndata, hjmManuellListe)
 
         if (hjelpemiddel == null) {
             slack.varsleOmManglendeHmsnr(hmsnr)
@@ -82,30 +82,7 @@ class FinnDelerTilHjelpemiddel(
         }
     }
 
-    private fun fusjoner(hjmGrunndata: Hjelpemiddel?, hjmManuellListe: Hjelpemiddel?): Hjelpemiddel? {
-        return if (hjmGrunndata != null) {
-            Hjelpemiddel(
-                navn = hjmGrunndata.navn,
-                hmsnr = hjmGrunndata.hmsnr,
-                deler = hjmGrunndata.deler.berikMedUnikeDeler(hjmManuellListe?.deler)
-            )
-        } else if (hjmManuellListe != null) {
-            hjmManuellListe
-        } else {
-            null
-        }
-    }
-
-    private fun List<Del>.berikMedUnikeDeler(other: List<Del>?): List<Del> {
-        val eksisterendeHmsnr = this.map { it.hmsnr }
-        val nyeDeler = other?.filterNot {
-            // TODO test me
-            it.hmsnr !in eksisterendeHmsnr
-        } ?: emptyList()
-        return this + nyeDeler
-    }
-
-    private fun statistikkOgVarsling(hjmGrunndata: Hjelpemiddel?, hjmManuellListe: Hjelpemiddel?) {
+    private fun sendStatistikkOgVarsling(hjmGrunndata: Hjelpemiddel?, hjmManuellListe: Hjelpemiddel?) {
         log.info { "Treff i manuell liste: $hjmManuellListe" }
         log.info { "Treff i grunndata: $hjmGrunndata" }
 
@@ -154,4 +131,27 @@ class FinnDelerTilHjelpemiddel(
             slack.varsleOmPotensiellBatteriKategorier(delerMedBatteriIKategori)
         }
     }
+}
+
+private fun slåSammen(hjmGrunndata: Hjelpemiddel?, hjmManuellListe: Hjelpemiddel?): Hjelpemiddel? {
+    return if (hjmGrunndata != null) {
+        Hjelpemiddel(
+            navn = hjmGrunndata.navn,
+            hmsnr = hjmGrunndata.hmsnr,
+            deler = hjmGrunndata.deler.berikMedUnikeDeler(hjmManuellListe?.deler)
+        )
+    } else if (hjmManuellListe != null) {
+        hjmManuellListe
+    } else {
+        null
+    }
+}
+
+private fun List<Del>.berikMedUnikeDeler(other: List<Del>?): List<Del> {
+    val eksisterendeHmsnr = this.map { it.hmsnr }
+    val nyeDeler = other?.filterNot {
+        // TODO test me
+        it.hmsnr !in eksisterendeHmsnr
+    } ?: emptyList()
+    return this + nyeDeler
 }

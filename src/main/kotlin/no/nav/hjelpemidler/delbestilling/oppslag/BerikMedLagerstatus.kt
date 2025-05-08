@@ -1,7 +1,6 @@
 package no.nav.hjelpemidler.delbestilling.oppslag
 
 import io.github.oshai.kotlinlogging.KotlinLogging
-import no.nav.hjelpemidler.delbestilling.config.isDev
 import no.nav.hjelpemidler.delbestilling.infrastructure.metrics.Metrics
 import no.nav.hjelpemidler.delbestilling.infrastructure.oebs.Oebs
 
@@ -13,19 +12,18 @@ class BerikMedLagerstatus(
     private val metrics: Metrics,
 ) {
 
-    suspend fun execute(hjelpemiddel: Hjelpemiddel, kommunenummer: String) {
-        val lagerstatusForDeler = oebs.hentLagerstatusForKommunenummer(brukersKommunenummer, hjelpemiddel.delerHmsnr())
+    suspend fun execute(hjelpemiddel: Hjelpemiddel, kommunenummer: String): Hjelpemiddel {
+        val lagerstatusForDeler = oebs.hentLagerstatusForKommunenummerAsMap(kommunenummer, hjelpemiddel.delerHmsnr())
 
-        // Koble hver del til lagerstatus, og sorter på navn
-        hjelpemiddel.deler =
-            hjelpemiddel.deler.map { del ->
-                val lagerstatus = lagerstatusForDeler.find { it.artikkelnummer == del.hmsnr }
-                if (isDev()) {
-                    log.info { "Lagerstatus for ${del.hmsnr}: $lagerstatus" }
-                }
-                del.copy(lagerstatus = lagerstatus)
-            }.sortedBy { it.navn }
+        val beriket = hjelpemiddel.medLagerstatus(lagerstatusForDeler).sorterDeler()
 
+        loggOgSendStatistikk(beriket)
+
+        return beriket
+    }
+
+    private fun loggOgSendStatistikk(hjelpemiddel: Hjelpemiddel) {
+        val hmsnr = hjelpemiddel.hmsnr
         val sentral = hjelpemiddel.deler.first().lagerstatus?.organisasjons_navn ?: "UKJENT"
         val antallPåLager = hjelpemiddel.deler.count { it.lagerstatus?.minmax == true }
         val antallDeler = hjelpemiddel.deler.count()
@@ -36,8 +34,8 @@ class BerikMedLagerstatus(
             log.info { "$sentral har ikke alle deler på lager for $hmsnr. Ikke på lager: $ikkePåLager, mangler lagerstatus: $manglerLagerstatus." }
         }
 
-        log.info { "Antall deler for hmsnr $hmsnr: ${hjelpemiddel.deler.size}, antall unike kategorier: ${hjelpemiddel.antallKategorier()}" }
-        metrics.antallKategorier(hjelpemiddel.antallKategorier())
+        log.info { "Antall deler for hmsnr $hmsnr: ${hjelpemiddel.deler.size}, antall unike kategorier: ${hjelpemiddel.antallKategorier}" }
+        metrics.antallKategorier(hjelpemiddel.antallKategorier)
 
         val antallDelerTilgjengeligMenIkkePåMinmax =
             hjelpemiddel.deler.count { it.lagerstatus != null && !it.lagerstatus!!.minmax && it.lagerstatus!!.tilgjengelig > 0 }

@@ -17,7 +17,20 @@ data class Hjelpemiddel(
     val antallKategorier: Int = deler.distinctBy { it.kategori }.size
 
     fun delerHmsnr() = deler.map { it.hmsnr }
+
+    fun sorterDeler(): Hjelpemiddel = this.copy(
+        deler = deler.sortedBy { it.navn }
+    )
 }
+
+fun Hjelpemiddel.medLagerstatus(lagerstatuser: Map<Hmsnr, Lagerstatus>): Hjelpemiddel =
+    this.copy(
+        deler = this.deler.map { del ->
+            val lagerstatus = lagerstatuser[del.hmsnr]
+                ?: throw IllegalStateException("Del ${del.hmsnr} på hjelpemiddel $hmsnr mangler lagerstatus, kan ikke returnere resultat")
+            del.copy(lagerstatus = lagerstatus)
+        }
+    )
 
 data class Del(
     val hmsnr: Hmsnr,
@@ -27,7 +40,7 @@ data class Del(
     val defaultAntall: Int = defaultAntall(kategori),
     val maksAntall: Int,
     val imgs: List<String> = emptyList(),
-    var lagerstatus: Lagerstatus? = null,
+    val lagerstatus: Lagerstatus? = null,
     val kilde: Kilde? = Kilde.MANUELL_LISTE,
 )
 
@@ -43,12 +56,4 @@ data class OppslagRequest(
 data class OppslagResultat(
     val hjelpemiddel: Hjelpemiddel,
     val piloter: List<Pilot> = emptyList(),
-) {
-    init {
-        hjelpemiddel.deler.forEach {
-            if (it.lagerstatus == null) {
-                error{"Del $it på hjelpemiddel ${hjelpemiddel.hmsnr} mangler lagerstatus, kan ikke returnere resultat"}
-            }
-        }
-    }
-}
+)

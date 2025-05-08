@@ -26,10 +26,10 @@ class OppslagService(
             pdl.hentKommunenummer(brukersFnr)
         }
 
-        val hjelpemiddel = finnDelerTilHjelpemiddel.execute(hmsnr)
+        var hjelpemiddel = finnDelerTilHjelpemiddel.execute(hmsnr)
         val brukersKommunenummer = brukersKommunenummerResult.await()
 
-        berikMedLagerstatus.execute(hjelpemiddel, brukersKommunenummer)
+        hjelpemiddel = berikMedLagerstatus.execute(hjelpemiddel, brukersKommunenummer)
         val piloter = piloterService.hentPiloter(brukersKommunenummer)
 
         OppslagResultat(hjelpemiddel, piloter)
@@ -37,25 +37,22 @@ class OppslagService(
 
     suspend fun EKSTERN_DEV_slåOppHjelpemiddel(hmsnr: String): OppslagResultat {
         log.info { "Slår opp hmsnr=$hmsnr for dev.ekstern, og beriker med fake lagerstatus" }
-        val hjelpemiddel = finnDelerTilHjelpemiddel.execute(hmsnr)
-
-        // Sorter på navn
-        val deler = hjelpemiddel.deler.sortedBy { it.navn }
+        val hjelpemiddel = finnDelerTilHjelpemiddel.execute(hmsnr).sorterDeler()
 
         // legg på pseudo-random lagerstatus
-        hjelpemiddel.deler.forEach {
-            val erMinmax = it.hmsnr.toInt() % 3 != 0                // Gjør ca 66% tilgjengelig
-            val antallPåLager = it.hmsnr.takeLast(1).toInt()    // Antall tilgjengelig = siste siffer i hmsnr
-            it.lagerstatus = Lagerstatus(
+        val delerMedLagerstatus = hjelpemiddel.deler.map { del ->
+            val erMinmax = del.hmsnr.toInt() % 3 != 0                // Gjør ca 66% tilgjengelig
+            val antallPåLager = del.hmsnr.takeLast(1).toInt()    // Antall tilgjengelig = siste siffer i hmsnr
+            del.copy(lagerstatus = Lagerstatus(
                 organisasjons_id = 292,
                 organisasjons_navn = "*19 Troms",
-                artikkelnummer = it.hmsnr,
+                artikkelnummer = del.hmsnr,
                 minmax = erMinmax,
                 tilgjengelig = antallPåLager,
                 antallDelerPåLager = antallPåLager
-            )
+            ))
         }
 
-        return OppslagResultat(hjelpemiddel.copy(deler = deler))
+        return OppslagResultat(hjelpemiddel.copy(deler = delerMedLagerstatus))
     }
 }
