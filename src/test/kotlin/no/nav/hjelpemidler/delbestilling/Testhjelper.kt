@@ -9,19 +9,20 @@ import no.nav.hjelpemidler.delbestilling.delbestilling.model.Hmsnr
 import no.nav.hjelpemidler.delbestilling.delbestilling.model.Lagerstatus
 import no.nav.hjelpemidler.delbestilling.delbestilling.model.Levering
 import no.nav.hjelpemidler.delbestilling.delbestilling.model.Status
-import no.nav.hjelpemidler.delbestilling.infrastructure.geografi.KommuneDto
 import no.nav.hjelpemidler.delbestilling.infrastructure.roller.Delbestiller
 import no.nav.hjelpemidler.delbestilling.infrastructure.roller.Organisasjon
 import no.nav.hjelpemidler.hjelpemidlerdigitalSoknadapi.tjenester.norg.ArbeidsfordelingEnhet
 import java.time.LocalDateTime
 import java.util.UUID
 
-fun delbestillerRolle(kanBestilleDeler: Boolean = true) = Delbestiller(
+fun delbestillerRolle(
+    kanBestilleDeler: Boolean = true,
+    kommunaleAnsettelsesforhold: List<Organisasjon> = listOf(Organisasjon("123", "navn", kommunenummer = "1234"))
+) = Delbestiller(
     kanBestilleDeler = kanBestilleDeler,
-    kommunaleOrgs = listOf(Organisasjon("123", "navn", kommunenummer = "1234")),
-    erKommunaltAnsatt = true,
-    godkjenteIkkeKommunaleOrgs = emptyList(),
-    erAnsattIGodkjentIkkeKommunaleOrgs = false,
+    kommunaleAnsettelsesforhold = kommunaleAnsettelsesforhold,
+    privateAnsettelsesforhold = emptyList(),
+    representasjoner = kommunaleAnsettelsesforhold,
 )
 
 fun delbestillingRequest(

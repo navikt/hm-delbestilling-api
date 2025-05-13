@@ -113,13 +113,12 @@ class DelbestillingService(
 
         // Sjekk om en av innsenders organisasjoner tilhører brukers kommuner
         var innsendersRepresenterteOrganisasjon =
-            delbestillerRolle.kommunaleOrgs.find { it.kommunenummer == brukerKommunenr }
-                ?: delbestillerRolle.godkjenteIkkeKommunaleOrgs.find { it.kommunenummer == brukerKommunenr }
+            delbestillerRolle.representasjoner.find { it.kommunenummer == brukerKommunenr }
         val bestillerType: BestillerType =
-            if (delbestillerRolle.kommunaleOrgs.any { it.kommunenummer == brukerKommunenr }) BestillerType.KOMMUNAL else BestillerType.IKKE_KOMMUNAL
+            if (delbestillerRolle.kommunaleAnsettelsesforhold.any { it.kommunenummer == brukerKommunenr }) BestillerType.KOMMUNAL else BestillerType.IKKE_KOMMUNAL
 
         if (innsendersRepresenterteOrganisasjon == null) {
-            log.info { "Brukers kommunenr: $brukerKommunenr, innsenders kommuner: ${delbestillerRolle.kommunaleOrgs}, innsenders godkjente ikke-kommunale orgs: ${delbestillerRolle.godkjenteIkkeKommunaleOrgs}" }
+            log.info { "Brukers kommunenr: $brukerKommunenr, innsenders rolle: $delbestillerRolle" }
             if (isDev()) {
                 innsendersRepresenterteOrganisasjon = Organisasjon("1234", navn = "Testorg for dev")
             } else {
@@ -326,7 +325,11 @@ class DelbestillingService(
 
             if (grunndataHjelpemiddel != null) {
                 if (!grunndataHjelpemiddel.main) {
-                    return@coroutineScope OppslagResultat(null, OppslagFeil.IKKE_HOVEDHJELPEMIDDEL, HttpStatusCode.NotFound)
+                    return@coroutineScope OppslagResultat(
+                        null,
+                        OppslagFeil.IKKE_HOVEDHJELPEMIDDEL,
+                        HttpStatusCode.NotFound
+                    )
                 }
 
                 val deler = grunndata.hentDeler(grunndataHjelpemiddel.seriesId, grunndataHjelpemiddel.id)
@@ -424,7 +427,11 @@ class DelbestillingService(
             log.info { "Deler med 'batteri' i navnet på oppslag: $delerMedBatteriINavn" }
         }
 
-        val brukersKommunenummer = brukersKommunenummerResult.await() ?: return@coroutineScope OppslagResultat(null, OppslagFeil.INGET_UTLÅN, HttpStatusCode.NotFound)
+        val brukersKommunenummer = brukersKommunenummerResult.await() ?: return@coroutineScope OppslagResultat(
+            null,
+            OppslagFeil.INGET_UTLÅN,
+            HttpStatusCode.NotFound
+        )
         val lagerstatusForDeler =
             oebs.hentLagerstatusForKommunenummer(brukersKommunenummer, hjelpemiddelMedDeler.deler.map { it.hmsnr })
 
