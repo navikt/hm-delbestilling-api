@@ -16,10 +16,13 @@ data class Næringskode(
 
 data class Delbestiller(
     val kanBestilleDeler: Boolean,
-    val kommunaleOrgs: List<Organisasjon>,
-    val erKommunaltAnsatt: Boolean,
-    val godkjenteIkkeKommunaleOrgs: List<Organisasjon>,
-    val erAnsattIGodkjentIkkeKommunaleOrgs: Boolean,
+
+    val representasjoner: List<Organisasjon>,
+
+    val kommunaleAnsettelsesforhold: List<Organisasjon>,
+    val privateAnsettelsesforhold: List<Organisasjon>,
+    // val erKommunaltAnsatt: Boolean,
+    // val erAnsattIGodkjentIkkeKommunaleOrgs: Boolean,
 )
 
 data class DelbestillerResponse(
