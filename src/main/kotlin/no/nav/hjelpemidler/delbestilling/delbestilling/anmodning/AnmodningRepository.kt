@@ -7,6 +7,7 @@ import kotliquery.sessionOf
 import kotliquery.using
 import no.nav.hjelpemidler.database.JdbcOperations
 import no.nav.hjelpemidler.database.transactionAsync
+import no.nav.hjelpemidler.delbestilling.common.Enhet
 import no.nav.hjelpemidler.delbestilling.delbestilling.model.Hmsnr
 import no.nav.hjelpemidler.delbestilling.config.isDev
 import javax.sql.DataSource
@@ -50,7 +51,7 @@ class AnmodningRepository(val ds: DataSource) {
         )
     }
 
-    fun hentUnikeEnhetnrs(): List<String> =
+    fun hentUnikeEnheter(): List<Enhet> =
         using(sessionOf(ds)) { session ->
             session.run(
                 queryOf(
@@ -59,7 +60,7 @@ class AnmodningRepository(val ds: DataSource) {
                     FROM deler_uten_dekning
                     WHERE rapportert_tidspunkt IS NULL
                 """.trimIndent()
-                ).map { row -> row.string("enhetnr") }.asList
+                ).map { row -> Enhet.fraEnhetsnummer(row.string("enhetnr")) }.asList
             )
         }
 
@@ -79,21 +80,21 @@ class AnmodningRepository(val ds: DataSource) {
             )
         }
     }
-    
-    fun markerDelerSomRapportert(tx: JdbcOperations, enhetnr: String) {
-        log.info { "Marker deler som rapportert for $enhetnr" }
+
+    fun markerDelerSomRapportert(tx: JdbcOperations, enhet: Enhet) {
+        log.info { "Marker deler som rapportert for enhet $enhet" }
         tx.update(
             """
                 UPDATE deler_uten_dekning
                 SET rapportert_tidspunkt = CURRENT_TIMESTAMP, sist_oppdatert = CURRENT_TIMESTAMP 
                 WHERE enhetnr = :enhetnr AND rapportert_tidspunkt IS NULL
             """.trimIndent(),
-            mapOf("enhetnr" to enhetnr)
+            mapOf("enhetnr" to enhet.nummer)
         )
     }
 
     fun lagreAnmodninger(tx: JdbcOperations, rapport: Anmodningrapport) {
-        log.info { "Lagrer anmodninger for ${rapport.enhetnr}" }
+        log.info { "Lagrer anmodninger for enhet ${rapport.enhet}" }
 
         rapport.anmodningsbehov.forEach { anmodning ->
             tx.update(
@@ -102,7 +103,7 @@ class AnmodningRepository(val ds: DataSource) {
                     VALUES (:enhetnr, :hmsnr, :navn, :antall_anmodet, :antall_paa_lager, :leverandornavn)
                 """.trimIndent(),
                 mapOf(
-                    "enhetnr" to rapport.enhetnr,
+                    "enhetnr" to rapport.enhet.nummer,
                     "hmsnr" to anmodning.hmsnr,
                     "navn" to anmodning.navn,
                     "antall_anmodet" to anmodning.antallSomMåAnmodes,

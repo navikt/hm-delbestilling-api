@@ -3,6 +3,7 @@ package no.nav.hjelpemidler.delbestilling.delbestilling
 import io.mockk.coEvery
 import io.mockk.mockk
 import kotlinx.coroutines.test.runTest
+import no.nav.hjelpemidler.delbestilling.common.Enhet
 import no.nav.hjelpemidler.delbestilling.testdata.MockException
 import no.nav.hjelpemidler.delbestilling.testdata.TestDatabase
 import no.nav.hjelpemidler.delbestilling.testdata.delLinje
@@ -294,7 +295,7 @@ internal class DelbestillingServiceTest {
 
     @Test
     fun `skal lagre anmodningsbehov ved ny delbestilling`() = runTest {
-        val enhetnr = "4703"
+        val enhetnr = Enhet.OSLO.nummer
         val anmodningRepository = AnmodningRepository(ds)
         val norg =
             mockk<Norg>().also { coEvery { it.hentEnhetnummer(any()) } returns enhetnr }
@@ -353,7 +354,7 @@ internal class DelbestillingServiceTest {
         assertEquals(1, delerTilRapportering.find { it.hmsnr == hmsnrEtterfylt }!!.antall)
         assertEquals(2, delerTilRapportering.find { it.hmsnr == hmsnrIkkeDekning }!!.antall)
 
-        coEvery { oebs.hentLagerstatusForEnhetnr(any(), any()) } returns listOf(
+        coEvery { oebs.hentLagerstatusForEnhet(any(), any()) } returns listOf(
             lagerstatus(
                 antall = 0, // Påfyll i løpet av dagen
                 hmsnr = hmsnrEtterfylt
@@ -375,7 +376,7 @@ internal class DelbestillingServiceTest {
 
     @Test
     fun `skal summere anmodningsbehov`() = runTest {
-        val enhetnr = "4703"
+        val enhetnr = Enhet.OSLO.nummer
         val hmsnr1 = "111111"
         val hmsnr2 = "222222"
         val anmodningRepository = AnmodningRepository(ds)

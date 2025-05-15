@@ -1,6 +1,5 @@
 package no.nav.hjelpemidler.delbestilling.testdata
 
-import no.nav.hjelpemidler.delbestilling.delbestilling.ENHETNR_OSLO
 
 object Testdata {
 
@@ -13,7 +12,6 @@ object Testdata {
     val delPåMinmax = "168802"
     val delPåLagerIkkeMinmax = "168803"
 
-    val defaultKommunenummer = "0301" // Oslo
-    val defaultEnhet = ENHETNR_OSLO
-
+    val kommunenummerOslo = "0301"
+    val defaultKommunenummer = kommunenummerOslo
 }

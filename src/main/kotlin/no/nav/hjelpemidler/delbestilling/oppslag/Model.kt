@@ -44,10 +44,6 @@ data class Del(
     val kilde: Kilde? = Kilde.MANUELL_LISTE,
 )
 
-enum class Pilot {
-    BESTILLE_IKKE_FASTE_LAGERVARER
-}
-
 data class OppslagRequest(
     val hmsnr: String,
     val serienr: String,
@@ -57,3 +53,7 @@ data class OppslagResultat(
     val hjelpemiddel: Hjelpemiddel,
     val piloter: List<Pilot> = emptyList(),
 )
+
+enum class Pilot {
+    BESTILLE_IKKE_FASTE_LAGERVARER
+}

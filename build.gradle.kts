@@ -50,8 +50,9 @@ dependencies {
     implementation(libs.bundles.logging.runtime)
 
     // Microsoft Graph
-    implementation("com.microsoft.graph:microsoft-graph:5.77.0")
-    implementation("com.azure:azure-identity:1.12.2")
+    // TODO flytt til hotlibs
+    implementation("com.microsoft.graph:microsoft-graph:5.77.0") // TODO bump me https://mvnrepository.com/artifact/com.microsoft.graph/microsoft-graph
+    implementation("com.azure:azure-identity:1.12.2") // TODO bump me https://mvnrepository.com/artifact/com.azure/azure-identity
 
     // TokenX + AzureAD
     implementation(libs.tokendings.exchange)
@@ -62,12 +63,6 @@ dependencies {
 
     // Utils
     implementation(libs.nocommons)
-
-    // Xlsx (Excel)
-    val apachePoiVersion = "5.4.0"
-    implementation("org.apache.poi:poi:$apachePoiVersion")
-    implementation("org.apache.poi:poi-ooxml:$apachePoiVersion")
-
 
     // Testing
     testImplementation(libs.bundles.ktor.server.test)

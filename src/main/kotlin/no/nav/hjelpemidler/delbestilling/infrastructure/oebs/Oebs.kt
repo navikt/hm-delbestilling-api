@@ -1,6 +1,7 @@
 package no.nav.hjelpemidler.delbestilling.infrastructure.oebs
 
 import io.github.oshai.kotlinlogging.KotlinLogging
+import no.nav.hjelpemidler.delbestilling.common.Enhet
 import no.nav.hjelpemidler.delbestilling.delbestilling.model.DelbestillingSak
 import no.nav.hjelpemidler.delbestilling.delbestilling.model.Hmsnr
 import no.nav.hjelpemidler.delbestilling.delbestilling.model.Lagerstatus
@@ -44,9 +45,9 @@ class Oebs(
             .associateBy { it.artikkelnummer }
     }
 
-    suspend fun hentLagerstatusForEnhetnr(enhetnr: String, hmsnrs: List<String>): List<Lagerstatus> {
-        log.info { "Henter lagerstatus for enhetnr $enhetnr for hmsnrs $hmsnrs" }
-        val response = client.hentLagerstatusForEnhetnr(enhetnr, hmsnrs)
+    suspend fun hentLagerstatusForEnhet(enhet: Enhet, hmsnrs: List<String>): List<Lagerstatus> {
+        log.info { "Henter lagerstatus for enhet $enhet for hmsnrs $hmsnrs" }
+        val response = client.hentLagerstatusForEnhetnr(enhet.nummer, hmsnrs)
         return response.map { it.tilLagerstatus() }
     }
 

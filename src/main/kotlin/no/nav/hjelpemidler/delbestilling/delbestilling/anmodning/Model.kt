@@ -1,5 +1,6 @@
 package no.nav.hjelpemidler.delbestilling.delbestilling.anmodning
 
+import no.nav.hjelpemidler.delbestilling.common.Enhet
 import no.nav.hjelpemidler.delbestilling.delbestilling.model.Hmsnr
 
 data class Del(
@@ -9,7 +10,7 @@ data class Del(
 )
 
 data class Anmodningrapport(
-    val enhetnr: String,
+    val enhet: Enhet,
     val anmodningsbehov: List<AnmodningsbehovForDel>
 )
 

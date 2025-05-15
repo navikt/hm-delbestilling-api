@@ -5,15 +5,14 @@ import io.ktor.client.engine.cio.CIO
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import no.nav.hjelpemidler.delbestilling.common.Enhet
 import no.nav.hjelpemidler.delbestilling.config.isProd
 import no.nav.hjelpemidler.delbestilling.delbestilling.DelbestillingRepository
 import no.nav.hjelpemidler.delbestilling.delbestilling.anmodning.AnmodningsbehovForDel
-import no.nav.hjelpemidler.delbestilling.delbestilling.enhetTilEpostadresse
 import no.nav.hjelpemidler.delbestilling.delbestilling.model.DelbestillingSak
 import no.nav.hjelpemidler.delbestilling.delbestilling.model.Hmsnr
 import no.nav.hjelpemidler.delbestilling.delbestilling.model.Kilde
 import no.nav.hjelpemidler.delbestilling.oppslag.legacy.data.hmsnrTilDel
-import no.nav.hjelpemidler.delbestilling.infrastructure.grunndata.Produkt
 import no.nav.hjelpemidler.delbestilling.oppslag.Del
 import no.nav.hjelpemidler.http.slack.slack
 import no.nav.hjelpemidler.http.slack.slackIconEmoji
@@ -151,12 +150,11 @@ class Slack(
         message = "Det ble gjort et oppslag på `$hmsnr`, men dette er et produkt som verken finnes i manuell liste eller i grunndata."
     )
 
-    fun varsleOmAnmodningrapportSomErSendtTilEnhet(enhetnr: String, melding: String) {
-        val tilEpost = enhetTilEpostadresse(enhetnr)
+    fun varsleOmAnmodningrapportSomErSendtTilEnhet(enhet: Enhet, melding: String) {
         sendSafely(
             emoji = "mailbox",
             message = """
-                Følgende mail ble sendt til enhet $enhetnr ($tilEpost):
+                Følgende mail ble sendt til enhet $enhet (${enhet.epost()}):
                 ```
                 $melding
                 ```

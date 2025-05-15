@@ -3,7 +3,6 @@ package no.nav.hjelpemidler.delbestilling.delbestilling.anmodning
 import com.microsoft.graph.models.BodyType
 import io.github.oshai.kotlinlogging.KotlinLogging
 import no.nav.hjelpemidler.database.JdbcOperations
-import no.nav.hjelpemidler.delbestilling.delbestilling.enhetTilEpostadresse
 import no.nav.hjelpemidler.delbestilling.delbestilling.model.DelbestillingSak
 import no.nav.hjelpemidler.delbestilling.infrastructure.email.Email
 import no.nav.hjelpemidler.delbestilling.infrastructure.grunndata.Grunndata
@@ -62,15 +61,15 @@ class AnmodningService(
         log.info { "Genererer rapport for bestilte deler som må anmodes" }
 
         // Hent først alle unike enhetnr
-        val hmsEnheter = repository.hentUnikeEnhetnrs()
+        val hmsEnheter = repository.hentUnikeEnheter()
         log.info { "Enheter med deler som potensielt må anmodes: $hmsEnheter" }
 
-        val rapporter = hmsEnheter.map { enhetnr ->
-            val delerSomMangletDekningVedInnsending = repository.hentDelerTilRapportering(enhetnr)
-            log.info { "Deler som manglet dekning ved innsending for enhet $enhetnr: $delerSomMangletDekningVedInnsending" }
+        val rapporter = hmsEnheter.map { enhet ->
+            val delerSomMangletDekningVedInnsending = repository.hentDelerTilRapportering(enhet.nummer)
+            log.info { "Deler som manglet dekning ved innsending for enhet $enhet: $delerSomMangletDekningVedInnsending" }
 
-            val lagerstatuser = oebs.hentLagerstatusForEnhetnr(
-                enhetnr = enhetnr,
+            val lagerstatuser = oebs.hentLagerstatusForEnhet(
+                enhet = enhet,
                 hmsnrs = delerSomMangletDekningVedInnsending.map { it.hmsnr }
             ).associateBy { it.artikkelnummer }
 
@@ -80,7 +79,7 @@ class AnmodningService(
                 beregnAnmodningsbehovVedRapportering(del, lagerstatus)
             }.filter { it.antallSomMåAnmodes > 0 }
 
-            val rapport = Anmodningrapport(enhetnr = enhetnr, anmodningsbehov = delerSomFremdelesMåAnmodes)
+            val rapport = Anmodningrapport(enhet = enhet, anmodningsbehov = delerSomFremdelesMåAnmodes)
             
             // Berik med leverandørnavn
             rapport.anmodningsbehov.forEach { behov ->
@@ -90,7 +89,7 @@ class AnmodningService(
                 behov.leverandørnavn = leverandørnavn
             }
 
-            log.info { "Anmodingrapport for enhet $enhetnr: $rapport" }
+            log.info { "Anmodingrapport for enhet $enhet: $rapport" }
 
             rapport
         }
@@ -107,10 +106,10 @@ class AnmodningService(
         val melding = rapportTilMelding(rapport)
 
         repository.withTransaction { tx ->
-            repository.markerDelerSomRapportert(tx, rapport.enhetnr)
+            repository.markerDelerSomRapportert(tx, rapport.enhet)
             repository.lagreAnmodninger(tx, rapport)
             email.sendSimpleMessage(
-                to = enhetTilEpostadresse(rapport.enhetnr),
+                to = rapport.enhet.epost(),
                 subject = "Deler som må anmodes",
                 contentType = BodyType.TEXT,
                 content = melding

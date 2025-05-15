@@ -83,10 +83,4 @@ fun organisasjon(orgnr: String = "123456789", navn: String = "Reperasjon AS") = 
     navn = navn,
 )
 
-fun enhet(nummer: String = "4703") = ArbeidsfordelingEnhet(
-    navn = nummer,
-    enhetNr = nummer,
-    type = ""
-)
-
 class MockException(msg: String) : RuntimeException("MockException: $msg")

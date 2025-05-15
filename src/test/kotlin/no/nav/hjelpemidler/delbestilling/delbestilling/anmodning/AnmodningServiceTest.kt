@@ -2,6 +2,7 @@ package no.nav.hjelpemidler.delbestilling.delbestilling.anmodning
 
 import io.mockk.mockk
 import kotlinx.coroutines.test.runTest
+import no.nav.hjelpemidler.delbestilling.common.Enhet
 import no.nav.hjelpemidler.delbestilling.testdata.TestDatabase
 import no.nav.hjelpemidler.delbestilling.testdata.delLinje
 import no.nav.hjelpemidler.delbestilling.testdata.delbestilling
@@ -73,7 +74,7 @@ class AnmodningServiceTest {
     fun `test generering av epostmelding`() = runTest {
         val melding = anmodningService.sendAnmodningRapport(
             Anmodningrapport(
-                enhetnr = "4703",
+                enhet = Enhet.OSLO,
                 anmodningsbehov = listOf(
                     AnmodningsbehovForDel(
                         hmsnr = "123456",
