@@ -2,7 +2,7 @@ package no.nav.hjelpemidler.delbestilling.testdata
 
 import io.mockk.mockk
 import kotlinx.coroutines.test.runTest
-import no.nav.hjelpemidler.delbestilling.delbestilling.PiloterService
+import no.nav.hjelpemidler.delbestilling.oppslag.PiloterService
 import no.nav.hjelpemidler.delbestilling.infrastructure.grunndata.Grunndata
 import no.nav.hjelpemidler.delbestilling.fakes.GrunndataClientFake
 import no.nav.hjelpemidler.delbestilling.infrastructure.metrics.Metrics

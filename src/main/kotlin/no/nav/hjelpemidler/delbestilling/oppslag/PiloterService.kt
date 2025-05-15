@@ -1,7 +1,8 @@
-package no.nav.hjelpemidler.delbestilling.delbestilling
+package no.nav.hjelpemidler.delbestilling.oppslag
 
 import no.nav.hjelpemidler.delbestilling.config.isDev
-import no.nav.hjelpemidler.delbestilling.oppslag.Pilot
+import no.nav.hjelpemidler.delbestilling.delbestilling.ENHETNR_OSLO
+import no.nav.hjelpemidler.delbestilling.delbestilling.ENHETNR_ØST_VIKEN
 import no.nav.hjelpemidler.hjelpemidlerdigitalSoknadapi.tjenester.norg.Norg
 
 private val PILOTENHETER_BESTILLE_IKKE_FASTE_LAGERVARER = listOf(ENHETNR_OSLO, ENHETNR_ØST_VIKEN)
