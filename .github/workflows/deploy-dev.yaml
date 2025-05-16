@@ -8,7 +8,7 @@ on:
       - "CODEOWNERS"
     branches:
       - main
-      - splitt-ut-oppslag
+      - chonk-mail
 
 jobs:
   build:

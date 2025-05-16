@@ -12,6 +12,7 @@ import no.nav.hjelpemidler.delbestilling.delbestilling.anmodning.AnmodningReposi
 import no.nav.hjelpemidler.delbestilling.delbestilling.anmodning.AnmodningService
 import no.nav.hjelpemidler.delbestilling.oppslag.Hjelpemiddeloversikt
 import no.nav.hjelpemidler.delbestilling.infrastructure.email.Email
+import no.nav.hjelpemidler.delbestilling.infrastructure.email.GraphClient
 import no.nav.hjelpemidler.delbestilling.infrastructure.geografi.Kommuneoppslag
 import no.nav.hjelpemidler.delbestilling.infrastructure.geografi.OppslagClient
 import no.nav.hjelpemidler.delbestilling.infrastructure.grunndata.Grunndata
@@ -53,7 +54,6 @@ class AppContext {
             maximumSize = 100
         }
     }
-    private val email = Email()
     private val grunndata = Grunndata(GrunndataClient())
     private val kafka = Kafka()
     private val kommuneoppslag = Kommuneoppslag(OppslagClient())
@@ -62,6 +62,7 @@ class AppContext {
     private val oebs = Oebs(OebsApiProxyClient(entraIDClient), OebsSinkClient(kafka))
     private val pdl = Pdl(PdlClient(entraIDClient))
     private val rollerClient = RollerClient(TokendingsServiceBuilder.buildTokendingsService())
+    val email = Email(GraphClient(entraIDClient))
     val slack = Slack(delbestillingRepository, backgroundScope)
 
     // Eksponert for custom plugin

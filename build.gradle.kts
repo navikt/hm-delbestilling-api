@@ -15,7 +15,6 @@ dependencies {
     implementation(libs.kotlin.stdlib)
 
     // Database
-    implementation(libs.hotlibs.database)
     implementation(libs.hotlibs.database) {
         capabilities {
             requireCapability("no.nav.hjelpemidler:database-postgresql")
@@ -48,16 +47,6 @@ dependencies {
     implementation(libs.kotlin.logging)
     implementation(libs.slf4j.api)
     implementation(libs.bundles.logging.runtime)
-
-    // Microsoft Graph
-    // TODO flytt til hotlibs
-    implementation("com.microsoft.graph:microsoft-graph:5.77.0") // TODO bump me https://mvnrepository.com/artifact/com.microsoft.graph/microsoft-graph
-    implementation("com.azure:azure-identity:1.12.2") // TODO bump me https://mvnrepository.com/artifact/com.azure/azure-identity
-
-    // Microsoft Graph
-    // TODO flytt til hotlibs?
-    //implementation("com.microsoft.graph:microsoft-graph:6.38.0")
-    //implementation("com.azure:azure-identity:1.16.1")
 
     // TokenX + AzureAD
     implementation(libs.tokendings.exchange)

@@ -86,7 +86,7 @@ fun Application.setupRoutes(ctx: AppContext) {
                 oppslagApi(ctx.hjelpemiddeloversikt, ctx.oppslagService)
 
                 if (isDev()) {
-                    devtoolsApi(ctx.delbestillingService, ctx.anmodningService, ctx.oppslagService)
+                    devtoolsApi(ctx.delbestillingService, ctx.anmodningService, ctx.oppslagService, ctx.email)
                 }
             }
         }
