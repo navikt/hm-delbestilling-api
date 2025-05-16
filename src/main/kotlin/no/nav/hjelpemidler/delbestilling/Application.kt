@@ -1,11 +1,12 @@
 package no.nav.hjelpemidler.delbestilling
 
-import io.github.oshai.kotlinlogging.KotlinLogging
 import io.ktor.client.request.delete
 import io.ktor.client.request.post
 import io.ktor.server.application.Application
 import io.ktor.server.application.ApplicationStopped
 import io.ktor.server.auth.authenticate
+import io.ktor.server.cio.CIO
+import io.ktor.server.engine.embeddedServer
 import io.ktor.server.plugins.ratelimit.RateLimitName
 import io.ktor.server.plugins.ratelimit.rateLimit
 import io.ktor.server.routing.route
@@ -28,12 +29,10 @@ import no.nav.hjelpemidler.http.openid.bearerAuth
 import no.nav.tms.token.support.azure.validation.AzureAuthenticator
 import no.nav.tms.token.support.tokenx.validation.TokenXAuthenticator
 
-private val log = KotlinLogging.logger {}
-
-fun main(args: Array<String>): Unit {
+fun main() {
     when (System.getenv("CRONJOB_TYPE")) {
         "RAPPORTER_DELER_TIL_ANMODNING" -> rapporterDelerTilAnmodning()
-        else -> io.ktor.server.cio.EngineMain.main(args)
+        else -> embeddedServer(CIO, port = 8080, module = Application::module).start(wait = true)
     }
 }
 
