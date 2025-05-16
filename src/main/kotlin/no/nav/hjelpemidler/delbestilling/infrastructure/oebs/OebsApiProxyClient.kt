@@ -17,7 +17,7 @@ import no.nav.hjelpemidler.http.openid.bearerAuth
 private val log = KotlinLogging.logger {}
 
 class OebsApiProxyClient(
-    private val azureAdClient: OpenIDClient,
+    private val openIDClient: OpenIDClient,
     private val client: HttpClient = defaultHttpClient(),
     private val baseUrl: String = AppConfig.OEBS_API_URL,
     private val apiScope: String = AppConfig.OEBS_API_SCOPE,
@@ -26,7 +26,7 @@ class OebsApiProxyClient(
     private suspend inline fun <reified T> executeRequest(url: String, method: HttpMethod, body: Any? = null): T {
         try {
             return withContext(Dispatchers.IO) {
-                val tokenSet = azureAdClient.grant(apiScope)
+                val tokenSet = openIDClient.grant(apiScope)
                 val httpResponse = client.request(url) {
                     this.method = method
                     bearerAuth(tokenSet)

@@ -39,7 +39,7 @@ dependencies {
     implementation(libs.ktor.server.cio)
     implementation(libs.ktor.server.rate.limit)
     implementation(libs.ktor.server.request.validation)
-    implementation("io.ktor:ktor-utils")
+    implementation(libs.ktor.utils)
 
     // Jackson
     implementation(libs.bundles.jackson)
@@ -53,6 +53,11 @@ dependencies {
     // TODO flytt til hotlibs
     implementation("com.microsoft.graph:microsoft-graph:5.77.0") // TODO bump me https://mvnrepository.com/artifact/com.microsoft.graph/microsoft-graph
     implementation("com.azure:azure-identity:1.12.2") // TODO bump me https://mvnrepository.com/artifact/com.azure/azure-identity
+
+    // Microsoft Graph
+    // TODO flytt til hotlibs?
+    //implementation("com.microsoft.graph:microsoft-graph:6.38.0")
+    //implementation("com.azure:azure-identity:1.16.1")
 
     // TokenX + AzureAD
     implementation(libs.tokendings.exchange)

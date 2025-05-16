@@ -31,7 +31,7 @@ import no.nav.hjelpemidler.delbestilling.oppslag.FinnDelerTilHjelpemiddel
 import no.nav.hjelpemidler.delbestilling.oppslag.OppslagService
 import no.nav.hjelpemidler.hjelpemidlerdigitalSoknadapi.tjenester.norg.Norg
 import no.nav.hjelpemidler.hjelpemidlerdigitalSoknadapi.tjenester.norg.NorgClient
-import no.nav.hjelpemidler.http.openid.azureADClient
+import no.nav.hjelpemidler.http.openid.entraIDClient
 import no.nav.tms.token.support.tokendings.exchange.TokendingsServiceBuilder
 import kotlin.time.Duration.Companion.seconds
 
@@ -48,7 +48,7 @@ class AppContext {
     private val delbestillingRepository = DelbestillingRepository(ds)
 
     // Infrastructure
-    private val azureClient = azureADClient {
+    private val entraIDClient = entraIDClient {
         cache(leeway = 10.seconds) {
             maximumSize = 100
         }
@@ -59,8 +59,8 @@ class AppContext {
     private val kommuneoppslag = Kommuneoppslag(OppslagClient())
     private val metrics = Metrics(kafka)
     private val norg = Norg(NorgClient())
-    private val oebs = Oebs(OebsApiProxyClient(azureClient), OebsSinkClient(kafka))
-    private val pdl = Pdl(PdlClient(azureClient))
+    private val oebs = Oebs(OebsApiProxyClient(entraIDClient), OebsSinkClient(kafka))
+    private val pdl = Pdl(PdlClient(entraIDClient))
     private val rollerClient = RollerClient(TokendingsServiceBuilder.buildTokendingsService())
     val slack = Slack(delbestillingRepository, backgroundScope)
 

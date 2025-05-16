@@ -16,7 +16,7 @@ import no.nav.hjelpemidler.http.openid.bearerAuth
 
 
 class PdlClient(
-    private val azureAdClient: OpenIDClient,
+    private val openIDClient: OpenIDClient,
     private val client: HttpClient = defaultHttpClient(),
     private val baseUrl: String = AppConfig.PDL_GRAPHQL_URL,
     private val apiScope: String = AppConfig.PDL_API_SCOPE,
@@ -24,7 +24,7 @@ class PdlClient(
 
     private suspend inline fun <reified T : Any> pdlRequest(pdlQuery: GraphqlQuery): T {
         return withContext(Dispatchers.IO) {
-            val tokenSet = azureAdClient.grant(apiScope)
+            val tokenSet = openIDClient.grant(apiScope)
             client.post(baseUrl) {
                 bearerAuth(tokenSet)
                 headers {

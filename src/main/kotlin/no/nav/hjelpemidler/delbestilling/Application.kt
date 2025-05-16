@@ -46,7 +46,7 @@ fun Application.module() {
     configure()
     setupRoutes(ctx)
 
-    environment.monitor.subscribe(ApplicationStopped) {
+    monitor.subscribe(ApplicationStopped) {
         ctx.shutdown()
     }
 }

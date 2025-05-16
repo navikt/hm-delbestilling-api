@@ -11,12 +11,12 @@ import io.ktor.http.ContentType
 import io.ktor.http.contentType
 import no.nav.hjelpemidler.delbestilling.config.isProd
 import no.nav.hjelpemidler.http.createHttpClient
-import no.nav.hjelpemidler.http.openid.azureADClient
+import no.nav.hjelpemidler.http.openid.entraIDClient
 import kotlin.time.Duration.Companion.seconds
 
 
 class JobContext {
-    val azureClient = azureADClient {
+    val azureClient = entraIDClient {
         cache(leeway = 10.seconds) {
             maximumSize = 100
         }
