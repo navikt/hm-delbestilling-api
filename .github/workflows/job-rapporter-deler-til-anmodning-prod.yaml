@@ -1,4 +1,4 @@
-name: deploy-prod
+name: deploy-prod (job-rapporter-deler-til-anmodning)
 on:
   release:
     types: [published]
@@ -31,7 +31,7 @@ jobs:
         name: deploy to prod-gcp
         env:
           CLUSTER: prod-gcp
-          RESOURCE: .nais/nais-prod.yaml
+          RESOURCE: .nais/nais-job-rapporter-deler-til-anmodning-prod.yaml
       - name: post-production
         uses: navikt/digihot-deploy/actions/post-production@v2
         env:
