@@ -1,6 +1,5 @@
 package no.nav.hjelpemidler.delbestilling.delbestilling.anmodning
 
-import com.microsoft.graph.models.BodyType
 import io.github.oshai.kotlinlogging.KotlinLogging
 import no.nav.hjelpemidler.database.JdbcOperations
 import no.nav.hjelpemidler.delbestilling.delbestilling.model.DelbestillingSak
@@ -109,10 +108,9 @@ class AnmodningService(
             repository.markerDelerSomRapportert(tx, rapport.enhet)
             repository.lagreAnmodninger(tx, rapport)
             email.sendSimpleMessage(
-                to = rapport.enhet.epost(),
+                recipentEmail = rapport.enhet.epost(),
                 subject = "Deler som må anmodes",
-                contentType = BodyType.Text,
-                content = melding
+                bodyText = melding
             )
         }
 

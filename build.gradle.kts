@@ -48,11 +48,6 @@ dependencies {
     implementation(libs.slf4j.api)
     implementation(libs.bundles.logging.runtime)
 
-    // Microsoft Graph
-    // TODO flytt til hotlibs?
-    implementation("com.microsoft.graph:microsoft-graph:6.38.0")
-    implementation("com.azure:azure-identity:1.16.1")
-
     // TokenX + AzureAD
     implementation(libs.tokendings.exchange)
     implementation(libs.tokenx.validation)
@@ -75,8 +70,4 @@ dependencies {
 kotlin { jvmToolchain(21) }
 
 tasks.test { useJUnitPlatform() }
-tasks.shadowJar {
-    isZip64 = true
-    mergeServiceFiles()
-    //minimize()
-}
+tasks.shadowJar { mergeServiceFiles() }
