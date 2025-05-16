@@ -111,7 +111,7 @@ class AnmodningService(
             email.sendSimpleMessage(
                 to = rapport.enhet.epost(),
                 subject = "Deler som må anmodes",
-                contentType = BodyType.TEXT,
+                contentType = BodyType.Text,
                 content = melding
             )
         }
