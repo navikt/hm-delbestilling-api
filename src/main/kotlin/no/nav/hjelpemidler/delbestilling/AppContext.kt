@@ -78,6 +78,6 @@ class AppContext {
     val hjelpemiddeloversikt = Hjelpemiddeloversikt(grunndata, backgroundScope)
     val delbestillingService =
         DelbestillingService(delbestillingRepository, pdl, oebs, kommuneoppslag, metrics, slack, anmodningService)
-    val oppslagService = OppslagService(pdl, oebs, piloterService, finnDelerTilHjelpemiddel, berikMedLagerstatus)
+    val oppslagService = OppslagService(pdl, oebs, piloterService, finnDelerTilHjelpemiddel, berikMedLagerstatus, delbestillingRepository)
     val delbestillingStatusService = DelbestillingStatusService(delbestillingRepository, oebs, metrics)
 }

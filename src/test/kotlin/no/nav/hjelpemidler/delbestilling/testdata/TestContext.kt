@@ -45,7 +45,7 @@ class TestContext {
     val piloterService = PiloterService(norg)
     val finnDelerTilHjelpemiddel = FinnDelerTilHjelpemiddel(grunndata, slack, metrics)
     val berikMedLagerstatus = BerikMedLagerstatus(oebs, metrics)
-    val oppslagService = OppslagService(pdl, oebs, piloterService, finnDelerTilHjelpemiddel, berikMedLagerstatus)
+    val oppslagService = OppslagService(pdl, oebs, piloterService, finnDelerTilHjelpemiddel, berikMedLagerstatus, mockk())
 }
 
 fun runWithTestContext(block: suspend TestContext.() -> Unit) {

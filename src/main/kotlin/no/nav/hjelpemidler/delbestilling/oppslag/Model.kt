@@ -13,6 +13,7 @@ data class Hjelpemiddel(
     val navn: String,
     val hmsnr: String,
     val deler: List<Del>,
+    val antallDagerSidenSistBatteribestilling: Int? = null,
 ) {
     val antallKategorier: Int = deler.distinctBy { it.kategori }.size
 

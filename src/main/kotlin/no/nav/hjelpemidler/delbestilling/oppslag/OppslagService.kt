@@ -4,8 +4,11 @@ import io.github.oshai.kotlinlogging.KotlinLogging
 import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
 import no.nav.hjelpemidler.delbestilling.common.Lagerstatus
+import no.nav.hjelpemidler.delbestilling.delbestilling.DelbestillingRepository
 import no.nav.hjelpemidler.delbestilling.infrastructure.oebs.Oebs
 import no.nav.hjelpemidler.delbestilling.infrastructure.pdl.Pdl
+import java.time.LocalDate
+import java.time.temporal.ChronoUnit
 
 
 private val log = KotlinLogging.logger {}
@@ -16,6 +19,7 @@ class OppslagService(
     private val piloterService: PiloterService,
     private val finnDelerTilHjelpemiddel: FinnDelerTilHjelpemiddel,
     private val berikMedLagerstatus: BerikMedLagerstatus,
+    private val delbestillingRepository: DelbestillingRepository,
 ) {
 
     suspend fun slåOppHjelpemiddel(hmsnr: String, serienr: String): OppslagResultat = coroutineScope {
@@ -26,6 +30,10 @@ class OppslagService(
         }
 
         var hjelpemiddel = finnDelerTilHjelpemiddel.execute(hmsnr)
+
+        if (hjelpemiddel.deler.any { it.kategori == "Batteri" }) {
+            hjelpemiddel = hjelpemiddel.copy(antallDagerSidenSistBatteribestilling = antallDagerSidenSisteBatteribestilling(hmsnr, serienr))
+        }
 
         val brukersKommunenummer = brukersKommunenummerResult.await()
         hjelpemiddel = berikMedLagerstatus.execute(hjelpemiddel, brukersKommunenummer)
@@ -54,5 +62,20 @@ class OppslagService(
         }
 
         return OppslagResultat(hjelpemiddel.copy(deler = delerMedLagerstatus))
+    }
+
+    fun antallDagerSidenSisteBatteribestilling(hmsnr: String, serienr: String): Int? {
+        val dellbestillinger = delbestillingRepository.hentDelbestillinger(hmsnr, serienr)
+
+        val sisteBatteribestilling = dellbestillinger.filter { bestilling ->
+            bestilling.delbestilling.deler.any { dellinje ->
+                dellinje.del.kategori == "Batteri"
+            }
+        }.maxByOrNull { it.opprettet } ?: return null
+
+        val antallDagerSiden = sisteBatteribestilling.opprettet.toLocalDate()
+            .until(LocalDate.now(), ChronoUnit.DAYS).toInt()
+
+        return antallDagerSiden
     }
 }

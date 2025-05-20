@@ -68,6 +68,7 @@ fun Route.delbestillingApiAuthenticated(
         call.respond(delbestillinger)
     }
 
+    // TODO: denne kan fjernes etter at klienten er oppdatert
     get("/siste-batteribestilling/{hmsnr}/{serienr}") {
         val hmsnr = requireHmsnr(call.parameters["hmsnr"])
         val serienr = requireSerienr(call.parameters["serienr"])
