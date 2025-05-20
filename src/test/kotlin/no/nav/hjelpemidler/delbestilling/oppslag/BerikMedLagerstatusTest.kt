@@ -47,16 +47,3 @@ class BerikMedLagerstatusTest {
         assertTrue(exception.message!!.contains(del.hmsnr))
     }
 }
-
-fun del(hmsnr: Hmsnr) = Del(
-    hmsnr = hmsnr,
-    navn = hmsnr,
-    kategori = "Batteri",
-    maksAntall = 2
-)
-
-fun hjelpemiddel(deler: List<Del>) = Hjelpemiddel(
-    hmsnr = Testdata.defaultHjmHmsnr,
-    navn = Testdata.defaultHjmNavn,
-    deler = deler
-)

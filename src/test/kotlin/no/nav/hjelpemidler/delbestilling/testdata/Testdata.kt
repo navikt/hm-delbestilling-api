@@ -8,6 +8,7 @@ object Testdata {
     val defaultHjmHmsnr = "097765" // Azalea
     val defaultHjmNavn = "Azalea" // Azalea
     val defaultHjmSerienr = "123456"
+    val defaultDelHmsnr = "168802" // Armlene Azalea
 
     val delPåMinmax = "168802"
     val delPåLagerIkkeMinmax = "168803"
