@@ -17,11 +17,16 @@ import no.nav.hjelpemidler.delbestilling.infrastructure.slack.Slack
 import no.nav.hjelpemidler.delbestilling.testdata.TestDatabase
 import no.nav.hjelpemidler.delbestilling.testdata.delbestillerRolle
 import no.nav.hjelpemidler.delbestilling.testdata.delbestillingRequest
+import no.nav.hjelpemidler.time.TIME_ZONE_EUROPE_OSLO
 import org.junit.jupiter.api.Test
 
-import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.assertThrows
+import org.junit.jupiter.api.assertDoesNotThrow
 import java.time.LocalDate
+import java.util.TimeZone
+import kotlin.test.assertEquals
+import kotlin.test.assertNull
 
 
 // TODO rydd opp i testene her. Bruk fakes og opprett egne IT for repository.
@@ -81,20 +86,20 @@ class DelbestillingStatusServiceTest {
         // Denne skal ikke ha noen effekt
         delbestillingStatusService.oppdaterStatus(delbestilling.saksnummer, Status.REGISTRERT, oebsOrdrenummer)
 
-        kotlin.test.assertEquals(Status.KLARGJORT, delbestillingService.hentDelbestillinger(bestillerFnr).first().status)
+        assertEquals(Status.KLARGJORT, delbestillingService.hentDelbestillinger(bestillerFnr).first().status)
     }
 
     @Test
     fun `skal oppdatere delbestilling status`() = runTest {
         delbestillingService.opprettDelbestilling(delbestillingRequest(), bestillerFnr, delbestillerRolle())
         val delbestilling = delbestillingService.hentDelbestillinger(bestillerFnr).first()
-        kotlin.test.assertEquals(Status.INNSENDT, delbestilling.status)
-        kotlin.test.assertEquals(null, delbestilling.oebsOrdrenummer)
+        assertEquals(Status.INNSENDT, delbestilling.status)
+        assertEquals(null, delbestilling.oebsOrdrenummer)
 
         delbestillingStatusService.oppdaterStatus(delbestilling.saksnummer, Status.KLARGJORT, oebsOrdrenummer)
         val oppdatertDelbestilling = delbestillingService.hentDelbestillinger(bestillerFnr).first()
-        kotlin.test.assertEquals(Status.KLARGJORT, oppdatertDelbestilling.status)
-        kotlin.test.assertEquals(oebsOrdrenummer, oppdatertDelbestilling.oebsOrdrenummer)
+        assertEquals(Status.KLARGJORT, oppdatertDelbestilling.status)
+        assertEquals(oebsOrdrenummer, oppdatertDelbestilling.oebsOrdrenummer)
     }
 
     @Test
@@ -102,13 +107,16 @@ class DelbestillingStatusServiceTest {
         delbestillingService.opprettDelbestilling(delbestillingRequest(), bestillerFnr, delbestillerRolle())
         val delbestilling = delbestillingService.hentDelbestillinger(bestillerFnr).first()
         delbestillingStatusService.oppdaterStatus(delbestilling.saksnummer, Status.REGISTRERT, oebsOrdrenummer)
-        org.junit.jupiter.api.assertThrows<IllegalArgumentException> {
+        assertThrows<IllegalArgumentException> {
             delbestillingStatusService.oppdaterStatus(delbestilling.saksnummer, Status.REGISTRERT, "123")
         }
     }
 
     @Test
     fun `skal oppdatere status på dellinjer`() = runTest {
+        // Appen vil alltid kjøre med Europe/Oslo (ref. Dockerimage), men setter det eksplisitt her pga Github Runners bruker UTC
+        TimeZone.setDefault(TIME_ZONE_EUROPE_OSLO)
+
         delbestillingService.opprettDelbestilling(delbestillingRequest(), bestillerFnr, delbestillerRolle())
         var delbestilling = delbestillingService.hentDelbestillinger(bestillerFnr).first()
         delbestillingStatusService.oppdaterStatus(delbestilling.saksnummer, Status.KLARGJORT, oebsOrdrenummer)
@@ -122,14 +130,14 @@ class DelbestillingStatusServiceTest {
             datoOppdatert
         )
         delbestilling = delbestillingService.hentDelbestillinger(bestillerFnr).first()
-        kotlin.test.assertEquals(Status.DELVIS_SKIPNINGSBEKREFTET, delbestilling.status)
-        kotlin.test.assertEquals(DellinjeStatus.SKIPNINGSBEKREFTET, delbestilling.delbestilling.deler[0].status)
-        kotlin.test.assertEquals(datoOppdatert, delbestilling.delbestilling.deler[0].datoSkipningsbekreftet)
-        kotlin.test.assertEquals(LocalDate.of(2023, 10, 2), delbestilling.delbestilling.deler[0].forventetLeveringsdato)
+        assertEquals(Status.DELVIS_SKIPNINGSBEKREFTET, delbestilling.status)
+        assertEquals(DellinjeStatus.SKIPNINGSBEKREFTET, delbestilling.delbestilling.deler[0].status)
+        assertEquals(datoOppdatert, delbestilling.delbestilling.deler[0].datoSkipningsbekreftet)
+        assertEquals(LocalDate.of(2023, 10, 2), delbestilling.delbestilling.deler[0].forventetLeveringsdato)
 
-        kotlin.test.assertEquals(null, delbestilling.delbestilling.deler[1].status)
-        kotlin.test.assertEquals(null, delbestilling.delbestilling.deler[1].datoSkipningsbekreftet)
-        kotlin.test.assertEquals(null, delbestilling.delbestilling.deler[1].forventetLeveringsdato)
+        assertEquals(null, delbestilling.delbestilling.deler[1].status)
+        assertEquals(null, delbestilling.delbestilling.deler[1].datoSkipningsbekreftet)
+        assertEquals(null, delbestilling.delbestilling.deler[1].forventetLeveringsdato)
 
         // Skipningsbekreft andre del
         delbestillingStatusService.oppdaterDellinjeStatus(
@@ -139,9 +147,9 @@ class DelbestillingStatusServiceTest {
             datoOppdatert
         )
         delbestilling = delbestillingService.hentDelbestillinger(bestillerFnr).first()
-        kotlin.test.assertEquals(Status.SKIPNINGSBEKREFTET, delbestilling.status)
-        kotlin.test.assertEquals(DellinjeStatus.SKIPNINGSBEKREFTET, delbestilling.delbestilling.deler[0].status)
-        kotlin.test.assertEquals(DellinjeStatus.SKIPNINGSBEKREFTET, delbestilling.delbestilling.deler[1].status)
+        assertEquals(Status.SKIPNINGSBEKREFTET, delbestilling.status)
+        assertEquals(DellinjeStatus.SKIPNINGSBEKREFTET, delbestilling.delbestilling.deler[0].status)
+        assertEquals(DellinjeStatus.SKIPNINGSBEKREFTET, delbestilling.delbestilling.deler[1].status)
     }
 
     @Test
@@ -149,10 +157,10 @@ class DelbestillingStatusServiceTest {
         var delbestilling = delbestillingRepository.withTransaction { tx ->
             delbestillingRepository.hentDelbestilling(tx, oebsOrdrenummer)
         }
-        kotlin.test.assertNull(delbestilling)
+        assertNull(delbestilling)
 
         // Skal bare ignorere ukjent ordrenummer
-        org.junit.jupiter.api.assertDoesNotThrow {
+        assertDoesNotThrow {
             delbestillingStatusService.oppdaterDellinjeStatus(
                 oebsOrdrenummer,
                 DellinjeStatus.SKIPNINGSBEKREFTET,
@@ -164,6 +172,6 @@ class DelbestillingStatusServiceTest {
         delbestilling = delbestillingRepository.withTransaction { tx ->
             delbestillingRepository.hentDelbestilling(tx, oebsOrdrenummer)
         }
-        kotlin.test.assertNull(delbestilling)
+        assertNull(delbestilling)
     }
 }

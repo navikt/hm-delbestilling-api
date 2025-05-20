@@ -69,5 +69,9 @@ dependencies {
 
 kotlin { jvmToolchain(21) }
 
-tasks.test { useJUnitPlatform() }
+tasks.test {
+    useJUnitPlatform()
+    // Sikre at tester bruker samme tidssone som appen (ref. Dockerfile). E.g. Github Runners bruker UTC som default.
+    systemProperty("user.timezone", "Europe/Oslo")
+}
 tasks.shadowJar { mergeServiceFiles() }
