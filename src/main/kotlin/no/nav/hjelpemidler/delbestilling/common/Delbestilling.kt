@@ -2,7 +2,6 @@ package no.nav.hjelpemidler.delbestilling.common
 
 import no.nav.hjelpemidler.delbestilling.oppslag.legacy.defaultAntall
 import no.nav.hjelpemidler.time.leggTilArbeidsdager
-import no.nav.hjelpemidler.time.toDate
 import no.nav.hjelpemidler.time.toInstant
 import no.nav.hjelpemidler.time.toLocalDate
 import java.time.LocalDate
@@ -36,6 +35,8 @@ data class Delbestilling(
         return deler.all { it.status == DellinjeStatus.SKIPNINGSBEKREFTET }
     }
 
+    fun harBatteri() = deler.any { it.erBatteri() }
+
     companion object {
         // TODO brukes denne i frontend? Dersom den brukes, så bør den kanskje justeres etter statistikken? https://metabase.ansatt.nav.no/question/5980-antall-dager-til-skipningsbekreftelse
         private const val LEVERINGSDAGER_FRA_SKIPNINGSBEKREFTELSE = 1
@@ -54,7 +55,9 @@ data class DelLinje(
     val datoSkipningsbekreftet: LocalDate? = null,
     val forventetLeveringsdato: LocalDate? = null,
     val lagerstatusPåBestillingstidspunkt: Lagerstatus? = null
-)
+) {
+    fun erBatteri() = del.erBatteri()
+}
 
 
 data class Del(
@@ -67,7 +70,9 @@ data class Del(
     val imgs: List<String> = emptyList(),
     var lagerstatus: Lagerstatus? = null,
     val kilde: Kilde? = Kilde.MANUELL_LISTE,
-)
+) {
+    fun erBatteri() = kategori == "Batteri"
+}
 
 data class Lagerstatus(
     val organisasjons_id: Int,

@@ -4,11 +4,8 @@ import io.github.oshai.kotlinlogging.KotlinLogging
 import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
 import no.nav.hjelpemidler.delbestilling.common.Lagerstatus
-import no.nav.hjelpemidler.delbestilling.delbestilling.DelbestillingRepository
 import no.nav.hjelpemidler.delbestilling.infrastructure.oebs.Oebs
 import no.nav.hjelpemidler.delbestilling.infrastructure.pdl.Pdl
-import java.time.LocalDate
-import java.time.temporal.ChronoUnit
 
 
 private val log = KotlinLogging.logger {}
@@ -19,25 +16,22 @@ class OppslagService(
     private val piloterService: PiloterService,
     private val finnDelerTilHjelpemiddel: FinnDelerTilHjelpemiddel,
     private val berikMedLagerstatus: BerikMedLagerstatus,
-    private val delbestillingRepository: DelbestillingRepository,
+    private val berikMedDagerSidenForrigeBatteribestilling: BerikMedDagerSidenForrigeBatteribestilling
 ) {
 
     suspend fun slåOppHjelpemiddel(hmsnr: String, serienr: String): OppslagResultat = coroutineScope {
-        val brukersKommunenummerResult = async {
+        val brukersKommunenummerDeferred = async {
             val brukersFnr = oebs.hentFnrLeietaker(hmsnr, serienr)
                 ?: throw IngenUtlånException("Fant ingen utlån for hmsnr $hmsnr og serien $serienr")
             pdl.hentKommunenummer(brukersFnr)
         }
 
-        var hjelpemiddel = finnDelerTilHjelpemiddel.execute(hmsnr)
+        val hjelpemiddel = finnDelerTilHjelpemiddel.execute(hmsnr)
+            .let { berikMedDagerSidenForrigeBatteribestilling.berik(it, serienr) }
+            .let { berikMedLagerstatus.berik(it, brukersKommunenummerDeferred.await()) }
+            .sorterDeler()
 
-        if (hjelpemiddel.deler.any { it.kategori == "Batteri" }) {
-            hjelpemiddel = hjelpemiddel.copy(antallDagerSidenSistBatteribestilling = antallDagerSidenSisteBatteribestilling(hmsnr, serienr))
-        }
-
-        val brukersKommunenummer = brukersKommunenummerResult.await()
-        hjelpemiddel = berikMedLagerstatus.execute(hjelpemiddel, brukersKommunenummer)
-        val piloter = piloterService.hentPiloter(brukersKommunenummer)
+        val piloter = piloterService.hentPiloter(brukersKommunenummerDeferred.await())
 
         OppslagResultat(hjelpemiddel, piloter)
     }
@@ -50,36 +44,22 @@ class OppslagService(
         val delerMedLagerstatus = hjelpemiddel.deler.map { del ->
             val erMinmax = del.hmsnr.toInt() % 3 != 0                // Gjør ca 66% tilgjengelig
             val antallPåLager = del.hmsnr.takeLast(1).toInt()    // Antall tilgjengelig = siste siffer i hmsnr
-            del.copy(lagerstatus = Lagerstatus(
-                organisasjons_id = 292,
-                organisasjons_navn = "*19 Troms",
-                artikkelnummer = del.hmsnr,
-                minmax = erMinmax,
-                tilgjengelig = antallPåLager,
-                antallDelerPåLager = antallPåLager
-            )
+            del.copy(
+                lagerstatus = Lagerstatus(
+                    organisasjons_id = 292,
+                    organisasjons_navn = "*19 Troms",
+                    artikkelnummer = del.hmsnr,
+                    minmax = erMinmax,
+                    tilgjengelig = antallPåLager,
+                    antallDelerPåLager = antallPåLager
+                )
             )
         }
 
-        if (hjelpemiddel.deler.any{it.kategori == "Batteri"}) {
+        if (hjelpemiddel.harBatteri()) {
             hjelpemiddel = hjelpemiddel.copy(antallDagerSidenSistBatteribestilling = serienr.take(3).toInt())
         }
 
         return OppslagResultat(hjelpemiddel.copy(deler = delerMedLagerstatus))
-    }
-
-    fun antallDagerSidenSisteBatteribestilling(hmsnr: String, serienr: String): Int? {
-        val dellbestillinger = delbestillingRepository.hentDelbestillinger(hmsnr, serienr)
-
-        val sisteBatteribestilling = dellbestillinger.filter { bestilling ->
-            bestilling.delbestilling.deler.any { dellinje ->
-                dellinje.del.kategori == "Batteri"
-            }
-        }.maxByOrNull { it.opprettet } ?: return null
-
-        val antallDagerSiden = sisteBatteribestilling.opprettet.toLocalDate()
-            .until(LocalDate.now(), ChronoUnit.DAYS).toInt()
-
-        return antallDagerSiden
     }
 }

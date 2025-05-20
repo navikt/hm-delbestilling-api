@@ -12,10 +12,10 @@ class BerikMedLagerstatus(
     private val metrics: Metrics,
 ) {
 
-    suspend fun execute(hjelpemiddel: Hjelpemiddel, kommunenummer: String): Hjelpemiddel {
+    suspend fun berik(hjelpemiddel: Hjelpemiddel, kommunenummer: String): Hjelpemiddel {
         val lagerstatusForDeler = oebs.hentLagerstatusForKommunenummerAsMap(kommunenummer, hjelpemiddel.delerHmsnr())
 
-        val beriket = hjelpemiddel.medLagerstatus(lagerstatusForDeler).sorterDeler()
+        val beriket = hjelpemiddel.medLagerstatus(lagerstatusForDeler)
 
         loggOgSendStatistikk(beriket)
 

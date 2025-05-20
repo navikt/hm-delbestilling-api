@@ -36,7 +36,7 @@ fun validateSerienr(serienr: Serienr) = listOfNotNull(
 )
 
 fun validateOpplæringBatteri(delbestilling: Delbestilling) = listOfNotNull(
-    if (delbestilling.deler.any { it.del.kategori == "Batteri" } && delbestilling.harOpplæringPåBatteri != true) {
+    if (delbestilling.harBatteri() && delbestilling.harOpplæringPåBatteri != true) {
         "Tekniker må bekrefte opplæring i bytting av batteriene"
     } else null
 )

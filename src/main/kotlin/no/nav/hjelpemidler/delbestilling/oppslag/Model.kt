@@ -19,19 +19,23 @@ data class Hjelpemiddel(
 
     fun delerHmsnr() = deler.map { it.hmsnr }
 
-    fun sorterDeler(): Hjelpemiddel = this.copy(
-        deler = deler.sortedBy { it.navn }
-    )
+    fun sorterDeler(): Hjelpemiddel = this.copy(deler = deler.sortedBy { it.navn })
+
+    fun harBatteri() = deler.any { it.erBatteri() }
+
+    fun medLagerstatus(lagerstatuser: Map<Hmsnr, Lagerstatus>): Hjelpemiddel =
+        this.copy(
+            deler = this.deler.map { del ->
+                val lagerstatus = lagerstatuser[del.hmsnr]
+                    ?: throw IllegalStateException("Del ${del.hmsnr} på hjelpemiddel $hmsnr mangler lagerstatus, kan ikke returnere resultat")
+                del.copy(lagerstatus = lagerstatus)
+            }
+        )
+
+    fun medAntallDagerSidenSistBatteribestilling(dager: Int?): Hjelpemiddel =
+        this.copy(antallDagerSidenSistBatteribestilling = dager)
 }
 
-fun Hjelpemiddel.medLagerstatus(lagerstatuser: Map<Hmsnr, Lagerstatus>): Hjelpemiddel =
-    this.copy(
-        deler = this.deler.map { del ->
-            val lagerstatus = lagerstatuser[del.hmsnr]
-                ?: throw IllegalStateException("Del ${del.hmsnr} på hjelpemiddel $hmsnr mangler lagerstatus, kan ikke returnere resultat")
-            del.copy(lagerstatus = lagerstatus)
-        }
-    )
 
 data class Del(
     val hmsnr: Hmsnr,
@@ -43,7 +47,9 @@ data class Del(
     val imgs: List<String> = emptyList(),
     val lagerstatus: Lagerstatus? = null,
     val kilde: Kilde? = Kilde.MANUELL_LISTE,
-)
+) {
+    fun erBatteri(): Boolean = kategori == "Batteri"
+}
 
 data class OppslagRequest(
     val hmsnr: String,

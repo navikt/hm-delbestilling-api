@@ -187,7 +187,7 @@ class DelbestillingService(
         }
         return null
     }
-    
+
     fun hentDelbestillinger(bestillerFnr: String): List<DelbestillingSak> {
         return delbestillingRepository.hentDelbestillinger(bestillerFnr)
     }
@@ -222,13 +222,11 @@ class DelbestillingService(
     }
 
     fun antallDagerSidenSisteBatteribestilling(hmsnr: String, serienr: String): Long? {
-        val dellbestillinger = delbestillingRepository.hentDelbestillinger(hmsnr, serienr)
+        val delbestillinger = delbestillingRepository.hentDelbestillinger(hmsnr, serienr)
 
-        val sisteBatteribestilling = dellbestillinger.filter { bestilling ->
-            bestilling.delbestilling.deler.any { dellinje ->
-                dellinje.del.kategori == "Batteri"
-            }
-        }.maxByOrNull { it.opprettet } ?: return null
+        val sisteBatteribestilling = delbestillinger
+            .filter { it.delbestilling.harBatteri() }
+            .maxByOrNull { it.opprettet } ?: return null
 
         val antallDagerSiden = sisteBatteribestilling.opprettet.toLocalDate()
             .until(LocalDate.now(), ChronoUnit.DAYS)
