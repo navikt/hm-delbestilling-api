@@ -42,9 +42,9 @@ class OppslagService(
         OppslagResultat(hjelpemiddel, piloter)
     }
 
-    suspend fun EKSTERN_DEV_slåOppHjelpemiddel(hmsnr: String): OppslagResultat {
+    suspend fun EKSTERN_DEV_slåOppHjelpemiddel(hmsnr: String, serienr: String): OppslagResultat {
         log.info { "Slår opp hmsnr=$hmsnr for dev.ekstern, og beriker med fake lagerstatus" }
-        val hjelpemiddel = finnDelerTilHjelpemiddel.execute(hmsnr).sorterDeler()
+        var hjelpemiddel = finnDelerTilHjelpemiddel.execute(hmsnr).sorterDeler()
 
         // legg på pseudo-random lagerstatus
         val delerMedLagerstatus = hjelpemiddel.deler.map { del ->
@@ -59,6 +59,10 @@ class OppslagService(
                 antallDelerPåLager = antallPåLager
             )
             )
+        }
+
+        if (hjelpemiddel.deler.any{it.kategori == "Batteri"}) {
+            hjelpemiddel = hjelpemiddel.copy(antallDagerSidenSistBatteribestilling = serienr.take(3).toInt())
         }
 
         return OppslagResultat(hjelpemiddel.copy(deler = delerMedLagerstatus))
