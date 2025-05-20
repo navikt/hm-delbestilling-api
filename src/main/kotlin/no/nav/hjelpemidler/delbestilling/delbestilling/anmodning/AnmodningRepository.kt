@@ -8,7 +8,7 @@ import kotliquery.using
 import no.nav.hjelpemidler.database.JdbcOperations
 import no.nav.hjelpemidler.database.transactionAsync
 import no.nav.hjelpemidler.delbestilling.common.Enhet
-import no.nav.hjelpemidler.delbestilling.delbestilling.model.Hmsnr
+import no.nav.hjelpemidler.delbestilling.common.Hmsnr
 import no.nav.hjelpemidler.delbestilling.config.isDev
 import javax.sql.DataSource
 

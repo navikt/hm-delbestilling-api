@@ -1,6 +1,6 @@
 package no.nav.hjelpemidler.delbestilling.infrastructure.oebs
 
-import no.nav.hjelpemidler.delbestilling.delbestilling.model.Lagerstatus
+import no.nav.hjelpemidler.delbestilling.common.Lagerstatus
 import java.time.LocalDate
 
 data class FnrDto(

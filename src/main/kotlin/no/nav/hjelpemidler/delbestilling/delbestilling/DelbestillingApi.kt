@@ -2,26 +2,16 @@ package no.nav.hjelpemidler.delbestilling.delbestilling
 
 import io.github.oshai.kotlinlogging.KotlinLogging
 import io.ktor.http.HttpStatusCode
-import io.ktor.server.application.call
 import io.ktor.server.request.receive
 import io.ktor.server.response.respond
 import io.ktor.server.routing.Route
 import io.ktor.server.routing.get
 import io.ktor.server.routing.post
-import io.ktor.server.routing.put
-import io.ktor.server.util.getOrFail
-import no.nav.hjelpemidler.delbestilling.delbestilling.model.DelbestillingFeil
-import no.nav.hjelpemidler.delbestilling.delbestilling.model.DelbestillingRequest
-import no.nav.hjelpemidler.delbestilling.delbestilling.model.DellinjeStatus
-import no.nav.hjelpemidler.delbestilling.delbestilling.model.Hmsnr
-import no.nav.hjelpemidler.delbestilling.delbestilling.model.Status
-import no.nav.hjelpemidler.delbestilling.delbestilling.model.XKLagerResponse
 import no.nav.hjelpemidler.delbestilling.infrastructure.CORRELATION_ID_HEADER
 import no.nav.hjelpemidler.delbestilling.infrastructure.security.delbestillerRolleKey
 import no.nav.hjelpemidler.delbestilling.infrastructure.security.tokenXUser
 import no.nav.hjelpemidler.delbestilling.infrastructure.slack.Slack
 import no.nav.hjelpemidler.delbestilling.oppslag.OppslagRequest
-import java.time.LocalDate
 
 private val log = KotlinLogging.logger {}
 
@@ -95,38 +85,10 @@ fun Route.delbestillingApiAuthenticated(
 fun Route.azureRoutes(
     delbestillingService: DelbestillingService,
 ) {
-    put("/delbestilling/status/v2/{id}") {
-        val id = call.parameters.getOrFail<Long>("id")
-        val (status, oebsOrdrenummer) = call.receive<StatusOppdateringDto>()
-        log.info { "Oppdaterer status for delbestilling $id (hmdel_$id) til status $status" }
-        delbestillingService.oppdaterStatus(id, status, oebsOrdrenummer)
-        call.respond(HttpStatusCode.OK)
-        log.info { "Status for delbestilling $id (hmdel_$id) oppdatert OK" }
-    }
-
-    put("/delbestilling/status/dellinje/{oebsOrdrenummer}") {
-        val oebsOrdrenummer = call.parameters.getOrFail<String>("oebsOrdrenummer")
-        val (status, hmsnr, datoOppdatert) = call.receive<DellinjeStatusOppdateringDto>()
-        delbestillingService.oppdaterDellinjeStatus(oebsOrdrenummer, status, hmsnr, datoOppdatert)
-        call.respond(HttpStatusCode.OK)
-    }
-
     post("/anmodning/rapporter-deler-til-anmodning") {
         call.respond(delbestillingService.rapporterDelerTilAnmodning())
     }
 }
-
-
-private data class StatusOppdateringDto(
-    val status: Status,
-    val oebsOrdrenummer: String,
-)
-
-private data class DellinjeStatusOppdateringDto(
-    val status: DellinjeStatus,
-    val hmsnr: Hmsnr,
-    val datoOppdatert: LocalDate,
-)
 
 private data class SisteBatteribestillingResponse(
     val antallDagerSiden: Long

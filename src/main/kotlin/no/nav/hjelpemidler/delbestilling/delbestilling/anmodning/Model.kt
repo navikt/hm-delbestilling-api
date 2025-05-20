@@ -1,7 +1,7 @@
 package no.nav.hjelpemidler.delbestilling.delbestilling.anmodning
 
 import no.nav.hjelpemidler.delbestilling.common.Enhet
-import no.nav.hjelpemidler.delbestilling.delbestilling.model.Hmsnr
+import no.nav.hjelpemidler.delbestilling.common.Hmsnr
 
 data class Del(
     val hmsnr: Hmsnr,

@@ -1,8 +1,8 @@
 package no.nav.hjelpemidler.delbestilling.oppslag
 
-import no.nav.hjelpemidler.delbestilling.delbestilling.model.Hmsnr
-import no.nav.hjelpemidler.delbestilling.delbestilling.model.Kilde
-import no.nav.hjelpemidler.delbestilling.delbestilling.model.Lagerstatus
+import no.nav.hjelpemidler.delbestilling.common.Hmsnr
+import no.nav.hjelpemidler.delbestilling.common.Kilde
+import no.nav.hjelpemidler.delbestilling.common.Lagerstatus
 import no.nav.hjelpemidler.delbestilling.oppslag.legacy.defaultAntall
 
 data class HjelpemiddeloversiktResponse(

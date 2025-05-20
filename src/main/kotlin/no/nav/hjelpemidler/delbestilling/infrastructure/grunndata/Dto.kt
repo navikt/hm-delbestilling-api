@@ -1,6 +1,6 @@
 package no.nav.hjelpemidler.delbestilling.infrastructure.grunndata
 
-import no.nav.hjelpemidler.delbestilling.delbestilling.model.Hmsnr
+import no.nav.hjelpemidler.delbestilling.common.Hmsnr
 import no.nav.hjelpemidler.delbestilling.oppslag.legacy.data.hmsnrTilDel
 import java.util.UUID
 

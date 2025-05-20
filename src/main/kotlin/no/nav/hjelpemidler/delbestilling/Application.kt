@@ -9,6 +9,7 @@ import io.ktor.server.cio.CIO
 import io.ktor.server.engine.embeddedServer
 import io.ktor.server.plugins.ratelimit.RateLimitName
 import io.ktor.server.plugins.ratelimit.rateLimit
+import io.ktor.server.routing.getAllRoutes
 import io.ktor.server.routing.route
 import io.ktor.server.routing.routing
 import kotlinx.coroutines.runBlocking
@@ -24,6 +25,7 @@ import no.nav.hjelpemidler.delbestilling.infrastructure.security.medDelbestiller
 import no.nav.hjelpemidler.delbestilling.infrastructure.slack.log
 import no.nav.hjelpemidler.delbestilling.oppslag.legacy.data.validerData
 import no.nav.hjelpemidler.delbestilling.oppslag.oppslagApi
+import no.nav.hjelpemidler.delbestilling.ordrestatus.ordrestatusRoutes
 import no.nav.hjelpemidler.domain.person.TILLAT_SYNTETISKE_FØDSELSNUMRE
 import no.nav.hjelpemidler.http.openid.bearerAuth
 import no.nav.tms.token.support.azure.validation.AzureAuthenticator
@@ -80,6 +82,7 @@ fun Application.setupRoutes(ctx: AppContext) {
 
             authenticate(AzureAuthenticator.name) {
                 azureRoutes(ctx.delbestillingService)
+                ordrestatusRoutes(ctx.delbestillingStatusService)
             }
 
             rateLimit(RateLimitName("public")) {

@@ -1,6 +1,6 @@
 package no.nav.hjelpemidler.delbestilling.oppslag
 
-import no.nav.hjelpemidler.delbestilling.delbestilling.model.Hmsnr
+import no.nav.hjelpemidler.delbestilling.common.Hmsnr
 import no.nav.hjelpemidler.delbestilling.testdata.Testdata
 import no.nav.hjelpemidler.delbestilling.testdata.runWithTestContext
 import org.junit.jupiter.api.Test

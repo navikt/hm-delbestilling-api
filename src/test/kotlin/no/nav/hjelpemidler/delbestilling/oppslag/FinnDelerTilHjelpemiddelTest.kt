@@ -1,6 +1,6 @@
 package no.nav.hjelpemidler.delbestilling.oppslag
 
-import no.nav.hjelpemidler.delbestilling.delbestilling.model.Kilde
+import no.nav.hjelpemidler.delbestilling.common.Kilde
 import no.nav.hjelpemidler.delbestilling.fakes.GrunndataTestHmsnr
 import no.nav.hjelpemidler.delbestilling.oppslag.legacy.data.hmsnr2Hjm
 import no.nav.hjelpemidler.delbestilling.testdata.runWithTestContext

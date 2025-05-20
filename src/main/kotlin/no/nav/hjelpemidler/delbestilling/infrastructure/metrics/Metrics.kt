@@ -1,9 +1,8 @@
 package no.nav.hjelpemidler.delbestilling.infrastructure.metrics
 
 import io.github.oshai.kotlinlogging.KotlinLogging
-import no.nav.hjelpemidler.delbestilling.delbestilling.model.DelLinje
-import no.nav.hjelpemidler.delbestilling.delbestilling.model.DelbestillingSak
-import no.nav.hjelpemidler.delbestilling.delbestilling.model.Hmsnr
+import no.nav.hjelpemidler.delbestilling.common.DelbestillingSak
+import no.nav.hjelpemidler.delbestilling.common.Hmsnr
 import no.nav.hjelpemidler.delbestilling.infrastructure.kafka.Kafka
 import java.time.LocalDate
 import java.time.LocalDateTime
@@ -58,8 +57,9 @@ class Metrics(
             )
         }
 
-    fun delSkipningsbekreftet(sak: DelbestillingSak, dellinje: DelLinje, skipningsbekreftet: LocalDate) =
+    fun delSkipningsbekreftet(sak: DelbestillingSak, hmsnr: Hmsnr, skipningsbekreftet: LocalDate) =
         registerSafely("delbestilling.delSkipningsbekreftet") {
+            val dellinje = sak.delbestilling.deler.find { it.del.hmsnr == hmsnr } ?: return
             val lagerstatus = dellinje.lagerstatusPåBestillingstidspunkt
             val lagerstatusType = when {
                 lagerstatus == null -> return // Bakoverkompabilitet

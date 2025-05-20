@@ -30,6 +30,7 @@ import no.nav.hjelpemidler.delbestilling.infrastructure.slack.Slack
 import no.nav.hjelpemidler.delbestilling.oppslag.BerikMedLagerstatus
 import no.nav.hjelpemidler.delbestilling.oppslag.FinnDelerTilHjelpemiddel
 import no.nav.hjelpemidler.delbestilling.oppslag.OppslagService
+import no.nav.hjelpemidler.delbestilling.ordrestatus.DelbestillingStatusService
 import no.nav.hjelpemidler.hjelpemidlerdigitalSoknadapi.tjenester.norg.Norg
 import no.nav.hjelpemidler.hjelpemidlerdigitalSoknadapi.tjenester.norg.NorgClient
 import no.nav.hjelpemidler.http.openid.entraIDClient
@@ -78,4 +79,5 @@ class AppContext {
     val delbestillingService =
         DelbestillingService(delbestillingRepository, pdl, oebs, kommuneoppslag, metrics, slack, anmodningService)
     val oppslagService = OppslagService(pdl, oebs, piloterService, finnDelerTilHjelpemiddel, berikMedLagerstatus)
+    val delbestillingStatusService = DelbestillingStatusService(delbestillingRepository, oebs, metrics)
 }

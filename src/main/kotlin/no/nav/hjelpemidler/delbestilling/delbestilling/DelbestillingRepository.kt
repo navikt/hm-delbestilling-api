@@ -8,12 +8,11 @@ import kotliquery.using
 import no.nav.hjelpemidler.database.JdbcOperations
 import no.nav.hjelpemidler.database.pgObjectOf
 import no.nav.hjelpemidler.database.transactionAsync
-import no.nav.hjelpemidler.delbestilling.delbestilling.model.BestillerType
-import no.nav.hjelpemidler.delbestilling.delbestilling.model.Delbestilling
-import no.nav.hjelpemidler.delbestilling.delbestilling.model.DelbestillingSak
-import no.nav.hjelpemidler.delbestilling.delbestilling.model.Hmsnr
-import no.nav.hjelpemidler.delbestilling.delbestilling.model.Serienr
-import no.nav.hjelpemidler.delbestilling.delbestilling.model.Status
+import no.nav.hjelpemidler.delbestilling.common.Delbestilling
+import no.nav.hjelpemidler.delbestilling.common.DelbestillingSak
+import no.nav.hjelpemidler.delbestilling.common.Hmsnr
+import no.nav.hjelpemidler.delbestilling.common.Serienr
+import no.nav.hjelpemidler.delbestilling.common.Status
 import no.nav.hjelpemidler.delbestilling.infrastructure.json
 import no.nav.hjelpemidler.delbestilling.infrastructure.jsonMapper
 import no.nav.hjelpemidler.delbestilling.infrastructure.roller.Organisasjon
@@ -86,18 +85,6 @@ class DelbestillingRepository(val ds: DataSource) {
             )
         }
 
-    fun hentDelbestillinger(): List<DelbestillingSak> = using(sessionOf(ds)) { session ->
-        session.run(
-            queryOf(
-                """
-            SELECT * 
-            FROM delbestilling
-        """.trimIndent(),
-                mapOf()
-            ).map { it.toLagretDelbestilling() }.asList
-        )
-    }
-
     fun hentDelbestillinger(hmsnr: Hmsnr, serienr: Serienr): List<DelbestillingSak> =
         using(sessionOf(ds)) { session ->
             session.run(
@@ -132,46 +119,26 @@ class DelbestillingRepository(val ds: DataSource) {
         mapOf("oebs_ordrenummer" to oebsOrdrenummer)
     ) { it.toLagretDelbestilling() }
 
-
-    fun oppdaterStatus(tx: JdbcOperations, saksnummer: Long, status: Status) = try {
+    fun oppdaterDelbestillingSak(tx: JdbcOperations, sak: DelbestillingSak) = try {
         tx.update(
             """
                 UPDATE delbestilling
-                SET status = :status, sist_oppdatert = CURRENT_TIMESTAMP
+                SET
+                    status = :status,
+                    oebs_ordrenummer = :oebs_ordrenummer,
+                    delbestilling_json = :delbestilling_json,
+                    sist_oppdatert = CURRENT_TIMESTAMP
                 WHERE saksnummer = :saksnummer
             """.trimIndent(),
-            mapOf("status" to status.name, "saksnummer" to saksnummer)
+            mapOf(
+                "status" to sak.status.name,
+                "oebs_ordrenummer" to sak.oebsOrdrenummer,
+                "delbestilling_json" to pgJsonbOf(sak.delbestilling),
+                "saksnummer" to sak.saksnummer,
+            )
         )
     } catch (e: Exception) {
-        log.error(e) { "Oppdatering av status feilet" }
-        throw e
-    }
-
-    fun oppdaterOebsOrdrenummer(tx: JdbcOperations, saksnummer: Long, oebsOrdrenummer: String) = try {
-        tx.update(
-            """
-                UPDATE delbestilling
-                SET oebs_ordrenummer = :oebs_ordrenummer, sist_oppdatert = CURRENT_TIMESTAMP
-                WHERE saksnummer = :saksnummer
-            """.trimIndent(),
-            mapOf("oebs_ordrenummer" to oebsOrdrenummer, "saksnummer" to saksnummer)
-        )
-    } catch (e: Exception) {
-        log.error(e) { "Oppdatering av oebs_ordrenummer feilet" }
-        throw e
-    }
-
-    fun oppdaterDelbestilling(tx: JdbcOperations, saksnummer: Long, delbestilling: Delbestilling) = try {
-        tx.update(
-            """
-                UPDATE delbestilling
-                SET delbestilling_json = :delbestilling_json, sist_oppdatert = CURRENT_TIMESTAMP
-                WHERE saksnummer = :saksnummer
-            """.trimIndent(),
-            mapOf("delbestilling_json" to pgJsonbOf(delbestilling), "saksnummer" to saksnummer)
-        )
-    } catch (e: Exception) {
-        log.error(e) { "Oppdatering av delbestilling_json feilet" }
+        log.error(e) { "Feil ved oppdatering av delbestilling ${sak.saksnummer} med status ${sak.status} og oebsOrdrenummer ${sak.oebsOrdrenummer}" }
         throw e
     }
 }

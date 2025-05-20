@@ -1,6 +1,6 @@
 package no.nav.hjelpemidler.delbestilling.testdata
 
-import no.nav.hjelpemidler.delbestilling.delbestilling.model.Hmsnr
+import no.nav.hjelpemidler.delbestilling.common.Hmsnr
 import no.nav.hjelpemidler.delbestilling.infrastructure.oebs.LagerstatusResponse
 
 class FakeOebsLager {

@@ -3,7 +3,7 @@ package no.nav.hjelpemidler.delbestilling.oppslag
 import io.github.oshai.kotlinlogging.KotlinLogging
 import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
-import no.nav.hjelpemidler.delbestilling.delbestilling.model.Lagerstatus
+import no.nav.hjelpemidler.delbestilling.common.Lagerstatus
 import no.nav.hjelpemidler.delbestilling.infrastructure.oebs.Oebs
 import no.nav.hjelpemidler.delbestilling.infrastructure.pdl.Pdl
 
@@ -49,7 +49,8 @@ class OppslagService(
                 minmax = erMinmax,
                 tilgjengelig = antallPåLager,
                 antallDelerPåLager = antallPåLager
-            ))
+            )
+            )
         }
 
         return OppslagResultat(hjelpemiddel.copy(deler = delerMedLagerstatus))

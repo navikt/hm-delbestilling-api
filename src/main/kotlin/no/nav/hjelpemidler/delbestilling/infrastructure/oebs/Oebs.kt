@@ -2,9 +2,9 @@ package no.nav.hjelpemidler.delbestilling.infrastructure.oebs
 
 import io.github.oshai.kotlinlogging.KotlinLogging
 import no.nav.hjelpemidler.delbestilling.common.Enhet
-import no.nav.hjelpemidler.delbestilling.delbestilling.model.DelbestillingSak
-import no.nav.hjelpemidler.delbestilling.delbestilling.model.Hmsnr
-import no.nav.hjelpemidler.delbestilling.delbestilling.model.Lagerstatus
+import no.nav.hjelpemidler.delbestilling.common.DelbestillingSak
+import no.nav.hjelpemidler.delbestilling.common.Hmsnr
+import no.nav.hjelpemidler.delbestilling.common.Lagerstatus
 import no.nav.hjelpemidler.domain.person.Fødselsnummer
 
 private val log = KotlinLogging.logger {}

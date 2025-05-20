@@ -8,7 +8,7 @@ on:
       - "CODEOWNERS"
     branches:
       - main
-      - chonk-mail
+      - refactor-ordrestatus
 
 jobs:
   build:

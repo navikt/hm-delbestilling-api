@@ -1,7 +1,7 @@
 package no.nav.hjelpemidler.delbestilling.delbestilling.anmodning
 
 import io.github.oshai.kotlinlogging.KotlinLogging
-import no.nav.hjelpemidler.delbestilling.delbestilling.model.Lagerstatus
+import no.nav.hjelpemidler.delbestilling.common.Lagerstatus
 import kotlin.math.abs
 import kotlin.math.min
 

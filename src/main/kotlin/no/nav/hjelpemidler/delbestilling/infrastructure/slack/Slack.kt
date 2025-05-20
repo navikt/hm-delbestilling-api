@@ -9,9 +9,9 @@ import no.nav.hjelpemidler.delbestilling.common.Enhet
 import no.nav.hjelpemidler.delbestilling.config.isProd
 import no.nav.hjelpemidler.delbestilling.delbestilling.DelbestillingRepository
 import no.nav.hjelpemidler.delbestilling.delbestilling.anmodning.AnmodningsbehovForDel
-import no.nav.hjelpemidler.delbestilling.delbestilling.model.DelbestillingSak
-import no.nav.hjelpemidler.delbestilling.delbestilling.model.Hmsnr
-import no.nav.hjelpemidler.delbestilling.delbestilling.model.Kilde
+import no.nav.hjelpemidler.delbestilling.common.DelbestillingSak
+import no.nav.hjelpemidler.delbestilling.common.Hmsnr
+import no.nav.hjelpemidler.delbestilling.common.Kilde
 import no.nav.hjelpemidler.delbestilling.oppslag.legacy.data.hmsnrTilDel
 import no.nav.hjelpemidler.delbestilling.oppslag.Del
 import no.nav.hjelpemidler.http.slack.slack

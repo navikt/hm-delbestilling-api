@@ -3,22 +3,15 @@ package no.nav.hjelpemidler.delbestilling.delbestilling
 import io.github.oshai.kotlinlogging.KotlinLogging
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
-import no.bekk.bekkopen.date.NorwegianDateUtil
 import no.nav.hjelpemidler.delbestilling.config.isDev
 import no.nav.hjelpemidler.delbestilling.config.isLocal
 import no.nav.hjelpemidler.delbestilling.config.isProd
 import no.nav.hjelpemidler.delbestilling.delbestilling.anmodning.AnmodningService
 import no.nav.hjelpemidler.delbestilling.delbestilling.anmodning.Anmodningrapport
-import no.nav.hjelpemidler.delbestilling.delbestilling.model.BestillerType
-import no.nav.hjelpemidler.delbestilling.delbestilling.model.Delbestilling
-import no.nav.hjelpemidler.delbestilling.delbestilling.model.DelbestillingFeil
-import no.nav.hjelpemidler.delbestilling.delbestilling.model.DelbestillingRequest
-import no.nav.hjelpemidler.delbestilling.delbestilling.model.DelbestillingResultat
-import no.nav.hjelpemidler.delbestilling.delbestilling.model.DelbestillingSak
-import no.nav.hjelpemidler.delbestilling.delbestilling.model.DellinjeStatus
-import no.nav.hjelpemidler.delbestilling.delbestilling.model.Hmsnr
-import no.nav.hjelpemidler.delbestilling.delbestilling.model.Serienr
-import no.nav.hjelpemidler.delbestilling.delbestilling.model.Status
+import no.nav.hjelpemidler.delbestilling.common.Delbestilling
+import no.nav.hjelpemidler.delbestilling.common.DelbestillingSak
+import no.nav.hjelpemidler.delbestilling.common.Hmsnr
+import no.nav.hjelpemidler.delbestilling.common.Serienr
 import no.nav.hjelpemidler.delbestilling.infrastructure.geografi.Kommuneoppslag
 import no.nav.hjelpemidler.delbestilling.infrastructure.metrics.Metrics
 import no.nav.hjelpemidler.delbestilling.infrastructure.oebs.Oebs
@@ -32,12 +25,8 @@ import no.nav.hjelpemidler.delbestilling.oppslag.legacy.data.hmsnr2Hjm
 import no.nav.hjelpemidler.domain.person.Fødselsnummer
 import java.time.LocalDate
 import java.time.LocalDateTime
-import java.time.ZoneId
 import java.time.temporal.ChronoUnit
-import java.util.Date
 
-
-private const val LEVERINGSDAGER_FRA_SKIPNINGSBEKREFTELSE = 1
 
 private val log = KotlinLogging.logger {}
 
@@ -183,96 +172,6 @@ class DelbestillingService(
         }
     }
 
-    suspend fun oppdaterStatus(saksnummer: Long, status: Status, oebsOrdrenummer: String) {
-        val delbestilling = delbestillingRepository.withTransaction { tx ->
-            val lagretDelbestilling = delbestillingRepository.hentDelbestilling(tx, saksnummer) ?: if (isDev()) {
-                log.info { "Delbestilling $saksnummer finnes ikke i dev. Antar ugyldig testdata fra OeBS og skipper statusoppdatering." }
-                return@withTransaction null
-            } else {
-                error("Kunne ikke oppdatere status for delbestilling $saksnummer fordi den ikke finnes.")
-            }
-
-            if (lagretDelbestilling.oebsOrdrenummer == null) {
-                delbestillingRepository.oppdaterOebsOrdrenummer(tx, saksnummer, oebsOrdrenummer)
-            } else if (lagretDelbestilling.oebsOrdrenummer != oebsOrdrenummer) {
-                error("Mismatch i oebsOrdrenummer for delbestilling $saksnummer. Eksisterende oebsOrdrenummer: ${lagretDelbestilling.oebsOrdrenummer}. Mottatt oebsOrdrenummer: $oebsOrdrenummer")
-            }
-
-            if (lagretDelbestilling.status.ordinal < status.ordinal) {
-                delbestillingRepository.oppdaterStatus(tx, saksnummer, status)
-            }
-
-            return@withTransaction lagretDelbestilling
-        }
-
-        try {
-            if (delbestilling != null && status == Status.KLARGJORT) {
-                val lagerstatus = oebs.hentLagerstatusForKommunenummer(
-                    delbestilling.brukersKommunenummer,
-                    delbestilling.delbestilling.deler.map { it.del.hmsnr })
-                val lagerstatusVedInnsending =
-                    delbestilling.delbestilling.deler.map { it.lagerstatusPåBestillingstidspunkt }
-                log.info { "Lagerstatus for sak ${delbestilling.saksnummer} ved status=$status: $lagerstatus. Lagerstatus ved innsending: $lagerstatusVedInnsending" }
-            }
-        } catch (t: Throwable) {
-            log.info(t) { "Forsøk på logging av lagerstatus ved status $status feilet. Ignorerer." }
-        }
-    }
-
-    suspend fun oppdaterDellinjeStatus(
-        oebsOrdrenummer: String,
-        status: DellinjeStatus,
-        hmsnr: Hmsnr,
-        datoOppdatert: LocalDate,
-    ) {
-        require(status == DellinjeStatus.SKIPNINGSBEKREFTET) { "Forventet status ${Status.SKIPNINGSBEKREFTET} for dellinje, men fikk status $status" }
-
-        delbestillingRepository.withTransaction { tx ->
-            val lagretDelbestilling = delbestillingRepository.hentDelbestilling(tx, oebsOrdrenummer)
-
-            if (lagretDelbestilling == null) {
-                log.debug { "Ignorerer oebsOrdrenummer $oebsOrdrenummer. Fant ikke tilhørende delbestilling, antar at det ikke tilhører en delbestilling." }
-                return@withTransaction
-            }
-
-            if (lagretDelbestilling.status.ordinal >= Status.SKIPNINGSBEKREFTET.ordinal) {
-                log.warn { "Forsøkte å sette dellinje på $oebsOrdrenummer til SKIPNINGSBEKREFTET, men ordren har status ${lagretDelbestilling.status}" }
-                return@withTransaction
-            }
-
-            val saksnummer = lagretDelbestilling.saksnummer
-
-            // Oppdater status på dellinje
-            val deler = lagretDelbestilling.delbestilling.deler.map { delLinje ->
-                if (delLinje.del.hmsnr == hmsnr) {
-                    metrics.delSkipningsbekreftet(lagretDelbestilling, delLinje, datoOppdatert)
-                    val forventetLeveringsdato = NorwegianDateUtil.addWorkingDaysToDate(
-                        datoOppdatert.toDate(),
-                        LEVERINGSDAGER_FRA_SKIPNINGSBEKREFTELSE
-                    )
-                    delLinje.copy(
-                        status = status,
-                        datoSkipningsbekreftet = datoOppdatert,
-                        forventetLeveringsdato = forventetLeveringsdato.toLocalDate(),
-                    )
-
-                } else {
-                    delLinje
-                }
-            }
-            val oppdatertDelbestilling = lagretDelbestilling.delbestilling.copy(deler = deler)
-            delbestillingRepository.oppdaterDelbestilling(tx, saksnummer, oppdatertDelbestilling)
-
-            // Oppdater status på ordre
-            if (deler.all { it.status == DellinjeStatus.SKIPNINGSBEKREFTET }) {
-                delbestillingRepository.oppdaterStatus(tx, saksnummer, Status.SKIPNINGSBEKREFTET)
-            } else {
-                delbestillingRepository.oppdaterStatus(tx, saksnummer, Status.DELVIS_SKIPNINGSBEKREFTET)
-            }
-            log.info { "Dellinje $hmsnr på sak ${lagretDelbestilling.saksnummer} (oebsnr $oebsOrdrenummer) oppdatert med status $status" }
-        }
-    }
-
     private fun validerDelbestillingRate(bestillerFnr: String, hmsnr: String, serienr: String): DelbestillingFeil? {
         if (isDev()) {
             return null // For enklere testing i dev
@@ -362,8 +261,3 @@ class DelbestillingService(
         }
     }
 }
-
-private fun LocalDate.toDate() = Date.from(this.atStartOfDay(ZoneId.systemDefault()).toInstant())
-private fun Date.toLocalDate() = this.toInstant()
-    .atZone(ZoneId.systemDefault())
-    .toLocalDate()

@@ -1,6 +1,6 @@
 package no.nav.hjelpemidler.delbestilling.oppslag.legacy.data
 
-import no.nav.hjelpemidler.delbestilling.delbestilling.model.Hmsnr
+import no.nav.hjelpemidler.delbestilling.common.Hmsnr
 import no.nav.hjelpemidler.delbestilling.oppslag.Hjelpemiddel
 import no.nav.hjelpemidler.delbestilling.oppslag.legacy.Hjelpemiddelnavn
 

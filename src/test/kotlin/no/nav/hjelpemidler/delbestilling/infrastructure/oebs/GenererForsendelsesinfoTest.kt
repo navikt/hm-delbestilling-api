@@ -1,6 +1,6 @@
 package no.nav.hjelpemidler.delbestilling.infrastructure.oebs
 
-import no.nav.hjelpemidler.delbestilling.delbestilling.model.Levering
+import no.nav.hjelpemidler.delbestilling.common.Levering
 import org.junit.jupiter.api.Test
 
 import org.junit.jupiter.api.Assertions.*

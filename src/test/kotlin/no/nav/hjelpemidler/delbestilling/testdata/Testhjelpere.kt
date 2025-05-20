@@ -1,17 +1,16 @@
 package no.nav.hjelpemidler.delbestilling.testdata
 
-import no.nav.hjelpemidler.delbestilling.delbestilling.model.Del
-import no.nav.hjelpemidler.delbestilling.delbestilling.model.DelLinje
-import no.nav.hjelpemidler.delbestilling.delbestilling.model.Delbestilling
-import no.nav.hjelpemidler.delbestilling.delbestilling.model.DelbestillingRequest
-import no.nav.hjelpemidler.delbestilling.delbestilling.model.DelbestillingSak
-import no.nav.hjelpemidler.delbestilling.delbestilling.model.Hmsnr
-import no.nav.hjelpemidler.delbestilling.delbestilling.model.Lagerstatus
-import no.nav.hjelpemidler.delbestilling.delbestilling.model.Levering
-import no.nav.hjelpemidler.delbestilling.delbestilling.model.Status
+import no.nav.hjelpemidler.delbestilling.common.Del
+import no.nav.hjelpemidler.delbestilling.common.DelLinje
+import no.nav.hjelpemidler.delbestilling.common.Delbestilling
+import no.nav.hjelpemidler.delbestilling.delbestilling.DelbestillingRequest
+import no.nav.hjelpemidler.delbestilling.common.DelbestillingSak
+import no.nav.hjelpemidler.delbestilling.common.Hmsnr
+import no.nav.hjelpemidler.delbestilling.common.Lagerstatus
+import no.nav.hjelpemidler.delbestilling.common.Levering
+import no.nav.hjelpemidler.delbestilling.common.Status
 import no.nav.hjelpemidler.delbestilling.infrastructure.roller.Delbestiller
 import no.nav.hjelpemidler.delbestilling.infrastructure.roller.Organisasjon
-import no.nav.hjelpemidler.hjelpemidlerdigitalSoknadapi.tjenester.norg.ArbeidsfordelingEnhet
 import java.time.LocalDateTime
 import java.util.UUID
 
