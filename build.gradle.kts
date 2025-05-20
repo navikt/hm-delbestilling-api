@@ -55,9 +55,6 @@ dependencies {
     implementation(libs.azure.validation)
     implementation(libs.azure.exchange)
 
-    // Utils
-    implementation(libs.nocommons)
-
     // Testing
     testImplementation(libs.bundles.ktor.server.test)
     testImplementation(libs.bundles.junit)

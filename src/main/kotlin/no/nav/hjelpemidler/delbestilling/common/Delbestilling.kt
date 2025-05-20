@@ -1,8 +1,9 @@
 package no.nav.hjelpemidler.delbestilling.common
 
-import no.bekk.bekkopen.date.NorwegianDateUtil
 import no.nav.hjelpemidler.delbestilling.oppslag.legacy.defaultAntall
+import no.nav.hjelpemidler.time.leggTilArbeidsdager
 import no.nav.hjelpemidler.time.toDate
+import no.nav.hjelpemidler.time.toInstant
 import no.nav.hjelpemidler.time.toLocalDate
 import java.time.LocalDate
 import java.util.UUID
@@ -39,10 +40,10 @@ data class Delbestilling(
         // TODO brukes denne i frontend? Dersom den brukes, så bør den kanskje justeres etter statistikken? https://metabase.ansatt.nav.no/question/5980-antall-dager-til-skipningsbekreftelse
         private const val LEVERINGSDAGER_FRA_SKIPNINGSBEKREFTELSE = 1
 
-        private fun beregnForventetLeveringsdato(skipningsdato: LocalDate) = NorwegianDateUtil.addWorkingDaysToDate(
-            skipningsdato.toDate(),
-            LEVERINGSDAGER_FRA_SKIPNINGSBEKREFTELSE
-        ).toLocalDate()
+        private fun beregnForventetLeveringsdato(skipningsdato: LocalDate) = skipningsdato
+            .toInstant()
+            .leggTilArbeidsdager(LEVERINGSDAGER_FRA_SKIPNINGSBEKREFTELSE)
+            .toLocalDate()
     }
 }
 
