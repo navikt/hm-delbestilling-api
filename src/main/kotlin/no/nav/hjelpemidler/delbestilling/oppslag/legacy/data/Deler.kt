@@ -394,12 +394,6 @@ val hmsnrTilDel: Map<Hmsnr, Del> = listOf(
         maksAntall = 2
     ),
     Del(
-        hmsnr = "196252",
-        navn = "Håndkontroll personløfter frittstå Molift Smart 150",
-        kategori = "Håndkontroll",
-        maksAntall = 1
-    ),
-    Del(
         hmsnr = "201800",
         navn = "Håndkontroll personløfter frittstå Molift Mover 180/Molift Mover 205 4 knapper u/lading",
         kategori = "Håndkontroll",

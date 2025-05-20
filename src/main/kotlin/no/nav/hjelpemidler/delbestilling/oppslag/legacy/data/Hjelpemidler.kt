@@ -122,7 +122,6 @@ val hmsnrTilHjelpemiddelnavn: Map<Hmsnr, Hjelpemiddelnavn> = listOf<Hjelpemiddel
     Hjelpemiddelnavn(hmsnr = "301996", navn = "Minicrosser X"),
     Hjelpemiddelnavn(hmsnr = "301997", navn = "Minicrosser X"),
     Hjelpemiddelnavn(hmsnr = "301998", navn = "Minicrosser X"),
-    Hjelpemiddelnavn(hmsnr = "161570", navn = "Molift Smart 150"),
     Hjelpemiddelnavn(hmsnr = "242661", navn = "Molift Mover 180"),
     Hjelpemiddelnavn(hmsnr = "199138", navn = "Molift Mover 180"),
     Hjelpemiddelnavn(hmsnr = "255798", navn = "Opus seng"),
