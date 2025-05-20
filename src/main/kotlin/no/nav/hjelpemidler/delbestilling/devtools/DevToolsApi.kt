@@ -23,8 +23,9 @@ fun Route.devtoolsApi(
 ) {
     post("/oppslag-ekstern-dev") {
         // Endepunkt for å slå opp deler til hjm. i ekstern-dev. Ignorerer serienr
-        val hmsnr = requireHmsnr(call.receive<OppslagRequest>().hmsnr)
-        val serienr = requireSerienr(call.receive<OppslagRequest>().serienr)
+        val request = call.receive<OppslagRequest>()
+        val hmsnr = requireHmsnr(request.hmsnr)
+        val serienr = requireSerienr(request.serienr)
         call.respond(oppslagService.EKSTERN_DEV_slåOppHjelpemiddel(hmsnr, serienr))
     }
 
