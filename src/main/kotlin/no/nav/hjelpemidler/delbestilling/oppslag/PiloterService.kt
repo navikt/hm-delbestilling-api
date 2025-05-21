@@ -7,6 +7,7 @@ import no.nav.hjelpemidler.hjelpemidlerdigitalSoknadapi.tjenester.norg.Norg
 private val PILOTENHETER_BESTILLE_IKKE_FASTE_LAGERVARER = setOf(
     Enhet.OSLO,
     Enhet.ØST_VIKEN,
+    Enhet.INNLANDET_ELVERUM,
 ).map { it.nummer }
 
 class PiloterService(
