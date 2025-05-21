@@ -221,19 +221,6 @@ class DelbestillingService(
         return harXKLager(kommunenummer)
     }
 
-    fun antallDagerSidenSisteBatteribestilling(hmsnr: String, serienr: String): Long? {
-        val delbestillinger = delbestillingRepository.hentDelbestillinger(hmsnr, serienr)
-
-        val sisteBatteribestilling = delbestillinger
-            .filter { it.delbestilling.harBatteri() }
-            .maxByOrNull { it.opprettet } ?: return null
-
-        val antallDagerSiden = sisteBatteribestilling.opprettet.toLocalDate()
-            .until(LocalDate.now(), ChronoUnit.DAYS)
-
-        return antallDagerSiden
-    }
-
     suspend fun rapporterDelerTilAnmodning(): List<Anmodningrapport> {
         return try {
             val rapporter = anmodningService.genererAnmodningsrapporter()
