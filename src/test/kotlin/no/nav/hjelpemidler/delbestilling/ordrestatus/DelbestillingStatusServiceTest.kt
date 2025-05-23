@@ -13,6 +13,8 @@ import no.nav.hjelpemidler.delbestilling.infrastructure.geografi.Kommuneoppslag
 import no.nav.hjelpemidler.delbestilling.infrastructure.oebs.Oebs
 import no.nav.hjelpemidler.delbestilling.infrastructure.oebs.OebsPersoninfo
 import no.nav.hjelpemidler.delbestilling.infrastructure.pdl.Pdl
+import no.nav.hjelpemidler.delbestilling.infrastructure.persistence.transaction.Transaction
+import no.nav.hjelpemidler.delbestilling.infrastructure.persistence.transaction.TransactionScopeFactory
 import no.nav.hjelpemidler.delbestilling.infrastructure.slack.Slack
 import no.nav.hjelpemidler.delbestilling.testdata.TestDatabase
 import no.nav.hjelpemidler.delbestilling.testdata.delbestillerRolle
@@ -39,7 +41,7 @@ class DelbestillingStatusServiceTest {
     val oebsOrdrenummer = "8725414"
 
     private var ds = TestDatabase.testDataSource
-    private val delbestillingRepository = DelbestillingRepository(ds)
+    private val transaction = Transaction(ds, TransactionScopeFactory())
     private val pdl = mockk<Pdl>().apply {
         coEvery { hentKommunenummer(any()) } returns brukersKommunenr
         coEvery { hentFornavn(any()) } returns teknikerNavn
@@ -61,7 +63,7 @@ class DelbestillingStatusServiceTest {
     private val anmodningService = mockk<AnmodningService>(relaxed = true)
     private val delbestillingService =
         DelbestillingService(
-            delbestillingRepository,
+            transaction,
             pdl,
             oebs,
             kommuneoppslag,
@@ -70,7 +72,7 @@ class DelbestillingStatusServiceTest {
             anmodningService,
         )
 
-    private val delbestillingStatusService = DelbestillingStatusService(delbestillingRepository, oebs, mockk(relaxed = true))
+    private val delbestillingStatusService = DelbestillingStatusService(transaction, oebs, mockk(relaxed = true))
 
     @BeforeEach
     fun setup() {
@@ -154,8 +156,8 @@ class DelbestillingStatusServiceTest {
 
     @Test
     fun `skal ignorere skipningsbekreftelse for ukjent ordrenr`() = runTest {
-        var delbestilling = delbestillingRepository.withTransaction { tx ->
-            delbestillingRepository.hentDelbestilling(tx, oebsOrdrenummer)
+        var delbestilling = transaction {
+            delbestillingRepository.hentDelbestilling(oebsOrdrenummer)
         }
         assertNull(delbestilling)
 
@@ -169,8 +171,8 @@ class DelbestillingStatusServiceTest {
             )
         }
 
-        delbestilling = delbestillingRepository.withTransaction { tx ->
-            delbestillingRepository.hentDelbestilling(tx, oebsOrdrenummer)
+        delbestilling = transaction {
+            delbestillingRepository.hentDelbestilling(oebsOrdrenummer)
         }
         assertNull(delbestilling)
     }

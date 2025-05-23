@@ -5,22 +5,22 @@ import io.ktor.client.engine.cio.CIO
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import no.nav.hjelpemidler.delbestilling.common.Enhet
-import no.nav.hjelpemidler.delbestilling.config.isProd
-import no.nav.hjelpemidler.delbestilling.delbestilling.DelbestillingRepository
-import no.nav.hjelpemidler.delbestilling.delbestilling.anmodning.AnmodningsbehovForDel
 import no.nav.hjelpemidler.delbestilling.common.DelbestillingSak
+import no.nav.hjelpemidler.delbestilling.common.Enhet
 import no.nav.hjelpemidler.delbestilling.common.Hmsnr
 import no.nav.hjelpemidler.delbestilling.common.Kilde
-import no.nav.hjelpemidler.delbestilling.oppslag.legacy.data.hmsnrTilDel
+import no.nav.hjelpemidler.delbestilling.config.isProd
+import no.nav.hjelpemidler.delbestilling.delbestilling.anmodning.AnmodningsbehovForDel
+import no.nav.hjelpemidler.delbestilling.infrastructure.persistence.transaction.Transactional
 import no.nav.hjelpemidler.delbestilling.oppslag.Del
+import no.nav.hjelpemidler.delbestilling.oppslag.legacy.data.hmsnrTilDel
 import no.nav.hjelpemidler.http.slack.slack
 import no.nav.hjelpemidler.http.slack.slackIconEmoji
 
 val log = KotlinLogging.logger { }
 
 class Slack(
-    private val delbestillingRepository: DelbestillingRepository,
+    private val transaction: Transactional,
     private val scope: CoroutineScope,
 ) {
 
@@ -45,14 +45,15 @@ class Slack(
         }
     }
 
-    fun varsleOmInnsending(
+    suspend fun varsleOmInnsending(
         brukerKommunenr: String,
         brukersKommunenavn: String,
         delbestillingSak: DelbestillingSak
     ) {
         try {
-            val antallDelbestillingerFraKommune =
+            val antallDelbestillingerFraKommune = transaction {
                 delbestillingRepository.hentDelbestillingerForKommune(brukerKommunenr).size
+            }
             log.info { "antallDelbestillingerFraKommune for $brukersKommunenavn (brukerKommunenr: $brukerKommunenr): $antallDelbestillingerFraKommune" }
 
             val kommuneVåpenEmoji = ":${

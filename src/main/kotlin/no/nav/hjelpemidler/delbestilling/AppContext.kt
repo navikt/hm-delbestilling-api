@@ -24,6 +24,8 @@ import no.nav.hjelpemidler.delbestilling.infrastructure.oebs.OebsApiProxyClient
 import no.nav.hjelpemidler.delbestilling.infrastructure.oebs.OebsSinkClient
 import no.nav.hjelpemidler.delbestilling.infrastructure.pdl.Pdl
 import no.nav.hjelpemidler.delbestilling.infrastructure.pdl.PdlClient
+import no.nav.hjelpemidler.delbestilling.infrastructure.persistence.transaction.Transaction
+import no.nav.hjelpemidler.delbestilling.infrastructure.persistence.transaction.TransactionScopeFactory
 import no.nav.hjelpemidler.delbestilling.infrastructure.roller.Roller
 import no.nav.hjelpemidler.delbestilling.infrastructure.roller.RollerClient
 import no.nav.hjelpemidler.delbestilling.infrastructure.slack.Slack
@@ -47,8 +49,8 @@ class AppContext {
 
     // Database
     private val ds = DatabaseConfig.migratedDataSource
-    private val anmodningRepository = AnmodningRepository(ds)
-    private val delbestillingRepository = DelbestillingRepository(ds)
+    private val transactionScopeFactory = TransactionScopeFactory()
+    private val transactional = Transaction(ds, transactionScopeFactory)
 
     // Infrastructure
     private val entraIDClient = entraIDClient {
@@ -65,7 +67,7 @@ class AppContext {
     private val pdl = Pdl(PdlClient(entraIDClient))
     private val rollerClient = RollerClient(TokendingsServiceBuilder.buildTokendingsService())
     val email = Email(GraphClient(entraIDClient))
-    val slack = Slack(delbestillingRepository, backgroundScope)
+    val slack = Slack(transactional, backgroundScope)
 
     // Eksponert for custom plugin
     val roller = Roller(rollerClient)
@@ -75,12 +77,12 @@ class AppContext {
     private val finnDelerTilHjelpemiddel = FinnDelerTilHjelpemiddel(grunndata, slack, metrics)
     private val berikMedLagerstatus = BerikMedLagerstatus(oebs, metrics)
     private val berikMedDagerSidenForrigeBatteribestilling =
-        BerikMedDagerSidenForrigeBatteribestilling(delbestillingRepository)
+        BerikMedDagerSidenForrigeBatteribestilling(transactional)
 
-    val anmodningService = AnmodningService(anmodningRepository, oebs, norg, slack, email, grunndata)
+    val anmodningService = AnmodningService(transactional, oebs, norg, slack, email, grunndata)
     val hjelpemiddeloversikt = Hjelpemiddeloversikt(grunndata, backgroundScope)
     val delbestillingService =
-        DelbestillingService(delbestillingRepository, pdl, oebs, kommuneoppslag, metrics, slack, anmodningService)
+        DelbestillingService(transactional, pdl, oebs, kommuneoppslag, metrics, slack, anmodningService)
     val oppslagService = OppslagService(
         pdl,
         oebs,
@@ -89,5 +91,5 @@ class AppContext {
         berikMedLagerstatus,
         berikMedDagerSidenForrigeBatteribestilling
     )
-    val delbestillingStatusService = DelbestillingStatusService(delbestillingRepository, oebs, metrics)
+    val delbestillingStatusService = DelbestillingStatusService(transactional, oebs, metrics)
 }

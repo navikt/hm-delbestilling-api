@@ -3,35 +3,34 @@ package no.nav.hjelpemidler.delbestilling.delbestilling
 import io.github.oshai.kotlinlogging.KotlinLogging
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
+import no.nav.hjelpemidler.delbestilling.common.Delbestilling
+import no.nav.hjelpemidler.delbestilling.common.DelbestillingSak
+import no.nav.hjelpemidler.delbestilling.common.Hmsnr
+import no.nav.hjelpemidler.delbestilling.common.Serienr
 import no.nav.hjelpemidler.delbestilling.config.isDev
 import no.nav.hjelpemidler.delbestilling.config.isLocal
 import no.nav.hjelpemidler.delbestilling.config.isProd
 import no.nav.hjelpemidler.delbestilling.delbestilling.anmodning.AnmodningService
 import no.nav.hjelpemidler.delbestilling.delbestilling.anmodning.Anmodningrapport
-import no.nav.hjelpemidler.delbestilling.common.Delbestilling
-import no.nav.hjelpemidler.delbestilling.common.DelbestillingSak
-import no.nav.hjelpemidler.delbestilling.common.Hmsnr
-import no.nav.hjelpemidler.delbestilling.common.Serienr
 import no.nav.hjelpemidler.delbestilling.infrastructure.geografi.Kommuneoppslag
 import no.nav.hjelpemidler.delbestilling.infrastructure.metrics.Metrics
 import no.nav.hjelpemidler.delbestilling.infrastructure.oebs.Oebs
 import no.nav.hjelpemidler.delbestilling.infrastructure.pdl.Pdl
 import no.nav.hjelpemidler.delbestilling.infrastructure.pdl.PersonNotAccessibleInPdl
 import no.nav.hjelpemidler.delbestilling.infrastructure.pdl.PersonNotFoundInPdl
+import no.nav.hjelpemidler.delbestilling.infrastructure.persistence.transaction.Transactional
 import no.nav.hjelpemidler.delbestilling.infrastructure.roller.Delbestiller
 import no.nav.hjelpemidler.delbestilling.infrastructure.roller.Organisasjon
 import no.nav.hjelpemidler.delbestilling.infrastructure.slack.Slack
 import no.nav.hjelpemidler.delbestilling.oppslag.legacy.data.hmsnr2Hjm
 import no.nav.hjelpemidler.domain.person.Fødselsnummer
-import java.time.LocalDate
 import java.time.LocalDateTime
-import java.time.temporal.ChronoUnit
 
 
 private val log = KotlinLogging.logger {}
 
 class DelbestillingService(
-    private val delbestillingRepository: DelbestillingRepository,
+    private val transaction: Transactional,
     private val pdl: Pdl,
     private val oebs: Oebs,
     private val kommuneoppslag: Kommuneoppslag,
@@ -117,9 +116,9 @@ class DelbestillingService(
         }
         val delbestilling = request.delbestilling.copy(deler = berikedeDellinjer)
 
-        val delbestillingSak = delbestillingRepository.withTransaction(returnGeneratedKeys = true) { tx ->
+        val delbestillingSak = transaction(returnGeneratedKeys = true) {
+            log.info { "Lagrer delbestilling '${delbestilling.id}'" }
             val saksnummer = delbestillingRepository.lagreDelbestilling(
-                tx,
                 bestillerFnr,
                 brukersFnr,
                 brukerKommunenr,
@@ -130,10 +129,10 @@ class DelbestillingService(
             )
 
             // Hent ut den nye delbestillingsaken
-            val nyDelbestillingSak = delbestillingRepository.hentDelbestilling(tx, saksnummer)
+            val nyDelbestillingSak = delbestillingRepository.hentDelbestilling(saksnummer)
                 ?: throw RuntimeException("Klarte ikke hente ut delbestillingsak for saksnummer $saksnummer")
 
-            anmodningService.lagreDelerUtenDekning(nyDelbestillingSak, tx)
+            anmodningService.lagreDelerUtenDekning(nyDelbestillingSak)
 
             oebs.sendDelbestilling(nyDelbestillingSak, Fødselsnummer(brukersFnr), bestillersNavn)
 
@@ -172,7 +171,7 @@ class DelbestillingService(
         }
     }
 
-    private fun validerDelbestillingRate(bestillerFnr: String, hmsnr: String, serienr: String): DelbestillingFeil? {
+    private suspend fun validerDelbestillingRate(bestillerFnr: String, hmsnr: String, serienr: String): DelbestillingFeil? {
         if (isDev()) {
             return null // For enklere testing i dev
         }
@@ -188,8 +187,8 @@ class DelbestillingService(
         return null
     }
 
-    fun hentDelbestillinger(bestillerFnr: String): List<DelbestillingSak> {
-        return delbestillingRepository.hentDelbestillinger(bestillerFnr)
+    suspend fun hentDelbestillinger(bestillerFnr: String): List<DelbestillingSak> = transaction {
+        delbestillingRepository.hentDelbestillinger(bestillerFnr)
     }
 
     suspend fun finnTestpersonMedTestbartUtlån(): Map<String, String> {

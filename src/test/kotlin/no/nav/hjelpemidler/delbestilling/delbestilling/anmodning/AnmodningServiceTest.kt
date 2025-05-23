@@ -9,6 +9,8 @@ import no.nav.hjelpemidler.delbestilling.testdata.delbestilling
 import no.nav.hjelpemidler.delbestilling.testdata.delbestillingSak
 import no.nav.hjelpemidler.delbestilling.infrastructure.email.Email
 import no.nav.hjelpemidler.delbestilling.infrastructure.oebs.Oebs
+import no.nav.hjelpemidler.delbestilling.infrastructure.persistence.transaction.Transaction
+import no.nav.hjelpemidler.delbestilling.infrastructure.persistence.transaction.TransactionScopeFactory
 import no.nav.hjelpemidler.delbestilling.infrastructure.slack.Slack
 import no.nav.hjelpemidler.hjelpemidlerdigitalSoknadapi.tjenester.norg.Norg
 import org.junit.jupiter.api.Test
@@ -18,13 +20,13 @@ import kotlin.test.assertEquals
 
 class AnmodningServiceTest {
 
-    private val ds = TestDatabase.testDataSource
-    val repository = AnmodningRepository(ds)
+    private var ds = TestDatabase.testDataSource
+    private val transaction = Transaction(ds, TransactionScopeFactory())
     val oebs = mockk<Oebs>()
     val norg = mockk<Norg>()
     val slack = mockk<Slack>(relaxed = true)
     val email = mockk<Email>(relaxed = true)
-    val anmodningService = AnmodningService(repository, oebs, norg, slack, email, mockk())
+    val anmodningService = AnmodningService(transaction, oebs, norg, slack, email, mockk())
 
     @BeforeEach
     fun setup() {

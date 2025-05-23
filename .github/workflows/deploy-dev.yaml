@@ -8,7 +8,7 @@ on:
       - "CODEOWNERS"
     branches:
       - main
-      - refactor-ordrestatus
+      - refactor-transaction
 
 jobs:
   build:

@@ -1,18 +1,18 @@
 package no.nav.hjelpemidler.delbestilling.delbestilling.anmodning
 
 import io.github.oshai.kotlinlogging.KotlinLogging
-import no.nav.hjelpemidler.database.JdbcOperations
 import no.nav.hjelpemidler.delbestilling.common.DelbestillingSak
 import no.nav.hjelpemidler.delbestilling.infrastructure.email.Email
 import no.nav.hjelpemidler.delbestilling.infrastructure.grunndata.Grunndata
 import no.nav.hjelpemidler.delbestilling.infrastructure.oebs.Oebs
+import no.nav.hjelpemidler.delbestilling.infrastructure.persistence.transaction.Transactional
 import no.nav.hjelpemidler.delbestilling.infrastructure.slack.Slack
 import no.nav.hjelpemidler.hjelpemidlerdigitalSoknadapi.tjenester.norg.Norg
 
 private val log = KotlinLogging.logger {}
 
 class AnmodningService(
-    private val repository: AnmodningRepository,
+    private val transaction: Transactional,
     private val oebs: Oebs,
     private val norg: Norg,
     private val slack: Slack,
@@ -20,24 +20,25 @@ class AnmodningService(
     private val grunndata: Grunndata,
 ) {
 
-    suspend fun lagreDelerUtenDekning(sak: DelbestillingSak, tx: JdbcOperations) {
+    suspend fun lagreDelerUtenDekning(sak: DelbestillingSak) {
         val delerUtenDekning = finnDelerUtenDekning(sak)
         val enhetnummer = norg.hentEnhetnummer(sak.brukersKommunenummer)
 
         log.info { "Dekningsjekk: lagrer følgende deler uten dekning: ${delerUtenDekning.joinToString("\n")}" }
 
         if (delerUtenDekning.isNotEmpty()) {
-            delerUtenDekning.forEach { del ->
-                repository.lagreDelerUtenDekning(
-                    tx = tx,
-                    saksnummer = sak.saksnummer,
-                    hmsnr = del.hmsnr,
-                    navn = del.navn,
-                    antallUtenDekning = del.antallSomMåAnmodes,
-                    bukersKommunenummer = sak.brukersKommunenummer,
-                    brukersKommunenavn = sak.brukersKommunenavn,
-                    enhetnr = enhetnummer,
-                )
+            transaction {
+                delerUtenDekning.forEach { del ->
+                    anmodningRepository.lagreDelerUtenDekning(
+                        saksnummer = sak.saksnummer,
+                        hmsnr = del.hmsnr,
+                        navn = del.navn,
+                        antallUtenDekning = del.antallSomMåAnmodes,
+                        bukersKommunenummer = sak.brukersKommunenummer,
+                        brukersKommunenavn = sak.brukersKommunenavn,
+                        enhetnr = enhetnummer,
+                    )
+                }
             }
 
             slack.varsleOmDelerUtenDekning(delerUtenDekning, sak.brukersKommunenavn, enhetnummer)
@@ -60,11 +61,11 @@ class AnmodningService(
         log.info { "Genererer rapport for bestilte deler som må anmodes" }
 
         // Hent først alle unike enhetnr
-        val hmsEnheter = repository.hentUnikeEnheter()
+        val hmsEnheter = transaction { anmodningRepository.hentUnikeEnheter() }
         log.info { "Enheter med deler som potensielt må anmodes: $hmsEnheter" }
 
         val rapporter = hmsEnheter.map { enhet ->
-            val delerSomMangletDekningVedInnsending = repository.hentDelerTilRapportering(enhet.nummer)
+            val delerSomMangletDekningVedInnsending = transaction{ anmodningRepository.hentDelerTilRapportering(enhet.nummer) }
             log.info { "Deler som manglet dekning ved innsending for enhet $enhet: $delerSomMangletDekningVedInnsending" }
 
             val lagerstatuser = oebs.hentLagerstatusForEnhet(
@@ -79,7 +80,7 @@ class AnmodningService(
             }.filter { it.antallSomMåAnmodes > 0 }
 
             val rapport = Anmodningrapport(enhet = enhet, anmodningsbehov = delerSomFremdelesMåAnmodes)
-            
+
             // Berik med leverandørnavn
             rapport.anmodningsbehov.forEach { behov ->
                 val leverandørnavn =
@@ -97,16 +98,16 @@ class AnmodningService(
     }
 
 
-    fun markerDelerSomIkkeRapportert() {
-        repository.markerDelerSomIkkeRapportert()
+    suspend fun markerDelerSomIkkeRapportert() = transaction {
+        anmodningRepository.markerDelerSomIkkeRapportert()
     }
 
     suspend fun sendAnmodningRapport(rapport: Anmodningrapport): String {
         val melding = rapportTilMelding(rapport)
 
-        repository.withTransaction { tx ->
-            repository.markerDelerSomRapportert(tx, rapport.enhet)
-            repository.lagreAnmodninger(tx, rapport)
+        transaction {
+            anmodningRepository.markerDelerSomRapportert(rapport.enhet)
+            anmodningRepository.lagreAnmodninger(rapport)
             email.sendSimpleMessage(
                 recipentEmail = rapport.enhet.epost(),
                 subject = "Deler som må anmodes",

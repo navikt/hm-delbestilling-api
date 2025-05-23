@@ -6,25 +6,15 @@ import kotliquery.queryOf
 import kotliquery.sessionOf
 import kotliquery.using
 import no.nav.hjelpemidler.database.JdbcOperations
-import no.nav.hjelpemidler.database.transactionAsync
 import no.nav.hjelpemidler.delbestilling.common.Enhet
 import no.nav.hjelpemidler.delbestilling.common.Hmsnr
 import no.nav.hjelpemidler.delbestilling.config.isDev
-import javax.sql.DataSource
 
 private val log = KotlinLogging.logger {}
 
-class AnmodningRepository(val ds: DataSource) {
-
-    // OBS! Denne transaksjonen må sendes inn og brukes med tx.run() for å ha noen effekt.
-    // using(sessionOf(ds)) { session -> ... } vil ikke bli en del av transaksjonen
-    suspend inline fun <T> withTransaction(
-        returnGeneratedKeys: Boolean = false,
-        crossinline block: suspend (JdbcOperations) -> T,
-    ): T = transactionAsync(ds, returnGeneratedKeys) { tx -> block(tx) }
+class AnmodningRepository(val tx: JdbcOperations) {
 
     fun lagreDelerUtenDekning(
-        tx: JdbcOperations,
         saksnummer: Long,
         hmsnr: Hmsnr,
         navn: String,
@@ -51,37 +41,28 @@ class AnmodningRepository(val ds: DataSource) {
         )
     }
 
-    fun hentUnikeEnheter(): List<Enhet> =
-        using(sessionOf(ds)) { session ->
-            session.run(
-                queryOf(
-                    """
-                    SELECT DISTINCT(enhetnr)
-                    FROM deler_uten_dekning
-                    WHERE rapportert_tidspunkt IS NULL
-                """.trimIndent()
-                ).map { row -> Enhet.fraEnhetsnummer(row.string("enhetnr")) }.asList
-            )
-        }
+    fun hentUnikeEnheter(): List<Enhet> = tx.list(
+        sql = """
+            SELECT DISTINCT(enhetnr)
+            FROM deler_uten_dekning
+            WHERE rapportert_tidspunkt IS NULL
+        """.trimIndent()
+    ) { row -> Enhet.fraEnhetsnummer(row.string("enhetnr")) }
 
     fun hentDelerTilRapportering(enhetnr: String): List<Del> {
         log.info { "Henter deler til rapportering for $enhetnr" }
-        return using(sessionOf(ds)) { session ->
-            session.run(
-                queryOf(
-                    """
-                    SELECT hmsnr, navn, SUM(antall_uten_dekning) as antall
-                    FROM deler_uten_dekning
-                    WHERE enhetnr = :enhetnr AND rapportert_tidspunkt IS NULL
-                    GROUP BY hmsnr, navn
-                """.trimIndent(),
-                    mapOf("enhetnr" to enhetnr)
-                ).map { it.toDelUtenDekning() }.asList
-            )
-        }
+        return tx.list(
+            sql = """
+                SELECT hmsnr, navn, SUM(antall_uten_dekning) as antall
+                FROM deler_uten_dekning
+                WHERE enhetnr = :enhetnr AND rapportert_tidspunkt IS NULL
+                GROUP BY hmsnr, navn
+            """.trimIndent(),
+            queryParameters = mapOf("enhetnr" to enhetnr)
+        ) { it.toDelUtenDekning() }
     }
 
-    fun markerDelerSomRapportert(tx: JdbcOperations, enhet: Enhet) {
+    fun markerDelerSomRapportert(enhet: Enhet) {
         log.info { "Marker deler som rapportert for enhet $enhet" }
         tx.update(
             """
@@ -93,7 +74,7 @@ class AnmodningRepository(val ds: DataSource) {
         )
     }
 
-    fun lagreAnmodninger(tx: JdbcOperations, rapport: Anmodningrapport) {
+    fun lagreAnmodninger(rapport: Anmodningrapport) {
         log.info { "Lagrer anmodninger for enhet ${rapport.enhet}" }
 
         rapport.anmodningsbehov.forEach { anmodning ->
@@ -117,17 +98,12 @@ class AnmodningRepository(val ds: DataSource) {
     // Kun til testing i dev
     fun markerDelerSomIkkeRapportert() {
         check(isDev()) { "markerDelerSomIkkeRapportert skal kun kalles i dev" }
-
-        using(sessionOf(ds)) { session ->
-            session.run(
-                queryOf(
-                    """
-                    UPDATE deler_uten_dekning
-                    SET rapportert_tidspunkt = NULL, sist_oppdatert = CURRENT_TIMESTAMP 
-                """.trimIndent(),
-                ).asUpdate
-            )
-        }
+        tx.update(
+            sql = """
+                UPDATE deler_uten_dekning
+                SET rapportert_tidspunkt = NULL, sist_oppdatert = CURRENT_TIMESTAMP 
+            """.trimIndent()
+        )
     }
 
     private fun Row.toDelUtenDekning() = Del(

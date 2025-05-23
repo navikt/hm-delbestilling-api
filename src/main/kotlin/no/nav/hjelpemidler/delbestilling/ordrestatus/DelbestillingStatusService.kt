@@ -1,36 +1,35 @@
 package no.nav.hjelpemidler.delbestilling.ordrestatus
 
 import io.github.oshai.kotlinlogging.KotlinLogging
-import no.nav.hjelpemidler.database.JdbcOperations
-import no.nav.hjelpemidler.delbestilling.config.isDev
-import no.nav.hjelpemidler.delbestilling.delbestilling.DelbestillingRepository
-import no.nav.hjelpemidler.delbestilling.common.DellinjeStatus
-import no.nav.hjelpemidler.delbestilling.common.Status
 import no.nav.hjelpemidler.delbestilling.common.DelbestillingSak
+import no.nav.hjelpemidler.delbestilling.common.DellinjeStatus
 import no.nav.hjelpemidler.delbestilling.common.Hmsnr
+import no.nav.hjelpemidler.delbestilling.common.Status
+import no.nav.hjelpemidler.delbestilling.config.isDev
 import no.nav.hjelpemidler.delbestilling.infrastructure.metrics.Metrics
 import no.nav.hjelpemidler.delbestilling.infrastructure.oebs.Oebs
+import no.nav.hjelpemidler.delbestilling.infrastructure.persistence.transaction.Transaction
 import java.time.LocalDate
 
 private val log = KotlinLogging.logger {}
 
 class DelbestillingStatusService(
-    private val delbestillingRepository: DelbestillingRepository,
+    private val transaction: Transaction,
     private val oebs: Oebs,
     private val metrics: Metrics,
 ) {
 
     suspend fun oppdaterStatus(saksnummer: Long, status: Status, oebsOrdrenummer: String) {
-        val delbestilling = delbestillingRepository.withTransaction { tx ->
-            val lagretDelbestilling = hentDelbestillingEllerFeil(tx, saksnummer) ?: return@withTransaction null
+        val delbestilling = transaction {
+            val lagretDelbestilling = hentDelbestillingEllerFeil(saksnummer) ?: return@transaction null
 
             val oppdatertDelbestilling = lagretDelbestilling
                 .oppdaterOebsOrdrenummer(oebsOrdrenummer)
                 .oppdaterStatus(status)
 
-            delbestillingRepository.oppdaterDelbestillingSak(tx, oppdatertDelbestilling)
+            delbestillingRepository.oppdaterDelbestillingSak(oppdatertDelbestilling)
 
-            return@withTransaction oppdatertDelbestilling
+            return@transaction oppdatertDelbestilling
         }
 
         logLagerstatusVedKlargjortVsInnsending(delbestilling, status)
@@ -44,31 +43,31 @@ class DelbestillingStatusService(
     ) {
         require(status == DellinjeStatus.SKIPNINGSBEKREFTET) { "Forventet status ${Status.SKIPNINGSBEKREFTET} for dellinje, men fikk status $status" }
 
-        delbestillingRepository.withTransaction { tx ->
-            val lagretDelbestilling = delbestillingRepository.hentDelbestilling(tx, oebsOrdrenummer)
+        transaction {
+            val lagretDelbestilling = delbestillingRepository.hentDelbestilling(oebsOrdrenummer)
 
             if (lagretDelbestilling == null) {
                 log.debug { "Ignorerer oebsOrdrenummer $oebsOrdrenummer. Fant ikke tilhørende delbestilling, antar at det ikke tilhører en delbestilling." }
-                return@withTransaction
+                return@transaction
             }
 
             if (lagretDelbestilling.status.ordinal >= Status.SKIPNINGSBEKREFTET.ordinal) {
                 log.warn { "Forsøkte å sette dellinje på $oebsOrdrenummer til SKIPNINGSBEKREFTET, men ordren har status ${lagretDelbestilling.status}" }
-                return@withTransaction
+                return@transaction
             }
 
             metrics.delSkipningsbekreftet(lagretDelbestilling, hmsnr, datoOppdatert)
 
             val oppdatertDelbestilling = lagretDelbestilling.oppdaterDellinjeStatus(status, hmsnr, datoOppdatert)
 
-            delbestillingRepository.oppdaterDelbestillingSak(tx, oppdatertDelbestilling)
+            delbestillingRepository.oppdaterDelbestillingSak(oppdatertDelbestilling)
 
             log.info { "Dellinje $hmsnr på sak ${lagretDelbestilling.saksnummer} (oebsnr $oebsOrdrenummer) oppdatert med status $status" }
         }
     }
 
-    private fun hentDelbestillingEllerFeil(tx: JdbcOperations, saksnummer: Long): DelbestillingSak? {
-        val delbestilling = delbestillingRepository.hentDelbestilling(tx, saksnummer)
+    private suspend fun hentDelbestillingEllerFeil(saksnummer: Long): DelbestillingSak? {
+        val delbestilling = transaction { delbestillingRepository.hentDelbestilling(saksnummer) }
 
         if (delbestilling != null) {
             return delbestilling

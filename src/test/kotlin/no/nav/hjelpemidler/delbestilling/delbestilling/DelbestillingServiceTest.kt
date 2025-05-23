@@ -8,29 +8,22 @@ import no.nav.hjelpemidler.delbestilling.testdata.MockException
 import no.nav.hjelpemidler.delbestilling.testdata.TestDatabase
 import no.nav.hjelpemidler.delbestilling.testdata.delLinje
 import no.nav.hjelpemidler.delbestilling.testdata.delbestillerRolle
-import no.nav.hjelpemidler.delbestilling.testdata.delbestilling
 import no.nav.hjelpemidler.delbestilling.delbestilling.anmodning.AnmodningRepository
 import no.nav.hjelpemidler.delbestilling.delbestilling.anmodning.AnmodningService
 import no.nav.hjelpemidler.delbestilling.delbestilling.anmodning.lagerstatus
-import no.nav.hjelpemidler.delbestilling.common.DellinjeStatus
-import no.nav.hjelpemidler.delbestilling.common.Status
 import no.nav.hjelpemidler.delbestilling.testdata.delbestillingRequest
-import no.nav.hjelpemidler.delbestilling.testdata.delbestillingSak
 import no.nav.hjelpemidler.delbestilling.infrastructure.geografi.Kommuneoppslag
 import no.nav.hjelpemidler.delbestilling.infrastructure.oebs.Oebs
 import no.nav.hjelpemidler.delbestilling.infrastructure.oebs.OebsPersoninfo
 import no.nav.hjelpemidler.delbestilling.infrastructure.pdl.Pdl
+import no.nav.hjelpemidler.delbestilling.infrastructure.persistence.transaction.Transaction
+import no.nav.hjelpemidler.delbestilling.infrastructure.persistence.transaction.TransactionScopeFactory
 import no.nav.hjelpemidler.delbestilling.infrastructure.slack.Slack
-import no.nav.hjelpemidler.delbestilling.testdata.organisasjon
 import no.nav.hjelpemidler.hjelpemidlerdigitalSoknadapi.tjenester.norg.Norg
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.assertDoesNotThrow
 import org.junit.jupiter.api.assertThrows
-import java.time.LocalDate
-import java.time.LocalDateTime
 import kotlin.test.assertEquals
-import kotlin.test.assertNull
 
 internal class DelbestillingServiceTest {
 
@@ -40,7 +33,7 @@ internal class DelbestillingServiceTest {
     val brukersKommunenr = "1234"
 
     private var ds = TestDatabase.testDataSource
-    private val delbestillingRepository = DelbestillingRepository(ds)
+    private val transaction = Transaction(ds, TransactionScopeFactory())
     private val pdl = mockk<Pdl>().apply {
         coEvery { hentKommunenummer(any()) } returns brukersKommunenr
         coEvery { hentFornavn(any()) } returns teknikerNavn
@@ -62,7 +55,7 @@ internal class DelbestillingServiceTest {
     private val anmodningService = mockk<AnmodningService>(relaxed = true)
     private val delbestillingService =
         DelbestillingService(
-            delbestillingRepository,
+            transaction,
             pdl,
             oebs,
             kommuneoppslag,
@@ -127,12 +120,11 @@ internal class DelbestillingServiceTest {
     @Test
     fun `skal lagre anmodningsbehov ved ny delbestilling`() = runTest {
         val enhetnr = Enhet.OSLO.nummer
-        val anmodningRepository = AnmodningRepository(ds)
         val norg =
             mockk<Norg>().also { coEvery { it.hentEnhetnummer(any()) } returns enhetnr }
         val anmodningService =
             AnmodningService(
-                anmodningRepository,
+                transaction,
                 oebs,
                 norg,
                 mockk(relaxed = true),
@@ -141,7 +133,7 @@ internal class DelbestillingServiceTest {
             )
         val delbestillingService =
             DelbestillingService(
-                delbestillingRepository,
+                transaction,
                 pdl,
                 oebs,
                 kommuneoppslag,
@@ -180,7 +172,7 @@ internal class DelbestillingServiceTest {
             delbestillerRolle()
         )
 
-        val delerTilRapportering = anmodningRepository.hentDelerTilRapportering(enhetnr)
+        val delerTilRapportering = transaction { anmodningRepository.hentDelerTilRapportering(enhetnr) }
         assertEquals(2, delerTilRapportering.size)
         assertEquals(1, delerTilRapportering.find { it.hmsnr == hmsnrEtterfylt }!!.antall)
         assertEquals(2, delerTilRapportering.find { it.hmsnr == hmsnrIkkeDekning }!!.antall)
@@ -198,7 +190,7 @@ internal class DelbestillingServiceTest {
         val anmodninger = delbestillingService.rapporterDelerTilAnmodning().first()
         assertEquals(
             0,
-            anmodningRepository.hentDelerTilRapportering(enhetnr).size,
+            transaction { anmodningRepository.hentDelerTilRapportering(enhetnr).size },
             "Det skal ikke lenger eksistere deler til rapportering"
         )
         assertEquals(1, anmodninger.anmodningsbehov.size)
@@ -210,12 +202,11 @@ internal class DelbestillingServiceTest {
         val enhetnr = Enhet.OSLO.nummer
         val hmsnr1 = "111111"
         val hmsnr2 = "222222"
-        val anmodningRepository = AnmodningRepository(ds)
         val norg =
             mockk<Norg>().also { coEvery { it.hentEnhetnummer(any()) } returns enhetnr }
         val anmodningService =
             AnmodningService(
-                anmodningRepository,
+                transaction,
                 oebs,
                 norg,
                 mockk(relaxed = true),
@@ -224,7 +215,7 @@ internal class DelbestillingServiceTest {
             )
         val delbestillingService =
             DelbestillingService(
-                delbestillingRepository,
+                transaction,
                 pdl,
                 oebs,
                 kommuneoppslag,
@@ -266,7 +257,7 @@ internal class DelbestillingServiceTest {
         )
 
         // Sjekk at anmodningsbehov er summert for begge delbestillingene
-        val delerTilRapportering = anmodningRepository.hentDelerTilRapportering(enhetnr)
+        val delerTilRapportering = transaction { anmodningRepository.hentDelerTilRapportering(enhetnr) }
         assertEquals(2, delerTilRapportering.size)
         assertEquals(2, delerTilRapportering.find { it.hmsnr == hmsnr1 }!!.antall)
         assertEquals(3, delerTilRapportering.find { it.hmsnr == hmsnr2 }!!.antall)
