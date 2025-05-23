@@ -18,7 +18,7 @@ class BerikMedDagerSidenForrigeBatteribestillingTest {
     fun `skal returnere uendret hjelpemiddel dersom det ikke har batteri`() = runWithTestContext {
         val hjelpemiddel = hjelpemiddel(deler = listOf(del(kategori = "Svinghjul")))
 
-        val resultat = berikMedDagerSidenForrigeBatteribestilling.berik(hjelpemiddel, Testdata.defaultHjmSerienr)
+        val resultat = berikMedDagerSidenForrigeBatteribestilling(hjelpemiddel, Testdata.defaultHjmSerienr)
 
         assertEquals(hjelpemiddel, resultat)
     }
@@ -29,7 +29,7 @@ class BerikMedDagerSidenForrigeBatteribestillingTest {
             val hjelpemiddel = hjelpemiddel(deler = listOf(del(kategori = "Batteri")))
             every { delbestillingRepository.hentDelbestillinger(any(), any()) } returns emptyList()
 
-            val resultat = berikMedDagerSidenForrigeBatteribestilling.berik(hjelpemiddel, Testdata.defaultHjmSerienr)
+            val resultat = berikMedDagerSidenForrigeBatteribestilling(hjelpemiddel, Testdata.defaultHjmSerienr)
 
             assertNull(resultat.antallDagerSidenSistBatteribestilling)
         }
@@ -45,7 +45,7 @@ class BerikMedDagerSidenForrigeBatteribestillingTest {
         )
         every { delbestillingRepository.hentDelbestillinger(any(), any()) } returns listOf(delbestillingSak)
 
-        val resultat = berikMedDagerSidenForrigeBatteribestilling.berik(hjelpemiddel, Testdata.defaultHjmSerienr)
+        val resultat = berikMedDagerSidenForrigeBatteribestilling(hjelpemiddel, Testdata.defaultHjmSerienr)
 
         assertEquals(10, resultat.antallDagerSidenSistBatteribestilling)
     }

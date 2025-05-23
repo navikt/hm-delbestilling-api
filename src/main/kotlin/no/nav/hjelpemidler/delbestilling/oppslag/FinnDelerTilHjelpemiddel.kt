@@ -18,7 +18,7 @@ class FinnDelerTilHjelpemiddel(
     private val metrics: Metrics,
 ) {
 
-    suspend fun execute(hmsnr: Hmsnr): Hjelpemiddel {
+    suspend operator fun invoke(hmsnr: Hmsnr): Hjelpemiddel {
         log.info { "Henter deler for hjelpemiddel $hmsnr" }
 
         val hjmManuellListe = hmsnr2Hjm[hmsnr]

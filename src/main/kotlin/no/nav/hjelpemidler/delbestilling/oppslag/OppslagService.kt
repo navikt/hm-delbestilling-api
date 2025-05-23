@@ -26,9 +26,9 @@ class OppslagService(
             pdl.hentKommunenummer(brukersFnr)
         }
 
-        val hjelpemiddel = finnDelerTilHjelpemiddel.execute(hmsnr)
-            .let { berikMedDagerSidenForrigeBatteribestilling.berik(it, serienr) }
-            .let { berikMedLagerstatus.berik(it, brukersKommunenummerDeferred.await()) }
+        val hjelpemiddel = finnDelerTilHjelpemiddel(hmsnr)
+            .let { berikMedDagerSidenForrigeBatteribestilling(it, serienr) }
+            .let { berikMedLagerstatus(it, brukersKommunenummerDeferred.await()) }
             .sorterDeler()
 
         val piloter = piloterService.hentPiloter(brukersKommunenummerDeferred.await())
@@ -38,7 +38,7 @@ class OppslagService(
 
     suspend fun EKSTERN_DEV_slåOppHjelpemiddel(hmsnr: String, serienr: String): OppslagResultat {
         log.info { "Slår opp hmsnr=$hmsnr for dev.ekstern, og beriker med fake lagerstatus" }
-        var hjelpemiddel = finnDelerTilHjelpemiddel.execute(hmsnr).sorterDeler()
+        var hjelpemiddel = finnDelerTilHjelpemiddel(hmsnr).sorterDeler()
 
         // legg på pseudo-random lagerstatus
         val delerMedLagerstatus = hjelpemiddel.deler.map { del ->

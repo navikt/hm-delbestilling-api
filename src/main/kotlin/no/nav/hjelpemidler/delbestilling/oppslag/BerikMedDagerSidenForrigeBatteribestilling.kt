@@ -11,7 +11,7 @@ class BerikMedDagerSidenForrigeBatteribestilling(
     private val transaction: Transactional,
 ) {
 
-    suspend fun berik(hjelpemiddel: Hjelpemiddel, serienr: String): Hjelpemiddel {
+    suspend operator fun invoke(hjelpemiddel: Hjelpemiddel, serienr: String): Hjelpemiddel {
         if (hjelpemiddel.harBatteri()) {
             val antallDagerSidenForrigeBatteribestilling =
                 beregnAntallDagerSidenSisteBatteribestilling(hjelpemiddel.hmsnr, serienr)

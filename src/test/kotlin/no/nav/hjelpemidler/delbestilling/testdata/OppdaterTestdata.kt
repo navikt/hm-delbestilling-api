@@ -46,7 +46,7 @@ private suspend fun finnHjelpemiddelIGrunndataMenMedKunManuelleDeler() {
             return@forEach
         }
 
-        val foo = finnDelerTilHjelpemiddel.execute(it)
+        val foo = finnDelerTilHjelpemiddel(it)
 
         if (foo.deler.all { it.kilde == Kilde.MANUELL_LISTE }) {
             println("$foo har deler bare i manuell liste")

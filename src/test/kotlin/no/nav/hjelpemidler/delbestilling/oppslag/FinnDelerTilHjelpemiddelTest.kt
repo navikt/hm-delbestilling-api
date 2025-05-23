@@ -15,7 +15,7 @@ class FinnDelerTilHjelpemiddelTest {
     fun `skal kaste feil når hjelpemiddel ikke finnes i noen kilde`() = runWithTestContext {
         val hmsnr = "000000"
 
-        val exception = runCatching { finnDelerTilHjelpemiddel.execute(hmsnr) }.exceptionOrNull()
+        val exception = runCatching { finnDelerTilHjelpemiddel(hmsnr) }.exceptionOrNull()
 
         assertTrue(exception is TilbyrIkkeHjelpemiddelException)
     }
@@ -27,7 +27,7 @@ class FinnDelerTilHjelpemiddelTest {
         // Forutsetninger
         assertNull(grunndata.hentProdukt(hmsnr))
 
-        val hjelpemiddel = finnDelerTilHjelpemiddel.execute(hmsnr)
+        val hjelpemiddel = finnDelerTilHjelpemiddel(hmsnr)
 
         // Valider
         assertTrue(hjelpemiddel.deler.all { it.kilde == Kilde.MANUELL_LISTE })
@@ -43,7 +43,7 @@ class FinnDelerTilHjelpemiddelTest {
         assertTrue(grunndata.hentDeler(seriesId = produkt.seriesId, produktId = produkt.id).isEmpty())
         assertTrue(hmsnr2Hjm[hmsnr]!!.deler.isNotEmpty())
 
-        val hjelpemiddel = finnDelerTilHjelpemiddel.execute(hmsnr)
+        val hjelpemiddel = finnDelerTilHjelpemiddel(hmsnr)
 
         // Valider
         assertTrue(hjelpemiddel.deler.all { it.kilde == Kilde.MANUELL_LISTE })
@@ -57,7 +57,7 @@ class FinnDelerTilHjelpemiddelTest {
         // Forutsetninger
         assertNull(hmsnr2Hjm[hmsnr])
 
-        val hjelpemiddel = finnDelerTilHjelpemiddel.execute(hmsnr)
+        val hjelpemiddel = finnDelerTilHjelpemiddel(hmsnr)
 
         // Valider
         assertTrue(hjelpemiddel.deler.isNotEmpty())
@@ -68,7 +68,7 @@ class FinnDelerTilHjelpemiddelTest {
     fun `skal supplere deler fra grunndata med deler fra manuell liste`() = runWithTestContext {
         val hmsnr = GrunndataTestHmsnr.GRUNNDATA_OG_MANUELL
 
-        val hjelpemiddel = finnDelerTilHjelpemiddel.execute(hmsnr)
+        val hjelpemiddel = finnDelerTilHjelpemiddel(hmsnr)
 
         // Valider
         assertTrue(hjelpemiddel.deler.filter { it.kilde == Kilde.GRUNNDATA }.size > 20) { "Skal finnes noen deler fra grunndata" }
@@ -79,7 +79,7 @@ class FinnDelerTilHjelpemiddelTest {
     fun `skal bruke info fra grunndata dersom del finnes både i grunndata og i manuell liste`() = runWithTestContext {
         val hmsnr = GrunndataTestHmsnr.GRUNNDATA_OG_MANUELL
 
-        val hjelpemiddel = finnDelerTilHjelpemiddel.execute(hmsnr)
+        val hjelpemiddel = finnDelerTilHjelpemiddel(hmsnr)
 
         // Valider
         val manuelleDeler = hmsnr2Hjm[hmsnr]!!.deler.map { it.hmsnr }.toSet()

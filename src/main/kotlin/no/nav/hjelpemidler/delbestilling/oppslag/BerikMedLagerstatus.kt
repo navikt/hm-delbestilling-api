@@ -12,7 +12,7 @@ class BerikMedLagerstatus(
     private val metrics: Metrics,
 ) {
 
-    suspend fun berik(hjelpemiddel: Hjelpemiddel, kommunenummer: String): Hjelpemiddel {
+    suspend operator fun invoke(hjelpemiddel: Hjelpemiddel, kommunenummer: String): Hjelpemiddel {
         val lagerstatusForDeler = oebs.hentLagerstatusForKommunenummerAsMap(kommunenummer, hjelpemiddel.delerHmsnr())
 
         val beriket = hjelpemiddel.medLagerstatus(lagerstatusForDeler)

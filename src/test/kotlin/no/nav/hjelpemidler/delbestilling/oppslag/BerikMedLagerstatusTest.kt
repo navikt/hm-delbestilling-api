@@ -16,7 +16,7 @@ class BerikMedLagerstatusTest {
         val deler = listOf(del("111111"), del("222222"), del("333333"))
         deler.forEach { lager.set(it.hmsnr, antall = 3) }
 
-        val beriket = berikMedLagerstatus.berik(hjelpemiddel(deler), Testdata.defaultKommunenummer)
+        val beriket = berikMedLagerstatus(hjelpemiddel(deler), Testdata.defaultKommunenummer)
 
         assertEquals(3, beriket.deler.size)
         assertTrue(beriket.deler.all { it.lagerstatus != null })
@@ -27,7 +27,7 @@ class BerikMedLagerstatusTest {
         val del = del("111111")
         lager.set(del.hmsnr, antall = 4, minmax = false)
 
-        val beriket = berikMedLagerstatus.berik(hjelpemiddel(listOf(del)), Testdata.defaultKommunenummer)
+        val beriket = berikMedLagerstatus(hjelpemiddel(listOf(del)), Testdata.defaultKommunenummer)
 
         val lagerstatus = assertNotNull(beriket.deler.first().lagerstatus)
         assertEquals(4, lagerstatus.antallDelerPåLager)
@@ -40,7 +40,7 @@ class BerikMedLagerstatusTest {
         lager.setNull(del.hmsnr)
 
         val exception = runCatching {
-            berikMedLagerstatus.berik(hjelpemiddel(listOf(del)), Testdata.defaultKommunenummer)
+            berikMedLagerstatus(hjelpemiddel(listOf(del)), Testdata.defaultKommunenummer)
         }.exceptionOrNull()
 
         assertTrue(exception is IllegalStateException)
