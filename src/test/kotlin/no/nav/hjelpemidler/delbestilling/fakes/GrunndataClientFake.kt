@@ -11,13 +11,7 @@ object GrunndataTestHmsnr {
     const val UTEN_DELER_I_GRUNNDATA = "185144"
     const val KUN_GRUNNDATA_DELER = "167624"
     const val GRUNNDATA_OG_MANUELL = "316165"
-
-    val alle = listOf(
-        Testdata.defaultHjmHmsnr,
-        UTEN_DELER_I_GRUNNDATA,
-        KUN_GRUNNDATA_DELER,
-        GRUNNDATA_OG_MANUELL,
-    )
+    const val HAR_BATTERI = "250464"
 
     const val IKKE_I_GRUNNDATA = "097765"
 }

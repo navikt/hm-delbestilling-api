@@ -89,8 +89,9 @@ class PostgresDelbestillingRepository(val tx: JdbcOperations) : DelbestillingRep
         mapOf("oebs_ordrenummer" to oebsOrdrenummer)
     ) { it.tilDelbestillingSak() }
 
-    override fun oppdaterDelbestillingSak(sak: DelbestillingSak) = tx.update(
-        sql = """
+    override fun oppdaterDelbestillingSak(sak: DelbestillingSak) {
+        tx.update(
+            sql = """
             UPDATE delbestilling
             SET
                 status = :status,
@@ -99,13 +100,14 @@ class PostgresDelbestillingRepository(val tx: JdbcOperations) : DelbestillingRep
                 sist_oppdatert = CURRENT_TIMESTAMP
             WHERE saksnummer = :saksnummer
         """.trimIndent(),
-        queryParameters = mapOf(
-            "status" to sak.status.name,
-            "oebs_ordrenummer" to sak.oebsOrdrenummer,
-            "delbestilling_json" to pgJsonbOf(sak.delbestilling),
-            "saksnummer" to sak.saksnummer,
+            queryParameters = mapOf(
+                "status" to sak.status.name,
+                "oebs_ordrenummer" to sak.oebsOrdrenummer,
+                "delbestilling_json" to pgJsonbOf(sak.delbestilling),
+                "saksnummer" to sak.saksnummer,
+            )
         )
-    )
+    }
 }
 
 private fun Row.tilDelbestillingSak() = DelbestillingSak(

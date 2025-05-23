@@ -1,0 +1,627 @@
+{
+  "hits" : {
+    "hits" : [ {
+      "_source" : {
+        "id" : "e63dcb37-397a-4c25-9ada-47d4e7703869",
+        "title" : "Sitteenhet ers Minicrosser X Ergo2 sb40 sd32-55 m/hodest",
+        "articleName" : "Sitteenhet ers Minicrosser X Ergo2 sb45 sd32-55 m/hodest",
+        "seriesId" : "668010f0-b930-4c53-b3fe-1167e44dd00a",
+        "hmsArtNr" : "203583",
+        "supplierRef" : "1507-1405",
+        "attributes" : {
+          "compatibleWith" : {
+            "seriesIds" : [ "203bcccd-f48f-40d5-baa9-a9fcae711efd", "c299355d-a9b0-4b01-80b1-952e62b9821b", "1d4b75ab-1622-417b-b3b0-f73e22f28bbf", "475c6e71-eedd-4d4a-9457-e33ffab1b66d" ],
+            "productIds" : [ "28f3a2d1-5deb-460b-9a6e-2f20e70d5cc0", "d90dba37-749f-4b7b-b279-67815c1e3f29", "af485099-46c8-415f-984f-b1d42ad9ee36", "1c7a7679-99b2-4994-94d7-2b524869b7ab", "3ee1dd02-fe87-4c18-8ae1-4981ea2d4b85", "f182effa-1b00-41e8-bb61-9ec827b8c065", "cd7b83e8-1591-475e-a5f5-6dc7c42864e2", "76532a5d-938a-493c-8451-7ea4f89d9a55", "a916d174-d9ba-4eda-9c78-01d6620f48d5", "c13c68a0-293b-4b42-ada6-ca0eab72a808", "eba2ad5a-f3c6-4a89-abc9-c0e81dfa0274", "4b021596-7c8b-4f28-adb1-3d8ece942617" ]
+          }
+        },
+        "isoCategory" : "122392",
+        "supplier" : {
+          "name" : "Medema Norge AS",
+          "id" : "e106ff52-dad5-4d4c-b780-36e97aa90ad9"
+        },
+        "media" : [ ],
+        "accessory" : false,
+        "sparePart" : true,
+        "main" : false
+      }
+    }, {
+      "_source" : {
+        "id" : "7ad827d3-dab6-4d9f-92c4-4126e3d443ce",
+        "title" : "Hodestøtte ers Minicrosser X Ergo2",
+        "articleName" : "Hodestøtte ers Minicrosser X Ergo2",
+        "seriesId" : "b0ac6ea4-9e58-4458-b1b9-4a1157dde4e6",
+        "hmsArtNr" : "263760",
+        "supplierRef" : "1507-1105",
+        "attributes" : {
+          "compatibleWith" : {
+            "seriesIds" : [ "96cd4a12-18b1-4763-8f9f-bed6c444f3a2", "4ae740f0-787c-4d63-a4bd-c2fa724eab54", "203bcccd-f48f-40d5-baa9-a9fcae711efd", "c299355d-a9b0-4b01-80b1-952e62b9821b", "1d4b75ab-1622-417b-b3b0-f73e22f28bbf" ],
+            "productIds" : [ "28f3a2d1-5deb-460b-9a6e-2f20e70d5cc0", "1c7a7679-99b2-4994-94d7-2b524869b7ab", "14dd8463-d83d-48fd-9e04-426390a5f9f8", "f182effa-1b00-41e8-bb61-9ec827b8c065", "5b15cb16-a17d-43de-8f28-6436a34da217", "cd7b83e8-1591-475e-a5f5-6dc7c42864e2", "76532a5d-938a-493c-8451-7ea4f89d9a55", "46c4d3df-eb79-42e3-8046-dbeb4bf3d497", "4b021596-7c8b-4f28-adb1-3d8ece942617", "14804f16-45bb-4cdc-b5cf-123939a13ec9", "8aba2af4-e584-4d3a-a64b-6d71d2a5743f", "26f38bfa-e671-4368-a932-943e0852c37e", "d90dba37-749f-4b7b-b279-67815c1e3f29", "af485099-46c8-415f-984f-b1d42ad9ee36", "3ee1dd02-fe87-4c18-8ae1-4981ea2d4b85", "c88c504b-d387-475f-ad7f-8cb32122ac24", "a916d174-d9ba-4eda-9c78-01d6620f48d5", "c13c68a0-293b-4b42-ada6-ca0eab72a808", "4e9102f3-dd4b-4731-9d9b-6fb24eff61b9", "c20d6995-4874-4025-bcd6-6062e8066f0c", "eba2ad5a-f3c6-4a89-abc9-c0e81dfa0274", "e1aea840-c585-4edf-bffc-1ab440a29d43", "d5042fde-01d9-44cf-a5c3-23c2751760c5" ]
+          }
+        },
+        "isoCategory" : "122392",
+        "supplier" : {
+          "name" : "Medema Norge AS",
+          "id" : "e106ff52-dad5-4d4c-b780-36e97aa90ad9"
+        },
+        "media" : [ ],
+        "accessory" : false,
+        "sparePart" : true,
+        "main" : false
+      }
+    }, {
+      "_source" : {
+        "id" : "2ccd4aa9-440d-4a7d-8350-74f591149882",
+        "title" : "Brukerpanel ers Minicrosser X/M bunndel",
+        "articleName" : "Brukerpanel ers Minicrosser X1 S200 elektronikk kompl",
+        "seriesId" : "77c9fe23-5b8c-41ad-9765-8e4e0919b48b",
+        "hmsArtNr" : "298679",
+        "supplierRef" : "1503-1379",
+        "attributes" : {
+          "compatibleWith" : {
+            "seriesIds" : [ "4ae740f0-787c-4d63-a4bd-c2fa724eab54", "c299355d-a9b0-4b01-80b1-952e62b9821b", "475c6e71-eedd-4d4a-9457-e33ffab1b66d" ],
+            "productIds" : [ "28f3a2d1-5deb-460b-9a6e-2f20e70d5cc0", "14dd8463-d83d-48fd-9e04-426390a5f9f8", "76532a5d-938a-493c-8451-7ea4f89d9a55", "46c4d3df-eb79-42e3-8046-dbeb4bf3d497", "4b021596-7c8b-4f28-adb1-3d8ece942617", "8aba2af4-e584-4d3a-a64b-6d71d2a5743f", "d90dba37-749f-4b7b-b279-67815c1e3f29", "c88c504b-d387-475f-ad7f-8cb32122ac24", "eba2ad5a-f3c6-4a89-abc9-c0e81dfa0274", "e1aea840-c585-4edf-bffc-1ab440a29d43", "d58f6fb8-1389-4ab6-b600-9002e8f024e5", "d5042fde-01d9-44cf-a5c3-23c2751760c5", "43e1859b-ffe2-4aed-a47e-3d561312a4ef", "1c7a7679-99b2-4994-94d7-2b524869b7ab", "f182effa-1b00-41e8-bb61-9ec827b8c065", "5b15cb16-a17d-43de-8f28-6436a34da217", "cd7b83e8-1591-475e-a5f5-6dc7c42864e2", "76eb4872-6624-4b7e-8d4e-b04ce2965bb1", "14804f16-45bb-4cdc-b5cf-123939a13ec9", "26f38bfa-e671-4368-a932-943e0852c37e", "af485099-46c8-415f-984f-b1d42ad9ee36", "3ee1dd02-fe87-4c18-8ae1-4981ea2d4b85", "a916d174-d9ba-4eda-9c78-01d6620f48d5", "c13c68a0-293b-4b42-ada6-ca0eab72a808", "4e9102f3-dd4b-4731-9d9b-6fb24eff61b9", "c20d6995-4874-4025-bcd6-6062e8066f0c", "7ddba96b-fd03-4cb1-9c71-a1e52614a33c" ]
+          }
+        },
+        "isoCategory" : "122393",
+        "supplier" : {
+          "name" : "Medema Norge AS",
+          "id" : "e106ff52-dad5-4d4c-b780-36e97aa90ad9"
+        },
+        "media" : [ ],
+        "accessory" : false,
+        "sparePart" : true,
+        "main" : false
+      }
+    }, {
+      "_source" : {
+        "id" : "87616661-1304-44db-820a-7157b832b064",
+        "title" : "Utløserarm ers Minicrosser X Ergo2 t seterotasjon",
+        "articleName" : "Utløserarm ers Minicrosser X Ergo2 t seterotasjon",
+        "seriesId" : "fb1a1b30-3055-43ff-9d20-92b3863d1119",
+        "hmsArtNr" : "263767",
+        "supplierRef" : "1507-1453",
+        "attributes" : {
+          "compatibleWith" : {
+            "seriesIds" : [ "96cd4a12-18b1-4763-8f9f-bed6c444f3a2", "4ae740f0-787c-4d63-a4bd-c2fa724eab54", "203bcccd-f48f-40d5-baa9-a9fcae711efd", "c299355d-a9b0-4b01-80b1-952e62b9821b", "1d4b75ab-1622-417b-b3b0-f73e22f28bbf", "475c6e71-eedd-4d4a-9457-e33ffab1b66d" ],
+            "productIds" : [ "28f3a2d1-5deb-460b-9a6e-2f20e70d5cc0", "1c7a7679-99b2-4994-94d7-2b524869b7ab", "5b15cb16-a17d-43de-8f28-6436a34da217", "cd7b83e8-1591-475e-a5f5-6dc7c42864e2", "76532a5d-938a-493c-8451-7ea4f89d9a55", "46c4d3df-eb79-42e3-8046-dbeb4bf3d497", "4b021596-7c8b-4f28-adb1-3d8ece942617", "8aba2af4-e584-4d3a-a64b-6d71d2a5743f", "d90dba37-749f-4b7b-b279-67815c1e3f29", "af485099-46c8-415f-984f-b1d42ad9ee36", "3ee1dd02-fe87-4c18-8ae1-4981ea2d4b85", "c88c504b-d387-475f-ad7f-8cb32122ac24", "eba2ad5a-f3c6-4a89-abc9-c0e81dfa0274", "d5042fde-01d9-44cf-a5c3-23c2751760c5" ]
+          }
+        },
+        "isoCategory" : "122392",
+        "supplier" : {
+          "name" : "Medema Norge AS",
+          "id" : "e106ff52-dad5-4d4c-b780-36e97aa90ad9"
+        },
+        "media" : [ ],
+        "accessory" : false,
+        "sparePart" : true,
+        "main" : false
+      }
+    }, {
+      "_source" : {
+        "id" : "abdbe0c3-6e16-4f10-83f7-f87073afcccc",
+        "title" : "Sidelist ers Minicrosser X/M alu t fotplate",
+        "articleName" : "Sidelist ers Minicrosser X/M alu t fotplate",
+        "seriesId" : "bc813894-1871-4c39-99a8-73f4264e16b4",
+        "hmsArtNr" : "263638",
+        "supplierRef" : "1501-1118",
+        "attributes" : {
+          "compatibleWith" : {
+            "seriesIds" : [ "96cd4a12-18b1-4763-8f9f-bed6c444f3a2", "4ae740f0-787c-4d63-a4bd-c2fa724eab54", "203bcccd-f48f-40d5-baa9-a9fcae711efd", "c299355d-a9b0-4b01-80b1-952e62b9821b", "1d4b75ab-1622-417b-b3b0-f73e22f28bbf", "475c6e71-eedd-4d4a-9457-e33ffab1b66d" ],
+            "productIds" : [ "28f3a2d1-5deb-460b-9a6e-2f20e70d5cc0", "716d830b-c6a5-49c6-8afb-c78905089afd", "14dd8463-d83d-48fd-9e04-426390a5f9f8", "76532a5d-938a-493c-8451-7ea4f89d9a55", "46c4d3df-eb79-42e3-8046-dbeb4bf3d497", "4b021596-7c8b-4f28-adb1-3d8ece942617", "8aba2af4-e584-4d3a-a64b-6d71d2a5743f", "d90dba37-749f-4b7b-b279-67815c1e3f29", "c88c504b-d387-475f-ad7f-8cb32122ac24", "eba2ad5a-f3c6-4a89-abc9-c0e81dfa0274", "e1aea840-c585-4edf-bffc-1ab440a29d43", "d58f6fb8-1389-4ab6-b600-9002e8f024e5", "d5042fde-01d9-44cf-a5c3-23c2751760c5", "43e1859b-ffe2-4aed-a47e-3d561312a4ef", "1c7a7679-99b2-4994-94d7-2b524869b7ab", "f182effa-1b00-41e8-bb61-9ec827b8c065", "5b15cb16-a17d-43de-8f28-6436a34da217", "cd7b83e8-1591-475e-a5f5-6dc7c42864e2", "76eb4872-6624-4b7e-8d4e-b04ce2965bb1", "14804f16-45bb-4cdc-b5cf-123939a13ec9", "26f38bfa-e671-4368-a932-943e0852c37e", "af485099-46c8-415f-984f-b1d42ad9ee36", "3ee1dd02-fe87-4c18-8ae1-4981ea2d4b85", "a916d174-d9ba-4eda-9c78-01d6620f48d5", "c13c68a0-293b-4b42-ada6-ca0eab72a808", "4e9102f3-dd4b-4731-9d9b-6fb24eff61b9", "c20d6995-4874-4025-bcd6-6062e8066f0c", "7ddba96b-fd03-4cb1-9c71-a1e52614a33c" ]
+          }
+        },
+        "isoCategory" : "122393",
+        "supplier" : {
+          "name" : "Medema Norge AS",
+          "id" : "e106ff52-dad5-4d4c-b780-36e97aa90ad9"
+        },
+        "media" : [ ],
+        "accessory" : false,
+        "sparePart" : true,
+        "main" : false
+      }
+    }, {
+      "_source" : {
+        "id" : "ce3014b7-f7c1-4a64-92f0-5e062130dcd7",
+        "title" : "Speil ers MC1124/MC1144 Spinalus-3 hø/ve",
+        "articleName" : "Speil ers Minicrosser X/M styremontert ve",
+        "seriesId" : "7f9eed5f-414d-4641-8549-4c25ee378af0",
+        "hmsArtNr" : "028291",
+        "supplierRef" : "1503-1226",
+        "attributes" : {
+          "compatibleWith" : {
+            "seriesIds" : [ ],
+            "productIds" : [ "43e1859b-ffe2-4aed-a47e-3d561312a4ef", "14dd8463-d83d-48fd-9e04-426390a5f9f8", "5b15cb16-a17d-43de-8f28-6436a34da217", "76532a5d-938a-493c-8451-7ea4f89d9a55", "46c4d3df-eb79-42e3-8046-dbeb4bf3d497", "14804f16-45bb-4cdc-b5cf-123939a13ec9", "8aba2af4-e584-4d3a-a64b-6d71d2a5743f", "26f38bfa-e671-4368-a932-943e0852c37e", "d90dba37-749f-4b7b-b279-67815c1e3f29", "af485099-46c8-415f-984f-b1d42ad9ee36", "3ee1dd02-fe87-4c18-8ae1-4981ea2d4b85", "c88c504b-d387-475f-ad7f-8cb32122ac24", "a916d174-d9ba-4eda-9c78-01d6620f48d5", "c13c68a0-293b-4b42-ada6-ca0eab72a808", "4e9102f3-dd4b-4731-9d9b-6fb24eff61b9", "c20d6995-4874-4025-bcd6-6062e8066f0c", "eba2ad5a-f3c6-4a89-abc9-c0e81dfa0274", "7ddba96b-fd03-4cb1-9c71-a1e52614a33c", "d5042fde-01d9-44cf-a5c3-23c2751760c5" ]
+          }
+        },
+        "isoCategory" : "122393",
+        "supplier" : {
+          "name" : "Medema Norge AS",
+          "id" : "e106ff52-dad5-4d4c-b780-36e97aa90ad9"
+        },
+        "media" : [ ],
+        "accessory" : false,
+        "sparePart" : true,
+        "main" : false
+      }
+    }, {
+      "_source" : {
+        "id" : "c54aa34e-785b-4d09-8987-bdadcb172d29",
+        "title" : "Mellomleggskive ers Minicrosser X konisk plast t setestolpe",
+        "articleName" : "Mellomleggskive ers Minicrosser X konisk plast t setestolpe",
+        "seriesId" : "70a0ce28-0521-49dc-adf1-72b396378fd1",
+        "hmsArtNr" : "263761",
+        "supplierRef" : "1507-1109",
+        "attributes" : {
+          "compatibleWith" : {
+            "seriesIds" : [ "96cd4a12-18b1-4763-8f9f-bed6c444f3a2", "4ae740f0-787c-4d63-a4bd-c2fa724eab54", "203bcccd-f48f-40d5-baa9-a9fcae711efd", "c299355d-a9b0-4b01-80b1-952e62b9821b", "1d4b75ab-1622-417b-b3b0-f73e22f28bbf", "475c6e71-eedd-4d4a-9457-e33ffab1b66d" ],
+            "productIds" : [ "28f3a2d1-5deb-460b-9a6e-2f20e70d5cc0", "1c7a7679-99b2-4994-94d7-2b524869b7ab", "5b15cb16-a17d-43de-8f28-6436a34da217", "cd7b83e8-1591-475e-a5f5-6dc7c42864e2", "76532a5d-938a-493c-8451-7ea4f89d9a55", "46c4d3df-eb79-42e3-8046-dbeb4bf3d497", "4b021596-7c8b-4f28-adb1-3d8ece942617", "8aba2af4-e584-4d3a-a64b-6d71d2a5743f", "d90dba37-749f-4b7b-b279-67815c1e3f29", "af485099-46c8-415f-984f-b1d42ad9ee36", "3ee1dd02-fe87-4c18-8ae1-4981ea2d4b85", "c88c504b-d387-475f-ad7f-8cb32122ac24", "eba2ad5a-f3c6-4a89-abc9-c0e81dfa0274", "d5042fde-01d9-44cf-a5c3-23c2751760c5" ]
+          }
+        },
+        "isoCategory" : "122393",
+        "supplier" : {
+          "name" : "Medema Norge AS",
+          "id" : "e106ff52-dad5-4d4c-b780-36e97aa90ad9"
+        },
+        "media" : [ ],
+        "accessory" : false,
+        "sparePart" : true,
+        "main" : false
+      }
+    }, {
+      "_source" : {
+        "id" : "0dbd13a5-2e6d-464c-a7d0-8af1c2d4ed74",
+        "title" : "Armlene ers MC1124/MC1144 Spinalus-3 Barn oppfellbar u/polster hø",
+        "articleName" : "Armlene ers Minicrosser X Ergo2 std hø",
+        "seriesId" : "5d481949-9c10-4e0b-9596-1d87b0c5ea6f",
+        "hmsArtNr" : "263765",
+        "supplierRef" : "1507-1395",
+        "attributes" : {
+          "compatibleWith" : {
+            "seriesIds" : [ "203bcccd-f48f-40d5-baa9-a9fcae711efd", "c299355d-a9b0-4b01-80b1-952e62b9821b", "1d4b75ab-1622-417b-b3b0-f73e22f28bbf" ],
+            "productIds" : [ "28f3a2d1-5deb-460b-9a6e-2f20e70d5cc0", "1c7a7679-99b2-4994-94d7-2b524869b7ab", "5b15cb16-a17d-43de-8f28-6436a34da217", "cd7b83e8-1591-475e-a5f5-6dc7c42864e2", "76532a5d-938a-493c-8451-7ea4f89d9a55", "46c4d3df-eb79-42e3-8046-dbeb4bf3d497", "4b021596-7c8b-4f28-adb1-3d8ece942617", "8aba2af4-e584-4d3a-a64b-6d71d2a5743f", "d90dba37-749f-4b7b-b279-67815c1e3f29", "af485099-46c8-415f-984f-b1d42ad9ee36", "3ee1dd02-fe87-4c18-8ae1-4981ea2d4b85", "c88c504b-d387-475f-ad7f-8cb32122ac24", "eba2ad5a-f3c6-4a89-abc9-c0e81dfa0274", "d5042fde-01d9-44cf-a5c3-23c2751760c5" ]
+          }
+        },
+        "isoCategory" : "122391",
+        "supplier" : {
+          "name" : "Medema Norge AS",
+          "id" : "e106ff52-dad5-4d4c-b780-36e97aa90ad9"
+        },
+        "media" : [ ],
+        "accessory" : false,
+        "sparePart" : true,
+        "main" : false
+      }
+    }, {
+      "_source" : {
+        "id" : "b14cbcfa-9f16-4cd7-b6c9-d277ad1bdcba",
+        "title" : "Print ers Minicrosser X t brukerpanel",
+        "articleName" : "Print ers Minicrosser X t brukerpanel",
+        "seriesId" : "e8a4b971-74db-4d82-8646-9a1898c2863c",
+        "hmsArtNr" : "067833",
+        "supplierRef" : "1505-1405",
+        "attributes" : {
+          "compatibleWith" : {
+            "seriesIds" : [ "96cd4a12-18b1-4763-8f9f-bed6c444f3a2", "4ae740f0-787c-4d63-a4bd-c2fa724eab54", "203bcccd-f48f-40d5-baa9-a9fcae711efd", "c299355d-a9b0-4b01-80b1-952e62b9821b", "1d4b75ab-1622-417b-b3b0-f73e22f28bbf", "475c6e71-eedd-4d4a-9457-e33ffab1b66d" ],
+            "productIds" : [ "28f3a2d1-5deb-460b-9a6e-2f20e70d5cc0", "d90dba37-749f-4b7b-b279-67815c1e3f29", "1c7a7679-99b2-4994-94d7-2b524869b7ab", "5b15cb16-a17d-43de-8f28-6436a34da217", "cd7b83e8-1591-475e-a5f5-6dc7c42864e2", "76532a5d-938a-493c-8451-7ea4f89d9a55", "c88c504b-d387-475f-ad7f-8cb32122ac24", "eba2ad5a-f3c6-4a89-abc9-c0e81dfa0274", "46c4d3df-eb79-42e3-8046-dbeb4bf3d497", "4b021596-7c8b-4f28-adb1-3d8ece942617", "d5042fde-01d9-44cf-a5c3-23c2751760c5" ]
+          }
+        },
+        "isoCategory" : "122393",
+        "supplier" : {
+          "name" : "Medema Norge AS",
+          "id" : "e106ff52-dad5-4d4c-b780-36e97aa90ad9"
+        },
+        "media" : [ ],
+        "accessory" : false,
+        "sparePart" : true,
+        "main" : false
+      }
+    }, {
+      "_source" : {
+        "id" : "26c69f6a-5c20-45d8-89f2-a9b3803fdfcf",
+        "title" : "Speil ers MC1124/MC1144 Spinalus-3 hø/ve",
+        "articleName" : "Speil ers Minicrosser X/M styremontert hø",
+        "seriesId" : "7f9eed5f-414d-4641-8549-4c25ee378af0",
+        "hmsArtNr" : "028292",
+        "supplierRef" : "1503-1225",
+        "attributes" : {
+          "compatibleWith" : {
+            "seriesIds" : [ ],
+            "productIds" : [ "43e1859b-ffe2-4aed-a47e-3d561312a4ef", "14dd8463-d83d-48fd-9e04-426390a5f9f8", "5b15cb16-a17d-43de-8f28-6436a34da217", "76532a5d-938a-493c-8451-7ea4f89d9a55", "46c4d3df-eb79-42e3-8046-dbeb4bf3d497", "14804f16-45bb-4cdc-b5cf-123939a13ec9", "8aba2af4-e584-4d3a-a64b-6d71d2a5743f", "26f38bfa-e671-4368-a932-943e0852c37e", "d90dba37-749f-4b7b-b279-67815c1e3f29", "af485099-46c8-415f-984f-b1d42ad9ee36", "3ee1dd02-fe87-4c18-8ae1-4981ea2d4b85", "c88c504b-d387-475f-ad7f-8cb32122ac24", "a916d174-d9ba-4eda-9c78-01d6620f48d5", "c13c68a0-293b-4b42-ada6-ca0eab72a808", "4e9102f3-dd4b-4731-9d9b-6fb24eff61b9", "c20d6995-4874-4025-bcd6-6062e8066f0c", "eba2ad5a-f3c6-4a89-abc9-c0e81dfa0274", "7ddba96b-fd03-4cb1-9c71-a1e52614a33c", "d5042fde-01d9-44cf-a5c3-23c2751760c5" ]
+          }
+        },
+        "isoCategory" : "122393",
+        "supplier" : {
+          "name" : "Medema Norge AS",
+          "id" : "e106ff52-dad5-4d4c-b780-36e97aa90ad9"
+        },
+        "media" : [ ],
+        "accessory" : false,
+        "sparePart" : true,
+        "main" : false
+      }
+    }, {
+      "_source" : {
+        "id" : "e5101f3b-f983-46dd-ba8b-3736fb08b1e2",
+        "title" : "Brukerpanel ers Minicrosser X/M bunndel",
+        "articleName" : "Brukerpanel ers Minicrosser X1 bunndel",
+        "seriesId" : "77c9fe23-5b8c-41ad-9765-8e4e0919b48b",
+        "hmsArtNr" : "263694",
+        "supplierRef" : "1503-1351",
+        "attributes" : {
+          "compatibleWith" : {
+            "seriesIds" : [ "4ae740f0-787c-4d63-a4bd-c2fa724eab54", "c299355d-a9b0-4b01-80b1-952e62b9821b", "475c6e71-eedd-4d4a-9457-e33ffab1b66d" ],
+            "productIds" : [ "28f3a2d1-5deb-460b-9a6e-2f20e70d5cc0", "1c7a7679-99b2-4994-94d7-2b524869b7ab", "5b15cb16-a17d-43de-8f28-6436a34da217", "cd7b83e8-1591-475e-a5f5-6dc7c42864e2", "76532a5d-938a-493c-8451-7ea4f89d9a55", "46c4d3df-eb79-42e3-8046-dbeb4bf3d497", "4b021596-7c8b-4f28-adb1-3d8ece942617", "8aba2af4-e584-4d3a-a64b-6d71d2a5743f", "d90dba37-749f-4b7b-b279-67815c1e3f29", "af485099-46c8-415f-984f-b1d42ad9ee36", "3ee1dd02-fe87-4c18-8ae1-4981ea2d4b85", "c88c504b-d387-475f-ad7f-8cb32122ac24", "eba2ad5a-f3c6-4a89-abc9-c0e81dfa0274", "d5042fde-01d9-44cf-a5c3-23c2751760c5" ]
+          }
+        },
+        "isoCategory" : "122393",
+        "supplier" : {
+          "name" : "Medema Norge AS",
+          "id" : "e106ff52-dad5-4d4c-b780-36e97aa90ad9"
+        },
+        "media" : [ ],
+        "accessory" : false,
+        "sparePart" : true,
+        "main" : false
+      }
+    }, {
+      "_source" : {
+        "id" : "8869bd9b-436b-4304-bd5c-c29de9cf7097",
+        "title" : "Armlene ers MC1124/MC1144 Spinalus-3 Barn oppfellbar u/polster hø",
+        "articleName" : "Armlene ers Minicrosser X Ergo2 std ve",
+        "seriesId" : "5d481949-9c10-4e0b-9596-1d87b0c5ea6f",
+        "hmsArtNr" : "263766",
+        "supplierRef" : "1507-1396",
+        "attributes" : {
+          "compatibleWith" : {
+            "seriesIds" : [ "203bcccd-f48f-40d5-baa9-a9fcae711efd", "c299355d-a9b0-4b01-80b1-952e62b9821b", "1d4b75ab-1622-417b-b3b0-f73e22f28bbf" ],
+            "productIds" : [ "28f3a2d1-5deb-460b-9a6e-2f20e70d5cc0", "1c7a7679-99b2-4994-94d7-2b524869b7ab", "5b15cb16-a17d-43de-8f28-6436a34da217", "cd7b83e8-1591-475e-a5f5-6dc7c42864e2", "76532a5d-938a-493c-8451-7ea4f89d9a55", "46c4d3df-eb79-42e3-8046-dbeb4bf3d497", "4b021596-7c8b-4f28-adb1-3d8ece942617", "8aba2af4-e584-4d3a-a64b-6d71d2a5743f", "d90dba37-749f-4b7b-b279-67815c1e3f29", "af485099-46c8-415f-984f-b1d42ad9ee36", "3ee1dd02-fe87-4c18-8ae1-4981ea2d4b85", "c88c504b-d387-475f-ad7f-8cb32122ac24", "eba2ad5a-f3c6-4a89-abc9-c0e81dfa0274", "d5042fde-01d9-44cf-a5c3-23c2751760c5" ]
+          }
+        },
+        "isoCategory" : "122391",
+        "supplier" : {
+          "name" : "Medema Norge AS",
+          "id" : "e106ff52-dad5-4d4c-b780-36e97aa90ad9"
+        },
+        "media" : [ ],
+        "accessory" : false,
+        "sparePart" : true,
+        "main" : false
+      }
+    }, {
+      "_source" : {
+        "id" : "9d9550b0-3825-4acc-8cc7-bd0df167dd16",
+        "title" : "Fingerskrue ers Minicrosser M8x20 t Batteriskjerm",
+        "articleName" : "Fingerskrue ers Minicrosser M8x20 t Batteriskjerm",
+        "seriesId" : "df504078-d33e-4ccd-bf1e-82f93aaef04c",
+        "hmsArtNr" : "302316",
+        "supplierRef" : "2435-1003",
+        "attributes" : {
+          "compatibleWith" : {
+            "seriesIds" : [ "96cd4a12-18b1-4763-8f9f-bed6c444f3a2", "4ae740f0-787c-4d63-a4bd-c2fa724eab54", "203bcccd-f48f-40d5-baa9-a9fcae711efd", "c299355d-a9b0-4b01-80b1-952e62b9821b", "1d4b75ab-1622-417b-b3b0-f73e22f28bbf", "475c6e71-eedd-4d4a-9457-e33ffab1b66d" ],
+            "productIds" : [ "28f3a2d1-5deb-460b-9a6e-2f20e70d5cc0", "716d830b-c6a5-49c6-8afb-c78905089afd", "14dd8463-d83d-48fd-9e04-426390a5f9f8", "76532a5d-938a-493c-8451-7ea4f89d9a55", "46c4d3df-eb79-42e3-8046-dbeb4bf3d497", "4b021596-7c8b-4f28-adb1-3d8ece942617", "8aba2af4-e584-4d3a-a64b-6d71d2a5743f", "d90dba37-749f-4b7b-b279-67815c1e3f29", "c88c504b-d387-475f-ad7f-8cb32122ac24", "eba2ad5a-f3c6-4a89-abc9-c0e81dfa0274", "e1aea840-c585-4edf-bffc-1ab440a29d43", "d58f6fb8-1389-4ab6-b600-9002e8f024e5", "d5042fde-01d9-44cf-a5c3-23c2751760c5", "43e1859b-ffe2-4aed-a47e-3d561312a4ef", "1c7a7679-99b2-4994-94d7-2b524869b7ab", "f182effa-1b00-41e8-bb61-9ec827b8c065", "5b15cb16-a17d-43de-8f28-6436a34da217", "cd7b83e8-1591-475e-a5f5-6dc7c42864e2", "76eb4872-6624-4b7e-8d4e-b04ce2965bb1", "14804f16-45bb-4cdc-b5cf-123939a13ec9", "26f38bfa-e671-4368-a932-943e0852c37e", "af485099-46c8-415f-984f-b1d42ad9ee36", "3ee1dd02-fe87-4c18-8ae1-4981ea2d4b85", "a916d174-d9ba-4eda-9c78-01d6620f48d5", "c13c68a0-293b-4b42-ada6-ca0eab72a808", "4e9102f3-dd4b-4731-9d9b-6fb24eff61b9", "c20d6995-4874-4025-bcd6-6062e8066f0c", "7ddba96b-fd03-4cb1-9c71-a1e52614a33c" ]
+          }
+        },
+        "isoCategory" : "122393",
+        "supplier" : {
+          "name" : "Medema Norge AS",
+          "id" : "e106ff52-dad5-4d4c-b780-36e97aa90ad9"
+        },
+        "media" : [ ],
+        "accessory" : false,
+        "sparePart" : true,
+        "main" : false
+      }
+    } ]
+  },
+  "produkter" : [ {
+    "id" : "e63dcb37-397a-4c25-9ada-47d4e7703869",
+    "title" : "Sitteenhet ers Minicrosser X Ergo2 sb40 sd32-55 m/hodest",
+    "articleName" : "Sitteenhet ers Minicrosser X Ergo2 sb45 sd32-55 m/hodest",
+    "seriesId" : "668010f0-b930-4c53-b3fe-1167e44dd00a",
+    "hmsArtNr" : "203583",
+    "supplierRef" : "1507-1405",
+    "attributes" : {
+      "compatibleWith" : {
+        "seriesIds" : [ "203bcccd-f48f-40d5-baa9-a9fcae711efd", "c299355d-a9b0-4b01-80b1-952e62b9821b", "1d4b75ab-1622-417b-b3b0-f73e22f28bbf", "475c6e71-eedd-4d4a-9457-e33ffab1b66d" ],
+        "productIds" : [ "28f3a2d1-5deb-460b-9a6e-2f20e70d5cc0", "d90dba37-749f-4b7b-b279-67815c1e3f29", "af485099-46c8-415f-984f-b1d42ad9ee36", "1c7a7679-99b2-4994-94d7-2b524869b7ab", "3ee1dd02-fe87-4c18-8ae1-4981ea2d4b85", "f182effa-1b00-41e8-bb61-9ec827b8c065", "cd7b83e8-1591-475e-a5f5-6dc7c42864e2", "76532a5d-938a-493c-8451-7ea4f89d9a55", "a916d174-d9ba-4eda-9c78-01d6620f48d5", "c13c68a0-293b-4b42-ada6-ca0eab72a808", "eba2ad5a-f3c6-4a89-abc9-c0e81dfa0274", "4b021596-7c8b-4f28-adb1-3d8ece942617" ]
+      }
+    },
+    "isoCategory" : "122392",
+    "supplier" : {
+      "name" : "Medema Norge AS",
+      "id" : "e106ff52-dad5-4d4c-b780-36e97aa90ad9"
+    },
+    "media" : [ ],
+    "accessory" : false,
+    "sparePart" : true,
+    "main" : false
+  }, {
+    "id" : "7ad827d3-dab6-4d9f-92c4-4126e3d443ce",
+    "title" : "Hodestøtte ers Minicrosser X Ergo2",
+    "articleName" : "Hodestøtte ers Minicrosser X Ergo2",
+    "seriesId" : "b0ac6ea4-9e58-4458-b1b9-4a1157dde4e6",
+    "hmsArtNr" : "263760",
+    "supplierRef" : "1507-1105",
+    "attributes" : {
+      "compatibleWith" : {
+        "seriesIds" : [ "96cd4a12-18b1-4763-8f9f-bed6c444f3a2", "4ae740f0-787c-4d63-a4bd-c2fa724eab54", "203bcccd-f48f-40d5-baa9-a9fcae711efd", "c299355d-a9b0-4b01-80b1-952e62b9821b", "1d4b75ab-1622-417b-b3b0-f73e22f28bbf" ],
+        "productIds" : [ "28f3a2d1-5deb-460b-9a6e-2f20e70d5cc0", "1c7a7679-99b2-4994-94d7-2b524869b7ab", "14dd8463-d83d-48fd-9e04-426390a5f9f8", "f182effa-1b00-41e8-bb61-9ec827b8c065", "5b15cb16-a17d-43de-8f28-6436a34da217", "cd7b83e8-1591-475e-a5f5-6dc7c42864e2", "76532a5d-938a-493c-8451-7ea4f89d9a55", "46c4d3df-eb79-42e3-8046-dbeb4bf3d497", "4b021596-7c8b-4f28-adb1-3d8ece942617", "14804f16-45bb-4cdc-b5cf-123939a13ec9", "8aba2af4-e584-4d3a-a64b-6d71d2a5743f", "26f38bfa-e671-4368-a932-943e0852c37e", "d90dba37-749f-4b7b-b279-67815c1e3f29", "af485099-46c8-415f-984f-b1d42ad9ee36", "3ee1dd02-fe87-4c18-8ae1-4981ea2d4b85", "c88c504b-d387-475f-ad7f-8cb32122ac24", "a916d174-d9ba-4eda-9c78-01d6620f48d5", "c13c68a0-293b-4b42-ada6-ca0eab72a808", "4e9102f3-dd4b-4731-9d9b-6fb24eff61b9", "c20d6995-4874-4025-bcd6-6062e8066f0c", "eba2ad5a-f3c6-4a89-abc9-c0e81dfa0274", "e1aea840-c585-4edf-bffc-1ab440a29d43", "d5042fde-01d9-44cf-a5c3-23c2751760c5" ]
+      }
+    },
+    "isoCategory" : "122392",
+    "supplier" : {
+      "name" : "Medema Norge AS",
+      "id" : "e106ff52-dad5-4d4c-b780-36e97aa90ad9"
+    },
+    "media" : [ ],
+    "accessory" : false,
+    "sparePart" : true,
+    "main" : false
+  }, {
+    "id" : "2ccd4aa9-440d-4a7d-8350-74f591149882",
+    "title" : "Brukerpanel ers Minicrosser X/M bunndel",
+    "articleName" : "Brukerpanel ers Minicrosser X1 S200 elektronikk kompl",
+    "seriesId" : "77c9fe23-5b8c-41ad-9765-8e4e0919b48b",
+    "hmsArtNr" : "298679",
+    "supplierRef" : "1503-1379",
+    "attributes" : {
+      "compatibleWith" : {
+        "seriesIds" : [ "4ae740f0-787c-4d63-a4bd-c2fa724eab54", "c299355d-a9b0-4b01-80b1-952e62b9821b", "475c6e71-eedd-4d4a-9457-e33ffab1b66d" ],
+        "productIds" : [ "28f3a2d1-5deb-460b-9a6e-2f20e70d5cc0", "14dd8463-d83d-48fd-9e04-426390a5f9f8", "76532a5d-938a-493c-8451-7ea4f89d9a55", "46c4d3df-eb79-42e3-8046-dbeb4bf3d497", "4b021596-7c8b-4f28-adb1-3d8ece942617", "8aba2af4-e584-4d3a-a64b-6d71d2a5743f", "d90dba37-749f-4b7b-b279-67815c1e3f29", "c88c504b-d387-475f-ad7f-8cb32122ac24", "eba2ad5a-f3c6-4a89-abc9-c0e81dfa0274", "e1aea840-c585-4edf-bffc-1ab440a29d43", "d58f6fb8-1389-4ab6-b600-9002e8f024e5", "d5042fde-01d9-44cf-a5c3-23c2751760c5", "43e1859b-ffe2-4aed-a47e-3d561312a4ef", "1c7a7679-99b2-4994-94d7-2b524869b7ab", "f182effa-1b00-41e8-bb61-9ec827b8c065", "5b15cb16-a17d-43de-8f28-6436a34da217", "cd7b83e8-1591-475e-a5f5-6dc7c42864e2", "76eb4872-6624-4b7e-8d4e-b04ce2965bb1", "14804f16-45bb-4cdc-b5cf-123939a13ec9", "26f38bfa-e671-4368-a932-943e0852c37e", "af485099-46c8-415f-984f-b1d42ad9ee36", "3ee1dd02-fe87-4c18-8ae1-4981ea2d4b85", "a916d174-d9ba-4eda-9c78-01d6620f48d5", "c13c68a0-293b-4b42-ada6-ca0eab72a808", "4e9102f3-dd4b-4731-9d9b-6fb24eff61b9", "c20d6995-4874-4025-bcd6-6062e8066f0c", "7ddba96b-fd03-4cb1-9c71-a1e52614a33c" ]
+      }
+    },
+    "isoCategory" : "122393",
+    "supplier" : {
+      "name" : "Medema Norge AS",
+      "id" : "e106ff52-dad5-4d4c-b780-36e97aa90ad9"
+    },
+    "media" : [ ],
+    "accessory" : false,
+    "sparePart" : true,
+    "main" : false
+  }, {
+    "id" : "87616661-1304-44db-820a-7157b832b064",
+    "title" : "Utløserarm ers Minicrosser X Ergo2 t seterotasjon",
+    "articleName" : "Utløserarm ers Minicrosser X Ergo2 t seterotasjon",
+    "seriesId" : "fb1a1b30-3055-43ff-9d20-92b3863d1119",
+    "hmsArtNr" : "263767",
+    "supplierRef" : "1507-1453",
+    "attributes" : {
+      "compatibleWith" : {
+        "seriesIds" : [ "96cd4a12-18b1-4763-8f9f-bed6c444f3a2", "4ae740f0-787c-4d63-a4bd-c2fa724eab54", "203bcccd-f48f-40d5-baa9-a9fcae711efd", "c299355d-a9b0-4b01-80b1-952e62b9821b", "1d4b75ab-1622-417b-b3b0-f73e22f28bbf", "475c6e71-eedd-4d4a-9457-e33ffab1b66d" ],
+        "productIds" : [ "28f3a2d1-5deb-460b-9a6e-2f20e70d5cc0", "1c7a7679-99b2-4994-94d7-2b524869b7ab", "5b15cb16-a17d-43de-8f28-6436a34da217", "cd7b83e8-1591-475e-a5f5-6dc7c42864e2", "76532a5d-938a-493c-8451-7ea4f89d9a55", "46c4d3df-eb79-42e3-8046-dbeb4bf3d497", "4b021596-7c8b-4f28-adb1-3d8ece942617", "8aba2af4-e584-4d3a-a64b-6d71d2a5743f", "d90dba37-749f-4b7b-b279-67815c1e3f29", "af485099-46c8-415f-984f-b1d42ad9ee36", "3ee1dd02-fe87-4c18-8ae1-4981ea2d4b85", "c88c504b-d387-475f-ad7f-8cb32122ac24", "eba2ad5a-f3c6-4a89-abc9-c0e81dfa0274", "d5042fde-01d9-44cf-a5c3-23c2751760c5" ]
+      }
+    },
+    "isoCategory" : "122392",
+    "supplier" : {
+      "name" : "Medema Norge AS",
+      "id" : "e106ff52-dad5-4d4c-b780-36e97aa90ad9"
+    },
+    "media" : [ ],
+    "accessory" : false,
+    "sparePart" : true,
+    "main" : false
+  }, {
+    "id" : "abdbe0c3-6e16-4f10-83f7-f87073afcccc",
+    "title" : "Sidelist ers Minicrosser X/M alu t fotplate",
+    "articleName" : "Sidelist ers Minicrosser X/M alu t fotplate",
+    "seriesId" : "bc813894-1871-4c39-99a8-73f4264e16b4",
+    "hmsArtNr" : "263638",
+    "supplierRef" : "1501-1118",
+    "attributes" : {
+      "compatibleWith" : {
+        "seriesIds" : [ "96cd4a12-18b1-4763-8f9f-bed6c444f3a2", "4ae740f0-787c-4d63-a4bd-c2fa724eab54", "203bcccd-f48f-40d5-baa9-a9fcae711efd", "c299355d-a9b0-4b01-80b1-952e62b9821b", "1d4b75ab-1622-417b-b3b0-f73e22f28bbf", "475c6e71-eedd-4d4a-9457-e33ffab1b66d" ],
+        "productIds" : [ "28f3a2d1-5deb-460b-9a6e-2f20e70d5cc0", "716d830b-c6a5-49c6-8afb-c78905089afd", "14dd8463-d83d-48fd-9e04-426390a5f9f8", "76532a5d-938a-493c-8451-7ea4f89d9a55", "46c4d3df-eb79-42e3-8046-dbeb4bf3d497", "4b021596-7c8b-4f28-adb1-3d8ece942617", "8aba2af4-e584-4d3a-a64b-6d71d2a5743f", "d90dba37-749f-4b7b-b279-67815c1e3f29", "c88c504b-d387-475f-ad7f-8cb32122ac24", "eba2ad5a-f3c6-4a89-abc9-c0e81dfa0274", "e1aea840-c585-4edf-bffc-1ab440a29d43", "d58f6fb8-1389-4ab6-b600-9002e8f024e5", "d5042fde-01d9-44cf-a5c3-23c2751760c5", "43e1859b-ffe2-4aed-a47e-3d561312a4ef", "1c7a7679-99b2-4994-94d7-2b524869b7ab", "f182effa-1b00-41e8-bb61-9ec827b8c065", "5b15cb16-a17d-43de-8f28-6436a34da217", "cd7b83e8-1591-475e-a5f5-6dc7c42864e2", "76eb4872-6624-4b7e-8d4e-b04ce2965bb1", "14804f16-45bb-4cdc-b5cf-123939a13ec9", "26f38bfa-e671-4368-a932-943e0852c37e", "af485099-46c8-415f-984f-b1d42ad9ee36", "3ee1dd02-fe87-4c18-8ae1-4981ea2d4b85", "a916d174-d9ba-4eda-9c78-01d6620f48d5", "c13c68a0-293b-4b42-ada6-ca0eab72a808", "4e9102f3-dd4b-4731-9d9b-6fb24eff61b9", "c20d6995-4874-4025-bcd6-6062e8066f0c", "7ddba96b-fd03-4cb1-9c71-a1e52614a33c" ]
+      }
+    },
+    "isoCategory" : "122393",
+    "supplier" : {
+      "name" : "Medema Norge AS",
+      "id" : "e106ff52-dad5-4d4c-b780-36e97aa90ad9"
+    },
+    "media" : [ ],
+    "accessory" : false,
+    "sparePart" : true,
+    "main" : false
+  }, {
+    "id" : "ce3014b7-f7c1-4a64-92f0-5e062130dcd7",
+    "title" : "Speil ers MC1124/MC1144 Spinalus-3 hø/ve",
+    "articleName" : "Speil ers Minicrosser X/M styremontert ve",
+    "seriesId" : "7f9eed5f-414d-4641-8549-4c25ee378af0",
+    "hmsArtNr" : "028291",
+    "supplierRef" : "1503-1226",
+    "attributes" : {
+      "compatibleWith" : {
+        "seriesIds" : [ ],
+        "productIds" : [ "43e1859b-ffe2-4aed-a47e-3d561312a4ef", "14dd8463-d83d-48fd-9e04-426390a5f9f8", "5b15cb16-a17d-43de-8f28-6436a34da217", "76532a5d-938a-493c-8451-7ea4f89d9a55", "46c4d3df-eb79-42e3-8046-dbeb4bf3d497", "14804f16-45bb-4cdc-b5cf-123939a13ec9", "8aba2af4-e584-4d3a-a64b-6d71d2a5743f", "26f38bfa-e671-4368-a932-943e0852c37e", "d90dba37-749f-4b7b-b279-67815c1e3f29", "af485099-46c8-415f-984f-b1d42ad9ee36", "3ee1dd02-fe87-4c18-8ae1-4981ea2d4b85", "c88c504b-d387-475f-ad7f-8cb32122ac24", "a916d174-d9ba-4eda-9c78-01d6620f48d5", "c13c68a0-293b-4b42-ada6-ca0eab72a808", "4e9102f3-dd4b-4731-9d9b-6fb24eff61b9", "c20d6995-4874-4025-bcd6-6062e8066f0c", "eba2ad5a-f3c6-4a89-abc9-c0e81dfa0274", "7ddba96b-fd03-4cb1-9c71-a1e52614a33c", "d5042fde-01d9-44cf-a5c3-23c2751760c5" ]
+      }
+    },
+    "isoCategory" : "122393",
+    "supplier" : {
+      "name" : "Medema Norge AS",
+      "id" : "e106ff52-dad5-4d4c-b780-36e97aa90ad9"
+    },
+    "media" : [ ],
+    "accessory" : false,
+    "sparePart" : true,
+    "main" : false
+  }, {
+    "id" : "c54aa34e-785b-4d09-8987-bdadcb172d29",
+    "title" : "Mellomleggskive ers Minicrosser X konisk plast t setestolpe",
+    "articleName" : "Mellomleggskive ers Minicrosser X konisk plast t setestolpe",
+    "seriesId" : "70a0ce28-0521-49dc-adf1-72b396378fd1",
+    "hmsArtNr" : "263761",
+    "supplierRef" : "1507-1109",
+    "attributes" : {
+      "compatibleWith" : {
+        "seriesIds" : [ "96cd4a12-18b1-4763-8f9f-bed6c444f3a2", "4ae740f0-787c-4d63-a4bd-c2fa724eab54", "203bcccd-f48f-40d5-baa9-a9fcae711efd", "c299355d-a9b0-4b01-80b1-952e62b9821b", "1d4b75ab-1622-417b-b3b0-f73e22f28bbf", "475c6e71-eedd-4d4a-9457-e33ffab1b66d" ],
+        "productIds" : [ "28f3a2d1-5deb-460b-9a6e-2f20e70d5cc0", "1c7a7679-99b2-4994-94d7-2b524869b7ab", "5b15cb16-a17d-43de-8f28-6436a34da217", "cd7b83e8-1591-475e-a5f5-6dc7c42864e2", "76532a5d-938a-493c-8451-7ea4f89d9a55", "46c4d3df-eb79-42e3-8046-dbeb4bf3d497", "4b021596-7c8b-4f28-adb1-3d8ece942617", "8aba2af4-e584-4d3a-a64b-6d71d2a5743f", "d90dba37-749f-4b7b-b279-67815c1e3f29", "af485099-46c8-415f-984f-b1d42ad9ee36", "3ee1dd02-fe87-4c18-8ae1-4981ea2d4b85", "c88c504b-d387-475f-ad7f-8cb32122ac24", "eba2ad5a-f3c6-4a89-abc9-c0e81dfa0274", "d5042fde-01d9-44cf-a5c3-23c2751760c5" ]
+      }
+    },
+    "isoCategory" : "122393",
+    "supplier" : {
+      "name" : "Medema Norge AS",
+      "id" : "e106ff52-dad5-4d4c-b780-36e97aa90ad9"
+    },
+    "media" : [ ],
+    "accessory" : false,
+    "sparePart" : true,
+    "main" : false
+  }, {
+    "id" : "0dbd13a5-2e6d-464c-a7d0-8af1c2d4ed74",
+    "title" : "Armlene ers MC1124/MC1144 Spinalus-3 Barn oppfellbar u/polster hø",
+    "articleName" : "Armlene ers Minicrosser X Ergo2 std hø",
+    "seriesId" : "5d481949-9c10-4e0b-9596-1d87b0c5ea6f",
+    "hmsArtNr" : "263765",
+    "supplierRef" : "1507-1395",
+    "attributes" : {
+      "compatibleWith" : {
+        "seriesIds" : [ "203bcccd-f48f-40d5-baa9-a9fcae711efd", "c299355d-a9b0-4b01-80b1-952e62b9821b", "1d4b75ab-1622-417b-b3b0-f73e22f28bbf" ],
+        "productIds" : [ "28f3a2d1-5deb-460b-9a6e-2f20e70d5cc0", "1c7a7679-99b2-4994-94d7-2b524869b7ab", "5b15cb16-a17d-43de-8f28-6436a34da217", "cd7b83e8-1591-475e-a5f5-6dc7c42864e2", "76532a5d-938a-493c-8451-7ea4f89d9a55", "46c4d3df-eb79-42e3-8046-dbeb4bf3d497", "4b021596-7c8b-4f28-adb1-3d8ece942617", "8aba2af4-e584-4d3a-a64b-6d71d2a5743f", "d90dba37-749f-4b7b-b279-67815c1e3f29", "af485099-46c8-415f-984f-b1d42ad9ee36", "3ee1dd02-fe87-4c18-8ae1-4981ea2d4b85", "c88c504b-d387-475f-ad7f-8cb32122ac24", "eba2ad5a-f3c6-4a89-abc9-c0e81dfa0274", "d5042fde-01d9-44cf-a5c3-23c2751760c5" ]
+      }
+    },
+    "isoCategory" : "122391",
+    "supplier" : {
+      "name" : "Medema Norge AS",
+      "id" : "e106ff52-dad5-4d4c-b780-36e97aa90ad9"
+    },
+    "media" : [ ],
+    "accessory" : false,
+    "sparePart" : true,
+    "main" : false
+  }, {
+    "id" : "b14cbcfa-9f16-4cd7-b6c9-d277ad1bdcba",
+    "title" : "Print ers Minicrosser X t brukerpanel",
+    "articleName" : "Print ers Minicrosser X t brukerpanel",
+    "seriesId" : "e8a4b971-74db-4d82-8646-9a1898c2863c",
+    "hmsArtNr" : "067833",
+    "supplierRef" : "1505-1405",
+    "attributes" : {
+      "compatibleWith" : {
+        "seriesIds" : [ "96cd4a12-18b1-4763-8f9f-bed6c444f3a2", "4ae740f0-787c-4d63-a4bd-c2fa724eab54", "203bcccd-f48f-40d5-baa9-a9fcae711efd", "c299355d-a9b0-4b01-80b1-952e62b9821b", "1d4b75ab-1622-417b-b3b0-f73e22f28bbf", "475c6e71-eedd-4d4a-9457-e33ffab1b66d" ],
+        "productIds" : [ "28f3a2d1-5deb-460b-9a6e-2f20e70d5cc0", "d90dba37-749f-4b7b-b279-67815c1e3f29", "1c7a7679-99b2-4994-94d7-2b524869b7ab", "5b15cb16-a17d-43de-8f28-6436a34da217", "cd7b83e8-1591-475e-a5f5-6dc7c42864e2", "76532a5d-938a-493c-8451-7ea4f89d9a55", "c88c504b-d387-475f-ad7f-8cb32122ac24", "eba2ad5a-f3c6-4a89-abc9-c0e81dfa0274", "46c4d3df-eb79-42e3-8046-dbeb4bf3d497", "4b021596-7c8b-4f28-adb1-3d8ece942617", "d5042fde-01d9-44cf-a5c3-23c2751760c5" ]
+      }
+    },
+    "isoCategory" : "122393",
+    "supplier" : {
+      "name" : "Medema Norge AS",
+      "id" : "e106ff52-dad5-4d4c-b780-36e97aa90ad9"
+    },
+    "media" : [ ],
+    "accessory" : false,
+    "sparePart" : true,
+    "main" : false
+  }, {
+    "id" : "26c69f6a-5c20-45d8-89f2-a9b3803fdfcf",
+    "title" : "Speil ers MC1124/MC1144 Spinalus-3 hø/ve",
+    "articleName" : "Speil ers Minicrosser X/M styremontert hø",
+    "seriesId" : "7f9eed5f-414d-4641-8549-4c25ee378af0",
+    "hmsArtNr" : "028292",
+    "supplierRef" : "1503-1225",
+    "attributes" : {
+      "compatibleWith" : {
+        "seriesIds" : [ ],
+        "productIds" : [ "43e1859b-ffe2-4aed-a47e-3d561312a4ef", "14dd8463-d83d-48fd-9e04-426390a5f9f8", "5b15cb16-a17d-43de-8f28-6436a34da217", "76532a5d-938a-493c-8451-7ea4f89d9a55", "46c4d3df-eb79-42e3-8046-dbeb4bf3d497", "14804f16-45bb-4cdc-b5cf-123939a13ec9", "8aba2af4-e584-4d3a-a64b-6d71d2a5743f", "26f38bfa-e671-4368-a932-943e0852c37e", "d90dba37-749f-4b7b-b279-67815c1e3f29", "af485099-46c8-415f-984f-b1d42ad9ee36", "3ee1dd02-fe87-4c18-8ae1-4981ea2d4b85", "c88c504b-d387-475f-ad7f-8cb32122ac24", "a916d174-d9ba-4eda-9c78-01d6620f48d5", "c13c68a0-293b-4b42-ada6-ca0eab72a808", "4e9102f3-dd4b-4731-9d9b-6fb24eff61b9", "c20d6995-4874-4025-bcd6-6062e8066f0c", "eba2ad5a-f3c6-4a89-abc9-c0e81dfa0274", "7ddba96b-fd03-4cb1-9c71-a1e52614a33c", "d5042fde-01d9-44cf-a5c3-23c2751760c5" ]
+      }
+    },
+    "isoCategory" : "122393",
+    "supplier" : {
+      "name" : "Medema Norge AS",
+      "id" : "e106ff52-dad5-4d4c-b780-36e97aa90ad9"
+    },
+    "media" : [ ],
+    "accessory" : false,
+    "sparePart" : true,
+    "main" : false
+  }, {
+    "id" : "e5101f3b-f983-46dd-ba8b-3736fb08b1e2",
+    "title" : "Brukerpanel ers Minicrosser X/M bunndel",
+    "articleName" : "Brukerpanel ers Minicrosser X1 bunndel",
+    "seriesId" : "77c9fe23-5b8c-41ad-9765-8e4e0919b48b",
+    "hmsArtNr" : "263694",
+    "supplierRef" : "1503-1351",
+    "attributes" : {
+      "compatibleWith" : {
+        "seriesIds" : [ "4ae740f0-787c-4d63-a4bd-c2fa724eab54", "c299355d-a9b0-4b01-80b1-952e62b9821b", "475c6e71-eedd-4d4a-9457-e33ffab1b66d" ],
+        "productIds" : [ "28f3a2d1-5deb-460b-9a6e-2f20e70d5cc0", "1c7a7679-99b2-4994-94d7-2b524869b7ab", "5b15cb16-a17d-43de-8f28-6436a34da217", "cd7b83e8-1591-475e-a5f5-6dc7c42864e2", "76532a5d-938a-493c-8451-7ea4f89d9a55", "46c4d3df-eb79-42e3-8046-dbeb4bf3d497", "4b021596-7c8b-4f28-adb1-3d8ece942617", "8aba2af4-e584-4d3a-a64b-6d71d2a5743f", "d90dba37-749f-4b7b-b279-67815c1e3f29", "af485099-46c8-415f-984f-b1d42ad9ee36", "3ee1dd02-fe87-4c18-8ae1-4981ea2d4b85", "c88c504b-d387-475f-ad7f-8cb32122ac24", "eba2ad5a-f3c6-4a89-abc9-c0e81dfa0274", "d5042fde-01d9-44cf-a5c3-23c2751760c5" ]
+      }
+    },
+    "isoCategory" : "122393",
+    "supplier" : {
+      "name" : "Medema Norge AS",
+      "id" : "e106ff52-dad5-4d4c-b780-36e97aa90ad9"
+    },
+    "media" : [ ],
+    "accessory" : false,
+    "sparePart" : true,
+    "main" : false
+  }, {
+    "id" : "8869bd9b-436b-4304-bd5c-c29de9cf7097",
+    "title" : "Armlene ers MC1124/MC1144 Spinalus-3 Barn oppfellbar u/polster hø",
+    "articleName" : "Armlene ers Minicrosser X Ergo2 std ve",
+    "seriesId" : "5d481949-9c10-4e0b-9596-1d87b0c5ea6f",
+    "hmsArtNr" : "263766",
+    "supplierRef" : "1507-1396",
+    "attributes" : {
+      "compatibleWith" : {
+        "seriesIds" : [ "203bcccd-f48f-40d5-baa9-a9fcae711efd", "c299355d-a9b0-4b01-80b1-952e62b9821b", "1d4b75ab-1622-417b-b3b0-f73e22f28bbf" ],
+        "productIds" : [ "28f3a2d1-5deb-460b-9a6e-2f20e70d5cc0", "1c7a7679-99b2-4994-94d7-2b524869b7ab", "5b15cb16-a17d-43de-8f28-6436a34da217", "cd7b83e8-1591-475e-a5f5-6dc7c42864e2", "76532a5d-938a-493c-8451-7ea4f89d9a55", "46c4d3df-eb79-42e3-8046-dbeb4bf3d497", "4b021596-7c8b-4f28-adb1-3d8ece942617", "8aba2af4-e584-4d3a-a64b-6d71d2a5743f", "d90dba37-749f-4b7b-b279-67815c1e3f29", "af485099-46c8-415f-984f-b1d42ad9ee36", "3ee1dd02-fe87-4c18-8ae1-4981ea2d4b85", "c88c504b-d387-475f-ad7f-8cb32122ac24", "eba2ad5a-f3c6-4a89-abc9-c0e81dfa0274", "d5042fde-01d9-44cf-a5c3-23c2751760c5" ]
+      }
+    },
+    "isoCategory" : "122391",
+    "supplier" : {
+      "name" : "Medema Norge AS",
+      "id" : "e106ff52-dad5-4d4c-b780-36e97aa90ad9"
+    },
+    "media" : [ ],
+    "accessory" : false,
+    "sparePart" : true,
+    "main" : false
+  }, {
+    "id" : "9d9550b0-3825-4acc-8cc7-bd0df167dd16",
+    "title" : "Fingerskrue ers Minicrosser M8x20 t Batteriskjerm",
+    "articleName" : "Fingerskrue ers Minicrosser M8x20 t Batteriskjerm",
+    "seriesId" : "df504078-d33e-4ccd-bf1e-82f93aaef04c",
+    "hmsArtNr" : "302316",
+    "supplierRef" : "2435-1003",
+    "attributes" : {
+      "compatibleWith" : {
+        "seriesIds" : [ "96cd4a12-18b1-4763-8f9f-bed6c444f3a2", "4ae740f0-787c-4d63-a4bd-c2fa724eab54", "203bcccd-f48f-40d5-baa9-a9fcae711efd", "c299355d-a9b0-4b01-80b1-952e62b9821b", "1d4b75ab-1622-417b-b3b0-f73e22f28bbf", "475c6e71-eedd-4d4a-9457-e33ffab1b66d" ],
+        "productIds" : [ "28f3a2d1-5deb-460b-9a6e-2f20e70d5cc0", "716d830b-c6a5-49c6-8afb-c78905089afd", "14dd8463-d83d-48fd-9e04-426390a5f9f8", "76532a5d-938a-493c-8451-7ea4f89d9a55", "46c4d3df-eb79-42e3-8046-dbeb4bf3d497", "4b021596-7c8b-4f28-adb1-3d8ece942617", "8aba2af4-e584-4d3a-a64b-6d71d2a5743f", "d90dba37-749f-4b7b-b279-67815c1e3f29", "c88c504b-d387-475f-ad7f-8cb32122ac24", "eba2ad5a-f3c6-4a89-abc9-c0e81dfa0274", "e1aea840-c585-4edf-bffc-1ab440a29d43", "d58f6fb8-1389-4ab6-b600-9002e8f024e5", "d5042fde-01d9-44cf-a5c3-23c2751760c5", "43e1859b-ffe2-4aed-a47e-3d561312a4ef", "1c7a7679-99b2-4994-94d7-2b524869b7ab", "f182effa-1b00-41e8-bb61-9ec827b8c065", "5b15cb16-a17d-43de-8f28-6436a34da217", "cd7b83e8-1591-475e-a5f5-6dc7c42864e2", "76eb4872-6624-4b7e-8d4e-b04ce2965bb1", "14804f16-45bb-4cdc-b5cf-123939a13ec9", "26f38bfa-e671-4368-a932-943e0852c37e", "af485099-46c8-415f-984f-b1d42ad9ee36", "3ee1dd02-fe87-4c18-8ae1-4981ea2d4b85", "a916d174-d9ba-4eda-9c78-01d6620f48d5", "c13c68a0-293b-4b42-ada6-ca0eab72a808", "4e9102f3-dd4b-4731-9d9b-6fb24eff61b9", "c20d6995-4874-4025-bcd6-6062e8066f0c", "7ddba96b-fd03-4cb1-9c71-a1e52614a33c" ]
+      }
+    },
+    "isoCategory" : "122393",
+    "supplier" : {
+      "name" : "Medema Norge AS",
+      "id" : "e106ff52-dad5-4d4c-b780-36e97aa90ad9"
+    },
+    "media" : [ ],
+    "accessory" : false,
+    "sparePart" : true,
+    "main" : false
+  } ],
+  "produkt" : {
+    "id" : "e63dcb37-397a-4c25-9ada-47d4e7703869",
+    "title" : "Sitteenhet ers Minicrosser X Ergo2 sb40 sd32-55 m/hodest",
+    "articleName" : "Sitteenhet ers Minicrosser X Ergo2 sb45 sd32-55 m/hodest",
+    "seriesId" : "668010f0-b930-4c53-b3fe-1167e44dd00a",
+    "hmsArtNr" : "203583",
+    "supplierRef" : "1507-1405",
+    "attributes" : {
+      "compatibleWith" : {
+        "seriesIds" : [ "203bcccd-f48f-40d5-baa9-a9fcae711efd", "c299355d-a9b0-4b01-80b1-952e62b9821b", "1d4b75ab-1622-417b-b3b0-f73e22f28bbf", "475c6e71-eedd-4d4a-9457-e33ffab1b66d" ],
+        "productIds" : [ "28f3a2d1-5deb-460b-9a6e-2f20e70d5cc0", "d90dba37-749f-4b7b-b279-67815c1e3f29", "af485099-46c8-415f-984f-b1d42ad9ee36", "1c7a7679-99b2-4994-94d7-2b524869b7ab", "3ee1dd02-fe87-4c18-8ae1-4981ea2d4b85", "f182effa-1b00-41e8-bb61-9ec827b8c065", "cd7b83e8-1591-475e-a5f5-6dc7c42864e2", "76532a5d-938a-493c-8451-7ea4f89d9a55", "a916d174-d9ba-4eda-9c78-01d6620f48d5", "c13c68a0-293b-4b42-ada6-ca0eab72a808", "eba2ad5a-f3c6-4a89-abc9-c0e81dfa0274", "4b021596-7c8b-4f28-adb1-3d8ece942617" ]
+      }
+    },
+    "isoCategory" : "122392",
+    "supplier" : {
+      "name" : "Medema Norge AS",
+      "id" : "e106ff52-dad5-4d4c-b780-36e97aa90ad9"
+    },
+    "media" : [ ],
+    "accessory" : false,
+    "sparePart" : true,
+    "main" : false
+  }
+}

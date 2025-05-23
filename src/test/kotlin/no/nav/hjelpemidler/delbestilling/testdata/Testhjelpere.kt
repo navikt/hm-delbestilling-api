@@ -33,7 +33,7 @@ fun delbestilling(
     deler: List<DelLinje> = deler(),
     harOpplæringPåBatteri: Boolean = false,
     hmsnr: Hmsnr = "236958",
-    serienr: String = "687273",
+    serienr: String = Testdata.defaultHjmSerienr,
 ) = Delbestilling(
     id = UUID.randomUUID(),
     hmsnr = hmsnr,

@@ -23,5 +23,5 @@ interface DelbestillingRepository {
     fun hentDelbestillinger(hmsnr: Hmsnr, serienr: Serienr): List<DelbestillingSak>
     fun hentDelbestilling(saksnummer: Long): DelbestillingSak?
     fun hentDelbestilling(oebsOrdrenummer: String): DelbestillingSak?
-    fun oppdaterDelbestillingSak(sak: DelbestillingSak): UpdateResult
+    fun oppdaterDelbestillingSak(sak: DelbestillingSak)
 }

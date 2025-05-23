@@ -1,0 +1,174 @@
+{
+  "hits" : {
+    "hits" : [ {
+      "_source" : {
+        "id" : "76532a5d-938a-493c-8451-7ea4f89d9a55",
+        "title" : "Minicrosser X1 4W",
+        "articleName" : "Minicrosser X1 4W",
+        "seriesId" : "0c1ccc9c-f3b0-46e3-a235-ceda27a79978",
+        "hmsArtNr" : "250464",
+        "supplierRef" : "1500-1365",
+        "attributes" : {
+          "compatibleWith" : null
+        },
+        "isoCategory" : "12230301",
+        "supplier" : {
+          "name" : "Medema Norge AS",
+          "id" : "e106ff52-dad5-4d4c-b780-36e97aa90ad9"
+        },
+        "media" : [ {
+          "uri" : "orig/61672.jpg",
+          "priority" : 1,
+          "type" : "IMAGE",
+          "text" : "billede",
+          "source" : "HMDB"
+        }, {
+          "uri" : "orig/61672_2.jpg",
+          "priority" : 4,
+          "type" : "IMAGE",
+          "text" : "billede",
+          "source" : "HMDB"
+        }, {
+          "uri" : "orig/61672_3.jpg",
+          "priority" : 7,
+          "type" : "IMAGE",
+          "text" : "billede",
+          "source" : "HMDB"
+        }, {
+          "uri" : "orig/61672_4.jpg",
+          "priority" : 10,
+          "type" : "IMAGE",
+          "text" : "billede",
+          "source" : "HMDB"
+        }, {
+          "uri" : "brugsvejl/61672.pdf",
+          "priority" : 13,
+          "type" : "PDF",
+          "text" : "bruksanvisning",
+          "source" : "HMDB"
+        }, {
+          "uri" : "produktblade/61672.pdf",
+          "priority" : 14,
+          "type" : "PDF",
+          "text" : "brosjyre",
+          "source" : "HMDB"
+        } ],
+        "accessory" : false,
+        "sparePart" : false,
+        "main" : true
+      }
+    } ]
+  },
+  "produkter" : [ {
+    "id" : "76532a5d-938a-493c-8451-7ea4f89d9a55",
+    "title" : "Minicrosser X1 4W",
+    "articleName" : "Minicrosser X1 4W",
+    "seriesId" : "0c1ccc9c-f3b0-46e3-a235-ceda27a79978",
+    "hmsArtNr" : "250464",
+    "supplierRef" : "1500-1365",
+    "attributes" : {
+      "compatibleWith" : null
+    },
+    "isoCategory" : "12230301",
+    "supplier" : {
+      "name" : "Medema Norge AS",
+      "id" : "e106ff52-dad5-4d4c-b780-36e97aa90ad9"
+    },
+    "media" : [ {
+      "uri" : "orig/61672.jpg",
+      "priority" : 1,
+      "type" : "IMAGE",
+      "text" : "billede",
+      "source" : "HMDB"
+    }, {
+      "uri" : "orig/61672_2.jpg",
+      "priority" : 4,
+      "type" : "IMAGE",
+      "text" : "billede",
+      "source" : "HMDB"
+    }, {
+      "uri" : "orig/61672_3.jpg",
+      "priority" : 7,
+      "type" : "IMAGE",
+      "text" : "billede",
+      "source" : "HMDB"
+    }, {
+      "uri" : "orig/61672_4.jpg",
+      "priority" : 10,
+      "type" : "IMAGE",
+      "text" : "billede",
+      "source" : "HMDB"
+    }, {
+      "uri" : "brugsvejl/61672.pdf",
+      "priority" : 13,
+      "type" : "PDF",
+      "text" : "bruksanvisning",
+      "source" : "HMDB"
+    }, {
+      "uri" : "produktblade/61672.pdf",
+      "priority" : 14,
+      "type" : "PDF",
+      "text" : "brosjyre",
+      "source" : "HMDB"
+    } ],
+    "accessory" : false,
+    "sparePart" : false,
+    "main" : true
+  } ],
+  "produkt" : {
+    "id" : "76532a5d-938a-493c-8451-7ea4f89d9a55",
+    "title" : "Minicrosser X1 4W",
+    "articleName" : "Minicrosser X1 4W",
+    "seriesId" : "0c1ccc9c-f3b0-46e3-a235-ceda27a79978",
+    "hmsArtNr" : "250464",
+    "supplierRef" : "1500-1365",
+    "attributes" : {
+      "compatibleWith" : null
+    },
+    "isoCategory" : "12230301",
+    "supplier" : {
+      "name" : "Medema Norge AS",
+      "id" : "e106ff52-dad5-4d4c-b780-36e97aa90ad9"
+    },
+    "media" : [ {
+      "uri" : "orig/61672.jpg",
+      "priority" : 1,
+      "type" : "IMAGE",
+      "text" : "billede",
+      "source" : "HMDB"
+    }, {
+      "uri" : "orig/61672_2.jpg",
+      "priority" : 4,
+      "type" : "IMAGE",
+      "text" : "billede",
+      "source" : "HMDB"
+    }, {
+      "uri" : "orig/61672_3.jpg",
+      "priority" : 7,
+      "type" : "IMAGE",
+      "text" : "billede",
+      "source" : "HMDB"
+    }, {
+      "uri" : "orig/61672_4.jpg",
+      "priority" : 10,
+      "type" : "IMAGE",
+      "text" : "billede",
+      "source" : "HMDB"
+    }, {
+      "uri" : "brugsvejl/61672.pdf",
+      "priority" : 13,
+      "type" : "PDF",
+      "text" : "bruksanvisning",
+      "source" : "HMDB"
+    }, {
+      "uri" : "produktblade/61672.pdf",
+      "priority" : 14,
+      "type" : "PDF",
+      "text" : "brosjyre",
+      "source" : "HMDB"
+    } ],
+    "accessory" : false,
+    "sparePart" : false,
+    "main" : true
+  }
+}

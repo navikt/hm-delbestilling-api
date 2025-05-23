@@ -15,4 +15,5 @@ object Testdata {
 
     val kommunenummerOslo = "0301"
     val defaultKommunenummer = kommunenummerOslo
+    val defaultKommunenavn = "Oslo"
 }
