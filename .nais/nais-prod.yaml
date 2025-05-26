@@ -12,15 +12,18 @@ spec:
   replicas:
     min: 2
     max: 4
+  startup:
+    failureThreshold: 5
+    initialDelay: 60
+    path: /isalive
+    periodSeconds: 10
+    timeout: 5
   liveness:
     path: /isalive
-    initialDelay: 50
   readiness:
     path: /isready
-    initialDelay: 50
   resources:
     limits:
-      cpu: 500m
       memory: 1024Mi
     requests:
       cpu: 35m
