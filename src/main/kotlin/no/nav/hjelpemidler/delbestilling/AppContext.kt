@@ -45,7 +45,6 @@ class AppContext {
 
     // Coroutine
     private val backgroundScope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
-    fun shutdown() = backgroundScope.cancel("Shutting down application")
 
     // Database
     private val ds = DatabaseConfig.migratedDataSource
@@ -92,4 +91,10 @@ class AppContext {
         berikMedDagerSidenForrigeBatteribestilling
     )
     val delbestillingStatusService = DelbestillingStatusService(transactional, oebs, metrics)
+
+    fun shutdown() = backgroundScope.cancel("Shutting down application")
+
+    fun applicationStarted() {
+        hjelpemiddeloversikt.startBakgrunnsjobb()
+    }
 }

@@ -22,7 +22,7 @@ private val log = KotlinLogging.logger {}
 class Hjelpemiddeloversikt(
     val grunndata: Grunndata,
     private val scope: CoroutineScope,
-    cacheDuration: Duration = 2.hours
+    private val cacheDuration: Duration = 2.hours
 ) {
 
     private val cacheKey = "hjelpemidler"
@@ -31,23 +31,6 @@ class Hjelpemiddeloversikt(
         .refreshAfterWrite(cacheDuration)
         .maximumSize(1)
         .buildAsync { _, _ -> scope.future { hentAlleHjelpemiddelTitler() } }
-
-    init {
-        scope.launch {
-            log.info { "Prepopulerer hjelpemidler cache" }
-            measureTimeMillis {
-                cache.get(cacheKey).await()
-            }.also { log.info { "Prepopulering tok $it ms." } }
-        }
-
-        scope.launch {
-            while (isActive) {
-                delay(cacheDuration.plus(1.seconds)) // Legg på 1 sek for å sikre at cachen er utdatert før vi refresher
-                log.info { "Refresher hjelpemiddel cache" }
-                cache.synchronous().refresh(cacheKey)
-            }
-        }
-    }
 
     suspend fun hentAlleHjelpemiddelTitlerCached(): HjelpemiddeloversiktResponse {
         return cache.get(cacheKey).await()
@@ -66,6 +49,25 @@ class Hjelpemiddeloversikt(
         val hjelpemiddelNavnFraGrunndata = hjelpemidler.map { it.title.trim() }.toSet()
 
         return HjelpemiddeloversiktResponse((hjelpemiddelNavnFraGrunndata + hjelpemiddelNavnFraManuellListe()).toSortedSet())
+    }
+
+    fun startBakgrunnsjobb() {
+        log.info { "Starter bakgrunnsjobber for Hjelpemiddeloversikt" }
+        scope.launch {
+            log.info { "Prepopulerer hjelpemidler cache" }
+            measureTimeMillis {
+                cache.get(cacheKey).await()
+            }.also { log.info { "Prepopulering tok $it ms." } }
+        }
+
+        scope.launch {
+            while (isActive) {
+                delay(cacheDuration.plus(1.seconds)) // Legg på 1 sek for å sikre at cachen er utdatert før vi refresher
+                log.info { "Refresher hjelpemiddel cache" }
+                cache.synchronous().refresh(cacheKey)
+            }
+        }
+        log.info { "Bakgrunnsjobber for Hjelpemiddeloversikt startet." }
     }
 }
 

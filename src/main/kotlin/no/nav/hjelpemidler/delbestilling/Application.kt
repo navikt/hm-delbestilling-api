@@ -3,6 +3,7 @@ package no.nav.hjelpemidler.delbestilling
 import io.ktor.client.request.delete
 import io.ktor.client.request.post
 import io.ktor.server.application.Application
+import io.ktor.server.application.ApplicationStarted
 import io.ktor.server.application.ApplicationStopped
 import io.ktor.server.auth.authenticate
 import io.ktor.server.cio.CIO
@@ -46,6 +47,11 @@ fun Application.module() {
     validerData()
     configure()
     setupRoutes(ctx)
+
+    monitor.subscribe(ApplicationStarted) {
+        log.info { "Applikasjon startet. Starter bakgrunnsjobber." }
+        ctx.applicationStarted()
+    }
 
     monitor.subscribe(ApplicationStopped) {
         ctx.shutdown()
