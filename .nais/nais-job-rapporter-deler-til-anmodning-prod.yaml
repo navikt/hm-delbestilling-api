@@ -24,11 +24,11 @@ spec:
     value: api://prod-gcp.teamdigihot.hm-delbestilling-api/.default
   envFrom:
     - secret: hm-slack-hook
-  secureLogs:
-    enabled: true
   accessPolicy:
     outbound:
       external:
         - host: hooks.slack.com
       rules:
         - application: hm-delbestilling-api
+        - application: logging
+          namespace: nais-system

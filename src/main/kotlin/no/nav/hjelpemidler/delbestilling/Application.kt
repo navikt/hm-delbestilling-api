@@ -1,5 +1,6 @@
 package no.nav.hjelpemidler.delbestilling
 
+import io.github.oshai.kotlinlogging.KotlinLogging
 import io.ktor.client.request.delete
 import io.ktor.client.request.post
 import io.ktor.server.application.Application
@@ -9,7 +10,6 @@ import io.ktor.server.cio.CIO
 import io.ktor.server.engine.embeddedServer
 import io.ktor.server.plugins.ratelimit.RateLimitName
 import io.ktor.server.plugins.ratelimit.rateLimit
-import io.ktor.server.routing.getAllRoutes
 import io.ktor.server.routing.route
 import io.ktor.server.routing.routing
 import kotlinx.coroutines.runBlocking
@@ -22,7 +22,7 @@ import no.nav.hjelpemidler.delbestilling.delbestilling.delbestillingApiAuthentic
 import no.nav.hjelpemidler.delbestilling.devtools.devtoolsApi
 import no.nav.hjelpemidler.delbestilling.infrastructure.monitoring.helsesjekkApi
 import no.nav.hjelpemidler.delbestilling.infrastructure.security.medDelbestillerRolle
-import no.nav.hjelpemidler.delbestilling.infrastructure.slack.log
+import no.nav.hjelpemidler.delbestilling.infrastructure.teamInfo
 import no.nav.hjelpemidler.delbestilling.oppslag.legacy.data.validerData
 import no.nav.hjelpemidler.delbestilling.oppslag.oppslagApi
 import no.nav.hjelpemidler.delbestilling.ordrestatus.ordrestatusRoutes
@@ -30,6 +30,8 @@ import no.nav.hjelpemidler.domain.person.TILLAT_SYNTETISKE_FØDSELSNUMRE
 import no.nav.hjelpemidler.http.openid.bearerAuth
 import no.nav.tms.token.support.azure.validation.AzureAuthenticator
 import no.nav.tms.token.support.tokenx.validation.TokenXAuthenticator
+
+private val log = KotlinLogging.logger {}
 
 fun main() {
     when (System.getenv("CRONJOB_TYPE")) {
@@ -96,4 +98,7 @@ fun Application.setupRoutes(ctx: AppContext) {
 
         helsesjekkApi()
     }
+
+    log.info { "LOG_TEST: This is a normal log" }
+    log.teamInfo { "LOG_TEST: This logstatement should go in team logs" }
 }
