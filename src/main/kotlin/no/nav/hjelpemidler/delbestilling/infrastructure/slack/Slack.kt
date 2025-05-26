@@ -17,7 +17,7 @@ import no.nav.hjelpemidler.delbestilling.oppslag.legacy.data.hmsnrTilDel
 import no.nav.hjelpemidler.http.slack.slack
 import no.nav.hjelpemidler.http.slack.slackIconEmoji
 
-val log = KotlinLogging.logger { }
+private val log = KotlinLogging.logger { }
 
 class Slack(
     private val transaction: Transactional,

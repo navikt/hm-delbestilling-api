@@ -44,7 +44,7 @@ dependencies {
     implementation(libs.bundles.jackson)
 
     // Logging
-    implementation(libs.kotlin.logging)
+    implementation(libs.hotlibs.logging)
     implementation(libs.slf4j.api)
     implementation(libs.bundles.logging.runtime)
 

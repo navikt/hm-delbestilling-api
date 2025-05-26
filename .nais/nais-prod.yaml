@@ -48,6 +48,8 @@ spec:
         - application: hm-oebs-api-proxy
         - application: hm-roller
         - application: digihot-oppslag
+        - application: logging
+          namespace: nais-system
       external:
         - host: kafka-schema-registry.nais.adeo.no
         - host: hm-oebs-api-proxy.prod-fss-pub.nais.io
@@ -74,8 +76,6 @@ spec:
           - name: hm-delbestilling-api-db-prod-v1
             envVarPrefix: DB
         cascadingDelete: false
-  secureLogs:
-    enabled: true
   env:
     - name: OEBS_API_URL
       value: https://hm-oebs-api-proxy.prod-fss-pub.nais.io
