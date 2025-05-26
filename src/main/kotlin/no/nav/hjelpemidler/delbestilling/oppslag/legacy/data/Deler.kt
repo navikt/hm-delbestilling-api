@@ -291,22 +291,6 @@ val hmsnrTilDel: Map<Hmsnr, Del> = listOf(
         imgs = listOf("https://storage.googleapis.com/hm_delbestilling_bilder/232849.png")
     ),
     Del(
-        hmsnr = "159563",
-        navn = "Batteripakke personløfter frittstå Molift Smart 150/Molift Mover 180 14,4V NiMh",
-        levArtNr = "541000",
-        kategori = "Batteripakke",
-        maksAntall = 1,
-        imgs = listOf("https://storage.googleapis.com/hm_delbestilling_bilder/159563.png")
-    ),
-    Del(
-        hmsnr = "262846",
-        navn = "Batterilader personløfter frittstå Molift Smart 150/Molift Mover 180/Molift Mover 205 f/NiMi",
-        levArtNr = "1340100",
-        kategori = "Lader",
-        maksAntall = 1,
-        imgs = listOf("https://storage.googleapis.com/hm_delbestilling_bilder/262846.png")
-    ),
-    Del(
         hmsnr = "269864",
         navn = "Batteri ers Eloflex F",
         levArtNr = "7350006080111",
@@ -392,12 +376,6 @@ val hmsnrTilDel: Map<Hmsnr, Del> = listOf(
         levArtNr = "5322004",
         kategori = "Svinghjul",
         maksAntall = 2
-    ),
-    Del(
-        hmsnr = "201800",
-        navn = "Håndkontroll personløfter frittstå Molift Mover 180/Molift Mover 205 4 knapper u/lading",
-        kategori = "Håndkontroll",
-        maksAntall = 1
     ),
     Del(
         hmsnr = "302292",

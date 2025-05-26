@@ -81,10 +81,5 @@ internal class ManuellListeTest {
         val X850 = hmsnr2Hjm[hmsnrnrX850]!!
         val batteriX850 = X850.deler.find { it.kategori == "Batteri" }!!
         assertEquals(2, batteriX850.defaultAntall)
-
-        val hmsnrnrMolift = "242661"
-        val molift = hmsnr2Hjm[hmsnrnrMolift]!!
-        val batteriMolift = molift.deler.find { it.kategori == "Batteripakke" }!!
-        assertEquals(1, batteriMolift.defaultAntall)
     }
 }
