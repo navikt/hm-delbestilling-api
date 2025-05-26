@@ -67,7 +67,7 @@ fun delbestillingSak(
     delbestilling: Delbestilling = delbestilling(),
     opprettet: LocalDateTime = LocalDateTime.now()
 ) = DelbestillingSak(
-    saksnummer = 37,
+    saksnummer = -1,
     delbestilling = delbestilling,
     opprettet = opprettet,
     status = Status.INNSENDT,
