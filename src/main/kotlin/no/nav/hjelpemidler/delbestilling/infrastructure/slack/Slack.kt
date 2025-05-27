@@ -137,14 +137,17 @@ class Slack(
         deler: List<AnmodningsbehovForDel>,
         brukersKommunenavn: String,
         enhetnr: String
-    ) = sendSafely(
-        emoji = "pepe_cowboy",
-        message = """
-            Det har kommet inn delbestilling med følgende deler som ikke har dekning hos enhet $enhetnr (kommune: ${brukersKommunenavn}):
+    ) {
+        val enhet = runCatching { Enhet.fraEnhetsnummer(enhetnr) }.getOrNull()?.name
+        sendSafely(
+            emoji = "pepe_cowboy",
+            message = """
+            Det har kommet inn delbestilling med følgende deler som ikke har dekning hos enhet $enhet (kommune: ${brukersKommunenavn}):
             ```${deler.joinToString("\n")}```
             Disse må kanskje anmodes, ny sjekk gjøres i natt.
             """.trimIndent(),
-    )
+        )
+    }
 
     fun varsleOmManglendeHmsnr(hmsnr: String) = sendSafely(
         emoji = "thinkies",
