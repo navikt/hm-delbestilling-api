@@ -27,7 +27,6 @@ import no.nav.hjelpemidler.delbestilling.oppslag.oppslagApi
 import no.nav.hjelpemidler.delbestilling.ordrestatus.ordrestatusRoutes
 import no.nav.hjelpemidler.domain.person.TILLAT_SYNTETISKE_FØDSELSNUMRE
 import no.nav.hjelpemidler.http.openid.bearerAuth
-import no.nav.hjelpemidler.logging.teamInfo
 import no.nav.tms.token.support.azure.validation.AzureAuthenticator
 import no.nav.tms.token.support.tokenx.validation.TokenXAuthenticator
 
@@ -99,6 +98,4 @@ fun Application.setupRoutes(ctx: AppContext) {
         helsesjekkApi()
     }
 
-    log.info { "LOG_TEST: This is a normal log" }
-    log.teamInfo { "LOG_TEST: This logstatement should go in team logs" }
 }
