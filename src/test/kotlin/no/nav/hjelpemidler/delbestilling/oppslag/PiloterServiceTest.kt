@@ -21,8 +21,7 @@ class PiloterServiceTest {
 
     @Test
     fun `skal returnere tom liste hvis bruker ikke er i pilot`() = runWithTestContext {
-        val enhetnrTrøndelag = "4716"
-        norgClient.response = NorgResponse.enhet(enhetNr = enhetnrTrøndelag)
+        norgClient.response = NorgResponse.enhet(enhetNr = Enhet.TROMS_OG_FINNMARK.nummer)
 
         val piloter = piloterService.hentPiloter("1234")
 
