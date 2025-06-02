@@ -12,7 +12,7 @@ enum class Enhet(val nummer: String, private val epost: String?) {
     VEST_VIKEN("4706", "nav.hot.vest-viken.lager@nav.no"),
     VESTFOLD_OG_TELEMARK("4707", "nav.hot.vestfold.og.telemark.teknisk@nav.no"),
     AGDER("4710", null),
-    ROGALAND("4711", null),
+    ROGALAND("4711", "nav.hot.rogaland.teknisk@nav.no"),
     VESTLAND_BERGEN("4712", "nav.hot.vestland.bergen.delelager@nav.no"),
     VESTLAND_FØRDE("4714", null),
     MØRE_OG_ROMSDAL("4715", "nav.hot.moreogromsdal.teknisk@nav.no"),
