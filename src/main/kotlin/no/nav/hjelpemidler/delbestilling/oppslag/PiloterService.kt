@@ -14,6 +14,7 @@ private val PILOTENHETER_BESTILLE_IKKE_FASTE_LAGERVARER = setOf(
     Enhet.VESTLAND_BERGEN,
     Enhet.TRØNDELAG,
     Enhet.ROGALAND,
+    Enhet.AGDER,
 ).map { it.nummer }
 
 class PiloterService(
