@@ -14,10 +14,10 @@ enum class Enhet(val nummer: String, private val epost: String?) {
     AGDER("4710", "nav.hot.agder.teknisk@nav.no"),
     ROGALAND("4711", "nav.hot.rogaland.teknisk@nav.no"),
     VESTLAND_BERGEN("4712", "nav.hot.vestland.bergen.delelager@nav.no"),
-    VESTLAND_FØRDE("4714", null),
+    VESTLAND_FØRDE("4714", "nav.hot.vestland.forde@nav.no"),
     MØRE_OG_ROMSDAL("4715", "nav.hot.moreogromsdal.teknisk@nav.no"),
     TRØNDELAG("4716", "nav.hot.trondelag.teknisk@nav.no"),
-    NORDLAND("4718", null),
+    NORDLAND("4718", "nav.hot.nordland.teknisk@nav.no"),
     TROMS_OG_FINNMARK("4719", null),
     ;
 
