@@ -149,11 +149,6 @@ class Slack(
         )
     }
 
-    fun varsleOmManglendeHmsnr(hmsnr: String) = sendSafely(
-        emoji = "thinkies",
-        message = "Det ble gjort et oppslag på `$hmsnr`, men dette er et produkt som verken finnes i manuell liste eller i grunndata."
-    )
-
     fun varsleOmAnmodningrapportSomErSendtTilEnhet(enhet: Enhet, melding: String) {
         sendSafely(
             emoji = "mailbox",

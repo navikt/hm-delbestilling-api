@@ -29,7 +29,6 @@ class FinnDelerTilHjelpemiddel(
         val hjelpemiddel = slåSammen(hjmGrunndata, hjmManuellListe)
 
         if (hjelpemiddel == null) {
-            slack.varsleOmManglendeHmsnr(hmsnr)
             throw TilbyrIkkeHjelpemiddelException("Fant ikke $hmsnr verken i grunndata eller manuell liste")
         }
 
