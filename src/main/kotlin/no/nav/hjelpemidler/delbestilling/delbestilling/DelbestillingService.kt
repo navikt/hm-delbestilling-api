@@ -144,7 +144,7 @@ class DelbestillingService(
         sendStatistikk(request.delbestilling, brukersFnr)
 
         if (!isLocal()) {
-            slack.varsleOmInnsending(brukerKommunenr, brukersKommunenavn, delbestillingSak)
+            slack.varsleOmInnsending(brukerKommunenr, brukersKommunenavn)
         }
 
         return DelbestillingResultat(id, null, delbestillingSak.saksnummer, delbestillingSak)

@@ -48,7 +48,6 @@ class Slack(
     suspend fun varsleOmInnsending(
         brukerKommunenr: String,
         brukersKommunenavn: String,
-        delbestillingSak: DelbestillingSak
     ) {
         try {
             val antallDelbestillingerFraKommune = transaction {
@@ -69,34 +68,6 @@ class Slack(
                 sendSafely(
                     emoji = "chart_with_upwards_trend",
                     message = "$kommuneVåpenEmoji Ny kommune har sendt inn 4 digitale delbestillinger! Denne gangen var det ${brukersKommunenavn} kommune (kommunenummer: $brukerKommunenr)"
-                )
-            }
-
-            val delerFraGrunndata = delbestillingSak.delbestilling.deler.filter { it.del.kilde == Kilde.GRUNNDATA }
-            log.info { "delerFraGrunndata: $delerFraGrunndata" }
-            if (delerFraGrunndata.isNotEmpty()) {
-                var message =
-                    "En delbestilling har kommet inn med deler fra grunndata, i ${brukersKommunenavn} kommune! Disse delene var: ```${
-                        delerFraGrunndata.joinToString("\n") { "${it.del.hmsnr} ${it.del.navn}" }
-                    }```"
-
-                val delerIManuellListe = hmsnrTilDel.values.toList()
-                val delerSomOgsåFinnesIManuellListe =
-                    delerIManuellListe.filter { del -> delerFraGrunndata.find { it.del.hmsnr == del.hmsnr } != null }
-
-                message += if (delerSomOgsåFinnesIManuellListe.isNotEmpty()) {
-                    "\nFølgende deler finnes også i manuell liste: ```${
-                        delerSomOgsåFinnesIManuellListe.joinToString(
-                            "\n"
-                        ) { "${it.hmsnr} ${it.navn}" }
-                    }```"
-                } else {
-                    "\nIngen av delene finnes i manuell liste; kun i grunndata!"
-                }
-
-                sendSafely(
-                    emoji = "very_nice",
-                    message = message
                 )
             }
         } catch (e: Exception) {
