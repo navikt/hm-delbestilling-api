@@ -29,7 +29,7 @@ class AnmodningService(
         if (delerUtenDekning.isNotEmpty()) {
             transaction {
                 delerUtenDekning.forEach { del ->
-                    anmodningRepository.lagreDelerUtenDekning(
+                    delUtenDekningDao.lagreDelerUtenDekning(
                         saksnummer = sak.saksnummer,
                         hmsnr = del.hmsnr,
                         navn = del.navn,
@@ -61,11 +61,11 @@ class AnmodningService(
         log.info { "Genererer rapport for bestilte deler som må anmodes" }
 
         // Hent først alle unike enhetnr
-        val hmsEnheter = transaction { anmodningRepository.hentUnikeEnheter() }
+        val hmsEnheter = transaction { delUtenDekningDao.hentUnikeEnheter() }
         log.info { "Enheter med deler som potensielt må anmodes: $hmsEnheter" }
 
         val rapporter = hmsEnheter.map { enhet ->
-            val delerSomMangletDekningVedInnsending = transaction{ anmodningRepository.hentDelerTilRapportering(enhet.nummer) }
+            val delerSomMangletDekningVedInnsending = transaction{ delUtenDekningDao.hentDelerTilRapportering(enhet.nummer) }
             log.info { "Deler som manglet dekning ved innsending for enhet $enhet: $delerSomMangletDekningVedInnsending" }
 
             val lagerstatuser = oebs.hentLagerstatusForEnhet(
@@ -99,15 +99,15 @@ class AnmodningService(
 
 
     suspend fun markerDelerSomIkkeRapportert() = transaction {
-        anmodningRepository.markerDelerSomIkkeRapportert()
+        delUtenDekningDao.markerDelerSomIkkeRapportert()
     }
 
     suspend fun sendAnmodningRapport(rapport: Anmodningrapport): String {
         val melding = rapportTilMelding(rapport)
 
         transaction {
-            anmodningRepository.markerDelerSomRapportert(rapport.enhet)
-            anmodningRepository.lagreAnmodninger(rapport)
+            delUtenDekningDao.markerDelerSomRapportert(rapport.enhet)
+            anmodningDao.lagreAnmodninger(rapport)
             email.sendSimpleMessage(
                 recipentEmail = rapport.enhet.epost(),
                 subject = "Deler som må anmodes",

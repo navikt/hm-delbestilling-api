@@ -2,9 +2,8 @@ package no.nav.hjelpemidler.delbestilling.testdata
 
 import io.mockk.mockk
 import kotlinx.coroutines.test.runTest
-import no.nav.hjelpemidler.delbestilling.delbestilling.DelbestillingRepository
-import no.nav.hjelpemidler.delbestilling.delbestilling.anmodning.AnmodningRepository
-import no.nav.hjelpemidler.delbestilling.fakes.FakeAnmodningRepository
+import no.nav.hjelpemidler.delbestilling.fakes.FakeAnmodningDao
+import no.nav.hjelpemidler.delbestilling.fakes.FakeDelUtenDekningDao
 import no.nav.hjelpemidler.delbestilling.fakes.FakeDelbestillingRepository
 import no.nav.hjelpemidler.delbestilling.fakes.FakeTransaction
 import no.nav.hjelpemidler.delbestilling.oppslag.PiloterService
@@ -30,8 +29,9 @@ class TestContext {
     val metrics = mockk<Metrics>(relaxed = true)
     val slack = mockk<Slack>(relaxed = true)
     val delbestillingRepository = FakeDelbestillingRepository()
-    val anmodningRepository = FakeAnmodningRepository()
-    val transactionScope = TransactionScope(anmodningRepository, delbestillingRepository)
+    val anmodningDao = FakeAnmodningDao()
+    val delUtenDekningDao = FakeDelUtenDekningDao()
+    val transactionScope = TransactionScope(anmodningDao, delUtenDekningDao, delbestillingRepository)
 
     val transactional = FakeTransaction(transactionScope)
 

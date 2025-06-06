@@ -1,10 +1,9 @@
 package no.nav.hjelpemidler.delbestilling.delbestilling.anmodning
 
-import kotliquery.Row
 import no.nav.hjelpemidler.delbestilling.common.Enhet
 import no.nav.hjelpemidler.delbestilling.common.Hmsnr
 
-interface AnmodningRepository {
+interface DelUtenDekningDao {
     fun lagreDelerUtenDekning(
         saksnummer: Long,
         hmsnr: Hmsnr,
@@ -18,8 +17,7 @@ interface AnmodningRepository {
     fun hentUnikeEnheter(): List<Enhet>
     fun hentDelerTilRapportering(enhetnr: String): List<Del>
     fun markerDelerSomRapportert(enhet: Enhet)
-    fun lagreAnmodninger(rapport: Anmodningrapport)
 
-    // Kun til testing i dev
+    // Kun til testing i dev TODO: flytt denne funksjonaliteten til devtools, slik at vi slipper å blande det inn her.
     fun markerDelerSomIkkeRapportert()
 }

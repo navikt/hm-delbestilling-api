@@ -2,13 +2,13 @@ package no.nav.hjelpemidler.delbestilling.fakes
 
 import no.nav.hjelpemidler.delbestilling.common.Enhet
 import no.nav.hjelpemidler.delbestilling.common.Hmsnr
-import no.nav.hjelpemidler.delbestilling.delbestilling.anmodning.AnmodningRepository
 import no.nav.hjelpemidler.delbestilling.delbestilling.anmodning.Anmodningrapport
 import no.nav.hjelpemidler.delbestilling.delbestilling.anmodning.Del
+import no.nav.hjelpemidler.delbestilling.delbestilling.anmodning.DelUtenDekningDao
 import java.time.LocalDateTime
 import java.util.concurrent.atomic.AtomicLong
 
-class FakeAnmodningRepository : AnmodningRepository {
+class FakeDelUtenDekningDao : DelUtenDekningDao {
 
     private val idCounter = AtomicLong(1L)
 
@@ -26,7 +26,6 @@ class FakeAnmodningRepository : AnmodningRepository {
     )
 
     private val delerUtenDekning = mutableListOf<DelEntry>()
-    private val anmodninger = mutableListOf<Anmodningrapport>()
 
     override fun lagreDelerUtenDekning(
         saksnummer: Long,
@@ -74,10 +73,6 @@ class FakeAnmodningRepository : AnmodningRepository {
                 it.rapportertTidspunkt = now
                 it.sistOppdatert = now
             }
-    }
-
-    override fun lagreAnmodninger(rapport: Anmodningrapport) {
-        anmodninger += rapport
     }
 
     override fun markerDelerSomIkkeRapportert() {

@@ -8,7 +8,6 @@ import no.nav.hjelpemidler.delbestilling.testdata.MockException
 import no.nav.hjelpemidler.delbestilling.testdata.TestDatabase
 import no.nav.hjelpemidler.delbestilling.testdata.delLinje
 import no.nav.hjelpemidler.delbestilling.testdata.delbestillerRolle
-import no.nav.hjelpemidler.delbestilling.delbestilling.anmodning.AnmodningRepository
 import no.nav.hjelpemidler.delbestilling.delbestilling.anmodning.AnmodningService
 import no.nav.hjelpemidler.delbestilling.delbestilling.anmodning.lagerstatus
 import no.nav.hjelpemidler.delbestilling.testdata.delbestillingRequest
@@ -172,7 +171,7 @@ internal class DelbestillingServiceTest {
             delbestillerRolle()
         )
 
-        val delerTilRapportering = transaction { anmodningRepository.hentDelerTilRapportering(enhetnr) }
+        val delerTilRapportering = transaction { delUtenDekningDao.hentDelerTilRapportering(enhetnr) }
         assertEquals(2, delerTilRapportering.size)
         assertEquals(1, delerTilRapportering.find { it.hmsnr == hmsnrEtterfylt }!!.antall)
         assertEquals(2, delerTilRapportering.find { it.hmsnr == hmsnrIkkeDekning }!!.antall)
@@ -190,7 +189,7 @@ internal class DelbestillingServiceTest {
         val anmodninger = delbestillingService.rapporterDelerTilAnmodning().first()
         assertEquals(
             0,
-            transaction { anmodningRepository.hentDelerTilRapportering(enhetnr).size },
+            transaction { delUtenDekningDao.hentDelerTilRapportering(enhetnr).size },
             "Det skal ikke lenger eksistere deler til rapportering"
         )
         assertEquals(1, anmodninger.anmodningsbehov.size)
@@ -257,7 +256,7 @@ internal class DelbestillingServiceTest {
         )
 
         // Sjekk at anmodningsbehov er summert for begge delbestillingene
-        val delerTilRapportering = transaction { anmodningRepository.hentDelerTilRapportering(enhetnr) }
+        val delerTilRapportering = transaction { delUtenDekningDao.hentDelerTilRapportering(enhetnr) }
         assertEquals(2, delerTilRapportering.size)
         assertEquals(2, delerTilRapportering.find { it.hmsnr == hmsnr1 }!!.antall)
         assertEquals(3, delerTilRapportering.find { it.hmsnr == hmsnr2 }!!.antall)

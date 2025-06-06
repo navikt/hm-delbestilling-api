@@ -1,4 +1,4 @@
-package no.nav.hjelpemidler.delbestilling.infrastructure.persistence.postgresql
+package no.nav.hjelpemidler.delbestilling.infrastructure.persistence.postgresql.delbestilling
 
 import kotliquery.Row
 import no.nav.hjelpemidler.database.JdbcOperations
