@@ -21,14 +21,15 @@ private val PILOTENHETER_BESTILLE_IKKE_FASTE_LAGERVARER = setOf(
     Enhet.VESTLAND_FØRDE,
     Enhet.NORDLAND,
     Enhet.INNLANDET_GJØVIK,
-).map { it.nummer }
+)
 
 class PiloterService(
     private val norg: Norg
 ) {
 
     suspend fun hentPiloter(brukersKommunenummer: String): List<Pilot> {
-        val brukersEnhet = norg.hentEnhetnummer(brukersKommunenummer)
+        val brukersEnhetnr = norg.hentEnhetnummer(brukersKommunenummer)
+        val brukersEnhet = Enhet.fraEnhetsnummer(brukersEnhetnr)
 
         val piloter =  buildList {
             if (isDev() || PILOTENHETER_BESTILLE_IKKE_FASTE_LAGERVARER.contains(brukersEnhet)) {
