@@ -1,8 +1,11 @@
 package no.nav.hjelpemidler.delbestilling.oppslag
 
+import io.github.oshai.kotlinlogging.KotlinLogging
 import no.nav.hjelpemidler.delbestilling.common.Enhet
 import no.nav.hjelpemidler.delbestilling.config.isDev
 import no.nav.hjelpemidler.hjelpemidlerdigitalSoknadapi.tjenester.norg.Norg
+
+private val log = KotlinLogging.logger { }
 
 private val PILOTENHETER_BESTILLE_IKKE_FASTE_LAGERVARER = setOf(
     Enhet.OSLO,
@@ -27,10 +30,13 @@ class PiloterService(
     suspend fun hentPiloter(brukersKommunenummer: String): List<Pilot> {
         val brukersEnhet = norg.hentEnhetnummer(brukersKommunenummer)
 
-        return buildList {
+        val piloter =  buildList {
             if (isDev() || PILOTENHETER_BESTILLE_IKKE_FASTE_LAGERVARER.contains(brukersEnhet)) {
                 add(Pilot.BESTILLE_IKKE_FASTE_LAGERVARER)
             }
         }
+        log.info { "Fant enhet=$brukersEnhet for kommunenummer=$brukersKommunenummer i pilotsjekk, med piloter=$piloter" }
+
+        return piloter
     }
 }
