@@ -28,8 +28,29 @@ enum class Enhet(val nummer: String, private val epost: String?) {
 
     companion object {
         fun fraEnhetsnummer(enhetNr: String): Enhet {
-            return entries.find { it.nummer == enhetNr }
-                ?: throw IllegalArgumentException("Enhet $enhetNr ikke funnet.")
+            val nummerTilEnhet: Map<String, Enhet> = mapOf(
+                "4701" to ØST_VIKEN,
+                "4702" to OSLO,
+                "4703" to OSLO,
+                "4704" to INNLANDET_ELVERUM,
+                "4705" to INNLANDET_GJØVIK,
+                "4706" to VEST_VIKEN,
+                "4707" to VESTFOLD_OG_TELEMARK,
+                "4708" to VESTFOLD_OG_TELEMARK,
+                "4709" to AGDER,
+                "4710" to AGDER,
+                "4711" to ROGALAND,
+                "4712" to VESTLAND_BERGEN,
+                "4714" to VESTLAND_FØRDE,
+                "4715" to MØRE_OG_ROMSDAL,
+                "4716" to TRØNDELAG,
+                "4717" to TRØNDELAG,
+                "4718" to NORDLAND,
+                "4719" to TROMS_OG_FINNMARK,
+                "4720" to TROMS_OG_FINNMARK,
+            )
+
+            return nummerTilEnhet[enhetNr] ?: throw IllegalArgumentException("Enhet $enhetNr ikke funnet.")
         }
     }
 }
