@@ -7,7 +7,7 @@ import no.nav.hjelpemidler.delbestilling.infrastructure.grunndata.Grunndata
 import no.nav.hjelpemidler.delbestilling.infrastructure.oebs.Oebs
 import no.nav.hjelpemidler.delbestilling.infrastructure.persistence.transaction.Transactional
 import no.nav.hjelpemidler.delbestilling.infrastructure.slack.Slack
-import no.nav.hjelpemidler.hjelpemidlerdigitalSoknadapi.tjenester.norg.Norg
+import no.nav.hjelpemidler.delbestilling.infrastructure.norg.Norg
 
 private val log = KotlinLogging.logger {}
 
@@ -22,7 +22,7 @@ class AnmodningService(
 
     suspend fun lagreDelerUtenDekning(sak: DelbestillingSak) {
         val delerUtenDekning = finnDelerUtenDekning(sak)
-        val enhetnummer = norg.hentEnhetnummer(sak.brukersKommunenummer)
+        val enhet = norg.hentEnhet(sak.brukersKommunenummer)
 
         log.info { "Dekningsjekk: lagrer følgende deler uten dekning: ${delerUtenDekning.joinToString("\n")}" }
 
@@ -36,12 +36,12 @@ class AnmodningService(
                         antallUtenDekning = del.antallSomMåAnmodes,
                         bukersKommunenummer = sak.brukersKommunenummer,
                         brukersKommunenavn = sak.brukersKommunenavn,
-                        enhetnr = enhetnummer,
+                        enhetnr = enhet.nummer,
                     )
                 }
             }
 
-            slack.varsleOmDelerUtenDekning(delerUtenDekning, sak.brukersKommunenavn, enhetnummer)
+            slack.varsleOmDelerUtenDekning(delerUtenDekning, sak.brukersKommunenavn, enhet.nummer)
         }
     }
 

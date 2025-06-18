@@ -12,7 +12,7 @@ import no.nav.hjelpemidler.delbestilling.infrastructure.oebs.Oebs
 import no.nav.hjelpemidler.delbestilling.infrastructure.persistence.transaction.Transaction
 import no.nav.hjelpemidler.delbestilling.infrastructure.persistence.transaction.TransactionScopeFactory
 import no.nav.hjelpemidler.delbestilling.infrastructure.slack.Slack
-import no.nav.hjelpemidler.hjelpemidlerdigitalSoknadapi.tjenester.norg.Norg
+import no.nav.hjelpemidler.delbestilling.infrastructure.norg.Norg
 import org.junit.jupiter.api.Test
 
 import org.junit.jupiter.api.BeforeEach

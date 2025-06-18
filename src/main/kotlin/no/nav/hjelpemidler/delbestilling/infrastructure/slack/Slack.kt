@@ -147,4 +147,9 @@ class Slack(
         message = "Følgende deler med 'batteri' i kategorien sin har blitt bestilt. Vurder om de krever kurs eller skal legges inn som 'håndterteBatterikategorier'. ```${deler.joinToString(separator = "\n")}```"
     )
 
+    fun varsleOmUkjentEnhet(kommunenummer: String, enhetsnummer: String) = sendSafely(
+        emoji = "error",
+        message = "Enhet er ikke definert for enhetsnummer=$enhetsnummer (kommunenummer=$kommunenummer)"
+    )
+
 }

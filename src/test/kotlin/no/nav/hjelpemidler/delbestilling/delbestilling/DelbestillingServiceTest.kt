@@ -18,7 +18,7 @@ import no.nav.hjelpemidler.delbestilling.infrastructure.pdl.Pdl
 import no.nav.hjelpemidler.delbestilling.infrastructure.persistence.transaction.Transaction
 import no.nav.hjelpemidler.delbestilling.infrastructure.persistence.transaction.TransactionScopeFactory
 import no.nav.hjelpemidler.delbestilling.infrastructure.slack.Slack
-import no.nav.hjelpemidler.hjelpemidlerdigitalSoknadapi.tjenester.norg.Norg
+import no.nav.hjelpemidler.delbestilling.infrastructure.norg.Norg
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
@@ -118,9 +118,9 @@ internal class DelbestillingServiceTest {
 
     @Test
     fun `skal lagre anmodningsbehov ved ny delbestilling`() = runTest {
-        val enhetnr = Enhet.OSLO.nummer
+        val enhet = Enhet.OSLO
         val norg =
-            mockk<Norg>().also { coEvery { it.hentEnhetnummer(any()) } returns enhetnr }
+            mockk<Norg>().also { coEvery { it.hentEnhet(any()) } returns enhet }
         val anmodningService =
             AnmodningService(
                 transaction,
@@ -171,7 +171,7 @@ internal class DelbestillingServiceTest {
             delbestillerRolle()
         )
 
-        val delerTilRapportering = transaction { delUtenDekningDao.hentDelerTilRapportering(enhetnr) }
+        val delerTilRapportering = transaction { delUtenDekningDao.hentDelerTilRapportering(enhet.nummer) }
         assertEquals(2, delerTilRapportering.size)
         assertEquals(1, delerTilRapportering.find { it.hmsnr == hmsnrEtterfylt }!!.antall)
         assertEquals(2, delerTilRapportering.find { it.hmsnr == hmsnrIkkeDekning }!!.antall)
@@ -189,7 +189,7 @@ internal class DelbestillingServiceTest {
         val anmodninger = delbestillingService.rapporterDelerTilAnmodning().first()
         assertEquals(
             0,
-            transaction { delUtenDekningDao.hentDelerTilRapportering(enhetnr).size },
+            transaction { delUtenDekningDao.hentDelerTilRapportering(enhet.nummer).size },
             "Det skal ikke lenger eksistere deler til rapportering"
         )
         assertEquals(1, anmodninger.anmodningsbehov.size)
@@ -198,11 +198,11 @@ internal class DelbestillingServiceTest {
 
     @Test
     fun `skal summere anmodningsbehov`() = runTest {
-        val enhetnr = Enhet.OSLO.nummer
+        val enhet = Enhet.OSLO
         val hmsnr1 = "111111"
         val hmsnr2 = "222222"
         val norg =
-            mockk<Norg>().also { coEvery { it.hentEnhetnummer(any()) } returns enhetnr }
+            mockk<Norg>().also { coEvery { it.hentEnhet(any()) } returns enhet }
         val anmodningService =
             AnmodningService(
                 transaction,
@@ -256,7 +256,7 @@ internal class DelbestillingServiceTest {
         )
 
         // Sjekk at anmodningsbehov er summert for begge delbestillingene
-        val delerTilRapportering = transaction { delUtenDekningDao.hentDelerTilRapportering(enhetnr) }
+        val delerTilRapportering = transaction { delUtenDekningDao.hentDelerTilRapportering(enhet.nummer) }
         assertEquals(2, delerTilRapportering.size)
         assertEquals(2, delerTilRapportering.find { it.hmsnr == hmsnr1 }!!.antall)
         assertEquals(3, delerTilRapportering.find { it.hmsnr == hmsnr2 }!!.antall)

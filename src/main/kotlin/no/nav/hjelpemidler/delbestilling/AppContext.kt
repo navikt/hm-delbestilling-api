@@ -32,8 +32,8 @@ import no.nav.hjelpemidler.delbestilling.oppslag.BerikMedLagerstatus
 import no.nav.hjelpemidler.delbestilling.oppslag.FinnDelerTilHjelpemiddel
 import no.nav.hjelpemidler.delbestilling.oppslag.OppslagService
 import no.nav.hjelpemidler.delbestilling.ordrestatus.DelbestillingStatusService
-import no.nav.hjelpemidler.hjelpemidlerdigitalSoknadapi.tjenester.norg.Norg
-import no.nav.hjelpemidler.hjelpemidlerdigitalSoknadapi.tjenester.norg.NorgClient
+import no.nav.hjelpemidler.delbestilling.infrastructure.norg.Norg
+import no.nav.hjelpemidler.delbestilling.infrastructure.norg.NorgClient
 import no.nav.hjelpemidler.http.openid.entraIDClient
 import no.nav.tms.token.support.tokendings.exchange.TokendingsServiceBuilder
 import kotlin.time.Duration.Companion.seconds
@@ -55,16 +55,17 @@ class AppContext {
             maximumSize = 100
         }
     }
+    val email = Email(GraphClient(entraIDClient))
+    val slack = Slack(transactional, backgroundScope)
     private val grunndata = Grunndata(GrunndataClient())
     private val kafka = Kafka()
     private val kommuneoppslag = Kommuneoppslag(OppslagClient())
     private val metrics = Metrics(kafka)
-    private val norg = Norg(NorgClient())
+    private val norg = Norg(NorgClient(), slack)
     private val oebs = Oebs(OebsApiProxyClient(entraIDClient), OebsSinkClient(kafka))
     private val pdl = Pdl(PdlClient(entraIDClient))
     private val rollerClient = RollerClient(TokendingsServiceBuilder.buildTokendingsService())
-    val email = Email(GraphClient(entraIDClient))
-    val slack = Slack(transactional, backgroundScope)
+
 
     // Eksponert for custom plugin
     val roller = Roller(rollerClient)
