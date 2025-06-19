@@ -18,7 +18,7 @@ enum class Enhet(val nummer: String, private val epost: String?) {
     MØRE_OG_ROMSDAL("4715", "nav.hot.moreogromsdal.teknisk@nav.no"),
     TRØNDELAG("4716", "nav.hot.trondelag.teknisk@nav.no"),
     NORDLAND("4718", "nav.hot.nordland.teknisk@nav.no"),
-    TROMS_OG_FINNMARK("4719", null),
+    TROMS_OG_FINNMARK("4719", "nav.hot.troms.og.finnmark.lakselv.teknisk@nav.no"),
     ;
 
     fun epost(): String =
