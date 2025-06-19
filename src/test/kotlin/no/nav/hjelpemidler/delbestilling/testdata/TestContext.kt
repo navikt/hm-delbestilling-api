@@ -22,7 +22,7 @@ import no.nav.hjelpemidler.delbestilling.oppslag.BerikMedDagerSidenForrigeBatter
 import no.nav.hjelpemidler.delbestilling.oppslag.BerikMedLagerstatus
 import no.nav.hjelpemidler.delbestilling.oppslag.FinnDelerTilHjelpemiddel
 import no.nav.hjelpemidler.delbestilling.oppslag.OppslagService
-import no.nav.hjelpemidler.hjelpemidlerdigitalSoknadapi.tjenester.norg.Norg
+import no.nav.hjelpemidler.delbestilling.infrastructure.norg.Norg
 
 class TestContext {
     // Mocks
@@ -41,7 +41,7 @@ class TestContext {
 
     // Norg
     val norgClient = NorgClientFake()
-    val norg = Norg(norgClient)
+    val norg = Norg(norgClient, slack)
 
     // OeBS
     val lager = FakeOebsLager()

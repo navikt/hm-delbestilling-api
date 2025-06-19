@@ -1,4 +1,4 @@
-package no.nav.hjelpemidler.hjelpemidlerdigitalSoknadapi.tjenester.norg
+package no.nav.hjelpemidler.delbestilling.infrastructure.norg
 
 import com.github.benmanes.caffeine.cache.Caffeine
 import io.ktor.client.HttpClient
@@ -15,9 +15,8 @@ import kotlinx.coroutines.async
 import no.nav.hjelpemidler.delbestilling.config.AppConfig
 import no.nav.hjelpemidler.delbestilling.infrastructure.defaultHttpClient
 import no.nav.hjelpemidler.delbestilling.infrastructure.navCorrelationId
-import no.nav.hjelpemidler.delbestilling.infrastructure.norg.NorgClientInterface
+import no.nav.hjelpemidler.hjelpemidlerdigitalSoknadapi.tjenester.norg.ArbeidsfordelingEnhet
 import java.util.concurrent.TimeUnit
-
 
 class NorgClient(
     private val client: HttpClient = defaultHttpClient(),

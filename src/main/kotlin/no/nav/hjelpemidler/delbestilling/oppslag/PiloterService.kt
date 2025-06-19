@@ -3,7 +3,7 @@ package no.nav.hjelpemidler.delbestilling.oppslag
 import io.github.oshai.kotlinlogging.KotlinLogging
 import no.nav.hjelpemidler.delbestilling.common.Enhet
 import no.nav.hjelpemidler.delbestilling.config.isDev
-import no.nav.hjelpemidler.hjelpemidlerdigitalSoknadapi.tjenester.norg.Norg
+import no.nav.hjelpemidler.delbestilling.infrastructure.norg.Norg
 
 private val log = KotlinLogging.logger { }
 
@@ -21,14 +21,14 @@ private val PILOTENHETER_BESTILLE_IKKE_FASTE_LAGERVARER = setOf(
     Enhet.VESTLAND_FØRDE,
     Enhet.NORDLAND,
     Enhet.INNLANDET_GJØVIK,
-).map { it.nummer }
+)
 
 class PiloterService(
     private val norg: Norg
 ) {
 
     suspend fun hentPiloter(brukersKommunenummer: String): List<Pilot> {
-        val brukersEnhet = norg.hentEnhetnummer(brukersKommunenummer)
+        val brukersEnhet = norg.hentEnhet(brukersKommunenummer)
 
         val piloter =  buildList {
             if (isDev() || PILOTENHETER_BESTILLE_IKKE_FASTE_LAGERVARER.contains(brukersEnhet)) {

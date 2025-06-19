@@ -27,4 +27,13 @@ class PiloterServiceTest {
 
         assertEquals(emptyList(), piloter)
     }
+
+    @Test
+    fun `skal håndtere gammle enhetsnr`() = runWithTestContext {
+        norgClient.response = NorgResponse.enhet(enhetNr = "4702")
+
+        val piloter = piloterService.hentPiloter("1234")
+
+        assertEquals(listOf(Pilot.BESTILLE_IKKE_FASTE_LAGERVARER), piloter)
+    }
 }
