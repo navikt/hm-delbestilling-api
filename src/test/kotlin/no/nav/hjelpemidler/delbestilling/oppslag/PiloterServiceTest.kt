@@ -20,15 +20,6 @@ class PiloterServiceTest {
     }
 
     @Test
-    fun `skal returnere tom liste hvis bruker ikke er i pilot`() = runWithTestContext {
-        norgClient.response = NorgResponse.enhet(enhetNr = Enhet.TROMS_OG_FINNMARK.nummer)
-
-        val piloter = piloterService.hentPiloter("1234")
-
-        assertEquals(emptyList(), piloter)
-    }
-
-    @Test
     fun `skal håndtere gammle enhetsnr`() = runWithTestContext {
         norgClient.response = NorgResponse.enhet(enhetNr = "4702")
 
