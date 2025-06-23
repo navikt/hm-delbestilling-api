@@ -86,11 +86,6 @@ class FinnDelerTilHjelpemiddel(
         log.info { "Treff i grunndata: $hjmGrunndata" }
 
         if (hjmGrunndata?.deler?.isEmpty() == true) {
-            slack.varsleOmIngenDelerTilGrunndataHjelpemiddel(
-                hmsnr = hjmGrunndata.hmsnr,
-                navn = hjmGrunndata.navn,
-                delerIManuellListe = hjmManuellListe?.deler ?: emptyList()
-            )
             metrics.grunndataHjelpemiddelManglerDeler(
                 hjmGrunndata.hmsnr,
                 hjmGrunndata.navn

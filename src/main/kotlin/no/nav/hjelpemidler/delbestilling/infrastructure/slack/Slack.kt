@@ -76,20 +76,6 @@ class Slack(
         }
     }
 
-    fun varsleOmIngenDelerTilGrunndataHjelpemiddel(hmsnr: Hmsnr, navn: String, delerIManuellListe: List<Del>) {
-        var message =
-            "Det ble gjort et oppslag på `$hmsnr $navn` som finnes i grunndata, men har ingen egnede deler der."
-        message += if (delerIManuellListe.isNotEmpty()) {
-            "\nDette produktet har disse delene i manuell liste: ```${
-                delerIManuellListe.sortedBy { it.navn }.joinToString("\n") { "${it.hmsnr} ${it.navn}" }
-            }```"
-        } else {
-            "\nDette produktet har heller ingen deler i manuell liste."
-        }
-
-        sendSafely(emoji = "sadcat", message = message)
-    }
-
     fun varsleOmInnsendingFeilet(correlationId: String) {
         val url =
             """https://logs.adeo.no/app/discover#/?_g=(filters:!(),refreshInterval:(pause:!t,value:60000),time:(from:now-2d,to:now))&_a=(columns:!(level,message,envclass,application,pod),dataSource:(dataViewId:'96e648c0-980a-11e9-830a-e17bbd64b4db',type:dataView),filters:!(),hideChart:!f,interval:auto,query:(language:kuery,query:'application:%22hm-delbestilling-api%22%20and%20envclass:%22p%22%20%20and%20x_correlationId:%22${correlationId}%22'),sort:!(!('@timestamp',desc)))"""
