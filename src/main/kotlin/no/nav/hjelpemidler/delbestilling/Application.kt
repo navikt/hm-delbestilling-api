@@ -94,10 +94,10 @@ fun Application.setupRoutes(ctx: AppContext) {
 
             rateLimit(RateLimitName("public")) {
                 oppslagApi(ctx.hjelpemiddeloversikt, ctx.oppslagService)
+            }
 
-                if (isDev()) {
-                    devtoolsApi(ctx.delbestillingService, ctx.anmodningService, ctx.oppslagService, ctx.email)
-                }
+            if (isDev()) {
+                devtoolsApi(ctx.delbestillingService, ctx.anmodningService, ctx.oppslagService, ctx.email)
             }
         }
 
