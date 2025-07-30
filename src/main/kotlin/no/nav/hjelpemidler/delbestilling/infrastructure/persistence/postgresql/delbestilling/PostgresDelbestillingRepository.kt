@@ -1,7 +1,7 @@
 package no.nav.hjelpemidler.delbestilling.infrastructure.persistence.postgresql.delbestilling
 
-import kotliquery.Row
 import no.nav.hjelpemidler.database.JdbcOperations
+import no.nav.hjelpemidler.database.Row
 import no.nav.hjelpemidler.database.pgObjectOf
 import no.nav.hjelpemidler.delbestilling.common.Delbestilling
 import no.nav.hjelpemidler.delbestilling.common.DelbestillingSak
@@ -10,7 +10,6 @@ import no.nav.hjelpemidler.delbestilling.common.Serienr
 import no.nav.hjelpemidler.delbestilling.common.Status
 import no.nav.hjelpemidler.delbestilling.delbestilling.BestillerType
 import no.nav.hjelpemidler.delbestilling.delbestilling.DelbestillingRepository
-import no.nav.hjelpemidler.delbestilling.infrastructure.json
 import no.nav.hjelpemidler.delbestilling.infrastructure.jsonMapper
 import no.nav.hjelpemidler.delbestilling.infrastructure.roller.Organisasjon
 

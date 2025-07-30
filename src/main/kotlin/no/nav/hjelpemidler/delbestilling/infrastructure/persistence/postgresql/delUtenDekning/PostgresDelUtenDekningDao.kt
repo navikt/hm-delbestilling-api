@@ -1,8 +1,8 @@
 package no.nav.hjelpemidler.delbestilling.infrastructure.persistence.postgresql.delUtenDekning
 
 import io.github.oshai.kotlinlogging.KotlinLogging
-import kotliquery.Row
 import no.nav.hjelpemidler.database.JdbcOperations
+import no.nav.hjelpemidler.database.Row
 import no.nav.hjelpemidler.delbestilling.common.Enhet
 import no.nav.hjelpemidler.delbestilling.common.Hmsnr
 import no.nav.hjelpemidler.delbestilling.config.isDev
