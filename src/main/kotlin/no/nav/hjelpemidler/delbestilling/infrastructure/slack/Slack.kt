@@ -77,11 +77,9 @@ class Slack(
     }
 
     fun varsleOmInnsendingFeilet(correlationId: String) {
-        val url =
-            """https://logs.adeo.no/app/discover#/?_g=(filters:!(),refreshInterval:(pause:!t,value:60000),time:(from:now-2d,to:now))&_a=(columns:!(level,message,envclass,application,pod),dataSource:(dataViewId:'96e648c0-980a-11e9-830a-e17bbd64b4db',type:dataView),filters:!(),hideChart:!f,interval:auto,query:(language:kuery,query:'application:%22hm-delbestilling-api%22%20and%20envclass:%22p%22%20%20and%20x_correlationId:%22${correlationId}%22'),sort:!(!('@timestamp',desc)))"""
         sendSafely(
             emoji = "this-is-fine-fire",
-            message = "En innsending av en delbestilling feilet (correlationId: $correlationId). Sjekk loggene her: ${url}"
+            message = "En innsending av en delbestilling feilet (correlationId: `$correlationId`). Sjekk loggene."
         )
     }
 
