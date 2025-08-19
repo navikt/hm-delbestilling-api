@@ -21,6 +21,7 @@ data class Utlån(
     val artnr: String,
     val serienr: String,
     val utlånsDato: String,
+    val garantidato: LocalDate,
 )
 
 data class Ordre(

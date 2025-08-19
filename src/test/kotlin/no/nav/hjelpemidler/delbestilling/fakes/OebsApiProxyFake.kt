@@ -11,6 +11,7 @@ import no.nav.hjelpemidler.delbestilling.testdata.Testdata
 import no.nav.hjelpemidler.delbestilling.testdata.Testdata.defaultFnr
 import no.nav.hjelpemidler.delbestilling.testdata.Testdata.defaultHjmHmsnr
 import no.nav.hjelpemidler.delbestilling.testdata.Testdata.defaultHjmSerienr
+import java.time.LocalDate
 
 class OebsApiProxyFake(
     private val lager: FakeOebsLager
@@ -20,7 +21,8 @@ class OebsApiProxyFake(
         fnr = defaultFnr,
         artnr = defaultHjmHmsnr,
         serienr = defaultHjmSerienr,
-        utlånsDato = "2025-02-03"
+        utlånsDato = "2025-02-03",
+        garantidato = LocalDate.now()
     )
 
     var personinfo = listOf(OebsPersoninfo(Testdata.defaultKommunenummer))

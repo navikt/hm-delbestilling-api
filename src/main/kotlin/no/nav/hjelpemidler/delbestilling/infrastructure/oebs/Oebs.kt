@@ -18,6 +18,11 @@ class Oebs(
         return client.hentUtlånPåArtnrOgSerienr(artnr, serienr).utlån?.fnr
     }
 
+    suspend fun hentUtlånPåArtNrOgSerienr(artnr: String, serienr: String): Utlån? {
+        log.info { "Henter utlån: artnr=$artnr, serienr=$serienr" }
+        return client.hentUtlånPåArtnrOgSerienr(artnr, serienr).utlån
+    }
+
     suspend fun hentPersoninfo(fnr: String): List<OebsPersoninfo> {
         log.info { "Henter personinfo" }
         return client.hentPersoninfo(fnr)
