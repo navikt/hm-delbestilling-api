@@ -4,7 +4,9 @@ import no.nav.hjelpemidler.delbestilling.fakes.GrunndataTestHmsnr
 import no.nav.hjelpemidler.delbestilling.testdata.Testdata
 import no.nav.hjelpemidler.delbestilling.testdata.delLinje
 import no.nav.hjelpemidler.delbestilling.testdata.delbestilling
+import no.nav.hjelpemidler.delbestilling.testdata.delbestillingMedBatteri
 import no.nav.hjelpemidler.delbestilling.testdata.delbestillingSak
+import no.nav.hjelpemidler.delbestilling.testdata.fixtures.gittDelbestilling
 import no.nav.hjelpemidler.delbestilling.testdata.runWithTestContext
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNull
@@ -29,7 +31,8 @@ class BerikMedDagerSidenForrigeBatteribestillingTest {
         runWithTestContext {
             val hjelpemiddel = hjelpemiddel(deler = listOf(del(kategori = "Batteri")))
 
-            val beriketHjelpemiddel = berikMedDagerSidenForrigeBatteribestilling(hjelpemiddel, Testdata.defaultHjmSerienr)
+            val beriketHjelpemiddel =
+                berikMedDagerSidenForrigeBatteribestilling(hjelpemiddel, Testdata.defaultHjmSerienr)
 
             assertTrue(beriketHjelpemiddel.harBatteri())
             assertNull(beriketHjelpemiddel.antallDagerSidenSistBatteribestilling)
@@ -37,15 +40,8 @@ class BerikMedDagerSidenForrigeBatteribestillingTest {
 
     @Test
     fun `skal returnere hjelpemiddel med korrekt antall dager siden forrige batteribestilling`() = runWithTestContext {
-        val delbestilling = delbestilling(
-            hmsnr = GrunndataTestHmsnr.HAR_BATTERI,
-            serienr = Testdata.defaultHjmSerienr,
-            deler = listOf(delLinje(kategori = "Batteri"))
-        )
-        val now = LocalDateTime.now()
-
-        delbestillingRepository.insert(delbestillingSak(delbestilling, now.minusDays(10)))
-        delbestillingRepository.insert(delbestillingSak(delbestilling, now.minusDays(25)))
+        gittDelbestilling(delbestillingMedBatteri(), dagerSidenOpprettelse = 10)
+        gittDelbestilling(delbestillingMedBatteri(), dagerSidenOpprettelse = 25)
 
         val resultat = oppslagService.slåOppHjelpemiddel(GrunndataTestHmsnr.HAR_BATTERI, Testdata.defaultHjmSerienr)
 

@@ -30,7 +30,7 @@ class AnmodningServiceTest {
 
     @BeforeEach
     fun setup() {
-        TestDatabase.cleanAndMigrate(ds)
+        TestDatabase.cleanAndMigratedDataSource(ds)
     }
 
     @Test

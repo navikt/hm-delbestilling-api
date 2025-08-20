@@ -5,7 +5,6 @@ import io.mockk.mockk
 import kotlinx.coroutines.test.runTest
 import no.nav.hjelpemidler.delbestilling.common.DellinjeStatus
 import no.nav.hjelpemidler.delbestilling.common.Status
-import no.nav.hjelpemidler.delbestilling.delbestilling.DelbestillingRepository
 import no.nav.hjelpemidler.delbestilling.delbestilling.DelbestillingService
 import no.nav.hjelpemidler.delbestilling.delbestilling.anmodning.AnmodningService
 import no.nav.hjelpemidler.delbestilling.delbestilling.anmodning.lagerstatus
@@ -76,7 +75,7 @@ class DelbestillingStatusServiceTest {
 
     @BeforeEach
     fun setup() {
-        TestDatabase.cleanAndMigrate(ds)
+        TestDatabase.cleanAndMigratedDataSource(ds)
     }
 
     @Test

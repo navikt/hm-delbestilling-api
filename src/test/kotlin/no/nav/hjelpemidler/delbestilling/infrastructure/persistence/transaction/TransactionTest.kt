@@ -1,26 +1,29 @@
 package no.nav.hjelpemidler.delbestilling.infrastructure.persistence.transaction
 
-import kotlinx.coroutines.test.runTest
-import no.nav.hjelpemidler.delbestilling.delbestilling.BestillerType
-import no.nav.hjelpemidler.delbestilling.testdata.TestDatabase
 import no.nav.hjelpemidler.delbestilling.testdata.Testdata
-import no.nav.hjelpemidler.delbestilling.testdata.delbestilling
-import no.nav.hjelpemidler.delbestilling.testdata.organisasjon
+import no.nav.hjelpemidler.delbestilling.testdata.fixtures.gittDelbestilling
+import no.nav.hjelpemidler.delbestilling.testdata.runWithTestContext
 import kotlin.test.Test
 import kotlin.test.assertEquals
-
 import kotlin.test.assertFailsWith
 
 class TransactionTest {
 
-    private var ds = TestDatabase.cleanAndMigrate(TestDatabase.testDataSource)
-    private val transaction = Transaction(ds, TransactionScopeFactory())
+    @Test
+    fun `happy path`() = runWithTestContext {
+        transaction(returnGeneratedKeys = true) {
+            gittDelbestilling()
+        }
+        transaction {
+            assertEquals(1, delbestillingRepository.hentDelbestillinger(Testdata.defaultFnr).size)
+        }
+    }
 
     @Test
-    fun `skal rulle tilbake dersom feil oppstår i transaction`() = runTest {
+    fun `skal rulle tilbake dersom feil oppstår i transaction`() = runWithTestContext {
         assertFailsWith<RuntimeException> {
             transaction(returnGeneratedKeys = true) {
-                lagreTestBestilling()
+                gittDelbestilling()
                 throw RuntimeException("Noe gikk galt.")
             }
         }
@@ -30,10 +33,10 @@ class TransactionTest {
     }
 
     @Test
-    fun `skal rulle tilbake dersom indre transaction feiler`() = runTest {
+    fun `skal rulle tilbake dersom indre transaction feiler`() = runWithTestContext {
         assertFailsWith<RuntimeException> {
             transaction(returnGeneratedKeys = true) {
-                lagreTestBestilling()
+                gittDelbestilling()
                 transaction {
                     throw RuntimeException("Noe gikk galt.")
                 }
@@ -45,11 +48,11 @@ class TransactionTest {
     }
 
     @Test
-    fun `skal rulle tilbake dersom ytre transaction feiler`() = runTest {
+    fun `skal rulle tilbake dersom ytre transaction feiler`() = runWithTestContext {
         assertFailsWith<RuntimeException> {
             transaction(returnGeneratedKeys = true) {
                 transaction {
-                    lagreTestBestilling()
+                    gittDelbestilling()
                 }
                 throw RuntimeException("Noe gikk galt.")
             }
@@ -57,17 +60,5 @@ class TransactionTest {
         transaction {
             assertEquals(0, delbestillingRepository.hentDelbestillinger(Testdata.defaultFnr).size)
         }
-    }
-
-    private fun TransactionScope.lagreTestBestilling() {
-        delbestillingRepository.lagreDelbestilling(
-            bestillerFnr = Testdata.defaultFnr,
-            brukerFnr = Testdata.defaultFnr,
-            brukerKommunenr = Testdata.defaultKommunenummer,
-            delbestilling = delbestilling(),
-            brukersKommunenavn = "Oslo",
-            bestillersOrganisasjon = organisasjon(),
-            bestillerType = BestillerType.KOMMUNAL,
-        )
     }
 }

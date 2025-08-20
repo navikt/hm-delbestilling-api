@@ -8,7 +8,7 @@ on:
       - "CODEOWNERS"
     branches:
       - main
-      - map-hms-akershus-til-hms-oslo
+      - drop-db-fakes
 
 jobs:
   build:

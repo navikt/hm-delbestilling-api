@@ -5,6 +5,7 @@ import no.nav.hjelpemidler.delbestilling.config.DatabaseConfig.migrate
 import org.flywaydb.core.Flyway
 import org.testcontainers.containers.PostgreSQLContainer
 import org.testcontainers.containers.wait.strategy.Wait
+import javax.sql.DataSource
 
 object TestDatabase {
 
@@ -14,6 +15,7 @@ object TestDatabase {
             start()
         }
     }
+
 
     val testDataSource by lazy {
         val ds = HikariDataSource().apply {
@@ -25,15 +27,18 @@ object TestDatabase {
             it.connection.prepareStatement("DROP ROLE IF EXISTS cloudsqliamuser").execute()
             it.connection.prepareStatement("CREATE ROLE cloudsqliamuser").execute()
         }
-        cleanAndMigrate(ds)
+        cleanAndMigratedDataSource(ds)
     }
 
-    private fun clean(ds: HikariDataSource) =
+
+    private fun clean(ds: DataSource) =
         Flyway.configure().cleanDisabled(false).dataSource(ds).load().clean()
 
-    fun cleanAndMigrate(ds: HikariDataSource): HikariDataSource {
+    fun cleanAndMigratedDataSource(ds: DataSource): DataSource {
         clean(ds)
         migrate(ds)
         return ds
     }
+
+    fun cleanAndMigratedDataSource() = cleanAndMigratedDataSource(testDataSource)
 }

@@ -1,9 +1,16 @@
 package no.nav.hjelpemidler.delbestilling.delbestilling.anmodning
 
+import io.github.oshai.kotlinlogging.KotlinLogging
+import no.nav.hjelpemidler.database.JdbcOperations
+import no.nav.hjelpemidler.database.Row
 import no.nav.hjelpemidler.delbestilling.common.Enhet
 import no.nav.hjelpemidler.delbestilling.common.Hmsnr
+import no.nav.hjelpemidler.delbestilling.config.isDev
 
-interface DelUtenDekningDao {
+private val log = KotlinLogging.logger {}
+
+class DelUtenDekningDao(val tx: JdbcOperations) {
+
     fun lagreDelerUtenDekning(
         saksnummer: Long,
         hmsnr: Hmsnr,
@@ -12,12 +19,74 @@ interface DelUtenDekningDao {
         bukersKommunenummer: String,
         brukersKommunenavn: String,
         enhetnr: String,
-    ): Long
+    ): Long {
+        log.info { "Lagrer del uten dekning $hmsnr ($antallUtenDekning)" }
+        return tx.updateAndReturnGeneratedKey(
+            """
+                INSERT INTO deler_uten_dekning (saksnummer, hmsnr, navn, antall_uten_dekning, brukers_kommunenr, brukers_kommunenavn, enhetnr)
+                VALUES (:saksnummer, :hmsnr, :navn, :antall_uten_dekning, :brukers_kommunenr, :brukers_kommunenavn, :enhetnr)
+            """.trimIndent(),
+            mapOf(
+                "saksnummer" to saksnummer,
+                "hmsnr" to hmsnr,
+                "navn" to navn,
+                "antall_uten_dekning" to antallUtenDekning,
+                "brukers_kommunenr" to bukersKommunenummer,
+                "brukers_kommunenavn" to brukersKommunenavn,
+                "enhetnr" to enhetnr
+            ),
+        )
+    }
 
-    fun hentUnikeEnheter(): List<Enhet>
-    fun hentDelerTilRapportering(enhetnr: String): List<Del>
-    fun markerDelerSomRapportert(enhet: Enhet)
+    fun hentUnikeEnheter(): List<Enhet> = tx.list(
+        sql = """
+            SELECT DISTINCT(enhetnr)
+            FROM deler_uten_dekning
+            WHERE rapportert_tidspunkt IS NULL
+        """.trimIndent()
+    ) { row -> Enhet.fraEnhetsnummer(row.string("enhetnr")) }
 
-    // Kun til testing i dev TODO: flytt denne funksjonaliteten til devtools, slik at vi slipper å blande det inn her.
-    fun markerDelerSomIkkeRapportert()
+    fun hentDelerTilRapportering(enhetnr: String): List<Del> {
+        log.info { "Henter deler til rapportering for $enhetnr" }
+        return tx.list(
+            sql = """
+                SELECT hmsnr, navn, SUM(antall_uten_dekning) as antall
+                FROM deler_uten_dekning
+                WHERE enhetnr = :enhetnr AND rapportert_tidspunkt IS NULL
+                GROUP BY hmsnr, navn
+            """.trimIndent(),
+            queryParameters = mapOf("enhetnr" to enhetnr)
+        ) { it.toDelUtenDekning() }
+    }
+
+    fun markerDelerSomRapportert(enhet: Enhet) {
+        log.info { "Marker deler som rapportert for enhet $enhet" }
+        tx.update(
+            """
+                UPDATE deler_uten_dekning
+                SET rapportert_tidspunkt = CURRENT_TIMESTAMP, sist_oppdatert = CURRENT_TIMESTAMP 
+                WHERE enhetnr = :enhetnr AND rapportert_tidspunkt IS NULL
+            """.trimIndent(),
+            mapOf("enhetnr" to enhet.nummer)
+        )
+    }
+
+
+
+    // Kun til testing i dev
+    fun markerDelerSomIkkeRapportert() {
+        check(isDev()) { "markerDelerSomIkkeRapportert skal kun kalles i dev" }
+        tx.update(
+            sql = """
+                UPDATE deler_uten_dekning
+                SET rapportert_tidspunkt = NULL, sist_oppdatert = CURRENT_TIMESTAMP 
+            """.trimIndent()
+        )
+    }
 }
+
+private fun Row.toDelUtenDekning() = Del(
+    hmsnr = this.string("hmsnr"),
+    navn = this.string("navn"),
+    antall = this.int("antall"),
+)

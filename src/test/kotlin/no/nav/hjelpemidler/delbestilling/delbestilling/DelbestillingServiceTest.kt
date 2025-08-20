@@ -65,7 +65,7 @@ internal class DelbestillingServiceTest {
 
     @BeforeEach
     fun setup() {
-        TestDatabase.cleanAndMigrate(ds)
+        TestDatabase.cleanAndMigratedDataSource(ds)
     }
 
     @Test
