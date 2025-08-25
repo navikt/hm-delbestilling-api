@@ -7,7 +7,7 @@ private val log = KotlinLogging.logger {}
 
 class AnmodningDao(val tx: JdbcOperations) {
     fun lagreAnmodninger(rapport: Anmodningrapport) {
-        log.info { "Lagrer anmodninger for enhet ${rapport.enhet}" }
+        log.info { "Lagrer anmodninger for enhet ${rapport.lager}" }
 
         rapport.anmodningsbehov.forEach { anmodning ->
             tx.update(
@@ -16,7 +16,7 @@ class AnmodningDao(val tx: JdbcOperations) {
                     VALUES (:enhetnr, :hmsnr, :navn, :antall_anmodet, :antall_paa_lager, :leverandornavn)
                 """.trimIndent(),
                 mapOf(
-                    "enhetnr" to rapport.enhet.nummer,
+                    "enhetnr" to rapport.lager.nummer,
                     "hmsnr" to anmodning.hmsnr,
                     "navn" to anmodning.navn,
                     "antall_anmodet" to anmodning.antallSomMåAnmodes,

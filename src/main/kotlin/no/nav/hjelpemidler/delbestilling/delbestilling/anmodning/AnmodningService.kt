@@ -2,19 +2,18 @@ package no.nav.hjelpemidler.delbestilling.delbestilling.anmodning
 
 import io.github.oshai.kotlinlogging.KotlinLogging
 import no.nav.hjelpemidler.delbestilling.common.DelbestillingSak
+import no.nav.hjelpemidler.delbestilling.infrastructure.oebs.FinnLagerenhet
 import no.nav.hjelpemidler.delbestilling.infrastructure.email.Email
 import no.nav.hjelpemidler.delbestilling.infrastructure.grunndata.Grunndata
 import no.nav.hjelpemidler.delbestilling.infrastructure.oebs.Oebs
 import no.nav.hjelpemidler.delbestilling.infrastructure.persistence.transaction.Transactional
 import no.nav.hjelpemidler.delbestilling.infrastructure.slack.Slack
-import no.nav.hjelpemidler.delbestilling.infrastructure.norg.Norg
 
 private val log = KotlinLogging.logger {}
 
 class AnmodningService(
     private val transaction: Transactional,
     private val oebs: Oebs,
-    private val norg: Norg,
     private val slack: Slack,
     private val email: Email,
     private val grunndata: Grunndata,
@@ -22,7 +21,7 @@ class AnmodningService(
 
     suspend fun lagreDelerUtenDekning(sak: DelbestillingSak) {
         val delerUtenDekning = finnDelerUtenDekning(sak)
-        val enhet = norg.hentEnhet(sak.brukersKommunenummer)
+        val enhet = oebs.finnLagerenhet(sak.brukersKommunenummer)
 
         log.info { "Dekningsjekk: lagrer følgende deler uten dekning: ${delerUtenDekning.joinToString("\n")}" }
 
@@ -69,7 +68,7 @@ class AnmodningService(
             log.info { "Deler som manglet dekning ved innsending for enhet $enhet: $delerSomMangletDekningVedInnsending" }
 
             val lagerstatuser = oebs.hentLagerstatusForEnhet(
-                enhet = enhet,
+                lager = enhet,
                 hmsnrs = delerSomMangletDekningVedInnsending.map { it.hmsnr }
             ).associateBy { it.artikkelnummer }
 
@@ -79,7 +78,7 @@ class AnmodningService(
                 beregnAnmodningsbehovVedRapportering(del, lagerstatus)
             }.filter { it.antallSomMåAnmodes > 0 }
 
-            val rapport = Anmodningrapport(enhet = enhet, anmodningsbehov = delerSomFremdelesMåAnmodes)
+            val rapport = Anmodningrapport(lager = enhet, anmodningsbehov = delerSomFremdelesMåAnmodes)
 
             // Berik med leverandørnavn
             rapport.anmodningsbehov.forEach { behov ->
@@ -106,10 +105,10 @@ class AnmodningService(
         val melding = rapportTilMelding(rapport)
 
         transaction {
-            delUtenDekningDao.markerDelerSomRapportert(rapport.enhet)
+            delUtenDekningDao.markerDelerSomRapportert(rapport.lager)
             anmodningDao.lagreAnmodninger(rapport)
             email.sendSimpleMessage(
-                recipentEmail = rapport.enhet.epost(),
+                recipentEmail = rapport.lager.epost(),
                 subject = "Deler som må anmodes",
                 bodyText = melding
             )

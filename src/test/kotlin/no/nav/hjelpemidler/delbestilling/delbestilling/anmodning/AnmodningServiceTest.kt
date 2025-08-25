@@ -2,7 +2,7 @@ package no.nav.hjelpemidler.delbestilling.delbestilling.anmodning
 
 import io.mockk.mockk
 import kotlinx.coroutines.test.runTest
-import no.nav.hjelpemidler.delbestilling.common.Enhet
+import no.nav.hjelpemidler.delbestilling.common.Lager
 import no.nav.hjelpemidler.delbestilling.testdata.TestDatabase
 import no.nav.hjelpemidler.delbestilling.testdata.delLinje
 import no.nav.hjelpemidler.delbestilling.testdata.delbestilling
@@ -23,10 +23,9 @@ class AnmodningServiceTest {
     private var ds = TestDatabase.testDataSource
     private val transaction = Transaction(ds, TransactionScopeFactory())
     val oebs = mockk<Oebs>()
-    val norg = mockk<Norg>()
     val slack = mockk<Slack>(relaxed = true)
     val email = mockk<Email>(relaxed = true)
-    val anmodningService = AnmodningService(transaction, oebs, norg, slack, email, mockk())
+    val anmodningService = AnmodningService(transaction, oebs, slack, email, mockk())
 
     @BeforeEach
     fun setup() {
@@ -76,7 +75,7 @@ class AnmodningServiceTest {
     fun `test generering av epostmelding`() = runTest {
         val melding = anmodningService.sendAnmodningRapport(
             Anmodningrapport(
-                enhet = Enhet.OSLO,
+                lager = Lager.OSLO,
                 anmodningsbehov = listOf(
                     AnmodningsbehovForDel(
                         hmsnr = "123456",

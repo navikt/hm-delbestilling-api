@@ -41,13 +41,6 @@ class OebsApiProxyFake(
         return Brukerpass(true)
     }
 
-    override suspend fun hentLagerstatusForKommunenummer(
-        kommunenummer: String,
-        hmsnrs: List<String>
-    ): List<LagerstatusResponse> {
-        return hmsnrs.mapNotNull { lager.hent(it) }
-    }
-
     override suspend fun hentLagerstatusForEnhetnr(enhetnr: String, hmsnrs: List<String>): List<LagerstatusResponse> {
         return hmsnrs.mapNotNull { lager.hent(it) }
     }

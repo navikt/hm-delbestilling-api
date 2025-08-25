@@ -112,7 +112,7 @@ class DelbestillingService(
         val berikedeDellinjer = request.delbestilling.deler.map { dellinje ->
             val lagerstatus =
                 checkNotNull(lagerstatuser.find { it.artikkelnummer == dellinje.del.hmsnr }) { "Mangler lagerstatus for ${dellinje.del.hmsnr}" }
-            dellinje.copy(lagerstatusPåBestillingstidspunkt = lagerstatus)
+            dellinje.copy(lagerstatusPåBestillingstidspunkt = lagerstatus) // Brukes senere i AnmodningService for å finne ut om det er behov for anmodning.
         }
         val delbestilling = request.delbestilling.copy(deler = berikedeDellinjer)
 
@@ -227,9 +227,9 @@ class DelbestillingService(
             rapporter.forEach { rapport ->
                 if (rapport.anmodningsbehov.isNotEmpty()) {
                     val melding = anmodningService.sendAnmodningRapport(rapport)
-                    slack.varsleOmAnmodningrapportSomErSendtTilEnhet(rapport.enhet, melding)
+                    slack.varsleOmAnmodningrapportSomErSendtTilEnhet(rapport.lager, melding)
                 } else {
-                    log.info { "Anmodningsbehov for enhet ${rapport.enhet} er tomt, alle deler har dermed fått dekning etter innsending. Hopper over." }
+                    log.info { "Anmodningsbehov for enhet ${rapport.lager} er tomt, alle deler har dermed fått dekning etter innsending. Hopper over." }
                 }
             }
 

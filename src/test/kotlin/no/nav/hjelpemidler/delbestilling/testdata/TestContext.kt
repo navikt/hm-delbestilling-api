@@ -10,6 +10,7 @@ import no.nav.hjelpemidler.delbestilling.fakes.PdlClientFake
 import no.nav.hjelpemidler.delbestilling.infrastructure.grunndata.Grunndata
 import no.nav.hjelpemidler.delbestilling.infrastructure.metrics.Metrics
 import no.nav.hjelpemidler.delbestilling.infrastructure.norg.Norg
+import no.nav.hjelpemidler.delbestilling.infrastructure.oebs.FinnLagerenhet
 import no.nav.hjelpemidler.delbestilling.infrastructure.oebs.Oebs
 import no.nav.hjelpemidler.delbestilling.infrastructure.pdl.Pdl
 import no.nav.hjelpemidler.delbestilling.infrastructure.persistence.transaction.Transaction
@@ -38,20 +39,21 @@ class TestContext {
 
     // Norg
     val norgClient = NorgClientFake()
-    val norg = Norg(norgClient, slack)
+    val norg = Norg(norgClient)
 
     // OeBS
     val lager = FakeOebsLager()
     val oebsSink = OebsSinkFake(lager)
     val oebsApiProxy = OebsApiProxyFake(lager)
-    val oebs = Oebs(oebsApiProxy, oebsSink)
+    val finnLagerenhet = FinnLagerenhet(norg, slack)
+    val oebs = Oebs(oebsApiProxy, oebsSink, finnLagerenhet)
 
     // PDL
     val pdlClient = PdlClientFake()
     val pdl = Pdl(pdlClient)
 
     // Oppslag
-    val piloterService = PiloterService(norg)
+    val piloterService = PiloterService(oebs)
     val finnDelerTilHjelpemiddel = FinnDelerTilHjelpemiddel(grunndata, slack, metrics)
     val berikMedLagerstatus = BerikMedLagerstatus(oebs, metrics)
     val berikMedDagerSidenForrigeBatteribestilling by lazy { BerikMedDagerSidenForrigeBatteribestilling(transaction) }

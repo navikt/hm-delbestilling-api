@@ -1,6 +1,6 @@
 package no.nav.hjelpemidler.delbestilling.oppslag
 
-import no.nav.hjelpemidler.delbestilling.common.Enhet
+import no.nav.hjelpemidler.delbestilling.common.Lager
 import no.nav.hjelpemidler.delbestilling.fakes.NorgResponse
 import no.nav.hjelpemidler.delbestilling.testdata.Testdata
 import no.nav.hjelpemidler.delbestilling.testdata.runWithTestContext
@@ -12,7 +12,7 @@ class PiloterServiceTest {
 
     @Test
     fun `skal returnere pilot hvis bruker er i pilot-enhetsliste`() = runWithTestContext {
-        norgClient.response = NorgResponse.enhet(enhetNr = Enhet.OSLO.nummer)
+        norgClient.response = NorgResponse.enhet(enhetNr = Lager.OSLO.nummer)
 
         val piloter = piloterService.hentPiloter(Testdata.kommunenummerOslo)
 

@@ -1,35 +1,36 @@
 package no.nav.hjelpemidler.delbestilling.oppslag
 
 import io.github.oshai.kotlinlogging.KotlinLogging
-import no.nav.hjelpemidler.delbestilling.common.Enhet
+import no.nav.hjelpemidler.delbestilling.common.Lager
 import no.nav.hjelpemidler.delbestilling.config.isDev
-import no.nav.hjelpemidler.delbestilling.infrastructure.norg.Norg
+import no.nav.hjelpemidler.delbestilling.infrastructure.oebs.Oebs
 
 private val log = KotlinLogging.logger { }
 
 private val PILOTENHETER_BESTILLE_IKKE_FASTE_LAGERVARER = setOf(
-    Enhet.OSLO,
-    Enhet.ØST_VIKEN,
-    Enhet.INNLANDET_ELVERUM,
-    Enhet.VESTFOLD_OG_TELEMARK,
-    Enhet.VEST_VIKEN,
-    Enhet.MØRE_OG_ROMSDAL,
-    Enhet.VESTLAND_BERGEN,
-    Enhet.TRØNDELAG,
-    Enhet.ROGALAND,
-    Enhet.AGDER,
-    Enhet.VESTLAND_FØRDE,
-    Enhet.NORDLAND,
-    Enhet.INNLANDET_GJØVIK,
-    // Enhet.TROMS_OG_FINNMARK,
+    Lager.OSLO,
+    Lager.ØST_VIKEN,
+    Lager.INNLANDET_ELVERUM,
+    Lager.VESTFOLD_OG_TELEMARK,
+    Lager.VEST_VIKEN,
+    Lager.MØRE_OG_ROMSDAL,
+    Lager.VESTLAND_BERGEN,
+    Lager.TRØNDELAG,
+    Lager.ROGALAND,
+    Lager.AGDER,
+    Lager.VESTLAND_FØRDE,
+    Lager.NORDLAND,
+    Lager.INNLANDET_GJØVIK,
+    Lager.TROMS,
+    Lager.FINNMARK,
 )
 
 class PiloterService(
-    private val norg: Norg
+    private val oebs: Oebs
 ) {
 
     suspend fun hentPiloter(brukersKommunenummer: String): List<Pilot> {
-        val brukersEnhet = norg.hentEnhet(brukersKommunenummer)
+        val brukersEnhet = oebs.finnLagerenhet(brukersKommunenummer)
 
         val piloter =  buildList {
             if (isDev() || PILOTENHETER_BESTILLE_IKKE_FASTE_LAGERVARER.contains(brukersEnhet)) {

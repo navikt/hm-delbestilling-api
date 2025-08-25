@@ -2,8 +2,7 @@ package no.nav.hjelpemidler.delbestilling.common
 
 import no.nav.hjelpemidler.delbestilling.config.isDev
 
-
-enum class Enhet(val nummer: String, private val epost: String?) {
+enum class Lager(val nummer: String, private val epost: String?) {
 
     ØST_VIKEN("4701", "nav.hot.ost-viken.teknisk.ordrekontor@nav.no"),
     OSLO("4703", "nav.hot.oslo.teknisk.ordrekontor@nav.no"),
@@ -18,18 +17,19 @@ enum class Enhet(val nummer: String, private val epost: String?) {
     MØRE_OG_ROMSDAL("4715", "nav.hot.moreogromsdal.teknisk@nav.no"),
     TRØNDELAG("4716", "nav.hot.trondelag.teknisk@nav.no"),
     NORDLAND("4718", "nav.hot.nordland.teknisk@nav.no"),
-    TROMS_OG_FINNMARK("4719", null), // "nav.hot.troms.og.finnmark.lakselv.teknisk@nav.no"),
+    TROMS("4719", "nav.hot.troms.og.finnmark.tromso.teknisk@nav.no"),
+    FINNMARK("4720", "nav.hot.troms.og.finnmark.lakselv.teknisk@nav.no"),
     ;
 
     fun epost(): String =
         if (isDev()) "digitalisering.av.hjelpemidler.og.tilrettelegging@nav.no" else this.epost
-            ?: throw IllegalArgumentException("Enhet $this, mangler epost")
+            ?: throw IllegalArgumentException("Lager $this, mangler epost")
 
 
     companion object {
-        fun fraEnhetsnummer(enhetNr: String): Enhet {
-            return entries.find { it.nummer == enhetNr }
-                ?: throw IllegalArgumentException("Enhet $enhetNr ikke funnet.")
+        fun fraLagernummer(lagernummer: String): Lager {
+            return entries.find { it.nummer == lagernummer }
+                ?: throw IllegalArgumentException("Lager for lagernummer $lagernummer ikke funnet.")
         }
     }
 }

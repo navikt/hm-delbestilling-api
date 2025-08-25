@@ -3,7 +3,7 @@ package no.nav.hjelpemidler.delbestilling.delbestilling.anmodning
 import io.github.oshai.kotlinlogging.KotlinLogging
 import no.nav.hjelpemidler.database.JdbcOperations
 import no.nav.hjelpemidler.database.Row
-import no.nav.hjelpemidler.delbestilling.common.Enhet
+import no.nav.hjelpemidler.delbestilling.common.Lager
 import no.nav.hjelpemidler.delbestilling.common.Hmsnr
 import no.nav.hjelpemidler.delbestilling.config.isDev
 
@@ -38,13 +38,13 @@ class DelUtenDekningDao(val tx: JdbcOperations) {
         )
     }
 
-    fun hentUnikeEnheter(): List<Enhet> = tx.list(
+    fun hentUnikeEnheter(): List<Lager> = tx.list(
         sql = """
             SELECT DISTINCT(enhetnr)
             FROM deler_uten_dekning
             WHERE rapportert_tidspunkt IS NULL
         """.trimIndent()
-    ) { row -> Enhet.fraEnhetsnummer(row.string("enhetnr")) }
+    ) { row -> Lager.fraLagernummer(row.string("enhetnr")) }
 
     fun hentDelerTilRapportering(enhetnr: String): List<Del> {
         log.info { "Henter deler til rapportering for $enhetnr" }
@@ -59,15 +59,15 @@ class DelUtenDekningDao(val tx: JdbcOperations) {
         ) { it.toDelUtenDekning() }
     }
 
-    fun markerDelerSomRapportert(enhet: Enhet) {
-        log.info { "Marker deler som rapportert for enhet $enhet" }
+    fun markerDelerSomRapportert(lager: Lager) {
+        log.info { "Marker deler som rapportert for enhet $lager" }
         tx.update(
             """
                 UPDATE deler_uten_dekning
                 SET rapportert_tidspunkt = CURRENT_TIMESTAMP, sist_oppdatert = CURRENT_TIMESTAMP 
                 WHERE enhetnr = :enhetnr AND rapportert_tidspunkt IS NULL
             """.trimIndent(),
-            mapOf("enhetnr" to enhet.nummer)
+            mapOf("enhetnr" to lager.nummer)
         )
     }
 

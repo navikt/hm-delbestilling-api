@@ -92,6 +92,8 @@ class DelbestillingStatusService(
                 val lagerstatusVedInnsending =
                     delbestilling.delbestilling.deler.map { it.lagerstatusPåBestillingstidspunkt }
                 log.info { "Lagerstatus for sak ${delbestilling.saksnummer} ved status=$status: $lagerstatus. Lagerstatus ved innsending: $lagerstatusVedInnsending" }
+
+                // TODO Varsle til Slack dersom det ikkje er diff? (tyder på at vi har brukt feil lager)
             }
         } catch (t: Throwable) {
             log.info(t) { "Forsøk på logging av lagerstatus ved status $status feilet. Ignorerer." }
