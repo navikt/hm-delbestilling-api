@@ -40,6 +40,8 @@ class FinnLagerenhet(
 
                 // TODO Håndtere Nord- og Sør-Trøndelag?
 
+                // TODO Sjekk om Agder må håndteres også
+
                 else -> Lager.fraLagernummer(hmsEnhet)
             }
         } catch (e: Exception) {

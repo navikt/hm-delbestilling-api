@@ -91,7 +91,7 @@ class AppContext {
         berikMedLagerstatus,
         berikMedDagerSidenForrigeBatteribestilling
     )
-    val delbestillingStatusService = DelbestillingStatusService(transactional, oebs, metrics)
+    val delbestillingStatusService = DelbestillingStatusService(transactional, oebs, metrics, slack)
 
     fun shutdown() = backgroundScope.cancel("Shutting down application")
 

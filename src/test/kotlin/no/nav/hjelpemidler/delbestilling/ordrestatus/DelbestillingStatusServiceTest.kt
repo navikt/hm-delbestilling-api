@@ -71,7 +71,7 @@ class DelbestillingStatusServiceTest {
             anmodningService,
         )
 
-    private val delbestillingStatusService = DelbestillingStatusService(transaction, oebs, mockk(relaxed = true))
+    private val delbestillingStatusService = DelbestillingStatusService(transaction, oebs, mockk(relaxed = true), slack)
 
     @BeforeEach
     fun setup() {

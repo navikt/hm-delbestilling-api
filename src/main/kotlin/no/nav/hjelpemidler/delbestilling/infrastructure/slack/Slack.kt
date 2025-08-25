@@ -124,12 +124,21 @@ class Slack(
 
     fun varsleOmPotensiellBatteriKategorier(deler: List<Del>) = sendSafely(
         emoji = "low_battery",
-        message = "Følgende deler med 'batteri' i kategorien sin har blitt bestilt. Vurder om de krever kurs eller skal legges inn som 'håndterteBatterikategorier'. ```${deler.joinToString(separator = "\n")}```"
+        message = "Følgende deler med 'batteri' i kategorien sin har blitt bestilt. Vurder om de krever kurs eller skal legges inn som 'håndterteBatterikategorier'. ```${
+            deler.joinToString(
+                separator = "\n"
+            )
+        }```"
     )
 
     fun varsleOmUkjentEnhet(kommunenummer: String, enhetsnummer: String) = sendSafely(
         emoji = "error",
         message = "Enhet er ikke definert for enhetsnummer=$enhetsnummer (kommunenummer=$kommunenummer)"
+    )
+
+    fun varsleOmPotensieltFeilLager(saksnummer: Long) = sendSafely(
+        emoji = "confused-math-lady",
+        message = "Fant ikke reduksjon i lagerstatus mellom innsending og status=KLARGJORT for delbestilling $saksnummer. Dette kan tyde på at vi har brukt feil lagerenhet for bestillingen. Bør undersøkes. (Sammenlign med tidligere delbestillinger fra samme kommune)"
     )
 
 }

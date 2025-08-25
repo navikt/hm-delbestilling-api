@@ -9,6 +9,7 @@ import no.nav.hjelpemidler.delbestilling.config.isDev
 import no.nav.hjelpemidler.delbestilling.infrastructure.metrics.Metrics
 import no.nav.hjelpemidler.delbestilling.infrastructure.oebs.Oebs
 import no.nav.hjelpemidler.delbestilling.infrastructure.persistence.transaction.Transaction
+import no.nav.hjelpemidler.delbestilling.infrastructure.slack.Slack
 import java.time.LocalDate
 
 private val log = KotlinLogging.logger {}
@@ -17,6 +18,7 @@ class DelbestillingStatusService(
     private val transaction: Transaction,
     private val oebs: Oebs,
     private val metrics: Metrics,
+    private val slack: Slack,
 ) {
 
     suspend fun oppdaterStatus(saksnummer: Long, status: Status, oebsOrdrenummer: String) {
@@ -86,14 +88,22 @@ class DelbestillingStatusService(
     private suspend fun logLagerstatusVedKlargjortVsInnsending(delbestilling: DelbestillingSak?, status: Status) {
         try {
             if (delbestilling != null && status == Status.KLARGJORT) {
-                val lagerstatus = oebs.hentLagerstatusForKommunenummer(
+                val lagerstatus = oebs.hentLagerstatusForKommunenummerAsMap(
                     delbestilling.brukersKommunenummer,
                     delbestilling.delbestilling.deler.map { it.del.hmsnr })
                 val lagerstatusVedInnsending =
                     delbestilling.delbestilling.deler.map { it.lagerstatusPåBestillingstidspunkt }
                 log.info { "Lagerstatus for sak ${delbestilling.saksnummer} ved status=$status: $lagerstatus. Lagerstatus ved innsending: $lagerstatusVedInnsending" }
 
-                // TODO Varsle til Slack dersom det ikkje er diff? (tyder på at vi har brukt feil lager)
+                val erReduksjonILagerstatus = lagerstatusVedInnsending.filterNotNull()
+                    .any { vedInnsending ->
+                        val nåværendeLagerstatus = (lagerstatus[vedInnsending.artikkelnummer]?.antallDelerPåLager ?: 99)
+                        nåværendeLagerstatus < vedInnsending.antallDelerPåLager
+                    }
+                if (!erReduksjonILagerstatus) {
+                    log.info { "Det var ikke reduksjon i lagerstatus mellom innsending av delbestilling og status=KLARGJORT for delbestilling ${delbestilling.saksnummer}. Sjekk om delbestilling-api har brukt feil lagerenhet." }
+                    slack.varsleOmPotensieltFeilLager(delbestilling.saksnummer)
+                }
             }
         } catch (t: Throwable) {
             log.info(t) { "Forsøk på logging av lagerstatus ved status $status feilet. Ignorerer." }
