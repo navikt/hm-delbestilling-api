@@ -28,6 +28,7 @@ class OppslagService(
         val brukerInfoDeferred = async {
             val utlån = oebs.hentUtlånPåArtNrOgSerienr(hmsnr, serienr)
                 ?: throw IngenUtlånException("Fant ingen utlån for hmsnr $hmsnr og serien $serienr")
+            log.info { "utlån: $utlån" }
             val kommunenummer = pdl.hentKommunenummer(utlån.fnr)
             BrukerInfo(utlån, kommunenummer)
         }
