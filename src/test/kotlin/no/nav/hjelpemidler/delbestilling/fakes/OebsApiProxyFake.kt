@@ -21,7 +21,7 @@ class OebsApiProxyFake(
         fnr = defaultFnr,
         artnr = defaultHjmHmsnr,
         serienr = defaultHjmSerienr,
-        opprettetDato = "2025-01-01",
+        opprettetDato = "2025-01-01 00:00:00",
         utlånsDato = "2025-02-03",
     )
 

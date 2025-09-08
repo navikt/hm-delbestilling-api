@@ -11,7 +11,7 @@ import java.time.temporal.ChronoUnit
 private val log = KotlinLogging.logger { }
 
 suspend fun berikMedGaranti(hjelpemiddel: Hjelpemiddel, opprettetDato: String): Hjelpemiddel {
-    val garantiPeriodeStart = LocalDateTime.parse(opprettetDato, DateTimeFormatter.ISO_DATE).toLocalDate() // I OeBS er opprettetDato det samme som garantiDato
+    val garantiPeriodeStart = LocalDateTime.parse(opprettetDato, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")).toLocalDate() // I OeBS er opprettetDato det samme som garantiDato
     val garantiPeriodeSlutt = garantiPeriodeStart.plusYears(2)
     // TODO: Støtte garantiperiode for ERS
     return hjelpemiddel.copy(erInnenforGaranti = LocalDate.now().isBefore(garantiPeriodeSlutt))
