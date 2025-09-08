@@ -4,13 +4,14 @@ import io.github.oshai.kotlinlogging.KotlinLogging
 import no.nav.hjelpemidler.database.transaction
 import no.nav.hjelpemidler.delbestilling.infrastructure.persistence.transaction.Transactional
 import java.time.LocalDate
+import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.time.temporal.ChronoUnit
 
 private val log = KotlinLogging.logger { }
 
 suspend fun berikMedGaranti(hjelpemiddel: Hjelpemiddel, opprettetDato: String): Hjelpemiddel {
-    val garantiPeriodeStart = LocalDate.parse(opprettetDato, DateTimeFormatter.ISO_DATE) // I OeBS er opprettetDato det samme som garantiDato
+    val garantiPeriodeStart = LocalDateTime.parse(opprettetDato, DateTimeFormatter.ISO_DATE).toLocalDate() // I OeBS er opprettetDato det samme som garantiDato
     val garantiPeriodeSlutt = garantiPeriodeStart.plusYears(2)
     // TODO: Støtte garantiperiode for ERS
     return hjelpemiddel.copy(erInnenforGaranti = LocalDate.now().isBefore(garantiPeriodeSlutt))
