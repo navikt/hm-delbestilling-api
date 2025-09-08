@@ -21,8 +21,8 @@ class OebsApiProxyFake(
         fnr = defaultFnr,
         artnr = defaultHjmHmsnr,
         serienr = defaultHjmSerienr,
+        opprettetDato = "2025-01-01",
         utlånsDato = "2025-02-03",
-        garantidato = LocalDate.now()
     )
 
     var personinfo = listOf(OebsPersoninfo(Testdata.defaultKommunenummer))

@@ -35,7 +35,7 @@ class OppslagService(
         val hjelpemiddel = finnDelerTilHjelpemiddel(hmsnr)
             .let { berikMedDagerSidenForrigeBatteribestilling(it, serienr) }
             .let { berikMedLagerstatus(it, brukerInfoDeferred.await().kommunenummer) }
-            .let { berikMedGaranti(it, brukerInfoDeferred.await().utlån.garantidato ) }
+            .let { berikMedGaranti(it, brukerInfoDeferred.await().utlån.opprettetDato ) }
             .sorterDeler()
 
         val piloter = piloterService.hentPiloter(brukerInfoDeferred.await().kommunenummer)
