@@ -24,6 +24,7 @@ data class Utlån(
     val serienr: String,
     val utlånsDato: String,
     val opprettetDato: String,
+    val isokode: String,
 )
 
 data class Ordre(

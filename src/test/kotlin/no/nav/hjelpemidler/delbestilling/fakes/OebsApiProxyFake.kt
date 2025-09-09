@@ -23,6 +23,7 @@ class OebsApiProxyFake(
         serienr = defaultHjmSerienr,
         opprettetDato = "2025-01-01 00:00:00",
         utlånsDato = "2025-02-03",
+        isokode = "123456"
     )
 
     var personinfo = listOf(OebsPersoninfo(Testdata.defaultKommunenummer))
