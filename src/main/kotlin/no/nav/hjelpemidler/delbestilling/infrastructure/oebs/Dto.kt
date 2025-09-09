@@ -2,6 +2,8 @@ package no.nav.hjelpemidler.delbestilling.infrastructure.oebs
 
 import no.nav.hjelpemidler.delbestilling.common.Lagerstatus
 import java.time.LocalDate
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
 data class FnrDto(
     val fnr: String
@@ -83,3 +85,6 @@ data class LagerstatusResponse(
         antallDelerPåLager = this.antallPåLager,
     )
 }
+
+private val oebsDatoFormatter: DateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
+fun String.tilOpprettetDato(): LocalDate = LocalDateTime.parse(this, oebsDatoFormatter).toLocalDate()

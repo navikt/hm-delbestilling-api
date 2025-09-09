@@ -10,8 +10,8 @@ import java.time.temporal.ChronoUnit
 
 private val log = KotlinLogging.logger { }
 
-suspend fun berikMedGaranti(hjelpemiddel: Hjelpemiddel, opprettetDato: String): Hjelpemiddel {
-    val garantiPeriodeStart = LocalDateTime.parse(opprettetDato, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")).toLocalDate() // I OeBS er opprettetDato det samme som garantiDato
+suspend fun berikMedGaranti(hjelpemiddel: Hjelpemiddel, opprettetDato: LocalDate): Hjelpemiddel {
+    val garantiPeriodeStart = opprettetDato // I OeBS er opprettet dato det samme som garantiperiode-start
     val garantiPeriodeSlutt = garantiPeriodeStart.plusYears(2)
     // TODO: Støtte garantiperiode for ERS
     return hjelpemiddel.copy(erInnenforGaranti = LocalDate.now().isBefore(garantiPeriodeSlutt))

@@ -6,6 +6,7 @@ import kotlinx.coroutines.coroutineScope
 import no.nav.hjelpemidler.delbestilling.common.Lagerstatus
 import no.nav.hjelpemidler.delbestilling.infrastructure.oebs.Oebs
 import no.nav.hjelpemidler.delbestilling.infrastructure.oebs.Utlån
+import no.nav.hjelpemidler.delbestilling.infrastructure.oebs.tilOpprettetDato
 import no.nav.hjelpemidler.delbestilling.infrastructure.pdl.Pdl
 
 
@@ -36,7 +37,7 @@ class OppslagService(
         val hjelpemiddel = finnDelerTilHjelpemiddel(hmsnr)
             .let { berikMedDagerSidenForrigeBatteribestilling(it, serienr) }
             .let { berikMedLagerstatus(it, brukerInfoDeferred.await().kommunenummer) }
-            .let { berikMedGaranti(it, brukerInfoDeferred.await().utlån.opprettetDato ) }
+            .let { berikMedGaranti(it, brukerInfoDeferred.await().utlån.opprettetDato.tilOpprettetDato() ) }
             .sorterDeler()
 
         val piloter = piloterService.hentPiloter(brukerInfoDeferred.await().kommunenummer)
