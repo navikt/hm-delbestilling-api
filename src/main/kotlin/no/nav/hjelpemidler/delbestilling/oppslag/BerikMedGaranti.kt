@@ -20,5 +20,7 @@ suspend fun berikMedGaranti(hjelpemiddel: Hjelpemiddel, utlån: Utlån): Hjelpem
     log.info { "antallÅrGaranti for $isokode: $antallÅrGaranti" }
 
     val garantiPeriodeSlutt = garantiPeriodeStart.plusYears(antallÅrGaranti)
-    return hjelpemiddel.copy(erInnenforGaranti = LocalDate.now().isBefore(garantiPeriodeSlutt))
+    val nå = LocalDate.now()
+    val erInnenforGaranti = nå.isBefore(garantiPeriodeSlutt)
+    return hjelpemiddel.copy(erInnenforGaranti = erInnenforGaranti)
 }
