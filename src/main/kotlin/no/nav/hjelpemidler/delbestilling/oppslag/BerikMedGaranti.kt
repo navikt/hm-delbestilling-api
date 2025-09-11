@@ -7,20 +7,17 @@ import java.time.LocalDate
 
 private val log = KotlinLogging.logger { }
 
-suspend fun berikMedGaranti(hjelpemiddel: Hjelpemiddel, utlån: Utlån): Hjelpemiddel {
+fun berikMedGaranti(hjelpemiddel: Hjelpemiddel, utlån: Utlån, nå: LocalDate): Hjelpemiddel {
     val garantiPeriodeStart = utlån.opprettetDato.tilOpprettetDato() // I OeBS er opprettet dato det samme som garantiperiode-start
-
     val isokode = utlån.isokode.take(4)
 
     val antallÅrGaranti = when(isokode) {
         "1223" -> 3 // 1223 = Motordrevne rullestoler (ERS) har garantitid på 3 år
         else -> 2
-    }.toLong()
+    }
 
-    log.info { "antallÅrGaranti for $isokode: $antallÅrGaranti" }
-
-    val garantiPeriodeSlutt = garantiPeriodeStart.plusYears(antallÅrGaranti)
-    val nå = LocalDate.now()
+    val garantiPeriodeSlutt = garantiPeriodeStart.plusYears(antallÅrGaranti.toLong())
     val erInnenforGaranti = nå.isBefore(garantiPeriodeSlutt)
-    return hjelpemiddel.copy(erInnenforGaranti = erInnenforGaranti)
+
+    return hjelpemiddel.copy(erInnenforGaranti = erInnenforGaranti, antallÅrGaranti = antallÅrGaranti)
 }

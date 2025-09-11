@@ -22,8 +22,8 @@ data class Utlån(
     val fnr: String,
     val artnr: String,
     val serienr: String,
-    val utlånsDato: String,
     val opprettetDato: String,
+    val utlånsDato: String,
     val isokode: String,
 )
 

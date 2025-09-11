@@ -8,6 +8,7 @@ import no.nav.hjelpemidler.delbestilling.infrastructure.oebs.Oebs
 import no.nav.hjelpemidler.delbestilling.infrastructure.oebs.Utlån
 import no.nav.hjelpemidler.delbestilling.infrastructure.oebs.tilOpprettetDato
 import no.nav.hjelpemidler.delbestilling.infrastructure.pdl.Pdl
+import java.time.LocalDate
 
 
 private val log = KotlinLogging.logger {}
@@ -37,7 +38,7 @@ class OppslagService(
         val hjelpemiddel = finnDelerTilHjelpemiddel(hmsnr)
             .let { berikMedDagerSidenForrigeBatteribestilling(it, serienr) }
             .let { berikMedLagerstatus(it, brukerInfoDeferred.await().kommunenummer) }
-            .let { berikMedGaranti(it, brukerInfoDeferred.await().utlån ) }
+            .let { berikMedGaranti(it, brukerInfoDeferred.await().utlån, nå = LocalDate.now() ) }
             .sorterDeler()
 
         val piloter = piloterService.hentPiloter(brukerInfoDeferred.await().kommunenummer)

@@ -14,6 +14,7 @@ data class Hjelpemiddel(
     val hmsnr: String,
     val deler: List<Del>,
     val antallDagerSidenSistBatteribestilling: Int? = null,
+    val antallÅrGaranti: Int? = null,
     val erInnenforGaranti: Boolean? = null,
 ) {
     val antallKategorier: Int = deler.distinctBy { it.kategori }.size
