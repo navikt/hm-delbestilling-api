@@ -20,8 +20,15 @@ class Pdl(private val client: PdlClientInterface) {
     }
 
     suspend fun hentFornavn(fnr: String): String {
-        val response = valider(client.hentPersonNavn(fnr))
-        return response.data?.hentPerson?.navn?.get(0)?.fornavn
-            ?: throw PdlResponseMissingData("Fant ikke fornavn.")
+        val fornavn = try {
+            val response = valider(client.hentPersonNavn(fnr))
+            response.data?.hentPerson?.navn?.get(0)?.fornavn
+                ?: throw PdlResponseMissingData("Fornavn mangler i PDL-data")
+        } catch (e:Exception) {
+            log.error(e) { "Klarte ikke å hente fornavn" }
+            throw e
+        }
+
+        return fornavn
     }
 }

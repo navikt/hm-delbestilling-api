@@ -40,7 +40,7 @@ internal class PdlTest {
         val exception = assertFailsWith<PdlResponseMissingData> {
             pdl.hentFornavn(Testdata.defaultFnr)
         }
-        assertTrue(exception.message!!.contains("fornavn"))
+        assertTrue(exception.message!!.contains("Fornavn mangler i PDL-data"))
     }
 
     @Test
