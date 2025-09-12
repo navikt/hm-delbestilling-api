@@ -4,6 +4,7 @@ import no.nav.hjelpemidler.delbestilling.infrastructure.oebs.Utlån
 import no.nav.hjelpemidler.delbestilling.testdata.Testdata
 import no.nav.hjelpemidler.delbestilling.testdata.runWithTestContext
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.assertNull
 import java.time.LocalDate
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
@@ -79,5 +80,28 @@ class BerikMedGarantiTest {
 
         assertEquals(beriket.antallÅrGaranti, 3)
         assertTrue { beriket.erInnenforGaranti == false }
+    }
+
+    @Test
+    fun `skal ikke berike hjelpemiddel hvis utlån mangler opprettetDato`() = runWithTestContext {
+        val utlån = Utlån(
+            fnr = "111111111111",
+            artnr = "238378",
+            serienr = "000000",
+            opprettetDato = null,
+            utlånsDato = "2025-01-01",
+            isokode = "122303" // Elektriske rullestoler med manuell styring
+        )
+
+        val hjelpemiddel = Hjelpemiddel(
+            navn = "Comet Alpine Plus",
+            hmsnr = "238378",
+            deler = emptyList(),
+        )
+
+        val beriket = berikMedGaranti(hjelpemiddel, utlån, LocalDate.parse("2025-01-01"))
+
+        assertNull(beriket.antallÅrGaranti)
+        assertNull(beriket.erInnenforGaranti)
     }
 }

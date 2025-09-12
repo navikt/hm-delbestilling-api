@@ -22,9 +22,9 @@ data class Utlån(
     val fnr: String,
     val artnr: String,
     val serienr: String,
-    val opprettetDato: String,
+    val opprettetDato: String? = null,
     val utlånsDato: String,
-    val isokode: String,
+    val isokode: String? = null,
 )
 
 data class Ordre(

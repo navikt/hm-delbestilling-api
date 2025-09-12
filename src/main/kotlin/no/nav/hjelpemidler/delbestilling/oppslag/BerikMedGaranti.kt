@@ -8,6 +8,11 @@ import java.time.LocalDate
 private val log = KotlinLogging.logger { }
 
 fun berikMedGaranti(hjelpemiddel: Hjelpemiddel, utlån: Utlån, nå: LocalDate): Hjelpemiddel {
+    if (utlån.opprettetDato == null || utlån.isokode == null) {
+        log.info { "Utlån mangler opprettetDato eller isokode, returnerer hjelpemiddel" }
+        return hjelpemiddel
+    }
+
     val garantiPeriodeStart = utlån.opprettetDato.tilOpprettetDato() // I OeBS er opprettet dato det samme som garantiperiode-start
     val isokode = utlån.isokode.take(4)
 
