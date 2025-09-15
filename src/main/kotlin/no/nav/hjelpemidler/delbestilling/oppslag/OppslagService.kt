@@ -20,6 +20,7 @@ class OppslagService(
     private val finnDelerTilHjelpemiddel: FinnDelerTilHjelpemiddel,
     private val berikMedLagerstatus: BerikMedLagerstatus,
     private val berikMedDagerSidenForrigeBatteribestilling: BerikMedDagerSidenForrigeBatteribestilling,
+    private val berikMedGaranti: BerikMedGaranti,
 ) {
 
     suspend fun slåOppHjelpemiddel(hmsnr: String, serienr: String): OppslagResultat = coroutineScope {

@@ -23,6 +23,7 @@ import no.nav.hjelpemidler.delbestilling.oppslag.BerikMedLagerstatus
 import no.nav.hjelpemidler.delbestilling.oppslag.FinnDelerTilHjelpemiddel
 import no.nav.hjelpemidler.delbestilling.oppslag.OppslagService
 import no.nav.hjelpemidler.delbestilling.infrastructure.norg.Norg
+import no.nav.hjelpemidler.delbestilling.oppslag.BerikMedGaranti
 
 class TestContext {
     // Mocks
@@ -57,6 +58,7 @@ class TestContext {
     val piloterService = PiloterService(norg)
     val finnDelerTilHjelpemiddel = FinnDelerTilHjelpemiddel(grunndata, slack, metrics)
     val berikMedLagerstatus = BerikMedLagerstatus(oebs, metrics)
+    val berikMedGaranti = BerikMedGaranti()
     val berikMedDagerSidenForrigeBatteribestilling = BerikMedDagerSidenForrigeBatteribestilling(transactional)
     val oppslagService = OppslagService(
         pdl,
@@ -64,7 +66,8 @@ class TestContext {
         piloterService,
         finnDelerTilHjelpemiddel,
         berikMedLagerstatus,
-        berikMedDagerSidenForrigeBatteribestilling
+        berikMedDagerSidenForrigeBatteribestilling,
+        berikMedGaranti,
     )
 }
 

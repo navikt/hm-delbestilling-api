@@ -1,14 +1,11 @@
 package no.nav.hjelpemidler.delbestilling.oppslag
 
 import no.nav.hjelpemidler.delbestilling.infrastructure.oebs.Utlån
-import no.nav.hjelpemidler.delbestilling.testdata.Testdata
 import no.nav.hjelpemidler.delbestilling.testdata.runWithTestContext
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertNull
 import java.time.LocalDate
 import kotlin.test.assertEquals
-import kotlin.test.assertFalse
-import kotlin.test.assertNotNull
 import kotlin.test.assertTrue
 
 class BerikMedGarantiTest {
