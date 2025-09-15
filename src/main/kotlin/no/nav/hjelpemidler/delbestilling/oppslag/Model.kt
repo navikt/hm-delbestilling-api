@@ -44,8 +44,13 @@ data class Hjelpemiddel(
         this.copy(antallDagerSidenSistBatteribestilling = dager)
 
     fun medGaranti(utlån: Utlån, nå: LocalDate): Hjelpemiddel {
-        if (utlån.opprettetDato == null || utlån.isokode == null) {
-            log.info { "Utlån mangler opprettetDato eller isokode, returnerer uberiket hjelpemiddel" }
+        if (utlån.opprettetDato == null) {
+            log.info { "Utlån mangler opprettetDato, returnerer uberiket hjelpemiddel" }
+            return this
+        }
+
+        if (utlån.isokode == null) {
+            log.info { "Utlån mangler isokode, returnerer uberiket hjelpemiddel" }
             return this
         }
 
