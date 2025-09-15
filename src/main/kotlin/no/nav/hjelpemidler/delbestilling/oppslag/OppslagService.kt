@@ -6,7 +6,6 @@ import kotlinx.coroutines.coroutineScope
 import no.nav.hjelpemidler.delbestilling.common.Lagerstatus
 import no.nav.hjelpemidler.delbestilling.infrastructure.oebs.Oebs
 import no.nav.hjelpemidler.delbestilling.infrastructure.oebs.Utlån
-import no.nav.hjelpemidler.delbestilling.infrastructure.oebs.tilOpprettetDato
 import no.nav.hjelpemidler.delbestilling.infrastructure.pdl.Pdl
 import java.time.LocalDate
 

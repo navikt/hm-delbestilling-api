@@ -88,4 +88,4 @@ data class LagerstatusResponse(
 }
 
 private val oebsDatoFormatter: DateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
-fun String.tilOpprettetDato(): LocalDate = LocalDateTime.parse(this, oebsDatoFormatter).toLocalDate()
+fun String.tilLocalDate(): LocalDate = LocalDateTime.parse(this, oebsDatoFormatter).toLocalDate()
