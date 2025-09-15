@@ -45,12 +45,12 @@ data class Hjelpemiddel(
 
     fun medGaranti(utlån: Utlån, nå: LocalDate): Hjelpemiddel {
         if (utlån.opprettetDato == null) {
-            log.info { "Utlån mangler opprettetDato, returnerer uberiket hjelpemiddel" }
+            log.info { "Utlån for artnr ${utlån.artnr} og serienr ${utlån.serienr} mangler opprettetDato, returnerer uberiket hjelpemiddel" }
             return this
         }
 
         if (utlån.isokode == null) {
-            log.info { "Utlån mangler isokode, returnerer uberiket hjelpemiddel" }
+            log.info { "Utlån for artnr ${utlån.artnr} og serienr ${utlån.serienr} mangler isokode, returnerer uberiket hjelpemiddel" }
             return this
         }
 
