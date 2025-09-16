@@ -8,7 +8,7 @@ on:
       - "CODEOWNERS"
     branches:
       - main
-      - rapport
+      - slack-rapport
 
 jobs:
   build:
