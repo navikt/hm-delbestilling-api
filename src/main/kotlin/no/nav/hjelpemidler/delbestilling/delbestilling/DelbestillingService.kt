@@ -258,7 +258,7 @@ class DelbestillingService(
             .filter { it.opprettet.toLocalDate() >= fra && it.opprettet.toLocalDate() <= til }
 
         // Nye kommuner som har sendt inn for første gang i periode
-        val nyeKommuner = alleDelbestillinger
+        val nyeKommuner = delbestillingerIPeriode
             .groupBy { it.brukersKommunenavn }
             .mapNotNull { (kommune, delbestillinger) ->
                 delbestillinger.minByOrNull { it.opprettet.toLocalDate() }
