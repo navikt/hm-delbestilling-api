@@ -10,6 +10,7 @@ import no.nav.hjelpemidler.delbestilling.common.Serienr
 import no.nav.hjelpemidler.delbestilling.common.Status
 import no.nav.hjelpemidler.delbestilling.infrastructure.jsonMapper
 import no.nav.hjelpemidler.delbestilling.infrastructure.roller.Organisasjon
+import java.time.LocalDate
 
 class DelbestillingRepository(val tx: JdbcOperations) {
 
@@ -55,6 +56,13 @@ class DelbestillingRepository(val tx: JdbcOperations) {
             WHERE brukers_kommunenr = :brukers_kommunenr
         """.trimIndent(),
         queryParameters = mapOf("brukers_kommunenr" to brukerKommunenr)
+    ) { it.tilDelbestillingSak() }
+
+    fun hentDelbestillinger(): List<DelbestillingSak> = tx.list(
+        sql = """
+            SELECT * 
+            FROM delbestilling
+        """.trimIndent(),
     ) { it.tilDelbestillingSak() }
 
     fun hentDelbestillinger(hmsnr: Hmsnr, serienr: Serienr): List<DelbestillingSak> = tx.list(

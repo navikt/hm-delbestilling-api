@@ -141,4 +141,7 @@ class Slack(
         message = "Fant ikke reduksjon i lagerstatus mellom innsending og status=KLARGJORT for delbestilling $saksnummer. Dette kan tyde på at vi har brukt feil lagerenhet for bestillingen. Bør undersøkes. (Sammenlign med tidligere delbestillinger fra samme kommune)"
     )
 
+    fun sendDagsrapport() {
+        sendSafely("pepe-popcorn", "Test")
+    }
 }

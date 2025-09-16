@@ -24,6 +24,7 @@ import no.nav.hjelpemidler.delbestilling.infrastructure.roller.Organisasjon
 import no.nav.hjelpemidler.delbestilling.infrastructure.slack.Slack
 import no.nav.hjelpemidler.delbestilling.oppslag.legacy.data.hmsnr2Hjm
 import no.nav.hjelpemidler.domain.person.Fødselsnummer
+import java.time.LocalDate
 import java.time.LocalDateTime
 
 
@@ -145,6 +146,8 @@ class DelbestillingService(
 
         if (!isLocal()) {
             slack.varsleOmInnsending(brukerKommunenr, brukersKommunenavn)
+            val idag = LocalDate.now()
+            lagRapport(fra = idag.minusDays(7), til = idag)
         }
 
         return DelbestillingResultat(id, null, delbestillingSak.saksnummer, delbestillingSak)
@@ -243,5 +246,46 @@ class DelbestillingService(
             slack.varsleOmRapporteringFeilet()
             throw t
         }
+    }
+
+    // TODO: litt fort og gæli, mye av dette kunne nok heller blitt gjort med databasespørringer
+    suspend fun lagRapport(fra: LocalDate, til: LocalDate): String = transaction {
+        log.info { "Lager rapport fra $fra til $til" }
+        val alleDelbestillinger = delbestillingRepository.hentDelbestillinger()
+
+        // Nye delbestillinger i periode
+        val delbestillinger = alleDelbestillinger
+            .filter { it.opprettet.toLocalDate() >= fra && it.opprettet.toLocalDate() <= til }
+
+        // Nye kommuner som har sendt inn for første gang i periode
+        val nyeKommuner = alleDelbestillinger
+            .groupBy { it.brukersKommunenavn }
+            .mapNotNull { (kommune, delbestillinger) ->
+                delbestillinger.minByOrNull { it.opprettet.toLocalDate() }
+                    ?.takeIf { it.opprettet.toLocalDate() >= fra && it.opprettet.toLocalDate() <= til }
+                    ?.brukersKommunenavn
+            }
+            .distinct()
+
+        // Prosentvis forskjell i antall delbestillinger siden fjoråret
+        val fjoråretsDelbestillinger = alleDelbestillinger.filter {
+            it.opprettet.toLocalDate().year == fra.minusYears(1).year
+        }
+
+        val åretsDelbestillinger = alleDelbestillinger.filter {
+            it.opprettet.toLocalDate().year == fra.year
+        }
+
+        val diffFraFjorår = (åretsDelbestillinger.size - fjoråretsDelbestillinger.size) / fjoråretsDelbestillinger.size * 100
+
+        log.info { "delbestillinger: $delbestillinger" }
+        log.info { "nyeKommuner: $nyeKommuner" }
+        log.info { "fjoråretsDelbestillinger: $fjoråretsDelbestillinger" }
+        log.info { "åretsDelbestillinger: $åretsDelbestillinger" }
+        log.info { "diffFraFjorÅr: $diffFraFjorår" }
+
+        slack.sendDagsrapport()
+
+        return@transaction "Rapport sent"
     }
 }
