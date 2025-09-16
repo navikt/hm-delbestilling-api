@@ -278,10 +278,10 @@ class DelbestillingService(
 
         val diffFraFjorår = (åretsDelbestillinger.size - fjoråretsDelbestillinger.size) / fjoråretsDelbestillinger.size * 100
 
-        log.info { "delbestillinger: $delbestillinger" }
+        //log.info { "delbestillinger: $delbestillinger" }
         log.info { "nyeKommuner: $nyeKommuner" }
-        log.info { "fjoråretsDelbestillinger: $fjoråretsDelbestillinger" }
-        log.info { "åretsDelbestillinger: $åretsDelbestillinger" }
+        log.info { "fjoråretsDelbestillinger.size: $fjoråretsDelbestillinger.size" }
+        log.info { "åretsDelbestillinger.size: $åretsDelbestillinger.size" }
         log.info { "diffFraFjorÅr: $diffFraFjorår" }
 
         slack.sendDagsrapport()
