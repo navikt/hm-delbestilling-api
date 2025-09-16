@@ -26,6 +26,8 @@ import no.nav.hjelpemidler.delbestilling.oppslag.legacy.data.hmsnr2Hjm
 import no.nav.hjelpemidler.domain.person.Fødselsnummer
 import java.time.LocalDate
 import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
+import java.util.Locale
 
 
 private val log = KotlinLogging.logger {}
@@ -284,10 +286,11 @@ class DelbestillingService(
         log.info { "åretsDelbestillinger.size: ${åretsDelbestillinger.size}" }
         log.info { "diffFraFjorÅr: $diffFraFjorår" }
 
+        val kortFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy")
         val rapport = """
-            *Rapport for periode $fra - $til* :chart_with_upwards_trend:
+            *Rapport for periode ${fra.format(kortFormatter)} - ${til.format(kortFormatter)}* :chart_with_upwards_trend:
             - Antall nye delbestillinger: ${delbestillingerIPeriode.size}
-            - Nye kommuner som har sendt inn delbestilling: ${nyeKommuner.joinToString(", ")}
+            - Nye kommuner som har sendt inn delbestilling: ${nyeKommuner.joinToString(", ").let { if (it.isEmpty()) "0" }}
             - Diff fra fjorår: ${diffFraFjorår}%
         """.trimIndent()
 
