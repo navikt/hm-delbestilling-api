@@ -254,7 +254,7 @@ class DelbestillingService(
         val alleDelbestillinger = delbestillingRepository.hentDelbestillinger()
 
         // Nye delbestillinger i periode
-        val delbestillinger = alleDelbestillinger
+        val delbestillingerIPeriode = alleDelbestillinger
             .filter { it.opprettet.toLocalDate() >= fra && it.opprettet.toLocalDate() <= til }
 
         // Nye kommuner som har sendt inn for første gang i periode
@@ -278,13 +278,20 @@ class DelbestillingService(
 
         val diffFraFjorår = (åretsDelbestillinger.size - fjoråretsDelbestillinger.size) / fjoråretsDelbestillinger.size * 100
 
-        log.info { "delbestillinger i periode $fra - ${til}: ${delbestillinger.size}" }
+        log.info { "delbestillingerIPeriode $fra - ${til}: ${delbestillingerIPeriode.size}" }
         log.info { "nyeKommuner: $nyeKommuner" }
         log.info { "fjoråretsDelbestillinger.size: ${fjoråretsDelbestillinger.size}" }
         log.info { "åretsDelbestillinger.size: ${åretsDelbestillinger.size}" }
         log.info { "diffFraFjorÅr: $diffFraFjorår" }
 
-        slack.sendDagsrapport()
+        val rapport = """
+            *Rapport i periode $fra - $til* :chart_with_upwards_trend:
+            - Antall nye delbestillinger: ${delbestillingerIPeriode.size}
+            - Nye kommuner som har sendt inn delbestilling: ${nyeKommuner.joinToString(", ")}
+            - Diff fra fjorår: ${diffFraFjorår}%
+        """.trimIndent()
+
+        slack.sendRapport(rapport)
 
         return@transaction "Rapport sent"
     }
