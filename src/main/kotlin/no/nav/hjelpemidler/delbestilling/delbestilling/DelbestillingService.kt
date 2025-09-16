@@ -285,7 +285,7 @@ class DelbestillingService(
         log.info { "diffFraFjorÅr: $diffFraFjorår" }
 
         val rapport = """
-            *Rapport i periode $fra - $til* :chart_with_upwards_trend:
+            *Rapport for periode $fra - $til* :chart_with_upwards_trend:
             - Antall nye delbestillinger: ${delbestillingerIPeriode.size}
             - Nye kommuner som har sendt inn delbestilling: ${nyeKommuner.joinToString(", ")}
             - Diff fra fjorår: ${diffFraFjorår}%
