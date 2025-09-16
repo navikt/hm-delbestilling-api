@@ -280,8 +280,8 @@ class DelbestillingService(
 
         log.info { "delbestillinger i periode $fra - ${til}: ${delbestillinger.size}" }
         log.info { "nyeKommuner: $nyeKommuner" }
-        log.info { "fjoråretsDelbestillinger.size: $fjoråretsDelbestillinger.size" }
-        log.info { "åretsDelbestillinger.size: $åretsDelbestillinger.size" }
+        log.info { "fjoråretsDelbestillinger.size: ${fjoråretsDelbestillinger.size}" }
+        log.info { "åretsDelbestillinger.size: ${åretsDelbestillinger.size}" }
         log.info { "diffFraFjorÅr: $diffFraFjorår" }
 
         slack.sendDagsrapport()
