@@ -250,7 +250,7 @@ class DelbestillingService(
 
     // TODO: litt fort og gæli, mye av dette kunne nok heller blitt gjort med databasespørringer
     suspend fun lagRapport(fra: LocalDate, til: LocalDate): String = transaction {
-        log.info { "Lager rapport fra $fra til $til" }
+        log.info { "Lager rapport i periode $fra - $til" }
         val alleDelbestillinger = delbestillingRepository.hentDelbestillinger()
 
         // Nye delbestillinger i periode
@@ -278,7 +278,7 @@ class DelbestillingService(
 
         val diffFraFjorår = (åretsDelbestillinger.size - fjoråretsDelbestillinger.size) / fjoråretsDelbestillinger.size * 100
 
-        //log.info { "delbestillinger: $delbestillinger" }
+        log.info { "delbestillinger i periode $fra - ${til}: ${delbestillinger.size}" }
         log.info { "nyeKommuner: $nyeKommuner" }
         log.info { "fjoråretsDelbestillinger.size: $fjoråretsDelbestillinger.size" }
         log.info { "åretsDelbestillinger.size: $åretsDelbestillinger.size" }
