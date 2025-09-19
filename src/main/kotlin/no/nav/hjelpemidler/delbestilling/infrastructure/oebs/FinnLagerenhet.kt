@@ -77,10 +77,6 @@ private const val KOMMUNENUMMER_PREFIX_FINNMARK = "56"
 private fun String.erFinnmark() = this.take(2) == KOMMUNENUMMER_PREFIX_FINNMARK
 private fun String.tilhørerNordTrøndelagLager() = kommunerSomTilhørerNordTrøndelagLager.contains(this)
 
-private data class Kommune(
-    val kommunenummer: String,
-    val navn: String,
-)
 private val kommunerSomTilhørerNordTrøndelagLager = listOf(
     "5060",
     "5053",
