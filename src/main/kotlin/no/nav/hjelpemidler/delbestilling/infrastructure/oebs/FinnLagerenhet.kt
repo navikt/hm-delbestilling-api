@@ -4,6 +4,7 @@ import io.github.oshai.kotlinlogging.KotlinLogging
 import no.nav.hjelpemidler.delbestilling.common.Lager
 import no.nav.hjelpemidler.delbestilling.infrastructure.norg.Norg
 import no.nav.hjelpemidler.delbestilling.infrastructure.slack.Slack
+import java.time.LocalDate
 
 private val log = KotlinLogging.logger { }
 
@@ -38,7 +39,18 @@ class FinnLagerenhet(
                     }
                 }
 
-                // TODO Håndtere Nord- og Sør-Trøndelag?
+                /*
+                For HMS Trøndelag så er det to lagre, henholdsvis Nord -og Sør-Trøndelag. Sjekk derfor kommunenummer.
+                 */
+                ENHETSNUMMER_HMS_TRØNDELAG -> {
+                    if (kommunenummer.tilhørerNordTrøndelagLager()) {
+                        log.info { "Enhetnr $hmsEnhet og kommunenummer $kommunenummer tilhører LAGER.NORD_TRØNDELAG" }
+                        Lager.NORD_TRØNDELAG
+                    } else {
+                        log.info { "Enhetnr $hmsEnhet og kommunenummer $kommunenummer tilhører LAGER.SØR_TRØNDELAG" }
+                        Lager.SØR_TRØNDELAG
+                    }
+                }
 
                 // TODO Sjekk om Agder må håndteres også
 
@@ -57,10 +69,43 @@ class FinnLagerenhet(
 
 private const val ENHETSNUMMER_HMS_AKERSHUS = "4702"
 private const val ENHETSNUMMER_HMS_TROMS_OG_FINNMARK = "4719"
+private const val ENHETSNUMMER_HMS_TRØNDELAG = "4716"
 
 private const val KOMMUNENUMMER_PREFIX_TROMS = "55"
 private fun String.erTroms() = this.take(2) == KOMMUNENUMMER_PREFIX_TROMS
 
 private const val KOMMUNENUMMER_PREFIX_FINNMARK = "56"
 private fun String.erFinnmark() = this.take(2) == KOMMUNENUMMER_PREFIX_FINNMARK
+private fun String.tilhørerNordTrøndelagLager() = kommunerSomTilhørerNordTrøndelagLager.contains(this)
 
+private data class Kommune(
+    val kommunenummer: String,
+    val navn: String,
+)
+private val kommunerSomTilhørerNordTrøndelagLager = listOf(
+    "5060",
+    "5053",
+    "5052",
+    "5051",
+    "5050",
+    "5049",
+    "5048",
+    "5047",
+    "5046",
+    "5045",
+    "5044",
+    "5043",
+    "5042",
+    "5041",
+    "5040",
+    "5039",
+    "5038",
+    "5037",
+    "5036", // TODO: fra 01.10.25 knyttes denne til lager 16. Fjern fra denne listen da
+    "5035", // TODO: fra 01.10.25 knyttes denne til lager 16. Fjern fra denne listen da
+    "5020",
+    "5007",
+    "5006",
+    "5005",
+    "5004",
+)
