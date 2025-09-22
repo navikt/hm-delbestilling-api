@@ -16,7 +16,7 @@ enum class Lager(val nummer: String, private val epost: String?) {
     VESTLAND_FØRDE("4714", "nav.hot.vestland.forde@nav.no"),
     MØRE_OG_ROMSDAL("4715", "nav.hot.moreogromsdal.teknisk@nav.no"),
     SØR_TRØNDELAG("4716", "nav.hot.trondelag.teknisk@nav.no"),
-    NORD_TRØNDELAG("4717", "TODO"),
+    NORD_TRØNDELAG("4717", "nav.hot.trondelag.teknisk@nav.no"),
     NORDLAND("4718", "nav.hot.nordland.teknisk@nav.no"),
     TROMS("4719", "nav.hot.troms.og.finnmark.tromso.teknisk@nav.no"),
     FINNMARK("4720", "nav.hot.troms.og.finnmark.lakselv.teknisk@nav.no"),
