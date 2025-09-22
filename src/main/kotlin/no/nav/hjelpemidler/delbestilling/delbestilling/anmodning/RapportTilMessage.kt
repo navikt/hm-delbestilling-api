@@ -1,5 +1,7 @@
 package no.nav.hjelpemidler.delbestilling.delbestilling.anmodning
 
+import no.nav.hjelpemidler.delbestilling.common.Lager
+
 fun rapportTilMelding(rapport: Anmodningrapport): String {
     val anmodningerPerLeverandør = rapport.anmodningsbehov.groupBy { it.leverandørnavn }
 
@@ -12,10 +14,10 @@ ${anmodninger.joinToString("\n") { "${it.hmsnr} (${it.navn}): Må anmodes ${it.a
 
     // Fordi lager Sør-Trøndelag (4716) og Nord-Trøndelag (4717) deler e-post må vi legge til litt ekstra info her.
     val trøndelagLagerInfo = when (rapport.lager.nummer) {
-        "4716" -> {
+        Lager.SØR_TRØNDELAG.nummer -> {
 "OBS: Disse delene skal leveres fra lager Sør-Trøndelag og må anmodes derfra"
         }
-        "4717" -> {
+        Lager.NORD_TRØNDELAG.nummer -> {
 "OBS: Disse delene skal leveres fra lager Nord-Trøndelag og må anmodes derfra"
         }
         else -> ""
