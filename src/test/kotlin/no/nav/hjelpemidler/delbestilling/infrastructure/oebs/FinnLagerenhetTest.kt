@@ -28,4 +28,18 @@ class FinnLagerenhetTest {
         val lager = oebs.finnLagerenhet("5610")
         assertEquals(Lager.FINNMARK, lager)
     }
+
+    @Test
+    fun `kommuner som tidligere tilhørte Sør-Trøndelag skal mappes til 4716 Sør-Trøndelag`() = runWithTestContext {
+        norgClient.response = NorgResponse.enhet(enhetNr = "4716") // Nav hjelpemiddelsentral Trøndelag
+        val lager = oebs.finnLagerenhet("5001") // Trondheim
+        assertEquals(Lager.SØR_TRØNDELAG, lager)
+    }
+
+    @Test
+    fun `kommuner som tidligere tilhørte Nord-trøndelag skal mappes til 4717 Nord-Trøndelag`() = runWithTestContext {
+        norgClient.response = NorgResponse.enhet(enhetNr = "4716") // Nav hjelpemiddelsentral Trøndelag
+        val lager = oebs.finnLagerenhet("5060") // Nærøysund
+        assertEquals(Lager.NORD_TRØNDELAG, lager)
+    }
 }

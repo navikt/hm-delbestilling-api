@@ -15,7 +15,8 @@ private val PILOTENHETER_BESTILLE_IKKE_FASTE_LAGERVARER = setOf(
     Lager.VEST_VIKEN,
     Lager.MØRE_OG_ROMSDAL,
     Lager.VESTLAND_BERGEN,
-    // Lager.TRØNDELAG, // Skrur av for Trøndelag i påvente av fiks for to lager
+    Lager.SØR_TRØNDELAG,
+    Lager.NORD_TRØNDELAG,
     Lager.ROGALAND,
     Lager.AGDER,
     Lager.VESTLAND_FØRDE,
