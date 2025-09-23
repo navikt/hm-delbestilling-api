@@ -7,6 +7,7 @@ import io.ktor.server.response.respond
 import io.ktor.server.routing.Route
 import io.ktor.server.routing.get
 import io.ktor.server.routing.post
+import no.nav.hjelpemidler.delbestilling.config.isDev
 import no.nav.hjelpemidler.delbestilling.infrastructure.CORRELATION_ID_HEADER
 import no.nav.hjelpemidler.delbestilling.infrastructure.security.delbestillerRolleKey
 import no.nav.hjelpemidler.delbestilling.infrastructure.security.tokenXUser
@@ -66,6 +67,13 @@ fun Route.delbestillingApiAuthenticated(
         val bestillerFnr = call.tokenXUser().ident
         val delbestillinger = delbestillingService.hentDelbestillinger(bestillerFnr)
         call.respond(delbestillinger)
+    }
+
+    // TODO: for testing, fjern meg
+    if (isDev()) {
+        post("/anmodning/rapporter-deler-til-anmodning") {
+            call.respond(delbestillingService.rapporterDelerTilAnmodning())
+        }
     }
 
 }

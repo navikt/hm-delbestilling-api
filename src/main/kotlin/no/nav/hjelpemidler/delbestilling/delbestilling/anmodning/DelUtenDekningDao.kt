@@ -6,6 +6,7 @@ import no.nav.hjelpemidler.database.Row
 import no.nav.hjelpemidler.delbestilling.common.Lager
 import no.nav.hjelpemidler.delbestilling.common.Hmsnr
 import no.nav.hjelpemidler.delbestilling.config.isDev
+import no.nav.hjelpemidler.delbestilling.config.isProd
 
 private val log = KotlinLogging.logger {}
 
@@ -47,15 +48,24 @@ class DelUtenDekningDao(val tx: JdbcOperations) {
     ) { row -> Lager.fraLagernummer(row.string("enhetnr")) }
 
     fun hentDelerTilRapportering(enhetnr: String): List<Del> {
-        log.info { "Henter deler til rapportering for $enhetnr" }
+        // Hopper over ulike IDs i påvente av denne fiksen: https://trello.com/c/1cxdkRp3/472-bug-deler-som-har-f%C3%A5tt-lagerdekning-ila-dagen-og-dermed-ikke-skal-anmodes-sjekkes-p%C3%A5-nytt-hver-natt
+        // Disse IDene er deler uten dekning som har fått lagerdekning mellom innsending og rapportering
+        val skipListIds = when (isProd()) {
+            true -> listOf(408)
+            else -> emptyList()
+        }
+
+        log.info { "Henter deler til rapportering for $enhetnr, men med skipListIds: $skipListIds" }
+
         return tx.list(
             sql = """
                 SELECT hmsnr, navn, SUM(antall_uten_dekning) as antall
                 FROM deler_uten_dekning
                 WHERE enhetnr = :enhetnr AND rapportert_tidspunkt IS NULL
+                AND id NOT IN :skipListIds
                 GROUP BY hmsnr, navn
             """.trimIndent(),
-            queryParameters = mapOf("enhetnr" to enhetnr)
+            queryParameters = mapOf("enhetnr" to enhetnr, "skipListIds" to skipListIds)
         ) { it.toDelUtenDekning() }
     }
 
