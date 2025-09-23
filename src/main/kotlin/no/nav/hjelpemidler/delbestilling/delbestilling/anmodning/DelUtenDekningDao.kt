@@ -48,24 +48,18 @@ class DelUtenDekningDao(val tx: JdbcOperations) {
     ) { row -> Lager.fraLagernummer(row.string("enhetnr")) }
 
     fun hentDelerTilRapportering(enhetnr: String): List<Del> {
-        // Hopper over ulike IDs i påvente av denne fiksen: https://trello.com/c/1cxdkRp3/472-bug-deler-som-har-f%C3%A5tt-lagerdekning-ila-dagen-og-dermed-ikke-skal-anmodes-sjekkes-p%C3%A5-nytt-hver-natt
-        // Disse IDene er deler uten dekning som har fått lagerdekning mellom innsending og rapportering
-        val skipListIds = when (isProd()) {
-            true -> listOf(408)
-            else -> emptyList()
-        }
-
-        log.info { "Henter deler til rapportering for $enhetnr, men med skipListIds: $skipListIds" }
+        log.info { "Henter deler til rapportering for $enhetnr" }
 
         return tx.list(
             sql = """
                 SELECT hmsnr, navn, SUM(antall_uten_dekning) as antall
                 FROM deler_uten_dekning
                 WHERE enhetnr = :enhetnr AND rapportert_tidspunkt IS NULL
-                AND id NOT IN :skipListIds
+                -- Hopper over denne i påvente av fiks: https://trello.com/c/1cxdkRp3/472-bug-deler-som-har-f%C3%A5tt-lagerdekning-ila-dagen-og-dermed-ikke-skal-anmodes-sjekkes-p%C3%A5-nytt-hver-natt
+                AND id <> 408
                 GROUP BY hmsnr, navn
             """.trimIndent(),
-            queryParameters = mapOf("enhetnr" to enhetnr, "skipListIds" to skipListIds)
+            queryParameters = mapOf("enhetnr" to enhetnr)
         ) { it.toDelUtenDekning() }
     }
 
