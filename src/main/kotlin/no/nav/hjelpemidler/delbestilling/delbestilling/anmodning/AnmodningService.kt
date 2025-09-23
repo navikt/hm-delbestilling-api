@@ -72,8 +72,6 @@ class AnmodningService(
                 hmsnrs = delerSomMangletDekningVedInnsending.map { it.hmsnr }
             ).associateBy { it.artikkelnummer }
 
-            log.info { "lagerstatuser for enhet $enhet:: $lagerstatuser" }
-
             // Sjekk om delene fremdeles må anmodes. Lagerstatus kan ha endret seg siden innsending.
             val delerSomFremdelesMåAnmodes = delerSomMangletDekningVedInnsending.map { del ->
                 val lagerstatus = requireNotNull(lagerstatuser[del.hmsnr])
