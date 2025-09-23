@@ -6,7 +6,6 @@ import no.nav.hjelpemidler.database.Row
 import no.nav.hjelpemidler.delbestilling.common.Lager
 import no.nav.hjelpemidler.delbestilling.common.Hmsnr
 import no.nav.hjelpemidler.delbestilling.config.isDev
-import no.nav.hjelpemidler.delbestilling.config.isProd
 
 private val log = KotlinLogging.logger {}
 
