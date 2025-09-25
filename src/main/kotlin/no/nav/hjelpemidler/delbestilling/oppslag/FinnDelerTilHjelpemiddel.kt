@@ -3,6 +3,7 @@ package no.nav.hjelpemidler.delbestilling.oppslag
 import io.github.oshai.kotlinlogging.KotlinLogging
 import no.nav.hjelpemidler.delbestilling.common.Hmsnr
 import no.nav.hjelpemidler.delbestilling.common.Kilde
+import no.nav.hjelpemidler.delbestilling.config.isDev
 import no.nav.hjelpemidler.delbestilling.infrastructure.grunndata.Grunndata
 import no.nav.hjelpemidler.delbestilling.infrastructure.metrics.Metrics
 import no.nav.hjelpemidler.delbestilling.infrastructure.slack.Slack
@@ -32,7 +33,7 @@ class FinnDelerTilHjelpemiddel(
             throw TilbyrIkkeHjelpemiddelException("Fant ikke $hmsnr verken i grunndata eller manuell liste")
         }
 
-        if (hjelpemiddel.deler.isEmpty()) {
+        if (isDev() || hjelpemiddel.deler.isEmpty()) {
             throw TilbyrIkkeHjelpemiddelException("Fant ingen deler i verken grunndata eller manuell liste for $hmsnr")
         }
 
