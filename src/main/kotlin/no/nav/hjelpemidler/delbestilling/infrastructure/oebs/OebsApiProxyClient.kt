@@ -13,7 +13,6 @@ import no.nav.hjelpemidler.delbestilling.infrastructure.defaultHttpClient
 import no.nav.hjelpemidler.delbestilling.infrastructure.navCorrelationId
 import no.nav.hjelpemidler.http.openid.OpenIDClient
 import no.nav.hjelpemidler.http.openid.bearerAuth
-import kotlin.coroutines.cancellation.CancellationException
 
 private val log = KotlinLogging.logger {}
 
@@ -38,9 +37,6 @@ class OebsApiProxyClient(
                 }
                 httpResponse.body()
             }
-        } catch(c: CancellationException) {
-            log.warn(c) { "OeBS request ble kansellert" }
-            throw c
         } catch (t: Throwable) {
             log.error(t) { "OeBS request feilet: [$method] $url" }
             throw t
