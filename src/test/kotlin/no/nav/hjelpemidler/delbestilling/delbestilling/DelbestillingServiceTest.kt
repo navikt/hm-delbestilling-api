@@ -169,7 +169,7 @@ internal class DelbestillingServiceTest {
             delbestillerRolle()
         )
 
-        val delerTilRapportering = transaction { delUtenDekningDao.hentDelerTilRapportering(lager.nummer) }
+        var delerTilRapportering = transaction { delUtenDekningDao.hentDelerTilRapportering(lager.nummer) }
         assertEquals(2, delerTilRapportering.size)
         assertEquals(1, delerTilRapportering.find { it.hmsnr == hmsnrEtterfylt }!!.antall)
         assertEquals(2, delerTilRapportering.find { it.hmsnr == hmsnrIkkeDekning }!!.antall)
@@ -192,6 +192,9 @@ internal class DelbestillingServiceTest {
         )
         assertEquals(1, anmodninger.anmodningsbehov.size)
         assertEquals(2, anmodninger.anmodningsbehov.find { it.hmsnr == hmsnrIkkeDekning }!!.antallSomMåAnmodes)
+
+        delerTilRapportering = transaction { delUtenDekningDao.hentDelerTilRapportering(lager.nummer) }
+        assertEquals(0, delerTilRapportering.size)
     }
 
     @Test

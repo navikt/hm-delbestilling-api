@@ -38,7 +38,7 @@ fun Route.devtoolsApi(
     }
 
     delete("/rapporter-deler-uten-dekning") {
-        call.respond(anmodningService.markerDelerSomIkkeRapportert())
+        call.respond(anmodningService.markerDelerSomIkkeBehandlet())
     }
 
     post("/test-email") {

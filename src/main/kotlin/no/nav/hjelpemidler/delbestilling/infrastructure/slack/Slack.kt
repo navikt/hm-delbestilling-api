@@ -112,6 +112,18 @@ class Slack(
         )
     }
 
+    fun varsleOmEtterfyllingHosEnhet(
+        lager: Lager,
+        delerSomIkkeLengerMåAnmodes: List<no.nav.hjelpemidler.delbestilling.delbestilling.anmodning.Del>
+    ) {
+        sendSafely(
+            emoji = "package",
+            message = """
+                Lagerenhet $lager har fått etterfylt følgende deler slik at de ikke lenger må anmodes: $delerSomIkkeLengerMåAnmodes.
+            """.trimIndent()
+        )
+    }
+
     fun varsleOmIngenAnmodninger() = sendSafely(
         emoji = "such-empty",
         message = "Ingen anmodningsrapporter ble sendt ut; alle bestilte deler har hatt lagerdekning."

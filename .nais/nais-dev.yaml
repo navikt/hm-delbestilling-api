@@ -30,6 +30,7 @@ spec:
   azure:
     application:
       enabled: true
+      allowAllUsers: true # for å generere Azure-token
   observability:
     autoInstrumentation:
       enabled: true

@@ -11,7 +11,8 @@ data class Del(
 
 data class Anmodningrapport(
     val lager: Lager,
-    val anmodningsbehov: List<AnmodningsbehovForDel>
+    val anmodningsbehov: List<AnmodningsbehovForDel>,
+    val delerSomIkkeLengerMåAnmodes: List<Del>,
 )
 
 data class AnmodningsbehovForDel(
@@ -22,4 +23,10 @@ data class AnmodningsbehovForDel(
     val antallPåLager: Int,
     val antallSomMåAnmodes: Int,
     var leverandørnavn: String = "IKKE_SATT",
-)
+) {
+    fun tilDel(): Del = Del(
+        hmsnr = hmsnr,
+        navn = navn,
+        antall = antallBestilt,
+    )
+}

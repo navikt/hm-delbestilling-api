@@ -42,7 +42,7 @@ class DelUtenDekningDao(val tx: JdbcOperations) {
         sql = """
             SELECT DISTINCT(enhetnr)
             FROM deler_uten_dekning
-            WHERE rapportert_tidspunkt IS NULL
+            WHERE behandlet_tidspunkt IS NULL
         """.trimIndent()
     ) { row -> Lager.fraLagernummer(row.string("enhetnr")) }
 
@@ -52,34 +52,37 @@ class DelUtenDekningDao(val tx: JdbcOperations) {
             sql = """
                 SELECT hmsnr, navn, SUM(antall_uten_dekning) as antall
                 FROM deler_uten_dekning
-                WHERE enhetnr = :enhetnr AND rapportert_tidspunkt IS NULL
+                WHERE enhetnr = :enhetnr AND behandlet_tidspunkt IS NULL
                 GROUP BY hmsnr, navn
             """.trimIndent(),
             queryParameters = mapOf("enhetnr" to enhetnr)
         ) { it.toDelUtenDekning() }
     }
 
-    fun markerDelerSomRapportert(lager: Lager) {
+    fun markerDelerSomBehandlet(lager: Lager, deler: List<Hmsnr>) {
         log.info { "Marker deler som rapportert for enhet $lager" }
+        val indexedHmsnrs = deler.withIndex()
         tx.update(
             """
                 UPDATE deler_uten_dekning
-                SET rapportert_tidspunkt = CURRENT_TIMESTAMP, sist_oppdatert = CURRENT_TIMESTAMP 
-                WHERE enhetnr = :enhetnr AND rapportert_tidspunkt IS NULL
+                SET behandlet_tidspunkt = CURRENT_TIMESTAMP, sist_oppdatert = CURRENT_TIMESTAMP 
+                WHERE enhetnr = :enhetnr AND behandlet_tidspunkt IS NULL AND hmsnr IN (${indexedHmsnrs.joinToString(",") { (index, _) -> ":hmsnr_$index" }})
             """.trimIndent(),
-            mapOf("enhetnr" to lager.nummer)
+            mapOf(
+                "enhetnr" to lager.nummer,
+            ) +  indexedHmsnrs.map { (index, hmsnr) -> "hmsnr_$index" to hmsnr }
         )
     }
 
 
 
     // Kun til testing i dev
-    fun markerDelerSomIkkeRapportert() {
-        check(isDev()) { "markerDelerSomIkkeRapportert skal kun kalles i dev" }
+    fun markerDelerSomIkkeBehandlet() {
+        check(isDev()) { "markerDelerSomIkkeBehandlet skal kun kalles i dev" }
         tx.update(
             sql = """
                 UPDATE deler_uten_dekning
-                SET rapportert_tidspunkt = NULL, sist_oppdatert = CURRENT_TIMESTAMP 
+                SET behandlet_tidspunkt = NULL, sist_oppdatert = CURRENT_TIMESTAMP 
             """.trimIndent()
         )
     }
