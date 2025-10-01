@@ -102,7 +102,7 @@ class AnmodningService(
 
 
     suspend fun markerDelerSomIkkeRapportert() = transaction {
-        delUtenDekningDao.markerDelerSomIkkeRapportert()
+        delUtenDekningDao.markerDelerSomIkkeBehandlet()
     }
 
     suspend fun sendAnmodningRapport(rapport: Anmodningrapport): String {

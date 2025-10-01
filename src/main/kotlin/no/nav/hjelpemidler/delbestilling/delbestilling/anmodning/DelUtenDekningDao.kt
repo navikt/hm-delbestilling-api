@@ -77,8 +77,8 @@ class DelUtenDekningDao(val tx: JdbcOperations) {
 
 
     // Kun til testing i dev
-    fun markerDelerSomIkkeRapportert() {
-        check(isDev()) { "markerDelerSomIkkeRapportert skal kun kalles i dev" }
+    fun markerDelerSomIkkeBehandlet() {
+        check(isDev()) { "markerDelerSomIkkeBehandlet skal kun kalles i dev" }
         tx.update(
             sql = """
                 UPDATE deler_uten_dekning
