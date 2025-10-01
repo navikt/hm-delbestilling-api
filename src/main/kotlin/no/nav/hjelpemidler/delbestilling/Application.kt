@@ -68,7 +68,7 @@ fun rapporterDelerTilAnmodning() {
 
     runBlocking {
         if (isDev()) {
-            log.info { "Resetter deler som er rapportert i dev" }
+            log.info { "Resetter deler som er behandlet i dev" }
             ctx.client.delete("${DELBESTILLING_API_URL}/api/rapporter-deler-uten-dekning")
         }
 

@@ -101,7 +101,7 @@ class AnmodningService(
     }
 
 
-    suspend fun markerDelerSomIkkeRapportert() = transaction {
+    suspend fun markerDelerSomIkkeBehandlet() = transaction {
         delUtenDekningDao.markerDelerSomIkkeBehandlet()
     }
 
