@@ -96,8 +96,6 @@ private val kommunerSomTilhørerNordTrøndelagLager = listOf(
     "5039",
     "5038",
     "5037",
-    "5036", // TODO: fra 01.10.25 knyttes denne til lager 16. Fjern fra denne listen da
-    "5035", // TODO: fra 01.10.25 knyttes denne til lager 16. Fjern fra denne listen da
     "5020",
     "5007",
     "5006",
