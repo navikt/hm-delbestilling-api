@@ -113,7 +113,8 @@ class AnmodningServiceTest {
                         antallSomMåAnmodes = 107,
                         leverandørnavn = "Invacare"
                     )
-                )
+                ),
+                delerSomIkkeLengerMåAnmodes = emptyList()
             )
         )
 

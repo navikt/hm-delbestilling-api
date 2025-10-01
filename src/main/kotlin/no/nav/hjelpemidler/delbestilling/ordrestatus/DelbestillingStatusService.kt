@@ -11,6 +11,7 @@ import no.nav.hjelpemidler.delbestilling.infrastructure.oebs.Oebs
 import no.nav.hjelpemidler.delbestilling.infrastructure.persistence.transaction.Transaction
 import no.nav.hjelpemidler.delbestilling.infrastructure.slack.Slack
 import java.time.LocalDate
+import java.time.LocalDateTime.now
 
 private val log = KotlinLogging.logger {}
 
@@ -100,7 +101,9 @@ class DelbestillingStatusService(
                         val nåværendeLagerstatus = (lagerstatus[vedInnsending.artikkelnummer]?.antallDelerPåLager ?: 99)
                         nåværendeLagerstatus < vedInnsending.antallDelerPåLager
                     }
-                if (!erReduksjonILagerstatus) {
+                val delbestillingErYngreEnn6Timer = delbestilling.opprettet.isAfter(now().minusHours(6))
+
+                if (!erReduksjonILagerstatus && delbestillingErYngreEnn6Timer) {
                     log.info { "Det var ikke reduksjon i lagerstatus mellom innsending av delbestilling og status=KLARGJORT for delbestilling ${delbestilling.saksnummer}. Sjekk om delbestilling-api har brukt feil lagerenhet." }
                     slack.varsleOmPotensieltFeilLager(delbestilling.saksnummer)
                 }
