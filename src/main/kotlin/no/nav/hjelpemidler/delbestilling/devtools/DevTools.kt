@@ -84,7 +84,7 @@ class DevTools(
         tx.update(
             sql = """
                 UPDATE deler_uten_dekning
-                SET behandlet_tidspunkt = NULL, sist_oppdatert = CURRENT_TIMESTAMP 
+                SET behandlet_tidspunkt = NULL 
             """.trimIndent()
         )
     }

@@ -65,7 +65,7 @@ class DelUtenDekningDao(val tx: JdbcOperations) {
         tx.update(
             """
                 UPDATE deler_uten_dekning
-                SET behandlet_tidspunkt = CURRENT_TIMESTAMP, sist_oppdatert = CURRENT_TIMESTAMP 
+                SET behandlet_tidspunkt = CURRENT_TIMESTAMP 
                 WHERE enhetnr = :enhetnr AND behandlet_tidspunkt IS NULL AND hmsnr IN (${indexedHmsnrs.joinToString(",") { (index, _) -> ":hmsnr_$index" }})
             """.trimIndent(),
             mapOf(

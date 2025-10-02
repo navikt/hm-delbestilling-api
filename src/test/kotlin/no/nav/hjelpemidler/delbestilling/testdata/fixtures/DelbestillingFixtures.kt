@@ -28,9 +28,7 @@ suspend fun TestContext.gittDelbestilling(
             delbestillingRepository.tx.update(
                 sql = """
             UPDATE delbestilling
-            SET
-                opprettet = :opprettet,
-                sist_oppdatert = :opprettet
+            SET opprettet = :opprettet
             WHERE saksnummer = :saksnummer
         """.trimIndent(),
                 queryParameters = mapOf(
