@@ -35,31 +35,4 @@ class OppslagService(
 
         OppslagResultat(hjelpemiddel, piloter)
     }
-
-    suspend fun EKSTERN_DEV_slåOppHjelpemiddel(hmsnr: String, serienr: String): OppslagResultat {
-        log.info { "Slår opp hmsnr=$hmsnr for dev.ekstern, og beriker med fake lagerstatus" }
-        var hjelpemiddel = finnDelerTilHjelpemiddel(hmsnr).sorterDeler()
-
-        // legg på pseudo-random lagerstatus
-        val delerMedLagerstatus = hjelpemiddel.deler.map { del ->
-            val erMinmax = del.hmsnr.toInt() % 3 != 0                // Gjør ca 66% tilgjengelig
-            val antallPåLager = del.hmsnr.takeLast(1).toInt()    // Antall tilgjengelig = siste siffer i hmsnr
-            del.copy(
-                lagerstatus = Lagerstatus(
-                    organisasjons_id = 292,
-                    organisasjons_navn = "*19 Troms",
-                    artikkelnummer = del.hmsnr,
-                    minmax = erMinmax,
-                    tilgjengelig = antallPåLager,
-                    antallDelerPåLager = antallPåLager
-                )
-            )
-        }
-
-        if (hjelpemiddel.harBatteri()) {
-            hjelpemiddel = hjelpemiddel.copy(antallDagerSidenSistBatteribestilling = serienr.take(3).toInt())
-        }
-
-        return OppslagResultat(hjelpemiddel.copy(deler = delerMedLagerstatus))
-    }
 }

@@ -7,6 +7,7 @@ import kotlinx.coroutines.cancel
 import no.nav.hjelpemidler.delbestilling.config.DatabaseConfig
 import no.nav.hjelpemidler.delbestilling.delbestilling.DelbestillingService
 import no.nav.hjelpemidler.delbestilling.delbestilling.anmodning.AnmodningService
+import no.nav.hjelpemidler.delbestilling.devtools.DevTools
 import no.nav.hjelpemidler.delbestilling.infrastructure.email.Email
 import no.nav.hjelpemidler.delbestilling.infrastructure.email.GraphClient
 import no.nav.hjelpemidler.delbestilling.infrastructure.geografi.Kommuneoppslag
@@ -98,4 +99,7 @@ class AppContext {
     fun applicationStarted() {
         hjelpemiddeloversikt.startBakgrunnsjobb()
     }
+
+    fun devtools() = DevTools(transactional, oebs, pdl, finnDelerTilHjelpemiddel, email)
+
 }

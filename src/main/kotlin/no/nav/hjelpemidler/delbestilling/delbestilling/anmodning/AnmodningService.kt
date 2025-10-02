@@ -100,11 +100,6 @@ class AnmodningService(
         return rapporter
     }
 
-
-    suspend fun markerDelerSomIkkeBehandlet() = transaction {
-        delUtenDekningDao.markerDelerSomIkkeBehandlet()
-    }
-
     suspend fun sendAnmodningRapport(rapport: Anmodningrapport): String {
         val melding = rapport.tilMelding()
         email.sendSimpleMessage(

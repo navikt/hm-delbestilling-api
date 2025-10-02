@@ -195,28 +195,6 @@ class DelbestillingService(
         delbestillingRepository.hentDelbestillinger(bestillerFnr)
     }
 
-    suspend fun finnTestpersonMedTestbartUtlån(): Map<String, String> {
-        val fnrCache = mutableSetOf<String>()
-        hmsnr2Hjm.keys.forEach { artnr ->
-            log.info { "Leter etter testpersoner med utlån på $artnr" }
-            val utlån = oebs.hentUtlånPåArtnr(artnr)
-            utlån.forEach { (fnr, artnr, serienr, utlånsDato) ->
-                try {
-                    if (fnr !in fnrCache) {
-                        val kommunenr = pdl.hentKommunenummer(fnr)
-                        log.info { "Fant testperson $fnr med utlån på $artnr, $serienr i kommune $kommunenr" }
-                        return mapOf("fnr" to fnr, "artnr" to artnr, "serienr" to serienr, "kommunenr" to kommunenr)
-                    }
-                } catch (e: Exception) {
-                    // Peronen finnes ikke i PDL. Ignorer og let videre.
-                    log.info(e) { "Ignorer PDL feil under scanning etter testperson" }
-                    fnrCache.add(fnr)
-                }
-            }
-        }
-        return mapOf("error" to "Ingen testperson funnet")
-    }
-
     suspend fun sjekkXKLager(hmsnr: Hmsnr, serienr: Serienr): Boolean {
         val brukersFnr = oebs.hentFnrLeietaker(artnr = hmsnr, serienr = serienr)
             ?: error("Fant ikke utlån for $hmsnr $serienr")

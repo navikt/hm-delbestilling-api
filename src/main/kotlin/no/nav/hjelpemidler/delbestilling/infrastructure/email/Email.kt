@@ -33,13 +33,4 @@ class Email(
         client.sendEmail(recipentEmail = recipentEmail, subject = effectiveSubject, bodyText = bodyText)
         log.info { "post til $recipentEmail sendt." }
     }
-
-    suspend fun sendTestMail(
-        recipentEmail: String = "digitalisering.av.hjelpemidler.og.tilrettelegging@nav.no",
-        subject: String = "[TEST] hm-delbestilling-api",
-        bodyText: String = "Dette er bare en test av epostutsending fra hm-delbestilling-api. Vennligst ignorer meg.",
-    ) {
-        client.sendEmail(recipentEmail = recipentEmail, subject = subject, bodyText = bodyText)
-        log.info { "post til $recipentEmail sendt." }
-    }
 }

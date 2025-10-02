@@ -20,6 +20,7 @@ import no.nav.hjelpemidler.delbestilling.config.isDev
 import no.nav.hjelpemidler.delbestilling.config.isProd
 import no.nav.hjelpemidler.delbestilling.delbestilling.azureRoutes
 import no.nav.hjelpemidler.delbestilling.delbestilling.delbestillingApiAuthenticated
+import no.nav.hjelpemidler.delbestilling.devtools.DevTools
 import no.nav.hjelpemidler.delbestilling.devtools.devtoolsApi
 import no.nav.hjelpemidler.delbestilling.infrastructure.monitoring.helsesjekkApi
 import no.nav.hjelpemidler.delbestilling.infrastructure.security.medDelbestillerRolle
@@ -97,7 +98,7 @@ fun Application.setupRoutes(ctx: AppContext) {
             }
 
             if (isDev()) {
-                devtoolsApi(ctx.delbestillingService, ctx.anmodningService, ctx.oppslagService, ctx.email)
+                devtoolsApi(ctx.devtools(), ctx.delbestillingService)
             }
         }
 

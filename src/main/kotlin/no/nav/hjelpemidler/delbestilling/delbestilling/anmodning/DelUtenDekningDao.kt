@@ -73,19 +73,6 @@ class DelUtenDekningDao(val tx: JdbcOperations) {
             ) +  indexedHmsnrs.map { (index, hmsnr) -> "hmsnr_$index" to hmsnr }
         )
     }
-
-
-
-    // Kun til testing i dev
-    fun markerDelerSomIkkeBehandlet() {
-        check(isDev()) { "markerDelerSomIkkeBehandlet skal kun kalles i dev" }
-        tx.update(
-            sql = """
-                UPDATE deler_uten_dekning
-                SET behandlet_tidspunkt = NULL, sist_oppdatert = CURRENT_TIMESTAMP 
-            """.trimIndent()
-        )
-    }
 }
 
 private fun Row.toDelUtenDekning() = Del(
