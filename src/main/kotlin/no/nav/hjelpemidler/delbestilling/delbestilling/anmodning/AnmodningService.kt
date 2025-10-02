@@ -106,7 +106,7 @@ class AnmodningService(
     }
 
     suspend fun sendAnmodningRapport(rapport: Anmodningrapport): String {
-        val melding = rapportTilMelding(rapport)
+        val melding = rapport.tilMelding()
         email.sendSimpleMessage(
             recipentEmail = rapport.lager.epost(),
             subject = "Deler som må anmodes",
