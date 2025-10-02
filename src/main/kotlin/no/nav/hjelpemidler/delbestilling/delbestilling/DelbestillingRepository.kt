@@ -93,8 +93,7 @@ class DelbestillingRepository(val tx: JdbcOperations) {
             SET
                 status = :status,
                 oebs_ordrenummer = :oebs_ordrenummer,
-                delbestilling_json = :delbestilling_json,
-                sist_oppdatert = CURRENT_TIMESTAMP
+                delbestilling_json = :delbestilling_json
             WHERE saksnummer = :saksnummer
         """.trimIndent(),
             queryParameters = mapOf(
