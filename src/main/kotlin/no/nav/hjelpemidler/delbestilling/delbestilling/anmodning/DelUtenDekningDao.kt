@@ -78,12 +78,12 @@ class DelUtenDekningDao(val tx: JdbcOperations) {
         )
     }
 
-    fun annulerSak(saksnummer: Long) {
-        log.info { "Annulerer eventuelle deler_uten_dekning-rader som ikke er behandlet for sak $saksnummer" }
+    fun annullerDelerUtenDekning(saksnummer: Long) {
+        log.info { "Annullerer eventuelle deler_uten_dekning-rader som ikke er behandlet for sak $saksnummer" }
         tx.update(
             """
                 UPDATE deler_uten_dekning
-                SET status = 'ANNULERT'
+                SET status = 'ANNULLERT'
                 WHERE saksnummer = :saksnummer
                 AND status='AVVENTER'
             """.trimIndent(),

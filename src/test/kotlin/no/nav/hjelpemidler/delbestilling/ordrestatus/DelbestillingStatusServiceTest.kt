@@ -4,7 +4,7 @@ import no.nav.hjelpemidler.delbestilling.common.DellinjeStatus
 import no.nav.hjelpemidler.delbestilling.common.Status
 import no.nav.hjelpemidler.delbestilling.delbestilling.anmodning.DelUtenDekningStatus
 import no.nav.hjelpemidler.delbestilling.testdata.Testdata
-import no.nav.hjelpemidler.delbestilling.testdata.fixtures.annulerSak
+import no.nav.hjelpemidler.delbestilling.testdata.fixtures.annullerSak
 import no.nav.hjelpemidler.delbestilling.testdata.fixtures.hentDelUtenDekning
 import no.nav.hjelpemidler.delbestilling.testdata.fixtures.hentDelbestilling
 import no.nav.hjelpemidler.delbestilling.testdata.fixtures.hentRader
@@ -22,7 +22,6 @@ import java.time.LocalDate
 import java.util.TimeZone
 import kotlin.test.assertEquals
 import kotlin.test.assertNull
-import kotlin.test.assertTrue
 
 
 class DelbestillingStatusServiceTest {
@@ -120,28 +119,28 @@ class DelbestillingStatusServiceTest {
     }
 
     @Test
-    fun `skal annulere deler_uten_dekning for relevant sak`() = runWithTestContext {
+    fun `skal annullere deler_uten_dekning for relevant sak`() = runWithTestContext {
         lager.tømAlleDeler()
         val hmsnr = Testdata.defaultDelHmsnr
 
         opprettDelbestillingMedDel(hmsnr, antall = 2)
-        val saksnummerTilAnnulering = opprettDelbestillingMedDel(hmsnr, antall = 3).saksnummer!!
+        val saksnummerTilAnnullering = opprettDelbestillingMedDel(hmsnr, antall = 3).saksnummer!!
 
         assertEquals(5, hentDelUtenDekning(hmsnr).antall, "Alle deler (2+3) skal ligge til anmodning")
 
-        annulerSak(saksnummerTilAnnulering)
+        annullerSak(saksnummerTilAnnullering)
 
-        assertEquals(2, hentDelUtenDekning(hmsnr).antall, "Kun delen som ikke er annulert skal ligge til anmodning")
+        assertEquals(2, hentDelUtenDekning(hmsnr).antall, "Kun delen som ikke er annullert skal ligge til anmodning")
     }
 
     @Test
-    fun `skal ikke annulere sak som er ferdig anmodet`() = runWithTestContext {
+    fun `skal ikke annullere sak som er ferdig anmodet`() = runWithTestContext {
         lager.tømAlleDeler()
         val hmsnr = Testdata.defaultDelHmsnr
 
         val saksnummer = opprettDelbestillingMedDel(hmsnr, antall = 3).saksnummer!!
         delbestillingService.rapporterDelerTilAnmodning()
-        annulerSak(saksnummer)
+        annullerSak(saksnummer)
 
         val rader = transaction { delUtenDekningDao.hentRader() }
         assertEquals(1, rader.size)

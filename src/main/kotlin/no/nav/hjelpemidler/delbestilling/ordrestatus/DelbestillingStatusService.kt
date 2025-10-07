@@ -33,7 +33,7 @@ class DelbestillingStatusService(
             delbestillingRepository.oppdaterDelbestillingSak(oppdatertDelbestilling)
 
             if (status == Status.ANNULLERT) {
-                delUtenDekningDao.annulerSak(saksnummer)
+                delUtenDekningDao.annullerDelerUtenDekning(saksnummer)
             }
 
             return@transaction oppdatertDelbestilling

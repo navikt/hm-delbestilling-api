@@ -5,7 +5,7 @@ import no.nav.hjelpemidler.delbestilling.common.Status
 import no.nav.hjelpemidler.delbestilling.testdata.TestContext
 import java.time.LocalDate
 
-suspend fun TestContext.annulerSak(saksnummer: Long) {
+suspend fun TestContext.annullerSak(saksnummer: Long) {
     delbestillingStatusService.oppdaterStatus(saksnummer, Status.ANNULLERT, "123")
 }
 
