@@ -42,8 +42,7 @@ class DelUtenDekningDao(val tx: JdbcOperations) {
         sql = """
             SELECT DISTINCT(enhetnr)
             FROM deler_uten_dekning
-            WHERE behandlet_tidspunkt IS NULL 
-                AND status='AVVENTER'
+            WHERE status='AVVENTER'
         """.trimIndent()
     ) { row -> Lager.fraLagernummer(row.string("enhetnr")) }
 
@@ -54,7 +53,6 @@ class DelUtenDekningDao(val tx: JdbcOperations) {
                 SELECT hmsnr, navn, SUM(antall_uten_dekning) as antall
                 FROM deler_uten_dekning
                 WHERE enhetnr = :enhetnr 
-                    AND behandlet_tidspunkt IS NULL
                     AND status='AVVENTER'
                 GROUP BY hmsnr, navn
             """.trimIndent(),
@@ -71,7 +69,6 @@ class DelUtenDekningDao(val tx: JdbcOperations) {
                 SET behandlet_tidspunkt = CURRENT_TIMESTAMP,
                     status = 'BEHANDLET'
                 WHERE enhetnr = :enhetnr 
-                    AND behandlet_tidspunkt IS NULL
                     AND status='AVVENTER'
                     AND hmsnr IN (${indexedHmsnrs.joinToString(",") { (index, _) -> ":hmsnr_$index" }})
             """.trimIndent(),

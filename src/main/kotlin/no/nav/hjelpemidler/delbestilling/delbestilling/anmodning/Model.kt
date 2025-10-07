@@ -22,7 +22,7 @@ enum class DelUtenDekningStatus {
     BEHANDLET,
 
     /**
-     * Den tilhørene ordren/saken ble annulert før raden ble behandlet. Raden er dermed ikke lenger relevant for vurdering av anmodningsbehov.
+     * Den tilhørende ordren/saken ble annulert før raden ble behandlet. Raden er dermed ikke lenger relevant for vurdering av anmodningsbehov.
      */
     ANNULERT,
 }
