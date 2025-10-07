@@ -1,17 +1,10 @@
 package no.nav.hjelpemidler.delbestilling.delbestilling
 
-import io.mockk.coEvery
-import io.mockk.mockk
-import kotlinx.coroutines.test.runTest
-import no.nav.hjelpemidler.delbestilling.common.Lager
-import no.nav.hjelpemidler.delbestilling.testdata.delLinje
-import no.nav.hjelpemidler.delbestilling.testdata.delbestillerRolle
-import no.nav.hjelpemidler.delbestilling.delbestilling.anmodning.AnmodningService
-import no.nav.hjelpemidler.delbestilling.delbestilling.anmodning.lagerstatus
-import no.nav.hjelpemidler.delbestilling.testdata.delbestillingRequest
 import no.nav.hjelpemidler.delbestilling.infrastructure.oebs.OebsPersoninfo
 import no.nav.hjelpemidler.delbestilling.testdata.PdlRespons
 import no.nav.hjelpemidler.delbestilling.testdata.Testdata
+import no.nav.hjelpemidler.delbestilling.testdata.delLinje
+import no.nav.hjelpemidler.delbestilling.testdata.delbestillingRequest
 import no.nav.hjelpemidler.delbestilling.testdata.fixtures.hentDelUtenDekning
 import no.nav.hjelpemidler.delbestilling.testdata.fixtures.hentDelbestillinger
 import no.nav.hjelpemidler.delbestilling.testdata.fixtures.hentDelerUtenDekning
@@ -24,50 +17,6 @@ import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 
 internal class DelbestillingServiceTest {
-
-    /*val brukersFnr = "26928698180"
-    val bestillerFnr = "13820599335"
-    val teknikerNavn = "Turid Tekniker"
-    val brukersKommunenr = "1234"
-
-    private var ds = TestDatabase.testDataSource
-    private val transaction = Transaction(ds, TransactionScopeFactory())
-    private val pdl = mockk<Pdl>().apply {
-        coEvery { hentKommunenummer(any()) } returns brukersKommunenr
-        coEvery { hentFornavn(any()) } returns teknikerNavn
-    }
-    private val kommuneoppslag = mockk<Kommuneoppslag>(relaxed = true).apply {
-        coEvery { kommunenavnOrNull(any()) } returns "Oslo"
-    }
-    private val lagerstatusMock = listOf(
-        lagerstatus(hmsnr = "150817", antall = 10),
-        lagerstatus(hmsnr = "278247", antall = 10),
-    )
-    private val oebs = mockk<Oebs>(relaxed = true).apply {
-        coEvery { hentPersoninfo(any()) } returns listOf(OebsPersoninfo(brukersKommunenr))
-        coEvery { hentFnrLeietaker(any(), any()) } returns brukersFnr
-        coEvery { hentLagerstatusForKommunenummer(any(), any()) } returns lagerstatusMock
-    }
-
-    private val slack = mockk<Slack>(relaxed = true)
-    private val anmodningService = mockk<AnmodningService>(relaxed = true)
-    private val delbestillingService =
-        DelbestillingService(
-            transaction,
-            pdl,
-            oebs,
-            kommuneoppslag,
-            mockk(relaxed = true),
-            slack,
-            anmodningService,
-        )
-
-    @BeforeEach
-    fun setup() {
-        TestDatabase.cleanAndMigratedDataSource(ds)
-    }
-
-     */
 
     @Test
     fun `opprettDelbestilling happy path`() = runWithTestContext {
@@ -209,10 +158,10 @@ internal class DelbestillingServiceTest {
             )
         )
 
-        with (hentDelerUtenDekning()) {
+        with(hentDelerUtenDekning()) {
             assertEquals(2, size)
-            assertEquals(-(2-3-2), find { it.hmsnr == hmsnr1 }!!.antall)
-            assertEquals(-(2-2-2), find { it.hmsnr == hmsnr2 }!!.antall)
+            assertEquals(-(2 - 3 - 2), find { it.hmsnr == hmsnr1 }!!.antall)
+            assertEquals(-(2 - 2 - 2), find { it.hmsnr == hmsnr2 }!!.antall)
         }
     }
 }

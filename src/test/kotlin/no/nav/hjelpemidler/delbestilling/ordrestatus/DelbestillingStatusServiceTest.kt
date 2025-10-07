@@ -2,10 +2,12 @@ package no.nav.hjelpemidler.delbestilling.ordrestatus
 
 import no.nav.hjelpemidler.delbestilling.common.DellinjeStatus
 import no.nav.hjelpemidler.delbestilling.common.Status
+import no.nav.hjelpemidler.delbestilling.delbestilling.anmodning.DelUtenDekningStatus
 import no.nav.hjelpemidler.delbestilling.testdata.Testdata
 import no.nav.hjelpemidler.delbestilling.testdata.fixtures.annulerSak
 import no.nav.hjelpemidler.delbestilling.testdata.fixtures.hentDelUtenDekning
 import no.nav.hjelpemidler.delbestilling.testdata.fixtures.hentDelbestilling
+import no.nav.hjelpemidler.delbestilling.testdata.fixtures.hentRader
 import no.nav.hjelpemidler.delbestilling.testdata.fixtures.oppdaterDellinjeStatus
 import no.nav.hjelpemidler.delbestilling.testdata.fixtures.opprettDelbestilling
 import no.nav.hjelpemidler.delbestilling.testdata.fixtures.opprettDelbestillingMedDel
@@ -14,11 +16,13 @@ import no.nav.hjelpemidler.delbestilling.testdata.runWithTestContext
 import no.nav.hjelpemidler.time.TIME_ZONE_EUROPE_OSLO
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertDoesNotThrow
+import org.junit.jupiter.api.assertNotNull
 import org.junit.jupiter.api.assertThrows
 import java.time.LocalDate
 import java.util.TimeZone
 import kotlin.test.assertEquals
 import kotlin.test.assertNull
+import kotlin.test.assertTrue
 
 
 class DelbestillingStatusServiceTest {
@@ -118,7 +122,6 @@ class DelbestillingStatusServiceTest {
     @Test
     fun `skal annulere deler_uten_dekning for relevant sak`() = runWithTestContext {
         lager.tømAlleDeler()
-
         val hmsnr = Testdata.defaultDelHmsnr
 
         opprettDelbestillingMedDel(hmsnr, antall = 2)
@@ -129,5 +132,22 @@ class DelbestillingStatusServiceTest {
         annulerSak(saksnummerTilAnnulering)
 
         assertEquals(2, hentDelUtenDekning(hmsnr).antall, "Kun delen som ikke er annulert skal ligge til anmodning")
+    }
+
+    @Test
+    fun `skal ikke annulere sak som er ferdig anmodet`() = runWithTestContext {
+        lager.tømAlleDeler()
+        val hmsnr = Testdata.defaultDelHmsnr
+
+        val saksnummer = opprettDelbestillingMedDel(hmsnr, antall = 3).saksnummer!!
+        delbestillingService.rapporterDelerTilAnmodning()
+        annulerSak(saksnummer)
+
+        val rader = transaction { delUtenDekningDao.hentRader() }
+        assertEquals(1, rader.size)
+        with (rader.first()) {
+            assertEquals(DelUtenDekningStatus.BEHANDLET, status)
+            assertNotNull(behandletTidspunkt)
+        }
     }
 }

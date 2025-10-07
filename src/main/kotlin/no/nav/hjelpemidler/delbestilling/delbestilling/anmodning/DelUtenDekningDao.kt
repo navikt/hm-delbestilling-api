@@ -5,7 +5,6 @@ import no.nav.hjelpemidler.database.JdbcOperations
 import no.nav.hjelpemidler.database.Row
 import no.nav.hjelpemidler.delbestilling.common.Lager
 import no.nav.hjelpemidler.delbestilling.common.Hmsnr
-import no.nav.hjelpemidler.delbestilling.config.isDev
 
 private val log = KotlinLogging.logger {}
 
@@ -34,7 +33,7 @@ class DelUtenDekningDao(val tx: JdbcOperations) {
                 "brukers_kommunenr" to bukersKommunenummer,
                 "brukers_kommunenavn" to brukersKommunenavn,
                 "enhetnr" to enhetnr,
-                "status" to DelerTilAnmodningStatus.AVVENTER.name
+                "status" to DelUtenDekningStatus.AVVENTER.name
             ),
         )
     }
@@ -72,7 +71,8 @@ class DelUtenDekningDao(val tx: JdbcOperations) {
                 SET behandlet_tidspunkt = CURRENT_TIMESTAMP,
                     status = 'BEHANDLET'
                 WHERE enhetnr = :enhetnr 
-                    AND behandlet_tidspunkt IS NULL 
+                    AND behandlet_tidspunkt IS NULL
+                    AND status='AVVENTER'
                     AND hmsnr IN (${indexedHmsnrs.joinToString(",") { (index, _) -> ":hmsnr_$index" }})
             """.trimIndent(),
             mapOf(
@@ -87,7 +87,8 @@ class DelUtenDekningDao(val tx: JdbcOperations) {
             """
                 UPDATE deler_uten_dekning
                 SET status = 'ANNULERT'
-                WHERE saksnummer = :saksnummer  
+                WHERE saksnummer = :saksnummer
+                AND status='AVVENTER'
             """.trimIndent(),
             mapOf(
                 "saksnummer" to saksnummer,

@@ -9,7 +9,7 @@ data class Del(
     val antall: Int,
 )
 
-enum class DelerTilAnmodningStatus {
+enum class DelUtenDekningStatus {
     /**
      * Venter på behandling ved nattlig jobb.
      */
