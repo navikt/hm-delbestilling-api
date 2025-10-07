@@ -17,7 +17,13 @@ import java.util.UUID
 
 fun delbestillerRolle(
     kanBestilleDeler: Boolean = true,
-    kommunaleAnsettelsesforhold: List<Organisasjon> = listOf(Organisasjon("123", "navn", kommunenummer = "1234"))
+    kommunaleAnsettelsesforhold: List<Organisasjon> = listOf(
+        Organisasjon(
+            "123",
+            Testdata.defaultKommunenavn,
+            kommunenummer = Testdata.defaultKommunenummer
+        )
+    )
 ) = Delbestiller(
     kanBestilleDeler = kanBestilleDeler,
     kommunaleAnsettelsesforhold = kommunaleAnsettelsesforhold,

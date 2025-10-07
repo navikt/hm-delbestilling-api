@@ -9,6 +9,24 @@ data class Del(
     val antall: Int,
 )
 
+enum class DelerTilAnmodningStatus {
+    /**
+     * Venter på behandling ved nattlig jobb.
+     */
+    AVVENTER,
+
+    /**
+     * Raden er behandlet. Delbehovet har enten blitt dekket av etterfylling i løpet av dagen,
+     * eller så har det blitt sendt ut mail om anmodningsbehov.
+     */
+    BEHANDLET,
+
+    /**
+     * Den tilhørene ordren/saken ble annulert før raden ble behandlet. Raden er dermed ikke lenger relevant for vurdering av anmodningsbehov.
+     */
+    ANNULERT,
+}
+
 data class Anmodningrapport(
     val lager: Lager,
     val anmodningsbehov: List<AnmodningsbehovForDel>,

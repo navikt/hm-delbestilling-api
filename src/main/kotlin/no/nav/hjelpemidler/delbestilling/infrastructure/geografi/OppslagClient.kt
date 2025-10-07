@@ -14,9 +14,9 @@ import no.nav.hjelpemidler.delbestilling.infrastructure.navCorrelationId
 class OppslagClient(
     private val client: HttpClient = defaultHttpClient(),
     private val url: String = AppConfig.OPPSLAG_API_URL,
-) {
+): OppslagClientInterface {
 
-    suspend fun hentKommune(kommunenr: String): KommuneDto {
+    override suspend fun hentKommune(kommunenr: String): KommuneDto {
         return withContext(Dispatchers.IO) {
             client.get("$url/api/geografi/kommuner/$kommunenr") {
                 headers {

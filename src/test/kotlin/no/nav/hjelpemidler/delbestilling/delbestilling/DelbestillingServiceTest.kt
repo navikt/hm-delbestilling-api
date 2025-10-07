@@ -4,29 +4,28 @@ import io.mockk.coEvery
 import io.mockk.mockk
 import kotlinx.coroutines.test.runTest
 import no.nav.hjelpemidler.delbestilling.common.Lager
-import no.nav.hjelpemidler.delbestilling.testdata.MockException
-import no.nav.hjelpemidler.delbestilling.testdata.TestDatabase
 import no.nav.hjelpemidler.delbestilling.testdata.delLinje
 import no.nav.hjelpemidler.delbestilling.testdata.delbestillerRolle
 import no.nav.hjelpemidler.delbestilling.delbestilling.anmodning.AnmodningService
 import no.nav.hjelpemidler.delbestilling.delbestilling.anmodning.lagerstatus
 import no.nav.hjelpemidler.delbestilling.testdata.delbestillingRequest
-import no.nav.hjelpemidler.delbestilling.infrastructure.geografi.Kommuneoppslag
-import no.nav.hjelpemidler.delbestilling.infrastructure.oebs.Oebs
 import no.nav.hjelpemidler.delbestilling.infrastructure.oebs.OebsPersoninfo
-import no.nav.hjelpemidler.delbestilling.infrastructure.pdl.Pdl
-import no.nav.hjelpemidler.delbestilling.infrastructure.persistence.transaction.Transaction
-import no.nav.hjelpemidler.delbestilling.infrastructure.persistence.transaction.TransactionScopeFactory
-import no.nav.hjelpemidler.delbestilling.infrastructure.slack.Slack
-import no.nav.hjelpemidler.delbestilling.infrastructure.norg.Norg
-import org.junit.jupiter.api.BeforeEach
+import no.nav.hjelpemidler.delbestilling.testdata.PdlRespons
+import no.nav.hjelpemidler.delbestilling.testdata.Testdata
+import no.nav.hjelpemidler.delbestilling.testdata.fixtures.hentDelUtenDekning
+import no.nav.hjelpemidler.delbestilling.testdata.fixtures.hentDelbestillinger
+import no.nav.hjelpemidler.delbestilling.testdata.fixtures.hentDelerUtenDekning
+import no.nav.hjelpemidler.delbestilling.testdata.fixtures.opprettDelbestilling
+import no.nav.hjelpemidler.delbestilling.testdata.fixtures.opprettDelbestillingMedDel
+import no.nav.hjelpemidler.delbestilling.testdata.runWithTestContext
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 import kotlin.test.assertEquals
+import kotlin.test.assertTrue
 
 internal class DelbestillingServiceTest {
 
-    val brukersFnr = "26928698180"
+    /*val brukersFnr = "26928698180"
     val bestillerFnr = "13820599335"
     val teknikerNavn = "Turid Tekniker"
     val brukersKommunenr = "1234"
@@ -68,196 +67,152 @@ internal class DelbestillingServiceTest {
         TestDatabase.cleanAndMigratedDataSource(ds)
     }
 
-    @Test
-    fun `opprettDelbestilling happy path`() = runTest {
-        assertEquals(0, delbestillingService.hentDelbestillinger(bestillerFnr).size)
-
-        delbestillingService.opprettDelbestilling(delbestillingRequest(), bestillerFnr, delbestillerRolle())
-        var delebestillinger = delbestillingService.hentDelbestillinger(bestillerFnr)
-        assertEquals(1, delebestillinger.size)
-        assertEquals(1, delebestillinger.first().saksnummer)
-
-        delbestillingService.opprettDelbestilling(delbestillingRequest(), bestillerFnr, delbestillerRolle())
-        delebestillinger = delbestillingService.hentDelbestillinger(bestillerFnr)
-        assertEquals(2, delebestillinger.size)
-        assertEquals(2, delebestillinger.last().saksnummer)
-    }
+     */
 
     @Test
-    fun `tekniker kan max sende inn 5 delbestillinger for samme artnr & serienr per døgn`() = runTest {
-        delbestillingService.opprettDelbestilling(delbestillingRequest(), bestillerFnr, delbestillerRolle())
-        delbestillingService.opprettDelbestilling(delbestillingRequest(), bestillerFnr, delbestillerRolle())
-        delbestillingService.opprettDelbestilling(delbestillingRequest(), bestillerFnr, delbestillerRolle())
-        delbestillingService.opprettDelbestilling(delbestillingRequest(), bestillerFnr, delbestillerRolle())
-        delbestillingService.opprettDelbestilling(delbestillingRequest(), bestillerFnr, delbestillerRolle())
-        val resultat =
-            delbestillingService.opprettDelbestilling(delbestillingRequest(), bestillerFnr, delbestillerRolle())
-        assertEquals(DelbestillingFeil.FOR_MANGE_BESTILLINGER_SISTE_24_TIMER, resultat.feil)
+    fun `opprettDelbestilling happy path`() = runWithTestContext {
+        assertEquals(0, hentDelbestillinger().size)
 
-        val bestillinger = delbestillingService.hentDelbestillinger(bestillerFnr)
-        assertEquals(5, bestillinger.size)
-    }
-
-    @Test
-    fun `skal ikke lagre delbestilling dersom sending til OEBS feiler`() = runTest {
-        coEvery { oebs.sendDelbestilling(any(), any(), any()) } throws MockException("Kafka er nede")
-        assertEquals(0, delbestillingService.hentDelbestillinger(bestillerFnr).size)
-        assertThrows<MockException> {
-            delbestillingService.opprettDelbestilling(delbestillingRequest(), bestillerFnr, delbestillerRolle())
+        opprettDelbestilling()
+        with(hentDelbestillinger()) {
+            assertEquals(1, size)
+            assertEquals(1, first().saksnummer)
         }
-        assertEquals(0, delbestillingService.hentDelbestillinger(bestillerFnr).size)
+
+        opprettDelbestilling()
+        with(hentDelbestillinger()) {
+            assertEquals(2, size)
+            assertEquals(2, last().saksnummer)
+        }
     }
 
     @Test
-    fun `skal feile dersom PDL og OEBS sine kommunenr er ulike for bruker`() = runTest {
-        coEvery { oebs.hentPersoninfo(any()) } returns listOf(OebsPersoninfo("0000"))
-        val resultat = delbestillingService
-            .opprettDelbestilling(delbestillingRequest(), bestillerFnr, delbestillerRolle())
-        assertEquals(DelbestillingFeil.ULIK_ADRESSE_PDL_OEBS, resultat.feil)
+    fun `tekniker kan max sende inn 5 delbestillinger for samme artnr & serienr per døgn`() = runWithTestContext {
+        repeat(5) { opprettDelbestilling() }
+
+        with(opprettDelbestilling()) {
+            assertEquals(DelbestillingFeil.FOR_MANGE_BESTILLINGER_SISTE_24_TIMER, feil)
+        }
+
+        with(hentDelbestillinger()) {
+            assertEquals(5, size)
+        }
     }
 
     @Test
-    fun `skal lagre anmodningsbehov ved ny delbestilling`() = runTest {
-        val lager = Lager.OSLO
-            coEvery { oebs.finnLagerenhet(any()) } returns lager
-        val anmodningService =
-            AnmodningService(
-                transaction,
-                oebs,
-                mockk(relaxed = true),
-                mockk(relaxed = true),
-                mockk(relaxed = true)
-            )
-        val delbestillingService =
-            DelbestillingService(
-                transaction,
-                pdl,
-                oebs,
-                kommuneoppslag,
-                mockk(relaxed = true),
-                slack,
-                anmodningService,
-            )
+    fun `skal ikke lagre delbestilling dersom sending til OEBS feiler`() = runWithTestContext {
+        oebsSink.skalKasteFeil = true
 
-        val hmsnrEtterfylt = "111111"
-        val hmsnrMedDekning = "222222"
-        val hmsnrIkkeDekning = "333333"
-
-        coEvery { oebs.hentLagerstatusForKommunenummer(any(), any()) } returns listOf(
-            lagerstatus(
-                antall = 2,
-                hmsnr = hmsnrEtterfylt
-            ),
-            lagerstatus(
-                antall = 2,
-                hmsnr = hmsnrMedDekning
-            ),
-            lagerstatus(
-                antall = 2,
-                hmsnr = hmsnrIkkeDekning
-            )
-        )
-        delbestillingService.opprettDelbestilling(
-            delbestillingRequest(
-                deler = listOf(
-                    delLinje(antall = 3, hmsnr = hmsnrEtterfylt),
-                    delLinje(antall = 2, hmsnr = hmsnrMedDekning),
-                    delLinje(antall = 4, hmsnr = hmsnrIkkeDekning)
-                )
-            ),
-            bestillerFnr,
-            delbestillerRolle()
-        )
-
-        var delerTilRapportering = transaction { delUtenDekningDao.hentDelerTilRapportering(lager.nummer) }
-        assertEquals(2, delerTilRapportering.size)
-        assertEquals(1, delerTilRapportering.find { it.hmsnr == hmsnrEtterfylt }!!.antall)
-        assertEquals(2, delerTilRapportering.find { it.hmsnr == hmsnrIkkeDekning }!!.antall)
-
-        coEvery { oebs.hentLagerstatusForEnhet(any(), any()) } returns listOf(
-            lagerstatus(
-                antall = 0, // Påfyll i løpet av dagen
-                hmsnr = hmsnrEtterfylt
-            ),
-            lagerstatus(
-                antall = -2,
-                hmsnr = hmsnrIkkeDekning
-            )
-        )
-        val anmodninger = delbestillingService.rapporterDelerTilAnmodning().first()
-        assertEquals(
-            0,
-            transaction { delUtenDekningDao.hentDelerTilRapportering(lager.nummer).size },
-            "Det skal ikke lenger eksistere deler til rapportering"
-        )
-        assertEquals(1, anmodninger.anmodningsbehov.size)
-        assertEquals(2, anmodninger.anmodningsbehov.find { it.hmsnr == hmsnrIkkeDekning }!!.antallSomMåAnmodes)
-
-        delerTilRapportering = transaction { delUtenDekningDao.hentDelerTilRapportering(lager.nummer) }
-        assertEquals(0, delerTilRapportering.size)
+        assertThrows<RuntimeException> { opprettDelbestilling() }
+        assertEquals(0, hentDelbestillinger().size)
     }
 
     @Test
-    fun `skal summere anmodningsbehov`() = runTest {
-        val lager = Lager.OSLO
+    fun `skal feile dersom PDL og OEBS sine kommunenr er ulike for bruker`() = runWithTestContext {
+        oebsApiProxy.personinfo = listOf(OebsPersoninfo(Testdata.kommunenummerBergen))
+        pdlClient.response = PdlRespons.person(kommunenummer = Testdata.kommunenummerOslo)
+
+        with(opprettDelbestilling()) {
+            assertEquals(DelbestillingFeil.ULIK_ADRESSE_PDL_OEBS, feil)
+        }
+    }
+
+    @Test
+    fun `skal lagre anmodningsbehov ved ny delbestilling`() = runWithTestContext {
+        val hmsnr = "111111"
+        lager.set(hmsnr, antall = 2, minmax = false)
+
+        opprettDelbestillingMedDel(hmsnr = hmsnr, antall = 3)
+
+        with(hentDelUtenDekning(hmsnr)) {
+            assertEquals(1, antall, "Skal eksistere anmodningsbehov for 2-3=1stk.")
+        }
+
+        delbestillingService.rapporterDelerTilAnmodning()
+        with(hentDelerUtenDekning()) {
+            assertEquals(0, size, "Det skal ikke lenger eksistere anmodningsbehov")
+        }
+    }
+
+    @Test
+    fun `skal ikke lagre anmodningsbehov dersom del er på minmax`() = runWithTestContext {
+        val hmsnr = "111111"
+        lager.set(hmsnr, antall = 2, minmax = true)
+
+        opprettDelbestillingMedDel(hmsnr = hmsnr, antall = 7)
+
+        with(hentDelerUtenDekning()) {
+            assertEquals(0, size)
+        }
+    }
+
+    @Test
+    fun `skal ikke lage anmodningsbehov ved når det er dekning på lager`() = runWithTestContext {
+        val hmsnr = "111111"
+        lager.set(hmsnr, antall = 20, minmax = false)
+
+        opprettDelbestillingMedDel(hmsnr = hmsnr, antall = 3)
+
+        with(hentDelerUtenDekning()) {
+            assertEquals(0, size)
+        }
+
+        with(delbestillingService.rapporterDelerTilAnmodning()) {
+            assertEquals(0, size, "Skal ikke lage anmodninger når alle ordre hadde lagerdekning.")
+        }
+    }
+
+    @Test
+    fun `skal ikke lage anmodningsbehov ved etterfylling`() = runWithTestContext {
+        val hmsnr = "111111"
+        lager.set(hmsnr, antall = 2, minmax = false)
+
+        opprettDelbestillingMedDel(hmsnr = hmsnr, antall = 3)
+
+        with(hentDelUtenDekning(hmsnr)) {
+            assertEquals(1, antall)
+        }
+
+        lager.set(hmsnr, antall = 5)
+
+        val rapporter = delbestillingService.rapporterDelerTilAnmodning()
+        assertEquals(1, rapporter.size)
+        with(rapporter.first()) {
+            assertEquals(0, anmodningsbehov.size, "Ingen anmodningsbehov for etterfylte deler.")
+            assertEquals(1, delerSomIkkeLengerMåAnmodes.size)
+            assertTrue(graphClient.outbox.isEmpty(), "Det sk    al ikke ha blitt sendt mail")
+        }
+    }
+
+    @Test
+    fun `skal summere anmodningsbehov`() = runWithTestContext {
         val hmsnr1 = "111111"
         val hmsnr2 = "222222"
-        coEvery { oebs.finnLagerenhet(any()) } returns lager
-        val anmodningService =
-            AnmodningService(
-                transaction,
-                oebs,
-                mockk(relaxed = true),
-                mockk(relaxed = true),
-                mockk(relaxed = true)
-            )
-        val delbestillingService =
-            DelbestillingService(
-                transaction,
-                pdl,
-                oebs,
-                kommuneoppslag,
-                mockk(relaxed = true),
-                slack,
-                anmodningService,
-            )
+        lager.set(hmsnr1, antall = 2, minmax = false)
+        lager.set(hmsnr2, antall = 2, minmax = false)
 
-        // Første delbestilling
-        coEvery { oebs.hentLagerstatusForKommunenummer(any(), any()) } returns listOf(
-            lagerstatus(antall = 3, hmsnr = hmsnr1),
-            lagerstatus(antall = 1, hmsnr = hmsnr2)
-        )
-        delbestillingService.opprettDelbestilling(
+        opprettDelbestilling(
             delbestillingRequest(
                 deler = listOf(
-                    delLinje(antall = 3, hmsnr = hmsnr1),
-                    delLinje(antall = 2, hmsnr = hmsnr2)
+                    delLinje(hmsnr = hmsnr1, antall = 3),
+                    delLinje(hmsnr = hmsnr2, antall = 2)
                 )
-            ),
-            bestillerFnr,
-            delbestillerRolle()
+            )
         )
 
-        // Andre delbestilling
-        coEvery { oebs.hentLagerstatusForKommunenummer(any(), any()) } returns listOf(
-            lagerstatus(antall = 0, hmsnr = hmsnr1),
-            lagerstatus(antall = 0, hmsnr = hmsnr2)
-        )
-        delbestillingService.opprettDelbestilling(
+        opprettDelbestilling(
             delbestillingRequest(
                 deler = listOf(
-                    delLinje(antall = 2, hmsnr = hmsnr1),
-                    delLinje(antall = 2, hmsnr = hmsnr2)
+                    delLinje(hmsnr = hmsnr1, antall = 2),
+                    delLinje(hmsnr = hmsnr2, antall = 2)
                 )
-            ),
-            bestillerFnr,
-            delbestillerRolle()
+            )
         )
 
-        // Sjekk at anmodningsbehov er summert for begge delbestillingene
-        val delerTilRapportering = transaction { delUtenDekningDao.hentDelerTilRapportering(lager.nummer) }
-        assertEquals(2, delerTilRapportering.size)
-        assertEquals(2, delerTilRapportering.find { it.hmsnr == hmsnr1 }!!.antall)
-        assertEquals(3, delerTilRapportering.find { it.hmsnr == hmsnr2 }!!.antall)
+        with (hentDelerUtenDekning()) {
+            assertEquals(2, size)
+            assertEquals(-(2-3-2), find { it.hmsnr == hmsnr1 }!!.antall)
+            assertEquals(-(2-2-2), find { it.hmsnr == hmsnr2 }!!.antall)
+        }
     }
 }
