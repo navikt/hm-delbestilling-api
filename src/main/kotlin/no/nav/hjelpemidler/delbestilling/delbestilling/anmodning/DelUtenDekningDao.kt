@@ -5,7 +5,6 @@ import no.nav.hjelpemidler.database.JdbcOperations
 import no.nav.hjelpemidler.database.Row
 import no.nav.hjelpemidler.delbestilling.common.Lager
 import no.nav.hjelpemidler.delbestilling.common.Hmsnr
-import no.nav.hjelpemidler.delbestilling.config.isDev
 
 private val log = KotlinLogging.logger {}
 
@@ -23,8 +22,8 @@ class DelUtenDekningDao(val tx: JdbcOperations) {
         log.info { "Lagrer del uten dekning $hmsnr ($antallUtenDekning)" }
         return tx.updateAndReturnGeneratedKey(
             """
-                INSERT INTO deler_uten_dekning (saksnummer, hmsnr, navn, antall_uten_dekning, brukers_kommunenr, brukers_kommunenavn, enhetnr)
-                VALUES (:saksnummer, :hmsnr, :navn, :antall_uten_dekning, :brukers_kommunenr, :brukers_kommunenavn, :enhetnr)
+                INSERT INTO deler_uten_dekning (saksnummer, hmsnr, navn, antall_uten_dekning, brukers_kommunenr, brukers_kommunenavn, enhetnr, status)
+                VALUES (:saksnummer, :hmsnr, :navn, :antall_uten_dekning, :brukers_kommunenr, :brukers_kommunenavn, :enhetnr, :status)
             """.trimIndent(),
             mapOf(
                 "saksnummer" to saksnummer,
@@ -33,7 +32,8 @@ class DelUtenDekningDao(val tx: JdbcOperations) {
                 "antall_uten_dekning" to antallUtenDekning,
                 "brukers_kommunenr" to bukersKommunenummer,
                 "brukers_kommunenavn" to brukersKommunenavn,
-                "enhetnr" to enhetnr
+                "enhetnr" to enhetnr,
+                "status" to DelUtenDekningStatus.AVVENTER.name
             ),
         )
     }
@@ -42,7 +42,7 @@ class DelUtenDekningDao(val tx: JdbcOperations) {
         sql = """
             SELECT DISTINCT(enhetnr)
             FROM deler_uten_dekning
-            WHERE behandlet_tidspunkt IS NULL
+            WHERE status='AVVENTER'
         """.trimIndent()
     ) { row -> Lager.fraLagernummer(row.string("enhetnr")) }
 
@@ -52,7 +52,8 @@ class DelUtenDekningDao(val tx: JdbcOperations) {
             sql = """
                 SELECT hmsnr, navn, SUM(antall_uten_dekning) as antall
                 FROM deler_uten_dekning
-                WHERE enhetnr = :enhetnr AND behandlet_tidspunkt IS NULL
+                WHERE enhetnr = :enhetnr 
+                    AND status='AVVENTER'
                 GROUP BY hmsnr, navn
             """.trimIndent(),
             queryParameters = mapOf("enhetnr" to enhetnr)
@@ -65,12 +66,30 @@ class DelUtenDekningDao(val tx: JdbcOperations) {
         tx.update(
             """
                 UPDATE deler_uten_dekning
-                SET behandlet_tidspunkt = CURRENT_TIMESTAMP 
-                WHERE enhetnr = :enhetnr AND behandlet_tidspunkt IS NULL AND hmsnr IN (${indexedHmsnrs.joinToString(",") { (index, _) -> ":hmsnr_$index" }})
+                SET behandlet_tidspunkt = CURRENT_TIMESTAMP,
+                    status = 'BEHANDLET'
+                WHERE enhetnr = :enhetnr 
+                    AND status='AVVENTER'
+                    AND hmsnr IN (${indexedHmsnrs.joinToString(",") { (index, _) -> ":hmsnr_$index" }})
             """.trimIndent(),
             mapOf(
                 "enhetnr" to lager.nummer,
-            ) +  indexedHmsnrs.map { (index, hmsnr) -> "hmsnr_$index" to hmsnr }
+            ) + indexedHmsnrs.map { (index, hmsnr) -> "hmsnr_$index" to hmsnr }
+        )
+    }
+
+    fun annullerDelerUtenDekning(saksnummer: Long) {
+        log.info { "Annullerer eventuelle deler_uten_dekning-rader som ikke er behandlet for sak $saksnummer" }
+        tx.update(
+            """
+                UPDATE deler_uten_dekning
+                SET status = 'ANNULLERT'
+                WHERE saksnummer = :saksnummer
+                AND status='AVVENTER'
+            """.trimIndent(),
+            mapOf(
+                "saksnummer" to saksnummer,
+            )
         )
     }
 }

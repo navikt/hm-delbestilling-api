@@ -2,11 +2,18 @@ package no.nav.hjelpemidler.delbestilling.testdata
 
 import io.mockk.mockk
 import kotlinx.coroutines.test.runTest
+import no.nav.hjelpemidler.delbestilling.delbestilling.DelbestillingService
+import no.nav.hjelpemidler.delbestilling.delbestilling.anmodning.AnmodningService
+import no.nav.hjelpemidler.delbestilling.fakes.GraphClientFake
 import no.nav.hjelpemidler.delbestilling.fakes.GrunndataClientFake
 import no.nav.hjelpemidler.delbestilling.fakes.NorgClientFake
 import no.nav.hjelpemidler.delbestilling.fakes.OebsApiProxyFake
 import no.nav.hjelpemidler.delbestilling.fakes.OebsSinkFake
+import no.nav.hjelpemidler.delbestilling.fakes.OppslagClientFake
 import no.nav.hjelpemidler.delbestilling.fakes.PdlClientFake
+import no.nav.hjelpemidler.delbestilling.infrastructure.email.Email
+import no.nav.hjelpemidler.delbestilling.infrastructure.email.GraphClient
+import no.nav.hjelpemidler.delbestilling.infrastructure.geografi.Kommuneoppslag
 import no.nav.hjelpemidler.delbestilling.infrastructure.grunndata.Grunndata
 import no.nav.hjelpemidler.delbestilling.infrastructure.metrics.Metrics
 import no.nav.hjelpemidler.delbestilling.infrastructure.norg.Norg
@@ -21,6 +28,7 @@ import no.nav.hjelpemidler.delbestilling.oppslag.BerikMedLagerstatus
 import no.nav.hjelpemidler.delbestilling.oppslag.FinnDelerTilHjelpemiddel
 import no.nav.hjelpemidler.delbestilling.oppslag.OppslagService
 import no.nav.hjelpemidler.delbestilling.oppslag.PiloterService
+import no.nav.hjelpemidler.delbestilling.ordrestatus.DelbestillingStatusService
 
 
 class TestContext {
@@ -32,6 +40,10 @@ class TestContext {
     val transaction by lazy {
         Transaction(TestDatabase.cleanAndMigratedDataSource(), TransactionScopeFactory())
     }
+
+    // Email
+    val graphClient = GraphClientFake()
+    val email = Email(graphClient)
 
     // Grunndata
     val grunndataClient = GrunndataClientFake()
@@ -67,6 +79,15 @@ class TestContext {
             berikMedDagerSidenForrigeBatteribestilling
         )
     }
+
+    // Delbestilling
+    val oppslagClient = OppslagClientFake()
+    val kommuneoppslag = Kommuneoppslag(oppslagClient)
+    val anmodningService = AnmodningService(transaction, oebs, slack, email, grunndata)
+    val delbestillingService = DelbestillingService(transaction, pdl, oebs, kommuneoppslag, metrics, slack, anmodningService)
+
+    // Status
+    val delbestillingStatusService = DelbestillingStatusService(transaction, oebs, metrics, slack)
 }
 
 fun runWithTestContext(block: suspend TestContext.() -> Unit) {

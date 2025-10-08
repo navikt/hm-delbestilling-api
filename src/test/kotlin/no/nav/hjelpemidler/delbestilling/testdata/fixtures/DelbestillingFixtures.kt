@@ -1,11 +1,19 @@
 package no.nav.hjelpemidler.delbestilling.testdata.fixtures
 
 import no.nav.hjelpemidler.delbestilling.common.Delbestilling
+import no.nav.hjelpemidler.delbestilling.common.Hmsnr
 import no.nav.hjelpemidler.delbestilling.delbestilling.BestillerType
+import no.nav.hjelpemidler.delbestilling.delbestilling.DelbestillingRequest
+import no.nav.hjelpemidler.delbestilling.delbestilling.DelbestillingResultat
+import no.nav.hjelpemidler.delbestilling.infrastructure.roller.Delbestiller
 import no.nav.hjelpemidler.delbestilling.testdata.TestContext
 import no.nav.hjelpemidler.delbestilling.testdata.Testdata
+import no.nav.hjelpemidler.delbestilling.testdata.delLinje
+import no.nav.hjelpemidler.delbestilling.testdata.delbestillerRolle
 import no.nav.hjelpemidler.delbestilling.testdata.delbestilling
+import no.nav.hjelpemidler.delbestilling.testdata.delbestillingRequest
 import no.nav.hjelpemidler.delbestilling.testdata.organisasjon
+import no.nav.hjelpemidler.domain.person.Fødselsnummer
 import java.time.LocalDateTime
 
 suspend fun TestContext.gittDelbestilling(
@@ -38,4 +46,38 @@ suspend fun TestContext.gittDelbestilling(
             )
         }
     }
+}
+
+suspend fun TestContext.opprettDelbestilling(
+    request: DelbestillingRequest = delbestillingRequest(),
+    fnrBestiller: String = Testdata.defaultFnr,
+    rolle: Delbestiller = delbestillerRolle()
+): DelbestillingResultat {
+    return delbestillingService.opprettDelbestilling(request, fnrBestiller, rolle)
+}
+
+suspend fun TestContext.opprettDelbestillingMedDel(
+    hmsnr: Hmsnr,
+    antall: Int = 2,
+): DelbestillingResultat {
+    return opprettDelbestilling(
+        request = delbestillingRequest(
+            deler = listOf(
+                delLinje(
+                    hmsnr = hmsnr,
+                    antall = antall
+                )
+            )
+        )
+    )
+}
+
+suspend fun TestContext.opprettDelbestillingMedDeler(
+    vararg hmsnrs: Hmsnr,
+): DelbestillingResultat {
+    return opprettDelbestilling(
+        request = delbestillingRequest(
+            deler = hmsnrs.map { hmsnr -> delLinje(hmsnr = hmsnr) }
+        )
+    )
 }

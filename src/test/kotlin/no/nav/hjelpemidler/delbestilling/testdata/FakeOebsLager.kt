@@ -1,6 +1,7 @@
 package no.nav.hjelpemidler.delbestilling.testdata
 
 import no.nav.hjelpemidler.delbestilling.common.Hmsnr
+import no.nav.hjelpemidler.delbestilling.common.Lager
 import no.nav.hjelpemidler.delbestilling.infrastructure.oebs.LagerstatusResponse
 
 class FakeOebsLager {
@@ -9,6 +10,10 @@ class FakeOebsLager {
     init {
         set(Testdata.delPåMinmax, antall = 5, minmax = true)
         set(Testdata.delPåLagerIkkeMinmax, antall = 5, minmax = false)
+    }
+
+    fun tømAlleDeler() {
+        store.clear()
     }
 
     fun set(hmsnr: Hmsnr, antall: Int, minmax: Boolean = true, orgId: Int = 243, orgNavn: String = "*03 Oslo") {

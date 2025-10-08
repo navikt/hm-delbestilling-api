@@ -8,7 +8,7 @@ on:
       - "CODEOWNERS"
     branches:
       - main
-      - fix-marker-alle-delerUtenDekning-som-behandlet
+      #- annuler-anmodningsbehov-ved-ordreannulering
 
 jobs:
   build:
