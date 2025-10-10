@@ -77,7 +77,3 @@ fun Route.azureRoutes(
         call.respond(delbestillingService.rapporterDelerTilAnmodning())
     }
 }
-
-private data class SisteBatteribestillingResponse(
-    val antallDagerSiden: Long
-)

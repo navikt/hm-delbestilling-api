@@ -1,6 +1,6 @@
 package no.nav.hjelpemidler.delbestilling.oppslag
 
-import no.nav.hjelpemidler.delbestilling.common.Enhet
+import no.nav.hjelpemidler.delbestilling.common.Lager
 import no.nav.hjelpemidler.delbestilling.fakes.NorgResponse
 import no.nav.hjelpemidler.delbestilling.testdata.PdlRespons
 import no.nav.hjelpemidler.delbestilling.infrastructure.pdl.PdlResponseMissingData
@@ -41,7 +41,7 @@ class OppslagServiceTest {
 
     @Test
     fun `skal returnere pilot dersom innbygger sogner til Hms Oslo`() = runWithTestContext {
-        norgClient.response = NorgResponse.enhet(enhetNr = Enhet.OSLO.nummer)
+        norgClient.response = NorgResponse.enhet(enhetNr = Lager.OSLO.nummer)
         val oppslag = oppslagService.slåOppHjelpemiddel(Testdata.defaultHjmHmsnr, Testdata.defaultHjmSerienr)
         assertTrue(oppslag.piloter.contains(Pilot.BESTILLE_IKKE_FASTE_LAGERVARER))
     }

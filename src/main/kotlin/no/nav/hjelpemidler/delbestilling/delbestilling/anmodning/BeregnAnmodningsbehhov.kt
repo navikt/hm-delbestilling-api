@@ -84,6 +84,7 @@ fun beregnAnmodningsbehovVedRapportering(
     }
 
     // OBS: Her vil antallPåLager være medregnet det som er bestilt i løpet av dagen.
+    // MERK: i dev blir ikke lagerstatus oppdatert ved bestilling. Så antallPåLager kan dermed alltid være = 0 der.
     val antallPåLager = lagerstatus.antallDelerPåLager
     if (antallPåLager >= 0) {
         log.info { "$hmsnr har nok dekning på lager (antallPåLager: $antallPåLager, antallBestilt: $antallBestilt) og trenger derfor ikke anmodes" }

@@ -112,7 +112,7 @@ class DelbestillingService(
         val berikedeDellinjer = request.delbestilling.deler.map { dellinje ->
             val lagerstatus =
                 checkNotNull(lagerstatuser.find { it.artikkelnummer == dellinje.del.hmsnr }) { "Mangler lagerstatus for ${dellinje.del.hmsnr}" }
-            dellinje.copy(lagerstatusPåBestillingstidspunkt = lagerstatus)
+            dellinje.copy(lagerstatusPåBestillingstidspunkt = lagerstatus) // Brukes senere i AnmodningService for å finne ut om det er behov for anmodning.
         }
         val delbestilling = request.delbestilling.copy(deler = berikedeDellinjer)
 
@@ -171,7 +171,11 @@ class DelbestillingService(
         }
     }
 
-    private suspend fun validerDelbestillingRate(bestillerFnr: String, hmsnr: String, serienr: String): DelbestillingFeil? {
+    private suspend fun validerDelbestillingRate(
+        bestillerFnr: String,
+        hmsnr: String,
+        serienr: String
+    ): DelbestillingFeil? {
         if (isDev()) {
             return null // For enklere testing i dev
         }
@@ -191,28 +195,6 @@ class DelbestillingService(
         delbestillingRepository.hentDelbestillinger(bestillerFnr)
     }
 
-    suspend fun finnTestpersonMedTestbartUtlån(): Map<String, String> {
-        val fnrCache = mutableSetOf<String>()
-        hmsnr2Hjm.keys.forEach { artnr ->
-            log.info { "Leter etter testpersoner med utlån på $artnr" }
-            val utlån = oebs.hentUtlånPåArtnr(artnr)
-            utlån.forEach { (fnr, artnr, serienr, utlånsDato) ->
-                try {
-                    if (fnr !in fnrCache) {
-                        val kommunenr = pdl.hentKommunenummer(fnr)
-                        log.info { "Fant testperson $fnr med utlån på $artnr, $serienr i kommune $kommunenr" }
-                        return mapOf("fnr" to fnr, "artnr" to artnr, "serienr" to serienr, "kommunenr" to kommunenr)
-                    }
-                } catch (e: Exception) {
-                    // Peronen finnes ikke i PDL. Ignorer og let videre.
-                    log.info(e) { "Ignorer PDL feil under scanning etter testperson" }
-                    fnrCache.add(fnr)
-                }
-            }
-        }
-        return mapOf("error" to "Ingen testperson funnet")
-    }
-
     suspend fun sjekkXKLager(hmsnr: Hmsnr, serienr: Serienr): Boolean {
         val brukersFnr = oebs.hentFnrLeietaker(artnr = hmsnr, serienr = serienr)
             ?: error("Fant ikke utlån for $hmsnr $serienr")
@@ -226,11 +208,29 @@ class DelbestillingService(
 
             rapporter.forEach { rapport ->
                 if (rapport.anmodningsbehov.isNotEmpty()) {
-                    val melding = anmodningService.sendAnmodningRapport(rapport)
-                    slack.varsleOmAnmodningrapportSomErSendtTilEnhet(rapport.enhet, melding)
+                    val melding = transaction {
+                        delUtenDekningDao.markerDelerSomBehandlet(
+                            rapport.lager,
+                            rapport.anmodningsbehov.map { it.hmsnr })
+                        anmodningDao.lagreAnmodninger(rapport)
+                        anmodningService.sendAnmodningRapport(rapport)
+                    }
+                    slack.varsleOmAnmodningrapportSomErSendtTilEnhet(rapport.lager, melding)
                 } else {
-                    log.info { "Anmodningsbehov for enhet ${rapport.enhet} er tomt, alle deler har dermed fått dekning etter innsending. Hopper over." }
+                    log.info { "Anmodningsbehov for enhet ${rapport.lager} er tomt, alle deler har dermed fått dekning etter innsending. Hopper over." }
                 }
+
+                if (rapport.delerSomIkkeLengerMåAnmodes.isNotEmpty()) {
+                    transaction {
+                        delUtenDekningDao.markerDelerSomBehandlet(
+                            rapport.lager,
+                            rapport.delerSomIkkeLengerMåAnmodes.map { it.hmsnr }
+                        )
+                    }
+                    slack.varsleOmEtterfyllingHosEnhet(rapport.lager, rapport.delerSomIkkeLengerMåAnmodes)
+                }
+
+
             }
 
             if (rapporter.isEmpty() || rapporter.all { it.anmodningsbehov.isEmpty() }) {

@@ -9,6 +9,7 @@ import no.nav.hjelpemidler.delbestilling.common.Hmsnr
 import no.nav.hjelpemidler.delbestilling.common.Lagerstatus
 import no.nav.hjelpemidler.delbestilling.common.Levering
 import no.nav.hjelpemidler.delbestilling.common.Status
+import no.nav.hjelpemidler.delbestilling.fakes.GrunndataTestHmsnr
 import no.nav.hjelpemidler.delbestilling.infrastructure.roller.Delbestiller
 import no.nav.hjelpemidler.delbestilling.infrastructure.roller.Organisasjon
 import java.time.LocalDateTime
@@ -16,7 +17,13 @@ import java.util.UUID
 
 fun delbestillerRolle(
     kanBestilleDeler: Boolean = true,
-    kommunaleAnsettelsesforhold: List<Organisasjon> = listOf(Organisasjon("123", "navn", kommunenummer = "1234"))
+    kommunaleAnsettelsesforhold: List<Organisasjon> = listOf(
+        Organisasjon(
+            "123",
+            Testdata.defaultKommunenavn,
+            kommunenummer = Testdata.defaultKommunenummer
+        )
+    )
 ) = Delbestiller(
     kanBestilleDeler = kanBestilleDeler,
     kommunaleAnsettelsesforhold = kommunaleAnsettelsesforhold,
@@ -44,6 +51,11 @@ fun delbestilling(
     navn = "Panthera U3 Light"
 )
 
+fun delbestillingMedBatteri() = delbestilling(
+    hmsnr = GrunndataTestHmsnr.HAR_BATTERI,
+    deler = listOf(delLinje(kategori = "Batteri"))
+)
+
 fun deler() = listOf(
     delLinje(),
     delLinje(hmsnr = "278247", kategori = "Slange"),
@@ -65,11 +77,10 @@ fun delLinje(antall: Int = 1, hmsnr: String = "150817", kategori: String = "Dekk
 
 fun delbestillingSak(
     delbestilling: Delbestilling = delbestilling(),
-    opprettet: LocalDateTime = LocalDateTime.now()
 ) = DelbestillingSak(
     saksnummer = -1,
     delbestilling = delbestilling,
-    opprettet = opprettet,
+    opprettet = LocalDateTime.now(),
     status = Status.INNSENDT,
     sistOppdatert = LocalDateTime.now(),
     oebsOrdrenummer = "4523",

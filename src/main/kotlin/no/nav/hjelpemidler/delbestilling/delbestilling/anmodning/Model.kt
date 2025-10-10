@@ -1,6 +1,6 @@
 package no.nav.hjelpemidler.delbestilling.delbestilling.anmodning
 
-import no.nav.hjelpemidler.delbestilling.common.Enhet
+import no.nav.hjelpemidler.delbestilling.common.Lager
 import no.nav.hjelpemidler.delbestilling.common.Hmsnr
 
 data class Del(
@@ -9,9 +9,28 @@ data class Del(
     val antall: Int,
 )
 
+enum class DelUtenDekningStatus {
+    /**
+     * Venter på behandling ved nattlig jobb.
+     */
+    AVVENTER,
+
+    /**
+     * Raden er behandlet. Delbehovet har enten blitt dekket av etterfylling i løpet av dagen,
+     * eller så har det blitt sendt ut mail om anmodningsbehov.
+     */
+    BEHANDLET,
+
+    /**
+     * Den tilhørende ordren/saken ble annullert før raden ble behandlet. Raden er dermed ikke lenger relevant for vurdering av anmodningsbehov.
+     */
+    ANNULLERT,
+}
+
 data class Anmodningrapport(
-    val enhet: Enhet,
-    val anmodningsbehov: List<AnmodningsbehovForDel>
+    val lager: Lager,
+    val anmodningsbehov: List<AnmodningsbehovForDel>,
+    val delerSomIkkeLengerMåAnmodes: List<Del>,
 )
 
 data class AnmodningsbehovForDel(
@@ -22,4 +41,10 @@ data class AnmodningsbehovForDel(
     val antallPåLager: Int,
     val antallSomMåAnmodes: Int,
     var leverandørnavn: String = "IKKE_SATT",
-)
+) {
+    fun tilDel(): Del = Del(
+        hmsnr = hmsnr,
+        navn = navn,
+        antall = antallBestilt,
+    )
+}

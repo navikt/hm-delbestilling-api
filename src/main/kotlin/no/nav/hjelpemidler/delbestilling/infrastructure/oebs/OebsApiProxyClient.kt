@@ -58,9 +58,6 @@ class OebsApiProxyClient(
     override suspend fun hentBrukerpassinfo(fnr: String): Brukerpass =
         post("$baseUrl/hent-brukerpass", FnrDto(fnr))
 
-    override suspend fun hentLagerstatusForKommunenummer(kommunenummer: String, hmsnrs: List<String>): List<LagerstatusResponse> =
-        post("$baseUrl/lager/sentral/$kommunenummer", LagerstatusRequest(hmsnrs))
-
     override suspend fun hentLagerstatusForEnhetnr(enhetnr: String, hmsnrs: List<String>): List<LagerstatusResponse> =
         post("$baseUrl/lager/sentral/enhet/$enhetnr", LagerstatusRequest(hmsnrs))
 }

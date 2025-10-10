@@ -1,179 +1,152 @@
 package no.nav.hjelpemidler.delbestilling.ordrestatus
 
-import io.mockk.coEvery
-import io.mockk.mockk
-import kotlinx.coroutines.test.runTest
 import no.nav.hjelpemidler.delbestilling.common.DellinjeStatus
 import no.nav.hjelpemidler.delbestilling.common.Status
-import no.nav.hjelpemidler.delbestilling.delbestilling.DelbestillingRepository
-import no.nav.hjelpemidler.delbestilling.delbestilling.DelbestillingService
-import no.nav.hjelpemidler.delbestilling.delbestilling.anmodning.AnmodningService
-import no.nav.hjelpemidler.delbestilling.delbestilling.anmodning.lagerstatus
-import no.nav.hjelpemidler.delbestilling.infrastructure.geografi.Kommuneoppslag
-import no.nav.hjelpemidler.delbestilling.infrastructure.oebs.Oebs
-import no.nav.hjelpemidler.delbestilling.infrastructure.oebs.OebsPersoninfo
-import no.nav.hjelpemidler.delbestilling.infrastructure.pdl.Pdl
-import no.nav.hjelpemidler.delbestilling.infrastructure.persistence.transaction.Transaction
-import no.nav.hjelpemidler.delbestilling.infrastructure.persistence.transaction.TransactionScopeFactory
-import no.nav.hjelpemidler.delbestilling.infrastructure.slack.Slack
-import no.nav.hjelpemidler.delbestilling.testdata.TestDatabase
-import no.nav.hjelpemidler.delbestilling.testdata.delbestillerRolle
-import no.nav.hjelpemidler.delbestilling.testdata.delbestillingRequest
+import no.nav.hjelpemidler.delbestilling.delbestilling.anmodning.DelUtenDekningStatus
+import no.nav.hjelpemidler.delbestilling.testdata.Testdata
+import no.nav.hjelpemidler.delbestilling.testdata.fixtures.annullerSak
+import no.nav.hjelpemidler.delbestilling.testdata.fixtures.hentDelUtenDekning
+import no.nav.hjelpemidler.delbestilling.testdata.fixtures.hentDelbestilling
+import no.nav.hjelpemidler.delbestilling.testdata.fixtures.hentRader
+import no.nav.hjelpemidler.delbestilling.testdata.fixtures.oppdaterDellinjeStatus
+import no.nav.hjelpemidler.delbestilling.testdata.fixtures.opprettDelbestilling
+import no.nav.hjelpemidler.delbestilling.testdata.fixtures.opprettDelbestillingMedDel
+import no.nav.hjelpemidler.delbestilling.testdata.fixtures.opprettDelbestillingMedDeler
+import no.nav.hjelpemidler.delbestilling.testdata.runWithTestContext
 import no.nav.hjelpemidler.time.TIME_ZONE_EUROPE_OSLO
 import org.junit.jupiter.api.Test
-
-import org.junit.jupiter.api.BeforeEach
-import org.junit.jupiter.api.assertThrows
 import org.junit.jupiter.api.assertDoesNotThrow
+import org.junit.jupiter.api.assertNotNull
+import org.junit.jupiter.api.assertThrows
 import java.time.LocalDate
 import java.util.TimeZone
 import kotlin.test.assertEquals
 import kotlin.test.assertNull
 
 
-// TODO rydd opp i testene her. Bruk fakes og opprett egne IT for repository.
 class DelbestillingStatusServiceTest {
 
-    val brukersFnr = "26928698180"
-    val bestillerFnr = "13820599335"
-    val teknikerNavn = "Turid Tekniker"
-    val brukersKommunenr = "1234"
-    val oebsOrdrenummer = "8725414"
-
-    private var ds = TestDatabase.testDataSource
-    private val transaction = Transaction(ds, TransactionScopeFactory())
-    private val pdl = mockk<Pdl>().apply {
-        coEvery { hentKommunenummer(any()) } returns brukersKommunenr
-        coEvery { hentFornavn(any()) } returns teknikerNavn
-    }
-    private val kommuneoppslag = mockk<Kommuneoppslag>(relaxed = true).apply {
-        coEvery { kommunenavnOrNull(any()) } returns "Oslo"
-    }
-    private val lagerstatusMock = listOf(
-        lagerstatus(hmsnr = "150817", antall = 10),
-        lagerstatus(hmsnr = "278247", antall = 10),
-    )
-    private val oebs = mockk<Oebs>(relaxed = true).apply {
-        coEvery { hentPersoninfo(any()) } returns listOf(OebsPersoninfo(brukersKommunenr))
-        coEvery { hentFnrLeietaker(any(), any()) } returns brukersFnr
-        coEvery { hentLagerstatusForKommunenummer(any(), any()) } returns lagerstatusMock
-    }
-
-    private val slack = mockk<Slack>(relaxed = true)
-    private val anmodningService = mockk<AnmodningService>(relaxed = true)
-    private val delbestillingService =
-        DelbestillingService(
-            transaction,
-            pdl,
-            oebs,
-            kommuneoppslag,
-            mockk(relaxed = true),
-            slack,
-            anmodningService,
-        )
-
-    private val delbestillingStatusService = DelbestillingStatusService(transaction, oebs, mockk(relaxed = true))
-
-    @BeforeEach
-    fun setup() {
-        TestDatabase.cleanAndMigrate(ds)
-    }
-
     @Test
-    fun `skal ikke kunne oppdatere delbestilling til en tidligere status`() = runTest {
-        delbestillingService.opprettDelbestilling(delbestillingRequest(), bestillerFnr, delbestillerRolle())
-        val delbestilling = delbestillingService.hentDelbestillinger(bestillerFnr).first()
-        delbestillingStatusService.oppdaterStatus(delbestilling.saksnummer, Status.KLARGJORT, oebsOrdrenummer)
+    fun `delbestilling skal få status INNSENDT ved innsending`() = runWithTestContext {
+        val saksnummer = opprettDelbestilling().saksnummer!!
 
-        // Denne skal ikke ha noen effekt
-        delbestillingStatusService.oppdaterStatus(delbestilling.saksnummer, Status.REGISTRERT, oebsOrdrenummer)
-
-        assertEquals(Status.KLARGJORT, delbestillingService.hentDelbestillinger(bestillerFnr).first().status)
-    }
-
-    @Test
-    fun `skal oppdatere delbestilling status`() = runTest {
-        delbestillingService.opprettDelbestilling(delbestillingRequest(), bestillerFnr, delbestillerRolle())
-        val delbestilling = delbestillingService.hentDelbestillinger(bestillerFnr).first()
-        assertEquals(Status.INNSENDT, delbestilling.status)
-        assertEquals(null, delbestilling.oebsOrdrenummer)
-
-        delbestillingStatusService.oppdaterStatus(delbestilling.saksnummer, Status.KLARGJORT, oebsOrdrenummer)
-        val oppdatertDelbestilling = delbestillingService.hentDelbestillinger(bestillerFnr).first()
-        assertEquals(Status.KLARGJORT, oppdatertDelbestilling.status)
-        assertEquals(oebsOrdrenummer, oppdatertDelbestilling.oebsOrdrenummer)
-    }
-
-    @Test
-    fun `statusoppdatering skal feile når det er mismatch i oebsOrdrenummer`() = runTest {
-        delbestillingService.opprettDelbestilling(delbestillingRequest(), bestillerFnr, delbestillerRolle())
-        val delbestilling = delbestillingService.hentDelbestillinger(bestillerFnr).first()
-        delbestillingStatusService.oppdaterStatus(delbestilling.saksnummer, Status.REGISTRERT, oebsOrdrenummer)
-        assertThrows<IllegalArgumentException> {
-            delbestillingStatusService.oppdaterStatus(delbestilling.saksnummer, Status.REGISTRERT, "123")
+        with(hentDelbestilling(saksnummer)) {
+            assertEquals(Status.INNSENDT, status)
+            assertEquals(null, oebsOrdrenummer)
         }
     }
 
     @Test
-    fun `skal oppdatere status på dellinjer`() = runTest {
+    fun `skal oppdatere status på delbestilling`() = runWithTestContext {
+        val saksnummer = opprettDelbestilling().saksnummer!!
+        val oebsOrdrenummer = "123"
+        delbestillingStatusService.oppdaterStatus(saksnummer, Status.KLARGJORT, oebsOrdrenummer)
+
+        with(hentDelbestilling(saksnummer)) {
+            assertEquals(Status.KLARGJORT, this.status)
+            assertEquals(oebsOrdrenummer, this.oebsOrdrenummer)
+        }
+    }
+
+    @Test
+    fun `skal ikke kunne oppdatere delbestilling til en tidligere status`() = runWithTestContext {
+        val saksnummer = opprettDelbestilling().saksnummer!!
+        val oebsOrdrenummer = "123"
+
+        delbestillingStatusService.oppdaterStatus(saksnummer, Status.KLARGJORT, oebsOrdrenummer)
+
+        // Denne skal ikke ha noen effekt
+        delbestillingStatusService.oppdaterStatus(saksnummer, Status.REGISTRERT, oebsOrdrenummer)
+
+        with(hentDelbestilling(saksnummer)) {
+            assertEquals(Status.KLARGJORT, status)
+        }
+    }
+
+    @Test
+    fun `statusoppdatering skal feile når det er mismatch i oebsOrdrenummer`() = runWithTestContext {
+        val saksnummer = opprettDelbestilling().saksnummer!!
+        delbestillingStatusService.oppdaterStatus(saksnummer, Status.REGISTRERT, "111")
+
+        assertThrows<IllegalArgumentException> {
+            delbestillingStatusService.oppdaterStatus(saksnummer, Status.REGISTRERT, "222")
+        }
+    }
+
+    @Test
+    fun `skal oppdatere status på dellinjer`() = runWithTestContext {
         // Appen vil alltid kjøre med Europe/Oslo (ref. Dockerimage), men setter det eksplisitt her pga Github Runners bruker UTC
         TimeZone.setDefault(TIME_ZONE_EUROPE_OSLO)
 
-        delbestillingService.opprettDelbestilling(delbestillingRequest(), bestillerFnr, delbestillerRolle())
-        var delbestilling = delbestillingService.hentDelbestillinger(bestillerFnr).first()
-        delbestillingStatusService.oppdaterStatus(delbestilling.saksnummer, Status.KLARGJORT, oebsOrdrenummer)
-        val datoOppdatert = LocalDate.of(2023, 9, 29)
+        val oebsOrdrenummer = "8725414"
+        val hmsnrDel1 = "111111"
+        val hmsnrDel2 = "222222"
+
+        val saksnummer = opprettDelbestillingMedDeler(hmsnrDel1, hmsnrDel2).saksnummer!!
+
+        delbestillingStatusService.oppdaterStatus(saksnummer, Status.KLARGJORT, oebsOrdrenummer)
 
         // Skipningsbekreft første del
+        val datoSkipningsbekreftet = LocalDate.of(2023, 9, 29)
         delbestillingStatusService.oppdaterDellinjeStatus(
             oebsOrdrenummer,
             DellinjeStatus.SKIPNINGSBEKREFTET,
-            delbestilling.delbestilling.deler[0].del.hmsnr,
-            datoOppdatert
+            hmsnrDel1,
+            datoSkipningsbekreftet
         )
-        delbestilling = delbestillingService.hentDelbestillinger(bestillerFnr).first()
-        assertEquals(Status.DELVIS_SKIPNINGSBEKREFTET, delbestilling.status)
-        assertEquals(DellinjeStatus.SKIPNINGSBEKREFTET, delbestilling.delbestilling.deler[0].status)
-        assertEquals(datoOppdatert, delbestilling.delbestilling.deler[0].datoSkipningsbekreftet)
-        assertEquals(LocalDate.of(2023, 10, 2), delbestilling.delbestilling.deler[0].forventetLeveringsdato)
 
-        assertEquals(null, delbestilling.delbestilling.deler[1].status)
-        assertEquals(null, delbestilling.delbestilling.deler[1].datoSkipningsbekreftet)
-        assertEquals(null, delbestilling.delbestilling.deler[1].forventetLeveringsdato)
+        with(hentDelbestilling(saksnummer)) {
+            assertEquals(Status.DELVIS_SKIPNINGSBEKREFTET, status)
 
-        // Skipningsbekreft andre del
-        delbestillingStatusService.oppdaterDellinjeStatus(
-            oebsOrdrenummer,
-            DellinjeStatus.SKIPNINGSBEKREFTET,
-            delbestilling.delbestilling.deler[1].del.hmsnr,
-            datoOppdatert
-        )
-        delbestilling = delbestillingService.hentDelbestillinger(bestillerFnr).first()
-        assertEquals(Status.SKIPNINGSBEKREFTET, delbestilling.status)
-        assertEquals(DellinjeStatus.SKIPNINGSBEKREFTET, delbestilling.delbestilling.deler[0].status)
-        assertEquals(DellinjeStatus.SKIPNINGSBEKREFTET, delbestilling.delbestilling.deler[1].status)
+            val del1 = delbestilling.deler.first { it.del.hmsnr == hmsnrDel1 }
+            assertEquals(DellinjeStatus.SKIPNINGSBEKREFTET, del1.status)
+            assertEquals(datoSkipningsbekreftet, del1.datoSkipningsbekreftet)
+            assertEquals(LocalDate.of(2023, 10, 2), del1.forventetLeveringsdato)
+
+            val del2 = delbestilling.deler.first { it.del.hmsnr == hmsnrDel2 }
+            assertNull(del2.status)
+            assertNull(del2.datoSkipningsbekreftet)
+            assertNull(del2.forventetLeveringsdato)
+        }
     }
 
     @Test
-    fun `skal ignorere skipningsbekreftelse for ukjent ordrenr`() = runTest {
-        var delbestilling = transaction {
-            delbestillingRepository.hentDelbestilling(oebsOrdrenummer)
-        }
-        assertNull(delbestilling)
+    fun `skal ignorere skipningsbekreftelse for ukjent ordrenr`() = runWithTestContext {
+        val oebsOrdrenummer = "8725414"
+        assertNull(hentDelbestilling(oebsOrdrenummer))
 
-        // Skal bare ignorere ukjent ordrenummer
-        assertDoesNotThrow {
-            delbestillingStatusService.oppdaterDellinjeStatus(
-                oebsOrdrenummer,
-                DellinjeStatus.SKIPNINGSBEKREFTET,
-                "123456",
-                LocalDate.now(),
-            )
-        }
+        assertDoesNotThrow { oppdaterDellinjeStatus(oebsOrdrenummer) }
+    }
 
-        delbestilling = transaction {
-            delbestillingRepository.hentDelbestilling(oebsOrdrenummer)
+    @Test
+    fun `skal annullere deler_uten_dekning for relevant sak`() = runWithTestContext {
+        lager.tømAlleDeler()
+        val hmsnr = Testdata.defaultDelHmsnr
+
+        opprettDelbestillingMedDel(hmsnr, antall = 2)
+        val saksnummerTilAnnullering = opprettDelbestillingMedDel(hmsnr, antall = 3).saksnummer!!
+
+        assertEquals(5, hentDelUtenDekning(hmsnr).antall, "Alle deler (2+3) skal ligge til anmodning")
+
+        annullerSak(saksnummerTilAnnullering)
+
+        assertEquals(2, hentDelUtenDekning(hmsnr).antall, "Kun delen som ikke er annullert skal ligge til anmodning")
+    }
+
+    @Test
+    fun `skal ikke annullere sak som er ferdig anmodet`() = runWithTestContext {
+        lager.tømAlleDeler()
+        val hmsnr = Testdata.defaultDelHmsnr
+
+        val saksnummer = opprettDelbestillingMedDel(hmsnr, antall = 3).saksnummer!!
+        delbestillingService.rapporterDelerTilAnmodning()
+        annullerSak(saksnummer)
+
+        val rader = transaction { delUtenDekningDao.hentRader() }
+        assertEquals(1, rader.size)
+        with (rader.first()) {
+            assertEquals(DelUtenDekningStatus.BEHANDLET, status)
+            assertNotNull(behandletTidspunkt)
         }
-        assertNull(delbestilling)
     }
 }

@@ -7,14 +7,12 @@ import no.nav.hjelpemidler.delbestilling.infrastructure.grunndata.Grunndata
 import no.nav.hjelpemidler.delbestilling.infrastructure.oebs.Oebs
 import no.nav.hjelpemidler.delbestilling.infrastructure.persistence.transaction.Transactional
 import no.nav.hjelpemidler.delbestilling.infrastructure.slack.Slack
-import no.nav.hjelpemidler.delbestilling.infrastructure.norg.Norg
 
 private val log = KotlinLogging.logger {}
 
 class AnmodningService(
     private val transaction: Transactional,
     private val oebs: Oebs,
-    private val norg: Norg,
     private val slack: Slack,
     private val email: Email,
     private val grunndata: Grunndata,
@@ -22,7 +20,7 @@ class AnmodningService(
 
     suspend fun lagreDelerUtenDekning(sak: DelbestillingSak) {
         val delerUtenDekning = finnDelerUtenDekning(sak)
-        val enhet = norg.hentEnhet(sak.brukersKommunenummer)
+        val enhet = oebs.finnLagerenhet(sak.brukersKommunenummer)
 
         log.info { "Dekningsjekk: lagrer følgende deler uten dekning: ${delerUtenDekning.joinToString("\n")}" }
 
@@ -65,21 +63,26 @@ class AnmodningService(
         log.info { "Enheter med deler som potensielt må anmodes: $hmsEnheter" }
 
         val rapporter = hmsEnheter.map { enhet ->
-            val delerSomMangletDekningVedInnsending = transaction{ delUtenDekningDao.hentDelerTilRapportering(enhet.nummer) }
+            val delerSomMangletDekningVedInnsending =
+                transaction { delUtenDekningDao.hentDelerTilRapportering(enhet.nummer) }
             log.info { "Deler som manglet dekning ved innsending for enhet $enhet: $delerSomMangletDekningVedInnsending" }
 
             val lagerstatuser = oebs.hentLagerstatusForEnhet(
-                enhet = enhet,
+                lager = enhet,
                 hmsnrs = delerSomMangletDekningVedInnsending.map { it.hmsnr }
             ).associateBy { it.artikkelnummer }
 
             // Sjekk om delene fremdeles må anmodes. Lagerstatus kan ha endret seg siden innsending.
-            val delerSomFremdelesMåAnmodes = delerSomMangletDekningVedInnsending.map { del ->
+            val (delerSomFremdelesMåAnmodes, delerSomIkkeLengerMåAnmodes) = delerSomMangletDekningVedInnsending.map { del ->
                 val lagerstatus = requireNotNull(lagerstatuser[del.hmsnr])
                 beregnAnmodningsbehovVedRapportering(del, lagerstatus)
-            }.filter { it.antallSomMåAnmodes > 0 }
+            }.partition { it.antallSomMåAnmodes > 0 }
 
-            val rapport = Anmodningrapport(enhet = enhet, anmodningsbehov = delerSomFremdelesMåAnmodes)
+            val rapport = Anmodningrapport(
+                lager = enhet,
+                anmodningsbehov = delerSomFremdelesMåAnmodes,
+                delerSomIkkeLengerMåAnmodes = delerSomIkkeLengerMåAnmodes.map { it.tilDel() }
+            )
 
             // Berik med leverandørnavn
             rapport.anmodningsbehov.forEach { behov ->
@@ -97,23 +100,13 @@ class AnmodningService(
         return rapporter
     }
 
-
-    suspend fun markerDelerSomIkkeRapportert() = transaction {
-        delUtenDekningDao.markerDelerSomIkkeRapportert()
-    }
-
     suspend fun sendAnmodningRapport(rapport: Anmodningrapport): String {
-        val melding = rapportTilMelding(rapport)
-
-        transaction {
-            delUtenDekningDao.markerDelerSomRapportert(rapport.enhet)
-            anmodningDao.lagreAnmodninger(rapport)
-            email.sendSimpleMessage(
-                recipentEmail = rapport.enhet.epost(),
-                subject = "Deler som må anmodes",
-                bodyText = melding
-            )
-        }
+        val melding = rapport.tilMelding()
+        email.sendSimpleMessage(
+            recipentEmail = rapport.lager.epost(),
+            subject = "Deler som må anmodes",
+            bodyText = melding
+        )
 
         return melding
     }

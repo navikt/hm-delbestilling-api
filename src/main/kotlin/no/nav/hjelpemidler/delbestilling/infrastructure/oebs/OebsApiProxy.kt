@@ -9,7 +9,5 @@ interface OebsApiProxy {
 
     suspend fun hentBrukerpassinfo(fnr: String): Brukerpass
 
-    suspend fun hentLagerstatusForKommunenummer(kommunenummer: String, hmsnrs: List<String>): List<LagerstatusResponse>
-
     suspend fun hentLagerstatusForEnhetnr(enhetnr: String, hmsnrs: List<String>): List<LagerstatusResponse>
 }

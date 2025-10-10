@@ -5,15 +5,11 @@ import io.ktor.client.engine.cio.CIO
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import no.nav.hjelpemidler.delbestilling.common.DelbestillingSak
-import no.nav.hjelpemidler.delbestilling.common.Enhet
-import no.nav.hjelpemidler.delbestilling.common.Hmsnr
-import no.nav.hjelpemidler.delbestilling.common.Kilde
+import no.nav.hjelpemidler.delbestilling.common.Lager
 import no.nav.hjelpemidler.delbestilling.config.isProd
 import no.nav.hjelpemidler.delbestilling.delbestilling.anmodning.AnmodningsbehovForDel
 import no.nav.hjelpemidler.delbestilling.infrastructure.persistence.transaction.Transactional
 import no.nav.hjelpemidler.delbestilling.oppslag.Del
-import no.nav.hjelpemidler.delbestilling.oppslag.legacy.data.hmsnrTilDel
 import no.nav.hjelpemidler.http.slack.slack
 import no.nav.hjelpemidler.http.slack.slackIconEmoji
 
@@ -93,26 +89,38 @@ class Slack(
         brukersKommunenavn: String,
         enhetnr: String
     ) {
-        val enhet = runCatching { Enhet.fraEnhetsnummer(enhetnr) }.getOrNull()?.name
+        val lager = runCatching { Lager.fraLagernummer(enhetnr) }.getOrNull()?.name
         sendSafely(
             emoji = "pepe_cowboy",
             message = """
-            Det har kommet inn delbestilling med følgende deler som ikke har dekning hos enhet $enhet (kommune: ${brukersKommunenavn}):
+            Det har kommet inn delbestilling med følgende deler som ikke har dekning hos enhet $lager (kommune: ${brukersKommunenavn}):
             ```${deler.joinToString("\n")}```
             Disse må kanskje anmodes, ny sjekk gjøres i natt.
             """.trimIndent(),
         )
     }
 
-    fun varsleOmAnmodningrapportSomErSendtTilEnhet(enhet: Enhet, melding: String) {
+    fun varsleOmAnmodningrapportSomErSendtTilEnhet(lager: Lager, melding: String) {
         sendSafely(
             emoji = "mailbox",
             message = """
-                Følgende mail ble sendt til enhet $enhet (${enhet.epost()}):
+                Følgende mail ble sendt til enhet $lager (${lager.epost()}):
                 ```
                 $melding
                 ```
                 """.trimIndent()
+        )
+    }
+
+    fun varsleOmEtterfyllingHosEnhet(
+        lager: Lager,
+        delerSomIkkeLengerMåAnmodes: List<no.nav.hjelpemidler.delbestilling.delbestilling.anmodning.Del>
+    ) {
+        sendSafely(
+            emoji = "package",
+            message = """
+                Lagerenhet $lager har fått etterfylt følgende deler slik at de ikke lenger må anmodes: $delerSomIkkeLengerMåAnmodes.
+            """.trimIndent()
         )
     }
 
@@ -128,12 +136,21 @@ class Slack(
 
     fun varsleOmPotensiellBatteriKategorier(deler: List<Del>) = sendSafely(
         emoji = "low_battery",
-        message = "Følgende deler med 'batteri' i kategorien sin har blitt bestilt. Vurder om de krever kurs eller skal legges inn som 'håndterteBatterikategorier'. ```${deler.joinToString(separator = "\n")}```"
+        message = "Følgende deler med 'batteri' i kategorien sin har blitt bestilt. Vurder om de krever kurs eller skal legges inn som 'håndterteBatterikategorier'. ```${
+            deler.joinToString(
+                separator = "\n"
+            )
+        }```"
     )
 
     fun varsleOmUkjentEnhet(kommunenummer: String, enhetsnummer: String) = sendSafely(
         emoji = "error",
         message = "Enhet er ikke definert for enhetsnummer=$enhetsnummer (kommunenummer=$kommunenummer)"
+    )
+
+    fun varsleOmPotensieltFeilLager(saksnummer: Long) = sendSafely(
+        emoji = "confused-math-lady",
+        message = "Fant ikke reduksjon i lagerstatus mellom innsending og status=KLARGJORT for delbestilling $saksnummer. Dette kan tyde på at vi har brukt feil lagerenhet for bestillingen. Bør undersøkes. (Sammenlign med tidligere delbestillinger fra samme kommune)"
     )
 
 }

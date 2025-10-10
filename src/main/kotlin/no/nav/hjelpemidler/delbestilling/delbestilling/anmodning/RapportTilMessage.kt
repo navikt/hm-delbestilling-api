@@ -1,7 +1,9 @@
 package no.nav.hjelpemidler.delbestilling.delbestilling.anmodning
 
-fun rapportTilMelding(rapport: Anmodningrapport): String {
-    val anmodningerPerLeverandør = rapport.anmodningsbehov.groupBy { it.leverandørnavn }
+import no.nav.hjelpemidler.delbestilling.common.Lager
+
+fun Anmodningrapport.tilMelding(): String {
+    val anmodningerPerLeverandør = anmodningsbehov.groupBy { it.leverandørnavn }
 
     val leverandørMeldinger = anmodningerPerLeverandør.map { (leverandør, anmodninger) ->
         """
@@ -10,12 +12,25 @@ ${anmodninger.joinToString("\n") { "${it.hmsnr} (${it.navn}): Må anmodes ${it.a
             """.trimIndent()
     }
 
+    // Fordi lager Sør-Trøndelag (4716) og Nord-Trøndelag (4717) deler e-post må vi legge til litt ekstra info her.
+    val trøndelagLagerInfo = when (lager.nummer) {
+        Lager.SØR_TRØNDELAG.nummer -> {
+            "\n\nOBS: Disse delene skal leveres fra lager Sør-Trøndelag og må anmodes derfra."
+        }
+
+        Lager.NORD_TRØNDELAG.nummer -> {
+            "\n\nOBS: Disse delene skal leveres fra lager Nord-Trøndelag og må anmodes derfra."
+        }
+
+        else -> ""
+    }
+
     return """
 Hei!
 
 Disse delene er bestilt digitalt, men er ikke på lager. Dere må derfor sende anmodning på følgende:
 
-${leverandørMeldinger.joinToString("\n\n") { it }}
+${leverandørMeldinger.joinToString("\n\n") { it }}${trøndelagLagerInfo}
 
 Dersom dere har spørsmål til dette så kan dere svare oss tilbake på denne e-posten.
 

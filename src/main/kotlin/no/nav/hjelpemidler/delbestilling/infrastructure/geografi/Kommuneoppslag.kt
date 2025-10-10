@@ -5,7 +5,7 @@ import io.github.oshai.kotlinlogging.KotlinLogging
 private val log = KotlinLogging.logger { }
 
 class Kommuneoppslag(
-    private val oppslagClient: OppslagClient
+    private val oppslagClient: OppslagClientInterface
 ) {
 
     suspend fun kommunenavnOrNull(kommunenr: String): String? {
