@@ -6,7 +6,6 @@ import no.nav.hjelpemidler.delbestilling.common.Kilde
 import no.nav.hjelpemidler.delbestilling.common.Lagerstatus
 import no.nav.hjelpemidler.delbestilling.infrastructure.oebs.Utlån
 import no.nav.hjelpemidler.delbestilling.oppslag.legacy.defaultAntall
-import java.time.LocalDate
 
 private val log = KotlinLogging.logger { }
 
@@ -42,29 +41,9 @@ data class Hjelpemiddel(
     fun medAntallDagerSidenSistBatteribestilling(dager: Int?): Hjelpemiddel =
         this.copy(antallDagerSidenSistBatteribestilling = dager)
 
-    fun medGaranti(utlån: Utlån, nå: LocalDate): Hjelpemiddel {
-        if (utlån.opprettetDato == null) {
-            log.info { "Utlån for artnr ${utlån.artnr} og serienr ${utlån.serienr} mangler opprettetDato, returnerer hjelpemiddel ikke beriket med garanti" }
-            return this
-        }
-
-        if (utlån.isokode == null) {
-            log.info { "Utlån for artnr ${utlån.artnr} og serienr ${utlån.serienr} mangler isokode, returnerer hjelpemiddel ikke beriket med garanti" }
-            return this
-        }
-
-        val garantiPeriodeStart = utlån.opprettetDato // I OeBS er opprettet dato det samme som garantiperiode-start
-        val isokode = utlån.isokode.take(4)
-
-        val antallÅrGaranti = when(isokode) {
-            "1223" -> 3 // 1223 = Motordrevne rullestoler (ERS) har garantitid på 3 år
-            else -> 2
-        }
-
-        val garantiPeriodeSlutt = garantiPeriodeStart.plusYears(antallÅrGaranti.toLong())
-        val erInnenforGaranti = nå.isBefore(garantiPeriodeSlutt)
-
-        return this.copy(erInnenforGaranti = erInnenforGaranti, antallÅrGaranti = antallÅrGaranti)
+    fun berikMedGaranti(utlån: Utlån): Hjelpemiddel {
+        val garanti = utlån.garanti() ?: return this
+        return this.copy(erInnenforGaranti = garanti.erInnenforGaranti(), antallÅrGaranti = garanti.antallÅr)
     }
 }
 

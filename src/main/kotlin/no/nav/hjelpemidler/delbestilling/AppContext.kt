@@ -36,7 +36,6 @@ import no.nav.hjelpemidler.delbestilling.oppslag.Hjelpemiddeloversikt
 import no.nav.hjelpemidler.delbestilling.oppslag.OppslagService
 import no.nav.hjelpemidler.delbestilling.oppslag.PiloterService
 import no.nav.hjelpemidler.delbestilling.ordrestatus.DelbestillingStatusService
-import no.nav.hjelpemidler.delbestilling.oppslag.BerikMedGaranti
 import no.nav.hjelpemidler.http.openid.entraIDClient
 import no.nav.tms.token.support.tokendings.exchange.TokendingsServiceBuilder
 import kotlin.time.Duration.Companion.seconds
@@ -80,7 +79,6 @@ class AppContext {
     private val berikMedLagerstatus = BerikMedLagerstatus(oebs, metrics)
     private val berikMedDagerSidenForrigeBatteribestilling =
         BerikMedDagerSidenForrigeBatteribestilling(transactional)
-    private val berikMedGaranti = BerikMedGaranti()
 
     val anmodningService = AnmodningService(transactional, oebs, slack, email, grunndata)
     val hjelpemiddeloversikt = Hjelpemiddeloversikt(grunndata, backgroundScope)
@@ -93,7 +91,6 @@ class AppContext {
         finnDelerTilHjelpemiddel,
         berikMedLagerstatus,
         berikMedDagerSidenForrigeBatteribestilling,
-        berikMedGaranti,
     )
     val delbestillingStatusService = DelbestillingStatusService(transactional, oebs, metrics, slack)
 

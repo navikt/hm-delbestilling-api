@@ -10,8 +10,10 @@ import no.nav.hjelpemidler.delbestilling.common.Lagerstatus
 import no.nav.hjelpemidler.delbestilling.common.Levering
 import no.nav.hjelpemidler.delbestilling.common.Status
 import no.nav.hjelpemidler.delbestilling.fakes.GrunndataTestHmsnr
+import no.nav.hjelpemidler.delbestilling.infrastructure.oebs.Utlån
 import no.nav.hjelpemidler.delbestilling.infrastructure.roller.Delbestiller
 import no.nav.hjelpemidler.delbestilling.infrastructure.roller.Organisasjon
+import java.time.LocalDate
 import java.time.LocalDateTime
 import java.util.UUID
 
@@ -93,4 +95,14 @@ fun organisasjon(orgnr: String = "123456789", navn: String = "Reperasjon AS") = 
     navn = navn,
 )
 
-class MockException(msg: String) : RuntimeException("MockException: $msg")
+fun utlån(
+    opprettet: LocalDate? = LocalDate.now(),
+    isokode: String = Testdata.isoERS,
+) = Utlån(
+    fnr = Testdata.fnr,
+    artnr = Testdata.defaultHjmHmsnr,
+    serienr = "000000",
+    opprettetDato = opprettet,
+    utlånsDato = "2025-01-01",
+    isokode = isokode
+)

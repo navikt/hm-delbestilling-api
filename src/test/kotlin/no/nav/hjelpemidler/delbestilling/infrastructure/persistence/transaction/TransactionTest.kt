@@ -15,7 +15,7 @@ class TransactionTest {
             gittDelbestilling()
         }
         transaction {
-            assertEquals(1, delbestillingRepository.hentDelbestillinger(Testdata.defaultFnr).size)
+            assertEquals(1, delbestillingRepository.hentDelbestillinger(Testdata.fnr).size)
         }
     }
 
@@ -28,7 +28,7 @@ class TransactionTest {
             }
         }
         transaction {
-            assertEquals(0, delbestillingRepository.hentDelbestillinger(Testdata.defaultFnr).size)
+            assertEquals(0, delbestillingRepository.hentDelbestillinger(Testdata.fnr).size)
         }
     }
 
@@ -43,7 +43,7 @@ class TransactionTest {
             }
         }
         transaction {
-            assertEquals(0, delbestillingRepository.hentDelbestillinger(Testdata.defaultFnr).size)
+            assertEquals(0, delbestillingRepository.hentDelbestillinger(Testdata.fnr).size)
         }
     }
 
@@ -58,7 +58,7 @@ class TransactionTest {
             }
         }
         transaction {
-            assertEquals(0, delbestillingRepository.hentDelbestillinger(Testdata.defaultFnr).size)
+            assertEquals(0, delbestillingRepository.hentDelbestillinger(Testdata.fnr).size)
         }
     }
 }

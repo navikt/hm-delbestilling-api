@@ -6,7 +6,6 @@ import kotlinx.coroutines.coroutineScope
 import no.nav.hjelpemidler.delbestilling.infrastructure.oebs.Oebs
 import no.nav.hjelpemidler.delbestilling.infrastructure.oebs.Utlån
 import no.nav.hjelpemidler.delbestilling.infrastructure.pdl.Pdl
-import java.time.LocalDate
 
 
 private val log = KotlinLogging.logger {}
@@ -18,7 +17,6 @@ class OppslagService(
     private val finnDelerTilHjelpemiddel: FinnDelerTilHjelpemiddel,
     private val berikMedLagerstatus: BerikMedLagerstatus,
     private val berikMedDagerSidenForrigeBatteribestilling: BerikMedDagerSidenForrigeBatteribestilling,
-    private val berikMedGaranti: BerikMedGaranti,
 ) {
 
     suspend fun slåOppHjelpemiddel(hmsnr: String, serienr: String): OppslagResultat = coroutineScope {
@@ -38,7 +36,7 @@ class OppslagService(
         val hjelpemiddel = finnDelerTilHjelpemiddel(hmsnr)
             .let { berikMedDagerSidenForrigeBatteribestilling(it, serienr) }
             .let { berikMedLagerstatus(it, brukerInfoDeferred.await().kommunenummer) }
-            .let { berikMedGaranti(it, brukerInfoDeferred.await().utlån, nå = LocalDate.now()) }
+            .berikMedGaranti(brukerInfoDeferred.await().utlån)
             .sorterDeler()
 
         val piloter = piloterService.hentPiloter(brukerInfoDeferred.await().kommunenummer)

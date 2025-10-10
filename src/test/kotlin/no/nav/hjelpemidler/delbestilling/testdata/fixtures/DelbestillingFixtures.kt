@@ -13,7 +13,6 @@ import no.nav.hjelpemidler.delbestilling.testdata.delbestillerRolle
 import no.nav.hjelpemidler.delbestilling.testdata.delbestilling
 import no.nav.hjelpemidler.delbestilling.testdata.delbestillingRequest
 import no.nav.hjelpemidler.delbestilling.testdata.organisasjon
-import no.nav.hjelpemidler.domain.person.Fødselsnummer
 import java.time.LocalDateTime
 
 suspend fun TestContext.gittDelbestilling(
@@ -22,8 +21,8 @@ suspend fun TestContext.gittDelbestilling(
 ) {
     transaction(returnGeneratedKeys = true) {
         val saksnummer = delbestillingRepository.lagreDelbestilling(
-            bestillerFnr = Testdata.defaultFnr,
-            brukerFnr = Testdata.defaultFnr,
+            bestillerFnr = Testdata.fnr,
+            brukerFnr = Testdata.fnr,
             brukerKommunenr = Testdata.defaultKommunenummer,
             delbestilling = delbestilling,
             brukersKommunenavn = Testdata.defaultKommunenavn,
@@ -50,7 +49,7 @@ suspend fun TestContext.gittDelbestilling(
 
 suspend fun TestContext.opprettDelbestilling(
     request: DelbestillingRequest = delbestillingRequest(),
-    fnrBestiller: String = Testdata.defaultFnr,
+    fnrBestiller: String = Testdata.fnr,
     rolle: Delbestiller = delbestillerRolle()
 ): DelbestillingResultat {
     return delbestillingService.opprettDelbestilling(request, fnrBestiller, rolle)

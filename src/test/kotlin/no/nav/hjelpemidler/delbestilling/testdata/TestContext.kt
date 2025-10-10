@@ -23,7 +23,6 @@ import no.nav.hjelpemidler.delbestilling.infrastructure.persistence.transaction.
 import no.nav.hjelpemidler.delbestilling.infrastructure.persistence.transaction.TransactionScopeFactory
 import no.nav.hjelpemidler.delbestilling.infrastructure.slack.Slack
 import no.nav.hjelpemidler.delbestilling.oppslag.BerikMedDagerSidenForrigeBatteribestilling
-import no.nav.hjelpemidler.delbestilling.oppslag.BerikMedGaranti
 import no.nav.hjelpemidler.delbestilling.oppslag.BerikMedLagerstatus
 import no.nav.hjelpemidler.delbestilling.oppslag.FinnDelerTilHjelpemiddel
 import no.nav.hjelpemidler.delbestilling.oppslag.OppslagService
@@ -68,7 +67,6 @@ class TestContext {
     val piloterService = PiloterService(oebs)
     val finnDelerTilHjelpemiddel = FinnDelerTilHjelpemiddel(grunndata, slack, metrics)
     val berikMedLagerstatus = BerikMedLagerstatus(oebs, metrics)
-    val berikMedGaranti = BerikMedGaranti()
     val berikMedDagerSidenForrigeBatteribestilling by lazy { BerikMedDagerSidenForrigeBatteribestilling(transaction) }
     val oppslagService by lazy {
         OppslagService(
@@ -78,7 +76,6 @@ class TestContext {
             finnDelerTilHjelpemiddel,
             berikMedLagerstatus,
             berikMedDagerSidenForrigeBatteribestilling,
-            berikMedGaranti,
         )
     }
 
