@@ -22,7 +22,7 @@ data class Utlån(
     val fnr: String,
     val artnr: String,
     val serienr: String,
-    val opprettetDato: String? = null,
+    val opprettetDato: LocalDate? = null,
     val utlånsDato: String,
     val isokode: String? = null,
 )
@@ -86,6 +86,3 @@ data class LagerstatusResponse(
         antallDelerPåLager = this.antallPåLager,
     )
 }
-
-private val oebsDatoFormatter: DateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
-fun String.tilLocalDate(): LocalDate = LocalDateTime.parse(this, oebsDatoFormatter).toLocalDate()

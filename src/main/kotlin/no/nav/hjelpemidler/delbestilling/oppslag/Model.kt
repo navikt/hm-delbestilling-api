@@ -5,7 +5,6 @@ import no.nav.hjelpemidler.delbestilling.common.Hmsnr
 import no.nav.hjelpemidler.delbestilling.common.Kilde
 import no.nav.hjelpemidler.delbestilling.common.Lagerstatus
 import no.nav.hjelpemidler.delbestilling.infrastructure.oebs.Utlån
-import no.nav.hjelpemidler.delbestilling.infrastructure.oebs.tilLocalDate
 import no.nav.hjelpemidler.delbestilling.oppslag.legacy.defaultAntall
 import java.time.LocalDate
 
@@ -54,7 +53,7 @@ data class Hjelpemiddel(
             return this
         }
 
-        val garantiPeriodeStart = utlån.opprettetDato.tilLocalDate() // I OeBS er opprettet dato det samme som garantiperiode-start
+        val garantiPeriodeStart = utlån.opprettetDato // I OeBS er opprettet dato det samme som garantiperiode-start
         val isokode = utlån.isokode.take(4)
 
         val antallÅrGaranti = when(isokode) {

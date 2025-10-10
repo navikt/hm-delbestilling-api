@@ -16,7 +16,7 @@ class BerikMedGarantiTest {
             fnr = "111111111111",
             artnr = "326539",
             serienr = "000000",
-            opprettetDato = "2020-01-01 00:00:00",
+            opprettetDato = LocalDate.now().minusYears(5),
             utlånsDato = "2025-01-01",
             isokode = "122203"
         )
@@ -39,7 +39,7 @@ class BerikMedGarantiTest {
             fnr = "111111111111",
             artnr = "326539",
             serienr = "000000",
-            opprettetDato = "2024-01-01 00:00:00",
+            opprettetDato = LocalDate.now().minusYears(1),
             utlånsDato = "2025-01-01",
             isokode = "122203"
         )
@@ -62,7 +62,7 @@ class BerikMedGarantiTest {
             fnr = "111111111111",
             artnr = "238378",
             serienr = "000000",
-            opprettetDato = "2021-01-01 00:00:00",
+            opprettetDato = LocalDate.now().minusYears(4),
             utlånsDato = "2025-01-01",
             isokode = "122303" // Elektriske rullestoler med manuell styring
         )
