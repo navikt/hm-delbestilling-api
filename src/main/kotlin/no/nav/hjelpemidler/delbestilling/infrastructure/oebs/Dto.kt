@@ -3,6 +3,7 @@ package no.nav.hjelpemidler.delbestilling.infrastructure.oebs
 import no.nav.hjelpemidler.delbestilling.common.Lagerstatus
 import java.time.LocalDate
 
+
 data class FnrDto(
     val fnr: String
 )
@@ -20,7 +21,9 @@ data class Utlån(
     val fnr: String,
     val artnr: String,
     val serienr: String,
+    val opprettetDato: LocalDate? = null, // I OeBS er opprettet dato det samme som garantiperiode-start
     val utlånsDato: String,
+    val isokode: String? = null,
 )
 
 data class Ordre(

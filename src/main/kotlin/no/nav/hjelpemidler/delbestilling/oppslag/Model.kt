@@ -1,9 +1,13 @@
 package no.nav.hjelpemidler.delbestilling.oppslag
 
+import io.github.oshai.kotlinlogging.KotlinLogging
 import no.nav.hjelpemidler.delbestilling.common.Hmsnr
 import no.nav.hjelpemidler.delbestilling.common.Kilde
 import no.nav.hjelpemidler.delbestilling.common.Lagerstatus
+import no.nav.hjelpemidler.delbestilling.infrastructure.oebs.Utlån
 import no.nav.hjelpemidler.delbestilling.oppslag.legacy.defaultAntall
+
+private val log = KotlinLogging.logger { }
 
 data class HjelpemiddeloversiktResponse(
     val titler: Set<String>
@@ -14,6 +18,8 @@ data class Hjelpemiddel(
     val hmsnr: String,
     val deler: List<Del>,
     val antallDagerSidenSistBatteribestilling: Int? = null,
+    val antallÅrGaranti: Int? = null,
+    val erInnenforGaranti: Boolean? = null,
 ) {
     val antallKategorier: Int = deler.distinctBy { it.kategori }.size
 
@@ -34,6 +40,11 @@ data class Hjelpemiddel(
 
     fun medAntallDagerSidenSistBatteribestilling(dager: Int?): Hjelpemiddel =
         this.copy(antallDagerSidenSistBatteribestilling = dager)
+
+    fun berikMedGaranti(utlån: Utlån): Hjelpemiddel {
+        val garanti = utlån.garanti() ?: return this
+        return this.copy(erInnenforGaranti = garanti.erInnenforGaranti(), antallÅrGaranti = garanti.antallÅr)
+    }
 }
 
 

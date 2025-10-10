@@ -14,8 +14,12 @@ fun del(
     maksAntall = 2
 )
 
-fun hjelpemiddel(deler: List<Del>) = Hjelpemiddel(
-    hmsnr = Testdata.defaultHjmHmsnr,
-    navn = Testdata.defaultHjmNavn,
+fun hjelpemiddel(
+    deler: List<Del> = listOf(del()),
+    hmsnr: Hmsnr = Testdata.defaultHjmHmsnr,
+    navn: String = Testdata.defaultHjmNavn,
+) = Hjelpemiddel(
+    hmsnr = hmsnr,
+    navn = navn,
     deler = deler
 )

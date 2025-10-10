@@ -90,7 +90,7 @@ class AppContext {
         piloterService,
         finnDelerTilHjelpemiddel,
         berikMedLagerstatus,
-        berikMedDagerSidenForrigeBatteribestilling
+        berikMedDagerSidenForrigeBatteribestilling,
     )
     val delbestillingStatusService = DelbestillingStatusService(transactional, oebs, metrics, slack)
 

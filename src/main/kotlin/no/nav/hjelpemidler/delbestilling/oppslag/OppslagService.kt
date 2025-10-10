@@ -3,8 +3,8 @@ package no.nav.hjelpemidler.delbestilling.oppslag
 import io.github.oshai.kotlinlogging.KotlinLogging
 import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
-import no.nav.hjelpemidler.delbestilling.common.Lagerstatus
 import no.nav.hjelpemidler.delbestilling.infrastructure.oebs.Oebs
+import no.nav.hjelpemidler.delbestilling.infrastructure.oebs.Utlån
 import no.nav.hjelpemidler.delbestilling.infrastructure.pdl.Pdl
 
 
@@ -16,23 +16,32 @@ class OppslagService(
     private val piloterService: PiloterService,
     private val finnDelerTilHjelpemiddel: FinnDelerTilHjelpemiddel,
     private val berikMedLagerstatus: BerikMedLagerstatus,
-    private val berikMedDagerSidenForrigeBatteribestilling: BerikMedDagerSidenForrigeBatteribestilling
+    private val berikMedDagerSidenForrigeBatteribestilling: BerikMedDagerSidenForrigeBatteribestilling,
 ) {
 
     suspend fun slåOppHjelpemiddel(hmsnr: String, serienr: String): OppslagResultat = coroutineScope {
-        val brukersKommunenummerDeferred = async {
-            val brukersFnr = oebs.hentFnrLeietaker(hmsnr, serienr)
+        data class BrukerInfo(
+            val utlån: Utlån,
+            val kommunenummer: String
+        )
+
+        val brukerInfoDeferred = async {
+            val utlån = oebs.hentUtlånPåArtNrOgSerienr(hmsnr, serienr)
                 ?: throw IngenUtlånException("Fant ingen utlån for hmsnr $hmsnr og serien $serienr")
-            pdl.hentKommunenummer(brukersFnr)
+            log.info { "utlån: $utlån" }
+            val kommunenummer = pdl.hentKommunenummer(utlån.fnr)
+            BrukerInfo(utlån, kommunenummer)
         }
 
         val hjelpemiddel = finnDelerTilHjelpemiddel(hmsnr)
             .let { berikMedDagerSidenForrigeBatteribestilling(it, serienr) }
-            .let { berikMedLagerstatus(it, brukersKommunenummerDeferred.await()) }
+            .let { berikMedLagerstatus(it, brukerInfoDeferred.await().kommunenummer) }
+            .berikMedGaranti(brukerInfoDeferred.await().utlån)
             .sorterDeler()
 
-        val piloter = piloterService.hentPiloter(brukersKommunenummerDeferred.await())
+        val piloter = piloterService.hentPiloter(brukerInfoDeferred.await().kommunenummer)
 
         OppslagResultat(hjelpemiddel, piloter)
     }
+
 }

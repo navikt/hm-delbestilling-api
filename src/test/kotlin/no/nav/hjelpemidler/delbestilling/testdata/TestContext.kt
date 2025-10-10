@@ -12,7 +12,6 @@ import no.nav.hjelpemidler.delbestilling.fakes.OebsSinkFake
 import no.nav.hjelpemidler.delbestilling.fakes.OppslagClientFake
 import no.nav.hjelpemidler.delbestilling.fakes.PdlClientFake
 import no.nav.hjelpemidler.delbestilling.infrastructure.email.Email
-import no.nav.hjelpemidler.delbestilling.infrastructure.email.GraphClient
 import no.nav.hjelpemidler.delbestilling.infrastructure.geografi.Kommuneoppslag
 import no.nav.hjelpemidler.delbestilling.infrastructure.grunndata.Grunndata
 import no.nav.hjelpemidler.delbestilling.infrastructure.metrics.Metrics
@@ -76,7 +75,7 @@ class TestContext {
             piloterService,
             finnDelerTilHjelpemiddel,
             berikMedLagerstatus,
-            berikMedDagerSidenForrigeBatteribestilling
+            berikMedDagerSidenForrigeBatteribestilling,
         )
     }
 
@@ -84,7 +83,8 @@ class TestContext {
     val oppslagClient = OppslagClientFake()
     val kommuneoppslag = Kommuneoppslag(oppslagClient)
     val anmodningService = AnmodningService(transaction, oebs, slack, email, grunndata)
-    val delbestillingService = DelbestillingService(transaction, pdl, oebs, kommuneoppslag, metrics, slack, anmodningService)
+    val delbestillingService =
+        DelbestillingService(transaction, pdl, oebs, kommuneoppslag, metrics, slack, anmodningService)
 
     // Status
     val delbestillingStatusService = DelbestillingStatusService(transaction, oebs, metrics, slack)

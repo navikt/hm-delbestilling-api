@@ -73,7 +73,15 @@ class DevTools(
             hjelpemiddel = hjelpemiddel.copy(antallDagerSidenSistBatteribestilling = serienr.take(3).toInt())
         }
 
-        return OppslagResultat(hjelpemiddel.copy(deler = delerMedLagerstatus))
+        hjelpemiddel = hjelpemiddel.copy(
+            deler = delerMedLagerstatus,
+            erInnenforGaranti = when(hjelpemiddel.hmsnr) {
+                "238378" -> true // For testing: Comet Alpine Plus
+                else -> false
+            },
+        )
+
+        return OppslagResultat(hjelpemiddel)
     }
 
     suspend fun markerDelerSomIkkeBehandlet() = transaction {

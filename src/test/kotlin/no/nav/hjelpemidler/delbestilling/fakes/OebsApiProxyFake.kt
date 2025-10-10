@@ -8,19 +8,22 @@ import no.nav.hjelpemidler.delbestilling.infrastructure.oebs.Utlån
 import no.nav.hjelpemidler.delbestilling.infrastructure.oebs.UtlånPåArtnrOgSerienrResponse
 import no.nav.hjelpemidler.delbestilling.testdata.FakeOebsLager
 import no.nav.hjelpemidler.delbestilling.testdata.Testdata
-import no.nav.hjelpemidler.delbestilling.testdata.Testdata.defaultFnr
+import no.nav.hjelpemidler.delbestilling.testdata.Testdata.fnr
 import no.nav.hjelpemidler.delbestilling.testdata.Testdata.defaultHjmHmsnr
 import no.nav.hjelpemidler.delbestilling.testdata.Testdata.defaultHjmSerienr
+import java.time.LocalDate
 
 class OebsApiProxyFake(
     private val lager: FakeOebsLager
 ) : OebsApiProxy {
 
     var utlån: Utlån? = Utlån(
-        fnr = defaultFnr,
+        fnr = fnr,
         artnr = defaultHjmHmsnr,
         serienr = defaultHjmSerienr,
-        utlånsDato = "2025-02-03"
+        opprettetDato = LocalDate.of(2025, 1, 1),
+        utlånsDato = "2025-02-03",
+        isokode = "123456"
     )
 
     var personinfo = listOf(OebsPersoninfo(Testdata.defaultKommunenummer))

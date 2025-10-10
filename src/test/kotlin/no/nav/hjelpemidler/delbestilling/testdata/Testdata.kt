@@ -5,7 +5,7 @@ import no.nav.hjelpemidler.delbestilling.common.Lager
 
 object Testdata {
 
-    val defaultFnr = "26928698180"
+    val fnr = "26928698180"
 
     val defaultHjmHmsnr = "097765" // Azalea
     val defaultHjmNavn = "Azalea" // Azalea
@@ -21,4 +21,7 @@ object Testdata {
     val defaultKommunenavn = "Oslo"
 
     val defaultEnhet = Lager.OSLO
+
+    val isoERS = "122303"
+    val isoPersonløfter = "123603"
 }

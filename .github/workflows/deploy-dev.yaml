@@ -8,7 +8,7 @@ on:
       - "CODEOWNERS"
     branches:
       - main
-      #- annuler-anmodningsbehov-ved-ordreannulering
+      - garantidato
 
 jobs:
   build:
