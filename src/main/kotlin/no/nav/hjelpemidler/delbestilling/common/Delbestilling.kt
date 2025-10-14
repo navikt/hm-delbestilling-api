@@ -38,7 +38,6 @@ data class Delbestilling(
     fun harBatteri() = deler.any { it.erBatteri() }
 
     companion object {
-        // TODO brukes denne i frontend? Dersom den brukes, så bør den kanskje justeres etter statistikken? https://metabase.ansatt.nav.no/question/5980-antall-dager-til-skipningsbekreftelse
         private const val LEVERINGSDAGER_FRA_SKIPNINGSBEKREFTELSE = 1
 
         private fun beregnForventetLeveringsdato(skipningsdato: LocalDate) = skipningsdato
