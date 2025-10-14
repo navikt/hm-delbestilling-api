@@ -71,4 +71,7 @@ tasks.test {
     // Sikre at tester bruker samme tidssone som appen (ref. Dockerfile). E.g. Github Runners bruker UTC som default.
     systemProperty("user.timezone", "Europe/Oslo")
 }
-tasks.shadowJar { mergeServiceFiles() }
+tasks.shadowJar {
+    mergeServiceFiles()
+    duplicatesStrategy = DuplicatesStrategy.INCLUDE
+}
