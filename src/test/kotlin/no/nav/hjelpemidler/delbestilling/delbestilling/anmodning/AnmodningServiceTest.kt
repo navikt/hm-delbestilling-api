@@ -1,39 +1,18 @@
 package no.nav.hjelpemidler.delbestilling.delbestilling.anmodning
 
-import io.mockk.mockk
 import kotlinx.coroutines.test.runTest
 import no.nav.hjelpemidler.delbestilling.common.Lager
-import no.nav.hjelpemidler.delbestilling.testdata.TestDatabase
 import no.nav.hjelpemidler.delbestilling.testdata.delLinje
 import no.nav.hjelpemidler.delbestilling.testdata.delbestilling
 import no.nav.hjelpemidler.delbestilling.testdata.delbestillingSak
-import no.nav.hjelpemidler.delbestilling.infrastructure.email.Email
-import no.nav.hjelpemidler.delbestilling.infrastructure.oebs.Oebs
-import no.nav.hjelpemidler.delbestilling.infrastructure.persistence.transaction.Transaction
-import no.nav.hjelpemidler.delbestilling.infrastructure.persistence.transaction.TransactionScopeFactory
-import no.nav.hjelpemidler.delbestilling.infrastructure.slack.Slack
-import no.nav.hjelpemidler.delbestilling.infrastructure.norg.Norg
+import no.nav.hjelpemidler.delbestilling.testdata.runWithTestContext
 import org.junit.jupiter.api.Test
-
-import org.junit.jupiter.api.BeforeEach
 import kotlin.test.assertEquals
 
 class AnmodningServiceTest {
 
-    private var ds = TestDatabase.testDataSource
-    private val transaction = Transaction(ds, TransactionScopeFactory())
-    val oebs = mockk<Oebs>()
-    val slack = mockk<Slack>(relaxed = true)
-    val email = mockk<Email>(relaxed = true)
-    val anmodningService = AnmodningService(transaction, oebs, slack, email, mockk())
-
-    @BeforeEach
-    fun setup() {
-        TestDatabase.cleanAndMigratedDataSource(ds)
-    }
-
     @Test
-    fun `skal filtrer ut riktige deler til anmodning`() = runTest {
+    fun `skal filtrer ut riktige deler til anmodning`() = runWithTestContext {
         val hmsnrMinmax = "333333"
         val hmsnrPåLager = "444444"
         val hmsnrFåPåLager = "555555"
@@ -72,7 +51,7 @@ class AnmodningServiceTest {
     }
 
     @Test
-    fun `test generering av epostmelding`() = runTest {
+    fun `test generering av epostmelding`() = runWithTestContext {
         val melding = anmodningService.sendAnmodningRapport(
             Anmodningrapport(
                 lager = Lager.OSLO,
@@ -118,6 +97,25 @@ class AnmodningServiceTest {
             )
         )
 
-        println(melding)
+        assertEquals(
+            """
+            Hei!
+
+            Disse delene er bestilt digitalt, men er ikke på lager. Dere må derfor sende anmodning på følgende:
+
+            Leverandør: Etac AS
+            123456 (Batteri 80A inkl poler): Må anmodes 5 stk.
+            478294 (Dekk Schwalbe Marathon Plus punkteringsbeskyttet 24): Må anmodes 15 stk.
+
+            Leverandør: Invacare
+            738137 (Hjul bak): Må anmodes 7 stk.
+            738923 (Hjul foran): Må anmodes 107 stk.
+
+            Dersom dere har spørsmål til dette så kan dere svare oss tilbake på denne e-posten.
+
+            Vennlig hilsen
+            DigiHoT
+        """.trimIndent(), melding
+        )
     }
 }
