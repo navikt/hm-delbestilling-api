@@ -94,7 +94,7 @@ fun Application.setupRoutes(ctx: AppContext) {
             }
 
             rateLimit(RateLimitName("public")) {
-                oppslagApi(ctx.hjelpemiddeloversikt, ctx.oppslagService, ctx.finnDelerTilHjelpemiddel)
+                oppslagApi(ctx.hjelpemiddeloversikt, ctx.oppslagService)
             }
 
             if (isDev()) {
