@@ -36,6 +36,7 @@ class Hjelpemiddeloversikt(
         return cache.get(cacheKey).await()
     }
 
+    // Deprecated. Skal erstattes av hentTilgjengeligeHjelpemidler()
     private suspend fun hentAlleHjelpemiddelTitler(): HjelpemiddeloversiktResponse {
         val alleDelerSomKanBestilles = grunndata.hentAlleDelerSomKanBestilles()
         val produktIDs = alleDelerSomKanBestilles.map {
@@ -49,6 +50,22 @@ class Hjelpemiddeloversikt(
         val hjelpemiddelNavnFraGrunndata = hjelpemidler.map { it.title.trim() }.toSet()
 
         return HjelpemiddeloversiktResponse((hjelpemiddelNavnFraGrunndata + hjelpemiddelNavnFraManuellListe()).toSortedSet())
+    }
+
+    // TODO: caching
+    suspend fun hentTilgjengeligeHjelpemidler(): HjelpemidlerResponse {
+        val alleDelerSomKanBestilles = grunndata.hentAlleDelerSomKanBestilles()
+        val produktIDs = alleDelerSomKanBestilles.map {
+            it.attributes.compatibleWith?.productIds ?: emptyList()
+        }.flatten().toSet()
+        val serieIDs = alleDelerSomKanBestilles.map {
+            it.attributes.compatibleWith?.seriesIds ?: emptyList()
+        }.flatten().toSet()
+        val hjelpemidler = grunndata.hentAlleHjmMedIdEllerSeriesId(seriesIds = serieIDs, produktIds = produktIDs)
+            .distinctBy { it.title.trim() }
+            .map { TilgjengeligHjelpemiddel(navn =  it.title, hmsnr = it.hmsArtNr) }
+
+        return HjelpemidlerResponse(hjelpemidler)
     }
 
     fun startBakgrunnsjobb() {

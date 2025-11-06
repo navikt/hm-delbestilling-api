@@ -16,8 +16,13 @@ fun Route.oppslagApi(
     oppslagService: OppslagService,
     finnDelerTilHjelpemiddel: FinnDelerTilHjelpemiddel,
 ) {
+    // Deprecated. Skal erstattes av /hjelpemidler
     get("/hjelpemiddel-titler") {
         call.respond(hjelpemiddeloversikt.hentAlleHjelpemiddelTitlerCached())
+    }
+
+    get("/hjelpemidler") {
+        call.respond(hjelpemiddeloversikt.hentTilgjengeligeHjelpemidler())
     }
 
     post("/deler-til-hjelpemiddel") {
