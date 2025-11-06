@@ -30,6 +30,7 @@ class Hjelpemiddeloversikt(
     private val cacheDuration: Duration = 2.hours
 ) {
 
+    // Deprecated. Skal fjernes erstattes med
     private val cacheKey = "hjelpemidler"
 
     private val cache: AsyncLoadingCache<String, HjelpemiddeloversiktResponse> = Caffeine.newBuilder()
@@ -57,7 +58,17 @@ class Hjelpemiddeloversikt(
         return HjelpemiddeloversiktResponse((hjelpemiddelNavnFraGrunndata + hjelpemiddelNavnFraManuellListe()).toSortedSet())
     }
 
-    // TODO: caching
+    private val cacheKeyTilgjengeligeHjelpemidler = "tilgjengeligeHjelpemidler"
+
+    private val cacheTilgjengeligeHjelpemidler: AsyncLoadingCache<String, Map<String, List<Hmsnr>>> = Caffeine.newBuilder()
+        .refreshAfterWrite(cacheDuration)
+        .maximumSize(1)
+        .buildAsync { _, _ -> scope.future { hentTilgjengeligeHjelpemidler() } }
+
+    suspend fun hentTilgjengeligeHjelpemidlerCached(): Map<String, List<Hmsnr>> {
+        return cacheTilgjengeligeHjelpemidler.get(cacheKeyTilgjengeligeHjelpemidler).await()
+    }
+
     suspend fun hentTilgjengeligeHjelpemidler(): Map<String, List<Hmsnr>> {
         val alleDelerSomKanBestilles = grunndata.hentAlleDelerSomKanBestilles()
         val produktIDs = alleDelerSomKanBestilles.map {
@@ -111,6 +122,7 @@ class Hjelpemiddeloversikt(
             log.info { "Prepopulerer hjelpemidler cache" }
             measureTimeMillis {
                 cache.get(cacheKey).await()
+                cacheTilgjengeligeHjelpemidler.get(cacheKeyTilgjengeligeHjelpemidler).await()
             }.also { log.info { "Prepopulering tok $it ms." } }
         }
 
@@ -119,6 +131,7 @@ class Hjelpemiddeloversikt(
                 delay(cacheDuration.plus(1.seconds)) // Legg på 1 sek for å sikre at cachen er utdatert før vi refresher
                 log.info { "Refresher hjelpemiddel cache" }
                 cache.synchronous().refresh(cacheKey)
+                cacheTilgjengeligeHjelpemidler.synchronous().refresh(cacheKeyTilgjengeligeHjelpemidler)
             }
         }
         log.info { "Bakgrunnsjobber for Hjelpemiddeloversikt startet." }

@@ -6,7 +6,6 @@ import no.nav.hjelpemidler.delbestilling.common.Kilde
 import no.nav.hjelpemidler.delbestilling.common.Lagerstatus
 import no.nav.hjelpemidler.delbestilling.infrastructure.oebs.Utlån
 import no.nav.hjelpemidler.delbestilling.oppslag.legacy.defaultAntall
-import java.util.UUID
 
 private val log = KotlinLogging.logger { }
 
