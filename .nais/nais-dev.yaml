@@ -35,6 +35,7 @@ spec:
     autoInstrumentation:
       enabled: true
       runtime: java
+  leaderElection: true
   ingresses:
     - https://hjelpemidler.ekstern.dev.nav.no/api/oppslag-ekstern-dev
   accessPolicy:
