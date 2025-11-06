@@ -14,9 +14,15 @@ private val log = KotlinLogging.logger {}
 fun Route.oppslagApi(
     hjelpemiddeloversikt: Hjelpemiddeloversikt,
     oppslagService: OppslagService,
+    finnDelerTilHjelpemiddel: FinnDelerTilHjelpemiddel,
 ) {
     get("/hjelpemiddel-titler") {
         call.respond(hjelpemiddeloversikt.hentAlleHjelpemiddelTitlerCached())
+    }
+
+    post("/deler-til-hjelpemiddel") {
+        val hmsnr = call.receive<DelerTilHjelpemiddelRequest>().hmsnr
+        call.respond(finnDelerTilHjelpemiddel(hmsnr))
     }
 
     post("/oppslag") {

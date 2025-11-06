@@ -75,7 +75,7 @@ class AppContext {
 
     // Services
     private val piloterService = PiloterService(oebs)
-    private val finnDelerTilHjelpemiddel = FinnDelerTilHjelpemiddel(grunndata, slack, metrics)
+    val finnDelerTilHjelpemiddel = FinnDelerTilHjelpemiddel(grunndata, slack, metrics)
     private val berikMedLagerstatus = BerikMedLagerstatus(oebs, metrics)
     private val berikMedDagerSidenForrigeBatteribestilling =
         BerikMedDagerSidenForrigeBatteribestilling(transactional)

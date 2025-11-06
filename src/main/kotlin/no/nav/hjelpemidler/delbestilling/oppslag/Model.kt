@@ -72,6 +72,10 @@ data class OppslagResultat(
     val piloter: List<Pilot> = emptyList(),
 )
 
+data class DelerTilHjelpemiddelRequest (
+    val hmsnr: String,
+)
+
 enum class Pilot {
     BESTILLE_IKKE_FASTE_LAGERVARER
 }
