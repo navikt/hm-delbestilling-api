@@ -19,6 +19,11 @@ fun Route.oppslagApi(
         call.respond(hjelpemiddeloversikt.hentAlleHjelpemiddelTitlerCached())
     }
 
+    get("/hjelpemiddel-titler-med-deler") {
+        call.respond(hjelpemiddeloversikt.hentAlleHjelpemiddelTitlerMedDelerNavn())
+    }
+
+
     post("/oppslag") {
         val request = call.receive<OppslagRequest>()
         log.info { "/oppslag request: $request" }

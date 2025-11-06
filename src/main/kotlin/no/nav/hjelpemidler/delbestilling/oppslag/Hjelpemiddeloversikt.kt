@@ -51,6 +51,28 @@ class Hjelpemiddeloversikt(
         return HjelpemiddeloversiktResponse((hjelpemiddelNavnFraGrunndata + hjelpemiddelNavnFraManuellListe()).toSortedSet())
     }
 
+    // TODO: caching
+    suspend fun hentAlleHjelpemiddelTitlerMedDelerNavn(): List<HjelpemiddelNavnMedDelerNavn>  {
+        val alleDelerSomKanBestilles = grunndata.hentAlleDelerSomKanBestilles()
+        val produktIDs = alleDelerSomKanBestilles.map {
+            it.attributes.compatibleWith?.productIds ?: emptyList()
+        }.flatten().toSet()
+        val serieIDs = alleDelerSomKanBestilles.map {
+            it.attributes.compatibleWith?.seriesIds ?: emptyList()
+        }.flatten().toSet()
+
+        // Alle hovedhjelpemidler som har deler i grunndata
+        val hjelpemidler = grunndata.hentAlleHjmMedIdEllerSeriesId(seriesIds = serieIDs, produktIds = produktIDs)
+
+        // Koble deler tilbake til hjelpemiddel
+        val grunnDataHjelpemidlerMedDeler = hjelpemidler.distinctBy { it.title.trim() }.map {hm -> Hjelpemiddel(navn = hm.title, hmsnr = hm.hmsArtNr, deler = alleDelerSomKanBestilles.filter { del ->
+            del.attributes.compatibleWith?.productIds?.contains(hm.id) == true || del.attributes.compatibleWith?.seriesIds?.contains(hm.seriesId) == true }
+            .map {del -> Del(hmsnr = del.hmsArtNr, navn = del.title, kategori = "", maksAntall = 0  ) }) }
+
+        // TODO: legg til manuell liste også
+        return grunnDataHjelpemidlerMedDeler.map {hm -> HjelpemiddelNavnMedDelerNavn(hjelpemiddelNavn = hm.navn, delerNavn = hm.deler.map {del -> del.navn }) }
+    }
+
     fun startBakgrunnsjobb() {
         log.info { "Starter bakgrunnsjobber for Hjelpemiddeloversikt" }
         scope.launch {

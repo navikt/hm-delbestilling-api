@@ -8,7 +8,7 @@ on:
       - "CODEOWNERS"
     branches:
       - main
-      - garantidato
+      - hjelpemiddel-titler-med-deler
 
 jobs:
   build:

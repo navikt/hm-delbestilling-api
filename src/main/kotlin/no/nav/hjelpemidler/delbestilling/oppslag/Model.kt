@@ -13,6 +13,11 @@ data class HjelpemiddeloversiktResponse(
     val titler: Set<String>
 )
 
+data class HjelpemiddelNavnMedDelerNavn(
+    val hjelpemiddelNavn: String,
+    val delerNavn: List<String>,
+)
+
 data class Hjelpemiddel(
     val navn: String,
     val hmsnr: String,
