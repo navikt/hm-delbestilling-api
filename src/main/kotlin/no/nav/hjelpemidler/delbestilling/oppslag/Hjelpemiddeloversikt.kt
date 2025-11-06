@@ -25,6 +25,7 @@ private val log = KotlinLogging.logger {}
 
 class Hjelpemiddeloversikt(
     val grunndata: Grunndata,
+    val finnDelerTilHjelpemiddel: FinnDelerTilHjelpemiddel,
     private val scope: CoroutineScope,
     private val cacheDuration: Duration = 2.hours
 ) {
@@ -120,6 +121,13 @@ class Hjelpemiddeloversikt(
 
         return TilgjengeligeHjelpemidlerResponse(tilgjengeligeHjelpemidlerMedDeler)
          */
+    }
+
+    suspend fun hentDelerTilHmsnrs (hmsnrs: List<String>) {
+        val delerNavn = hmsnrs.flatMap {
+            val hm = finnDelerTilHjelpemiddel(it)
+            hm.deler.map { it.navn }
+        }.distinct().sorted()
     }
 
     fun startBakgrunnsjobb() {

@@ -18,13 +18,15 @@ class FinnDelerTilHjelpemiddel(
     private val metrics: Metrics,
 ) {
 
-    suspend operator fun invoke(hmsnr: Hmsnr): Hjelpemiddel {
+    suspend operator fun invoke(hmsnr: Hmsnr, sendStatistikk: Boolean? = false): Hjelpemiddel {
         log.info { "Henter deler for hjelpemiddel $hmsnr" }
 
         val hjmManuellListe = hmsnr2Hjm[hmsnr]
         val hjmGrunndata = hentHjelpemiddelFraGrunndata(hmsnr)
 
-        sendStatistikkOgVarsling(hjmGrunndata = hjmGrunndata, hjmManuellListe = hjmManuellListe)
+        if (sendStatistikk == true) {
+            sendStatistikkOgVarsling(hjmGrunndata = hjmGrunndata, hjmManuellListe = hjmManuellListe)
+        }
 
         val hjelpemiddel = slåSammen(hjmGrunndata, hjmManuellListe)
 

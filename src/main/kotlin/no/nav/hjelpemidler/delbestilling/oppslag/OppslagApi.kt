@@ -14,6 +14,7 @@ private val log = KotlinLogging.logger {}
 fun Route.oppslagApi(
     hjelpemiddeloversikt: Hjelpemiddeloversikt,
     oppslagService: OppslagService,
+
 ) {
     // Deprecated. Skal erstattes av /hjelpemidler
     get("/hjelpemiddel-titler") {
@@ -22,6 +23,11 @@ fun Route.oppslagApi(
 
     get("/hjelpemidler") {
         call.respond(hjelpemiddeloversikt.hentTilgjengeligeHjelpemidler())
+    }
+
+    post("/deler-til-hmsnrs") {
+        val hmsnrs = call.receive<List<String>>()
+        call.respond(hjelpemiddeloversikt.hentDelerTilHmsnrs(hmsnrs))
     }
 
     post("/oppslag") {

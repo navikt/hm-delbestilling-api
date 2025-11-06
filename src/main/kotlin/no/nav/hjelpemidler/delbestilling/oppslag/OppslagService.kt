@@ -33,7 +33,7 @@ class OppslagService(
             BrukerInfo(utlån, kommunenummer)
         }
 
-        val hjelpemiddel = finnDelerTilHjelpemiddel(hmsnr)
+        val hjelpemiddel = finnDelerTilHjelpemiddel(hmsnr, true)
             .let { berikMedDagerSidenForrigeBatteribestilling(it, serienr) }
             .let { berikMedLagerstatus(it, brukerInfoDeferred.await().kommunenummer) }
             .berikMedGaranti(brukerInfoDeferred.await().utlån)
