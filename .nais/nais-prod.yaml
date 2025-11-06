@@ -37,6 +37,7 @@ spec:
     autoInstrumentation:
       enabled: true
       runtime: java
+  leaderElection: true
   accessPolicy:
     inbound:
       rules:

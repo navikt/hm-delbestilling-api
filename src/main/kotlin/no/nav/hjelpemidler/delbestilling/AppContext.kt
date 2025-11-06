@@ -99,7 +99,7 @@ class AppContext {
         berikMedDagerSidenForrigeBatteribestilling,
     )
     val delbestillingStatusService = DelbestillingStatusService(transactional, oebs, metrics, slack)
-    val rapportering = Rapportering(delbestillingService, erLeder, devtools())
+    val rapportering = Rapportering(delbestillingService, erLeder)
 
     fun applicationStarted() {
         hjelpemiddeloversikt.startBakgrunnsjobb()
