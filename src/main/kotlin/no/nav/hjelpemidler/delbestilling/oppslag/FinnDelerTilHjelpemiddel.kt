@@ -38,7 +38,9 @@ class FinnDelerTilHjelpemiddel(
             throw TilbyrIkkeHjelpemiddelException("Fant ingen deler i verken grunndata eller manuell liste for $hmsnr")
         }
 
-        sjekkBatteri(hjelpemiddel.deler)
+        if (sendStatistikk == true) {
+            sjekkBatteri(hjelpemiddel.deler)
+        }
 
         log.info { "hjelpemiddel for $hmsnr: $hjelpemiddel" }
         return hjelpemiddel
