@@ -94,33 +94,6 @@ class Hjelpemiddeloversikt(
         val sortert = kombinert.toSortedMap().mapValues { (_, value) -> value.sorted() }
 
         return sortert
-
-        /*
-        val tilgjengeligeHjelpemidlerMedDeler = alleHjelpemidlerSomHarDeler
-            .map { hm ->
-                TilgjengeligHjelpemiddel(
-                    navn = hm.title.trim(), // flere hjelpemidler deler title
-                    delerNavn = alleDelerSomKanBestilles.filter { del ->
-                        del.attributes.compatibleWith?.productIds?.contains(hm.id) == true || del.attributes.compatibleWith?.seriesIds?.contains(
-                            hm.seriesId
-                        ) == true
-                    }
-                        .map { it.title.trim() }
-                        .plus(hmsnr2Hjm[hm.hmsArtNr]?.deler?.map { it.navn }
-                            ?: emptyList()) // legg til deler fra manuell liste
-                )
-            }
-            .sortedBy { it.navn }
-            .groupBy { it.navn }
-            .map { (navn, group) -> // slå sammen alle hjelpemidler som har samme navn, og deres unike deler
-                TilgjengeligHjelpemiddel(
-                    navn = navn,
-                    delerNavn = group.flatMap { it.delerNavn }.distinct()
-                )
-            }
-
-        return TilgjengeligeHjelpemidlerResponse(tilgjengeligeHjelpemidlerMedDeler)
-         */
     }
 
     suspend fun hentDelerTilHmsnrs (hmsnrs: List<String>) {

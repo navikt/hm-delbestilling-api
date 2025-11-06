@@ -14,13 +14,8 @@ data class HjelpemiddeloversiktResponse(
     val titler: Set<String>
 )
 
-data class TilgjengeligHjelpemiddel (
-    val navn: String,
-    val delerNavn: List<String>,
-)
-
-data class TilgjengeligeHjelpemidlerResponse(
-    val hjelpemidler: List<TilgjengeligHjelpemiddel>
+data class DelerTilHmsnrsRequest (
+    val hmsnrs: List<Hmsnr>,
 )
 
 data class Hjelpemiddel(

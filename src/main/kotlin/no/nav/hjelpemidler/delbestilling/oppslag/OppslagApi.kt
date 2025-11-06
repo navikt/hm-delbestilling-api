@@ -26,7 +26,7 @@ fun Route.oppslagApi(
     }
 
     post("/deler-til-hmsnrs") {
-        val hmsnrs = call.receive<List<String>>()
+        val hmsnrs = call.receive<DelerTilHmsnrsRequest>().hmsnrs
         call.respond(hjelpemiddeloversikt.hentDelerTilHmsnrs(hmsnrs))
     }
 
