@@ -63,12 +63,10 @@ class Hjelpemiddeloversikt(
             it.attributes.compatibleWith?.seriesIds ?: emptyList()
         }.flatten().toSet()
 
-        // Finn først alle hovedhjelpemidler som passer til deler
-        // Her er ALLE hjelpemidler, uavhengig av title. Dvs, det kan være 3 stk med title="Cross", med 3 ulike hmsnrs
-        val alleHjelpemidler = grunndata.hentAlleHjmMedIdEllerSeriesId(seriesIds = serieIDs, produktIds = produktIDs)
+        // Her er ALLE hjelpemidler, uavhengig av title. Dvs, det kan være f.els 3 stk med title="Cross", med 3 ulike hmsnrs som igjen har ulike deler
+        val alleHjelpemidlerSomHarDeler = grunndata.hentAlleHjmMedIdEllerSeriesId(seriesIds = serieIDs, produktIds = produktIDs)
 
-        val tilgjengeligeHjelpemidlerMedDeler =
-            grunndata.hentAlleHjmMedIdEllerSeriesId(seriesIds = serieIDs, produktIds = produktIDs)
+        val tilgjengeligeHjelpemidlerMedDeler = alleHjelpemidlerSomHarDeler
                 .map { hm ->
                     TilgjengeligHjelpemiddel(
                         navn = hm.title.trim(), // flere hjelpemidler deler title
