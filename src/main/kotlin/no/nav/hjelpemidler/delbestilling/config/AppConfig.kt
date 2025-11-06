@@ -12,6 +12,9 @@ import java.util.Properties
 
 object AppConfig {
 
+    // Leader election
+    val ELECTOR_GET_URL by EnvironmentVariable
+
     // OEBS
     val OEBS_API_URL by EnvironmentVariable
     val OEBS_API_SCOPE by EnvironmentVariable

@@ -1,9 +1,13 @@
 package no.nav.hjelpemidler.delbestilling
 
+import io.github.oshai.kotlinlogging.KotlinLogging
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.cancel
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.isActive
+import kotlinx.coroutines.launch
 import no.nav.hjelpemidler.delbestilling.config.DatabaseConfig
 import no.nav.hjelpemidler.delbestilling.delbestilling.DelbestillingService
 import no.nav.hjelpemidler.delbestilling.delbestilling.anmodning.AnmodningService
@@ -15,6 +19,8 @@ import no.nav.hjelpemidler.delbestilling.infrastructure.geografi.OppslagClient
 import no.nav.hjelpemidler.delbestilling.infrastructure.grunndata.Grunndata
 import no.nav.hjelpemidler.delbestilling.infrastructure.grunndata.GrunndataClient
 import no.nav.hjelpemidler.delbestilling.infrastructure.kafka.Kafka
+import no.nav.hjelpemidler.delbestilling.infrastructure.leaderElection.ElectorClient
+import no.nav.hjelpemidler.delbestilling.infrastructure.leaderElection.ErLeder
 import no.nav.hjelpemidler.delbestilling.infrastructure.metrics.Metrics
 import no.nav.hjelpemidler.delbestilling.infrastructure.norg.Norg
 import no.nav.hjelpemidler.delbestilling.infrastructure.norg.NorgClient
@@ -68,6 +74,7 @@ class AppContext {
     private val oebs = Oebs(OebsApiProxyClient(entraIDClient), OebsSinkClient(kafka), finnLagerenhet)
     private val pdl = Pdl(PdlClient(entraIDClient))
     private val rollerClient = RollerClient(TokendingsServiceBuilder.buildTokendingsService())
+    private val erLeder = ErLeder(ElectorClient())
 
 
     // Eksponert for custom plugin
@@ -98,8 +105,19 @@ class AppContext {
 
     fun applicationStarted() {
         hjelpemiddeloversikt.startBakgrunnsjobb()
+
+        backgroundScope.launch {
+            while (isActive) {
+                log.info { "Tester leader election." }
+                val resultat = erLeder()
+                log.info { "erLeder=$resultat" }
+                delay(20.seconds)
+            }
+        }
     }
 
     fun devtools() = DevTools(transactional, oebs, pdl, finnDelerTilHjelpemiddel, email)
 
 }
+
+private val log = KotlinLogging.logger { }
