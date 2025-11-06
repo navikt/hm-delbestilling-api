@@ -96,11 +96,13 @@ class Hjelpemiddeloversikt(
         return sortert
     }
 
-    suspend fun hentDelerTilHmsnrs (hmsnrs: List<String>) {
+    suspend fun hentDelerTilHmsnrs (hmsnrs: List<String>): List<String> {
         val delerNavn = hmsnrs.flatMap {
             val hm = finnDelerTilHjelpemiddel(it)
             hm.deler.map { it.navn }
         }.distinct().sorted()
+
+        return delerNavn
     }
 
     fun startBakgrunnsjobb() {
