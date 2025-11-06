@@ -90,7 +90,9 @@ class Hjelpemiddeloversikt(
                 (fraGrunndata + fraManuelle).distinct()
             }
 
-        return kombinert
+        val sortert = kombinert.toSortedMap().mapValues { (_, value) -> value.sorted() }
+
+        return sortert
 
         /*
         val tilgjengeligeHjelpemidlerMedDeler = alleHjelpemidlerSomHarDeler
