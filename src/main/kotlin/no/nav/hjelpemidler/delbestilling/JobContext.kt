@@ -9,6 +9,8 @@ import io.ktor.client.plugins.logging.Logging
 import io.ktor.client.request.accept
 import io.ktor.http.ContentType
 import io.ktor.http.contentType
+import no.nav.hjelpemidler.configuration.EnvironmentVariable
+import no.nav.hjelpemidler.configuration.EnvironmentVariable.Companion.provideDelegate
 import no.nav.hjelpemidler.delbestilling.config.isProd
 import no.nav.hjelpemidler.http.createHttpClient
 import no.nav.hjelpemidler.http.openid.entraIDClient
@@ -16,6 +18,10 @@ import kotlin.time.Duration.Companion.seconds
 
 
 class JobContext {
+
+    val DELBESTILLING_API_URL by EnvironmentVariable
+    val DELBESTILLING_API_SCOPE by EnvironmentVariable
+
     val azureClient = entraIDClient {
         cache(leeway = 10.seconds) {
             maximumSize = 100

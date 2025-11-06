@@ -7,7 +7,8 @@ metadata:
     team: teamdigihot
 spec:
   timeZone: Europe/Oslo
-  schedule: '0 12 * * MON-FRI' # kl 12 man til fre
+  #schedule: '0 12 * * MON-FRI' # kl 12 man til fre
+  schedule: '*/5 * * * *' # hvert 5. minutt
   successfulJobsHistoryLimit: 1
   ttlSecondsAfterFinished: 14400
   restartPolicy: Never
@@ -17,7 +18,7 @@ spec:
       enabled: true
   env:
   - name: CRONJOB_TYPE
-    value: RAPPORTER_DELER_TIL_ANMODNING
+    value: RAPPORTERINGSJOBB
   - name: DELBESTILLING_API_URL
     value: http://hm-delbestilling-api.teamdigihot.svc.cluster.local
   - name: DELBESTILLING_API_SCOPE

@@ -36,6 +36,7 @@ import no.nav.hjelpemidler.delbestilling.oppslag.Hjelpemiddeloversikt
 import no.nav.hjelpemidler.delbestilling.oppslag.OppslagService
 import no.nav.hjelpemidler.delbestilling.oppslag.PiloterService
 import no.nav.hjelpemidler.delbestilling.ordrestatus.DelbestillingStatusService
+import no.nav.hjelpemidler.delbestilling.rapportering.RapporteringService
 import no.nav.hjelpemidler.http.openid.entraIDClient
 import no.nav.tms.token.support.tokendings.exchange.TokendingsServiceBuilder
 import kotlin.time.Duration.Companion.seconds
@@ -93,6 +94,7 @@ class AppContext {
         berikMedDagerSidenForrigeBatteribestilling,
     )
     val delbestillingStatusService = DelbestillingStatusService(transactional, oebs, metrics, slack)
+    val rapporteringService = RapporteringService(delbestillingService)
 
     fun shutdown() = backgroundScope.cancel("Shutting down application")
 

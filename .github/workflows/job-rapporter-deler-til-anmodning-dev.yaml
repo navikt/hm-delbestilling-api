@@ -8,7 +8,7 @@ on:
       - "CODEOWNERS"
     branches:
       - main
-      - bestille-alle-deler
+      - månedsrapport
 jobs:
   build_and_deploy:
     name: Build, push and deploy
