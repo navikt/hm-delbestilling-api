@@ -27,7 +27,7 @@ fun Route.oppslagApi(
 
     post("/deler-til-hjelpemiddel") {
         val hmsnr = call.receive<DelerTilHjelpemiddelRequest>().hmsnr
-        call.respond(finnDelerTilHjelpemiddel(hmsnr))
+        call.respond(finnDelerTilHjelpemiddel(hmsnr).deler.map { it.navn })
     }
 
     post("/oppslag") {

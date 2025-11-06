@@ -12,6 +12,7 @@ import kotlinx.coroutines.launch
 import no.nav.hjelpemidler.cache.refreshAfterWrite
 import no.nav.hjelpemidler.delbestilling.oppslag.legacy.data.hmsnrTilHjelpemiddelnavn
 import no.nav.hjelpemidler.delbestilling.infrastructure.grunndata.Grunndata
+import java.util.UUID
 import kotlin.system.measureTimeMillis
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.hours
@@ -53,7 +54,7 @@ class Hjelpemiddeloversikt(
     }
 
     // TODO: caching
-    suspend fun hentTilgjengeligeHjelpemidler(): HjelpemidlerResponse {
+    suspend fun hentTilgjengeligeHjelpemidler(): TilgjengeligeHjelpemidlerResponse {
         val alleDelerSomKanBestilles = grunndata.hentAlleDelerSomKanBestilles()
         val produktIDs = alleDelerSomKanBestilles.map {
             it.attributes.compatibleWith?.productIds ?: emptyList()
@@ -61,11 +62,33 @@ class Hjelpemiddeloversikt(
         val serieIDs = alleDelerSomKanBestilles.map {
             it.attributes.compatibleWith?.seriesIds ?: emptyList()
         }.flatten().toSet()
-        val hjelpemidler = grunndata.hentAlleHjmMedIdEllerSeriesId(seriesIds = serieIDs, produktIds = produktIDs)
-            .distinctBy { it.title.trim() }
-            .map { TilgjengeligHjelpemiddel(navn =  it.title, hmsnr = it.hmsArtNr) }
 
-        return HjelpemidlerResponse(hjelpemidler)
+        // Finn først alle hovedhjelpemidler som passer til deler
+        // Her er ALLE hjelpemidler, uavhengig av title. Dvs, det kan være 3 stk med title="Cross", med 3 ulike hmsnrs
+        val alleHjelpemidler = grunndata.hentAlleHjmMedIdEllerSeriesId(seriesIds = serieIDs, produktIds = produktIDs)
+
+        val tilgjengeligeHjelpemidlerMedDeler =
+            grunndata.hentAlleHjmMedIdEllerSeriesId(seriesIds = serieIDs, produktIds = produktIDs)
+                .map { hm ->
+                    TilgjengeligHjelpemiddel(
+                        navn = hm.title.trim(), // flere hjelpemidler deler title
+                        delerNavn = alleDelerSomKanBestilles.filter { del ->
+                            del.attributes.egnetForKommunalTekniker == true &&
+                            del.attributes.compatibleWith?.productIds?.contains(hm.id) == true || del.attributes.compatibleWith?.seriesIds?.contains(hm.seriesId) == true
+                        }.map { it.title.trim() }
+                    )}
+                .sortedBy { it.navn }
+                .groupBy { it.navn }.map { (navn, group) -> // slå sammen alle hjelpemidler som har samme navn, og deres deler
+                    TilgjengeligHjelpemiddel(
+                        navn = navn,
+                        delerNavn = group.flatMap { it.delerNavn }.distinct()
+                    )
+                }
+
+
+        // TODO: legg til deler fra manuell liste
+        return TilgjengeligeHjelpemidlerResponse(tilgjengeligeHjelpemidlerMedDeler)
+
     }
 
     fun startBakgrunnsjobb() {

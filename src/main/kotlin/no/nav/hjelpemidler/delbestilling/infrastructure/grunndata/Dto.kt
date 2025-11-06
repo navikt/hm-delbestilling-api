@@ -59,6 +59,7 @@ data class Media(
 
 data class Attributes(
     val compatibleWith: CompatibleWith? = null,
+    val egnetForKommunalTekniker: Boolean? = null,
 )
 
 data class CompatibleWith(
