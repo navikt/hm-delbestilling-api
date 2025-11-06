@@ -39,7 +39,7 @@ class Rapportering(
     }
 
 
-    suspend fun rapporterAnmodningsBehov() {
+    private suspend fun rapporterAnmodningsBehov() {
         if (erHelg()) {
             log.info { "Hopper over rapportering av anmodningsbehov fordi det er helg." }
             return
@@ -57,7 +57,7 @@ private fun erHelg(): Boolean {
 }
 
 /**
- * Beregner delay frem til førstkommende kl 01:00
+ * Beregner delay frem til førstkommende tidspunkt kl 01:00
  */
 private fun initialDelay(): Long {
     val nå = LocalDateTime.now()
