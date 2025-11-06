@@ -1,13 +1,9 @@
 package no.nav.hjelpemidler.delbestilling
 
-import io.github.oshai.kotlinlogging.KotlinLogging
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.cancel
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.isActive
-import kotlinx.coroutines.launch
 import no.nav.hjelpemidler.delbestilling.config.DatabaseConfig
 import no.nav.hjelpemidler.delbestilling.delbestilling.DelbestillingService
 import no.nav.hjelpemidler.delbestilling.delbestilling.anmodning.AnmodningService
@@ -44,13 +40,16 @@ import no.nav.hjelpemidler.delbestilling.oppslag.PiloterService
 import no.nav.hjelpemidler.delbestilling.ordrestatus.DelbestillingStatusService
 import no.nav.hjelpemidler.http.openid.entraIDClient
 import no.nav.tms.token.support.tokendings.exchange.TokendingsServiceBuilder
+import java.util.concurrent.Executors
+import java.util.concurrent.TimeUnit
 import kotlin.time.Duration.Companion.seconds
 
 
 class AppContext {
 
-    // Coroutine
+    // Coroutine og scheduling
     private val backgroundScope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
+    private val scheduler = Executors.newSingleThreadScheduledExecutor()
 
     // Database
     private val ds = DatabaseConfig.migratedDataSource
@@ -100,24 +99,18 @@ class AppContext {
         berikMedDagerSidenForrigeBatteribestilling,
     )
     val delbestillingStatusService = DelbestillingStatusService(transactional, oebs, metrics, slack)
-
-    fun shutdown() = backgroundScope.cancel("Shutting down application")
+    val rapportering = Rapportering(delbestillingService, erLeder, devtools())
 
     fun applicationStarted() {
         hjelpemiddeloversikt.startBakgrunnsjobb()
+        rapportering.startBakgrunnsjobb(scheduler)
+    }
 
-        backgroundScope.launch {
-            while (isActive) {
-                log.info { "Tester leader election." }
-                val resultat = erLeder()
-                log.info { "erLeder=$resultat" }
-                delay(20.seconds)
-            }
-        }
+    fun shutdown() {
+        backgroundScope.cancel("Shutting down application")
+        scheduler.awaitTermination(10, TimeUnit.SECONDS)
     }
 
     fun devtools() = DevTools(transactional, oebs, pdl, finnDelerTilHjelpemiddel, email)
 
 }
-
-private val log = KotlinLogging.logger { }
