@@ -10,6 +10,7 @@ import kotlinx.coroutines.future.future
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 import no.nav.hjelpemidler.cache.refreshAfterWrite
+import no.nav.hjelpemidler.delbestilling.common.Hmsnr
 import no.nav.hjelpemidler.delbestilling.oppslag.legacy.data.hmsnrTilHjelpemiddelnavn
 import no.nav.hjelpemidler.delbestilling.infrastructure.grunndata.Grunndata
 import no.nav.hjelpemidler.delbestilling.infrastructure.grunndata.Produkt
@@ -56,7 +57,7 @@ class Hjelpemiddeloversikt(
     }
 
     // TODO: caching
-    suspend fun hentTilgjengeligeHjelpemidler(): TilgjengeligeHjelpemidlerResponse {
+    suspend fun hentTilgjengeligeHjelpemidler(): Map<String, List<Hmsnr>> {
         val alleDelerSomKanBestilles = grunndata.hentAlleDelerSomKanBestilles()
         val produktIDs = alleDelerSomKanBestilles.map {
             it.attributes.compatibleWith?.productIds ?: emptyList()
@@ -69,13 +70,35 @@ class Hjelpemiddeloversikt(
         val alleHjelpemidlerSomHarDeler =
             grunndata.hentAlleHjmMedIdEllerSeriesId(seriesIds = serieIDs, produktIds = produktIDs)
 
+        // Lag en map over tittel og alle hmsnrs som har den tittelen i grunndata
+        val grunndataHjelpemidler = alleHjelpemidlerSomHarDeler
+            .groupBy { it.title.trim() }
+            .mapValues { hm ->
+                hm.value.map {
+                    it.hmsArtNr
+                }.distinct()
+            }
+
+        // Lag en map over tittel og alle hmsnrs som har den tittelen i manuell liste
+        val manuelleHjelpemidler = hjelpemidlerFraManuellListe()
+
+        // Kombiner dem samme
+        val kombinert = (grunndataHjelpemidler.keys + manuelleHjelpemidler.keys)
+            .associateWith { key ->
+                val fraGrunndata = grunndataHjelpemidler[key].orEmpty()
+                val fraManuelle = manuelleHjelpemidler[key].orEmpty()
+                (fraGrunndata + fraManuelle).distinct()
+            }
+
+        return kombinert
+
+        /*
         val tilgjengeligeHjelpemidlerMedDeler = alleHjelpemidlerSomHarDeler
             .map { hm ->
                 TilgjengeligHjelpemiddel(
                     navn = hm.title.trim(), // flere hjelpemidler deler title
                     delerNavn = alleDelerSomKanBestilles.filter { del ->
-                        del.attributes.egnetForKommunalTekniker == true &&
-                                del.attributes.compatibleWith?.productIds?.contains(hm.id) == true || del.attributes.compatibleWith?.seriesIds?.contains(
+                        del.attributes.compatibleWith?.productIds?.contains(hm.id) == true || del.attributes.compatibleWith?.seriesIds?.contains(
                             hm.seriesId
                         ) == true
                     }
@@ -94,6 +117,7 @@ class Hjelpemiddeloversikt(
             }
 
         return TilgjengeligeHjelpemidlerResponse(tilgjengeligeHjelpemidlerMedDeler)
+         */
     }
 
     fun startBakgrunnsjobb() {
@@ -114,6 +138,21 @@ class Hjelpemiddeloversikt(
         }
         log.info { "Bakgrunnsjobber for Hjelpemiddeloversikt startet." }
     }
+}
+
+private fun hjelpemidlerFraManuellListe(): Map<String, List<String>> {
+    val hjmNavnRegex = Regex("^(.*?)\\s(sb\\d+|K|L|Led|HD|sd\\d+|voksen).*$")
+
+    val hjelpemidler = hmsnrTilHjelpemiddelnavn.values
+        .groupBy { produkt ->
+            val match = hjmNavnRegex.find(produkt.navn)
+            match?.groups?.get(1)?.value?.trim() ?: produkt.navn
+        }
+        .mapValues { entry ->
+            entry.value.map { it.hmsnr }.distinct()
+        }
+
+    return hjelpemidler
 }
 
 private fun hjelpemiddelNavnFraManuellListe(): Set<String> {
