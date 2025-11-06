@@ -13,6 +13,7 @@ import java.time.LocalDateTime
 import java.util.concurrent.ScheduledExecutorService
 import java.util.concurrent.TimeUnit
 import kotlin.time.Duration.Companion.days
+import kotlin.time.Duration.Companion.minutes
 
 private val log = KotlinLogging.logger { }
 
@@ -25,14 +26,16 @@ class Rapportering(
     fun startBakgrunnsjobb(scheduler: ScheduledExecutorService) {
         scheduler.scheduleAtFixedRate({
             runBlocking {
+                log.info { "Starter rappoerteringsjobber..." }
                 if (!erLeder()) {
                     log.info { "Hopper over rapporteringsjobb fordi denne instansen ikke er leder." }
                     return@runBlocking
                 }
 
                 rapporterAnmodningsBehov()
+                log.info { "Rappoerteringsjobber fullført." }
             }
-        }, initialDelay(), 1.days.inWholeMilliseconds, TimeUnit.MILLISECONDS)
+        }, initialDelay(), 1.minutes.inWholeMilliseconds, TimeUnit.MILLISECONDS) // TODO 1.days før prodsetting
     }
 
 
@@ -67,7 +70,7 @@ private fun initialDelay(): Long {
 
     if (isDev()) {
         // TODO fjern denne når testing er ferdig
-        return Duration.between(nå, nå.plusSeconds(30)).toMillis()
+        return Duration.between(nå, nå.plusSeconds(60)).toMillis()
     }
 
     var startTidspunkt = nå.withHour(1).withMinute(0).withSecond(0).withNano(0)
