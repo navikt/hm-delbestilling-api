@@ -30,7 +30,7 @@ class Hjelpemiddeloversikt(
     private val cacheDuration: Duration = 2.hours
 ) {
 
-    // Deprecated. Skal fjernes erstattes med
+    // Deprecated. Skal fjernes erstattes med cacheKeyTilgjengeligeHjelpemidler
     private val cacheKey = "hjelpemidler"
 
     private val cache: AsyncLoadingCache<String, HjelpemiddeloversiktResponse> = Caffeine.newBuilder()
