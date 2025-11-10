@@ -18,13 +18,13 @@ class FinnDelerTilHjelpemiddel(
     private val metrics: Metrics,
 ) {
 
-    suspend operator fun invoke(hmsnr: Hmsnr, sendStatistikk: Boolean? = false): Hjelpemiddel {
+    suspend operator fun invoke(hmsnr: Hmsnr, sendStatistikk: Boolean = false): Hjelpemiddel {
         log.info { "Henter deler for hjelpemiddel $hmsnr" }
 
         val hjmManuellListe = hmsnr2Hjm[hmsnr]
         val hjmGrunndata = hentHjelpemiddelFraGrunndata(hmsnr)
 
-        if (sendStatistikk == true) {
+        if (sendStatistikk) {
             sendStatistikkOgVarsling(hjmGrunndata = hjmGrunndata, hjmManuellListe = hjmManuellListe)
         }
 
@@ -38,7 +38,7 @@ class FinnDelerTilHjelpemiddel(
             throw TilbyrIkkeHjelpemiddelException("Fant ingen deler i verken grunndata eller manuell liste for $hmsnr")
         }
 
-        if (sendStatistikk == true) {
+        if (sendStatistikk) {
             sjekkBatteri(hjelpemiddel.deler)
         }
 
