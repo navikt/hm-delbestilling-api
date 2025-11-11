@@ -129,7 +129,7 @@ internal class DelbestillingServiceTest {
         with(rapporter.first()) {
             assertEquals(0, anmodningsbehov.size, "Ingen anmodningsbehov for etterfylte deler.")
             assertEquals(1, delerSomIkkeLengerMåAnmodes.size)
-            assertTrue(emailClient.outbox.isEmpty(), "Det sk    al ikke ha blitt sendt mail")
+            assertTrue(emailClient.outbox.isEmpty(), "Det skal ikke ha blitt sendt mail")
         }
     }
 

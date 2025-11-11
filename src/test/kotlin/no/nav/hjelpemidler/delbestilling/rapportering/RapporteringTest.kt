@@ -31,7 +31,7 @@ class RapporteringTest {
 
     @ParameterizedTest
     @MethodSource("dagerProvider")
-    fun `skal sende rapport om anmodningsbehov på ukedager i løpet av uken`(timestamp: String, skalKjøreJobb: Boolean) =
+    fun `skal sende rapport om anmodningsbehov kun på ukedager`(timestamp: String, skalKjøreJobb: Boolean) =
         runWithTestContext(fixedClock(timestamp)) {
             gittDelbestillingUtenLagerdekning()
 
