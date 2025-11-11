@@ -1,24 +1,16 @@
 package no.nav.hjelpemidler.delbestilling.infrastructure.leaderElection
 
-import io.github.oshai.kotlinlogging.KotlinLogging
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
-import java.net.InetAddress
-
-private val log = KotlinLogging.logger { }
 
 class ErLeder(
-    private val elector: Elector
+    private val elector: Elector,
+    private val localHost: LocalHostnameProvider,
 ) {
 
     suspend operator fun invoke(): Boolean {
-        val leder = elector.hentLederHostname()
-        val hostname = withContext(Dispatchers.IO) {
-            InetAddress.getLocalHost()
-        }.hostName
+        val lederHostname = elector.hentLedersHostname()
+        val localHostname = localHost.hentHostnameOrNull() ?: return false
 
-        log.info { "leder=$leder, hostname=$hostname" }
-
-        return leder == hostname
+        return lederHostname.trim().equals(localHostname.trim(), ignoreCase = true)
     }
+
 }
