@@ -10,6 +10,12 @@ import no.nav.hjelpemidler.delbestilling.testdata.TestContext
 import no.nav.hjelpemidler.delbestilling.testdata.Testdata
 import java.time.LocalDateTime
 
+suspend fun TestContext.gittDelbestillingUtenLagerdekning(
+) {
+    lager.tømAlleDeler()
+    opprettDelbestilling()
+}
+
 suspend fun TestContext.hentDelerUtenDekning(
     enhet: Lager = Testdata.defaultEnhet,
 ): List<Del> {

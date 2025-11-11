@@ -92,7 +92,8 @@ class DevTools(
         tx.update(
             sql = """
                 UPDATE deler_uten_dekning
-                SET behandlet_tidspunkt = NULL 
+                SET behandlet_tidspunkt = NULL, 
+                    status='AVVENTER'
             """.trimIndent()
         )
     }

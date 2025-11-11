@@ -10,6 +10,8 @@ import no.nav.hjelpemidler.delbestilling.infrastructure.slack.Slack
 
 private val log = KotlinLogging.logger {}
 
+const val ANMODNINGSBEHOV_SUBJECT = "Deler som må anmodes"
+
 class AnmodningService(
     private val transaction: Transactional,
     private val oebs: Oebs,
@@ -104,7 +106,7 @@ class AnmodningService(
         val melding = rapport.tilMelding()
         email.sendSimpleMessage(
             recipentEmail = rapport.lager.epost(),
-            subject = "Deler som må anmodes",
+            subject = ANMODNINGSBEHOV_SUBJECT,
             bodyText = melding
         )
 

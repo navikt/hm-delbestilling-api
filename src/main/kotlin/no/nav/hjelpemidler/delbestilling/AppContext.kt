@@ -15,6 +15,9 @@ import no.nav.hjelpemidler.delbestilling.infrastructure.geografi.OppslagClient
 import no.nav.hjelpemidler.delbestilling.infrastructure.grunndata.Grunndata
 import no.nav.hjelpemidler.delbestilling.infrastructure.grunndata.GrunndataClient
 import no.nav.hjelpemidler.delbestilling.infrastructure.kafka.Kafka
+import no.nav.hjelpemidler.delbestilling.infrastructure.leaderElection.ElectorClient
+import no.nav.hjelpemidler.delbestilling.infrastructure.leaderElection.ErLeder
+import no.nav.hjelpemidler.delbestilling.infrastructure.leaderElection.LocalHost
 import no.nav.hjelpemidler.delbestilling.infrastructure.metrics.Metrics
 import no.nav.hjelpemidler.delbestilling.infrastructure.norg.Norg
 import no.nav.hjelpemidler.delbestilling.infrastructure.norg.NorgClient
@@ -36,15 +39,22 @@ import no.nav.hjelpemidler.delbestilling.oppslag.Hjelpemiddeloversikt
 import no.nav.hjelpemidler.delbestilling.oppslag.OppslagService
 import no.nav.hjelpemidler.delbestilling.oppslag.PiloterService
 import no.nav.hjelpemidler.delbestilling.ordrestatus.DelbestillingStatusService
+import no.nav.hjelpemidler.delbestilling.rapportering.Rapportering
 import no.nav.hjelpemidler.http.openid.entraIDClient
 import no.nav.tms.token.support.tokendings.exchange.TokendingsServiceBuilder
+import java.time.Clock
+import java.util.concurrent.Executors
+import java.util.concurrent.TimeUnit
 import kotlin.time.Duration.Companion.seconds
 
 
 class AppContext {
 
-    // Coroutine
+    val clock = Clock.systemDefaultZone()
+
+    // Coroutine og scheduling
     private val backgroundScope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
+    private val scheduler = Executors.newSingleThreadScheduledExecutor()
 
     // Database
     private val ds = DatabaseConfig.migratedDataSource
@@ -68,6 +78,7 @@ class AppContext {
     private val oebs = Oebs(OebsApiProxyClient(entraIDClient), OebsSinkClient(kafka), finnLagerenhet)
     private val pdl = Pdl(PdlClient(entraIDClient))
     private val rollerClient = RollerClient(TokendingsServiceBuilder.buildTokendingsService())
+    private val erLeder = ErLeder(ElectorClient(), LocalHost())
 
 
     // Eksponert for custom plugin
@@ -93,11 +104,16 @@ class AppContext {
         berikMedDagerSidenForrigeBatteribestilling,
     )
     val delbestillingStatusService = DelbestillingStatusService(transactional, oebs, metrics, slack)
-
-    fun shutdown() = backgroundScope.cancel("Shutting down application")
+    val rapportering = Rapportering(delbestillingService, erLeder, clock)
 
     fun applicationStarted() {
         hjelpemiddeloversikt.startBakgrunnsjobb()
+        rapportering.scheduleRapporteringsjobb(scheduler)
+    }
+
+    fun shutdown() {
+        backgroundScope.cancel("Shutting down application")
+        scheduler.awaitTermination(10, TimeUnit.SECONDS)
     }
 
     fun devtools() = DevTools(transactional, oebs, pdl, finnDelerTilHjelpemiddel, email)

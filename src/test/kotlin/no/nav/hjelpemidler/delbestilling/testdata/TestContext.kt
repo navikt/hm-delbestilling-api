@@ -4,8 +4,10 @@ import io.mockk.mockk
 import kotlinx.coroutines.test.runTest
 import no.nav.hjelpemidler.delbestilling.delbestilling.DelbestillingService
 import no.nav.hjelpemidler.delbestilling.delbestilling.anmodning.AnmodningService
+import no.nav.hjelpemidler.delbestilling.fakes.ElectorFake
 import no.nav.hjelpemidler.delbestilling.fakes.GraphClientFake
 import no.nav.hjelpemidler.delbestilling.fakes.GrunndataClientFake
+import no.nav.hjelpemidler.delbestilling.fakes.LocalHostFake
 import no.nav.hjelpemidler.delbestilling.fakes.NorgClientFake
 import no.nav.hjelpemidler.delbestilling.fakes.OebsApiProxyFake
 import no.nav.hjelpemidler.delbestilling.fakes.OebsSinkFake
@@ -14,6 +16,7 @@ import no.nav.hjelpemidler.delbestilling.fakes.PdlClientFake
 import no.nav.hjelpemidler.delbestilling.infrastructure.email.Email
 import no.nav.hjelpemidler.delbestilling.infrastructure.geografi.Kommuneoppslag
 import no.nav.hjelpemidler.delbestilling.infrastructure.grunndata.Grunndata
+import no.nav.hjelpemidler.delbestilling.infrastructure.leaderElection.ErLeder
 import no.nav.hjelpemidler.delbestilling.infrastructure.metrics.Metrics
 import no.nav.hjelpemidler.delbestilling.infrastructure.norg.Norg
 import no.nav.hjelpemidler.delbestilling.infrastructure.oebs.FinnLagerenhet
@@ -28,9 +31,13 @@ import no.nav.hjelpemidler.delbestilling.oppslag.FinnDelerTilHjelpemiddel
 import no.nav.hjelpemidler.delbestilling.oppslag.OppslagService
 import no.nav.hjelpemidler.delbestilling.oppslag.PiloterService
 import no.nav.hjelpemidler.delbestilling.ordrestatus.DelbestillingStatusService
+import no.nav.hjelpemidler.delbestilling.rapportering.Rapportering
+import java.time.Clock
 
 
-class TestContext {
+class TestContext(
+    clock: Clock,
+) {
     // Mocks
     val metrics = mockk<Metrics>(relaxed = true)
     val slack = mockk<Slack>(relaxed = true)
@@ -41,8 +48,13 @@ class TestContext {
     }
 
     // Email
-    val graphClient = GraphClientFake()
-    val email = Email(graphClient)
+    val emailClient = GraphClientFake()
+    val email = Email(emailClient)
+
+    // Leader election
+    val elector = ElectorFake()
+    val localHost = LocalHostFake()
+    val erLeder = ErLeder(elector, localHost)
 
     // Grunndata
     val grunndataClient = GrunndataClientFake()
@@ -88,11 +100,14 @@ class TestContext {
 
     // Status
     val delbestillingStatusService = DelbestillingStatusService(transaction, oebs, metrics, slack)
+
+    // Rapportering
+    val rapportering = Rapportering(delbestillingService, erLeder, clock)
 }
 
-fun runWithTestContext(block: suspend TestContext.() -> Unit) {
+fun runWithTestContext(clock: Clock = Clock.systemDefaultZone(), block: suspend TestContext.() -> Unit) {
     runTest {
-        with(TestContext()) {
+        with(TestContext(clock)) {
             block()
         }
     }
