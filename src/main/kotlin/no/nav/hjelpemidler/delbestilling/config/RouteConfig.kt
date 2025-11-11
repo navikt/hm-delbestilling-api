@@ -49,8 +49,8 @@ fun Application.configure() {
     install(IgnoreTrailingSlash)
 
     install(RateLimit) {
-        register(RateLimitName("public")) {
-            rateLimiter(limit = 10, refillPeriod = 60.seconds)
+        register(RateLimitName("rateLimitOppslag")) {
+            rateLimiter(limit = 60, refillPeriod = 60.seconds)
         }
     }
 
