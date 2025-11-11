@@ -4,6 +4,9 @@ import com.github.benmanes.caffeine.cache.AsyncLoadingCache
 import com.github.benmanes.caffeine.cache.Caffeine
 import io.github.oshai.kotlinlogging.KotlinLogging
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.async
+import kotlinx.coroutines.awaitAll
+import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.future.await
 import kotlinx.coroutines.future.future
@@ -107,13 +110,15 @@ class Hjelpemiddeloversikt(
         return sortert
     }
 
-    suspend fun hentDelerTilHmsnrs (hmsnrs: List<String>): List<String> {
-        val delerNavn = hmsnrs.flatMap {
-            val hm = finnDelerTilHjelpemiddel(it)
-            hm.deler.map { it.navn }
-        }.distinct().sorted()
+    suspend fun hentDelerTilHmsnrs (hmsnrs: List<String>): List<String> = coroutineScope {
+        val delerNavn = hmsnrs.map { hmsnr ->
+            async {
+                val hm = finnDelerTilHjelpemiddel(hmsnr)
+                hm.deler.map {del -> del.navn }
+            }
+        }.awaitAll().flatten().distinct().sorted()
 
-        return delerNavn
+        delerNavn
     }
 
     fun startBakgrunnsjobb() {
