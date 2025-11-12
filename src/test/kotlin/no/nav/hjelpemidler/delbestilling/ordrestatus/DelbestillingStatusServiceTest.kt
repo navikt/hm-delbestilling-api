@@ -12,7 +12,7 @@ import no.nav.hjelpemidler.delbestilling.testdata.fixtures.oppdaterDellinjeStatu
 import no.nav.hjelpemidler.delbestilling.testdata.fixtures.opprettDelbestilling
 import no.nav.hjelpemidler.delbestilling.testdata.fixtures.opprettDelbestillingMedDel
 import no.nav.hjelpemidler.delbestilling.testdata.fixtures.opprettDelbestillingMedDeler
-import no.nav.hjelpemidler.delbestilling.testdata.runWithTestContext
+import no.nav.hjelpemidler.delbestilling.runWithTestContext
 import no.nav.hjelpemidler.time.TIME_ZONE_EUROPE_OSLO
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertDoesNotThrow

@@ -2,7 +2,7 @@ package no.nav.hjelpemidler.delbestilling.testdata.fixtures
 
 import no.nav.hjelpemidler.delbestilling.common.DellinjeStatus
 import no.nav.hjelpemidler.delbestilling.common.Status
-import no.nav.hjelpemidler.delbestilling.testdata.TestContext
+import no.nav.hjelpemidler.delbestilling.TestContext
 import java.time.LocalDate
 
 suspend fun TestContext.annullerSak(saksnummer: Long) {

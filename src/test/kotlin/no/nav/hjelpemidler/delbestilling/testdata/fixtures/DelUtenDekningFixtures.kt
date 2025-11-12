@@ -6,7 +6,7 @@ import no.nav.hjelpemidler.delbestilling.common.Lager
 import no.nav.hjelpemidler.delbestilling.delbestilling.anmodning.Del
 import no.nav.hjelpemidler.delbestilling.delbestilling.anmodning.DelUtenDekningDao
 import no.nav.hjelpemidler.delbestilling.delbestilling.anmodning.DelUtenDekningStatus
-import no.nav.hjelpemidler.delbestilling.testdata.TestContext
+import no.nav.hjelpemidler.delbestilling.TestContext
 import no.nav.hjelpemidler.delbestilling.testdata.Testdata
 import java.time.LocalDateTime
 

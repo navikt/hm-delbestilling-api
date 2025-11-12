@@ -6,7 +6,7 @@ import no.nav.hjelpemidler.delbestilling.delbestilling.BestillerType
 import no.nav.hjelpemidler.delbestilling.delbestilling.DelbestillingRequest
 import no.nav.hjelpemidler.delbestilling.delbestilling.DelbestillingResultat
 import no.nav.hjelpemidler.delbestilling.infrastructure.roller.Delbestiller
-import no.nav.hjelpemidler.delbestilling.testdata.TestContext
+import no.nav.hjelpemidler.delbestilling.TestContext
 import no.nav.hjelpemidler.delbestilling.testdata.Testdata
 import no.nav.hjelpemidler.delbestilling.testdata.delLinje
 import no.nav.hjelpemidler.delbestilling.testdata.delbestillerRolle

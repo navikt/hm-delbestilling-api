@@ -2,7 +2,7 @@ package no.nav.hjelpemidler.delbestilling.infrastructure.oebs
 
 import no.nav.hjelpemidler.delbestilling.common.Lager
 import no.nav.hjelpemidler.delbestilling.fakes.NorgResponse
-import no.nav.hjelpemidler.delbestilling.testdata.runWithTestContext
+import no.nav.hjelpemidler.delbestilling.runWithTestContext
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 

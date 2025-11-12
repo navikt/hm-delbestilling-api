@@ -10,7 +10,7 @@ import no.nav.hjelpemidler.delbestilling.testdata.fixtures.hentDelbestillinger
 import no.nav.hjelpemidler.delbestilling.testdata.fixtures.hentDelerUtenDekning
 import no.nav.hjelpemidler.delbestilling.testdata.fixtures.opprettDelbestilling
 import no.nav.hjelpemidler.delbestilling.testdata.fixtures.opprettDelbestillingMedDel
-import no.nav.hjelpemidler.delbestilling.testdata.runWithTestContext
+import no.nav.hjelpemidler.delbestilling.runWithTestContext
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 import kotlin.test.assertEquals

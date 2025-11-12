@@ -3,7 +3,7 @@ package no.nav.hjelpemidler.delbestilling.oppslag
 import no.nav.hjelpemidler.delbestilling.common.Lager
 import no.nav.hjelpemidler.delbestilling.fakes.NorgResponse
 import no.nav.hjelpemidler.delbestilling.testdata.Testdata
-import no.nav.hjelpemidler.delbestilling.testdata.runWithTestContext
+import no.nav.hjelpemidler.delbestilling.runWithTestContext
 import kotlin.test.Test
 import kotlin.test.assertEquals
 

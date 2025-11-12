@@ -1,4 +1,4 @@
-package no.nav.hjelpemidler.delbestilling.testdata
+package no.nav.hjelpemidler.delbestilling
 
 import io.mockk.mockk
 import kotlinx.coroutines.test.runTest
@@ -31,8 +31,12 @@ import no.nav.hjelpemidler.delbestilling.oppslag.FinnDelerTilHjelpemiddel
 import no.nav.hjelpemidler.delbestilling.oppslag.OppslagService
 import no.nav.hjelpemidler.delbestilling.oppslag.PiloterService
 import no.nav.hjelpemidler.delbestilling.ordrestatus.DelbestillingStatusService
+import no.nav.hjelpemidler.delbestilling.rapportering.JobbScheduler
 import no.nav.hjelpemidler.delbestilling.rapportering.Rapportering
+import no.nav.hjelpemidler.delbestilling.testdata.FakeOebsLager
+import no.nav.hjelpemidler.delbestilling.testdata.TestDatabase
 import java.time.Clock
+import java.util.concurrent.ScheduledExecutorService
 
 
 class TestContext(
@@ -41,6 +45,7 @@ class TestContext(
     // Mocks
     val metrics = mockk<Metrics>(relaxed = true)
     val slack = mockk<Slack>(relaxed = true)
+    val scheduler = mockk<ScheduledExecutorService>()
 
     // Database
     val transaction by lazy {
@@ -102,7 +107,8 @@ class TestContext(
     val delbestillingStatusService = DelbestillingStatusService(transaction, oebs, metrics, slack)
 
     // Rapportering
-    val rapportering = Rapportering(delbestillingService, erLeder, clock)
+    val jobbScheduler = JobbScheduler(scheduler, erLeder, clock)
+    val rapportering = Rapportering(jobbScheduler, delbestillingService)
 }
 
 fun runWithTestContext(clock: Clock = Clock.systemDefaultZone(), block: suspend TestContext.() -> Unit) {
