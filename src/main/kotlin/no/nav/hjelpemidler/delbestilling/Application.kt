@@ -32,10 +32,7 @@ import no.nav.tms.token.support.tokenx.validation.TokenXAuthenticator
 private val log = KotlinLogging.logger {}
 
 fun main() {
-    when (System.getenv("CRONJOB_TYPE")) {
-        "RAPPORTER_DELER_TIL_ANMODNING" -> rapporterDelerTilAnmodning()
-        else -> embeddedServer(CIO, port = 8080, module = Application::module).start(wait = true)
-    }
+    embeddedServer(CIO, port = 8080, module = Application::module).start(wait = true)
 }
 
 fun Application.module() {
@@ -54,26 +51,6 @@ fun Application.module() {
 
     monitor.subscribe(ApplicationStopped) {
         ctx.shutdown()
-    }
-}
-
-fun rapporterDelerTilAnmodning() {
-    val ctx = JobContext()
-    val DELBESTILLING_API_URL by EnvironmentVariable
-    val DELBESTILLING_API_SCOPE by EnvironmentVariable
-
-    log.info { "Kjører jobb for å rapportere deler til anmodning" }
-
-    runBlocking {
-        if (isDev()) {
-            log.info { "Resetter deler som er behandlet i dev" }
-            ctx.client.delete("${DELBESTILLING_API_URL}/api/rapporter-deler-uten-dekning")
-        }
-
-        val tokenSet = ctx.azureClient.grant(DELBESTILLING_API_SCOPE)
-        ctx.client.post("${DELBESTILLING_API_URL}/api/anmodning/rapporter-deler-til-anmodning") {
-            bearerAuth(tokenSet)
-        }
     }
 }
 

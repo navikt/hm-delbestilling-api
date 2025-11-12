@@ -37,12 +37,12 @@ spec:
     autoInstrumentation:
       enabled: true
       runtime: java
+  leaderElection: true
   accessPolicy:
     inbound:
       rules:
         - application: hm-delbestilling
         - application: hm-soknadsbehandling
-        - application: hm-delbestilling-api-rapporter-deler-til-anmodning
     outbound:
       rules:
         - application: hm-oebs-api-proxy
