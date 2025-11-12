@@ -8,8 +8,7 @@ on:
       - "CODEOWNERS"
     branches:
       - main
-      - refactor-ratelimiting
-      - deler-til-hjelpemiddel
+      - leder-election-test
 
 jobs:
   build:

@@ -22,7 +22,7 @@ class Rapportering(
             runBlocking {
                 kjørRapporteringsjobb()
             }
-        }, delayTilKl01(clock), ETT_DØGN, TimeUnit.MILLISECONDS)
+        }, delayTilKl09(clock), ETT_DØGN, TimeUnit.MILLISECONDS)
     }
 
     suspend fun kjørRapporteringsjobb() {

@@ -14,10 +14,10 @@ fun erHelg(clock: Clock): Boolean {
     return iDag == DayOfWeek.SATURDAY || iDag == DayOfWeek.SUNDAY
 }
 
-fun delayTilKl01(clock: Clock): Long {
+fun delayTilKl09(clock: Clock): Long {
     val nå = LocalDateTime.now(clock)
 
-    var startTidspunkt = nå.withHour(1).withMinute(0).withSecond(0).withNano(0)
+    var startTidspunkt = nå.withHour(9).withMinute(0).withSecond(0).withNano(0)
     if (startTidspunkt <= nå) {
         startTidspunkt = startTidspunkt.plusDays(1)
     }
