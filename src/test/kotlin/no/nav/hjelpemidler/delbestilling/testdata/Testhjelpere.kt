@@ -60,13 +60,19 @@ fun delbestillingMedBatteri() = delbestilling(
 
 fun deler() = listOf(
     delLinje(),
-    delLinje(hmsnr = "278247", kategori = "Slange"),
+    delLinje(hmsnr = "278247", navn = "Slange 26\" mrs", kategori = "Slange"),
 )
 
-fun delLinje(antall: Int = 1, hmsnr: String = "150817", kategori: String = "Dekk", lagerstatus: Lagerstatus? = null) =
+fun delLinje(
+    antall: Int = 1,
+    hmsnr: String = "150817",
+    navn: String = "Dekk 24\" mrs Schwalbe",
+    kategori: String = "Dekk",
+    lagerstatus: Lagerstatus? = null,
+) =
     DelLinje(
         Del(
-            navn = "del",
+            navn = navn,
             hmsnr = hmsnr,
             levArtNr = "1000038",
             imgs = emptyList(),

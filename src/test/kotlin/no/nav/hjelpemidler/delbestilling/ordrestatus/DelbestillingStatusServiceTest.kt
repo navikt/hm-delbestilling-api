@@ -120,7 +120,7 @@ class DelbestillingStatusServiceTest {
 
     @Test
     fun `skal annullere deler_uten_dekning for relevant sak`() = runWithTestContext {
-        lager.tømAlleDeler()
+        oebslager.tømLager()
         val hmsnr = Testdata.defaultDelHmsnr
 
         opprettDelbestillingMedDel(hmsnr, antall = 2)
@@ -135,7 +135,7 @@ class DelbestillingStatusServiceTest {
 
     @Test
     fun `skal ikke annullere sak som er ferdig anmodet`() = runWithTestContext {
-        lager.tømAlleDeler()
+        oebslager.tømLager()
         val hmsnr = Testdata.defaultDelHmsnr
 
         val saksnummer = opprettDelbestillingMedDel(hmsnr, antall = 3).saksnummer!!

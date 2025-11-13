@@ -7,6 +7,7 @@ import kotlinx.coroutines.cancel
 import no.nav.hjelpemidler.delbestilling.config.DatabaseConfig
 import no.nav.hjelpemidler.delbestilling.delbestilling.DelbestillingService
 import no.nav.hjelpemidler.delbestilling.delbestilling.anmodning.AnmodningService
+import no.nav.hjelpemidler.delbestilling.rapportering.`MånedsrapportAnmodningsbehov`
 import no.nav.hjelpemidler.delbestilling.devtools.DevTools
 import no.nav.hjelpemidler.delbestilling.infrastructure.email.Email
 import no.nav.hjelpemidler.delbestilling.infrastructure.email.GraphClient
@@ -61,7 +62,7 @@ class AppContext {
 
     // Database
     private val ds = DatabaseConfig.migratedDataSource
-    private val transactionScopeFactory = TransactionScopeFactory()
+    private val transactionScopeFactory = TransactionScopeFactory(clock)
     private val transactional = Transaction(ds, transactionScopeFactory)
 
     // Infrastructure
@@ -106,7 +107,10 @@ class AppContext {
         berikMedDagerSidenForrigeBatteribestilling,
     )
     val delbestillingStatusService = DelbestillingStatusService(transactional, oebs, metrics, slack)
-    val rapportering = Rapportering(jobbScheduler, delbestillingService)
+
+    // Rapportering
+    val månedsrapportAnmodningsbehov = MånedsrapportAnmodningsbehov(transactional, clock, email)
+    val rapportering = Rapportering(jobbScheduler, delbestillingService, månedsrapportAnmodningsbehov)
 
     fun applicationStarted() {
         hjelpemiddeloversikt.startBakgrunnsjobb()

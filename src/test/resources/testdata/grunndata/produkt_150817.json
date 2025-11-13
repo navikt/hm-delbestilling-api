@@ -1,0 +1,75 @@
+{
+  "hits" : {
+    "hits" : [ {
+      "_source" : {
+        "id" : "1c943380-3af8-4b16-a00e-11543678d1a3",
+        "title" : "Dekk 24\" mrs Schwalbe Marathon Plus 24x1 Panthera X/X3/U3 Light/S3/U3/S3 Swing/Bambino 3/S3 Junior/Bambino 3 Allround/S3 Junior Allround",
+        "articleName" : "Dekk 24\" mrs Schwalbe Marathon Plus 24x1 Panthera X/X3/U3 Light/S3/U3/S3 Swing/Bambino 3/S3 Junior/Bambino 3 Allround/S3 Junior Allround",
+        "seriesId" : "5e98b33f-c114-4d90-a5b6-c3f8f993e51b",
+        "hmsArtNr" : "150817",
+        "supplierRef" : "1000038",
+        "attributes" : {
+          "compatibleWith" : {
+            "seriesIds" : [ "70044ee0-7937-4f00-8396-a6ed5fe3ceeb", "de1d42ad-45fd-45ad-9d96-cba102dc1019", "0d5262a9-08ed-41cf-851c-3e55b2bac8ee", "8d40592a-b2c2-4f77-8337-2b191696c312", "15d63ebb-ef23-4a76-854c-f0037282b892", "cf0c8351-7294-43dd-bc7c-c4ed49c9104b", "d13128b0-3f55-49e8-9247-d160b02786f0", "c4db8f4f-5eac-4411-a7b5-9d83aa90d112" ],
+            "productIds" : [ ]
+          }
+        },
+        "isoCategory" : "122293",
+        "supplier" : {
+          "name" : "Panthera Norge AS",
+          "id" : "ddd7af49-1a47-4f72-b254-b9a7aca5c3e0"
+        },
+        "media" : [ ],
+        "accessory" : false,
+        "sparePart" : true,
+        "main" : false
+      }
+    } ]
+  },
+  "produkter" : [ {
+    "id" : "1c943380-3af8-4b16-a00e-11543678d1a3",
+    "title" : "Dekk 24\" mrs Schwalbe Marathon Plus 24x1 Panthera X/X3/U3 Light/S3/U3/S3 Swing/Bambino 3/S3 Junior/Bambino 3 Allround/S3 Junior Allround",
+    "articleName" : "Dekk 24\" mrs Schwalbe Marathon Plus 24x1 Panthera X/X3/U3 Light/S3/U3/S3 Swing/Bambino 3/S3 Junior/Bambino 3 Allround/S3 Junior Allround",
+    "seriesId" : "5e98b33f-c114-4d90-a5b6-c3f8f993e51b",
+    "hmsArtNr" : "150817",
+    "supplierRef" : "1000038",
+    "attributes" : {
+      "compatibleWith" : {
+        "seriesIds" : [ "70044ee0-7937-4f00-8396-a6ed5fe3ceeb", "de1d42ad-45fd-45ad-9d96-cba102dc1019", "0d5262a9-08ed-41cf-851c-3e55b2bac8ee", "8d40592a-b2c2-4f77-8337-2b191696c312", "15d63ebb-ef23-4a76-854c-f0037282b892", "cf0c8351-7294-43dd-bc7c-c4ed49c9104b", "d13128b0-3f55-49e8-9247-d160b02786f0", "c4db8f4f-5eac-4411-a7b5-9d83aa90d112" ],
+        "productIds" : [ ]
+      }
+    },
+    "isoCategory" : "122293",
+    "supplier" : {
+      "name" : "Panthera Norge AS",
+      "id" : "ddd7af49-1a47-4f72-b254-b9a7aca5c3e0"
+    },
+    "media" : [ ],
+    "accessory" : false,
+    "sparePart" : true,
+    "main" : false
+  } ],
+  "produkt" : {
+    "id" : "1c943380-3af8-4b16-a00e-11543678d1a3",
+    "title" : "Dekk 24\" mrs Schwalbe Marathon Plus 24x1 Panthera X/X3/U3 Light/S3/U3/S3 Swing/Bambino 3/S3 Junior/Bambino 3 Allround/S3 Junior Allround",
+    "articleName" : "Dekk 24\" mrs Schwalbe Marathon Plus 24x1 Panthera X/X3/U3 Light/S3/U3/S3 Swing/Bambino 3/S3 Junior/Bambino 3 Allround/S3 Junior Allround",
+    "seriesId" : "5e98b33f-c114-4d90-a5b6-c3f8f993e51b",
+    "hmsArtNr" : "150817",
+    "supplierRef" : "1000038",
+    "attributes" : {
+      "compatibleWith" : {
+        "seriesIds" : [ "70044ee0-7937-4f00-8396-a6ed5fe3ceeb", "de1d42ad-45fd-45ad-9d96-cba102dc1019", "0d5262a9-08ed-41cf-851c-3e55b2bac8ee", "8d40592a-b2c2-4f77-8337-2b191696c312", "15d63ebb-ef23-4a76-854c-f0037282b892", "cf0c8351-7294-43dd-bc7c-c4ed49c9104b", "d13128b0-3f55-49e8-9247-d160b02786f0", "c4db8f4f-5eac-4411-a7b5-9d83aa90d112" ],
+        "productIds" : [ ]
+      }
+    },
+    "isoCategory" : "122293",
+    "supplier" : {
+      "name" : "Panthera Norge AS",
+      "id" : "ddd7af49-1a47-4f72-b254-b9a7aca5c3e0"
+    },
+    "media" : [ ],
+    "accessory" : false,
+    "sparePart" : true,
+    "main" : false
+  }
+}

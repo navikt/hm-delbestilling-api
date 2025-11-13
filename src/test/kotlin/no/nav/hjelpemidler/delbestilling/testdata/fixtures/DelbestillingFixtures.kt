@@ -15,6 +15,8 @@ import no.nav.hjelpemidler.delbestilling.testdata.delbestillingRequest
 import no.nav.hjelpemidler.delbestilling.testdata.organisasjon
 import java.time.LocalDateTime
 
+// TODO: Kan vi skrive om dette slik at det oppretter delbestillingen på den vanlige måten (via delbestillingservice)
+// Bedre å benytte den ekte koden i tester. Kan kanskje bruke java.time.Clock for å opprette delbestillinger i fortid.
 suspend fun TestContext.gittDelbestilling(
     delbestilling: Delbestilling = delbestilling(),
     dagerSidenOpprettelse: Long? = null

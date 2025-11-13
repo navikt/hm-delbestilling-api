@@ -18,8 +18,8 @@ private val log = KotlinLogging.logger { }
 class GraphClient(
     private val openIDClient: OpenIDClient,
     private val client: HttpClient = defaultHttpClient(),
-    private val baseUrl: String = "https://graph.microsoft.com/v1.0", //AppConfig.OEBS_API_URL,
-    private val scope: String = "https://graph.microsoft.com/.default", //AppConfig.OEBS_API_SCOPE,
+    private val baseUrl: String = "https://graph.microsoft.com/v1.0",
+    private val scope: String = "https://graph.microsoft.com/.default",
     private val avsender: String = AppConfig.EPOST_AVSENDER
 ) : GraphClientInterface {
 

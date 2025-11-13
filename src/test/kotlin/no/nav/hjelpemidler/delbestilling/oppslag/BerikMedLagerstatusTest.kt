@@ -13,7 +13,7 @@ class BerikMedLagerstatusTest {
     @Test
     fun `skal berike alle deler med lagerstatus`() = runWithTestContext {
         val deler = listOf(del("111111"), del("222222"), del("333333"))
-        deler.forEach { lager.set(it.hmsnr, antall = 3) }
+        deler.forEach { oebslager.set(it.hmsnr, antall = 3) }
 
         val beriket = berikMedLagerstatus(hjelpemiddel(deler), Testdata.defaultKommunenummer)
 
@@ -24,7 +24,7 @@ class BerikMedLagerstatusTest {
     @Test
     fun `skal berike lagerstatus med riktige antall og minmax-verdi`() = runWithTestContext {
         val del = del("111111")
-        lager.set(del.hmsnr, antall = 4, minmax = false)
+        oebslager.set(del.hmsnr, antall = 4, minmax = false)
 
         val beriket = berikMedLagerstatus(hjelpemiddel(listOf(del)), Testdata.defaultKommunenummer)
 
@@ -36,7 +36,7 @@ class BerikMedLagerstatusTest {
     @Test
     fun `skal feile dersom lagerstatus mangler`() = runWithTestContext {
         val del = del("111111")
-        lager.setNull(del.hmsnr)
+        oebslager.setNull(del.hmsnr)
 
         val exception = runCatching {
             berikMedLagerstatus(hjelpemiddel(listOf(del)), Testdata.defaultKommunenummer)
