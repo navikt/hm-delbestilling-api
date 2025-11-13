@@ -44,6 +44,11 @@ fun kl0120FørsteDagINesteMåned(clock: Clock): LocalDateTime {
     return starttidspunkt
 }
 
+fun om10Minutter(clock: Clock): LocalDateTime {
+    check(!isProd()) { "Ikke kjør rapportering hvert 10. minutt i prod! Bytt til riktig intervall." }
+    return  LocalDateTime.now(clock).plusMinutes(10)
+}
+
 private fun erHelg(dato: LocalDate): Boolean {
     val dag = dato.dayOfWeek
     return dag == DayOfWeek.SATURDAY || dag == DayOfWeek.SUNDAY

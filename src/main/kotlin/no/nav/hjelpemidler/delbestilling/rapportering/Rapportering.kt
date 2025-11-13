@@ -21,7 +21,7 @@ class Rapportering(
         jobbScheduler.schedulerGjentagendeJobb(
             navn = "månedlig_anmodningsoppsummering",
             jobb = { rapporterMånedligAnmodningsoppsummering() },
-            beregnNesteKjøring = { clock -> kl0120FørsteDagINesteMåned(clock) }
+            beregnNesteKjøring = { clock -> om10Minutter(clock) }
         )
     }
 

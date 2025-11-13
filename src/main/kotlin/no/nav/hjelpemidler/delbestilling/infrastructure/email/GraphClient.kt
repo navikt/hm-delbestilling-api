@@ -23,11 +23,11 @@ class GraphClient(
     private val avsender: String = AppConfig.EPOST_AVSENDER
 ) : GraphClientInterface {
 
-    override suspend fun sendEmail(recipentEmail: String, subject: String, bodyText: String) {
+    override suspend fun sendEmail(recipentEmail: String, subject: String, bodyText: String, contentType: ContentType) {
         val body = SendMailRequest(
             message = Message(
                 subject = subject,
-                body = ItemBody(ContentType.TEXT, bodyText),
+                body = ItemBody(contentType, bodyText),
                 toRecipients = listOf(Recipient(EmailAddress(recipentEmail)))
             ),
             saveToSentItems = true,
@@ -43,7 +43,7 @@ class GraphClient(
                 }
             }
         } catch (t: Throwable) {
-            log.error(t) { "Sending av epost feilet for epost: to=$recipentEmail, subject=$subject, content=$bodyText" }
+            log.error(t) { "Sending av epost feilet for epost: to=$recipentEmail, subject=$subject, content=$bodyText, contentType=$contentType" }
             throw t
         }
     }

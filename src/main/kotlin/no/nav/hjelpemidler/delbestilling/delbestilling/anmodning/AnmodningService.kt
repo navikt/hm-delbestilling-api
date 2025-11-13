@@ -2,6 +2,7 @@ package no.nav.hjelpemidler.delbestilling.delbestilling.anmodning
 
 import io.github.oshai.kotlinlogging.KotlinLogging
 import no.nav.hjelpemidler.delbestilling.common.DelbestillingSak
+import no.nav.hjelpemidler.delbestilling.infrastructure.email.ContentType
 import no.nav.hjelpemidler.delbestilling.infrastructure.email.Email
 import no.nav.hjelpemidler.delbestilling.infrastructure.grunndata.Grunndata
 import no.nav.hjelpemidler.delbestilling.infrastructure.oebs.Oebs
@@ -104,10 +105,11 @@ class AnmodningService(
 
     suspend fun sendAnmodningRapport(rapport: Anmodningrapport): String {
         val melding = rapport.tilMelding()
-        email.sendSimpleMessage(
+        email.send(
             recipentEmail = rapport.lager.epost(),
             subject = ANMODNINGSBEHOV_SUBJECT,
-            bodyText = melding
+            bodyText = melding,
+            contentType = ContentType.TEXT
         )
 
         return melding

@@ -4,6 +4,8 @@ import io.github.oshai.kotlinlogging.KotlinLogging
 import no.nav.hjelpemidler.delbestilling.common.Hmsnr
 import no.nav.hjelpemidler.delbestilling.common.Lager
 import no.nav.hjelpemidler.delbestilling.config.isDev
+import no.nav.hjelpemidler.delbestilling.config.isProd
+import no.nav.hjelpemidler.delbestilling.infrastructure.email.ContentType
 import no.nav.hjelpemidler.delbestilling.infrastructure.email.Email
 import no.nav.hjelpemidler.delbestilling.infrastructure.persistence.transaction.Transaction
 import java.time.YearMonth
@@ -20,7 +22,12 @@ class MånedsrapportAnmodningsbehov(
 ) {
 
     suspend fun sendRapporterForForrigeMåned() {
-        val forrigeMåned = YearMonth.now(clock).minusMonths(1)
+        val forrigeMåned = if(isDev()) {
+            // TODO fjern denne. Kun for midlertidig testing i dev
+            YearMonth.now(clock)
+        } else {
+            YearMonth.now(clock).minusMonths(1)
+        }
         Lager.entries.forEach { lager ->
             sendRapport(lager, forrigeMåned)
         }
@@ -38,7 +45,10 @@ class MånedsrapportAnmodningsbehov(
         val rapportTekst = fyllUtRapport(grunnlag)
 
         log.info { "Månedsrapport for $lager i $måned: $rapportTekst" }
-        email.sendSimpleMessage(lager.epost(), MÅNEDSRAPPORT_ANMODNINGER_SUBJECT, rapportTekst)
+        if (!isProd()) {
+            // TODO Skru på utsending i prod når alt er klart
+            email.send(lager.epost(), MÅNEDSRAPPORT_ANMODNINGER_SUBJECT, rapportTekst, ContentType.HTML)
+        }
     }
 
     suspend fun hentGrunnlag(lager: Lager, måned: YearMonth): Grunnlag {
@@ -62,24 +72,67 @@ class MånedsrapportAnmodningsbehov(
     }
 
     fun fyllUtRapport(grunnlag: Grunnlag): String {
-
-        var tekst = """
-        Her er en oversikt over deler som er bestilt digitalt og måtte anmodes for
-        Hjelpemiddelsentral: ${grunnlag.lager.navn} (${grunnlag.lager.nummer})
-        Måned: ${grunnlag.måned}
-        
-        Hmsnr | Navn | Totalt antall anmodet | Leverandør
-        
-        """.trimIndent()
-
-        grunnlag.anmodninger
+        val anmodningRader = grunnlag.anmodninger
             .sortedByDescending { it.antall }
-            .forEach { anmodning ->
-                tekst += "$anmodning \n"
+            .map { anmodning ->
+                """
+                    <tr>
+                        <td>${anmodning.hmsnr}</td>
+                        <td>${anmodning.navn}</td>
+                        <td>${anmodning.antall}</td>
+                        <td>${anmodning.leverandør}</td>
+                    </tr>
+                """.trimIndent()
             }
 
+        val html = """
+            <!DOCTYPE html>
+            <html>
+            <head>
+                <meta charset="UTF-8">
+                <title>Email Title</title>
+                <style>
+                    table {
+                        width: 100%;
+                        border-collapse: collapse;
+                    }
+                    th, td {
+                        padding: 10px;
+                        border: 1px solid #ccc;
+                        text-align: left;
+                    }
+                    tr:nth-child(even) {
+                        background-color: #f2f2f2;
+                    }
+                </style>
+            </head>
+            <body>
+                <p>
+                    Her er en oversikt over deler som er bestilt digitalt og måtte anmodes for </br> 
+                    HMS lager: ${grunnlag.lager.navn} </br>
+                    Måned: ${grunnlag.måned}
+                </p>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Hmsnr</th>
+                            <th>Navn</th>
+                            <th>Antall</th>
+                            <th>Leverandør</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        $anmodningRader
+                    </tbody>
+                </table>
+            </body>
+            </html>
+        """.trimIndent()
 
-        return tekst
+
+
+
+        return html
     }
 }
 

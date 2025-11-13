@@ -9,10 +9,11 @@ class Email(
     val client: GraphClientInterface,
 ) {
 
-    suspend fun sendSimpleMessage(
+    suspend fun send(
         recipentEmail: String,
         subject: String,
         bodyText: String,
+        contentType: ContentType,
     ) {
         val effectiveSubject = if (isDev()) "[TEST] $subject" else subject
 
@@ -25,12 +26,19 @@ class Email(
         """.trimIndent()
         }
 
+        /*
         if (isDev()) {
             log.info { "Ignorerer utsending av epost i dev." }
             return
         }
+         */
 
-        client.sendEmail(recipentEmail = recipentEmail, subject = effectiveSubject, bodyText = bodyText)
-        log.info { "post til $recipentEmail sendt." }
+        client.sendEmail(
+            recipentEmail = recipentEmail,
+            subject = effectiveSubject,
+            bodyText = bodyText,
+            contentType = contentType
+        )
+        log.info { "E-post til $recipentEmail sendt." }
     }
 }
