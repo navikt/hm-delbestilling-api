@@ -90,7 +90,7 @@ class MånedsrapportAnmodningsbehov(
             <html>
             <head>
                 <meta charset="UTF-8">
-                <title>Email Title</title>
+                <title>$MÅNEDSRAPPORT_ANMODNINGER_SUBJECT</title>
                 <style>
                     table {
                         width: 100%;
