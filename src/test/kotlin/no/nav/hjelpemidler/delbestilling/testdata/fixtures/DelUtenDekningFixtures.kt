@@ -14,13 +14,6 @@ suspend fun TestContext.gittDelbestillingUtenLagerdekning(
 ) {
     oebslager.tømLager()
     opprettDelbestilling()
-    opprettDelbestillingMedDel("111111", 3)
-    opprettDelbestillingMedDel("222222", 3)
-    opprettDelbestillingMedDel("111111", 2)
-    opprettDelbestillingMedDel("333333", 27)
-    opprettDelbestillingMedDel("222222", 9)
-    opprettDelbestillingMedDel("444444", 120)
-    opprettDelbestillingMedDel("123456", 7)
 }
 
 suspend fun TestContext.hentDelerUtenDekning(
