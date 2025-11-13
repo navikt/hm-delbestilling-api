@@ -147,8 +147,4 @@ data class AggregertAnmodning(
     val hmsnr: Hmsnr,
     val navn: String,
     val leverandør: String,
-) {
-    override fun toString(): String {
-        return "$hmsnr | $navn | $antall | $leverandør"
-    }
-}
+)
