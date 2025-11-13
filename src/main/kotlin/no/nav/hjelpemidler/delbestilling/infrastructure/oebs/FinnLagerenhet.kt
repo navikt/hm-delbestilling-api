@@ -4,7 +4,6 @@ import io.github.oshai.kotlinlogging.KotlinLogging
 import no.nav.hjelpemidler.delbestilling.common.Lager
 import no.nav.hjelpemidler.delbestilling.infrastructure.norg.Norg
 import no.nav.hjelpemidler.delbestilling.infrastructure.slack.Slack
-import no.nav.hjelpemidler.domain.enhet.Enhetsnummer
 
 private val log = KotlinLogging.logger { }
 
@@ -17,9 +16,9 @@ class FinnLagerenhet(
     private val slack: Slack,
 ) {
     suspend operator fun invoke(kommunenummer: String): Lager {
-        val enhetsnummer = norg.hentEnhetnummer(kommunenummer)
+        val hmsEnhet = norg.hentEnhetnummer(kommunenummer)
         val lagerenhet = try {
-            when (enhetsnummer) {
+            when (hmsEnhet) {
 
                 /*
                 4702 = HMS Akershus, men når det gjelder lagerstatus så håndteres dette av Oslo.
@@ -43,25 +42,25 @@ class FinnLagerenhet(
                  */
                 ENHETSNUMMER_HMS_TRØNDELAG -> {
                     if (kommunenummer.tilhørerNordTrøndelagLager()) {
-                        log.info { "Enhetnr $enhetsnummer og kommunenummer $kommunenummer tilhører LAGER.NORD_TRØNDELAG" }
+                        log.info { "Enhetnr $hmsEnhet og kommunenummer $kommunenummer tilhører LAGER.NORD_TRØNDELAG" }
                         Lager.NORD_TRØNDELAG
                     } else {
-                        log.info { "Enhetnr $enhetsnummer og kommunenummer $kommunenummer tilhører LAGER.SØR_TRØNDELAG" }
+                        log.info { "Enhetnr $hmsEnhet og kommunenummer $kommunenummer tilhører LAGER.SØR_TRØNDELAG" }
                         Lager.SØR_TRØNDELAG
                     }
                 }
 
                 // TODO Sjekk om Agder må håndteres også
 
-                else -> Lager.fraLagernummer(enhetsnummer)
+                else -> Lager.fraLagernummer(hmsEnhet)
             }
         } catch (e: Exception) {
             log.error(e) { "Klarte ikke finne enhet for kommunenummer $kommunenummer" }
-            slack.varsleOmUkjentEnhet(kommunenummer, enhetsnummer)
+            slack.varsleOmUkjentEnhet(kommunenummer, hmsEnhet)
             throw e
         }
 
-        log.info { "Fant lagerenhet $lagerenhet for kommune $kommunenummer (enhetsnummer=$enhetsnummer)." }
+        log.info { "Fant lagerenhet $lagerenhet for kommune $kommunenummer (enhetsnummer=$hmsEnhet)." }
         return lagerenhet
     }
 }
