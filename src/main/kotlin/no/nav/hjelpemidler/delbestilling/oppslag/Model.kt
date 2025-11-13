@@ -13,6 +13,10 @@ data class HjelpemiddeloversiktResponse(
     val titler: Set<String>
 )
 
+data class DelerTilHmsnrsRequest (
+    val hmsnrs: List<Hmsnr>,
+)
+
 data class Hjelpemiddel(
     val navn: String,
     val hmsnr: String,

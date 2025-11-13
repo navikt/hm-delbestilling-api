@@ -92,7 +92,7 @@ class AppContext {
         BerikMedDagerSidenForrigeBatteribestilling(transactional)
 
     val anmodningService = AnmodningService(transactional, oebs, slack, email, grunndata)
-    val hjelpemiddeloversikt = Hjelpemiddeloversikt(grunndata, backgroundScope)
+    val hjelpemiddeloversikt = Hjelpemiddeloversikt(grunndata, finnDelerTilHjelpemiddel, backgroundScope)
     val delbestillingService =
         DelbestillingService(transactional, pdl, oebs, kommuneoppslag, metrics, slack, anmodningService)
     val oppslagService = OppslagService(
