@@ -16,12 +16,13 @@ class Rapportering(
         jobbScheduler.schedulerGjentagendeJobb(
             navn = "anmodningsbehov",
             jobb = { rapporterAnmodningsbehov() },
-            beregnNesteKjøring = { clock -> kl01NesteUkedag(clock) })
+            // TODO skru på igjen denne beregnNesteKjøring = { clock -> kl01NesteUkedag(clock) })
+            beregnNesteKjøring = { clock -> hvert10MinuttIDev(clock) })
 
         jobbScheduler.schedulerGjentagendeJobb(
             navn = "månedlig_anmodningsoppsummering",
             jobb = { rapporterMånedligAnmodningsoppsummering() },
-            // beregnNesteKjøring = { clock -> kl0120FørsteDagINesteMåned(clock) }
+            // TODO skru på igjen denne beregnNesteKjøring = { clock -> kl0120FørsteDagINesteMåned(clock) }
             beregnNesteKjøring = { clock -> hvert10MinuttIDev(clock) }
 
         )

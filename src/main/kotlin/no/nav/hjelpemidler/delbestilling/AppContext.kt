@@ -7,7 +7,6 @@ import kotlinx.coroutines.cancel
 import no.nav.hjelpemidler.delbestilling.config.DatabaseConfig
 import no.nav.hjelpemidler.delbestilling.delbestilling.DelbestillingService
 import no.nav.hjelpemidler.delbestilling.delbestilling.anmodning.AnmodningService
-import no.nav.hjelpemidler.delbestilling.rapportering.`MånedsrapportAnmodningsbehov`
 import no.nav.hjelpemidler.delbestilling.devtools.DevTools
 import no.nav.hjelpemidler.delbestilling.infrastructure.email.Email
 import no.nav.hjelpemidler.delbestilling.infrastructure.email.GraphClient
@@ -41,6 +40,7 @@ import no.nav.hjelpemidler.delbestilling.oppslag.OppslagService
 import no.nav.hjelpemidler.delbestilling.oppslag.PiloterService
 import no.nav.hjelpemidler.delbestilling.ordrestatus.DelbestillingStatusService
 import no.nav.hjelpemidler.delbestilling.rapportering.JobbScheduler
+import no.nav.hjelpemidler.delbestilling.rapportering.MånedsrapportAnmodningsbehov
 import no.nav.hjelpemidler.delbestilling.rapportering.Rapportering
 import no.nav.hjelpemidler.http.openid.entraIDClient
 import no.nav.tms.token.support.tokendings.exchange.TokendingsServiceBuilder

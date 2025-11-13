@@ -3,6 +3,7 @@ package no.nav.hjelpemidler.delbestilling.rapportering
 import io.github.oshai.kotlinlogging.KotlinLogging
 import no.nav.hjelpemidler.delbestilling.common.Hmsnr
 import no.nav.hjelpemidler.delbestilling.common.Lager
+import no.nav.hjelpemidler.delbestilling.config.isDev
 import no.nav.hjelpemidler.delbestilling.infrastructure.email.Email
 import no.nav.hjelpemidler.delbestilling.infrastructure.persistence.transaction.Transaction
 import java.time.YearMonth
@@ -19,7 +20,13 @@ class MånedsrapportAnmodningsbehov(
 ) {
 
     suspend fun sendRapporterForForrigeMåned() {
-        val forrigeMåned = YearMonth.now(clock).minusMonths(1)
+        val forrigeMåned =
+            if (isDev()) {
+                YearMonth.now(clock)
+            } else {
+                // TODO: skru på igjen denne!
+                YearMonth.now(clock).minusMonths(1)
+            }
         Lager.entries.forEach { lager ->
             sendRapport(lager, forrigeMåned)
         }
