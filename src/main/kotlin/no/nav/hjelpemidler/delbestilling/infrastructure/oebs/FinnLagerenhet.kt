@@ -60,7 +60,7 @@ class FinnLagerenhet(
             throw e
         }
 
-        log.info { "Fant lagerenhet $lagerenhet for kommune $kommunenummer (enhetsnummer=$hmsEnhet)." }
+        log.info { "Fant lagerenhet $lagerenhet for kommune $kommunenummer (hmsEnhet=$hmsEnhet)." }
         return lagerenhet
     }
 }
