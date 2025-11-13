@@ -22,12 +22,7 @@ class MånedsrapportAnmodningsbehov(
 ) {
 
     suspend fun sendRapporterForForrigeMåned() {
-        val forrigeMåned = if (isDev()) {
-            // TODO fjern denne. Kun for midlertidig testing i dev
-            YearMonth.now(clock)
-        } else {
-            YearMonth.now(clock).minusMonths(1)
-        }
+        val forrigeMåned = YearMonth.now(clock).minusMonths(1)
         Lager.entries.forEach { lager ->
             sendRapport(lager, forrigeMåned)
         }
@@ -100,9 +95,6 @@ class MånedsrapportAnmodningsbehov(
                         padding: 10px;
                         border: 1px solid #ccc;
                         text-align: left;
-                    }
-                    tr:nth-child(even) {
-                        background-color: #f2f2f2;
                     }
                 </style>
             </head>
