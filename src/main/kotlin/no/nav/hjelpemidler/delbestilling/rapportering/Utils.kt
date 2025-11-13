@@ -1,5 +1,7 @@
 package no.nav.hjelpemidler.delbestilling.rapportering
 
+import no.nav.hjelpemidler.delbestilling.config.isDev
+import no.nav.hjelpemidler.delbestilling.config.isProd
 import java.time.Clock
 import java.time.DayOfWeek
 import java.time.Duration
@@ -40,6 +42,11 @@ fun kl0120FørsteDagINesteMåned(clock: Clock): LocalDateTime {
     }
 
     return starttidspunkt
+}
+
+fun hvert10MinuttIDev(clock: Clock): LocalDateTime {
+    check(!isProd()) { "Kjøring hvert 10. minutt er kun ment for testing i dev!" }
+    return LocalDateTime.now(clock).plusMinutes(10)
 }
 
 private fun erHelg(dato: LocalDate): Boolean {

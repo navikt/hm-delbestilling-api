@@ -10,18 +10,20 @@ class Rapportering(
     private val jobbScheduler: JobbScheduler,
     private val delbestillingService: DelbestillingService,
     private val månedsrapportAnmodningsbehov: MånedsrapportAnmodningsbehov,
-    ) {
+) {
 
     fun schedulerRapporteringsjobber() {
         jobbScheduler.schedulerGjentagendeJobb(
-            "anmodningsbehov",
-            { rapporterAnmodningsbehov() },
-            { clock -> kl01NesteUkedag(clock) })
+            navn = "anmodningsbehov",
+            jobb = { rapporterAnmodningsbehov() },
+            beregnNesteKjøring = { clock -> kl01NesteUkedag(clock) })
 
         jobbScheduler.schedulerGjentagendeJobb(
-            "månedlig_anmodningsoppsummering",
-            { rapporterMånedligAnmodningsoppsummering() },
-            { clock -> kl0120FørsteDagINesteMåned(clock) }
+            navn = "månedlig_anmodningsoppsummering",
+            jobb = { rapporterMånedligAnmodningsoppsummering() },
+            // beregnNesteKjøring = { clock -> kl0120FørsteDagINesteMåned(clock) }
+            beregnNesteKjøring = { clock -> hvert10MinuttIDev(clock) }
+
         )
     }
 
