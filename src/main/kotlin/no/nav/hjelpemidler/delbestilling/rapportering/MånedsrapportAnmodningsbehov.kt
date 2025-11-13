@@ -22,7 +22,7 @@ class MånedsrapportAnmodningsbehov(
 ) {
 
     suspend fun sendRapporterForForrigeMåned() {
-        val forrigeMåned = if(isDev()) {
+        val forrigeMåned = if (isDev()) {
             // TODO fjern denne. Kun for midlertidig testing i dev
             YearMonth.now(clock)
         } else {
@@ -74,7 +74,7 @@ class MånedsrapportAnmodningsbehov(
     fun fyllUtRapport(grunnlag: Grunnlag): String {
         val anmodningRader = grunnlag.anmodninger
             .sortedByDescending { it.antall }
-            .map { anmodning ->
+            .joinToString("") { anmodning ->
                 """
                     <tr>
                         <td>${anmodning.hmsnr}</td>
