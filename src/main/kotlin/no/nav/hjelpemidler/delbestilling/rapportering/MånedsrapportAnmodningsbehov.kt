@@ -40,10 +40,14 @@ class MånedsrapportAnmodningsbehov(
         val rapportTekst = fyllUtRapport(grunnlag)
 
         log.info { "Månedsrapport for $lager i $måned: $rapportTekst" }
-        if (!isProd()) {
-            // TODO Skru på utsending i prod når alt er klart
-            email.send(lager.epost(), MÅNEDSRAPPORT_ANMODNINGER_SUBJECT, rapportTekst, ContentType.HTML)
-        }
+        //email.send(lager.epost(), MÅNEDSRAPPORT_ANMODNINGER_SUBJECT, rapportTekst, ContentType.HTML)
+        // TODO send til ekte lager etter verifisering
+        email.send(
+            "digitalisering.av.hjelpemidler.og.tilrettelegging@nav.no",
+            MÅNEDSRAPPORT_ANMODNINGER_SUBJECT,
+            rapportTekst,
+            ContentType.HTML
+        )
     }
 
     suspend fun hentGrunnlag(lager: Lager, måned: YearMonth): Grunnlag {
@@ -100,7 +104,11 @@ class MånedsrapportAnmodningsbehov(
             </head>
             <body>
                 <p>
-                    Her er en oversikt over deler som er bestilt digitalt og måtte anmodes for </br> 
+                    Her er en oversikt over hvilke deler dere har anmodet om forrige måned. 
+                    Dere vurderer hva som skal legge inn med min og max verdier i forhold til volum hos dere. 
+                    Det er ikke slik at alt må legges inn.
+                    </br>
+                    </br>
                     HMS lager: ${grunnlag.lager.navn} </br>
                     Måned: ${grunnlag.måned}
                 </p>

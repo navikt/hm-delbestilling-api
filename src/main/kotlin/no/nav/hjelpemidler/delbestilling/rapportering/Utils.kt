@@ -44,6 +44,17 @@ fun kl0120FørsteDagINesteMåned(clock: Clock): LocalDateTime {
     return starttidspunkt
 }
 
+fun kl0120HverNatt(clock: Clock): LocalDateTime {
+    val nå = LocalDateTime.now(clock)
+    var starttidspunkt = nå.withHour(1).withMinute(20).withSecond(0).withNano(0)
+
+    if (starttidspunkt < nå) {
+        starttidspunkt = starttidspunkt.plusDays(1)
+    }
+
+    return starttidspunkt
+}
+
 private fun erHelg(dato: LocalDate): Boolean {
     val dag = dato.dayOfWeek
     return dag == DayOfWeek.SATURDAY || dag == DayOfWeek.SUNDAY

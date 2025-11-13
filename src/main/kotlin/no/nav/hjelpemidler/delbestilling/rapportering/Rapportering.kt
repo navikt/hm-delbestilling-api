@@ -16,12 +16,15 @@ class Rapportering(
         jobbScheduler.schedulerGjentagendeJobb(
             navn = "anmodningsbehov",
             jobb = { rapporterAnmodningsbehov() },
-            beregnNesteKjøring = { clock -> kl01NesteUkedag(clock) })
+            beregnNesteKjøring = { clock -> kl01NesteUkedag(clock) }
+        )
 
         jobbScheduler.schedulerGjentagendeJobb(
             navn = "månedlig_anmodningsoppsummering",
             jobb = { rapporterMånedligAnmodningsoppsummering() },
-            beregnNesteKjøring = { clock -> kl0120FørsteDagINesteMåned(clock) }
+            //beregnNesteKjøring = { clock -> kl0120FørsteDagINesteMåned(clock) }
+            // TODO bytt til en gang i måneden før email utsending skrus på i prod
+            beregnNesteKjøring = { clock -> kl0120HverNatt(clock) }
         )
     }
 
