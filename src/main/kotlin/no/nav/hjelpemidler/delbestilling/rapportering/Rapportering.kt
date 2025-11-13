@@ -16,15 +16,12 @@ class Rapportering(
         jobbScheduler.schedulerGjentagendeJobb(
             navn = "anmodningsbehov",
             jobb = { rapporterAnmodningsbehov() },
-            // TODO skru på igjen denne beregnNesteKjøring = { clock -> kl01NesteUkedag(clock) })
-            beregnNesteKjøring = { clock -> hvert10MinuttIDev(clock) })
+            beregnNesteKjøring = { clock -> kl01NesteUkedag(clock) })
 
         jobbScheduler.schedulerGjentagendeJobb(
             navn = "månedlig_anmodningsoppsummering",
             jobb = { rapporterMånedligAnmodningsoppsummering() },
-            // TODO skru på igjen denne beregnNesteKjøring = { clock -> kl0120FørsteDagINesteMåned(clock) }
-            beregnNesteKjøring = { clock -> hvert10MinuttIDev(clock) }
-
+            beregnNesteKjøring = { clock -> kl0120FørsteDagINesteMåned(clock) }
         )
     }
 
@@ -33,10 +30,6 @@ class Rapportering(
     }
 
     suspend fun rapporterMånedligAnmodningsoppsummering() {
-        if (isProd()) {
-            log.info { "Skipper månedsrapportering av anmodningsbehov i prod inntil det er verifisert i dev." }
-        } else {
-            månedsrapportAnmodningsbehov.sendRapporterForForrigeMåned()
-        }
+        månedsrapportAnmodningsbehov.sendRapporterForForrigeMåned()
     }
 }

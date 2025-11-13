@@ -20,13 +20,7 @@ class MånedsrapportAnmodningsbehov(
 ) {
 
     suspend fun sendRapporterForForrigeMåned() {
-        val forrigeMåned =
-            if (isDev()) {
-                YearMonth.now(clock)
-            } else {
-                // TODO: skru på igjen denne!
-                YearMonth.now(clock).minusMonths(1)
-            }
+        val forrigeMåned = YearMonth.now(clock).minusMonths(1)
         Lager.entries.forEach { lager ->
             sendRapport(lager, forrigeMåned)
         }
