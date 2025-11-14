@@ -3,13 +3,11 @@ package no.nav.hjelpemidler.delbestilling.rapportering
 import io.github.oshai.kotlinlogging.KotlinLogging
 import no.nav.hjelpemidler.delbestilling.common.Hmsnr
 import no.nav.hjelpemidler.delbestilling.common.Lager
-import no.nav.hjelpemidler.delbestilling.config.isDev
-import no.nav.hjelpemidler.delbestilling.config.isProd
 import no.nav.hjelpemidler.delbestilling.infrastructure.email.ContentType
 import no.nav.hjelpemidler.delbestilling.infrastructure.email.Email
 import no.nav.hjelpemidler.delbestilling.infrastructure.persistence.transaction.Transaction
-import java.time.YearMonth
 import java.time.Clock
+import java.time.YearMonth
 
 private val log = KotlinLogging.logger { }
 
@@ -40,14 +38,7 @@ class MånedsrapportAnmodningsbehov(
         val rapportTekst = fyllUtRapport(grunnlag)
 
         log.info { "Månedsrapport for $lager i $måned: $rapportTekst" }
-        //email.send(lager.epost(), MÅNEDSRAPPORT_ANMODNINGER_SUBJECT, rapportTekst, ContentType.HTML)
-        // TODO send til ekte lager etter verifisering
-        email.send(
-            "digitalisering.av.hjelpemidler.og.tilrettelegging@nav.no",
-            MÅNEDSRAPPORT_ANMODNINGER_SUBJECT,
-            rapportTekst,
-            ContentType.HTML
-        )
+        email.send(lager.epost(), MÅNEDSRAPPORT_ANMODNINGER_SUBJECT, rapportTekst, ContentType.HTML)
     }
 
     suspend fun hentGrunnlag(lager: Lager, måned: YearMonth): Grunnlag {

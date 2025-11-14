@@ -14,7 +14,7 @@ import java.time.LocalDateTime
 
 fun kl01NesteUkedag(clock: Clock): LocalDateTime {
     val nå = LocalDateTime.now(clock)
-    var startTidspunkt = nå.withHour(1).withMinute(0).withSecond(0).withNano(0)
+    var startTidspunkt = nå.withHour(1).withMinute(0)
 
     if (startTidspunkt <= nå) {
         // Start neste dag, med mindre klokken nå er mellom 00:00 og 00:59
@@ -31,22 +31,11 @@ fun kl01NesteUkedag(clock: Clock): LocalDateTime {
 
 fun kl0120FørsteDagINesteMåned(clock: Clock): LocalDateTime {
     val nå = LocalDateTime.now(clock)
-    var starttidspunkt = nå.withDayOfMonth(1).withHour(1).withMinute(20).withSecond(0).withNano(0)
+    var starttidspunkt = nå.withDayOfMonth(1).withHour(1).withMinute(20)
 
     if (starttidspunkt < nå) {
         // Start neste måned, med mindre klokken nå er mellom 00:00 og 00:59 på den 1. i måneden
         starttidspunkt = starttidspunkt.plusMonths(1)
-    }
-
-    return starttidspunkt
-}
-
-fun kl1340(clock: Clock): LocalDateTime {
-    val nå = LocalDateTime.now(clock)
-    var starttidspunkt = nå.withHour(13).withMinute(45).withSecond(0).withNano(0)
-
-    if (starttidspunkt < nå) {
-        starttidspunkt = starttidspunkt.plusDays(1)
     }
 
     return starttidspunkt
