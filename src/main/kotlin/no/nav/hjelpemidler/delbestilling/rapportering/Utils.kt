@@ -41,9 +41,9 @@ fun kl0120FørsteDagINesteMåned(clock: Clock): LocalDateTime {
     return starttidspunkt
 }
 
-fun kl1320(clock: Clock): LocalDateTime {
+fun kl1340(clock: Clock): LocalDateTime {
     val nå = LocalDateTime.now(clock)
-    var starttidspunkt = nå.withHour(13).withMinute(20).withSecond(0).withNano(0)
+    var starttidspunkt = nå.withHour(13).withMinute(45).withSecond(0).withNano(0)
 
     if (starttidspunkt < nå) {
         starttidspunkt = starttidspunkt.plusDays(1)

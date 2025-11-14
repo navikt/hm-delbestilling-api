@@ -23,7 +23,7 @@ class Rapportering(
             jobb = { rapporterMånedligAnmodningsoppsummering() },
             //beregnNesteKjøring = { clock -> kl0120FørsteDagINesteMåned(clock) }
             // TODO bytt til en gang i måneden før email utsending skrus på i prod
-            beregnNesteKjøring = { clock -> kl1320(clock) }
+            beregnNesteKjøring = { clock -> kl1340(clock) }
         )
     }
 
