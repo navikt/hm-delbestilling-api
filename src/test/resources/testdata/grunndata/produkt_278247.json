@@ -1,0 +1,75 @@
+{
+  "hits" : {
+    "hits" : [ {
+      "_source" : {
+        "id" : "eecc2916-8074-4e01-a356-d150e379f6cd",
+        "title" : "Slange 26\" mrs Slange 26x1 bilventil Panthera X/X3/U3 Light/S3/U3/S3 Swing/S3 Junior/S3 Junior Allround",
+        "articleName" : "Slange 26\" mrs Slange 26x1 bilventil Panthera X/X3/U3 Light/S3/U3/S3 Swing/S3 Junior/S3 Junior Allround",
+        "seriesId" : "0c7d9920-f2b5-4b00-9648-3c3ca2532f5b",
+        "hmsArtNr" : "278247",
+        "supplierRef" : "1000023",
+        "attributes" : {
+          "compatibleWith" : {
+            "seriesIds" : [ "de1d42ad-45fd-45ad-9d96-cba102dc1019", "0d5262a9-08ed-41cf-851c-3e55b2bac8ee", "cf0c8351-7294-43dd-bc7c-c4ed49c9104b", "15d63ebb-ef23-4a76-854c-f0037282b892", "d13128b0-3f55-49e8-9247-d160b02786f0", "c4db8f4f-5eac-4411-a7b5-9d83aa90d112" ],
+            "productIds" : [ ]
+          }
+        },
+        "isoCategory" : "122293",
+        "supplier" : {
+          "name" : "Panthera Norge AS",
+          "id" : "ddd7af49-1a47-4f72-b254-b9a7aca5c3e0"
+        },
+        "media" : [ ],
+        "accessory" : false,
+        "sparePart" : true,
+        "main" : false
+      }
+    } ]
+  },
+  "produkter" : [ {
+    "id" : "eecc2916-8074-4e01-a356-d150e379f6cd",
+    "title" : "Slange 26\" mrs Slange 26x1 bilventil Panthera X/X3/U3 Light/S3/U3/S3 Swing/S3 Junior/S3 Junior Allround",
+    "articleName" : "Slange 26\" mrs Slange 26x1 bilventil Panthera X/X3/U3 Light/S3/U3/S3 Swing/S3 Junior/S3 Junior Allround",
+    "seriesId" : "0c7d9920-f2b5-4b00-9648-3c3ca2532f5b",
+    "hmsArtNr" : "278247",
+    "supplierRef" : "1000023",
+    "attributes" : {
+      "compatibleWith" : {
+        "seriesIds" : [ "de1d42ad-45fd-45ad-9d96-cba102dc1019", "0d5262a9-08ed-41cf-851c-3e55b2bac8ee", "cf0c8351-7294-43dd-bc7c-c4ed49c9104b", "15d63ebb-ef23-4a76-854c-f0037282b892", "d13128b0-3f55-49e8-9247-d160b02786f0", "c4db8f4f-5eac-4411-a7b5-9d83aa90d112" ],
+        "productIds" : [ ]
+      }
+    },
+    "isoCategory" : "122293",
+    "supplier" : {
+      "name" : "Panthera Norge AS",
+      "id" : "ddd7af49-1a47-4f72-b254-b9a7aca5c3e0"
+    },
+    "media" : [ ],
+    "accessory" : false,
+    "sparePart" : true,
+    "main" : false
+  } ],
+  "produkt" : {
+    "id" : "eecc2916-8074-4e01-a356-d150e379f6cd",
+    "title" : "Slange 26\" mrs Slange 26x1 bilventil Panthera X/X3/U3 Light/S3/U3/S3 Swing/S3 Junior/S3 Junior Allround",
+    "articleName" : "Slange 26\" mrs Slange 26x1 bilventil Panthera X/X3/U3 Light/S3/U3/S3 Swing/S3 Junior/S3 Junior Allround",
+    "seriesId" : "0c7d9920-f2b5-4b00-9648-3c3ca2532f5b",
+    "hmsArtNr" : "278247",
+    "supplierRef" : "1000023",
+    "attributes" : {
+      "compatibleWith" : {
+        "seriesIds" : [ "de1d42ad-45fd-45ad-9d96-cba102dc1019", "0d5262a9-08ed-41cf-851c-3e55b2bac8ee", "cf0c8351-7294-43dd-bc7c-c4ed49c9104b", "15d63ebb-ef23-4a76-854c-f0037282b892", "d13128b0-3f55-49e8-9247-d160b02786f0", "c4db8f4f-5eac-4411-a7b5-9d83aa90d112" ],
+        "productIds" : [ ]
+      }
+    },
+    "isoCategory" : "122293",
+    "supplier" : {
+      "name" : "Panthera Norge AS",
+      "id" : "ddd7af49-1a47-4f72-b254-b9a7aca5c3e0"
+    },
+    "media" : [ ],
+    "accessory" : false,
+    "sparePart" : true,
+    "main" : false
+  }
+}

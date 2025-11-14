@@ -18,7 +18,7 @@ fun main() {
 }
 
 private suspend fun oppdaterTestdata() {
-    listOf("250464").forEach { lagreProduktOgDeler(it) }
+    listOf("150817", "278247").forEach { lagreProduktOgDeler(it) }
 }
 
 private suspend fun lagreProduktOgDeler(hmsnr: String) {

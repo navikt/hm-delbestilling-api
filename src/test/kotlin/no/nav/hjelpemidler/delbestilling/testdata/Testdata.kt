@@ -13,7 +13,7 @@ object Testdata {
     val defaultDelHmsnr = "168802" // Armlene Azalea
 
     val delPåMinmax = "168802"
-    val delPåLagerIkkeMinmax = "168803"
+    val delPåLager = "168803"
 
     val kommunenummerOslo = "0301"
     val kommunenummerBergen = "4601"

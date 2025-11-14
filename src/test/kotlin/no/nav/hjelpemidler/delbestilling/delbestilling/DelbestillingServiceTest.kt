@@ -10,7 +10,7 @@ import no.nav.hjelpemidler.delbestilling.testdata.fixtures.hentDelbestillinger
 import no.nav.hjelpemidler.delbestilling.testdata.fixtures.hentDelerUtenDekning
 import no.nav.hjelpemidler.delbestilling.testdata.fixtures.opprettDelbestilling
 import no.nav.hjelpemidler.delbestilling.testdata.fixtures.opprettDelbestillingMedDel
-import no.nav.hjelpemidler.delbestilling.testdata.runWithTestContext
+import no.nav.hjelpemidler.delbestilling.runWithTestContext
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 import kotlin.test.assertEquals
@@ -69,7 +69,7 @@ internal class DelbestillingServiceTest {
     @Test
     fun `skal lagre anmodningsbehov ved ny delbestilling`() = runWithTestContext {
         val hmsnr = "111111"
-        lager.set(hmsnr, antall = 2, minmax = false)
+        oebslager.set(hmsnr, antall = 2, minmax = false)
 
         opprettDelbestillingMedDel(hmsnr = hmsnr, antall = 3)
 
@@ -86,7 +86,7 @@ internal class DelbestillingServiceTest {
     @Test
     fun `skal ikke lagre anmodningsbehov dersom del er på minmax`() = runWithTestContext {
         val hmsnr = "111111"
-        lager.set(hmsnr, antall = 2, minmax = true)
+        oebslager.set(hmsnr, antall = 2, minmax = true)
 
         opprettDelbestillingMedDel(hmsnr = hmsnr, antall = 7)
 
@@ -98,7 +98,7 @@ internal class DelbestillingServiceTest {
     @Test
     fun `skal ikke lage anmodningsbehov ved når det er dekning på lager`() = runWithTestContext {
         val hmsnr = "111111"
-        lager.set(hmsnr, antall = 20, minmax = false)
+        oebslager.set(hmsnr, antall = 20, minmax = false)
 
         opprettDelbestillingMedDel(hmsnr = hmsnr, antall = 3)
 
@@ -114,7 +114,7 @@ internal class DelbestillingServiceTest {
     @Test
     fun `skal ikke lage anmodningsbehov ved etterfylling`() = runWithTestContext {
         val hmsnr = "111111"
-        lager.set(hmsnr, antall = 2, minmax = false)
+        oebslager.set(hmsnr, antall = 2, minmax = false)
 
         opprettDelbestillingMedDel(hmsnr = hmsnr, antall = 3)
 
@@ -122,7 +122,7 @@ internal class DelbestillingServiceTest {
             assertEquals(1, antall)
         }
 
-        lager.set(hmsnr, antall = 5)
+        oebslager.set(hmsnr, antall = 5)
 
         val rapporter = delbestillingService.rapporterDelerTilAnmodning()
         assertEquals(1, rapporter.size)
@@ -137,8 +137,8 @@ internal class DelbestillingServiceTest {
     fun `skal summere anmodningsbehov`() = runWithTestContext {
         val hmsnr1 = "111111"
         val hmsnr2 = "222222"
-        lager.set(hmsnr1, antall = 2, minmax = false)
-        lager.set(hmsnr2, antall = 2, minmax = false)
+        oebslager.set(hmsnr1, antall = 2, minmax = false)
+        oebslager.set(hmsnr2, antall = 2, minmax = false)
 
         opprettDelbestilling(
             delbestillingRequest(

@@ -2,7 +2,7 @@ package no.nav.hjelpemidler.delbestilling.oppslag
 
 import no.nav.hjelpemidler.delbestilling.testdata.Testdata.isoERS
 import no.nav.hjelpemidler.delbestilling.testdata.Testdata.isoPersonløfter
-import no.nav.hjelpemidler.delbestilling.testdata.runWithTestContext
+import no.nav.hjelpemidler.delbestilling.runWithTestContext
 import no.nav.hjelpemidler.delbestilling.testdata.utlån
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertNull

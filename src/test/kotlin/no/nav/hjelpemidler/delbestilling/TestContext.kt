@@ -1,4 +1,4 @@
-package no.nav.hjelpemidler.delbestilling.testdata
+package no.nav.hjelpemidler.delbestilling
 
 import io.mockk.mockk
 import kotlinx.coroutines.test.runTest
@@ -31,20 +31,26 @@ import no.nav.hjelpemidler.delbestilling.oppslag.FinnDelerTilHjelpemiddel
 import no.nav.hjelpemidler.delbestilling.oppslag.OppslagService
 import no.nav.hjelpemidler.delbestilling.oppslag.PiloterService
 import no.nav.hjelpemidler.delbestilling.ordrestatus.DelbestillingStatusService
+import no.nav.hjelpemidler.delbestilling.rapportering.JobbScheduler
+import no.nav.hjelpemidler.delbestilling.rapportering.MånedsrapportAnmodningsbehov
 import no.nav.hjelpemidler.delbestilling.rapportering.Rapportering
-import java.time.Clock
+import no.nav.hjelpemidler.delbestilling.testdata.FakeOebsLager
+import no.nav.hjelpemidler.delbestilling.testdata.MutableClock
+import no.nav.hjelpemidler.delbestilling.testdata.TestDatabase
+import java.util.concurrent.ScheduledExecutorService
 
 
-class TestContext(
-    clock: Clock,
-) {
+class TestContext {
+    val clock = MutableClock()
+
     // Mocks
     val metrics = mockk<Metrics>(relaxed = true)
     val slack = mockk<Slack>(relaxed = true)
+    val scheduler = mockk<ScheduledExecutorService>()
 
     // Database
     val transaction by lazy {
-        Transaction(TestDatabase.cleanAndMigratedDataSource(), TransactionScopeFactory())
+        Transaction(TestDatabase.cleanAndMigratedDataSource(), TransactionScopeFactory(clock))
     }
 
     // Email
@@ -65,9 +71,9 @@ class TestContext(
     val norg = Norg(norgClient)
 
     // OeBS
-    val lager = FakeOebsLager()
-    val oebsSink = OebsSinkFake(lager)
-    val oebsApiProxy = OebsApiProxyFake(lager)
+    val oebslager = FakeOebsLager()
+    val oebsSink = OebsSinkFake(oebslager)
+    val oebsApiProxy = OebsApiProxyFake(oebslager)
     val finnLagerenhet = FinnLagerenhet(norg, slack)
     val oebs = Oebs(oebsApiProxy, oebsSink, finnLagerenhet)
 
@@ -102,12 +108,14 @@ class TestContext(
     val delbestillingStatusService = DelbestillingStatusService(transaction, oebs, metrics, slack)
 
     // Rapportering
-    val rapportering = Rapportering(delbestillingService, erLeder, clock)
+    val jobbScheduler = JobbScheduler(scheduler, erLeder, clock)
+    val månedsrapportAnmodningsbehov = MånedsrapportAnmodningsbehov(transaction, clock, email)
+    val rapportering = Rapportering(jobbScheduler, delbestillingService, månedsrapportAnmodningsbehov)
 }
 
-fun runWithTestContext(clock: Clock = Clock.systemDefaultZone(), block: suspend TestContext.() -> Unit) {
+fun runWithTestContext(block: suspend TestContext.() -> Unit) {
     runTest {
-        with(TestContext(clock)) {
+        with(TestContext()) {
             block()
         }
     }

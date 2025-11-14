@@ -17,7 +17,6 @@ class FinnLagerenhet(
 ) {
     suspend operator fun invoke(kommunenummer: String): Lager {
         val hmsEnhet = norg.hentEnhetnummer(kommunenummer)
-
         val lagerenhet = try {
             when (hmsEnhet) {
 
@@ -66,9 +65,9 @@ class FinnLagerenhet(
     }
 }
 
-private const val ENHETSNUMMER_HMS_AKERSHUS = "4702"
-private const val ENHETSNUMMER_HMS_TROMS_OG_FINNMARK = "4719"
-private const val ENHETSNUMMER_HMS_TRØNDELAG = "4716"
+const val ENHETSNUMMER_HMS_AKERSHUS = "4702"
+const val ENHETSNUMMER_HMS_TROMS_OG_FINNMARK = "4719"
+const val ENHETSNUMMER_HMS_TRØNDELAG = "4716"
 
 private const val KOMMUNENUMMER_PREFIX_TROMS = "55"
 private fun String.erTroms() = this.take(2) == KOMMUNENUMMER_PREFIX_TROMS

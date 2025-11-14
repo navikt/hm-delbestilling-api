@@ -12,7 +12,7 @@ import no.nav.hjelpemidler.delbestilling.testdata.fixtures.oppdaterDellinjeStatu
 import no.nav.hjelpemidler.delbestilling.testdata.fixtures.opprettDelbestilling
 import no.nav.hjelpemidler.delbestilling.testdata.fixtures.opprettDelbestillingMedDel
 import no.nav.hjelpemidler.delbestilling.testdata.fixtures.opprettDelbestillingMedDeler
-import no.nav.hjelpemidler.delbestilling.testdata.runWithTestContext
+import no.nav.hjelpemidler.delbestilling.runWithTestContext
 import no.nav.hjelpemidler.time.TIME_ZONE_EUROPE_OSLO
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertDoesNotThrow
@@ -120,7 +120,7 @@ class DelbestillingStatusServiceTest {
 
     @Test
     fun `skal annullere deler_uten_dekning for relevant sak`() = runWithTestContext {
-        lager.tømAlleDeler()
+        oebslager.tømLager()
         val hmsnr = Testdata.defaultDelHmsnr
 
         opprettDelbestillingMedDel(hmsnr, antall = 2)
@@ -135,7 +135,7 @@ class DelbestillingStatusServiceTest {
 
     @Test
     fun `skal ikke annullere sak som er ferdig anmodet`() = runWithTestContext {
-        lager.tømAlleDeler()
+        oebslager.tømLager()
         val hmsnr = Testdata.defaultDelHmsnr
 
         val saksnummer = opprettDelbestillingMedDel(hmsnr, antall = 3).saksnummer!!

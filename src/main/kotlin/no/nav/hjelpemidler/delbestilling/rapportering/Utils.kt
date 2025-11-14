@@ -1,26 +1,61 @@
 package no.nav.hjelpemidler.delbestilling.rapportering
 
+import no.nav.hjelpemidler.delbestilling.config.isDev
+import no.nav.hjelpemidler.delbestilling.config.isProd
 import java.time.Clock
 import java.time.DayOfWeek
 import java.time.Duration
 import java.time.LocalDate
 import java.time.LocalDateTime
-import kotlin.time.Duration.Companion.days
 
-val ETT_DØGN = 1.days.inWholeMilliseconds
+/**
+ * Tidspunktene som brukes her for kjøring av rapporter er noe vilkårlig valgt.
+ * Men vi ønsker:
+ * - å kjøre om natten
+ * - litt offset mellom hver jobb slik at de ikke går i beina på hverandre
+ */
 
-fun erHelg(clock: Clock): Boolean {
-    val iDag = LocalDate.now(clock).dayOfWeek
-    return iDag == DayOfWeek.SATURDAY || iDag == DayOfWeek.SUNDAY
-}
-
-fun delayTilKl01(clock: Clock): Long {
+fun kl01NesteUkedag(clock: Clock): LocalDateTime {
     val nå = LocalDateTime.now(clock)
-
     var startTidspunkt = nå.withHour(1).withMinute(0).withSecond(0).withNano(0)
+
     if (startTidspunkt <= nå) {
+        // Start neste dag, med mindre klokken nå er mellom 00:00 og 00:59
         startTidspunkt = startTidspunkt.plusDays(1)
     }
 
-    return Duration.between(nå, startTidspunkt).toMillis()
+    while (erHelg(startTidspunkt.toLocalDate())) {
+        // Hopp over helgedager
+        startTidspunkt = startTidspunkt.plusDays(1)
+    }
+
+    return startTidspunkt
+}
+
+fun kl0120FørsteDagINesteMåned(clock: Clock): LocalDateTime {
+    val nå = LocalDateTime.now(clock)
+    var starttidspunkt = nå.withDayOfMonth(1).withHour(1).withMinute(20).withSecond(0).withNano(0)
+
+    if (starttidspunkt < nå) {
+        // Start neste måned, med mindre klokken nå er mellom 00:00 og 00:59 på den 1. i måneden
+        starttidspunkt = starttidspunkt.plusMonths(1)
+    }
+
+    return starttidspunkt
+}
+
+fun kl1240(clock: Clock): LocalDateTime {
+    val nå = LocalDateTime.now(clock)
+    var starttidspunkt = nå.withHour(1).withMinute(20).withSecond(0).withNano(0)
+
+    if (starttidspunkt < nå) {
+        starttidspunkt = starttidspunkt.plusDays(1)
+    }
+
+    return starttidspunkt
+}
+
+private fun erHelg(dato: LocalDate): Boolean {
+    val dag = dato.dayOfWeek
+    return dag == DayOfWeek.SATURDAY || dag == DayOfWeek.SUNDAY
 }

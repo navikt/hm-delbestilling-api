@@ -1,11 +1,10 @@
 package no.nav.hjelpemidler.delbestilling.oppslag
 
-import no.nav.hjelpemidler.delbestilling.common.Lager
-import no.nav.hjelpemidler.delbestilling.fakes.NorgResponse
-import no.nav.hjelpemidler.delbestilling.testdata.PdlRespons
 import no.nav.hjelpemidler.delbestilling.infrastructure.pdl.PdlResponseMissingData
+import no.nav.hjelpemidler.delbestilling.runWithTestContext
+import no.nav.hjelpemidler.delbestilling.testdata.PdlRespons
 import no.nav.hjelpemidler.delbestilling.testdata.Testdata
-import no.nav.hjelpemidler.delbestilling.testdata.runWithTestContext
+import no.nav.hjelpemidler.domain.geografi.Kommune.Companion.OSLO
 import org.junit.jupiter.api.Test
 import kotlin.test.assertFailsWith
 import kotlin.test.assertTrue
@@ -41,7 +40,7 @@ class OppslagServiceTest {
 
     @Test
     fun `skal returnere pilot dersom innbygger sogner til Hms Oslo`() = runWithTestContext {
-        norgClient.response = NorgResponse.enhet(enhetNr = Lager.OSLO.nummer)
+        pdlClient.response = PdlRespons.person(kommunenummer = OSLO.nummer)
         val oppslag = oppslagService.slåOppHjelpemiddel(Testdata.defaultHjmHmsnr, Testdata.defaultHjmSerienr)
         assertTrue(oppslag.piloter.contains(Pilot.BESTILLE_IKKE_FASTE_LAGERVARER))
     }

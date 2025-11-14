@@ -2,15 +2,11 @@ package no.nav.hjelpemidler.delbestilling.oppslag
 
 import no.nav.hjelpemidler.delbestilling.fakes.GrunndataTestHmsnr
 import no.nav.hjelpemidler.delbestilling.testdata.Testdata
-import no.nav.hjelpemidler.delbestilling.testdata.delLinje
-import no.nav.hjelpemidler.delbestilling.testdata.delbestilling
 import no.nav.hjelpemidler.delbestilling.testdata.delbestillingMedBatteri
-import no.nav.hjelpemidler.delbestilling.testdata.delbestillingSak
 import no.nav.hjelpemidler.delbestilling.testdata.fixtures.gittDelbestilling
-import no.nav.hjelpemidler.delbestilling.testdata.runWithTestContext
+import no.nav.hjelpemidler.delbestilling.runWithTestContext
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNull
-import java.time.LocalDateTime
 import kotlin.test.Test
 import kotlin.test.assertTrue
 

@@ -4,7 +4,7 @@ import com.fasterxml.jackson.module.kotlin.readValue
 import no.nav.hjelpemidler.delbestilling.infrastructure.jsonMapper
 import no.nav.hjelpemidler.delbestilling.testdata.PdlRespons
 import no.nav.hjelpemidler.delbestilling.testdata.Testdata
-import no.nav.hjelpemidler.delbestilling.testdata.runWithTestContext
+import no.nav.hjelpemidler.delbestilling.runWithTestContext
 import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith

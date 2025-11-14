@@ -4,6 +4,7 @@ import io.github.oshai.kotlinlogging.KotlinLogging
 import no.nav.hjelpemidler.delbestilling.common.Lagerstatus
 import no.nav.hjelpemidler.delbestilling.config.isDev
 import no.nav.hjelpemidler.delbestilling.delbestilling.anmodning.DelUtenDekningDao
+import no.nav.hjelpemidler.delbestilling.infrastructure.email.ContentType
 import no.nav.hjelpemidler.delbestilling.infrastructure.email.Email
 import no.nav.hjelpemidler.delbestilling.infrastructure.oebs.Oebs
 import no.nav.hjelpemidler.delbestilling.infrastructure.pdl.Pdl
@@ -75,7 +76,7 @@ class DevTools(
 
         hjelpemiddel = hjelpemiddel.copy(
             deler = delerMedLagerstatus,
-            erInnenforGaranti = when(hjelpemiddel.hmsnr) {
+            erInnenforGaranti = when (hjelpemiddel.hmsnr) {
                 "238378" -> true // For testing: Comet Alpine Plus
                 else -> false
             },
@@ -105,7 +106,12 @@ class DevTools(
         subject: String = "[TEST] hm-delbestilling-api",
         bodyText: String = "Dette er bare en test av epostutsending fra hm-delbestilling-api. Vennligst ignorer meg.",
     ) {
-        client.sendEmail(recipentEmail = recipentEmail, subject = subject, bodyText = bodyText)
+        client.sendEmail(
+            recipentEmail = recipentEmail,
+            subject = subject,
+            bodyText = bodyText,
+            contentType = ContentType.TEXT
+        )
         log.info { "post til $recipentEmail sendt." }
     }
 

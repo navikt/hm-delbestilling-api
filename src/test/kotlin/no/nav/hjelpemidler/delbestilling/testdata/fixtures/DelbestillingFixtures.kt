@@ -6,7 +6,7 @@ import no.nav.hjelpemidler.delbestilling.delbestilling.BestillerType
 import no.nav.hjelpemidler.delbestilling.delbestilling.DelbestillingRequest
 import no.nav.hjelpemidler.delbestilling.delbestilling.DelbestillingResultat
 import no.nav.hjelpemidler.delbestilling.infrastructure.roller.Delbestiller
-import no.nav.hjelpemidler.delbestilling.testdata.TestContext
+import no.nav.hjelpemidler.delbestilling.TestContext
 import no.nav.hjelpemidler.delbestilling.testdata.Testdata
 import no.nav.hjelpemidler.delbestilling.testdata.delLinje
 import no.nav.hjelpemidler.delbestilling.testdata.delbestillerRolle
@@ -15,6 +15,8 @@ import no.nav.hjelpemidler.delbestilling.testdata.delbestillingRequest
 import no.nav.hjelpemidler.delbestilling.testdata.organisasjon
 import java.time.LocalDateTime
 
+// TODO: Kan vi skrive om dette slik at det oppretter delbestillingen på den vanlige måten (via delbestillingservice)
+// Bedre å benytte den ekte koden i tester. Kan kanskje bruke java.time.Clock for å opprette delbestillinger i fortid.
 suspend fun TestContext.gittDelbestilling(
     delbestilling: Delbestilling = delbestilling(),
     dagerSidenOpprettelse: Long? = null

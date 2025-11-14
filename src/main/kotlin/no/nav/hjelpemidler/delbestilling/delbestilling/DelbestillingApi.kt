@@ -69,11 +69,3 @@ fun Route.delbestillingApiAuthenticated(
     }
 
 }
-
-fun Route.azureRoutes(
-    delbestillingService: DelbestillingService,
-) {
-    post("/anmodning/rapporter-deler-til-anmodning") {
-        call.respond(delbestillingService.rapporterDelerTilAnmodning())
-    }
-}

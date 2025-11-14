@@ -1,6 +1,6 @@
 package no.nav.hjelpemidler.delbestilling.infrastructure.leaderElection
 
-import no.nav.hjelpemidler.delbestilling.testdata.runWithTestContext
+import no.nav.hjelpemidler.delbestilling.runWithTestContext
 import kotlin.test.Test
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue

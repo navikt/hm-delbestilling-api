@@ -3,7 +3,7 @@ package no.nav.hjelpemidler.delbestilling.oppslag
 import no.nav.hjelpemidler.delbestilling.common.Kilde
 import no.nav.hjelpemidler.delbestilling.fakes.GrunndataTestHmsnr
 import no.nav.hjelpemidler.delbestilling.oppslag.legacy.data.hmsnr2Hjm
-import no.nav.hjelpemidler.delbestilling.testdata.runWithTestContext
+import no.nav.hjelpemidler.delbestilling.runWithTestContext
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test

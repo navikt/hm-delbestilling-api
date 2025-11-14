@@ -39,6 +39,8 @@ import no.nav.hjelpemidler.delbestilling.oppslag.Hjelpemiddeloversikt
 import no.nav.hjelpemidler.delbestilling.oppslag.OppslagService
 import no.nav.hjelpemidler.delbestilling.oppslag.PiloterService
 import no.nav.hjelpemidler.delbestilling.ordrestatus.DelbestillingStatusService
+import no.nav.hjelpemidler.delbestilling.rapportering.JobbScheduler
+import no.nav.hjelpemidler.delbestilling.rapportering.MånedsrapportAnmodningsbehov
 import no.nav.hjelpemidler.delbestilling.rapportering.Rapportering
 import no.nav.hjelpemidler.http.openid.entraIDClient
 import no.nav.tms.token.support.tokendings.exchange.TokendingsServiceBuilder
@@ -50,15 +52,17 @@ import kotlin.time.Duration.Companion.seconds
 
 class AppContext {
 
-    val clock = Clock.systemDefaultZone()
 
     // Coroutine og scheduling
     private val backgroundScope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
     private val scheduler = Executors.newSingleThreadScheduledExecutor()
+    private val erLeder = ErLeder(ElectorClient(), LocalHost())
+    private val clock = Clock.systemDefaultZone()
+    private val jobbScheduler = JobbScheduler(scheduler, erLeder, clock)
 
     // Database
     private val ds = DatabaseConfig.migratedDataSource
-    private val transactionScopeFactory = TransactionScopeFactory()
+    private val transactionScopeFactory = TransactionScopeFactory(clock)
     private val transactional = Transaction(ds, transactionScopeFactory)
 
     // Infrastructure
@@ -78,7 +82,6 @@ class AppContext {
     private val oebs = Oebs(OebsApiProxyClient(entraIDClient), OebsSinkClient(kafka), finnLagerenhet)
     private val pdl = Pdl(PdlClient(entraIDClient))
     private val rollerClient = RollerClient(TokendingsServiceBuilder.buildTokendingsService())
-    private val erLeder = ErLeder(ElectorClient(), LocalHost())
 
 
     // Eksponert for custom plugin
@@ -104,11 +107,14 @@ class AppContext {
         berikMedDagerSidenForrigeBatteribestilling,
     )
     val delbestillingStatusService = DelbestillingStatusService(transactional, oebs, metrics, slack)
-    val rapportering = Rapportering(delbestillingService, erLeder, clock)
+
+    // Rapportering
+    val månedsrapportAnmodningsbehov = MånedsrapportAnmodningsbehov(transactional, clock, email)
+    val rapportering = Rapportering(jobbScheduler, delbestillingService, månedsrapportAnmodningsbehov)
 
     fun applicationStarted() {
         hjelpemiddeloversikt.startBakgrunnsjobb()
-        rapportering.scheduleRapporteringsjobb(scheduler)
+        rapportering.schedulerRapporteringsjobber()
     }
 
     fun shutdown() {

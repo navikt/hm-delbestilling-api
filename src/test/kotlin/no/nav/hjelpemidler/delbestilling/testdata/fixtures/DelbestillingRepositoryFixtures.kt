@@ -1,7 +1,7 @@
 package no.nav.hjelpemidler.delbestilling.testdata.fixtures
 
 import no.nav.hjelpemidler.delbestilling.common.DelbestillingSak
-import no.nav.hjelpemidler.delbestilling.testdata.TestContext
+import no.nav.hjelpemidler.delbestilling.TestContext
 import no.nav.hjelpemidler.delbestilling.testdata.Testdata
 
 suspend fun TestContext.hentDelbestilling(

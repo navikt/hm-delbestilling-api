@@ -18,16 +18,16 @@ private val log = KotlinLogging.logger { }
 class GraphClient(
     private val openIDClient: OpenIDClient,
     private val client: HttpClient = defaultHttpClient(),
-    private val baseUrl: String = "https://graph.microsoft.com/v1.0", //AppConfig.OEBS_API_URL,
-    private val scope: String = "https://graph.microsoft.com/.default", //AppConfig.OEBS_API_SCOPE,
+    private val baseUrl: String = "https://graph.microsoft.com/v1.0",
+    private val scope: String = "https://graph.microsoft.com/.default",
     private val avsender: String = AppConfig.EPOST_AVSENDER
 ) : GraphClientInterface {
 
-    override suspend fun sendEmail(recipentEmail: String, subject: String, bodyText: String) {
+    override suspend fun sendEmail(recipentEmail: String, subject: String, bodyText: String, contentType: ContentType) {
         val body = SendMailRequest(
             message = Message(
                 subject = subject,
-                body = ItemBody(ContentType.TEXT, bodyText),
+                body = ItemBody(contentType, bodyText),
                 toRecipients = listOf(Recipient(EmailAddress(recipentEmail)))
             ),
             saveToSentItems = true,
@@ -43,7 +43,7 @@ class GraphClient(
                 }
             }
         } catch (t: Throwable) {
-            log.error(t) { "Sending av epost feilet for epost: to=$recipentEmail, subject=$subject, content=$bodyText" }
+            log.error(t) { "Sending av epost feilet for epost: to=$recipentEmail, subject=$subject, content=$bodyText, contentType=$contentType" }
             throw t
         }
     }
