@@ -1,10 +1,7 @@
 package no.nav.hjelpemidler.delbestilling.rapportering
 
-import no.nav.hjelpemidler.delbestilling.config.isDev
-import no.nav.hjelpemidler.delbestilling.config.isProd
 import java.time.Clock
 import java.time.DayOfWeek
-import java.time.Duration
 import java.time.LocalDate
 import java.time.LocalDateTime
 
@@ -44,9 +41,9 @@ fun kl0120FørsteDagINesteMåned(clock: Clock): LocalDateTime {
     return starttidspunkt
 }
 
-fun kl1240(clock: Clock): LocalDateTime {
+fun kl1320(clock: Clock): LocalDateTime {
     val nå = LocalDateTime.now(clock)
-    var starttidspunkt = nå.withHour(12).withMinute(40).withSecond(0).withNano(0)
+    var starttidspunkt = nå.withHour(13).withMinute(20).withSecond(0).withNano(0)
 
     if (starttidspunkt < nå) {
         starttidspunkt = starttidspunkt.plusDays(1)

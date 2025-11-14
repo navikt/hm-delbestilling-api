@@ -1,7 +1,6 @@
 package no.nav.hjelpemidler.delbestilling.rapportering
 
 import io.github.oshai.kotlinlogging.KotlinLogging
-import no.nav.hjelpemidler.delbestilling.config.isProd
 import no.nav.hjelpemidler.delbestilling.delbestilling.DelbestillingService
 
 private val log = KotlinLogging.logger {}
@@ -24,7 +23,7 @@ class Rapportering(
             jobb = { rapporterMånedligAnmodningsoppsummering() },
             //beregnNesteKjøring = { clock -> kl0120FørsteDagINesteMåned(clock) }
             // TODO bytt til en gang i måneden før email utsending skrus på i prod
-            beregnNesteKjøring = { clock -> kl1240(clock) }
+            beregnNesteKjøring = { clock -> kl1320(clock) }
         )
     }
 
