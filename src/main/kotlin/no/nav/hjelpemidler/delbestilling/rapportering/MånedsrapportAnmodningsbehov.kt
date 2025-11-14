@@ -129,9 +129,6 @@ class MånedsrapportAnmodningsbehov(
             </html>
         """.trimIndent()
 
-
-
-
         return html
     }
 }
