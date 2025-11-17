@@ -76,6 +76,7 @@ spec:
           - name: hm-delbestilling-api-db-prod-v1
             envVarPrefix: DB
         cascadingDelete: false
+        pointInTimeRecovery: true
   env:
     - name: OEBS_API_URL
       value: https://hm-oebs-api-proxy.prod-fss-pub.nais.io
