@@ -11,8 +11,7 @@ class EngangsjobbService(
     private val transaction: Transactional,
     private val oebs: Oebs,
 ) {
-    // Sett enhetnr og enhetnavn på delbestillinger som mangler det
-    suspend fun genererEnheter(): Map<String, Lager?> {
+    suspend fun finnEnhetTilKommunenumre(): Map<String, Lager?> {
         val unikeKommunenumre = transaction {
             delbestillingRepository.hentKommunenumreUtenEnhet()
         }
@@ -23,10 +22,12 @@ class EngangsjobbService(
             try {
                 oebs.finnLagerenhet(kommunenummer)
             } catch (e: Exception) {
-                log.error(e) { "Fant ikke lagerenhet for kommunenummer $kommunenummer" }
+                log.error(e) { "Fant ikke lagerenhet for kommunenummer $kommunenummer, returnerer null" }
                 null
             }
         }
+
+        log.info { "kommuneNrTilLager: $kommuneNrTilLager" }
 
         return kommuneNrTilLager
 

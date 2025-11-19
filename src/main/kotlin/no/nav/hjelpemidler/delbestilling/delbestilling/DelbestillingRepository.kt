@@ -97,6 +97,7 @@ class DelbestillingRepository(val tx: JdbcOperations) {
             WHERE
                 enhetnr IS NULL AND
                 enhetnavn IS NULL
+            ORDER BY brukers_kommunenr ASC
         """.trimIndent(),
     ) { it.string("brukers_kommunenr") }
 
