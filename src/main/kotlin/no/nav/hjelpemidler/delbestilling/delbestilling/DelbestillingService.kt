@@ -71,6 +71,7 @@ class DelbestillingService(
         }
 
         val brukersKommunenavn = kommuneoppslag.kommunenavnOrNull(brukerKommunenr) ?: "Ukjent"
+        val lagerEnhet = oebs.finnLagerenhet(brukerKommunenr)
 
         // Det skal ikke være mulig å bestille til seg selv (disabler i dev pga testdata)
         if (isProd() && bestillerFnr == brukersFnr) {
@@ -126,6 +127,7 @@ class DelbestillingService(
                 brukersKommunenavn,
                 innsendersRepresenterteOrganisasjon,
                 bestillerType,
+                lagerEnhet,
             )
 
             // Hent ut den nye delbestillingsaken

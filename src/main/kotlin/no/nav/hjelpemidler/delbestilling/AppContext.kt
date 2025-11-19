@@ -6,6 +6,7 @@ import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.cancel
 import no.nav.hjelpemidler.delbestilling.config.DatabaseConfig
 import no.nav.hjelpemidler.delbestilling.delbestilling.DelbestillingService
+import no.nav.hjelpemidler.delbestilling.delbestilling.EngangsjobbService
 import no.nav.hjelpemidler.delbestilling.delbestilling.anmodning.AnmodningService
 import no.nav.hjelpemidler.delbestilling.devtools.DevTools
 import no.nav.hjelpemidler.delbestilling.infrastructure.email.Email
@@ -107,6 +108,7 @@ class AppContext {
         berikMedDagerSidenForrigeBatteribestilling,
     )
     val delbestillingStatusService = DelbestillingStatusService(transactional, oebs, metrics, slack)
+    val engangsjobbService = EngangsjobbService(transactional, oebs)
 
     // Rapportering
     val månedsrapportAnmodningsbehov = MånedsrapportAnmodningsbehov(transactional, clock, email)

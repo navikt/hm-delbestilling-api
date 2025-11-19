@@ -30,6 +30,7 @@ suspend fun TestContext.gittDelbestilling(
             brukersKommunenavn = Testdata.defaultKommunenavn,
             bestillersOrganisasjon = organisasjon(),
             bestillerType = BestillerType.KOMMUNAL,
+            lagerEnhet = Testdata.defaultEnhet,
         )
 
         if (dagerSidenOpprettelse != null) {
