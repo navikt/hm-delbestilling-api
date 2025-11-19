@@ -10,8 +10,8 @@ fun Route.engangsJobbApi(
     engangsjobbService: EngangsjobbService
 ) {
     post("/generer-enheter") {
-        engangsjobbService.genererEnheter()
-        call.respond(HttpStatusCode.NoContent)
+        val respons = engangsjobbService.genererEnheter()
+        call.respond(respons)
     }
 }
 

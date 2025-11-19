@@ -1,6 +1,7 @@
 package no.nav.hjelpemidler.delbestilling.delbestilling
 
 import io.github.oshai.kotlinlogging.KotlinLogging
+import no.nav.hjelpemidler.delbestilling.common.Lager
 import no.nav.hjelpemidler.delbestilling.infrastructure.oebs.Oebs
 import no.nav.hjelpemidler.delbestilling.infrastructure.persistence.transaction.Transactional
 
@@ -11,13 +12,20 @@ class EngangsjobbService(
     private val oebs: Oebs,
 ) {
     // Sett enhetnr og enhetnavn på delbestillinger som mangler det
-    suspend fun genererEnheter() {
+    suspend fun genererEnheter(): Map<String, Lager> {
         val unikeKommunenumre = transaction {
             delbestillingRepository.hentKommunenumreUtenEnhet()
         }
 
         log.info { "Fant ${unikeKommunenumre.size} kommunenummer uten enhet – henter lagerenhet for hver" }
 
+        val kommuneNrTilLager = unikeKommunenumre.associateWith { kommunenummer ->
+            oebs.finnLagerenhet(kommunenummer)
+        }
+
+        return kommuneNrTilLager
+
+        /*
         var antallOppdatert = 0
         var antallFeilet = 0
         for (kommunenr in unikeKommunenumre) {
@@ -36,6 +44,8 @@ class EngangsjobbService(
             }
         }
 
+
         log.info { "genererEnheter-jobb ferdig, antallOppdatert=$antallOppdatert, antallFeilet=$antallFeilet" }
+        */
     }
 }
