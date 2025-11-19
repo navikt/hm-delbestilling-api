@@ -19,6 +19,7 @@ class EngangsjobbService(
         log.info { "Fant ${unikeKommunenumre.size} kommunenummer uten enhet – henter lagerenhet for hver" }
 
         var antallOppdatert = 0
+        var antallFeilet = 0
         for (kommunenr in unikeKommunenumre) {
             try {
                 val lager = oebs.finnLagerenhet(kommunenr)
@@ -30,9 +31,10 @@ class EngangsjobbService(
                 antallOppdatert++
             } catch (e: Exception) {
                 log.error(e) { "Kunne ikke sette enhet for kommunenummer $kommunenr – hopper over" }
+                antallFeilet++
             }
         }
 
-        log.info { "genererEnheter-jobb ferdig, antallOppdatert=$antallOppdatert" }
+        log.info { "genererEnheter-jobb ferdig, antallOppdatert=$antallOppdatert, antallFeilet=$antallFeilet" }
     }
 }
