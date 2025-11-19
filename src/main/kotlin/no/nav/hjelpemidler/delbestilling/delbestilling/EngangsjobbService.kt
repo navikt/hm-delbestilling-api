@@ -10,6 +10,7 @@ class EngangsjobbService(
     private val transaction: Transactional,
     private val oebs: Oebs,
 ) {
+    // Sett enhetnr og enhetnavn på delbestillinger som mangler det
     suspend fun genererEnheter() {
         transaction {
             val delbestillingerUtenEnhet = delbestillingRepository.hentDelbestillingerUtenEnhet()
@@ -34,7 +35,7 @@ class EngangsjobbService(
                 delbestillingRepository.setEnhetForKommunenummer(kommunenr, lager)
             }
 
-            log.info { "Jobb ferdig" }
+            log.info { "genererEnheter-jobb ferdig" }
         }
     }
 }
