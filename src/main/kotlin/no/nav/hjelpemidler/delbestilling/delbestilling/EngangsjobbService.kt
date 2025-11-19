@@ -17,18 +17,8 @@ class EngangsjobbService(
 
             log.info { "Har funnet ${unikeKommunenrUtenEnhet.size} unike kommunenummer uten enhet, henter lagerenhet for hver av dem" }
 
-            val kommuneNrTilLager = unikeKommunenrUtenEnhet.associateWith { kommunenr ->
-                oebs.finnLagerenhet(kommunenr)
-            }
-
-            log.info {"kommuneNrTilLager: $kommuneNrTilLager"}
-
             unikeKommunenrUtenEnhet.forEach { kommunenr ->
-                val lager = kommuneNrTilLager[kommunenr]
-                if (lager == null) {
-                    log.info { "Fant ikke lagerenhet for kommunenummer $kommunenr, hopper over..." }
-                    return@forEach
-                }
+                val lager = oebs.finnLagerenhet(kommunenr)
 
                 delbestillingRepository.setEnhetForKommunenummer(kommunenr, lager)
             }

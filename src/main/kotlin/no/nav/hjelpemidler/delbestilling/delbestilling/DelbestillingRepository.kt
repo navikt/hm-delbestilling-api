@@ -93,7 +93,7 @@ class DelbestillingRepository(val tx: JdbcOperations) {
     fun hentKommunenumreUtenEnhet(): List<String> = tx.list(
         sql = """
             SELECT DISTINCT(brukers_kommunenr)
-            FROM delbestilling;
+            FROM delbestilling
             WHERE
                 enhetnr IS NULL AND
                 enhetnavn IS NULL
