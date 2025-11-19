@@ -7,6 +7,12 @@ import no.nav.hjelpemidler.delbestilling.infrastructure.persistence.transaction.
 
 private val log = KotlinLogging.logger {}
 
+// Enkel wrapping rundt Lager
+data class LagerEnhet(
+    val nummer: String,
+    val navn: String,
+)
+
 class EngangsjobbService(
     private val transaction: Transactional,
     private val oebs: Oebs,
@@ -17,12 +23,6 @@ class EngangsjobbService(
         }
 
         log.info { "Fant ${unikeKommunenumre.size} kommunenummer uten enhet – henter lagerenhet for hver" }
-
-        // Enkel wrapping rundt Lager
-        data class LagerEnhet(
-            val nummer: String,
-            val navn: String,
-        )
 
         val kommuneNrTilLager = unikeKommunenumre.associateWith { kommunenummer ->
             try {
