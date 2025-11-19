@@ -12,18 +12,24 @@ class EngangsjobbService(
 ) {
     // Sett enhetnr og enhetnavn på delbestillinger som mangler det
     suspend fun genererEnheter() {
-        transaction {
-            val unikeKommunenrUtenEnhet = delbestillingRepository.hentKommunenumreUtenEnhet()
+        val unikeKommunenumre = transaction {
+            delbestillingRepository.hentKommunenumreUtenEnhet()
+        }
 
-            log.info { "Har funnet ${unikeKommunenrUtenEnhet.size} unike kommunenummer uten enhet, henter lagerenhet for hver av dem" }
+        log.info { "Fant ${unikeKommunenumre.size} kommunenummer uten enhet – henter lagerenhet for hver" }
 
-            unikeKommunenrUtenEnhet.forEach { kommunenr ->
+        for (kommunenr in unikeKommunenumre) {
+            try {
                 val lager = oebs.finnLagerenhet(kommunenr)
 
-                delbestillingRepository.setEnhetForKommunenummer(kommunenr, lager)
+                transaction {
+                    delbestillingRepository.setEnhetForKommunenummer(kommunenr, lager)
+                }
+            } catch (e: Exception) {
+                log.error(e) { "Kunne ikke sette enhet for kommunenummer $kommunenr – hopper over" }
             }
-
-            log.info { "genererEnheter-jobb ferdig" }
         }
+
+        log.info { "genererEnheter-jobb ferdig" }
     }
 }
