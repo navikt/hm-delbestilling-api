@@ -90,7 +90,7 @@ class DelbestillingRepository(val tx: JdbcOperations) {
         mapOf("oebs_ordrenummer" to oebsOrdrenummer)
     ) { it.tilDelbestillingSak() }
 
-    fun hentKommunenummereUtenEnhet(): List<String> = tx.list(
+    fun hentKommunenumreUtenEnhet(): List<String> = tx.list(
         sql = """
             SELECT DISTINCT(brukers_kommunenr)
             FROM delbestilling;

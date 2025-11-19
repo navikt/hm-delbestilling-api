@@ -13,7 +13,7 @@ class EngangsjobbService(
     // Sett enhetnr og enhetnavn på delbestillinger som mangler det
     suspend fun genererEnheter() {
         transaction {
-            val unikeKommunenrUtenEnhet = delbestillingRepository.hentKommunenummereUtenEnhet()
+            val unikeKommunenrUtenEnhet = delbestillingRepository.hentKommunenumreUtenEnhet()
 
             log.info { "Har funnet ${unikeKommunenrUtenEnhet.size} unike kommunenummer uten enhet, henter lagerenhet for hver av dem" }
 
