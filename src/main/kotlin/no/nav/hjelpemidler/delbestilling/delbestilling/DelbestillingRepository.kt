@@ -90,15 +90,15 @@ class DelbestillingRepository(val tx: JdbcOperations) {
         mapOf("oebs_ordrenummer" to oebsOrdrenummer)
     ) { it.tilDelbestillingSak() }
 
-    fun hentDelbestillingerUtenEnhet(): List<DelbestillingSak> = tx.list(
+    fun hentKommunenummereUtenEnhet(): List<String> = tx.list(
         sql = """
-            SELECT * 
-            FROM delbestilling
+            SELECT DISTINCT(brukers_kommunenr)
+            FROM delbestilling;
             WHERE
                 enhetnr IS NULL AND
                 enhetnavn IS NULL
         """.trimIndent(),
-    ) { it.tilDelbestillingSak() }
+    ) { it.string("brukers_kommunenr") }
 
     fun setEnhetForKommunenummer(kommunenr: String, enhet: Lager) {
         tx.update(
