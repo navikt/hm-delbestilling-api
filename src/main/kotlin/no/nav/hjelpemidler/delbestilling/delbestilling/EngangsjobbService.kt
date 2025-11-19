@@ -11,16 +11,23 @@ class EngangsjobbService(
     private val transaction: Transactional,
     private val oebs: Oebs,
 ) {
-    suspend fun finnEnhetTilKommunenumre(): Map<String, Lager?> {
+    suspend fun finnEnhetTilKommunenumre(): Map<String, LagerEnhet?> {
         val unikeKommunenumre = transaction {
             delbestillingRepository.hentKommunenumreUtenEnhet()
         }
 
         log.info { "Fant ${unikeKommunenumre.size} kommunenummer uten enhet – henter lagerenhet for hver" }
 
+        // Enkel wrapping rundt Lager
+        data class LagerEnhet(
+            val nummer: String,
+            val navn: String,
+        )
+
         val kommuneNrTilLager = unikeKommunenumre.associateWith { kommunenummer ->
             try {
-                oebs.finnLagerenhet(kommunenummer)
+                val lager = oebs.finnLagerenhet(kommunenummer)
+                LagerEnhet(lager.nummer, lager.navn)
             } catch (e: Exception) {
                 log.error(e) { "Fant ikke lagerenhet for kommunenummer $kommunenummer, returnerer null" }
                 null
