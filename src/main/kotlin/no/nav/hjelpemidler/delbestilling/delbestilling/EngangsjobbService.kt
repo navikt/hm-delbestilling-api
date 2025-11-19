@@ -25,6 +25,7 @@ class EngangsjobbService(
                 val lager = oebs.finnLagerenhet(kommunenr)
 
                 transaction {
+                    log.info { "Oppdaterer $kommunenr med lager $lager..." }
                     delbestillingRepository.setEnhetForKommunenummer(kommunenr, lager)
                 }
 
