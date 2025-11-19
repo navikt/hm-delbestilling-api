@@ -16,11 +16,6 @@ fun Route.publicApi(
     hjelpemiddeloversikt: Hjelpemiddeloversikt,
     oppslagService: OppslagService,
 ) {
-    // Deprecated. Skal erstattes av /tilgjengelige-hjelpemidler
-    get("/hjelpemiddel-titler") {
-        call.respond(hjelpemiddeloversikt.hentAlleHjelpemiddelTitlerCached())
-    }
-
     get("/tilgjengelige-hjelpemidler") {
         call.respond(hjelpemiddeloversikt.hentTilgjengeligeHjelpemidlerCached())
     }

@@ -32,35 +32,6 @@ class Hjelpemiddeloversikt(
     private val scope: CoroutineScope,
     private val cacheDuration: Duration = 2.hours
 ) {
-
-    // Deprecated. Skal fjernes erstattes med cacheKeyTilgjengeligeHjelpemidler
-    private val cacheKey = "hjelpemidler"
-
-    private val cache: AsyncLoadingCache<String, HjelpemiddeloversiktResponse> = Caffeine.newBuilder()
-        .refreshAfterWrite(cacheDuration)
-        .maximumSize(1)
-        .buildAsync { _, _ -> scope.future { hentAlleHjelpemiddelTitler() } }
-
-    suspend fun hentAlleHjelpemiddelTitlerCached(): HjelpemiddeloversiktResponse {
-        return cache.get(cacheKey).await()
-    }
-
-    // Deprecated. Skal erstattes av hentTilgjengeligeHjelpemidler()
-    private suspend fun hentAlleHjelpemiddelTitler(): HjelpemiddeloversiktResponse {
-        val alleDelerSomKanBestilles = grunndata.hentAlleDelerSomKanBestilles()
-        val produktIDs = alleDelerSomKanBestilles.map {
-            it.attributes.compatibleWith?.productIds ?: emptyList()
-        }.flatten().toSet()
-        val serieIDs = alleDelerSomKanBestilles.map {
-            it.attributes.compatibleWith?.seriesIds ?: emptyList()
-        }.flatten().toSet()
-        val hjelpemidler = grunndata.hentAlleHjmMedIdEllerSeriesId(seriesIds = serieIDs, produktIds = produktIDs)
-
-        val hjelpemiddelNavnFraGrunndata = hjelpemidler.map { it.title.trim() }.toSet()
-
-        return HjelpemiddeloversiktResponse((hjelpemiddelNavnFraGrunndata + hjelpemiddelNavnFraManuellListe()).toSortedSet())
-    }
-
     private val cacheKeyTilgjengeligeHjelpemidler = "tilgjengeligeHjelpemidler"
 
     private val cacheTilgjengeligeHjelpemidler: AsyncLoadingCache<String, Map<String, List<Hmsnr>>> = Caffeine.newBuilder()
@@ -126,7 +97,6 @@ class Hjelpemiddeloversikt(
         scope.launch {
             log.info { "Prepopulerer hjelpemidler cache" }
             measureTimeMillis {
-                cache.get(cacheKey).await()
                 cacheTilgjengeligeHjelpemidler.get(cacheKeyTilgjengeligeHjelpemidler).await()
             }.also { log.info { "Prepopulering tok $it ms." } }
         }
@@ -135,7 +105,6 @@ class Hjelpemiddeloversikt(
             while (isActive) {
                 delay(cacheDuration.plus(1.seconds)) // Legg på 1 sek for å sikre at cachen er utdatert før vi refresher
                 log.info { "Refresher hjelpemiddel cache" }
-                cache.synchronous().refresh(cacheKey)
                 cacheTilgjengeligeHjelpemidler.synchronous().refresh(cacheKeyTilgjengeligeHjelpemidler)
             }
         }
@@ -156,15 +125,4 @@ private fun hjelpemidlerFraManuellListe(): Map<String, List<String>> {
         }
 
     return hjelpemidler
-}
-
-private fun hjelpemiddelNavnFraManuellListe(): Set<String> {
-    val hjmNavnRegex = Regex("^(.*?)\\s(sb\\d+|K|L|Led|HD|sd\\d+|voksen).*$")
-
-    val hjelpemiddelNavn = hmsnrTilHjelpemiddelnavn.values.map {
-        val match = hjmNavnRegex.find(it.navn)
-        match?.groups?.get(1)?.value ?: it.navn
-    }.toSet()
-
-    return hjelpemiddelNavn
 }
