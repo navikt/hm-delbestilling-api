@@ -106,7 +106,7 @@ class DelbestillingRepository(val tx: JdbcOperations) {
             UPDATE delbestilling
             SET
                 enhetnr = :enhetnr,
-                enhetnavn = :enhetnavn,
+                enhetnavn = :enhetnavn
             WHERE brukers_kommunenr = :brukers_kommunenr
         """.trimIndent(),
             queryParameters = mapOf(
