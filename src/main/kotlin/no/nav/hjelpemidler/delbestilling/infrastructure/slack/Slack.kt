@@ -89,6 +89,7 @@ class Slack(
         brukersKommunenavn: String,
         enhetnr: String
     ) {
+        // TODO: her kan vi heller bruke enhet fra Delbestillingsak
         val lager = runCatching { Lager.fraLagernummer(enhetnr) }.getOrNull()?.name
         sendSafely(
             emoji = "pepe_cowboy",

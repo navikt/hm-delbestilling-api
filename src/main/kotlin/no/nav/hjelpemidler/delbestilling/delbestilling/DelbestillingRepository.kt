@@ -101,6 +101,17 @@ class DelbestillingRepository(val tx: JdbcOperations) {
         """.trimIndent(),
     ) { it.string("brukers_kommunenr") }
 
+    fun hentKlargjorteDelbestillinger(eldreEnnDager: Number): List<DelbestillingSak> = tx.list(
+        sql = """
+            SELECT *
+            FROM delbestilling
+            WHERE status = 'KLARGJORT'
+              AND opprettet < NOW() - (:dager * INTERVAL '1 day')
+            ORDER BY opprettet DESC;
+        """.trimIndent(),
+            queryParameters = mapOf("dager" to eldreEnnDager)
+    ) { it.tilDelbestillingSak() }
+
     fun oppdaterDelbestillingSak(sak: DelbestillingSak) {
         tx.update(
             sql = """
@@ -130,6 +141,8 @@ private fun Row.tilDelbestillingSak() = DelbestillingSak(
     oebsOrdrenummer = this.stringOrNull("oebs_ordrenummer"),
     brukersKommunenummer = this.string("brukers_kommunenr"),
     brukersKommunenavn = this.string("brukers_kommunenavn"),
+    enhetnr = this.string("enhetnr"),
+    enhetnavn = this.string("enhetnavn"),
 )
 
 private fun <T> pgJsonbOf(value: T): Any =

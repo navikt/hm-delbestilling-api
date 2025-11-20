@@ -12,6 +12,8 @@ import no.nav.hjelpemidler.delbestilling.config.isLocal
 import no.nav.hjelpemidler.delbestilling.config.isProd
 import no.nav.hjelpemidler.delbestilling.delbestilling.anmodning.AnmodningService
 import no.nav.hjelpemidler.delbestilling.delbestilling.anmodning.Anmodningrapport
+import no.nav.hjelpemidler.delbestilling.delbestilling.ikkeSkipedeDelbestillinger.IkkeSkipedeDelbestillingerService
+import no.nav.hjelpemidler.delbestilling.delbestilling.ikkeSkipedeDelbestillinger.IkkeSkipetDelbestillingerRapport
 import no.nav.hjelpemidler.delbestilling.infrastructure.geografi.Kommuneoppslag
 import no.nav.hjelpemidler.delbestilling.infrastructure.metrics.Metrics
 import no.nav.hjelpemidler.delbestilling.infrastructure.oebs.Oebs
@@ -37,6 +39,7 @@ class DelbestillingService(
     private val metrics: Metrics,
     private val slack: Slack,
     private val anmodningService: AnmodningService,
+    private val ikkeSkipedeDelbestillingerService: IkkeSkipedeDelbestillingerService,
 ) {
     suspend fun opprettDelbestilling(
         request: DelbestillingRequest,
@@ -251,5 +254,17 @@ class DelbestillingService(
             slack.varsleOmRapporteringFeilet()
             throw t
         }
+    }
+
+    suspend fun rapporterIkkeSkipedeDelbestillinger(): List<IkkeSkipetDelbestillingerRapport> {
+        val rapporter = ikkeSkipedeDelbestillingerService.genererIkkeSkipedeDelbestillingerRapporter()
+        if (rapporter.isEmpty()) {
+            log.info { "Ingen rapporter for ikke-skipede delbestillinger generert. Ingenting sendes." }
+        }
+        rapporter.forEach {
+            ikkeSkipedeDelbestillingerService.sendIkkeSkipedeDelbestillingerRapport(it)
+        }
+
+        return rapporter
     }
 }

@@ -4,6 +4,7 @@ import io.mockk.mockk
 import kotlinx.coroutines.test.runTest
 import no.nav.hjelpemidler.delbestilling.delbestilling.DelbestillingService
 import no.nav.hjelpemidler.delbestilling.delbestilling.anmodning.AnmodningService
+import no.nav.hjelpemidler.delbestilling.delbestilling.ikkeSkipedeDelbestillinger.IkkeSkipedeDelbestillingerService
 import no.nav.hjelpemidler.delbestilling.fakes.ElectorFake
 import no.nav.hjelpemidler.delbestilling.fakes.GraphClientFake
 import no.nav.hjelpemidler.delbestilling.fakes.GrunndataClientFake
@@ -101,8 +102,9 @@ class TestContext {
     val oppslagClient = OppslagClientFake()
     val kommuneoppslag = Kommuneoppslag(oppslagClient)
     val anmodningService = AnmodningService(transaction, oebs, slack, email, grunndata)
+    val ikkeSkipedeDelbestillingerService = IkkeSkipedeDelbestillingerService(transaction, email)
     val delbestillingService =
-        DelbestillingService(transaction, pdl, oebs, kommuneoppslag, metrics, slack, anmodningService)
+        DelbestillingService(transaction, pdl, oebs, kommuneoppslag, metrics, slack, anmodningService, ikkeSkipedeDelbestillingerService)
 
     // Status
     val delbestillingStatusService = DelbestillingStatusService(transaction, oebs, metrics, slack)

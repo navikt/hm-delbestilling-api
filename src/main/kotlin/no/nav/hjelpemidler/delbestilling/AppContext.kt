@@ -7,6 +7,7 @@ import kotlinx.coroutines.cancel
 import no.nav.hjelpemidler.delbestilling.config.DatabaseConfig
 import no.nav.hjelpemidler.delbestilling.delbestilling.DelbestillingService
 import no.nav.hjelpemidler.delbestilling.delbestilling.EngangsjobbService
+import no.nav.hjelpemidler.delbestilling.delbestilling.ikkeSkipedeDelbestillinger.IkkeSkipedeDelbestillingerService
 import no.nav.hjelpemidler.delbestilling.delbestilling.anmodning.AnmodningService
 import no.nav.hjelpemidler.delbestilling.devtools.DevTools
 import no.nav.hjelpemidler.delbestilling.infrastructure.email.Email
@@ -96,9 +97,10 @@ class AppContext {
         BerikMedDagerSidenForrigeBatteribestilling(transactional)
 
     val anmodningService = AnmodningService(transactional, oebs, slack, email, grunndata)
+    val ikkeSkipedeDelbestillingerService = IkkeSkipedeDelbestillingerService(transactional, email)
     val hjelpemiddeloversikt = Hjelpemiddeloversikt(grunndata, finnDelerTilHjelpemiddel, backgroundScope)
     val delbestillingService =
-        DelbestillingService(transactional, pdl, oebs, kommuneoppslag, metrics, slack, anmodningService)
+        DelbestillingService(transactional, pdl, oebs, kommuneoppslag, metrics, slack, anmodningService, ikkeSkipedeDelbestillingerService)
     val oppslagService = OppslagService(
         pdl,
         oebs,

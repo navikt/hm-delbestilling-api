@@ -36,6 +36,10 @@ fun Route.devtoolsApi(
         call.respond(delbestillingService.rapporterDelerTilAnmodning())
     }
 
+    post("/rapporter-ikke-skipede-delbestillinger") {
+        call.respond(delbestillingService.rapporterIkkeSkipedeDelbestillinger())
+    }
+
     delete("/rapporter-deler-uten-dekning") {
         call.respond(devTools.markerDelerSomIkkeBehandlet())
     }

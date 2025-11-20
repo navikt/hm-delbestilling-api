@@ -12,6 +12,8 @@ data class DelbestillingSak(
     val oebsOrdrenummer: String?,
     val brukersKommunenummer: String,
     val brukersKommunenavn: String,
+    val enhetnr: String,
+    val enhetnavn: String,
 ) {
     fun oppdaterOebsOrdrenummer(ordrenummer: String): DelbestillingSak {
         if (this.oebsOrdrenummer == null) {
