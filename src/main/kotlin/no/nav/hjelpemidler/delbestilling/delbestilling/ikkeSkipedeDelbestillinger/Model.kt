@@ -54,6 +54,12 @@ data class IkkeSkipetDelbestillingerRapport(
                         }}
                     </tbody>
                 </table>
+                
+                <p>Dersom dere har spørsmål til dette så kan dere svare oss tilbake på denne e-posten.</p>
+                <p>
+                    Vennlig hilsen <br/>
+                    DigiHoT
+                </p>
             </body>
             </html>
         """.trimIndent()
