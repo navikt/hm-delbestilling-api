@@ -16,6 +16,7 @@ import no.nav.hjelpemidler.delbestilling.delbestilling.delbestillingApiAuthentic
 import no.nav.hjelpemidler.delbestilling.devtools.devtoolsApi
 import no.nav.hjelpemidler.delbestilling.infrastructure.monitoring.helsesjekkApi
 import no.nav.hjelpemidler.delbestilling.infrastructure.security.medDelbestillerRolle
+import no.nav.hjelpemidler.delbestilling.oppslag.engangsJobbApi
 import no.nav.hjelpemidler.delbestilling.oppslag.legacy.data.validerData
 import no.nav.hjelpemidler.delbestilling.oppslag.publicApi
 import no.nav.hjelpemidler.delbestilling.ordrestatus.ordrestatusRoutes
@@ -61,6 +62,8 @@ fun Application.setupRoutes(ctx: AppContext) {
             }
 
             publicApi(ctx.hjelpemiddeloversikt, ctx.oppslagService)
+
+            engangsJobbApi(ctx.engangsjobbService)
 
             if (isDev()) {
                 devtoolsApi(ctx.devtools(), ctx.delbestillingService)

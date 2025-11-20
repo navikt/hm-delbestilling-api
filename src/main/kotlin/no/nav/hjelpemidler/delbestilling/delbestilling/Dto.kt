@@ -27,6 +27,7 @@ enum class DelbestillingFeil {
     KAN_IKKE_BESTILLE,
     ULIK_ADRESSE_PDL_OEBS,
     FOR_MANGE_BESTILLINGER_SISTE_24_TIMER,
+    LAGERENHET_IKKE_FUNNET,
 }
 
 enum class BestillerType {

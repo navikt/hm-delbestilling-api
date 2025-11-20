@@ -6,6 +6,7 @@ import no.nav.hjelpemidler.database.pgObjectOf
 import no.nav.hjelpemidler.delbestilling.common.Delbestilling
 import no.nav.hjelpemidler.delbestilling.common.DelbestillingSak
 import no.nav.hjelpemidler.delbestilling.common.Hmsnr
+import no.nav.hjelpemidler.delbestilling.common.Lager
 import no.nav.hjelpemidler.delbestilling.common.Serienr
 import no.nav.hjelpemidler.delbestilling.common.Status
 import no.nav.hjelpemidler.delbestilling.infrastructure.jsonMapper
@@ -21,10 +22,11 @@ class DelbestillingRepository(val tx: JdbcOperations) {
         brukersKommunenavn: String,
         bestillersOrganisasjon: Organisasjon,
         bestillerType: BestillerType,
+        lagerEnhet: Lager,
     ): Long = tx.updateAndReturnGeneratedKey(
         sql = """
-            INSERT INTO delbestilling (brukers_kommunenr, fnr_bruker, fnr_bestiller, delbestilling_json, status, brukers_kommunenavn, bestillers_organisasjon, bestiller_type)
-            VALUES (:brukers_kommunenr, :fnr_bruker, :fnr_bestiller, :delbestilling_json::jsonb, :status, :brukers_kommunenavn, :bestillers_organisasjon::jsonb, :bestiller_type)
+            INSERT INTO delbestilling (brukers_kommunenr, fnr_bruker, fnr_bestiller, delbestilling_json, status, brukers_kommunenavn, bestillers_organisasjon, bestiller_type, enhetnr, enhetnavn)
+            VALUES (:brukers_kommunenr, :fnr_bruker, :fnr_bestiller, :delbestilling_json::jsonb, :status, :brukers_kommunenavn, :bestillers_organisasjon::jsonb, :bestiller_type, :enhetnr, :enhetnavn)
         """.trimIndent(),
         queryParameters = mapOf(
             "brukers_kommunenr" to brukerKommunenr,
@@ -35,6 +37,8 @@ class DelbestillingRepository(val tx: JdbcOperations) {
             "brukers_kommunenavn" to brukersKommunenavn,
             "bestillers_organisasjon" to jsonMapper.writeValueAsString(bestillersOrganisasjon),
             "bestiller_type" to bestillerType,
+            "enhetnr" to lagerEnhet.nummer,
+            "enhetnavn" to lagerEnhet.navn,
         ),
     )
 
@@ -85,6 +89,17 @@ class DelbestillingRepository(val tx: JdbcOperations) {
         """.trimIndent(),
         mapOf("oebs_ordrenummer" to oebsOrdrenummer)
     ) { it.tilDelbestillingSak() }
+
+    fun hentKommunenumreUtenEnhet(): List<String> = tx.list(
+        sql = """
+            SELECT DISTINCT(brukers_kommunenr)
+            FROM delbestilling
+            WHERE
+                enhetnr IS NULL AND
+                enhetnavn IS NULL
+            ORDER BY brukers_kommunenr ASC
+        """.trimIndent(),
+    ) { it.string("brukers_kommunenr") }
 
     fun oppdaterDelbestillingSak(sak: DelbestillingSak) {
         tx.update(

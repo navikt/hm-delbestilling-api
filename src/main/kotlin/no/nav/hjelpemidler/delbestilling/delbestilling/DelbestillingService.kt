@@ -70,6 +70,13 @@ class DelbestillingService(
             throw e
         }
 
+        val lagerEnhet = try {
+            oebs.finnLagerenhet(brukerKommunenr)
+        } catch (e: Exception) {
+            log.error(e) { "Klarte ikke opprette delbestilling, fant ikke lagerenhet for kommunenummer $brukerKommunenr" }
+            return DelbestillingResultat(id, feil = DelbestillingFeil.LAGERENHET_IKKE_FUNNET)
+        }
+
         val brukersKommunenavn = kommuneoppslag.kommunenavnOrNull(brukerKommunenr) ?: "Ukjent"
 
         // Det skal ikke være mulig å bestille til seg selv (disabler i dev pga testdata)
@@ -126,6 +133,7 @@ class DelbestillingService(
                 brukersKommunenavn,
                 innsendersRepresenterteOrganisasjon,
                 bestillerType,
+                lagerEnhet,
             )
 
             // Hent ut den nye delbestillingsaken

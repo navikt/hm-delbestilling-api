@@ -8,7 +8,7 @@ on:
       - "CODEOWNERS"
     branches:
       - main
-      - månedsrapport-anmodninger
+      - delbestilling-enhet
 
 jobs:
   build:
