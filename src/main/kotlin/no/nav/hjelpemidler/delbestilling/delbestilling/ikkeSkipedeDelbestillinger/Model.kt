@@ -37,18 +37,18 @@ data class IkkeSkipetDelbestillingerRapport(
                 <table>
                     <thead>
                         <tr>
+                            <th>Opprettet</th>
                             <th>OeBS-ordrenummer</th>
                             <th>Deler</th>
-                            <th>Opprettet</th>
                         </tr>
                     </thead>
                     <tbody>
                         ${this.delbestillinger.sortedByDescending { it.opprettet }.joinToString("") {
                             """
                                 <tr>
+                                    <td>${it.opprettet.toLocalDate()}</td>
                                     <td>${it.oebsOrdrenummer}</td>
                                     <td>${it.delbestilling.deler.joinToString("<br/>") {delLinje -> "${delLinje.del.hmsnr} ${delLinje.del.navn} (${delLinje.antall}stk)" }}</td>
-                                    <td>${it.opprettet.toLocalDate()}</td>
                                 </tr>
                             """.trimIndent()
                         }}
