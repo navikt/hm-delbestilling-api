@@ -63,7 +63,7 @@ fun Application.setupRoutes(ctx: AppContext) {
 
             publicApi(ctx.hjelpemiddeloversikt, ctx.oppslagService)
 
-            engangsJobbApi(ctx.engangsjobbService)
+            // engangsJobbApi(ctx.engangsjobbService)
 
             if (isDev()) {
                 devtoolsApi(ctx.devtools(), ctx.delbestillingService)
