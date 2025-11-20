@@ -47,7 +47,7 @@ data class IkkeSkipetDelbestillingerRapport(
                             """
                                 <tr>
                                     <td>${it.oebsOrdrenummer}</td>
-                                    <td>${it.delbestilling.deler.joinToString("<br/>") {del -> "${del.del.hmsnr} ${del.del.navn} (${del.antall}stk)" }}</td>
+                                    <td>${it.delbestilling.deler.joinToString("<br/>") {delLinje -> "${delLinje.del.hmsnr} ${delLinje.del.navn} (${delLinje.antall}stk)" }}</td>
                                     <td>${it.opprettet}</td>
                                 </tr>
                             """.trimIndent()
