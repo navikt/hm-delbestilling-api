@@ -135,6 +135,11 @@ class Slack(
         message = "Utsending av mail til HMS om deler som må anmodes feilet. Må følges opp manuelt."
     )
 
+    fun varsleOmRapporteringIkkeSkipedeDelbestillingerFeilet() = sendSafely(
+        emoji = "error",
+        message = "Utsending av mail til HMS om delbestillinger som ikke er skipningsbekreftet feilet. Må følges opp manuelt."
+    )
+
     fun varsleOmPotensiellBatteriKategorier(deler: List<Del>) = sendSafely(
         emoji = "low_battery",
         message = "Følgende deler med 'batteri' i kategorien sin har blitt bestilt. Vurder om de krever kurs eller skal legges inn som 'håndterteBatterikategorier'. ```${

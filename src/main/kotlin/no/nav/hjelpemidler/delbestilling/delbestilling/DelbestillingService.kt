@@ -257,14 +257,20 @@ class DelbestillingService(
     }
 
     suspend fun rapporterIkkeSkipedeDelbestillinger(): List<IkkeSkipetDelbestillingerRapport> {
-        val rapporter = ikkeSkipedeDelbestillingerService.genererIkkeSkipedeDelbestillingerRapporter()
-        if (rapporter.isEmpty()) {
-            log.info { "Ingen rapporter for ikke-skipede delbestillinger generert. Ingenting sendes." }
-        }
-        rapporter.forEach {
-            ikkeSkipedeDelbestillingerService.sendIkkeSkipedeDelbestillingerRapport(it)
-        }
+        try {
+            val rapporter = ikkeSkipedeDelbestillingerService.genererIkkeSkipedeDelbestillingerRapporter()
+            if (rapporter.isEmpty()) {
+                log.info { "Ingen rapporter for ikke-skipede delbestillinger generert. Ingenting sendes." }
+            }
+            rapporter.forEach {
+                ikkeSkipedeDelbestillingerService.sendIkkeSkipedeDelbestillingerRapport(it)
+            }
 
-        return rapporter
+            return rapporter
+        } catch (t: Throwable) {
+            log.error(t) { "Rapportering av ikke-skipede delbestillinger feilet." }
+            slack.varsleOmRapporteringIkkeSkipedeDelbestillingerFeilet()
+            throw t
+        }
     }
 }

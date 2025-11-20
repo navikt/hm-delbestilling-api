@@ -41,6 +41,19 @@ fun kl0120FørsteDagINesteMåned(clock: Clock): LocalDateTime {
     return starttidspunkt
 }
 
+fun kl0130FørsteDagINesteMåned(clock: Clock): LocalDateTime {
+    val nå = LocalDateTime.now(clock)
+    var starttidspunkt = nå.withDayOfMonth(1).withHour(1).withMinute(30)
+
+    if (starttidspunkt < nå) {
+        // Start neste måned, med mindre klokken nå er mellom 00:00 og 00:59 på den 1. i måneden
+        starttidspunkt = starttidspunkt.plusMonths(1)
+    }
+
+    return starttidspunkt
+}
+
+
 private fun erHelg(dato: LocalDate): Boolean {
     val dag = dato.dayOfWeek
     return dag == DayOfWeek.SATURDAY || dag == DayOfWeek.SUNDAY

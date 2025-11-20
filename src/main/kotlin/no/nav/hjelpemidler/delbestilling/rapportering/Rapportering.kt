@@ -27,7 +27,7 @@ class Rapportering(
         jobbScheduler.schedulerGjentagendeJobb(
             navn = "ikke_skipede_delbestillinger",
             jobb = { rapporterIkkeSkipedeDelbestillinger() },
-            beregnNesteKjøring = { clock -> kl0120FørsteDagINesteMåned(clock) }
+            beregnNesteKjøring = { clock -> kl0130FørsteDagINesteMåned(clock) }
         )
     }
 
