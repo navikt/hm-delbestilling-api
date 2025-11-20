@@ -439,4 +439,7 @@ UPDATE delbestilling
         WHEN brukers_kommunenr = '5402' THEN 'Troms'
         WHEN brukers_kommunenr = '5411' THEN 'Troms'
         ELSE NULL
-    END;
+    END
+    WHERE enhetnr IS NULL
+    AND enhetnavn IS NULL;
+
