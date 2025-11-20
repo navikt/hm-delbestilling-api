@@ -101,23 +101,6 @@ class DelbestillingRepository(val tx: JdbcOperations) {
         """.trimIndent(),
     ) { it.string("brukers_kommunenr") }
 
-    fun setEnhetForKommunenummer(kommunenr: String, enhet: Lager) {
-        tx.update(
-            sql = """
-            UPDATE delbestilling
-            SET
-                enhetnr = :enhetnr,
-                enhetnavn = :enhetnavn
-            WHERE brukers_kommunenr = :brukers_kommunenr
-        """.trimIndent(),
-            queryParameters = mapOf(
-                "enhetnr" to enhet.nummer,
-                "enhetnavn" to enhet.navn,
-                "brukers_kommunenr" to kommunenr
-            )
-        )
-    }
-
     fun oppdaterDelbestillingSak(sak: DelbestillingSak) {
         tx.update(
             sql = """

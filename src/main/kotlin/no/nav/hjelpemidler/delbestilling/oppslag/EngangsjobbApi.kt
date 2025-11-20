@@ -9,7 +9,7 @@ fun Route.engangsJobbApi(
     engangsjobbService: EngangsjobbService
 ) {
     post("/finn-enheter-til-kommunenumre") {
-        val respons = engangsjobbService.finnEnhetTilKommunenumre()
+        val respons = engangsjobbService.finnEnheterTilKommunenumre()
         call.respond(respons)
     }
 }
