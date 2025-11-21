@@ -28,7 +28,7 @@ data class IkkeSkipetDelbestillingerRapport(
             </head>
             <body>
                 <p>
-                    Her er en oversikt over ordre som er eldre enn 30 dager som fortsatt har status KLARGJORT i OeBS.
+                    Her er en oversikt over deler som ikke er plukket og sendt til kommunen fra lager ${this.lager.navn}.
                     Dere vurderer om det trengs å gjøres noe spesielt med disse.
                     </br>
                     </br>
