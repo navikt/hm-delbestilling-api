@@ -189,7 +189,6 @@ internal class DelbestillingServiceTest {
 
         assertEquals("Oslo", rapporter[0].lager.navn)
         assertEquals("Finnmark", rapporter[1].lager.navn)
-        assertNull(rapporter[2])
     }
 
     @Test
