@@ -7,6 +7,7 @@ import no.nav.hjelpemidler.delbestilling.common.Delbestilling
 import no.nav.hjelpemidler.delbestilling.common.DelbestillingSak
 import no.nav.hjelpemidler.delbestilling.common.Hmsnr
 import no.nav.hjelpemidler.delbestilling.common.Serienr
+import no.nav.hjelpemidler.delbestilling.common.Status
 import no.nav.hjelpemidler.delbestilling.config.isDev
 import no.nav.hjelpemidler.delbestilling.config.isLocal
 import no.nav.hjelpemidler.delbestilling.config.isProd
@@ -256,12 +257,14 @@ class DelbestillingService(
         }
     }
 
-    suspend fun rapporterKlargjorteDelbestillinger(): List<KlargjorteDelbestillingerRapport> {
+    suspend fun rapporterKlargjorteDelbestillinger(eldreEnnDager: Int): List<KlargjorteDelbestillingerRapport> {
         try {
-            val rapporter = klargjorteDelbestillingerService.genererKlargjorteDelbestillingerRapporter()
+            val rapporter = klargjorteDelbestillingerService.genererKlargjorteDelbestillingerRapporter(eldreEnnDager)
+
             if (rapporter.isEmpty()) {
                 log.info { "Ingen rapporter for klargjorte delbestillinger generert. Ingenting sendes." }
             }
+
             rapporter.forEach {
                 klargjorteDelbestillingerService.sendKlargjorteDelbestillingererRapport(it)
             }

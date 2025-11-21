@@ -40,6 +40,6 @@ class Rapportering(
     }
 
     suspend fun rapporterKlargjorteDelbestillinger() {
-        delbestillingService.rapporterKlargjorteDelbestillinger()
+        delbestillingService.rapporterKlargjorteDelbestillinger(eldreEnnDager = 30)
     }
 }

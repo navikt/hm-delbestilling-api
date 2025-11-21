@@ -28,8 +28,7 @@ data class KlargjorteDelbestillingerRapport(
             </head>
             <body>
                 <p>
-                    Her er en oversikt over deler som ikke er plukket og sendt til kommunen fra lager ${this.lager.navn}.
-                    Dere vurderer om det trengs å gjøres noe spesielt med disse.
+                    Her er en oversikt over deler som ikke er plukket og sendt til kommunen fra lager ${this.lager.navn}. Dere vurderer om det trengs å gjøres noe spesielt med disse.
                     </br>
                     </br>
                     HMS lager: ${this.lager.navn} </br>
@@ -43,14 +42,14 @@ data class KlargjorteDelbestillingerRapport(
                         </tr>
                     </thead>
                     <tbody>
-                        ${this.delbestillinger.sortedByDescending { it.opprettet }.joinToString("") {
-                            """
-                                <tr>
-                                    <td>${it.opprettet.toLocalDate()}</td>
-                                    <td>${it.oebsOrdrenummer}</td>
-                                    <td>${it.delbestilling.deler.joinToString("<br/>") {delLinje -> "${delLinje.del.hmsnr} ${delLinje.del.navn} (${delLinje.antall}stk)" }}</td>
-                                </tr>
-                            """.trimIndent()
+                        ${this.delbestillinger.sortedByDescending { it.opprettet }.joinToString("") { 
+                        """
+                        <tr>
+                            <td>${it.opprettet.toLocalDate()}</td>
+                            <td>${it.oebsOrdrenummer}</td>
+                            <td>${it.delbestilling.deler.joinToString("<br/>") {delLinje -> "${delLinje.del.hmsnr} ${delLinje.del.navn} (${delLinje.antall}stk)" }}</td>
+                        </tr>
+                        """
                         }}
                     </tbody>
                 </table>

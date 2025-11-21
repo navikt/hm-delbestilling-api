@@ -15,6 +15,7 @@ data class Delbestilling(
     val levering: Levering,
     val harOpplæringPåBatteri: Boolean?,
     val navn: String?,
+    val status: Status? = Status.INNSENDT,
 ) {
     fun oppdaterDellinjeStatus(status: DellinjeStatus, hmsnr: Hmsnr, datoOppdatert: LocalDate): Delbestilling {
         val oppdaterteDeler = deler.map {

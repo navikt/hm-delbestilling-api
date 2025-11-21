@@ -37,7 +37,7 @@ fun Route.devtoolsApi(
     }
 
     post("/rapporter-klargjorte-delbestillinger") {
-        call.respond(delbestillingService.rapporterKlargjorteDelbestillinger())
+        call.respond(delbestillingService.rapporterKlargjorteDelbestillinger(30))
     }
 
     delete("/rapporter-deler-uten-dekning") {

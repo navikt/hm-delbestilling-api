@@ -7,6 +7,8 @@ import no.nav.hjelpemidler.delbestilling.delbestilling.DelbestillingRequest
 import no.nav.hjelpemidler.delbestilling.delbestilling.DelbestillingResultat
 import no.nav.hjelpemidler.delbestilling.infrastructure.roller.Delbestiller
 import no.nav.hjelpemidler.delbestilling.TestContext
+import no.nav.hjelpemidler.delbestilling.common.Lager
+import no.nav.hjelpemidler.delbestilling.common.Status
 import no.nav.hjelpemidler.delbestilling.testdata.Testdata
 import no.nav.hjelpemidler.delbestilling.testdata.delLinje
 import no.nav.hjelpemidler.delbestilling.testdata.delbestillerRolle
@@ -19,7 +21,9 @@ import java.time.LocalDateTime
 // Bedre å benytte den ekte koden i tester. Kan kanskje bruke java.time.Clock for å opprette delbestillinger i fortid.
 suspend fun TestContext.gittDelbestilling(
     delbestilling: Delbestilling = delbestilling(),
-    dagerSidenOpprettelse: Long? = null
+    dagerSidenOpprettelse: Long? = null,
+    lagerEnhet: Lager = Testdata.defaultEnhet,
+    status: Status = Status.INNSENDT,
 ) {
     transaction(returnGeneratedKeys = true) {
         val saksnummer = delbestillingRepository.lagreDelbestilling(
@@ -30,7 +34,8 @@ suspend fun TestContext.gittDelbestilling(
             brukersKommunenavn = Testdata.defaultKommunenavn,
             bestillersOrganisasjon = organisasjon(),
             bestillerType = BestillerType.KOMMUNAL,
-            lagerEnhet = Testdata.defaultEnhet,
+            lagerEnhet = lagerEnhet,
+            status = status,
         )
 
         if (dagerSidenOpprettelse != null) {
