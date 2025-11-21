@@ -1,9 +1,9 @@
-package no.nav.hjelpemidler.delbestilling.delbestilling.ikkeSkipedeDelbestillinger
+package no.nav.hjelpemidler.delbestilling.delbestilling.klargjorte
 
 import no.nav.hjelpemidler.delbestilling.common.DelbestillingSak
 import no.nav.hjelpemidler.delbestilling.common.Lager
 
-data class IkkeSkipetDelbestillingerRapport(
+data class KlargjorteDelbestillingerRapport(
     val lager: Lager,
     val delbestillinger: List<DelbestillingSak>,
 ) {
@@ -13,7 +13,7 @@ data class IkkeSkipetDelbestillingerRapport(
             <html>
             <head>
                 <meta charset="UTF-8">
-                <title>TEST: ikke-skipede delbestillinger</title>
+                <title>Ikke-plukkede delbestillinger</title>
                 <style>
                     table {
                         width: 100%;

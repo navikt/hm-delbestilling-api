@@ -25,8 +25,8 @@ class Rapportering(
         )
 
         jobbScheduler.schedulerGjentagendeJobb(
-            navn = "ikke_skipede_delbestillinger",
-            jobb = { rapporterIkkeSkipedeDelbestillinger() },
+            navn = "klargjorte_delbestillinger",
+            jobb = { rapporterKlargjorteDelbestillinger() },
             beregnNesteKjøring = { clock -> kl0130FørsteDagINesteMåned(clock) }
         )
     }
@@ -39,7 +39,7 @@ class Rapportering(
         månedsrapportAnmodningsbehov.sendRapporterForForrigeMåned()
     }
 
-    suspend fun rapporterIkkeSkipedeDelbestillinger() {
-        delbestillingService.rapporterIkkeSkipedeDelbestillinger()
+    suspend fun rapporterKlargjorteDelbestillinger() {
+        delbestillingService.rapporterKlargjorteDelbestillinger()
     }
 }

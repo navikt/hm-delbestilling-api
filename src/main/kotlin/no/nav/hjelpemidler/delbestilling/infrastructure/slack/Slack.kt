@@ -135,9 +135,9 @@ class Slack(
         message = "Utsending av mail til HMS om deler som må anmodes feilet. Må følges opp manuelt."
     )
 
-    fun varsleOmRapporteringIkkeSkipedeDelbestillingerFeilet() = sendSafely(
+    fun varsleOmRapporteringKlargjorteDelbestillingerFeilet() = sendSafely(
         emoji = "error",
-        message = "Utsending av mail til HMS om delbestillinger som ikke er skipningsbekreftet feilet. Må følges opp manuelt."
+        message = "Utsending av mail til HMS om delbestillinger som er klargjorte feilet. Må følges opp manuelt."
     )
 
     fun varsleOmPotensiellBatteriKategorier(deler: List<Del>) = sendSafely(

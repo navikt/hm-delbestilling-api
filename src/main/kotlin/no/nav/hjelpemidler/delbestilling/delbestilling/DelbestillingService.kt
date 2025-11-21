@@ -12,8 +12,8 @@ import no.nav.hjelpemidler.delbestilling.config.isLocal
 import no.nav.hjelpemidler.delbestilling.config.isProd
 import no.nav.hjelpemidler.delbestilling.delbestilling.anmodning.AnmodningService
 import no.nav.hjelpemidler.delbestilling.delbestilling.anmodning.Anmodningrapport
-import no.nav.hjelpemidler.delbestilling.delbestilling.ikkeSkipedeDelbestillinger.IkkeSkipedeDelbestillingerService
-import no.nav.hjelpemidler.delbestilling.delbestilling.ikkeSkipedeDelbestillinger.IkkeSkipetDelbestillingerRapport
+import no.nav.hjelpemidler.delbestilling.delbestilling.klargjorte.KlargjorteDelbestillingerService
+import no.nav.hjelpemidler.delbestilling.delbestilling.klargjorte.KlargjorteDelbestillingerRapport
 import no.nav.hjelpemidler.delbestilling.infrastructure.geografi.Kommuneoppslag
 import no.nav.hjelpemidler.delbestilling.infrastructure.metrics.Metrics
 import no.nav.hjelpemidler.delbestilling.infrastructure.oebs.Oebs
@@ -39,7 +39,7 @@ class DelbestillingService(
     private val metrics: Metrics,
     private val slack: Slack,
     private val anmodningService: AnmodningService,
-    private val ikkeSkipedeDelbestillingerService: IkkeSkipedeDelbestillingerService,
+    private val klargjorteDelbestillingerService: KlargjorteDelbestillingerService,
 ) {
     suspend fun opprettDelbestilling(
         request: DelbestillingRequest,
@@ -256,20 +256,20 @@ class DelbestillingService(
         }
     }
 
-    suspend fun rapporterIkkeSkipedeDelbestillinger(): List<IkkeSkipetDelbestillingerRapport> {
+    suspend fun rapporterKlargjorteDelbestillinger(): List<KlargjorteDelbestillingerRapport> {
         try {
-            val rapporter = ikkeSkipedeDelbestillingerService.genererIkkeSkipedeDelbestillingerRapporter()
+            val rapporter = klargjorteDelbestillingerService.genererKlargjorteDelbestillingerRapporter()
             if (rapporter.isEmpty()) {
-                log.info { "Ingen rapporter for ikke-skipede delbestillinger generert. Ingenting sendes." }
+                log.info { "Ingen rapporter for klargjorte delbestillinger generert. Ingenting sendes." }
             }
             rapporter.forEach {
-                ikkeSkipedeDelbestillingerService.sendIkkeSkipedeDelbestillingerRapport(it)
+                klargjorteDelbestillingerService.sendKlargjorteDelbestillingererRapport(it)
             }
 
             return rapporter
         } catch (t: Throwable) {
-            log.error(t) { "Rapportering av ikke-skipede delbestillinger feilet." }
-            slack.varsleOmRapporteringIkkeSkipedeDelbestillingerFeilet()
+            log.error(t) { "Rapportering av klargjorte delbestillinger feilet." }
+            slack.varsleOmRapporteringKlargjorteDelbestillingerFeilet()
             throw t
         }
     }
