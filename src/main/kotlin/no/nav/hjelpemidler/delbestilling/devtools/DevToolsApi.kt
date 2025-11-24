@@ -11,11 +11,13 @@ import no.nav.hjelpemidler.delbestilling.delbestilling.DelbestillingService
 import no.nav.hjelpemidler.delbestilling.delbestilling.requireHmsnr
 import no.nav.hjelpemidler.delbestilling.delbestilling.requireSerienr
 import no.nav.hjelpemidler.delbestilling.oppslag.OppslagRequest
+import no.nav.hjelpemidler.delbestilling.rapportering.klargjorte.KlargjorteDelbestillingerService
 
 
 fun Route.devtoolsApi(
     devTools: DevTools,
     delbestillingService: DelbestillingService,
+    klargjorteDelbestillingerService: KlargjorteDelbestillingerService,
 ) {
 
     if (!isDev()) return
@@ -34,6 +36,10 @@ fun Route.devtoolsApi(
 
     post("/rapporter-deler-uten-dekning") {
         call.respond(delbestillingService.rapporterDelerTilAnmodning())
+    }
+
+    post("/rapporter-klargjorte-delbestillinger") {
+        call.respond(klargjorteDelbestillingerService.rapporterKlargjorteDelbestillinger(30))
     }
 
     delete("/rapporter-deler-uten-dekning") {

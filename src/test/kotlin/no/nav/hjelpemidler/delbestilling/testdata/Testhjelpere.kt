@@ -94,6 +94,8 @@ fun delbestillingSak(
     oebsOrdrenummer = "4523",
     brukersKommunenummer = "0301",
     brukersKommunenavn = "Oslo",
+    enhetnr = "4703",
+    enhetnavn = "Oslo",
 )
 
 fun organisasjon(orgnr: String = "123456789", navn: String = "Reperasjon AS") = Organisasjon(

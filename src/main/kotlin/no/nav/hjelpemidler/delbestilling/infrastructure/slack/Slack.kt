@@ -89,6 +89,7 @@ class Slack(
         brukersKommunenavn: String,
         enhetnr: String
     ) {
+        // TODO: her kan vi heller bruke enhet fra Delbestillingsak
         val lager = runCatching { Lager.fraLagernummer(enhetnr) }.getOrNull()?.name
         sendSafely(
             emoji = "pepe_cowboy",
@@ -132,6 +133,11 @@ class Slack(
     fun varsleOmRapporteringFeilet() = sendSafely(
         emoji = "error",
         message = "Utsending av mail til HMS om deler som må anmodes feilet. Må følges opp manuelt."
+    )
+
+    fun varsleOmRapporteringKlargjorteDelbestillingerFeilet() = sendSafely(
+        emoji = "error",
+        message = "Utsending av mail til HMS om delbestillinger som er klargjorte feilet. Må følges opp manuelt."
     )
 
     fun varsleOmPotensiellBatteriKategorier(deler: List<Del>) = sendSafely(

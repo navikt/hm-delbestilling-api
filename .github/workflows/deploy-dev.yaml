@@ -8,7 +8,7 @@ on:
       - "CODEOWNERS"
     branches:
       - main
-      - delbestilling-enhet
+      - rapporter-ikke-skipede-delbestillinger
 
 jobs:
   build:

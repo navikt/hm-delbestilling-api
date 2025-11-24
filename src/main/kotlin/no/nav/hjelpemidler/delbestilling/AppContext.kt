@@ -7,6 +7,7 @@ import kotlinx.coroutines.cancel
 import no.nav.hjelpemidler.delbestilling.config.DatabaseConfig
 import no.nav.hjelpemidler.delbestilling.delbestilling.DelbestillingService
 import no.nav.hjelpemidler.delbestilling.delbestilling.EngangsjobbService
+import no.nav.hjelpemidler.delbestilling.rapportering.klargjorte.KlargjorteDelbestillingerService
 import no.nav.hjelpemidler.delbestilling.delbestilling.anmodning.AnmodningService
 import no.nav.hjelpemidler.delbestilling.devtools.DevTools
 import no.nav.hjelpemidler.delbestilling.infrastructure.email.Email
@@ -96,6 +97,7 @@ class AppContext {
         BerikMedDagerSidenForrigeBatteribestilling(transactional)
 
     val anmodningService = AnmodningService(transactional, oebs, slack, email, grunndata)
+    val klargjorteDelbestillingerService = KlargjorteDelbestillingerService(transactional, email, slack)
     val hjelpemiddeloversikt = Hjelpemiddeloversikt(grunndata, finnDelerTilHjelpemiddel, backgroundScope)
     val delbestillingService =
         DelbestillingService(transactional, pdl, oebs, kommuneoppslag, metrics, slack, anmodningService)
@@ -112,7 +114,7 @@ class AppContext {
 
     // Rapportering
     val månedsrapportAnmodningsbehov = MånedsrapportAnmodningsbehov(transactional, clock, email)
-    val rapportering = Rapportering(jobbScheduler, delbestillingService, månedsrapportAnmodningsbehov)
+    val rapportering = Rapportering(jobbScheduler, delbestillingService, klargjorteDelbestillingerService, månedsrapportAnmodningsbehov)
 
     fun applicationStarted() {
         hjelpemiddeloversikt.startBakgrunnsjobb()

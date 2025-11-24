@@ -4,6 +4,7 @@ import io.mockk.mockk
 import kotlinx.coroutines.test.runTest
 import no.nav.hjelpemidler.delbestilling.delbestilling.DelbestillingService
 import no.nav.hjelpemidler.delbestilling.delbestilling.anmodning.AnmodningService
+import no.nav.hjelpemidler.delbestilling.rapportering.klargjorte.KlargjorteDelbestillingerService
 import no.nav.hjelpemidler.delbestilling.fakes.ElectorFake
 import no.nav.hjelpemidler.delbestilling.fakes.GraphClientFake
 import no.nav.hjelpemidler.delbestilling.fakes.GrunndataClientFake
@@ -101,6 +102,7 @@ class TestContext {
     val oppslagClient = OppslagClientFake()
     val kommuneoppslag = Kommuneoppslag(oppslagClient)
     val anmodningService = AnmodningService(transaction, oebs, slack, email, grunndata)
+    val klargjorteDelbestillingerService = KlargjorteDelbestillingerService(transaction, email, slack)
     val delbestillingService =
         DelbestillingService(transaction, pdl, oebs, kommuneoppslag, metrics, slack, anmodningService)
 
@@ -110,7 +112,7 @@ class TestContext {
     // Rapportering
     val jobbScheduler = JobbScheduler(scheduler, erLeder, clock)
     val månedsrapportAnmodningsbehov = MånedsrapportAnmodningsbehov(transaction, clock, email)
-    val rapportering = Rapportering(jobbScheduler, delbestillingService, månedsrapportAnmodningsbehov)
+    val rapportering = Rapportering(jobbScheduler, delbestillingService, klargjorteDelbestillingerService, månedsrapportAnmodningsbehov)
 }
 
 fun runWithTestContext(block: suspend TestContext.() -> Unit) {

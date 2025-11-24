@@ -12,6 +12,8 @@ import no.nav.hjelpemidler.delbestilling.config.isLocal
 import no.nav.hjelpemidler.delbestilling.config.isProd
 import no.nav.hjelpemidler.delbestilling.delbestilling.anmodning.AnmodningService
 import no.nav.hjelpemidler.delbestilling.delbestilling.anmodning.Anmodningrapport
+import no.nav.hjelpemidler.delbestilling.rapportering.klargjorte.KlargjorteDelbestillingerService
+import no.nav.hjelpemidler.delbestilling.rapportering.klargjorte.KlargjorteDelbestillingerRapport
 import no.nav.hjelpemidler.delbestilling.infrastructure.geografi.Kommuneoppslag
 import no.nav.hjelpemidler.delbestilling.infrastructure.metrics.Metrics
 import no.nav.hjelpemidler.delbestilling.infrastructure.oebs.Oebs

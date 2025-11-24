@@ -23,6 +23,7 @@ class DelbestillingRepository(val tx: JdbcOperations) {
         bestillersOrganisasjon: Organisasjon,
         bestillerType: BestillerType,
         lagerEnhet: Lager,
+        status: Status = Status.INNSENDT,
     ): Long = tx.updateAndReturnGeneratedKey(
         sql = """
             INSERT INTO delbestilling (brukers_kommunenr, fnr_bruker, fnr_bestiller, delbestilling_json, status, brukers_kommunenavn, bestillers_organisasjon, bestiller_type, enhetnr, enhetnavn)
@@ -33,7 +34,7 @@ class DelbestillingRepository(val tx: JdbcOperations) {
             "fnr_bruker" to brukerFnr,
             "fnr_bestiller" to bestillerFnr,
             "delbestilling_json" to jsonMapper.writeValueAsString(delbestilling),
-            "status" to Status.INNSENDT.name,
+            "status" to status.name,
             "brukers_kommunenavn" to brukersKommunenavn,
             "bestillers_organisasjon" to jsonMapper.writeValueAsString(bestillersOrganisasjon),
             "bestiller_type" to bestillerType,
@@ -101,6 +102,17 @@ class DelbestillingRepository(val tx: JdbcOperations) {
         """.trimIndent(),
     ) { it.string("brukers_kommunenr") }
 
+    fun hentKlargjorteDelbestillinger(eldreEnnDager: Int): List<DelbestillingSak> = tx.list(
+        sql = """
+            SELECT *
+            FROM delbestilling
+            WHERE status = 'KLARGJORT'
+              AND opprettet < NOW() - (:dager * INTERVAL '1 day')
+            ORDER BY opprettet ASC;
+        """.trimIndent(),
+            queryParameters = mapOf("dager" to eldreEnnDager)
+    ) { it.tilDelbestillingSak() }
+
     fun oppdaterDelbestillingSak(sak: DelbestillingSak) {
         tx.update(
             sql = """
@@ -130,6 +142,8 @@ private fun Row.tilDelbestillingSak() = DelbestillingSak(
     oebsOrdrenummer = this.stringOrNull("oebs_ordrenummer"),
     brukersKommunenummer = this.string("brukers_kommunenr"),
     brukersKommunenavn = this.string("brukers_kommunenavn"),
+    enhetnr = this.string("enhetnr"),
+    enhetnavn = this.string("enhetnavn"),
 )
 
 private fun <T> pgJsonbOf(value: T): Any =
