@@ -14,6 +14,7 @@ import no.nav.hjelpemidler.text.toUUID
 import org.junit.jupiter.api.Test
 import java.time.LocalDateTime
 import kotlin.test.assertEquals
+import kotlin.test.assertTrue
 
 class KlargjorteDelbestillingerServiceTest {
     @Test
@@ -192,6 +193,8 @@ class KlargjorteDelbestillingerServiceTest {
             </body>
             </html>
         """.fjernAllWhitespace(), melding.fjernAllWhitespace())
+
+        assertTrue(emailClient.outbox.any { it.subject.contains(KLARGJORTE_DELBESTILLINGER_SUBJECT) })
     }
 }
 

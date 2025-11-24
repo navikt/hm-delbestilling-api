@@ -9,6 +9,8 @@ import no.nav.hjelpemidler.delbestilling.infrastructure.slack.Slack
 
 private val log = KotlinLogging.logger {}
 
+const val KLARGJORTE_DELBESTILLINGER_SUBJECT = "Ikke-plukkede delbestillinger"
+
 class KlargjorteDelbestillingerService(
     private val transaction: Transactional,
     private val email: Email,
@@ -53,7 +55,7 @@ class KlargjorteDelbestillingerService(
         val melding = rapport.tilHtml()
         email.send(
             recipentEmail = rapport.lager.epost(),
-            subject = "Ikke-plukkede delbestillinger", // TODO: subject som const?
+            subject = KLARGJORTE_DELBESTILLINGER_SUBJECT,
             bodyText = melding,
             contentType = ContentType.HTML
         )

@@ -13,7 +13,7 @@ data class KlargjorteDelbestillingerRapport(
             <html>
             <head>
                 <meta charset="UTF-8">
-                <title>Ikke-plukkede delbestillinger</title>
+                <title>${KLARGJORTE_DELBESTILLINGER_SUBJECT}</title>
                 <style>
                     table {
                         width: 100%;
