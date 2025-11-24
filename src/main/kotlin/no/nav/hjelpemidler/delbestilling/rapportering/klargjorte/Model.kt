@@ -1,4 +1,4 @@
-package no.nav.hjelpemidler.delbestilling.delbestilling.klargjorte
+package no.nav.hjelpemidler.delbestilling.rapportering.klargjorte
 
 import no.nav.hjelpemidler.delbestilling.common.DelbestillingSak
 import no.nav.hjelpemidler.delbestilling.common.Lager

@@ -102,7 +102,7 @@ class DelbestillingRepository(val tx: JdbcOperations) {
         """.trimIndent(),
     ) { it.string("brukers_kommunenr") }
 
-    fun hentKlargjorteDelbestillinger(eldreEnnDager: Number): List<DelbestillingSak> = tx.list(
+    fun hentKlargjorteDelbestillinger(eldreEnnDager: Int): List<DelbestillingSak> = tx.list(
         sql = """
             SELECT *
             FROM delbestilling

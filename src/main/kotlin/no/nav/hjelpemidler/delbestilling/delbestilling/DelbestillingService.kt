@@ -7,14 +7,13 @@ import no.nav.hjelpemidler.delbestilling.common.Delbestilling
 import no.nav.hjelpemidler.delbestilling.common.DelbestillingSak
 import no.nav.hjelpemidler.delbestilling.common.Hmsnr
 import no.nav.hjelpemidler.delbestilling.common.Serienr
-import no.nav.hjelpemidler.delbestilling.common.Status
 import no.nav.hjelpemidler.delbestilling.config.isDev
 import no.nav.hjelpemidler.delbestilling.config.isLocal
 import no.nav.hjelpemidler.delbestilling.config.isProd
 import no.nav.hjelpemidler.delbestilling.delbestilling.anmodning.AnmodningService
 import no.nav.hjelpemidler.delbestilling.delbestilling.anmodning.Anmodningrapport
-import no.nav.hjelpemidler.delbestilling.delbestilling.klargjorte.KlargjorteDelbestillingerService
-import no.nav.hjelpemidler.delbestilling.delbestilling.klargjorte.KlargjorteDelbestillingerRapport
+import no.nav.hjelpemidler.delbestilling.rapportering.klargjorte.KlargjorteDelbestillingerService
+import no.nav.hjelpemidler.delbestilling.rapportering.klargjorte.KlargjorteDelbestillingerRapport
 import no.nav.hjelpemidler.delbestilling.infrastructure.geografi.Kommuneoppslag
 import no.nav.hjelpemidler.delbestilling.infrastructure.metrics.Metrics
 import no.nav.hjelpemidler.delbestilling.infrastructure.oebs.Oebs
@@ -40,7 +39,6 @@ class DelbestillingService(
     private val metrics: Metrics,
     private val slack: Slack,
     private val anmodningService: AnmodningService,
-    private val klargjorteDelbestillingerService: KlargjorteDelbestillingerService,
 ) {
     suspend fun opprettDelbestilling(
         request: DelbestillingRequest,
@@ -253,26 +251,6 @@ class DelbestillingService(
         } catch (t: Throwable) {
             log.error(t) { "Rapportering av nødvendige anmodninger feilet." }
             slack.varsleOmRapporteringFeilet()
-            throw t
-        }
-    }
-
-    suspend fun rapporterKlargjorteDelbestillinger(eldreEnnDager: Int): List<KlargjorteDelbestillingerRapport> {
-        try {
-            val rapporter = klargjorteDelbestillingerService.genererKlargjorteDelbestillingerRapporter(eldreEnnDager)
-
-            if (rapporter.isEmpty()) {
-                log.info { "Ingen rapporter for klargjorte delbestillinger generert. Ingenting sendes." }
-            }
-
-            rapporter.forEach {
-                klargjorteDelbestillingerService.sendKlargjorteDelbestillingererRapport(it)
-            }
-
-            return rapporter
-        } catch (t: Throwable) {
-            log.error(t) { "Rapportering av klargjorte delbestillinger feilet." }
-            slack.varsleOmRapporteringKlargjorteDelbestillingerFeilet()
             throw t
         }
     }

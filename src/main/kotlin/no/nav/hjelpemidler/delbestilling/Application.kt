@@ -66,7 +66,7 @@ fun Application.setupRoutes(ctx: AppContext) {
             // engangsJobbApi(ctx.engangsjobbService)
 
             if (isDev()) {
-                devtoolsApi(ctx.devtools(), ctx.delbestillingService)
+                devtoolsApi(ctx.devtools(), ctx.delbestillingService, ctx.klargjorteDelbestillingerService)
             }
         }
 

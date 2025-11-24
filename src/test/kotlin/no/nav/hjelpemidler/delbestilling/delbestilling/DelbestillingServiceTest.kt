@@ -1,7 +1,5 @@
 package no.nav.hjelpemidler.delbestilling.delbestilling
 
-import no.nav.hjelpemidler.delbestilling.common.Lager
-import no.nav.hjelpemidler.delbestilling.common.Status
 import no.nav.hjelpemidler.delbestilling.infrastructure.oebs.OebsPersoninfo
 import no.nav.hjelpemidler.delbestilling.testdata.PdlRespons
 import no.nav.hjelpemidler.delbestilling.testdata.Testdata
@@ -13,9 +11,7 @@ import no.nav.hjelpemidler.delbestilling.testdata.fixtures.hentDelerUtenDekning
 import no.nav.hjelpemidler.delbestilling.testdata.fixtures.opprettDelbestilling
 import no.nav.hjelpemidler.delbestilling.testdata.fixtures.opprettDelbestillingMedDel
 import no.nav.hjelpemidler.delbestilling.runWithTestContext
-import no.nav.hjelpemidler.delbestilling.testdata.fixtures.gittDelbestilling
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.assertNull
 import org.junit.jupiter.api.assertThrows
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
@@ -167,35 +163,5 @@ internal class DelbestillingServiceTest {
             assertEquals(-(2 - 3 - 2), find { it.hmsnr == hmsnr1 }!!.antall)
             assertEquals(-(2 - 2 - 2), find { it.hmsnr == hmsnr2 }!!.antall)
         }
-    }
-
-    @Test
-    fun `skal generere rapport for delbestillinger som har status KLARGJORT`() = runWithTestContext {
-        // 2 klargjorte delbestillinger for lager Oslo
-        gittDelbestilling(lagerEnhet = Lager.OSLO, status = Status.INNSENDT)
-        gittDelbestilling(lagerEnhet = Lager.OSLO, status = Status.KLARGJORT)
-        gittDelbestilling(lagerEnhet = Lager.OSLO, status = Status.KLARGJORT)
-
-        // 1 klargjort delbestilling for lager Finnmark
-        gittDelbestilling(lagerEnhet = Lager.FINNMARK, status = Status.KLARGJORT)
-
-        // 1 skipet delbestilling for lager Vestland-Bergen
-        gittDelbestilling(lagerEnhet = Lager.VESTLAND_BERGEN, status = Status.SKIPNINGSBEKREFTET)
-
-        val rapporter = delbestillingService.rapporterKlargjorteDelbestillinger(0)
-        assertEquals(2, rapporter.size)
-        assertEquals(2, rapporter[0].delbestillinger.size)
-        assertEquals(1, rapporter[1].delbestillinger.size)
-
-        assertEquals("Oslo", rapporter[0].lager.navn)
-        assertEquals("Finnmark", rapporter[1].lager.navn)
-    }
-
-    @Test
-    fun `skal ikke generere rapporter for delbestillinger med status KLARGJORT som ble opprettet etter grense på antall dager`() = runWithTestContext {
-        gittDelbestilling(status = Status.KLARGJORT)
-
-        val rapporter = delbestillingService.rapporterKlargjorteDelbestillinger(eldreEnnDager = 1)
-        assertEquals(0, rapporter.size)
     }
 }
