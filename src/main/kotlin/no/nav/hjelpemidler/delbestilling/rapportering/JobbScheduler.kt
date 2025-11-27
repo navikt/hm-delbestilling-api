@@ -18,6 +18,29 @@ class JobbScheduler(
     private val clock: Clock,
 ) {
 
+    fun schedulerEngangsjobb(
+        navn: String,
+        jobb: suspend CoroutineScope.() -> Unit,
+        beregnNesteKjøring: (Clock) -> LocalDateTime
+    ) {
+        val task = Runnable {
+            runBlocking {
+                kjørJobb(navn, jobb)
+            }
+        }
+
+        val nesteKjøring = beregnNesteKjøring(clock)
+        val forsinkelseTilNesteKjøring = Duration.between(
+            LocalDateTime.now(clock),
+            nesteKjøring
+        ).toMillis()
+
+        require(forsinkelseTilNesteKjøring > 0) { "Kan ikke ha negativ forsinkelse til neste kjøring. Navn=$navn, forsinkelse=$forsinkelseTilNesteKjøring, nesteKjøring=$nesteKjøring" }
+
+        log.info { "Schedulerer neste kjøring av $navn til $nesteKjøring (delay=$forsinkelseTilNesteKjøring)" }
+        scheduler.schedule(task, forsinkelseTilNesteKjøring, TimeUnit.MILLISECONDS)
+    }
+
     /**
      *  Sørger for at jobber kjører på ønsket tidspunkt. I motsetning til scheduler.scheduleAtFixedRate
      *  som sørger for at jobbene kjører med fast intervall, men som kan avvike fra ønsket kjøretidspunkt pga
