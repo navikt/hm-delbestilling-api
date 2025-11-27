@@ -112,7 +112,7 @@ class TestContext {
     // Rapportering
     val jobbScheduler = JobbScheduler(scheduler, erLeder, clock)
     val månedsrapportAnmodningsbehov = MånedsrapportAnmodningsbehov(transaction, clock, email)
-    val rapportering = Rapportering(jobbScheduler, delbestillingService, klargjorteDelbestillingerService, månedsrapportAnmodningsbehov, email)
+    val rapportering = Rapportering(jobbScheduler, delbestillingService, klargjorteDelbestillingerService, månedsrapportAnmodningsbehov)
 }
 
 fun runWithTestContext(block: suspend TestContext.() -> Unit) {

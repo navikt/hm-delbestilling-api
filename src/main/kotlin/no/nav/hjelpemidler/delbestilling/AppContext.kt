@@ -114,7 +114,7 @@ class AppContext {
 
     // Rapportering
     val månedsrapportAnmodningsbehov = MånedsrapportAnmodningsbehov(transactional, clock, email)
-    val rapportering = Rapportering(jobbScheduler, delbestillingService, klargjorteDelbestillingerService, månedsrapportAnmodningsbehov, email)
+    val rapportering = Rapportering(jobbScheduler, delbestillingService, klargjorteDelbestillingerService, månedsrapportAnmodningsbehov)
 
     fun applicationStarted() {
         hjelpemiddeloversikt.startBakgrunnsjobb()
