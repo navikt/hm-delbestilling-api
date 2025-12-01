@@ -26,11 +26,15 @@ class Rapportering(
             beregnNesteKjøring = { clock -> kl0120FørsteDagINesteMåned(clock) }
         )
 
+        // Skrur av denne i påvente av at OeBS igjen sender oss meldinger om annullerte og lukkede ordre.
+        // Dette antas å være ferdig på nyåret 2026.
+        /*
         jobbScheduler.schedulerGjentagendeJobb(
             navn = "klargjorte_delbestillinger",
             jobb = { rapporterKlargjorteDelbestillinger() },
             beregnNesteKjøring = { clock -> kl0130FørsteDagINesteMåned(clock) }
         )
+        */
     }
 
     suspend fun rapporterAnmodningsbehov() {
