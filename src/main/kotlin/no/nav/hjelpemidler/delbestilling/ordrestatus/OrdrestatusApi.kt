@@ -25,7 +25,7 @@ fun Route.ordrestatusRoutes(
             log.info { "Status for delbestilling $id (hmdel_$id) oppdatert OK" }
         } catch (e: Exception) {
             if (isDev()) {
-                log.info(e) { "Ignorerer feil under statusoppdatering i dev. Antar ugyldige data fra OeBS." }
+                log.info(e) { "Ignorerer feil under statusoppdatering i dev for $id (hmdel_$id). Antar ugyldige data fra OeBS." }
                 call.respond(HttpStatusCode.OK)
             } else {
                 throw e
