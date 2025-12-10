@@ -41,8 +41,6 @@ class AnmodningService(
                     )
                 }
             }
-
-            slack.varsleOmDelerUtenDekning(delerUtenDekning, sak.brukersKommunenavn, enhet.nummer)
         }
     }
 

@@ -84,23 +84,6 @@ class Slack(
         message = "Hjelpemiddelet $hmsnr '$navn' har alle deler fra manuell liste i grunndata også. Det kan dermed fjernes fra den manuelle listen :broom:"
     )
 
-    fun varsleOmDelerUtenDekning(
-        deler: List<AnmodningsbehovForDel>,
-        brukersKommunenavn: String,
-        enhetnr: String
-    ) {
-        // TODO: her kan vi heller bruke enhet fra Delbestillingsak
-        val lager = runCatching { Lager.fraLagernummer(enhetnr) }.getOrNull()?.name
-        sendSafely(
-            emoji = "pepe_cowboy",
-            message = """
-            Det har kommet inn delbestilling med følgende deler som ikke har dekning hos enhet $lager (kommune: ${brukersKommunenavn}):
-            ```${deler.joinToString("\n")}```
-            Disse må kanskje anmodes, ny sjekk gjøres i natt.
-            """.trimIndent(),
-        )
-    }
-
     fun varsleOmAnmodningrapportSomErSendtTilEnhet(lager: Lager, melding: String) {
         sendSafely(
             emoji = "mailbox",
