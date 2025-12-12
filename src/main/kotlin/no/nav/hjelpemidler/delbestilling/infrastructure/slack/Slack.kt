@@ -7,7 +7,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import no.nav.hjelpemidler.delbestilling.common.Lager
 import no.nav.hjelpemidler.delbestilling.config.isProd
-import no.nav.hjelpemidler.delbestilling.delbestilling.anmodning.AnmodningsbehovForDel
 import no.nav.hjelpemidler.delbestilling.infrastructure.persistence.transaction.Transactional
 import no.nav.hjelpemidler.delbestilling.oppslag.Del
 import no.nav.hjelpemidler.http.slack.slack
@@ -83,18 +82,6 @@ class Slack(
         emoji = "pepe-peek",
         message = "Hjelpemiddelet $hmsnr '$navn' har alle deler fra manuell liste i grunndata også. Det kan dermed fjernes fra den manuelle listen :broom:"
     )
-
-    fun varsleOmAnmodningrapportSomErSendtTilEnhet(lager: Lager, melding: String) {
-        sendSafely(
-            emoji = "mailbox",
-            message = """
-                Følgende mail ble sendt til enhet $lager (${lager.epost()}):
-                ```
-                $melding
-                ```
-                """.trimIndent()
-        )
-    }
 
     fun varsleOmEtterfyllingHosEnhet(
         lager: Lager,

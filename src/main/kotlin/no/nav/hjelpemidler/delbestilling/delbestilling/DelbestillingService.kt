@@ -218,14 +218,13 @@ class DelbestillingService(
 
             rapporter.forEach { rapport ->
                 if (rapport.anmodningsbehov.isNotEmpty()) {
-                    val melding = transaction {
+                    transaction {
                         delUtenDekningDao.markerDelerSomBehandlet(
                             rapport.lager,
                             rapport.anmodningsbehov.map { it.hmsnr })
                         anmodningDao.lagreAnmodninger(rapport)
                         anmodningService.sendAnmodningRapport(rapport)
                     }
-                    slack.varsleOmAnmodningrapportSomErSendtTilEnhet(rapport.lager, melding)
                 } else {
                     log.info { "Anmodningsbehov for enhet ${rapport.lager} er tomt, alle deler har dermed fått dekning etter innsending. Hopper over." }
                 }
