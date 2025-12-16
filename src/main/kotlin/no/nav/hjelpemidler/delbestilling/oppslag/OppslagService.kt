@@ -39,7 +39,7 @@ class OppslagService(
             .berikMedGaranti(brukerInfoDeferred.await().utlån)
             .sorterDeler()
 
-        val piloter = piloterService.hentPiloter()
+        val piloter = piloterService.hentPiloter(brukerInfoDeferred.await().kommunenummer)
 
         OppslagResultat(hjelpemiddel, piloter)
     }
