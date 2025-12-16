@@ -639,7 +639,7 @@ val hmsnrTilDel: Map<Hmsnr, Del> = listOf(
     ),
     Del(
         hmsnr = "220326",
-        navn = "Brems høyre",
+        navn = "Brems venstre",
         levArtNr = "27528-1",
         kategori = "Annet",
         defaultAntall = 1,
@@ -647,7 +647,7 @@ val hmsnrTilDel: Map<Hmsnr, Del> = listOf(
     ),
     Del(
         hmsnr = "220325",
-        navn = "Brems venste",
+        navn = "Brems høyre",
         levArtNr = "27528-2",
         kategori = "Annet",
         defaultAntall = 1,
