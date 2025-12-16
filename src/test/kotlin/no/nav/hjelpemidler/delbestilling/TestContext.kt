@@ -83,7 +83,7 @@ class TestContext {
     val pdl = Pdl(pdlClient)
 
     // Oppslag
-    val piloterService = PiloterService(oebs)
+    val piloterService = PiloterService()
     val finnDelerTilHjelpemiddel = FinnDelerTilHjelpemiddel(grunndata, slack, metrics)
     val berikMedLagerstatus = BerikMedLagerstatus(oebs, metrics)
     val berikMedDagerSidenForrigeBatteribestilling by lazy { BerikMedDagerSidenForrigeBatteribestilling(transaction) }

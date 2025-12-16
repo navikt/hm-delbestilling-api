@@ -38,11 +38,4 @@ class OppslagServiceTest {
         }
     }
 
-    @Test
-    fun `skal returnere pilot dersom innbygger sogner til Hms Oslo`() = runWithTestContext {
-        pdlClient.response = PdlRespons.person(kommunenummer = OSLO.nummer)
-        val oppslag = oppslagService.slåOppHjelpemiddel(Testdata.defaultHjmHmsnr, Testdata.defaultHjmSerienr)
-        assertTrue(oppslag.piloter.contains(Pilot.BESTILLE_IKKE_FASTE_LAGERVARER))
-    }
-
 }

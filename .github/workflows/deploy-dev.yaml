@@ -8,7 +8,7 @@ on:
       - "CODEOWNERS"
     branches:
       - main
-      - rapporter-ikke-skipede-delbestillinger
+      - fjern-lagervare-pilot
 
 jobs:
   build:
