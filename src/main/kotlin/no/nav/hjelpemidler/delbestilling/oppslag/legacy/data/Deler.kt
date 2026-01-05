@@ -218,7 +218,6 @@ val hmsnrTilDel: Map<Hmsnr, Del> = listOf(
         levArtNr = "1838056",
         kategori = "Hjul",
         maksAntall = 2,
-        imgs = listOf("https://storage.googleapis.com/hm_delbestilling_bilder/309144.png")
     ),
     Del(
         hmsnr = "309145",
