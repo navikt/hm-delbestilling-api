@@ -13,7 +13,7 @@ class EnhetTest {
         val enhetnrOslo = "4703"
         val lager = Lager.fraLagernummer(enhetnrOslo)
         assertEquals(enhetnrOslo, lager.nummer)
-        assertEquals("nav.hot.oslo.teknisk.ordrekontor@nav.no", lager.epost())
+        assertEquals("nav.hot.oslo.lager@nav.no", lager.epost())
     }
 
     @Test
