@@ -5,7 +5,7 @@ import no.nav.hjelpemidler.delbestilling.config.isDev
 enum class Lager(val nummer: String, val navn: String, private val epost: String?) {
 
     ØST_VIKEN("4701", "Øst-Viken", "nav.hot.ost-viken.teknisk.ordrekontor@nav.no"),
-    OSLO("4703", "Oslo", "nav.hot.oslo.teknisk.ordrekontor@nav.no"),
+    OSLO("4703", "Oslo", "nav.hot.oslo.lager@nav.no"),
     INNLANDET_ELVERUM("4704", "Elverum", "nav.hot.innlandet.elverum.teknisk@nav.no"),
     INNLANDET_GJØVIK("4705", "Gjøvik", "nav.hot.innlandet.gjovik.teknisk.verksted@nav.no"),
     VEST_VIKEN("4706", "Vest-Viken", "nav.hot.vest-viken.lager@nav.no"),
