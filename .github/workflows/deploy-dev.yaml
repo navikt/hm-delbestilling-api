@@ -8,7 +8,7 @@ on:
       - "CODEOWNERS"
     branches:
       - main
-      - fjern-lagervare-pilot
+      - anmodningsrapport-til-lager-epost-oslo
 
 jobs:
   build:

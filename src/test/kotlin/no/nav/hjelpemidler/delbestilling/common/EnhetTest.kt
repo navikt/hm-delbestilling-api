@@ -1,6 +1,5 @@
 package no.nav.hjelpemidler.delbestilling.common
 
-import no.nav.hjelpemidler.delbestilling.common.Lager
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
@@ -14,6 +13,12 @@ class EnhetTest {
         val lager = Lager.fraLagernummer(enhetnrOslo)
         assertEquals(enhetnrOslo, lager.nummer)
         assertEquals("nav.hot.oslo.teknisk.ordrekontor@nav.no", lager.epost())
+    }
+
+    @Test
+    fun `skal returnere epost til lager for månedlig anmodningsrapport for Oslo`() {
+        assertEquals("nav.hot.oslo.lager@nav.no", Lager.OSLO.epostForMånedligAnmodningsrapport())
+        assertEquals("nav.hot.nordland.teknisk@nav.no", Lager.NORDLAND.epostForMånedligAnmodningsrapport())
     }
 
     @Test

@@ -38,7 +38,7 @@ class MånedsrapportAnmodningsbehov(
         val rapportTekst = fyllUtRapport(grunnlag)
 
         log.info { "Månedsrapport for $lager i $måned: $rapportTekst" }
-        email.send(lager.epost(), MÅNEDSRAPPORT_ANMODNINGER_SUBJECT, rapportTekst, ContentType.HTML)
+        email.send(lager.epostForMånedligAnmodningsrapport(), MÅNEDSRAPPORT_ANMODNINGER_SUBJECT, rapportTekst, ContentType.HTML)
     }
 
     suspend fun hentGrunnlag(lager: Lager, måned: YearMonth): Grunnlag {
