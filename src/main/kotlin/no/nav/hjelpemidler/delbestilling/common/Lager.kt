@@ -26,6 +26,12 @@ enum class Lager(val nummer: String, val navn: String, private val epost: String
         if (isDev()) "digitalisering.av.hjelpemidler.og.tilrettelegging@nav.no" else this.epost
             ?: throw IllegalArgumentException("Lager $this, mangler epost")
 
+    fun epostForMånedligAnmodningsrapport(): String = when(this) {
+        // Oslo ønsker anmodnongsrapport sendt til lager i stedet for teknisk ordrekontor
+        OSLO -> "nav.hot.oslo.lager@nav.no"
+        else -> epost()
+    }
+
 
     companion object {
         fun fraLagernummer(lagernummer: String): Lager {
