@@ -27,7 +27,7 @@ enum class Lager(val nummer: String, val navn: String, private val epost: String
             ?: throw IllegalArgumentException("Lager $this, mangler epost")
 
     fun epostForMånedligAnmodningsrapport(): String = when(this) {
-        // Oslo ønsker anmodnongsrapport sendt til lager i stedet for teknisk ordrekontor
+        // Oslo ønsker anmodningsrapport sendt til lager i stedet for teknisk ordrekontor
         OSLO -> "nav.hot.oslo.lager@nav.no"
         else -> epost()
     }
