@@ -8,7 +8,7 @@ on:
       - "CODEOWNERS"
     branches:
       - main
-      - anmodningsrapport-til-lager-epost-oslo
+      - vise-tilbehor
 
 jobs:
   build:

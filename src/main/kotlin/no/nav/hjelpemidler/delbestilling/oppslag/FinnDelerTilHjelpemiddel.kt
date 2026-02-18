@@ -77,6 +77,8 @@ class FinnDelerTilHjelpemiddel(
                         kilde = Kilde.GRUNNDATA,
                         defaultAntall = defaultAntall(kategori),
                         imgs = bilder,
+                        erReservedel = it.sparePart,
+                        erTilbehør = it.accessory,
                     )
                 })
         } catch (e: Exception) {
