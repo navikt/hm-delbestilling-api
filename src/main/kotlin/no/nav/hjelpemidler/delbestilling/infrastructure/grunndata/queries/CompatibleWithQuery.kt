@@ -29,8 +29,20 @@ fun compatibleWithQuery(seriesId: UUID, produktId: UUID): JsonNode {
                             }
                         },
                         {
-                            "match": {
-                                "sparePart": "true"
+                            "bool": {
+                                "should": [
+                                    {
+                                        "match": {
+                                            "sparePart": "true"
+                                        }
+                                    },
+                                    {
+                                        "match": {
+                                            "accessory": "true"
+                                        }
+                                    }
+                                ],
+                                "minimum_should_match": 1
                             }
                         }
                     ],

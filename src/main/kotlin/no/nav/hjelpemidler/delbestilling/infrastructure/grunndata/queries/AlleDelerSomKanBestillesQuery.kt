@@ -16,8 +16,20 @@ fun alleDelerSomKanBestillesQuery(): JsonNode {
                             }
                         },
                         {
-                            "match": {
-                                "sparePart": "true"
+                            "bool": {
+                                "should": [
+                                    {
+                                        "match": {
+                                            "sparePart": "true"
+                                        }
+                                    },
+                                    {
+                                        "match": {
+                                            "accessory": "true"
+                                        }
+                                    }
+                                ],
+                                "minimum_should_match": 1
                             }
                         }
                     ]
