@@ -94,7 +94,6 @@ private val kommunerSomTilhørerNordTrøndelagLager = listOf(
     "5040",
     "5039",
     "5038",
-    "5037",
     "5020",
     "5007",
     "5006",
