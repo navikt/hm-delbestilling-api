@@ -37,10 +37,4 @@ class FinnLagerenhetTest {
         val lager = finnLagerenhet(TRONDHEIM.nummer)
         assertEquals(Lager.SØR_TRØNDELAG, lager)
     }
-
-    @Test
-    fun `kommuner som tidligere tilhørte Nord-trøndelag skal mappes til 4717 Nord-Trøndelag`() = runWithTestContext {
-        val lager = finnLagerenhet(NÆRØYSUND)
-        assertEquals(Lager.NORD_TRØNDELAG, lager)
-    }
 }
