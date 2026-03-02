@@ -1,6 +1,8 @@
 package no.nav.hjelpemidler.delbestilling.oppslag
 
 import io.github.oshai.kotlinlogging.KotlinLogging
+import no.nav.hjelpemidler.delbestilling.common.Hmsnr
+import no.nav.hjelpemidler.delbestilling.common.Lagerstatus
 import no.nav.hjelpemidler.delbestilling.infrastructure.metrics.Metrics
 import no.nav.hjelpemidler.delbestilling.infrastructure.oebs.Oebs
 
@@ -15,7 +17,17 @@ class BerikMedLagerstatus(
     suspend operator fun invoke(hjelpemiddel: Hjelpemiddel, kommunenummer: String): Hjelpemiddel {
         val lagerstatusForDeler = oebs.hentLagerstatusForKommunenummerAsMap(kommunenummer, hjelpemiddel.delerHmsnr())
 
-        val beriket = hjelpemiddel.medLagerstatus(lagerstatusForDeler)
+        val beriket = hjelpemiddel.copy(
+            deler = hjelpemiddel.deler.map { del ->
+                val lagerstatus = lagerstatusForDeler[del.hmsnr]
+                if (lagerstatus == null) {
+                    log.warn { "Del ${del.hmsnr} på hjelpemiddel ${hjelpemiddel.hmsnr} mangler lagerstatus. Dropper denne delen." }
+                    null
+                } else {
+                    del.copy(lagerstatus = lagerstatus)
+                }
+            }.filterNotNull(),
+        )
 
         loggOgSendStatistikk(beriket)
 

@@ -34,15 +34,14 @@ class BerikMedLagerstatusTest {
     }
 
     @Test
-    fun `skal feile dersom lagerstatus mangler`() = runWithTestContext {
-        val del = del("111111")
-        oebslager.setNull(del.hmsnr)
+    fun `skal ignorere deler som mangler lagerstatus`() = runWithTestContext {
+        val _del = del("111111")
+        val delUtenLagerstatus = del("222222")
+        oebslager.setNull(delUtenLagerstatus.hmsnr)
 
-        val exception = runCatching {
-            berikMedLagerstatus(hjelpemiddel(listOf(del)), Testdata.defaultKommunenummer)
-        }.exceptionOrNull()
+        val hjelpemiddel = berikMedLagerstatus(hjelpemiddel(listOf(delUtenLagerstatus, _del)), Testdata.defaultKommunenummer)
 
-        assertTrue(exception is IllegalStateException)
-        assertTrue(exception.message!!.contains(del.hmsnr))
+        assertEquals(1, hjelpemiddel.deler.size)
+        assertTrue(hjelpemiddel.deler.all { it.hmsnr != delUtenLagerstatus.hmsnr })
     }
 }
