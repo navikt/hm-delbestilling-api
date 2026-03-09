@@ -1,6 +1,6 @@
 package no.nav.hjelpemidler.delbestilling.infrastructure.persistence.transaction
 
-import no.nav.hjelpemidler.database.transactionAsync
+import no.nav.hjelpemidler.database.transaction
 import javax.sql.DataSource
 
 
@@ -10,7 +10,7 @@ class Transaction(
 ) : Transactional {
 
     override suspend operator fun <T> invoke(returnGeneratedKeys: Boolean, block: suspend TransactionScope.() -> T): T {
-        return transactionAsync(
+        return transaction(
             dataSource = dataSource,
             returnGeneratedKeys = returnGeneratedKeys
         ) { tx ->

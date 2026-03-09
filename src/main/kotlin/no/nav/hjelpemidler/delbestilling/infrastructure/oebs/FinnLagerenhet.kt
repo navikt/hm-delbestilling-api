@@ -37,19 +37,6 @@ class FinnLagerenhet(
                     }
                 }
 
-                /*
-                For HMS Trøndelag så er det to lagre, henholdsvis Nord -og Sør-Trøndelag. Sjekk derfor kommunenummer.
-                 */
-                ENHETSNUMMER_HMS_TRØNDELAG -> {
-                    if (kommunenummer.tilhørerNordTrøndelagLager()) {
-                        log.info { "Enhetnr $hmsEnhet og kommunenummer $kommunenummer tilhører LAGER.NORD_TRØNDELAG" }
-                        Lager.NORD_TRØNDELAG
-                    } else {
-                        log.info { "Enhetnr $hmsEnhet og kommunenummer $kommunenummer tilhører LAGER.SØR_TRØNDELAG" }
-                        Lager.SØR_TRØNDELAG
-                    }
-                }
-
                 // TODO Sjekk om Agder må håndteres også
 
                 else -> Lager.fraLagernummer(hmsEnhet)
@@ -74,30 +61,3 @@ private fun String.erTroms() = this.take(2) == KOMMUNENUMMER_PREFIX_TROMS
 
 private const val KOMMUNENUMMER_PREFIX_FINNMARK = "56"
 private fun String.erFinnmark() = this.take(2) == KOMMUNENUMMER_PREFIX_FINNMARK
-private fun String.tilhørerNordTrøndelagLager() = kommunerSomTilhørerNordTrøndelagLager.contains(this)
-
-private val kommunerSomTilhørerNordTrøndelagLager = listOf(
-    "5060",
-    "5053",
-    "5052",
-    "5051",
-    "5050",
-    "5049",
-    "5048",
-    "5047",
-    "5046",
-    "5045",
-    "5044",
-    "5043",
-    "5042",
-    "5041",
-    "5040",
-    "5039",
-    "5038",
-    "5037",
-    "5020",
-    "5007",
-    "5006",
-    "5005",
-    "5004",
-)

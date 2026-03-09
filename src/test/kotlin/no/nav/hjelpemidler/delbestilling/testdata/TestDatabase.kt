@@ -1,44 +1,26 @@
 package no.nav.hjelpemidler.delbestilling.testdata
 
-import com.zaxxer.hikari.HikariDataSource
-import no.nav.hjelpemidler.delbestilling.config.DatabaseConfig.migrate
-import org.flywaydb.core.Flyway
-import org.testcontainers.containers.PostgreSQLContainer
-import org.testcontainers.containers.wait.strategy.Wait
+import no.nav.hjelpemidler.database.Testcontainers
+import no.nav.hjelpemidler.database.createDataSource
+import no.nav.hjelpemidler.database.createRole
+import no.nav.hjelpemidler.database.flyway
 import javax.sql.DataSource
 
 object TestDatabase {
-
-    private val postgresContainer: PostgreSQLContainer<Nothing> by lazy {
-        PostgreSQLContainer<Nothing>("postgres:13.1").apply {
-            waitingFor(Wait.forListeningPort())
-            start()
-        }
-    }
-
-
     val testDataSource by lazy {
-        val ds = HikariDataSource().apply {
-            username = postgresContainer.username
-            password = postgresContainer.password
-            jdbcUrl = postgresContainer.jdbcUrl
-            connectionTimeout = 1000L
-        }.also {
-            it.connection.prepareStatement("DROP ROLE IF EXISTS cloudsqliamuser").execute()
-            it.connection.prepareStatement("CREATE ROLE cloudsqliamuser").execute()
+        createDataSource(Testcontainers) {
+            tag = "14-alpine"
         }
-        cleanAndMigratedDataSource(ds)
     }
 
-
-    private fun clean(ds: DataSource) =
-        Flyway.configure().cleanDisabled(false).dataSource(ds).load().clean()
-
-    fun cleanAndMigratedDataSource(ds: DataSource): DataSource {
-        clean(ds)
-        migrate(ds)
-        return ds
+    fun cleanAndMigratedDataSource(): DataSource {
+        testDataSource.flyway {
+            cleanDisabled(false)
+            createRole("cloudsqliamuser")
+        }.apply {
+            clean()
+            migrate()
+        }
+        return testDataSource
     }
-
-    fun cleanAndMigratedDataSource() = cleanAndMigratedDataSource(testDataSource)
 }

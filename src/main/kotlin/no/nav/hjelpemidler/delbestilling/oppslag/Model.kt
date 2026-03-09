@@ -33,15 +33,6 @@ data class Hjelpemiddel(
 
     fun harBatteri() = deler.any { it.erBatteri() }
 
-    fun medLagerstatus(lagerstatuser: Map<Hmsnr, Lagerstatus>): Hjelpemiddel =
-        this.copy(
-            deler = this.deler.map { del ->
-                val lagerstatus = lagerstatuser[del.hmsnr]
-                    ?: throw IllegalStateException("Del ${del.hmsnr} på hjelpemiddel $hmsnr mangler lagerstatus, kan ikke returnere resultat")
-                del.copy(lagerstatus = lagerstatus)
-            }
-        )
-
     fun medAntallDagerSidenSistBatteribestilling(dager: Int?): Hjelpemiddel =
         this.copy(antallDagerSidenSistBatteribestilling = dager)
 
