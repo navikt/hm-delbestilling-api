@@ -14,6 +14,7 @@ val hmsnrTilDel: Map<Hmsnr, Del> = listOf(
         kategori = "Batteri",
         defaultAntall = 2,
         maksAntall = 2,
+        erReservedel = true,
     ),
     Del(
         hmsnr = "150817",
@@ -22,6 +23,7 @@ val hmsnrTilDel: Map<Hmsnr, Del> = listOf(
         kategori = "Dekk",
         maksAntall = 2,
         imgs = listOf("https://storage.googleapis.com/hm_delbestilling_bilder/150817.jpg"),
+        erReservedel = true,
     ),
     Del(
         hmsnr = "157312",
@@ -29,6 +31,7 @@ val hmsnrTilDel: Map<Hmsnr, Del> = listOf(
         kategori = "Hjul",
         maksAntall = 2,
         imgs = listOf("https://storage.googleapis.com/hm_delbestilling_bilder/157312.png"),
+        erReservedel = true,
     ),
     Del(
         hmsnr = "157314",
@@ -36,6 +39,7 @@ val hmsnrTilDel: Map<Hmsnr, Del> = listOf(
         kategori = "Hjul",
         maksAntall = 2,
         imgs = listOf("https://storage.googleapis.com/hm_delbestilling_bilder/157314.png"),
+        erReservedel = true,
     ),
     Del(
         hmsnr = "178498",
@@ -44,6 +48,7 @@ val hmsnrTilDel: Map<Hmsnr, Del> = listOf(
         kategori = "Dekk",
         maksAntall = 2,
         imgs = listOf("https://storage.googleapis.com/hm_delbestilling_bilder/178498.jpg"),
+        erReservedel = true,
     ),
     Del(
         hmsnr = "184589",
@@ -51,7 +56,8 @@ val hmsnrTilDel: Map<Hmsnr, Del> = listOf(
         levArtNr = "2000061",
         kategori = "Svinghjul",
         maksAntall = 2,
-        imgs = listOf("https://storage.googleapis.com/hm_delbestilling_bilder/184589.jpg")
+        imgs = listOf("https://storage.googleapis.com/hm_delbestilling_bilder/184589.jpg"),
+        erReservedel = true,
     ),
     Del(
         hmsnr = "196027",
@@ -60,7 +66,8 @@ val hmsnrTilDel: Map<Hmsnr, Del> = listOf(
         kategori = "Batteri",
         defaultAntall = 2,
         maksAntall = 2,
-        imgs = listOf("https://storage.googleapis.com/hm_delbestilling_bilder/196027.png")
+        imgs = listOf("https://storage.googleapis.com/hm_delbestilling_bilder/196027.png"),
+        erReservedel = true,
     ),
     Del(
         hmsnr = "196602",
@@ -68,14 +75,16 @@ val hmsnrTilDel: Map<Hmsnr, Del> = listOf(
         levArtNr = "1000053",
         kategori = "Dekk",
         maksAntall = 2,
-        imgs = listOf("https://storage.googleapis.com/hm_delbestilling_bilder/196602.jpg")
+        imgs = listOf("https://storage.googleapis.com/hm_delbestilling_bilder/196602.jpg"),
+        erReservedel = true,
     ),
     Del(
         hmsnr = "200842",
         navn = "Hjul 13x5.00-6 foran/bak",
         kategori = "Hjul",
         maksAntall = 4,
-        imgs = listOf("https://storage.googleapis.com/hm_delbestilling_bilder/200842.png")
+        imgs = listOf("https://storage.googleapis.com/hm_delbestilling_bilder/200842.png"),
+        erReservedel = true,
     ),
     Del(
         hmsnr = "202326",
@@ -83,7 +92,8 @@ val hmsnrTilDel: Map<Hmsnr, Del> = listOf(
         levArtNr = "1000056",
         kategori = "Dekk",
         maksAntall = 2,
-        imgs = listOf("https://storage.googleapis.com/hm_delbestilling_bilder/202326.jpg")
+        imgs = listOf("https://storage.googleapis.com/hm_delbestilling_bilder/202326.jpg"),
+        erReservedel = true,
     ),
     Del(
         hmsnr = "211449",
@@ -91,13 +101,15 @@ val hmsnrTilDel: Map<Hmsnr, Del> = listOf(
         levArtNr = "1000005",
         kategori = "Slange",
         maksAntall = 2,
-        imgs = listOf("https://storage.googleapis.com/hm_delbestilling_bilder/211449.jpg")
+        imgs = listOf("https://storage.googleapis.com/hm_delbestilling_bilder/211449.jpg"),
+        erReservedel = true,
     ),
     Del(
         hmsnr = "223382",
         navn = "Svinghjul 150 Panthera S3/U3/S3 Swing/S3 Junior/S3 Junior Allround",
         kategori = "Svinghjul",
-        maksAntall = 2
+        maksAntall = 2,
+        erReservedel = true,
     ),
     Del(
         hmsnr = "232810",
@@ -105,13 +117,15 @@ val hmsnrTilDel: Map<Hmsnr, Del> = listOf(
         levArtNr = "2002010",
         kategori = "Svinghjul",
         maksAntall = 2,
-        imgs = listOf("https://storage.googleapis.com/hm_delbestilling_bilder/232810.jpg")
+        imgs = listOf("https://storage.googleapis.com/hm_delbestilling_bilder/232810.jpg"),
+        erReservedel = true,
     ),
     Del(
         hmsnr = "234334",
         navn = "Svinghjul S3 Hjul120 mrs Panthera S3/U3 Light",
         kategori = "Svinghjul",
-        maksAntall = 2
+        maksAntall = 2,
+        erReservedel = true,
     ),
     Del(
         hmsnr = "238403",
@@ -119,7 +133,8 @@ val hmsnrTilDel: Map<Hmsnr, Del> = listOf(
         levArtNr = "SP1654383",
         kategori = "Hjul",
         maksAntall = 2,
-        imgs = listOf("https://storage.googleapis.com/hm_delbestilling_bilder/238403.png")
+        imgs = listOf("https://storage.googleapis.com/hm_delbestilling_bilder/238403.png"),
+        erReservedel = true,
     ),
     Del(
         hmsnr = "249612",
@@ -127,7 +142,8 @@ val hmsnrTilDel: Map<Hmsnr, Del> = listOf(
         levArtNr = "SP1606544",
         kategori = "Lader",
         maksAntall = 2,
-        imgs = listOf("https://storage.googleapis.com/hm_delbestilling_bilder/249612.jpg")
+        imgs = listOf("https://storage.googleapis.com/hm_delbestilling_bilder/249612.jpg"),
+        erReservedel = true,
     ),
     Del(
         hmsnr = "253277",
@@ -135,7 +151,8 @@ val hmsnrTilDel: Map<Hmsnr, Del> = listOf(
         levArtNr = "1503-1003",
         kategori = "Hjul",
         maksAntall = 4,
-        imgs = listOf("https://storage.googleapis.com/hm_delbestilling_bilder/253277.jpg")
+        imgs = listOf("https://storage.googleapis.com/hm_delbestilling_bilder/253277.jpg"),
+        erReservedel = true,
     ),
     Del(
         hmsnr = "256634",
@@ -143,14 +160,16 @@ val hmsnrTilDel: Map<Hmsnr, Del> = listOf(
         levArtNr = "SP1608593",
         kategori = "Hjul",
         maksAntall = 2,
-        imgs = listOf("https://storage.googleapis.com/hm_delbestilling_bilder/256634.png")
+        imgs = listOf("https://storage.googleapis.com/hm_delbestilling_bilder/256634.png"),
+        erReservedel = true,
     ),
     Del(
         hmsnr = "256635",
         navn = "Hjul bak luft",
         levArtNr = null,
         kategori = "Hjul",
-        maksAntall = 2
+        maksAntall = 2,
+        erReservedel = true,
     ),
     Del(
         hmsnr = "328154", // Tidligere 263773
@@ -158,7 +177,8 @@ val hmsnrTilDel: Map<Hmsnr, Del> = listOf(
         levArtNr = "1523-1157",
         kategori = "Batteri",
         defaultAntall = 2,
-        maksAntall = 2
+        maksAntall = 2,
+        erReservedel = true,
     ),
     Del(
         hmsnr = "269827",
@@ -166,34 +186,39 @@ val hmsnrTilDel: Map<Hmsnr, Del> = listOf(
         levArtNr = "SP1654351",
         kategori = "Hjul",
         maksAntall = 2,
-        imgs = listOf("https://storage.googleapis.com/hm_delbestilling_bilder/269827.png")
+        imgs = listOf("https://storage.googleapis.com/hm_delbestilling_bilder/269827.png"),
+        erReservedel = true,
     ),
     Del(
         hmsnr = "278033",
         navn = "Dekk Schwalbe RightRun 25\"x1",
         kategori = "Dekk",
         maksAntall = 2,
-        imgs = listOf("https://storage.googleapis.com/hm_delbestilling_bilder/278033.png")
+        imgs = listOf("https://storage.googleapis.com/hm_delbestilling_bilder/278033.png"),
+        erReservedel = true,
     ),
     Del(
         hmsnr = "278247",
         navn = "Slange 26\"",
         kategori = "Slange",
-        maksAntall = 2
+        maksAntall = 2,
+        erReservedel = true,
     ),
     Del(
         hmsnr = "291356",
         navn = "Hjul luft grovmønstret foran/bak",
         kategori = "Hjul",
         maksAntall = 4,
-        imgs = listOf("https://storage.googleapis.com/hm_delbestilling_bilder/291356.png")
+        imgs = listOf("https://storage.googleapis.com/hm_delbestilling_bilder/291356.png"),
+        erReservedel = true,
     ),
     Del(
         hmsnr = "291358",
         navn = "Hjul punkteringsfri grovmønstret foran/bak",
         kategori = "Hjul",
         maksAntall = 4,
-        imgs = listOf("https://storage.googleapis.com/hm_delbestilling_bilder/291358.png")
+        imgs = listOf("https://storage.googleapis.com/hm_delbestilling_bilder/291358.png"),
+        erReservedel = true,
     ),
     Del(
         hmsnr = "302543",
@@ -201,7 +226,8 @@ val hmsnrTilDel: Map<Hmsnr, Del> = listOf(
         kategori = "Lader",
         maksAntall = 2,
         levArtNr = "1523-1103",
-        imgs = listOf("https://storage.googleapis.com/hm_delbestilling_bilder/302543.jpg")
+        imgs = listOf("https://storage.googleapis.com/hm_delbestilling_bilder/302543.jpg"),
+        erReservedel = true,
     ),
     Del(
         hmsnr = "304570",
@@ -210,7 +236,8 @@ val hmsnrTilDel: Map<Hmsnr, Del> = listOf(
         kategori = "Batteri",
         defaultAntall = 2,
         maksAntall = 2,
-        imgs = listOf("https://storage.googleapis.com/hm_delbestilling_bilder/304570.png")
+        imgs = listOf("https://storage.googleapis.com/hm_delbestilling_bilder/304570.png"),
+        erReservedel = true,
     ),
     Del(
         hmsnr = "309144",
@@ -218,20 +245,23 @@ val hmsnrTilDel: Map<Hmsnr, Del> = listOf(
         levArtNr = "1838056",
         kategori = "Hjul",
         maksAntall = 2,
+        erReservedel = true,
     ),
     Del(
         hmsnr = "309145",
         navn = "Hjul bak",
         levArtNr = "1838057",
         kategori = "Hjul",
-        maksAntall = 2
+        maksAntall = 2,
+        erReservedel = true,
     ),
     Del(
         hmsnr = "309225",
         navn = "Batterilader 10Ah",
         levArtNr = "1836502",
         kategori = "Lader",
-        maksAntall = 2
+        maksAntall = 2,
+        erReservedel = true,
     ),
     Del(
         hmsnr = "149965",
@@ -239,7 +269,8 @@ val hmsnrTilDel: Map<Hmsnr, Del> = listOf(
         levArtNr = "626550",
         kategori = "Annet",
         maksAntall = TODO_BESTEM_MAX_ANTALL,
-        imgs = listOf("https://storage.googleapis.com/hm_delbestilling_bilder/149965.png")
+        imgs = listOf("https://storage.googleapis.com/hm_delbestilling_bilder/149965.png"),
+        erReservedel = true,
     ),
     Del(
         hmsnr = "173483",
@@ -247,7 +278,8 @@ val hmsnrTilDel: Map<Hmsnr, Del> = listOf(
         levArtNr = "626011",
         kategori = "Annet",
         maksAntall = 1,
-        imgs = listOf("https://storage.googleapis.com/hm_delbestilling_bilder/173483.png")
+        imgs = listOf("https://storage.googleapis.com/hm_delbestilling_bilder/173483.png"),
+        erReservedel = true,
     ),
     Del(
         hmsnr = "028152",
@@ -255,7 +287,8 @@ val hmsnrTilDel: Map<Hmsnr, Del> = listOf(
         levArtNr = "626510",
         kategori = "Annet",
         maksAntall = TODO_BESTEM_MAX_ANTALL,
-        imgs = listOf("https://storage.googleapis.com/hm_delbestilling_bilder/028152.png")
+        imgs = listOf("https://storage.googleapis.com/hm_delbestilling_bilder/028152.png"),
+        erReservedel = true,
     ),
     Del(
         hmsnr = "255826",
@@ -263,7 +296,8 @@ val hmsnrTilDel: Map<Hmsnr, Del> = listOf(
         levArtNr = "626103",
         kategori = "Annet",
         maksAntall = 1,
-        imgs = listOf("https://storage.googleapis.com/hm_delbestilling_bilder/255826.png")
+        imgs = listOf("https://storage.googleapis.com/hm_delbestilling_bilder/255826.png"),
+        erReservedel = true,
     ),
     Del(
         hmsnr = "028158",
@@ -271,7 +305,8 @@ val hmsnrTilDel: Map<Hmsnr, Del> = listOf(
         levArtNr = "626120",
         kategori = "Annet",
         maksAntall = 1,
-        imgs = listOf("https://storage.googleapis.com/hm_delbestilling_bilder/028158.png")
+        imgs = listOf("https://storage.googleapis.com/hm_delbestilling_bilder/028158.png"),
+        erReservedel = true,
     ),
     Del(
         hmsnr = "149963",
@@ -279,7 +314,8 @@ val hmsnrTilDel: Map<Hmsnr, Del> = listOf(
         levArtNr = "626562",
         kategori = "Annet",
         maksAntall = TODO_BESTEM_MAX_ANTALL,
-        imgs = listOf("https://storage.googleapis.com/hm_delbestilling_bilder/149963.png")
+        imgs = listOf("https://storage.googleapis.com/hm_delbestilling_bilder/149963.png"),
+        erReservedel = true,
     ),
     Del(
         hmsnr = "232849",
@@ -287,130 +323,150 @@ val hmsnrTilDel: Map<Hmsnr, Del> = listOf(
         levArtNr = "626796",
         kategori = "Annet",
         maksAntall = TODO_BESTEM_MAX_ANTALL,
-        imgs = listOf("https://storage.googleapis.com/hm_delbestilling_bilder/232849.png")
+        imgs = listOf("https://storage.googleapis.com/hm_delbestilling_bilder/232849.png"),
+        erReservedel = true,
     ),
     Del(
         hmsnr = "269864",
         navn = "Batteri ers Eloflex F",
         levArtNr = "7350006080111",
         kategori = "Batteri",
-        maksAntall = 2
+        maksAntall = 2,
+        erReservedel = true,
     ),
     Del(
         hmsnr = "301607",
         navn = "Batterilader ers Eloflex F 3Ah",
         levArtNr = "7350006080142",
         kategori = "Lader",
-        maksAntall = 1
+        maksAntall = 1,
+        erReservedel = true,
     ),
     Del(
         hmsnr = "301620",
         navn = "Svinghjul ers Eloflex F 8\" kompakt",
         levArtNr = "7350006080272",
         kategori = "Svinghjul",
-        maksAntall = 2
+        maksAntall = 2,
+        erReservedel = true,
     ),
     Del(
         hmsnr = "269560",
         navn = "Drivhjul ers Eloflex F 12\" luft",
         levArtNr = "7350006080258",
         kategori = "Hjul",
-        maksAntall = 2
+        maksAntall = 2,
+        erReservedel = true,
     ),
     Del(
         hmsnr = "211200",
         navn = "Batteri 73Ah ers M5 Corpus/F3 Corpus/F3 Corpus Jr/F5 Corpus/F5 Corpus VS/F5Corpus VS Jr",
         kategori = "Batteri",
-        maksAntall = 2
+        maksAntall = 2,
+        erReservedel = true,
     ),
     Del(
         hmsnr = "157311",
         navn = "Hjul 210x65 ers Permobil C500 Corpus 3G/C500 VS/K300 PS Jr/C500 VS Jr kompakt",
         kategori = "Hjul",
-        maksAntall = 2
+        maksAntall = 2,
+        erReservedel = true,
     ),
     Del(
         hmsnr = "157747",
         navn = "Hjul 3,0x8\" ers Permobil C300/C500 foran kompakt 3eiker",
         kategori = "Hjul",
-        maksAntall = 2
+        maksAntall = 2,
+        erReservedel = true,
     ),
     Del(
         hmsnr = "157310",
         navn = "Hjul 3x8\" ers Permobil C300/C500 foran luft 3eiker",
         kategori = "Hjul",
-        maksAntall = 2
+        maksAntall = 2,
+        erReservedel = true,
     ),
     Del(
         hmsnr = "168802",
         navn = "Armlene mrs Azalea kpl hø",
         levArtNr = "1517367",
         kategori = "Annet",
-        maksAntall = 1
+        maksAntall = 1,
+        erReservedel = true,
     ),
     Del(
         hmsnr = "168803",
         navn = "Armlene mrs Azalea kpl ve",
         levArtNr = "1517368",
         kategori = "Annet",
-        maksAntall = 1
+        maksAntall = 1,
+        erReservedel = true,
     ),
     Del(
         hmsnr = "198643",
         navn = "Wire mrs Azalea ryggjust l119",
         levArtNr = "1536328",
         kategori = "Annet",
-        maksAntall = 1
+        maksAntall = 1,
+        erReservedel = true,
     ),
     Del(
         hmsnr = "198644",
         navn = "Wire mrs Azalea tilt  l119",
         levArtNr = "1536325",
         kategori = "Annet",
-        maksAntall = 1
+        maksAntall = 1,
+        erReservedel = true,
     ),
     Del(
         hmsnr = "186621",
         navn = "Svinghjul mrs Azalea 8 200X 27",
         levArtNr = "5322004",
         kategori = "Svinghjul",
-        maksAntall = 2
+        maksAntall = 2,
+        erReservedel = true,
     ),
     Del(
         hmsnr = "302292",
         navn = "Drivhjul ers MC1124/1144 luft std sort",
         kategori = "Hjul",
-        maksAntall = 2
+        maksAntall = 2,
+        erReservedel = true,
     ),
     Del(
         hmsnr = "253737",
         navn = "Batteri ers MC1124/MC1144 Haze 60ah gel std",
         kategori = "Batteri",
-        maksAntall = 2
+        maksAntall = 2,
+        erReservedel = true,
     ),
     Del(
         hmsnr = "263774",
         navn = "Batterilader ers MC1124/MC1144 Impulse II 8A std",
         kategori = "Lader",
-        maksAntall = 1
+        maksAntall = 1,
+        erReservedel = true,
     ),
     Del(
         hmsnr = "257597",
         navn = "Svinghjul ers MC1124 m/lager hø/ve",
         kategori = "Svinghjul",
-        maksAntall = 2
+        maksAntall = 2,
+        erReservedel = true,
     ),
     Del(
         hmsnr = "255405",
         navn = "Hjul 210x65 M5 Corpus/F3 Corpus/F5 Corpus/F5 Corpus VS/F3 Corpus Jr 2el/F3 Corpus Jr 4el/F5 Corpus VS Jr/M3 Corpus/ M3 Corpus Jr kompakt",
         kategori = "Svinghjul",
-        maksAntall = 2
+        maksAntall = 2,
+        erReservedel = true,
     ),
     Del(
         hmsnr = "255403",
         navn = "Hjul 3.00x8 M5 Corpus/F3 Corpus/F5 Corpus/F5 Corpus VS/F3 Corpus Jr 2el/F3 Corpus Jr 4el/F5 Corpus VS Jr/M3 Corpus/ M3 Corpus Jr luftfylt",
         kategori = "Hjul",
-        maksAntall = 2
+        maksAntall = 2,
+        erReservedel = true,
     ),
     Del(
         hmsnr = "140928",
@@ -418,7 +474,8 @@ val hmsnrTilDel: Map<Hmsnr, Del> = listOf(
         levArtNr = "80768",
         kategori = "Dekk",
         defaultAntall = 2,
-        maksAntall = 2
+        maksAntall = 2,
+        erReservedel = true,
     ),
     Del(
         hmsnr = "004392",
@@ -426,7 +483,8 @@ val hmsnrTilDel: Map<Hmsnr, Del> = listOf(
         levArtNr = "25173-1",
         kategori = "Annet",
         defaultAntall = 1,
-        maksAntall = 1
+        maksAntall = 1,
+        erReservedel = true,
     ),
     Del(
         hmsnr = "004393",
@@ -434,7 +492,8 @@ val hmsnrTilDel: Map<Hmsnr, Del> = listOf(
         levArtNr = "25173-2",
         kategori = "Annet",
         defaultAntall = 1,
-        maksAntall = 1
+        maksAntall = 1,
+        erReservedel = true,
     ),
     Del(
         hmsnr = "025943",
@@ -442,7 +501,8 @@ val hmsnrTilDel: Map<Hmsnr, Del> = listOf(
         levArtNr = "25574-01",
         kategori = "Annet",
         defaultAntall = 1,
-        maksAntall = 2
+        maksAntall = 2,
+        erReservedel = true,
     ),
     Del(
         hmsnr = "016127",
@@ -450,7 +510,8 @@ val hmsnrTilDel: Map<Hmsnr, Del> = listOf(
         levArtNr = "25641-1",
         kategori = "Annet",
         defaultAntall = 1,
-        maksAntall = 1
+        maksAntall = 1,
+        erReservedel = true,
     ),
     Del(
         hmsnr = "016129",
@@ -458,7 +519,8 @@ val hmsnrTilDel: Map<Hmsnr, Del> = listOf(
         levArtNr = "25642-1",
         kategori = "Annet",
         defaultAntall = 1,
-        maksAntall = 1
+        maksAntall = 1,
+        erReservedel = true,
     ),
     Del(
         hmsnr = "016131",
@@ -466,7 +528,8 @@ val hmsnrTilDel: Map<Hmsnr, Del> = listOf(
         levArtNr = "25643-1",
         kategori = "Annet",
         defaultAntall = 1,
-        maksAntall = 1
+        maksAntall = 1,
+        erReservedel = true,
     ),
     Del(
         hmsnr = "016133",
@@ -474,7 +537,8 @@ val hmsnrTilDel: Map<Hmsnr, Del> = listOf(
         levArtNr = "25644-1",
         kategori = "Annet",
         defaultAntall = 1,
-        maksAntall = 1
+        maksAntall = 1,
+        erReservedel = true,
     ),
     Del(
         hmsnr = "016135",
@@ -482,7 +546,8 @@ val hmsnrTilDel: Map<Hmsnr, Del> = listOf(
         levArtNr = "25645-1",
         kategori = "Annet",
         defaultAntall = 1,
-        maksAntall = 1
+        maksAntall = 1,
+        erReservedel = true,
     ),
     Del(
         hmsnr = "016137",
@@ -490,7 +555,8 @@ val hmsnrTilDel: Map<Hmsnr, Del> = listOf(
         levArtNr = "25736-1",
         kategori = "Annet",
         defaultAntall = 1,
-        maksAntall = 1
+        maksAntall = 1,
+        erReservedel = true,
     ),
     Del(
         hmsnr = "016139",
@@ -498,7 +564,8 @@ val hmsnrTilDel: Map<Hmsnr, Del> = listOf(
         levArtNr = "25646-1",
         kategori = "Annet",
         defaultAntall = 1,
-        maksAntall = 1
+        maksAntall = 1,
+        erReservedel = true,
     ),
     Del(
         hmsnr = "016126",
@@ -506,7 +573,8 @@ val hmsnrTilDel: Map<Hmsnr, Del> = listOf(
         levArtNr = "25641-2",
         kategori = "Annet",
         defaultAntall = 1,
-        maksAntall = 1
+        maksAntall = 1,
+        erReservedel = true,
     ),
     Del(
         hmsnr = "016128",
@@ -514,7 +582,8 @@ val hmsnrTilDel: Map<Hmsnr, Del> = listOf(
         levArtNr = "25641-2",
         kategori = "Annet",
         defaultAntall = 1,
-        maksAntall = 1
+        maksAntall = 1,
+        erReservedel = true,
     ),
     Del(
         hmsnr = "016130",
@@ -522,7 +591,8 @@ val hmsnrTilDel: Map<Hmsnr, Del> = listOf(
         levArtNr = "25643-2",
         kategori = "Annet",
         defaultAntall = 1,
-        maksAntall = 1
+        maksAntall = 1,
+        erReservedel = true,
     ),
     Del(
         hmsnr = "016132",
@@ -530,7 +600,8 @@ val hmsnrTilDel: Map<Hmsnr, Del> = listOf(
         levArtNr = "25644-2",
         kategori = "Annet",
         defaultAntall = 1,
-        maksAntall = 1
+        maksAntall = 1,
+        erReservedel = true,
     ),
     Del(
         hmsnr = "016134",
@@ -538,7 +609,8 @@ val hmsnrTilDel: Map<Hmsnr, Del> = listOf(
         levArtNr = "25645-2",
         kategori = "Annet",
         defaultAntall = 1,
-        maksAntall = 1
+        maksAntall = 1,
+        erReservedel = true,
     ),
     Del(
         hmsnr = "016136",
@@ -546,7 +618,8 @@ val hmsnrTilDel: Map<Hmsnr, Del> = listOf(
         levArtNr = "25736-2",
         kategori = "Annet",
         defaultAntall = 1,
-        maksAntall = 1
+        maksAntall = 1,
+        erReservedel = true,
     ),
     Del(
         hmsnr = "016138",
@@ -554,7 +627,8 @@ val hmsnrTilDel: Map<Hmsnr, Del> = listOf(
         levArtNr = "25646-2",
         kategori = "Annet",
         defaultAntall = 1,
-        maksAntall = 1
+        maksAntall = 1,
+        erReservedel = true,
     ),
     Del(
         hmsnr = "220485",
@@ -562,7 +636,8 @@ val hmsnrTilDel: Map<Hmsnr, Del> = listOf(
         levArtNr = "27564",
         kategori = "Hjul",
         defaultAntall = 2,
-        maksAntall = 2
+        maksAntall = 2,
+        erReservedel = true,
     ),
     Del(
         hmsnr = "318078",
@@ -570,7 +645,8 @@ val hmsnrTilDel: Map<Hmsnr, Del> = listOf(
         levArtNr = "83879",
         kategori = "Hjul",
         defaultAntall = 2,
-        maksAntall = 2
+        maksAntall = 2,
+        erReservedel = true,
     ),
     Del(
         hmsnr = "181134",
@@ -578,7 +654,8 @@ val hmsnrTilDel: Map<Hmsnr, Del> = listOf(
         levArtNr = "81346",
         kategori = "Hjul",
         defaultAntall = 2,
-        maksAntall = 2
+        maksAntall = 2,
+        erReservedel = true,
     ),
     Del(
         hmsnr = "318227",
@@ -586,7 +663,8 @@ val hmsnrTilDel: Map<Hmsnr, Del> = listOf(
         levArtNr = "83872",
         kategori = "Annet",
         defaultAntall = 1,
-        maksAntall = 2
+        maksAntall = 2,
+        erReservedel = true,
     ),
     Del(
         hmsnr = "219993",
@@ -594,7 +672,8 @@ val hmsnrTilDel: Map<Hmsnr, Del> = listOf(
         levArtNr = "82483",
         kategori = "Annet",
         defaultAntall = 1,
-        maksAntall = 2
+        maksAntall = 2,
+        erReservedel = true,
     ),
     Del(
         hmsnr = "139108",
@@ -602,7 +681,8 @@ val hmsnrTilDel: Map<Hmsnr, Del> = listOf(
         levArtNr = "81325",
         kategori = "Annet",
         defaultAntall = 1,
-        maksAntall = 2
+        maksAntall = 2,
+        erReservedel = true,
     ),
     Del(
         hmsnr = "154111",
@@ -610,7 +690,8 @@ val hmsnrTilDel: Map<Hmsnr, Del> = listOf(
         levArtNr = "24678",
         kategori = "Svinghjul",
         defaultAntall = 2,
-        maksAntall = 2
+        maksAntall = 2,
+        erReservedel = true,
     ),
     Del(
         hmsnr = "318335",
@@ -618,7 +699,8 @@ val hmsnrTilDel: Map<Hmsnr, Del> = listOf(
         levArtNr = "28969",
         kategori = "Svinghjul",
         defaultAntall = 2,
-        maksAntall = 2
+        maksAntall = 2,
+        erReservedel = true,
     ),
     Del(
         hmsnr = "222716",
@@ -626,7 +708,8 @@ val hmsnrTilDel: Map<Hmsnr, Del> = listOf(
         levArtNr = "27866",
         kategori = "Svinghjul",
         defaultAntall = 2,
-        maksAntall = 2
+        maksAntall = 2,
+        erReservedel = true,
     ),
     Del(
         hmsnr = "318324",
@@ -634,7 +717,8 @@ val hmsnrTilDel: Map<Hmsnr, Del> = listOf(
         levArtNr = "28922",
         kategori = "Svinghjul",
         defaultAntall = 2,
-        maksAntall = 2
+        maksAntall = 2,
+        erReservedel = true,
     ),
     Del(
         hmsnr = "220326",
@@ -642,7 +726,8 @@ val hmsnrTilDel: Map<Hmsnr, Del> = listOf(
         levArtNr = "27528-1",
         kategori = "Annet",
         defaultAntall = 1,
-        maksAntall = 1
+        maksAntall = 1,
+        erReservedel = true,
     ),
     Del(
         hmsnr = "220325",
@@ -650,7 +735,8 @@ val hmsnrTilDel: Map<Hmsnr, Del> = listOf(
         levArtNr = "27528-2",
         kategori = "Annet",
         defaultAntall = 1,
-        maksAntall = 1
+        maksAntall = 1,
+        erReservedel = true,
     ),
     Del(
         hmsnr = "158029",
@@ -658,7 +744,8 @@ val hmsnrTilDel: Map<Hmsnr, Del> = listOf(
         levArtNr = "62718-60",
         kategori = "Annet",
         defaultAntall = 1,
-        maksAntall = 1
+        maksAntall = 1,
+        erReservedel = true,
     ),
     Del(
         hmsnr = "158033",
@@ -666,7 +753,8 @@ val hmsnrTilDel: Map<Hmsnr, Del> = listOf(
         levArtNr = "62728-60",
         kategori = "Annet",
         defaultAntall = 1,
-        maksAntall = 1
+        maksAntall = 1,
+        erReservedel = true,
     ),
     Del(
         hmsnr = "240197",
@@ -674,7 +762,8 @@ val hmsnrTilDel: Map<Hmsnr, Del> = listOf(
         levArtNr = "62719-60",
         kategori = "Annet",
         defaultAntall = 1,
-        maksAntall = 1
+        maksAntall = 1,
+        erReservedel = true,
     ),
     Del(
         hmsnr = "279255",
@@ -682,7 +771,8 @@ val hmsnrTilDel: Map<Hmsnr, Del> = listOf(
         levArtNr = "62729-60",
         kategori = "Annet",
         defaultAntall = 1,
-        maksAntall = 1
+        maksAntall = 1,
+        erReservedel = true,
     ),
     Del(
         hmsnr = "240198",
@@ -690,7 +780,8 @@ val hmsnrTilDel: Map<Hmsnr, Del> = listOf(
         levArtNr = "62720-60",
         kategori = "Annet",
         defaultAntall = 1,
-        maksAntall = 1
+        maksAntall = 1,
+        erReservedel = true,
     ),
     Del(
         hmsnr = "236921",
@@ -698,7 +789,8 @@ val hmsnrTilDel: Map<Hmsnr, Del> = listOf(
         levArtNr = "62730-60",
         kategori = "Annet",
         defaultAntall = 1,
-        maksAntall = 1
+        maksAntall = 1,
+        erReservedel = true,
     ),
     Del(
         hmsnr = "240199",
@@ -706,7 +798,8 @@ val hmsnrTilDel: Map<Hmsnr, Del> = listOf(
         levArtNr = "62721-60",
         kategori = "Annet",
         defaultAntall = 1,
-        maksAntall = 1
+        maksAntall = 1,
+        erReservedel = true,
     ),
     Del(
         hmsnr = "236922",
@@ -714,7 +807,8 @@ val hmsnrTilDel: Map<Hmsnr, Del> = listOf(
         levArtNr = "62731-60",
         kategori = "Annet",
         defaultAntall = 1,
-        maksAntall = 1
+        maksAntall = 1,
+        erReservedel = true,
     ),
     Del(
         hmsnr = "240200",
@@ -722,7 +816,8 @@ val hmsnrTilDel: Map<Hmsnr, Del> = listOf(
         levArtNr = "62722-60",
         kategori = "Annet",
         defaultAntall = 1,
-        maksAntall = 1
+        maksAntall = 1,
+        erReservedel = true,
     ),
     Del(
         hmsnr = "236923",
@@ -730,7 +825,8 @@ val hmsnrTilDel: Map<Hmsnr, Del> = listOf(
         levArtNr = "62732-60",
         kategori = "Annet",
         defaultAntall = 1,
-        maksAntall = 1
+        maksAntall = 1,
+        erReservedel = true,
     ),
     Del(
         hmsnr = "240201",
@@ -738,7 +834,8 @@ val hmsnrTilDel: Map<Hmsnr, Del> = listOf(
         levArtNr = "62978-60",
         kategori = "Annet",
         defaultAntall = 1,
-        maksAntall = 1
+        maksAntall = 1,
+        erReservedel = true,
     ),
     Del(
         hmsnr = "236924",
@@ -746,7 +843,8 @@ val hmsnrTilDel: Map<Hmsnr, Del> = listOf(
         levArtNr = "62984-60",
         kategori = "Annet",
         defaultAntall = 1,
-        maksAntall = 1
+        maksAntall = 1,
+        erReservedel = true,
     ),
     Del(
         hmsnr = "240202",
@@ -754,7 +852,8 @@ val hmsnrTilDel: Map<Hmsnr, Del> = listOf(
         levArtNr = "62979-60",
         kategori = "Annet",
         defaultAntall = 1,
-        maksAntall = 1
+        maksAntall = 1,
+        erReservedel = true,
     ),
     Del(
         hmsnr = "236925",
@@ -762,7 +861,8 @@ val hmsnrTilDel: Map<Hmsnr, Del> = listOf(
         levArtNr = "62985-60",
         kategori = "Annet",
         defaultAntall = 1,
-        maksAntall = 1
+        maksAntall = 1,
+        erReservedel = true,
     ),
     Del(
         hmsnr = "240203",
@@ -770,7 +870,8 @@ val hmsnrTilDel: Map<Hmsnr, Del> = listOf(
         levArtNr = "62980-60",
         kategori = "Annet",
         defaultAntall = 1,
-        maksAntall = 1
+        maksAntall = 1,
+        erReservedel = true,
     ),
     Del(
         hmsnr = "279256",
@@ -778,7 +879,8 @@ val hmsnrTilDel: Map<Hmsnr, Del> = listOf(
         levArtNr = "62986-60",
         kategori = "Annet",
         defaultAntall = 1,
-        maksAntall = 1
+        maksAntall = 1,
+        erReservedel = true,
     ),
     Del(
         hmsnr = "240204",
@@ -786,7 +888,8 @@ val hmsnrTilDel: Map<Hmsnr, Del> = listOf(
         levArtNr = "62981-60",
         kategori = "Annet",
         defaultAntall = 1,
-        maksAntall = 1
+        maksAntall = 1,
+        erReservedel = true,
     ),
     Del(
         hmsnr = "279257",
@@ -794,7 +897,8 @@ val hmsnrTilDel: Map<Hmsnr, Del> = listOf(
         levArtNr = "62987-60",
         kategori = "Annet",
         defaultAntall = 1,
-        maksAntall = 1
+        maksAntall = 1,
+        erReservedel = true,
     ),
     Del(
         hmsnr = "240205",
@@ -802,7 +906,8 @@ val hmsnrTilDel: Map<Hmsnr, Del> = listOf(
         levArtNr = "62982-60",
         kategori = "Annet",
         defaultAntall = 1,
-        maksAntall = 1
+        maksAntall = 1,
+        erReservedel = true,
     ),
     Del(
         hmsnr = "279258",
@@ -810,7 +915,8 @@ val hmsnrTilDel: Map<Hmsnr, Del> = listOf(
         levArtNr = "62988-60",
         kategori = "Annet",
         defaultAntall = 1,
-        maksAntall = 1
+        maksAntall = 1,
+        erReservedel = true,
     ),
     Del(
         hmsnr = "240206",
@@ -818,7 +924,8 @@ val hmsnrTilDel: Map<Hmsnr, Del> = listOf(
         levArtNr = "62983-60",
         kategori = "Annet",
         defaultAntall = 1,
-        maksAntall = 1
+        maksAntall = 1,
+        erReservedel = true,
     ),
     Del(
         hmsnr = "181078",
@@ -826,7 +933,8 @@ val hmsnrTilDel: Map<Hmsnr, Del> = listOf(
         levArtNr = "62941-60",
         kategori = "Annet",
         defaultAntall = 1,
-        maksAntall = 1
+        maksAntall = 1,
+        erReservedel = true,
     ),
     Del(
         hmsnr = "181079",
@@ -834,7 +942,8 @@ val hmsnrTilDel: Map<Hmsnr, Del> = listOf(
         levArtNr = "62942-60",
         kategori = "Annet",
         defaultAntall = 1,
-        maksAntall = 1
+        maksAntall = 1,
+        erReservedel = true,
     ),
     Del(
         hmsnr = "181080",
@@ -842,7 +951,8 @@ val hmsnrTilDel: Map<Hmsnr, Del> = listOf(
         levArtNr = "62943-60",
         kategori = "Annet",
         defaultAntall = 1,
-        maksAntall = 1
+        maksAntall = 1,
+        erReservedel = true,
     ),
     Del(
         hmsnr = "181081",
@@ -850,7 +960,8 @@ val hmsnrTilDel: Map<Hmsnr, Del> = listOf(
         levArtNr = "62944-60",
         kategori = "Annet",
         defaultAntall = 1,
-        maksAntall = 1
+        maksAntall = 1,
+        erReservedel = true,
     ),
     Del(
         hmsnr = "181082",
@@ -858,7 +969,8 @@ val hmsnrTilDel: Map<Hmsnr, Del> = listOf(
         levArtNr = "62945-60",
         kategori = "Annet",
         defaultAntall = 1,
-        maksAntall = 1
+        maksAntall = 1,
+        erReservedel = true,
     ),
     Del(
         hmsnr = "181083",
@@ -866,7 +978,8 @@ val hmsnrTilDel: Map<Hmsnr, Del> = listOf(
         levArtNr = "62946-60",
         kategori = "Annet",
         defaultAntall = 1,
-        maksAntall = 1
+        maksAntall = 1,
+        erReservedel = true,
     ),
     Del(
         hmsnr = "181084",
@@ -874,7 +987,8 @@ val hmsnrTilDel: Map<Hmsnr, Del> = listOf(
         levArtNr = "62947-60",
         kategori = "Annet",
         defaultAntall = 1,
-        maksAntall = 1
+        maksAntall = 1,
+        erReservedel = true,
     ),
     Del(
         hmsnr = "181085",
@@ -882,7 +996,8 @@ val hmsnrTilDel: Map<Hmsnr, Del> = listOf(
         levArtNr = "62948-60",
         kategori = "Annet",
         defaultAntall = 1,
-        maksAntall = 1
+        maksAntall = 1,
+        erReservedel = true,
     ),
     Del(
         hmsnr = "181086",
@@ -890,7 +1005,8 @@ val hmsnrTilDel: Map<Hmsnr, Del> = listOf(
         levArtNr = "62949-60",
         kategori = "Annet",
         defaultAntall = 1,
-        maksAntall = 1
+        maksAntall = 1,
+        erReservedel = true,
     ),
     Del(
         hmsnr = "181087",
@@ -898,7 +1014,8 @@ val hmsnrTilDel: Map<Hmsnr, Del> = listOf(
         levArtNr = "62950-60",
         kategori = "Annet",
         defaultAntall = 1,
-        maksAntall = 1
+        maksAntall = 1,
+        erReservedel = true,
     ),
     Del(
         hmsnr = "181088",
@@ -906,7 +1023,8 @@ val hmsnrTilDel: Map<Hmsnr, Del> = listOf(
         levArtNr = "62951-60",
         kategori = "Annet",
         defaultAntall = 1,
-        maksAntall = 1
+        maksAntall = 1,
+        erReservedel = true,
     ),
     Del(
         hmsnr = "006428",
@@ -914,7 +1032,8 @@ val hmsnrTilDel: Map<Hmsnr, Del> = listOf(
         levArtNr = "21682",
         kategori = "Annet",
         defaultAntall = 1,
-        maksAntall = 1
+        maksAntall = 1,
+        erReservedel = true,
     ),
     Del(
         hmsnr = "316171",
@@ -922,7 +1041,8 @@ val hmsnrTilDel: Map<Hmsnr, Del> = listOf(
         levArtNr = "93727",
         kategori = "Annet",
         defaultAntall = 1,
-        maksAntall = 1
+        maksAntall = 1,
+        erReservedel = true,
     ),
     Del(
         hmsnr = "006429",
@@ -930,7 +1050,8 @@ val hmsnrTilDel: Map<Hmsnr, Del> = listOf(
         levArtNr = "93728",
         kategori = "Annet",
         defaultAntall = 1,
-        maksAntall = 1
+        maksAntall = 1,
+        erReservedel = true,
     ),
     Del(
         hmsnr = "316172",
@@ -938,7 +1059,8 @@ val hmsnrTilDel: Map<Hmsnr, Del> = listOf(
         levArtNr = "93728",
         kategori = "Annet",
         defaultAntall = 1,
-        maksAntall = 1
+        maksAntall = 1,
+        erReservedel = true,
     ),
     Del(
         hmsnr = "065633",
@@ -946,7 +1068,8 @@ val hmsnrTilDel: Map<Hmsnr, Del> = listOf(
         levArtNr = "20835",
         kategori = "Annet",
         defaultAntall = 2,
-        maksAntall = 2
+        maksAntall = 2,
+        erReservedel = true,
     ),
     Del(
         hmsnr = "154652",
@@ -954,7 +1077,8 @@ val hmsnrTilDel: Map<Hmsnr, Del> = listOf(
         levArtNr = "29500",
         kategori = "Annet",
         defaultAntall = 1,
-        maksAntall = 1
+        maksAntall = 1,
+        erReservedel = true,
     ),
     Del(
         hmsnr = "154653",
@@ -962,7 +1086,8 @@ val hmsnrTilDel: Map<Hmsnr, Del> = listOf(
         levArtNr = "29501",
         kategori = "Annet",
         defaultAntall = 1,
-        maksAntall = 1
+        maksAntall = 1,
+        erReservedel = true,
     ),
     Del(
         hmsnr = "154654",
@@ -970,7 +1095,8 @@ val hmsnrTilDel: Map<Hmsnr, Del> = listOf(
         levArtNr = "29502",
         kategori = "Annet",
         defaultAntall = 1,
-        maksAntall = 1
+        maksAntall = 1,
+        erReservedel = true,
     ),
     Del(
         hmsnr = "154655",
@@ -978,7 +1104,8 @@ val hmsnrTilDel: Map<Hmsnr, Del> = listOf(
         levArtNr = "29503",
         kategori = "Annet",
         defaultAntall = 1,
-        maksAntall = 1
+        maksAntall = 1,
+        erReservedel = true,
     ),
     Del(
         hmsnr = "154656",
@@ -986,7 +1113,8 @@ val hmsnrTilDel: Map<Hmsnr, Del> = listOf(
         levArtNr = "29504",
         kategori = "Annet",
         defaultAntall = 1,
-        maksAntall = 1
+        maksAntall = 1,
+        erReservedel = true,
     ),
     Del(
         hmsnr = "154657",
@@ -994,7 +1122,8 @@ val hmsnrTilDel: Map<Hmsnr, Del> = listOf(
         levArtNr = "29505",
         kategori = "Annet",
         defaultAntall = 1,
-        maksAntall = 1
+        maksAntall = 1,
+        erReservedel = true,
     ),
     Del(
         hmsnr = "154658",
@@ -1002,7 +1131,8 @@ val hmsnrTilDel: Map<Hmsnr, Del> = listOf(
         levArtNr = "29506",
         kategori = "Annet",
         defaultAntall = 1,
-        maksAntall = 1
+        maksAntall = 1,
+        erReservedel = true,
     ),
     Del(
         hmsnr = "154659",
@@ -1010,7 +1140,8 @@ val hmsnrTilDel: Map<Hmsnr, Del> = listOf(
         levArtNr = "29507",
         kategori = "Annet",
         defaultAntall = 1,
-        maksAntall = 1
+        maksAntall = 1,
+        erReservedel = true,
     ),
     Del(
         hmsnr = "316217",
@@ -1018,7 +1149,8 @@ val hmsnrTilDel: Map<Hmsnr, Del> = listOf(
         levArtNr = "94859",
         kategori = "Annet",
         defaultAntall = 1,
-        maksAntall = 1
+        maksAntall = 1,
+        erReservedel = true,
     ),
     Del(
         hmsnr = "316219",
@@ -1026,7 +1158,8 @@ val hmsnrTilDel: Map<Hmsnr, Del> = listOf(
         levArtNr = "29860",
         kategori = "Annet",
         defaultAntall = 1,
-        maksAntall = 1
+        maksAntall = 1,
+        erReservedel = true,
     ),
     Del(
         hmsnr = "154660",
@@ -1034,7 +1167,8 @@ val hmsnrTilDel: Map<Hmsnr, Del> = listOf(
         levArtNr = "29508",
         kategori = "Annet",
         defaultAntall = 1,
-        maksAntall = 1
+        maksAntall = 1,
+        erReservedel = true,
     ),
     Del(
         hmsnr = "154661",
@@ -1042,7 +1176,8 @@ val hmsnrTilDel: Map<Hmsnr, Del> = listOf(
         levArtNr = "29509",
         kategori = "Annet",
         defaultAntall = 1,
-        maksAntall = 1
+        maksAntall = 1,
+        erReservedel = true,
     ),
     Del(
         hmsnr = "154662",
@@ -1050,7 +1185,8 @@ val hmsnrTilDel: Map<Hmsnr, Del> = listOf(
         levArtNr = "29510",
         kategori = "Annet",
         defaultAntall = 1,
-        maksAntall = 1
+        maksAntall = 1,
+        erReservedel = true,
     ),
     Del(
         hmsnr = "154663",
@@ -1058,7 +1194,8 @@ val hmsnrTilDel: Map<Hmsnr, Del> = listOf(
         levArtNr = "29511",
         kategori = "Annet",
         defaultAntall = 1,
-        maksAntall = 1
+        maksAntall = 1,
+        erReservedel = true,
     ),
     Del(
         hmsnr = "154664",
@@ -1066,7 +1203,8 @@ val hmsnrTilDel: Map<Hmsnr, Del> = listOf(
         levArtNr = "29512",
         kategori = "Annet",
         defaultAntall = 1,
-        maksAntall = 1
+        maksAntall = 1,
+        erReservedel = true,
     ),
     Del(
         hmsnr = "154665",
@@ -1074,7 +1212,8 @@ val hmsnrTilDel: Map<Hmsnr, Del> = listOf(
         levArtNr = "29513",
         kategori = "Annet",
         defaultAntall = 1,
-        maksAntall = 1
+        maksAntall = 1,
+        erReservedel = true,
     ),
     Del(
         hmsnr = "154666",
@@ -1082,7 +1221,8 @@ val hmsnrTilDel: Map<Hmsnr, Del> = listOf(
         levArtNr = "29514",
         kategori = "Annet",
         defaultAntall = 1,
-        maksAntall = 1
+        maksAntall = 1,
+        erReservedel = true,
     ),
     Del(
         hmsnr = "154667",
@@ -1090,7 +1230,8 @@ val hmsnrTilDel: Map<Hmsnr, Del> = listOf(
         levArtNr = "29515",
         kategori = "Annet",
         defaultAntall = 1,
-        maksAntall = 1
+        maksAntall = 1,
+        erReservedel = true,
     ),
     Del(
         hmsnr = "316218",
@@ -1098,7 +1239,8 @@ val hmsnrTilDel: Map<Hmsnr, Del> = listOf(
         levArtNr = "94861",
         kategori = "Annet",
         defaultAntall = 1,
-        maksAntall = 1
+        maksAntall = 1,
+        erReservedel = true,
     ),
     Del(
         hmsnr = "316220",
@@ -1106,7 +1248,8 @@ val hmsnrTilDel: Map<Hmsnr, Del> = listOf(
         levArtNr = "94862",
         kategori = "Annet",
         defaultAntall = 1,
-        maksAntall = 1
+        maksAntall = 1,
+        erReservedel = true,
     ),
     Del(
         hmsnr = "154670",
@@ -1114,7 +1257,8 @@ val hmsnrTilDel: Map<Hmsnr, Del> = listOf(
         levArtNr = "40886",
         kategori = "Annet",
         defaultAntall = 2,
-        maksAntall = 2
+        maksAntall = 2,
+        erReservedel = true,
     ),
     Del(
         hmsnr = "215101",
@@ -1122,7 +1266,8 @@ val hmsnrTilDel: Map<Hmsnr, Del> = listOf(
         levArtNr = "43183",
         kategori = "Hjul",
         defaultAntall = 2,
-        maksAntall = 2
+        maksAntall = 2,
+        erReservedel = true,
     ),
     Del(
         hmsnr = "316347",
@@ -1130,7 +1275,8 @@ val hmsnrTilDel: Map<Hmsnr, Del> = listOf(
         levArtNr = "93285",
         kategori = "Hjul",
         defaultAntall = 2,
-        maksAntall = 2
+        maksAntall = 2,
+        erReservedel = true,
     ),
     Del(
         hmsnr = "219466",
@@ -1138,7 +1284,8 @@ val hmsnrTilDel: Map<Hmsnr, Del> = listOf(
         levArtNr = "86134",
         kategori = "Svinghjul",
         defaultAntall = 2,
-        maksAntall = 2
+        maksAntall = 2,
+        erReservedel = true,
     ),
     Del(
         hmsnr = "268002",
@@ -1146,7 +1293,8 @@ val hmsnrTilDel: Map<Hmsnr, Del> = listOf(
         levArtNr = "90102",
         kategori = "Svinghjul",
         defaultAntall = 2,
-        maksAntall = 2
+        maksAntall = 2,
+        erReservedel = true,
     ),
     Del(
         hmsnr = "277498",
@@ -1154,7 +1302,8 @@ val hmsnrTilDel: Map<Hmsnr, Del> = listOf(
         levArtNr = "86135",
         kategori = "Svinghjul",
         defaultAntall = 2,
-        maksAntall = 2
+        maksAntall = 2,
+        erReservedel = true,
     ),
     Del(
         hmsnr = "138932",
@@ -1162,7 +1311,8 @@ val hmsnrTilDel: Map<Hmsnr, Del> = listOf(
         levArtNr = "26852",
         kategori = "Annet",
         defaultAntall = 1,
-        maksAntall = 1
+        maksAntall = 1,
+        erReservedel = true,
     ),
     Del(
         hmsnr = "316333",
@@ -1170,7 +1320,8 @@ val hmsnrTilDel: Map<Hmsnr, Del> = listOf(
         levArtNr = "93674",
         kategori = "Annet",
         defaultAntall = 1,
-        maksAntall = 1
+        maksAntall = 1,
+        erReservedel = true,
     ),
     Del(
         hmsnr = "138933",
@@ -1178,7 +1329,8 @@ val hmsnrTilDel: Map<Hmsnr, Del> = listOf(
         levArtNr = "26853",
         kategori = "Annet",
         defaultAntall = 1,
-        maksAntall = 1
+        maksAntall = 1,
+        erReservedel = true,
     ),
     Del(
         hmsnr = "316334",
@@ -1186,7 +1338,8 @@ val hmsnrTilDel: Map<Hmsnr, Del> = listOf(
         levArtNr = "93675",
         kategori = "Annet",
         defaultAntall = 1,
-        maksAntall = 1
+        maksAntall = 1,
+        erReservedel = true,
     ),
     Del(
         hmsnr = "154497",
@@ -1194,7 +1347,8 @@ val hmsnrTilDel: Map<Hmsnr, Del> = listOf(
         levArtNr = "171806",
         kategori = "Annet",
         defaultAntall = 1,
-        maksAntall = 1
+        maksAntall = 1,
+        erReservedel = true,
     ),
     Del(
         hmsnr = "154500",
@@ -1202,7 +1356,8 @@ val hmsnrTilDel: Map<Hmsnr, Del> = listOf(
         levArtNr = "171809",
         kategori = "Annet",
         defaultAntall = 1,
-        maksAntall = 1
+        maksAntall = 1,
+        erReservedel = true,
     ),
     Del(
         hmsnr = "154505",
@@ -1210,7 +1365,8 @@ val hmsnrTilDel: Map<Hmsnr, Del> = listOf(
         levArtNr = "171813",
         kategori = "Annet",
         defaultAntall = 1,
-        maksAntall = 1
+        maksAntall = 1,
+        erReservedel = true,
     ),
     Del(
         hmsnr = "154511",
@@ -1218,7 +1374,8 @@ val hmsnrTilDel: Map<Hmsnr, Del> = listOf(
         levArtNr = "171818",
         kategori = "Annet",
         defaultAntall = 1,
-        maksAntall = 1
+        maksAntall = 1,
+        erReservedel = true,
     ),
     Del(
         hmsnr = "154516",
@@ -1226,7 +1383,8 @@ val hmsnrTilDel: Map<Hmsnr, Del> = listOf(
         levArtNr = "171822",
         kategori = "Annet",
         defaultAntall = 1,
-        maksAntall = 1
+        maksAntall = 1,
+        erReservedel = true,
     ),
     Del(
         hmsnr = "154521",
@@ -1234,7 +1392,8 @@ val hmsnrTilDel: Map<Hmsnr, Del> = listOf(
         levArtNr = "171826",
         kategori = "Annet",
         defaultAntall = 1,
-        maksAntall = 1
+        maksAntall = 1,
+        erReservedel = true,
     ),
     Del(
         hmsnr = "154525",
@@ -1242,7 +1401,8 @@ val hmsnrTilDel: Map<Hmsnr, Del> = listOf(
         levArtNr = "171829",
         kategori = "Annet",
         defaultAntall = 1,
-        maksAntall = 1
+        maksAntall = 1,
+        erReservedel = true,
     ),
     Del(
         hmsnr = "154529",
@@ -1250,7 +1410,8 @@ val hmsnrTilDel: Map<Hmsnr, Del> = listOf(
         levArtNr = "171830",
         kategori = "Annet",
         defaultAntall = 1,
-        maksAntall = 1
+        maksAntall = 1,
+        erReservedel = true,
     ),
     Del(
         hmsnr = "181577",
@@ -1258,7 +1419,8 @@ val hmsnrTilDel: Map<Hmsnr, Del> = listOf(
         levArtNr = "367204",
         kategori = "Annet",
         defaultAntall = 1,
-        maksAntall = 1
+        maksAntall = 1,
+        erReservedel = true,
     ),
     Del(
         hmsnr = "181579",
@@ -1266,7 +1428,8 @@ val hmsnrTilDel: Map<Hmsnr, Del> = listOf(
         levArtNr = "367205",
         kategori = "Annet",
         defaultAntall = 1,
-        maksAntall = 1
+        maksAntall = 1,
+        erReservedel = true,
     ),
     Del(
         hmsnr = "181581",
@@ -1274,7 +1437,8 @@ val hmsnrTilDel: Map<Hmsnr, Del> = listOf(
         levArtNr = "367206",
         kategori = "Annet",
         defaultAntall = 1,
-        maksAntall = 1
+        maksAntall = 1,
+        erReservedel = true,
     ),
     Del(
         hmsnr = "181583",
@@ -1282,7 +1446,8 @@ val hmsnrTilDel: Map<Hmsnr, Del> = listOf(
         levArtNr = "367207",
         kategori = "Annet",
         defaultAntall = 1,
-        maksAntall = 1
+        maksAntall = 1,
+        erReservedel = true,
     ),
     Del(
         hmsnr = "181585",
@@ -1290,7 +1455,8 @@ val hmsnrTilDel: Map<Hmsnr, Del> = listOf(
         levArtNr = "367208",
         kategori = "Annet",
         defaultAntall = 1,
-        maksAntall = 1
+        maksAntall = 1,
+        erReservedel = true,
     ),
     Del(
         hmsnr = "181587",
@@ -1298,7 +1464,8 @@ val hmsnrTilDel: Map<Hmsnr, Del> = listOf(
         levArtNr = "367209",
         kategori = "Annet",
         defaultAntall = 1,
-        maksAntall = 1
+        maksAntall = 1,
+        erReservedel = true,
     ),
     Del(
         hmsnr = "181589",
@@ -1306,7 +1473,8 @@ val hmsnrTilDel: Map<Hmsnr, Del> = listOf(
         levArtNr = "367210",
         kategori = "Annet",
         defaultAntall = 1,
-        maksAntall = 1
+        maksAntall = 1,
+        erReservedel = true,
     ),
     Del(
         hmsnr = "181592",
@@ -1314,7 +1482,8 @@ val hmsnrTilDel: Map<Hmsnr, Del> = listOf(
         levArtNr = "367227",
         kategori = "Annet",
         defaultAntall = 1,
-        maksAntall = 1
+        maksAntall = 1,
+        erReservedel = true,
     ),
     Del(
         hmsnr = "316267",
@@ -1322,7 +1491,8 @@ val hmsnrTilDel: Map<Hmsnr, Del> = listOf(
         levArtNr = "367215",
         kategori = "Annet",
         defaultAntall = 1,
-        maksAntall = 1
+        maksAntall = 1,
+        erReservedel = true,
     ),
     Del(
         hmsnr = "316269",
@@ -1330,7 +1500,8 @@ val hmsnrTilDel: Map<Hmsnr, Del> = listOf(
         levArtNr = "367216",
         kategori = "Annet",
         defaultAntall = 1,
-        maksAntall = 1
+        maksAntall = 1,
+        erReservedel = true,
     ),
     Del(
         hmsnr = "181422",
@@ -1338,28 +1509,32 @@ val hmsnrTilDel: Map<Hmsnr, Del> = listOf(
         levArtNr = "81024",
         kategori = "Annet",
         defaultAntall = 1,
-        maksAntall = 1
+        maksAntall = 1,
+        erReservedel = true,
     ),
     Del(
         hmsnr = "308897",
         navn = "Batteri",
         kategori = "Batteri",
         defaultAntall = 2,
-        maksAntall = 2
+        maksAntall = 2,
+        erReservedel = true,
     ),
     Del(
         hmsnr = "286581",
         navn = "Lader",
         kategori = "Lader",
         defaultAntall = 1,
-        maksAntall = 1
+        maksAntall = 1,
+        erReservedel = true,
     ),
     Del(
         hmsnr = "307864",
         navn = "Hjul",
         kategori = "Hjul",
         defaultAntall = 4,
-        maksAntall = 4
+        maksAntall = 4,
+        erReservedel = true,
     ),
     Del(
         hmsnr = "279259",
@@ -1368,6 +1543,7 @@ val hmsnrTilDel: Map<Hmsnr, Del> = listOf(
         kategori = "Annet",
         defaultAntall = 1,
         maksAntall = 1,
+        erReservedel = true,
     ),
 ).associateBy { it.hmsnr }
 

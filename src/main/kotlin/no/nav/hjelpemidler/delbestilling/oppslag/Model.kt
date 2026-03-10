@@ -53,6 +53,8 @@ data class Del(
     val imgs: List<String> = emptyList(),
     val lagerstatus: Lagerstatus? = null,
     val kilde: Kilde? = Kilde.MANUELL_LISTE,
+    val erReservedel: Boolean = false,
+    val erTilbehør: Boolean = false,
 ) {
     fun erBatteri(): Boolean = kategori == "Batteri"
 }
