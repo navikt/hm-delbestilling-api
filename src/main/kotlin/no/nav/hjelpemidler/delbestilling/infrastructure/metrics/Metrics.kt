@@ -1,6 +1,7 @@
 package no.nav.hjelpemidler.delbestilling.infrastructure.metrics
 
 import io.github.oshai.kotlinlogging.KotlinLogging
+import no.nav.hjelpemidler.delbestilling.common.Del
 import no.nav.hjelpemidler.delbestilling.common.DelbestillingSak
 import no.nav.hjelpemidler.delbestilling.common.Hmsnr
 import no.nav.hjelpemidler.delbestilling.infrastructure.kafka.Kafka
@@ -25,42 +26,21 @@ class Metrics(
     }
 
     fun registrerDelbestillingInnsendt(
-        hmsnrDel: String,
-        navnDel: String,
+        del: Del,
         hmsnrHovedprodukt: String,
         navnHovedprodukt: String,
         rolleInnsender: String,
-        hjmbrukerHarBrukerpass: Boolean
+        hjmbrukerHarBrukerpass: Boolean,
     ) = registerSafely("delbestilling.innsendt") {
         mapOf(
-            "hmsnrDel" to hmsnrDel,
-            "navnDel" to navnDel,
+            "hmsnrDel" to del.hmsnr,
+            "navnDel" to del.navn,
             "hmsnrHovedprodukt" to hmsnrHovedprodukt,
             "navnHovedprodukt" to navnHovedprodukt,
             "rolleInnsender" to rolleInnsender,
             "hjmbrukerHarBrukerpass" to hjmbrukerHarBrukerpass.toString(),
-        )
-    }
-
-    fun registrerDelbestillingInnsendtDel(
-        hmsnrDel: String,
-        navnDel: String,
-        kategori: String,
-        deltype: String,
-        hmsnrHovedprodukt: String,
-        navnHovedprodukt: String,
-        antall: Int,
-        kilde: String,
-    ) = registerSafely("delbestilling.innsendt.del") {
-        mapOf(
-            "hmsnrDel" to hmsnrDel,
-            "navnDel" to navnDel,
-            "kategori" to kategori,
-            "deltype" to deltype,
-            "hmsnrHovedprodukt" to hmsnrHovedprodukt,
-            "navnHovedprodukt" to navnHovedprodukt,
-            "antall" to antall.toString(),
-            "kilde" to kilde,
+            "erReservedel" to del.erReservedel.toString(),
+            "erTilbehør" to del.erTilbehør.toString(),
         )
     }
 

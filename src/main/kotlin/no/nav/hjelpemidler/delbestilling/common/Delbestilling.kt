@@ -74,12 +74,6 @@ data class Del(
     val erTilbehør: Boolean = false,
 ) {
     fun erBatteri() = kategori == "Batteri"
-
-    fun deltype(): String = when {
-        erReservedel -> "Del"
-        erTilbehør -> "Tilbehør"
-        else -> "Ukjent"
-    }
 }
 
 data class Lagerstatus(

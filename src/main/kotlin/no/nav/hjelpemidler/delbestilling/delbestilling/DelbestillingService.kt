@@ -6,14 +6,13 @@ import kotlinx.coroutines.launch
 import no.nav.hjelpemidler.delbestilling.common.Delbestilling
 import no.nav.hjelpemidler.delbestilling.common.DelbestillingSak
 import no.nav.hjelpemidler.delbestilling.common.Hmsnr
+import no.nav.hjelpemidler.delbestilling.common.Lagerstatus
 import no.nav.hjelpemidler.delbestilling.common.Serienr
 import no.nav.hjelpemidler.delbestilling.config.isDev
 import no.nav.hjelpemidler.delbestilling.config.isLocal
 import no.nav.hjelpemidler.delbestilling.config.isProd
 import no.nav.hjelpemidler.delbestilling.delbestilling.anmodning.AnmodningService
 import no.nav.hjelpemidler.delbestilling.delbestilling.anmodning.Anmodningrapport
-import no.nav.hjelpemidler.delbestilling.rapportering.klargjorte.KlargjorteDelbestillingerService
-import no.nav.hjelpemidler.delbestilling.rapportering.klargjorte.KlargjorteDelbestillingerRapport
 import no.nav.hjelpemidler.delbestilling.infrastructure.geografi.Kommuneoppslag
 import no.nav.hjelpemidler.delbestilling.infrastructure.metrics.Metrics
 import no.nav.hjelpemidler.delbestilling.infrastructure.oebs.Oebs
@@ -119,8 +118,16 @@ class DelbestillingService(
         val delerHmsnr = request.delbestilling.deler.map { it.del.hmsnr }
         val lagerstatuser = oebs.hentLagerstatusForKommunenummer(brukerKommunenr, delerHmsnr)
         val berikedeDellinjer = request.delbestilling.deler.map { dellinje ->
-            val lagerstatus =
-                checkNotNull(lagerstatuser.find { it.artikkelnummer == dellinje.del.hmsnr }) { "Mangler lagerstatus for ${dellinje.del.hmsnr}" }
+            // TODO: Fjern denne hardkodingen når testing er ferdig
+            val lagerstatus = lagerstatuser.find { it.artikkelnummer == dellinje.del.hmsnr }
+                ?: Lagerstatus(
+                    organisasjons_id = 0,
+                    organisasjons_navn = "Hardkodet for testing",
+                    artikkelnummer = dellinje.del.hmsnr,
+                    minmax = false,
+                    tilgjengelig = 0,
+                    antallDelerPåLager = 0,
+                )
             dellinje.copy(lagerstatusPåBestillingstidspunkt = lagerstatus) // Brukes senere i AnmodningService for å finne ut om det er behov for anmodning.
         }
         val delbestilling = request.delbestilling.copy(deler = berikedeDellinjer)
@@ -144,7 +151,9 @@ class DelbestillingService(
 
             anmodningService.lagreDelerUtenDekning(nyDelbestillingSak)
 
-            oebs.sendDelbestilling(nyDelbestillingSak, Fødselsnummer(brukersFnr), bestillersNavn)
+            // TODO: Fjern denne utkkommenteringen når testing er ferdig
+            // oebs.sendDelbestilling(nyDelbestillingSak, Fødselsnummer(brukersFnr), bestillersNavn)
+            log.info { "TESTING: Hopper over innsending til OEBS" }
 
             nyDelbestillingSak
         }
@@ -167,22 +176,11 @@ class DelbestillingService(
                 val hjmbrukerHarBrukerpass = oebs.harBrukerpass(fnrBruker)
                 delbestilling.deler.forEach {
                     metrics.registrerDelbestillingInnsendt(
-                        hmsnrDel = it.del.hmsnr,
-                        navnDel = it.del.navn,
+                        del = it.del,
                         hmsnrHovedprodukt = delbestilling.hmsnr,
                         navnHovedprodukt = navnHovedprodukt,
                         rolleInnsender = "Tekniker",
-                        hjmbrukerHarBrukerpass = hjmbrukerHarBrukerpass
-                    )
-                    metrics.registrerDelbestillingInnsendtDel(
-                        hmsnrDel = it.del.hmsnr,
-                        navnDel = it.del.navn,
-                        kategori = it.del.kategori,
-                        deltype = it.del.deltype(),
-                        hmsnrHovedprodukt = delbestilling.hmsnr,
-                        navnHovedprodukt = navnHovedprodukt,
-                        antall = it.antall,
-                        kilde = (it.del.kilde?.name ?: "UKJENT"),
+                        hjmbrukerHarBrukerpass = hjmbrukerHarBrukerpass,
                     )
                 }
             } catch (t: Throwable) {
