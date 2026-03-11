@@ -32,6 +32,11 @@ class Metrics(
         rolleInnsender: String,
         hjmbrukerHarBrukerpass: Boolean,
     ) = registerSafely("delbestilling.innsendt") {
+        val deltype = when {
+            del.erReservedel -> "Del"
+            del.erTilbehør -> "Tilbehør"
+            else -> "Ukjent"
+        }
         mapOf(
             "hmsnrDel" to del.hmsnr,
             "navnDel" to del.navn,
@@ -39,8 +44,7 @@ class Metrics(
             "navnHovedprodukt" to navnHovedprodukt,
             "rolleInnsender" to rolleInnsender,
             "hjmbrukerHarBrukerpass" to hjmbrukerHarBrukerpass.toString(),
-            "erReservedel" to del.erReservedel.toString(),
-            "erTilbehør" to del.erTilbehør.toString(),
+            "deltype" to deltype,
         )
     }
 
