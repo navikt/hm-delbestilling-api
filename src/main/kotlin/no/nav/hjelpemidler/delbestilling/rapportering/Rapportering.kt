@@ -14,23 +14,24 @@ class Rapportering(
 ) {
 
     fun schedulerRapporteringsjobber() {
-        jobbScheduler.schedulerGjentagendeJobb(
-            navn = "anmodningsbehov",
-            jobb = { rapporterAnmodningsbehov() },
-            beregnNesteKjøring = { clock -> kl01NesteUkedag(clock) }
-        )
-
-        jobbScheduler.schedulerGjentagendeJobb(
-            navn = "månedlig_anmodningsoppsummering",
-            jobb = { rapporterMånedligAnmodningsoppsummering() },
-            beregnNesteKjøring = { clock -> kl0120FørsteDagINesteMåned(clock) }
-        )
-
-        jobbScheduler.schedulerGjentagendeJobb(
-            navn = "klargjorte_delbestillinger",
-            jobb = { rapporterKlargjorteDelbestillinger() },
-            beregnNesteKjøring = { clock -> kl0130FørsteDagINesteMåned(clock) }
-        )
+        // TODO: Fjern kommentering
+//        jobbScheduler.schedulerGjentagendeJobb(
+//            navn = "anmodningsbehov",
+//            jobb = { rapporterAnmodningsbehov() },
+//            beregnNesteKjøring = { clock -> kl01NesteUkedag(clock) }
+//        )
+//
+//        jobbScheduler.schedulerGjentagendeJobb(
+//            navn = "månedlig_anmodningsoppsummering",
+//            jobb = { rapporterMånedligAnmodningsoppsummering() },
+//            beregnNesteKjøring = { clock -> kl0120FørsteDagINesteMåned(clock) }
+//        )
+//
+//        jobbScheduler.schedulerGjentagendeJobb(
+//            navn = "klargjorte_delbestillinger",
+//            jobb = { rapporterKlargjorteDelbestillinger() },
+//            beregnNesteKjøring = { clock -> kl0130FørsteDagINesteMåned(clock) }
+//        )
     }
 
     suspend fun rapporterAnmodningsbehov() {
