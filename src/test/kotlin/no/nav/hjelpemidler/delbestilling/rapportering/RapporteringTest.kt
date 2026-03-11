@@ -8,12 +8,9 @@ import no.nav.hjelpemidler.delbestilling.testdata.fixtures.opprettDelbestilling
 import no.nav.hjelpemidler.delbestilling.testdata.fixtures.opprettDelbestillingMedDel
 import kotlin.test.Test
 import kotlin.test.assertTrue
-import org.junit.jupiter.api.Disabled
 
 class RapporteringTest {
 
-    // TODO: Fjern @Disabled når testing er ferdig
-    @Disabled("Midlertidig deaktivert for testing")
     @Test
     fun `skal sende ut mail om anmodningsbehov når det har blitt bestilt deler uten lagerdekning`() =
         runWithTestContext {

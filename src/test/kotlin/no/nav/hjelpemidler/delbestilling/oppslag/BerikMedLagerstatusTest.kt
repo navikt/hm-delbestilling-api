@@ -2,7 +2,6 @@ package no.nav.hjelpemidler.delbestilling.oppslag
 
 import no.nav.hjelpemidler.delbestilling.testdata.Testdata
 import no.nav.hjelpemidler.delbestilling.runWithTestContext
-import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
@@ -34,8 +33,6 @@ class BerikMedLagerstatusTest {
         assertFalse(lagerstatus.minmax)
     }
 
-    // TODO: Fjern @Disabled når testing er ferdig
-    @Disabled("Midlertidig deaktivert for testing")
     @Test
     fun `skal ignorere deler som mangler lagerstatus`() = runWithTestContext {
         val _del = del("111111")

@@ -21,20 +21,12 @@ class BerikMedLagerstatus(
             deler = hjelpemiddel.deler.map { del ->
                 val lagerstatus = lagerstatusForDeler[del.hmsnr]
                 if (lagerstatus == null) {
-                    log.warn { "Del ${del.hmsnr} på hjelpemiddel ${hjelpemiddel.hmsnr} mangler lagerstatus. Bruker hardkodet fallback." }
-                    // TODO: Fjern denne hardkodingen når testing er ferdig
-                    del.copy(lagerstatus = Lagerstatus(
-                        organisasjons_id = 0,
-                        organisasjons_navn = "Hardkodet for testing",
-                        artikkelnummer = del.hmsnr,
-                        minmax = false,
-                        tilgjengelig = 10,
-                        antallDelerPåLager = 10,
-                    ))
+                    log.warn { "Del ${del.hmsnr} på hjelpemiddel ${hjelpemiddel.hmsnr} mangler lagerstatus. Dropper denne delen." }
+                    null
                 } else {
                     del.copy(lagerstatus = lagerstatus)
                 }
-            },
+            }.filterNotNull(),
         )
 
         loggOgSendStatistikk(beriket)

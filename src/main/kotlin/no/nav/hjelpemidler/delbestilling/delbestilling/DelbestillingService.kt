@@ -6,7 +6,6 @@ import kotlinx.coroutines.launch
 import no.nav.hjelpemidler.delbestilling.common.Delbestilling
 import no.nav.hjelpemidler.delbestilling.common.DelbestillingSak
 import no.nav.hjelpemidler.delbestilling.common.Hmsnr
-import no.nav.hjelpemidler.delbestilling.common.Lagerstatus
 import no.nav.hjelpemidler.delbestilling.common.Serienr
 import no.nav.hjelpemidler.delbestilling.config.isDev
 import no.nav.hjelpemidler.delbestilling.config.isLocal
@@ -118,16 +117,8 @@ class DelbestillingService(
         val delerHmsnr = request.delbestilling.deler.map { it.del.hmsnr }
         val lagerstatuser = oebs.hentLagerstatusForKommunenummer(brukerKommunenr, delerHmsnr)
         val berikedeDellinjer = request.delbestilling.deler.map { dellinje ->
-            // TODO: Fjern denne hardkodingen når testing er ferdig
-            val lagerstatus = lagerstatuser.find { it.artikkelnummer == dellinje.del.hmsnr }
-                ?: Lagerstatus(
-                    organisasjons_id = 0,
-                    organisasjons_navn = "Hardkodet for testing",
-                    artikkelnummer = dellinje.del.hmsnr,
-                    minmax = false,
-                    tilgjengelig = 10,
-                    antallDelerPåLager = 10,
-                )
+            val lagerstatus =
+                checkNotNull(lagerstatuser.find { it.artikkelnummer == dellinje.del.hmsnr }) { "Mangler lagerstatus for ${dellinje.del.hmsnr}" }
             dellinje.copy(lagerstatusPåBestillingstidspunkt = lagerstatus) // Brukes senere i AnmodningService for å finne ut om det er behov for anmodning.
         }
         val delbestilling = request.delbestilling.copy(deler = berikedeDellinjer)
@@ -151,9 +142,7 @@ class DelbestillingService(
 
             anmodningService.lagreDelerUtenDekning(nyDelbestillingSak)
 
-            // TODO: Fjern denne utkkommenteringen når testing er ferdig
-            // oebs.sendDelbestilling(nyDelbestillingSak, Fødselsnummer(brukersFnr), bestillersNavn)
-            log.info { "TESTING: Hopper over innsending til OEBS" }
+            oebs.sendDelbestilling(nyDelbestillingSak, Fødselsnummer(brukersFnr), bestillersNavn)
 
             nyDelbestillingSak
         }
