@@ -35,6 +35,10 @@ class BerikMedLagerstatus(
     }
 
     private fun loggOgSendStatistikk(hjelpemiddel: Hjelpemiddel) {
+        if (hjelpemiddel.deler.isEmpty()) {
+            log.warn { "Hjelpemiddel ${hjelpemiddel.hmsnr} har ingen deler med lagerstatus. $hjelpemiddel" }
+            return
+        }
         val hmsnr = hjelpemiddel.hmsnr
         val sentral = hjelpemiddel.deler.first().lagerstatus?.organisasjons_navn ?: "UKJENT"
         val antallPåLager = hjelpemiddel.deler.count { it.lagerstatus?.minmax == true }
