@@ -50,7 +50,7 @@ internal class DelbestillingServiceTest {
     }
 
     // TODO: Fjern @Disabled når testing er ferdig
-    @Disabled("Midlertidig deaktivert - OEBS-innsending er utkommentert for testing")
+    @Disabled("Midlertidig deaktivert for testing")
     @Test
     fun `skal ikke lagre delbestilling dersom sending til OEBS feiler`() = runWithTestContext {
         oebsSink.skalKasteFeil = true
@@ -137,7 +137,7 @@ internal class DelbestillingServiceTest {
     }
 
     // TODO: Fjern @Disabled når testing er ferdig
-    @Disabled("Midlertidig deaktivert - OEBS-innsending er utkommentert for testing")
+    @Disabled("Midlertidig deaktivert for testing")
     @Test
     fun `skal summere anmodningsbehov`() = runWithTestContext {
         val hmsnr1 = "111111"

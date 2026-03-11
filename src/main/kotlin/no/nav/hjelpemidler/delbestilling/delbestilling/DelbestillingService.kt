@@ -125,8 +125,8 @@ class DelbestillingService(
                     organisasjons_navn = "Hardkodet for testing",
                     artikkelnummer = dellinje.del.hmsnr,
                     minmax = false,
-                    tilgjengelig = 0,
-                    antallDelerPåLager = 0,
+                    tilgjengelig = 10,
+                    antallDelerPåLager = 10,
                 )
             dellinje.copy(lagerstatusPåBestillingstidspunkt = lagerstatus) // Brukes senere i AnmodningService for å finne ut om det er behov for anmodning.
         }
