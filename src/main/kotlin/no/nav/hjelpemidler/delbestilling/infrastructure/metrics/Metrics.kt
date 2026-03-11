@@ -42,6 +42,28 @@ class Metrics(
         )
     }
 
+    fun registrerDelbestillingInnsendtDel(
+        hmsnrDel: String,
+        navnDel: String,
+        kategori: String,
+        deltype: String,
+        hmsnrHovedprodukt: String,
+        navnHovedprodukt: String,
+        antall: Int,
+        kilde: String,
+    ) = registerSafely("delbestilling.innsendt.del") {
+        mapOf(
+            "hmsnrDel" to hmsnrDel,
+            "navnDel" to navnDel,
+            "kategori" to kategori,
+            "deltype" to deltype,
+            "hmsnrHovedprodukt" to hmsnrHovedprodukt,
+            "navnHovedprodukt" to navnHovedprodukt,
+            "antall" to antall.toString(),
+            "kilde" to kilde,
+        )
+    }
+
     fun grunndataHjelpemiddelManglerDeler(hmsnr: Hmsnr, navn: String) =
         registerSafely("delbestilling.manglerDeler") {
             mapOf(

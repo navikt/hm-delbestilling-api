@@ -70,8 +70,16 @@ data class Del(
     val imgs: List<String> = emptyList(),
     var lagerstatus: Lagerstatus? = null,
     val kilde: Kilde? = Kilde.MANUELL_LISTE,
+    val erReservedel: Boolean = false,
+    val erTilbehør: Boolean = false,
 ) {
     fun erBatteri() = kategori == "Batteri"
+
+    fun deltype(): String = when {
+        erReservedel -> "Del"
+        erTilbehør -> "Tilbehør"
+        else -> "Ukjent"
+    }
 }
 
 data class Lagerstatus(

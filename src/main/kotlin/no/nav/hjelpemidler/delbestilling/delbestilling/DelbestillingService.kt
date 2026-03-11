@@ -174,6 +174,16 @@ class DelbestillingService(
                         rolleInnsender = "Tekniker",
                         hjmbrukerHarBrukerpass = hjmbrukerHarBrukerpass
                     )
+                    metrics.registrerDelbestillingInnsendtDel(
+                        hmsnrDel = it.del.hmsnr,
+                        navnDel = it.del.navn,
+                        kategori = it.del.kategori,
+                        deltype = it.del.deltype(),
+                        hmsnrHovedprodukt = delbestilling.hmsnr,
+                        navnHovedprodukt = navnHovedprodukt,
+                        antall = it.antall,
+                        kilde = (it.del.kilde?.name ?: "UKJENT"),
+                    )
                 }
             } catch (t: Throwable) {
                 log.error(t) { "Lagring av statistikk om innsendt delbestilling feilet" }
