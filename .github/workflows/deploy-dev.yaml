@@ -8,7 +8,7 @@ on:
       - "CODEOWNERS"
     branches:
       - main
-      - vise-tilbehor
+      - logge-del-og-tilbehor
 
 jobs:
   build:

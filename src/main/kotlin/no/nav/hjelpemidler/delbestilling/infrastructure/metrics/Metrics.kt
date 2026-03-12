@@ -1,6 +1,7 @@
 package no.nav.hjelpemidler.delbestilling.infrastructure.metrics
 
 import io.github.oshai.kotlinlogging.KotlinLogging
+import no.nav.hjelpemidler.delbestilling.common.Del
 import no.nav.hjelpemidler.delbestilling.common.DelbestillingSak
 import no.nav.hjelpemidler.delbestilling.common.Hmsnr
 import no.nav.hjelpemidler.delbestilling.infrastructure.kafka.Kafka
@@ -25,20 +26,25 @@ class Metrics(
     }
 
     fun registrerDelbestillingInnsendt(
-        hmsnrDel: String,
-        navnDel: String,
+        del: Del,
         hmsnrHovedprodukt: String,
         navnHovedprodukt: String,
         rolleInnsender: String,
-        hjmbrukerHarBrukerpass: Boolean
+        hjmbrukerHarBrukerpass: Boolean,
     ) = registerSafely("delbestilling.innsendt") {
+        val deltype = when {
+            del.erReservedel -> "Del"
+            del.erTilbehør -> "Tilbehør"
+            else -> "Ukjent"
+        }
         mapOf(
-            "hmsnrDel" to hmsnrDel,
-            "navnDel" to navnDel,
+            "hmsnrDel" to del.hmsnr,
+            "navnDel" to del.navn,
             "hmsnrHovedprodukt" to hmsnrHovedprodukt,
             "navnHovedprodukt" to navnHovedprodukt,
             "rolleInnsender" to rolleInnsender,
             "hjmbrukerHarBrukerpass" to hjmbrukerHarBrukerpass.toString(),
+            "deltype" to deltype,
         )
     }
 
