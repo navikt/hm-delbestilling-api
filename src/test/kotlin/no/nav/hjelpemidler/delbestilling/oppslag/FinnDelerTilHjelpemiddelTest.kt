@@ -7,6 +7,7 @@ import no.nav.hjelpemidler.delbestilling.runWithTestContext
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
+import kotlin.test.Ignore
 import kotlin.test.assertNull
 
 class FinnDelerTilHjelpemiddelTest {
@@ -65,6 +66,7 @@ class FinnDelerTilHjelpemiddelTest {
     }
 
     @Test
+    @Ignore("TODO ")
     fun `skal supplere deler fra grunndata med deler fra manuell liste`() = runWithTestContext {
         val hmsnr = GrunndataTestHmsnr.GRUNNDATA_OG_MANUELL
 

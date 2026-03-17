@@ -50,20 +50,6 @@ internal class ManuellListeTest {
     }
 
     @Test
-    fun `skal finne hjelpemiddel med deler for X850S`() {
-        val hmsnrnrX850S = "308941"
-        val hjelpemiddel = hmsnr2Hjm[hmsnrnrX850S]
-        assertNotNull(hjelpemiddel)
-
-        val deler = hjelpemiddel!!.deler
-        assertEquals(3, deler.size)
-
-        assertEquals("309144", deler[0].hmsnr)
-        assertEquals("Hjul foran", deler[0].navn)
-        assertEquals("Hjul", deler[0].kategori)
-    }
-
-    @Test
     fun `skal ikke eksistere deler med defaultAntall større enn maksAntall`() {
         hmsnrTilDel.values.forEach {
             with(it) {

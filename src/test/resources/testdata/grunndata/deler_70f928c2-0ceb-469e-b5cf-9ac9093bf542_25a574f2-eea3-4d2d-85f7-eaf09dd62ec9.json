@@ -1,0 +1,2477 @@
+{
+  "hits" : {
+    "hits" : [ {
+      "_source" : {
+        "id" : "8412c120-e2f3-4b58-b466-6f0b0e1608d4",
+        "title" : "Pad armlene sittemodul Netti Dynamic III HD 385x58mm pu",
+        "articleName" : "Pad armlene sittemodul Netti Dynamic III HD 385x58mm pu",
+        "seriesId" : "2c6daf15-220c-43a6-a0cd-09d15f8db791",
+        "hmsArtNr" : "065633",
+        "supplierRef" : "20835",
+        "attributes" : {
+          "compatibleWith" : {
+            "seriesIds" : [ "00fbde2b-1280-408d-af3d-a950915d5acc", "70f928c2-0ceb-469e-b5cf-9ac9093bf542", "487c7a7e-31b6-405b-852a-dbf505df5e10" ],
+            "productIds" : [ "25a574f2-eea3-4d2d-85f7-eaf09dd62ec9", "2f16d8f0-3c24-4539-a30e-1bba3f9831d6", "5789114d-e218-42b3-b2a7-64f51b185e24", "cd44f85f-32e4-4440-bc87-f485d386cefa", "dc66f82b-88c0-48d7-a583-5f4a374eca5f", "8c1e20ae-7182-4eac-b23b-7c4a8a2d3c81", "c3f9fe95-f12f-4f48-b4a2-dbe7219d8415", "3e654c13-f575-4352-9d0d-253dc2ac0d4b", "8979d398-7c39-48c8-8e74-aa046181e868", "367f8b51-9de6-49b5-bd33-7924b9338410", "bb3e6016-4298-470b-afd8-902bba1dae1a", "d068f957-de6b-4e45-8416-48724c704055", "1d813b7f-c143-43d2-a9cf-ddbe7bd759da", "abf37e0b-eedc-416b-bc96-75653104942c", "0b1700fe-badc-4a8e-a910-c0b96ed24697", "e2c156ae-6e33-45b2-b38b-f443d9ad30d2", "c085542b-6665-426b-aec2-1d218ea8c470", "7fdddbcf-b5f3-417c-a4bb-2fb9358786c4", "d8faaf7b-3b5d-4e91-ac08-b6e828c18670", "df1832c2-45d9-416a-a981-7f173c0e872d", "dad71eb6-340e-4282-8ade-ad15a0e3f7db", "68a8a9b5-97b9-41b2-81be-1a0b9d8ab7b6", "da4aad0f-0d49-43e2-8238-db23646675b3", "16e1095c-3784-4299-bda1-199eba55f12b", "defdd90c-dde1-4951-af63-ebce431dca55", "a00934e0-e755-49de-baae-d9260294121b", "852f085d-5bf8-4ce5-b4ad-8eb510645e3b", "477a37cf-c07f-4a44-9691-7b5d32f21298", "a15505ae-f269-4c59-bacd-077e7b0e175e", "acffc28a-1357-45ee-9a85-ae4eb2a2de8d", "ff3ca98d-e9a6-42f5-9fbb-b4d5c791d0f4", "3365320d-5803-4026-bf43-822c309c6cd2", "9e03e79e-7ca2-4702-9115-4f381b41707f", "d1d09f62-8f39-4aba-bdef-08078c80ee29", "fbf733f2-778f-4a53-923c-0bb190b7c112", "cb5f312a-dcc7-481e-ba97-842256cb2b61", "2d6c5009-fee6-4b57-b265-9e8c7b13791a", "d157909f-0add-4aee-bc41-29d1d79c87cc", "2005e140-5c04-410a-8402-acdf712cfb84", "fd9d2675-f237-4d4e-9491-9b2dff08465b", "4c1ee78f-bc83-4977-965e-532b40c30bec" ]
+          }
+        },
+        "isoCategory" : "122291",
+        "supplier" : {
+          "name" : "Alu Rehab AS",
+          "id" : "b85c8c06-b776-4416-8fee-cab1223e75ae"
+        },
+        "media" : [ {
+          "uri" : "register/2c6daf15-220c-43a6-a0cd-09d15f8db791/2d23fa50-3221-4dda-9f50-6a649d14efdc.jpg",
+          "priority" : 1,
+          "type" : "IMAGE",
+          "text" : "IMG_4539",
+          "source" : "REGISTER"
+        } ],
+        "accessory" : true,
+        "sparePart" : true,
+        "main" : false
+      }
+    }, {
+      "_source" : {
+        "id" : "3b4ed9a0-5fa3-4ec3-97e3-aff346f3fea2",
+        "title" : "Pute rygg sittemodul Netti Dynamic III HD Netti Stabil 45x50 3D",
+        "articleName" : "Pute rygg sittemodul Netti Dynamic III HD Netti Stabil 45x50 3D",
+        "seriesId" : "65bc6899-e27a-4ea6-b00c-a6b483e19c33",
+        "hmsArtNr" : "181490",
+        "supplierRef" : "367308",
+        "attributes" : {
+          "compatibleWith" : {
+            "seriesIds" : [ "70f928c2-0ceb-469e-b5cf-9ac9093bf542", "00fbde2b-1280-408d-af3d-a950915d5acc", "487c7a7e-31b6-405b-852a-dbf505df5e10" ],
+            "productIds" : [ "25a574f2-eea3-4d2d-85f7-eaf09dd62ec9", "c3f9fe95-f12f-4f48-b4a2-dbe7219d8415", "0b1700fe-badc-4a8e-a910-c0b96ed24697", "477a37cf-c07f-4a44-9691-7b5d32f21298", "a15505ae-f269-4c59-bacd-077e7b0e175e", "367f8b51-9de6-49b5-bd33-7924b9338410", "d3ec6750-5276-4d38-a9a9-67273ee66ce0", "dad71eb6-340e-4282-8ade-ad15a0e3f7db" ]
+          }
+        },
+        "isoCategory" : "122292",
+        "supplier" : {
+          "name" : "Alu Rehab AS",
+          "id" : "b85c8c06-b776-4416-8fee-cab1223e75ae"
+        },
+        "media" : [ ],
+        "accessory" : false,
+        "sparePart" : true,
+        "main" : false
+      }
+    }, {
+      "_source" : {
+        "id" : "d4a7fa4f-3b33-45d5-9362-ad4b07c06008",
+        "title" : "Armlene mrs Netti V hø",
+        "articleName" : "Armlene mrs Netti V hø",
+        "seriesId" : "24ac5848-317c-4a5e-8725-de4850e8967d",
+        "hmsArtNr" : "316171",
+        "supplierRef" : "93727",
+        "attributes" : {
+          "compatibleWith" : {
+            "seriesIds" : [ "70f928c2-0ceb-469e-b5cf-9ac9093bf542" ],
+            "productIds" : [ "d068f957-de6b-4e45-8416-48724c704055", "16e1095c-3784-4299-bda1-199eba55f12b", "25a574f2-eea3-4d2d-85f7-eaf09dd62ec9", "a00934e0-e755-49de-baae-d9260294121b", "8979d398-7c39-48c8-8e74-aa046181e868", "d157909f-0add-4aee-bc41-29d1d79c87cc", "c085542b-6665-426b-aec2-1d218ea8c470", "7fdddbcf-b5f3-417c-a4bb-2fb9358786c4", "4c1ee78f-bc83-4977-965e-532b40c30bec" ]
+          }
+        },
+        "isoCategory" : "122291",
+        "supplier" : {
+          "name" : "Alu Rehab AS",
+          "id" : "b85c8c06-b776-4416-8fee-cab1223e75ae"
+        },
+        "media" : [ ],
+        "accessory" : false,
+        "sparePart" : true,
+        "main" : false
+      }
+    }, {
+      "_source" : {
+        "id" : "7ef88e60-7187-4976-9602-903fb66a0f11",
+        "title" : "Rygg sittemodul Netti Dynamic III HD kjørehåndtak 300mm",
+        "articleName" : "Rygg sittemodul Netti Dynamic III HD kjørehåndtak 300mm",
+        "seriesId" : "4efcedd7-3e71-4120-9bca-9c8f2d89cadf",
+        "hmsArtNr" : "139069",
+        "supplierRef" : "21754",
+        "attributes" : {
+          "compatibleWith" : {
+            "seriesIds" : [ "70f928c2-0ceb-469e-b5cf-9ac9093bf542", "00fbde2b-1280-408d-af3d-a950915d5acc", "30bb6584-6dc6-491b-aeb2-967f72b6008a", "98932fbe-7760-45f4-b8b8-91fc44ab46ad", "f732dd83-0e38-4792-abf1-f7a8ee988ed6", "487c7a7e-31b6-405b-852a-dbf505df5e10" ],
+            "productIds" : [ "25a574f2-eea3-4d2d-85f7-eaf09dd62ec9", "cd44f85f-32e4-4440-bc87-f485d386cefa", "dc66f82b-88c0-48d7-a583-5f4a374eca5f", "8c1e20ae-7182-4eac-b23b-7c4a8a2d3c81", "3e654c13-f575-4352-9d0d-253dc2ac0d4b", "8979d398-7c39-48c8-8e74-aa046181e868", "367f8b51-9de6-49b5-bd33-7924b9338410", "d068f957-de6b-4e45-8416-48724c704055", "f2c786aa-03f8-497f-875b-fca6ec0ead0a", "1d813b7f-c143-43d2-a9cf-ddbe7bd759da", "abf37e0b-eedc-416b-bc96-75653104942c", "0b1700fe-badc-4a8e-a910-c0b96ed24697", "e2c156ae-6e33-45b2-b38b-f443d9ad30d2", "ee74c509-4260-4441-bf84-ed427d866c46", "c085542b-6665-426b-aec2-1d218ea8c470", "7fdddbcf-b5f3-417c-a4bb-2fb9358786c4", "d8faaf7b-3b5d-4e91-ac08-b6e828c18670", "dad71eb6-340e-4282-8ade-ad15a0e3f7db", "68a8a9b5-97b9-41b2-81be-1a0b9d8ab7b6", "16e1095c-3784-4299-bda1-199eba55f12b", "4455e733-3cf6-46cc-8954-3a4ed02a4348", "defdd90c-dde1-4951-af63-ebce431dca55", "a00934e0-e755-49de-baae-d9260294121b", "852f085d-5bf8-4ce5-b4ad-8eb510645e3b", "477a37cf-c07f-4a44-9691-7b5d32f21298", "acffc28a-1357-45ee-9a85-ae4eb2a2de8d", "ff3ca98d-e9a6-42f5-9fbb-b4d5c791d0f4", "dd92f307-5af0-4890-90e8-9bc5a5257791", "3365320d-5803-4026-bf43-822c309c6cd2", "9e03e79e-7ca2-4702-9115-4f381b41707f", "d1d09f62-8f39-4aba-bdef-08078c80ee29", "fbf733f2-778f-4a53-923c-0bb190b7c112", "55e14709-c75c-45ea-ab82-8931839e3bc0", "cb5f312a-dcc7-481e-ba97-842256cb2b61", "2d6c5009-fee6-4b57-b265-9e8c7b13791a", "d3ec6750-5276-4d38-a9a9-67273ee66ce0", "d157909f-0add-4aee-bc41-29d1d79c87cc", "2005e140-5c04-410a-8402-acdf712cfb84", "4c1ee78f-bc83-4977-965e-532b40c30bec" ]
+          }
+        },
+        "isoCategory" : "122292",
+        "supplier" : {
+          "name" : "Alu Rehab AS",
+          "id" : "b85c8c06-b776-4416-8fee-cab1223e75ae"
+        },
+        "media" : [ {
+          "uri" : "register/4efcedd7-3e71-4120-9bca-9c8f2d89cadf/8819041c-021c-4989-92cf-32ec12bdd8df.jpg",
+          "priority" : 1,
+          "type" : "IMAGE",
+          "text" : "IMG_4538",
+          "source" : "REGISTER"
+        } ],
+        "accessory" : true,
+        "sparePart" : true,
+        "main" : false
+      }
+    }, {
+      "_source" : {
+        "id" : "a0a79116-8939-4b85-b3a3-2d053cce9a6a",
+        "title" : "Hodestøtte mrs Netti V/III/HD D 3D",
+        "articleName" : "Hodestøtte mrs Netti V/III/HD D 3D",
+        "seriesId" : "4e601484-db27-4ca9-a332-78e15d2f2c7b",
+        "hmsArtNr" : "181422",
+        "supplierRef" : "81024",
+        "attributes" : {
+          "compatibleWith" : {
+            "seriesIds" : [ "00fbde2b-1280-408d-af3d-a950915d5acc", "70f928c2-0ceb-469e-b5cf-9ac9093bf542", "a8e8cef3-6d49-49fd-9a62-2aa2c1aec483", "487c7a7e-31b6-405b-852a-dbf505df5e10" ],
+            "productIds" : [ "25a574f2-eea3-4d2d-85f7-eaf09dd62ec9", "2f16d8f0-3c24-4539-a30e-1bba3f9831d6", "5789114d-e218-42b3-b2a7-64f51b185e24", "cd44f85f-32e4-4440-bc87-f485d386cefa", "dc66f82b-88c0-48d7-a583-5f4a374eca5f", "8c1e20ae-7182-4eac-b23b-7c4a8a2d3c81", "c3f9fe95-f12f-4f48-b4a2-dbe7219d8415", "3e654c13-f575-4352-9d0d-253dc2ac0d4b", "8979d398-7c39-48c8-8e74-aa046181e868", "367f8b51-9de6-49b5-bd33-7924b9338410", "bb3e6016-4298-470b-afd8-902bba1dae1a", "d068f957-de6b-4e45-8416-48724c704055", "f2c786aa-03f8-497f-875b-fca6ec0ead0a", "1d813b7f-c143-43d2-a9cf-ddbe7bd759da", "abf37e0b-eedc-416b-bc96-75653104942c", "0b1700fe-badc-4a8e-a910-c0b96ed24697", "e2c156ae-6e33-45b2-b38b-f443d9ad30d2", "ee74c509-4260-4441-bf84-ed427d866c46", "c085542b-6665-426b-aec2-1d218ea8c470", "7fdddbcf-b5f3-417c-a4bb-2fb9358786c4", "d8faaf7b-3b5d-4e91-ac08-b6e828c18670", "df1832c2-45d9-416a-a981-7f173c0e872d", "dad71eb6-340e-4282-8ade-ad15a0e3f7db", "68a8a9b5-97b9-41b2-81be-1a0b9d8ab7b6", "da4aad0f-0d49-43e2-8238-db23646675b3", "16e1095c-3784-4299-bda1-199eba55f12b", "4455e733-3cf6-46cc-8954-3a4ed02a4348", "defdd90c-dde1-4951-af63-ebce431dca55", "a00934e0-e755-49de-baae-d9260294121b", "852f085d-5bf8-4ce5-b4ad-8eb510645e3b", "477a37cf-c07f-4a44-9691-7b5d32f21298", "a15505ae-f269-4c59-bacd-077e7b0e175e", "acffc28a-1357-45ee-9a85-ae4eb2a2de8d", "ff3ca98d-e9a6-42f5-9fbb-b4d5c791d0f4", "dd92f307-5af0-4890-90e8-9bc5a5257791", "3365320d-5803-4026-bf43-822c309c6cd2", "9e03e79e-7ca2-4702-9115-4f381b41707f", "d1d09f62-8f39-4aba-bdef-08078c80ee29", "fbf733f2-778f-4a53-923c-0bb190b7c112", "55e14709-c75c-45ea-ab82-8931839e3bc0", "cb5f312a-dcc7-481e-ba97-842256cb2b61", "2d6c5009-fee6-4b57-b265-9e8c7b13791a", "d3ec6750-5276-4d38-a9a9-67273ee66ce0", "d157909f-0add-4aee-bc41-29d1d79c87cc", "2005e140-5c04-410a-8402-acdf712cfb84", "fd9d2675-f237-4d4e-9491-9b2dff08465b", "4c1ee78f-bc83-4977-965e-532b40c30bec" ]
+          }
+        },
+        "isoCategory" : "122292",
+        "supplier" : {
+          "name" : "Alu Rehab AS",
+          "id" : "b85c8c06-b776-4416-8fee-cab1223e75ae"
+        },
+        "media" : [ ],
+        "accessory" : true,
+        "sparePart" : true,
+        "main" : false
+      }
+    }, {
+      "_source" : {
+        "id" : "96185aee-b590-4e1d-a3ac-edc7fc361ff0",
+        "title" : "Hjul mrs Netti V Svinghjul m/gaffel 7\"",
+        "articleName" : "Hjul mrs Netti V Svinghjul m/gaffel 7\"",
+        "seriesId" : "c41f61ac-48ad-49d4-8090-711e89b23f7b",
+        "hmsArtNr" : "268002",
+        "supplierRef" : "90102",
+        "attributes" : {
+          "compatibleWith" : {
+            "seriesIds" : [ "70f928c2-0ceb-469e-b5cf-9ac9093bf542" ],
+            "productIds" : [ "d068f957-de6b-4e45-8416-48724c704055", "16e1095c-3784-4299-bda1-199eba55f12b", "25a574f2-eea3-4d2d-85f7-eaf09dd62ec9", "a00934e0-e755-49de-baae-d9260294121b", "8979d398-7c39-48c8-8e74-aa046181e868", "d157909f-0add-4aee-bc41-29d1d79c87cc", "c085542b-6665-426b-aec2-1d218ea8c470", "7fdddbcf-b5f3-417c-a4bb-2fb9358786c4", "4c1ee78f-bc83-4977-965e-532b40c30bec" ]
+          }
+        },
+        "isoCategory" : "122293",
+        "supplier" : {
+          "name" : "Alu Rehab AS",
+          "id" : "b85c8c06-b776-4416-8fee-cab1223e75ae"
+        },
+        "media" : [ ],
+        "accessory" : false,
+        "sparePart" : true,
+        "main" : false
+      }
+    }, {
+      "_source" : {
+        "id" : "41bfd6a1-730a-4a12-b4a1-4e0d2239a48f",
+        "title" : "Hjul mrs Netti V/III/HD Svinghjul 7\" 175x33mm",
+        "articleName" : "Hjul mrs Netti V/III/HD Svinghjul 7\" 175x33mm",
+        "seriesId" : "68c63f40-09d2-46f6-8438-cca691529f52",
+        "hmsArtNr" : "277498",
+        "supplierRef" : "86135",
+        "attributes" : {
+          "compatibleWith" : {
+            "seriesIds" : [ "00fbde2b-1280-408d-af3d-a950915d5acc", "70f928c2-0ceb-469e-b5cf-9ac9093bf542", "487c7a7e-31b6-405b-852a-dbf505df5e10" ],
+            "productIds" : [ "25a574f2-eea3-4d2d-85f7-eaf09dd62ec9", "2f16d8f0-3c24-4539-a30e-1bba3f9831d6", "5789114d-e218-42b3-b2a7-64f51b185e24", "cd44f85f-32e4-4440-bc87-f485d386cefa", "dc66f82b-88c0-48d7-a583-5f4a374eca5f", "8c1e20ae-7182-4eac-b23b-7c4a8a2d3c81", "c3f9fe95-f12f-4f48-b4a2-dbe7219d8415", "3e654c13-f575-4352-9d0d-253dc2ac0d4b", "8979d398-7c39-48c8-8e74-aa046181e868", "367f8b51-9de6-49b5-bd33-7924b9338410", "bb3e6016-4298-470b-afd8-902bba1dae1a", "d068f957-de6b-4e45-8416-48724c704055", "1d813b7f-c143-43d2-a9cf-ddbe7bd759da", "abf37e0b-eedc-416b-bc96-75653104942c", "0b1700fe-badc-4a8e-a910-c0b96ed24697", "e2c156ae-6e33-45b2-b38b-f443d9ad30d2", "c085542b-6665-426b-aec2-1d218ea8c470", "7fdddbcf-b5f3-417c-a4bb-2fb9358786c4", "d8faaf7b-3b5d-4e91-ac08-b6e828c18670", "df1832c2-45d9-416a-a981-7f173c0e872d", "dad71eb6-340e-4282-8ade-ad15a0e3f7db", "68a8a9b5-97b9-41b2-81be-1a0b9d8ab7b6", "da4aad0f-0d49-43e2-8238-db23646675b3", "16e1095c-3784-4299-bda1-199eba55f12b", "defdd90c-dde1-4951-af63-ebce431dca55", "a00934e0-e755-49de-baae-d9260294121b", "852f085d-5bf8-4ce5-b4ad-8eb510645e3b", "477a37cf-c07f-4a44-9691-7b5d32f21298", "a15505ae-f269-4c59-bacd-077e7b0e175e", "acffc28a-1357-45ee-9a85-ae4eb2a2de8d", "ff3ca98d-e9a6-42f5-9fbb-b4d5c791d0f4", "3365320d-5803-4026-bf43-822c309c6cd2", "9e03e79e-7ca2-4702-9115-4f381b41707f", "d1d09f62-8f39-4aba-bdef-08078c80ee29", "fbf733f2-778f-4a53-923c-0bb190b7c112", "cb5f312a-dcc7-481e-ba97-842256cb2b61", "2d6c5009-fee6-4b57-b265-9e8c7b13791a", "d157909f-0add-4aee-bc41-29d1d79c87cc", "2005e140-5c04-410a-8402-acdf712cfb84", "fd9d2675-f237-4d4e-9491-9b2dff08465b", "4c1ee78f-bc83-4977-965e-532b40c30bec" ]
+          }
+        },
+        "isoCategory" : "122293",
+        "supplier" : {
+          "name" : "Alu Rehab AS",
+          "id" : "b85c8c06-b776-4416-8fee-cab1223e75ae"
+        },
+        "media" : [ ],
+        "accessory" : false,
+        "sparePart" : true,
+        "main" : false
+      }
+    }, {
+      "_source" : {
+        "id" : "3154c526-66e1-472e-8778-2cbdeb749090",
+        "title" : "Rygg velcro mrs Netti V/III/HD 350-550mm",
+        "articleName" : "Rygg velcro mrs Netti V/III/HD 350-550mm",
+        "seriesId" : "a52d871e-f1c0-4eb0-9d2b-200f981a79b8",
+        "hmsArtNr" : "316298",
+        "supplierRef" : "90811",
+        "attributes" : {
+          "compatibleWith" : {
+            "seriesIds" : [ "00fbde2b-1280-408d-af3d-a950915d5acc", "70f928c2-0ceb-469e-b5cf-9ac9093bf542", "487c7a7e-31b6-405b-852a-dbf505df5e10" ],
+            "productIds" : [ "16e1095c-3784-4299-bda1-199eba55f12b", "25a574f2-eea3-4d2d-85f7-eaf09dd62ec9", "8c1e20ae-7182-4eac-b23b-7c4a8a2d3c81", "4455e733-3cf6-46cc-8954-3a4ed02a4348", "defdd90c-dde1-4951-af63-ebce431dca55", "a00934e0-e755-49de-baae-d9260294121b", "852f085d-5bf8-4ce5-b4ad-8eb510645e3b", "477a37cf-c07f-4a44-9691-7b5d32f21298", "8979d398-7c39-48c8-8e74-aa046181e868", "dd92f307-5af0-4890-90e8-9bc5a5257791", "3365320d-5803-4026-bf43-822c309c6cd2", "d068f957-de6b-4e45-8416-48724c704055", "fbf733f2-778f-4a53-923c-0bb190b7c112", "f2c786aa-03f8-497f-875b-fca6ec0ead0a", "55e14709-c75c-45ea-ab82-8931839e3bc0", "ee74c509-4260-4441-bf84-ed427d866c46", "d3ec6750-5276-4d38-a9a9-67273ee66ce0", "d157909f-0add-4aee-bc41-29d1d79c87cc", "c085542b-6665-426b-aec2-1d218ea8c470", "7fdddbcf-b5f3-417c-a4bb-2fb9358786c4", "4c1ee78f-bc83-4977-965e-532b40c30bec" ]
+          }
+        },
+        "isoCategory" : "122292",
+        "supplier" : {
+          "name" : "Alu Rehab AS",
+          "id" : "b85c8c06-b776-4416-8fee-cab1223e75ae"
+        },
+        "media" : [ {
+          "uri" : "register/a52d871e-f1c0-4eb0-9d2b-200f981a79b8/7cc49089-2c73-47bd-9bc5-235a873ef07c.jpg",
+          "priority" : 1,
+          "type" : "IMAGE",
+          "text" : "IMG_4528",
+          "source" : "REGISTER"
+        } ],
+        "accessory" : false,
+        "sparePart" : true,
+        "main" : false
+      }
+    }, {
+      "_source" : {
+        "id" : "53020515-5a9f-4624-b89c-88b1248dc9ce",
+        "title" : "Hjul mrs Netti V/III/HD Drivhjul trommelbrems 24\" svart nav",
+        "articleName" : "Hjul mrs Netti V/III/HD Drivhjul trommelbrems 24\" svart nav",
+        "seriesId" : "ffc911cd-1928-45e0-9f11-590217d47b37",
+        "hmsArtNr" : "316347",
+        "supplierRef" : "93285",
+        "attributes" : {
+          "compatibleWith" : {
+            "seriesIds" : [ "00fbde2b-1280-408d-af3d-a950915d5acc", "70f928c2-0ceb-469e-b5cf-9ac9093bf542", "5838a4af-0ff2-4552-a3cc-438f70c03d25", "98932fbe-7760-45f4-b8b8-91fc44ab46ad", "f732dd83-0e38-4792-abf1-f7a8ee988ed6", "487c7a7e-31b6-405b-852a-dbf505df5e10" ],
+            "productIds" : [ "25a574f2-eea3-4d2d-85f7-eaf09dd62ec9", "2f16d8f0-3c24-4539-a30e-1bba3f9831d6", "5789114d-e218-42b3-b2a7-64f51b185e24", "cd44f85f-32e4-4440-bc87-f485d386cefa", "dc66f82b-88c0-48d7-a583-5f4a374eca5f", "8c1e20ae-7182-4eac-b23b-7c4a8a2d3c81", "c3f9fe95-f12f-4f48-b4a2-dbe7219d8415", "3e654c13-f575-4352-9d0d-253dc2ac0d4b", "8979d398-7c39-48c8-8e74-aa046181e868", "367f8b51-9de6-49b5-bd33-7924b9338410", "bb3e6016-4298-470b-afd8-902bba1dae1a", "d068f957-de6b-4e45-8416-48724c704055", "f2c786aa-03f8-497f-875b-fca6ec0ead0a", "1d813b7f-c143-43d2-a9cf-ddbe7bd759da", "abf37e0b-eedc-416b-bc96-75653104942c", "0b1700fe-badc-4a8e-a910-c0b96ed24697", "e2c156ae-6e33-45b2-b38b-f443d9ad30d2", "ee74c509-4260-4441-bf84-ed427d866c46", "c085542b-6665-426b-aec2-1d218ea8c470", "7fdddbcf-b5f3-417c-a4bb-2fb9358786c4", "d8faaf7b-3b5d-4e91-ac08-b6e828c18670", "df1832c2-45d9-416a-a981-7f173c0e872d", "dad71eb6-340e-4282-8ade-ad15a0e3f7db", "68a8a9b5-97b9-41b2-81be-1a0b9d8ab7b6", "da4aad0f-0d49-43e2-8238-db23646675b3", "16e1095c-3784-4299-bda1-199eba55f12b", "4455e733-3cf6-46cc-8954-3a4ed02a4348", "defdd90c-dde1-4951-af63-ebce431dca55", "a00934e0-e755-49de-baae-d9260294121b", "852f085d-5bf8-4ce5-b4ad-8eb510645e3b", "477a37cf-c07f-4a44-9691-7b5d32f21298", "a15505ae-f269-4c59-bacd-077e7b0e175e", "acffc28a-1357-45ee-9a85-ae4eb2a2de8d", "ff3ca98d-e9a6-42f5-9fbb-b4d5c791d0f4", "dd92f307-5af0-4890-90e8-9bc5a5257791", "3365320d-5803-4026-bf43-822c309c6cd2", "9e03e79e-7ca2-4702-9115-4f381b41707f", "d1d09f62-8f39-4aba-bdef-08078c80ee29", "fbf733f2-778f-4a53-923c-0bb190b7c112", "55e14709-c75c-45ea-ab82-8931839e3bc0", "cb5f312a-dcc7-481e-ba97-842256cb2b61", "2d6c5009-fee6-4b57-b265-9e8c7b13791a", "d3ec6750-5276-4d38-a9a9-67273ee66ce0", "d157909f-0add-4aee-bc41-29d1d79c87cc", "2005e140-5c04-410a-8402-acdf712cfb84", "fd9d2675-f237-4d4e-9491-9b2dff08465b", "4c1ee78f-bc83-4977-965e-532b40c30bec" ]
+          }
+        },
+        "isoCategory" : "122293",
+        "supplier" : {
+          "name" : "Alu Rehab AS",
+          "id" : "b85c8c06-b776-4416-8fee-cab1223e75ae"
+        },
+        "media" : [ {
+          "uri" : "register/ffc911cd-1928-45e0-9f11-590217d47b37/c1a7d2f5-deec-472d-9368-baeb011d0412.jpg",
+          "priority" : 1,
+          "type" : "IMAGE",
+          "text" : "IMG_4544",
+          "source" : "REGISTER"
+        } ],
+        "accessory" : false,
+        "sparePart" : true,
+        "main" : false
+      }
+    }, {
+      "_source" : {
+        "id" : "32a80b2f-4db0-40da-a67a-2cfcd90b2762",
+        "title" : "Låsesett pedalplate mrs Netti",
+        "articleName" : "Låsesett pedalplate mrs Netti",
+        "seriesId" : "870e3a32-f369-4d80-ba83-d7001ddbe21b",
+        "hmsArtNr" : "244067",
+        "supplierRef" : "80693",
+        "attributes" : {
+          "compatibleWith" : {
+            "seriesIds" : [ "70f928c2-0ceb-469e-b5cf-9ac9093bf542", "30bb6584-6dc6-491b-aeb2-967f72b6008a", "98932fbe-7760-45f4-b8b8-91fc44ab46ad", "f732dd83-0e38-4792-abf1-f7a8ee988ed6", "487c7a7e-31b6-405b-852a-dbf505df5e10" ],
+            "productIds" : [ "25a574f2-eea3-4d2d-85f7-eaf09dd62ec9", "cd44f85f-32e4-4440-bc87-f485d386cefa", "dc66f82b-88c0-48d7-a583-5f4a374eca5f", "8c1e20ae-7182-4eac-b23b-7c4a8a2d3c81", "3e654c13-f575-4352-9d0d-253dc2ac0d4b", "8979d398-7c39-48c8-8e74-aa046181e868", "367f8b51-9de6-49b5-bd33-7924b9338410", "d068f957-de6b-4e45-8416-48724c704055", "1d813b7f-c143-43d2-a9cf-ddbe7bd759da", "abf37e0b-eedc-416b-bc96-75653104942c", "0b1700fe-badc-4a8e-a910-c0b96ed24697", "e2c156ae-6e33-45b2-b38b-f443d9ad30d2", "c085542b-6665-426b-aec2-1d218ea8c470", "7fdddbcf-b5f3-417c-a4bb-2fb9358786c4", "d8faaf7b-3b5d-4e91-ac08-b6e828c18670", "dad71eb6-340e-4282-8ade-ad15a0e3f7db", "68a8a9b5-97b9-41b2-81be-1a0b9d8ab7b6", "16e1095c-3784-4299-bda1-199eba55f12b", "defdd90c-dde1-4951-af63-ebce431dca55", "a00934e0-e755-49de-baae-d9260294121b", "acffc28a-1357-45ee-9a85-ae4eb2a2de8d", "852f085d-5bf8-4ce5-b4ad-8eb510645e3b", "477a37cf-c07f-4a44-9691-7b5d32f21298", "ff3ca98d-e9a6-42f5-9fbb-b4d5c791d0f4", "3365320d-5803-4026-bf43-822c309c6cd2", "9e03e79e-7ca2-4702-9115-4f381b41707f", "d1d09f62-8f39-4aba-bdef-08078c80ee29", "fbf733f2-778f-4a53-923c-0bb190b7c112", "cb5f312a-dcc7-481e-ba97-842256cb2b61", "2d6c5009-fee6-4b57-b265-9e8c7b13791a", "d157909f-0add-4aee-bc41-29d1d79c87cc", "2005e140-5c04-410a-8402-acdf712cfb84", "4c1ee78f-bc83-4977-965e-532b40c30bec" ]
+          }
+        },
+        "isoCategory" : "122291",
+        "supplier" : {
+          "name" : "Alu Rehab AS",
+          "id" : "b85c8c06-b776-4416-8fee-cab1223e75ae"
+        },
+        "media" : [ {
+          "uri" : "register/870e3a32-f369-4d80-ba83-d7001ddbe21b/e25e0642-f649-4b6b-acf4-371483d4616b.jpg",
+          "priority" : 1,
+          "type" : "IMAGE",
+          "text" : "IMG_4541",
+          "source" : "REGISTER"
+        } ],
+        "accessory" : false,
+        "sparePart" : true,
+        "main" : false
+      }
+    }, {
+      "_source" : {
+        "id" : "1000eb24-9ee6-444c-9a99-ccf7c720da66",
+        "title" : "Pute rygg sittemodul Netti Dynamic III HD Netti Stabil trekk 45x50 3D",
+        "articleName" : "Pute rygg sittemodul Netti Dynamic III HD Netti Stabil trekk 45x50 3D",
+        "seriesId" : "a64660d0-ff1d-4782-9869-0db7fb8efb67",
+        "hmsArtNr" : "181585",
+        "supplierRef" : "367208",
+        "attributes" : {
+          "compatibleWith" : {
+            "seriesIds" : [ "70f928c2-0ceb-469e-b5cf-9ac9093bf542", "00fbde2b-1280-408d-af3d-a950915d5acc", "487c7a7e-31b6-405b-852a-dbf505df5e10" ],
+            "productIds" : [ "25a574f2-eea3-4d2d-85f7-eaf09dd62ec9", "cb5f312a-dcc7-481e-ba97-842256cb2b61", "c3f9fe95-f12f-4f48-b4a2-dbe7219d8415", "0b1700fe-badc-4a8e-a910-c0b96ed24697", "477a37cf-c07f-4a44-9691-7b5d32f21298", "a15505ae-f269-4c59-bacd-077e7b0e175e", "367f8b51-9de6-49b5-bd33-7924b9338410", "d3ec6750-5276-4d38-a9a9-67273ee66ce0" ]
+          }
+        },
+        "isoCategory" : "122292",
+        "supplier" : {
+          "name" : "Alu Rehab AS",
+          "id" : "b85c8c06-b776-4416-8fee-cab1223e75ae"
+        },
+        "media" : [ ],
+        "accessory" : false,
+        "sparePart" : true,
+        "main" : false
+      }
+    }, {
+      "_source" : {
+        "id" : "e94a5aa5-0f01-4343-827c-32b1a13fdc6f",
+        "title" : "Armlene mrs Netti V ve",
+        "articleName" : "Armlene mrs Netti V ve",
+        "seriesId" : "1b6236b6-cb61-461e-8bb6-c368a34a13e1",
+        "hmsArtNr" : "316172",
+        "supplierRef" : "93728",
+        "attributes" : {
+          "compatibleWith" : {
+            "seriesIds" : [ "70f928c2-0ceb-469e-b5cf-9ac9093bf542" ],
+            "productIds" : [ "d068f957-de6b-4e45-8416-48724c704055", "16e1095c-3784-4299-bda1-199eba55f12b", "25a574f2-eea3-4d2d-85f7-eaf09dd62ec9", "a00934e0-e755-49de-baae-d9260294121b", "8979d398-7c39-48c8-8e74-aa046181e868", "d157909f-0add-4aee-bc41-29d1d79c87cc", "c085542b-6665-426b-aec2-1d218ea8c470", "7fdddbcf-b5f3-417c-a4bb-2fb9358786c4", "4c1ee78f-bc83-4977-965e-532b40c30bec" ]
+          }
+        },
+        "isoCategory" : "122291",
+        "supplier" : {
+          "name" : "Alu Rehab AS",
+          "id" : "b85c8c06-b776-4416-8fee-cab1223e75ae"
+        },
+        "media" : [ ],
+        "accessory" : false,
+        "sparePart" : true,
+        "main" : false
+      }
+    }, {
+      "_source" : {
+        "id" : "67badd42-feba-429d-a84f-8e68f8f79684",
+        "title" : "Brems mrs Netti V hø",
+        "articleName" : "Brems mrs Netti V hø",
+        "seriesId" : "79ed2dad-2f56-4e15-a2dd-8875f6f17107",
+        "hmsArtNr" : "316333",
+        "supplierRef" : "93674",
+        "attributes" : {
+          "compatibleWith" : {
+            "seriesIds" : [ "70f928c2-0ceb-469e-b5cf-9ac9093bf542" ],
+            "productIds" : [ "d068f957-de6b-4e45-8416-48724c704055", "16e1095c-3784-4299-bda1-199eba55f12b", "25a574f2-eea3-4d2d-85f7-eaf09dd62ec9", "a00934e0-e755-49de-baae-d9260294121b", "8979d398-7c39-48c8-8e74-aa046181e868", "d157909f-0add-4aee-bc41-29d1d79c87cc", "c085542b-6665-426b-aec2-1d218ea8c470", "7fdddbcf-b5f3-417c-a4bb-2fb9358786c4", "4c1ee78f-bc83-4977-965e-532b40c30bec" ]
+          }
+        },
+        "isoCategory" : "122293",
+        "supplier" : {
+          "name" : "Alu Rehab AS",
+          "id" : "b85c8c06-b776-4416-8fee-cab1223e75ae"
+        },
+        "media" : [ {
+          "uri" : "register/79ed2dad-2f56-4e15-a2dd-8875f6f17107/c5f6ec17-c587-4c8e-a786-fa1aa2bc87d2.jpg",
+          "priority" : 1,
+          "type" : "IMAGE",
+          "text" : "IMG_4530",
+          "source" : "REGISTER"
+        } ],
+        "accessory" : false,
+        "sparePart" : true,
+        "main" : false
+      }
+    }, {
+      "_source" : {
+        "id" : "b8a6fa1e-8b58-478a-9988-68b1d806cb9d",
+        "title" : "Brems mrs Netti V ve",
+        "articleName" : "Brems mrs Netti V ve",
+        "seriesId" : "0faea002-6a82-4739-b3ce-28e028a9ac89",
+        "hmsArtNr" : "316334",
+        "supplierRef" : "93675",
+        "attributes" : {
+          "compatibleWith" : {
+            "seriesIds" : [ "70f928c2-0ceb-469e-b5cf-9ac9093bf542" ],
+            "productIds" : [ "d068f957-de6b-4e45-8416-48724c704055", "16e1095c-3784-4299-bda1-199eba55f12b", "25a574f2-eea3-4d2d-85f7-eaf09dd62ec9", "a00934e0-e755-49de-baae-d9260294121b", "8979d398-7c39-48c8-8e74-aa046181e868", "d157909f-0add-4aee-bc41-29d1d79c87cc", "c085542b-6665-426b-aec2-1d218ea8c470", "7fdddbcf-b5f3-417c-a4bb-2fb9358786c4", "4c1ee78f-bc83-4977-965e-532b40c30bec" ]
+          }
+        },
+        "isoCategory" : "122293",
+        "supplier" : {
+          "name" : "Alu Rehab AS",
+          "id" : "b85c8c06-b776-4416-8fee-cab1223e75ae"
+        },
+        "media" : [ {
+          "uri" : "register/0faea002-6a82-4739-b3ce-28e028a9ac89/c87754f6-2d34-480a-b238-49aa08476983.jpg",
+          "priority" : 1,
+          "type" : "IMAGE",
+          "text" : "IMG_4531",
+          "source" : "REGISTER"
+        } ],
+        "accessory" : false,
+        "sparePart" : true,
+        "main" : false
+      }
+    }, {
+      "_source" : {
+        "id" : "e58201b9-f30e-4bf9-aaf9-2d6f1266e163",
+        "title" : "Pute sete mrs Netti V/III/HD Netti Uno sb45x50 3D",
+        "articleName" : "Pute sete mrs Netti V/III/HD Netti Uno sb45x50 3D",
+        "seriesId" : "f888e9c9-22bb-450f-82cc-f11caf27a54c",
+        "hmsArtNr" : "154516",
+        "supplierRef" : "171822",
+        "attributes" : {
+          "compatibleWith" : {
+            "seriesIds" : [ "70f928c2-0ceb-469e-b5cf-9ac9093bf542" ],
+            "productIds" : [ "25a574f2-eea3-4d2d-85f7-eaf09dd62ec9", "c3f9fe95-f12f-4f48-b4a2-dbe7219d8415", "0b1700fe-badc-4a8e-a910-c0b96ed24697", "477a37cf-c07f-4a44-9691-7b5d32f21298", "a15505ae-f269-4c59-bacd-077e7b0e175e", "367f8b51-9de6-49b5-bd33-7924b9338410", "d3ec6750-5276-4d38-a9a9-67273ee66ce0", "dad71eb6-340e-4282-8ade-ad15a0e3f7db" ]
+          }
+        },
+        "isoCategory" : "122292",
+        "supplier" : {
+          "name" : "Alu Rehab AS",
+          "id" : "b85c8c06-b776-4416-8fee-cab1223e75ae"
+        },
+        "media" : [ ],
+        "accessory" : true,
+        "sparePart" : false,
+        "main" : false
+      }
+    }, {
+      "_source" : {
+        "id" : "45c49a49-b529-4cf8-99f0-1ccae5a9bea8",
+        "title" : "Benstøtte mrs Netti V/III/HD Knepute 3D",
+        "articleName" : "Benstøtte mrs Netti V/III/HD Knepute 3D",
+        "seriesId" : "3269c2c8-92ef-4406-b5ff-c9204302e686",
+        "hmsArtNr" : "154670",
+        "supplierRef" : "40886",
+        "attributes" : {
+          "compatibleWith" : {
+            "seriesIds" : [ "00fbde2b-1280-408d-af3d-a950915d5acc" ],
+            "productIds" : [ "25a574f2-eea3-4d2d-85f7-eaf09dd62ec9", "2f16d8f0-3c24-4539-a30e-1bba3f9831d6", "5789114d-e218-42b3-b2a7-64f51b185e24", "cd44f85f-32e4-4440-bc87-f485d386cefa", "dc66f82b-88c0-48d7-a583-5f4a374eca5f", "8c1e20ae-7182-4eac-b23b-7c4a8a2d3c81", "c3f9fe95-f12f-4f48-b4a2-dbe7219d8415", "3e654c13-f575-4352-9d0d-253dc2ac0d4b", "8979d398-7c39-48c8-8e74-aa046181e868", "367f8b51-9de6-49b5-bd33-7924b9338410", "bb3e6016-4298-470b-afd8-902bba1dae1a", "d068f957-de6b-4e45-8416-48724c704055", "1d813b7f-c143-43d2-a9cf-ddbe7bd759da", "f2c786aa-03f8-497f-875b-fca6ec0ead0a", "abf37e0b-eedc-416b-bc96-75653104942c", "0b1700fe-badc-4a8e-a910-c0b96ed24697", "e2c156ae-6e33-45b2-b38b-f443d9ad30d2", "ee74c509-4260-4441-bf84-ed427d866c46", "c085542b-6665-426b-aec2-1d218ea8c470", "7fdddbcf-b5f3-417c-a4bb-2fb9358786c4", "d8faaf7b-3b5d-4e91-ac08-b6e828c18670", "df1832c2-45d9-416a-a981-7f173c0e872d", "dad71eb6-340e-4282-8ade-ad15a0e3f7db", "68a8a9b5-97b9-41b2-81be-1a0b9d8ab7b6", "da4aad0f-0d49-43e2-8238-db23646675b3", "16e1095c-3784-4299-bda1-199eba55f12b", "defdd90c-dde1-4951-af63-ebce431dca55", "4455e733-3cf6-46cc-8954-3a4ed02a4348", "a00934e0-e755-49de-baae-d9260294121b", "852f085d-5bf8-4ce5-b4ad-8eb510645e3b", "477a37cf-c07f-4a44-9691-7b5d32f21298", "a15505ae-f269-4c59-bacd-077e7b0e175e", "acffc28a-1357-45ee-9a85-ae4eb2a2de8d", "ff3ca98d-e9a6-42f5-9fbb-b4d5c791d0f4", "3365320d-5803-4026-bf43-822c309c6cd2", "dd92f307-5af0-4890-90e8-9bc5a5257791", "9e03e79e-7ca2-4702-9115-4f381b41707f", "d1d09f62-8f39-4aba-bdef-08078c80ee29", "fbf733f2-778f-4a53-923c-0bb190b7c112", "cb5f312a-dcc7-481e-ba97-842256cb2b61", "55e14709-c75c-45ea-ab82-8931839e3bc0", "2d6c5009-fee6-4b57-b265-9e8c7b13791a", "d3ec6750-5276-4d38-a9a9-67273ee66ce0", "d157909f-0add-4aee-bc41-29d1d79c87cc", "2005e140-5c04-410a-8402-acdf712cfb84", "fd9d2675-f237-4d4e-9491-9b2dff08465b", "4c1ee78f-bc83-4977-965e-532b40c30bec" ]
+          }
+        },
+        "isoCategory" : "122291",
+        "supplier" : {
+          "name" : "Alu Rehab AS",
+          "id" : "b85c8c06-b776-4416-8fee-cab1223e75ae"
+        },
+        "media" : [ {
+          "uri" : "register/3269c2c8-92ef-4406-b5ff-c9204302e686/f53a65a4-92f6-4da1-8963-2d82baf1c275.jpg",
+          "priority" : 1,
+          "type" : "IMAGE",
+          "text" : "IMG_4534",
+          "source" : "REGISTER"
+        } ],
+        "accessory" : false,
+        "sparePart" : true,
+        "main" : false
+      }
+    }, {
+      "_source" : {
+        "id" : "1b430f57-ccc0-47a1-a0a4-bf389cd07233",
+        "title" : "Benstøtte mrs Netti HD V.reg sb60cm hø 3D",
+        "articleName" : "Benstøtte mrs Netti HD V.reg sb60cm hø 3D",
+        "seriesId" : "50a4b439-db62-4855-a687-9af64aa7c70e",
+        "hmsArtNr" : "154659",
+        "supplierRef" : "29507",
+        "attributes" : {
+          "compatibleWith" : {
+            "seriesIds" : [ "70f928c2-0ceb-469e-b5cf-9ac9093bf542" ],
+            "productIds" : [ "da4aad0f-0d49-43e2-8238-db23646675b3", "55e14709-c75c-45ea-ab82-8931839e3bc0", "fd9d2675-f237-4d4e-9491-9b2dff08465b" ]
+          }
+        },
+        "isoCategory" : "122291",
+        "supplier" : {
+          "name" : "Alu Rehab AS",
+          "id" : "b85c8c06-b776-4416-8fee-cab1223e75ae"
+        },
+        "media" : [ ],
+        "accessory" : false,
+        "sparePart" : true,
+        "main" : false
+      }
+    }, {
+      "_source" : {
+        "id" : "d63f989e-66a2-4d72-93ce-cb00b10a1cd3",
+        "title" : "Pute rygg sittemodul Netti Dynamic III HD Netti Stabil 38x50 3D",
+        "articleName" : "Pute rygg sittemodul Netti Dynamic III HD Netti Stabil 38x50 3D",
+        "seriesId" : "803e7af9-6357-46b6-a834-c2428688af49",
+        "hmsArtNr" : "181465",
+        "supplierRef" : "367305",
+        "attributes" : {
+          "compatibleWith" : {
+            "seriesIds" : [ "00fbde2b-1280-408d-af3d-a950915d5acc", "70f928c2-0ceb-469e-b5cf-9ac9093bf542", "487c7a7e-31b6-405b-852a-dbf505df5e10" ],
+            "productIds" : [ "dc66f82b-88c0-48d7-a583-5f4a374eca5f", "a00934e0-e755-49de-baae-d9260294121b", "ff3ca98d-e9a6-42f5-9fbb-b4d5c791d0f4", "3365320d-5803-4026-bf43-822c309c6cd2", "68a8a9b5-97b9-41b2-81be-1a0b9d8ab7b6" ]
+          }
+        },
+        "isoCategory" : "122292",
+        "supplier" : {
+          "name" : "Alu Rehab AS",
+          "id" : "b85c8c06-b776-4416-8fee-cab1223e75ae"
+        },
+        "media" : [ ],
+        "accessory" : false,
+        "sparePart" : true,
+        "main" : false
+      }
+    }, {
+      "_source" : {
+        "id" : "5c3abf6c-ee21-43b9-9ad9-bb225787740f",
+        "title" : "Pute rygg sittemodul Netti Dynamic III HD Netti Stabil 40x50 3D",
+        "articleName" : "Pute rygg sittemodul Netti Dynamic III HD Netti Stabil 40x50 3D",
+        "seriesId" : "c7c2c234-1aca-42ba-ac96-dd632100d7b3",
+        "hmsArtNr" : "181486",
+        "supplierRef" : "367306",
+        "attributes" : {
+          "compatibleWith" : {
+            "seriesIds" : [ "70f928c2-0ceb-469e-b5cf-9ac9093bf542", "00fbde2b-1280-408d-af3d-a950915d5acc", "487c7a7e-31b6-405b-852a-dbf505df5e10" ],
+            "productIds" : [ "abf37e0b-eedc-416b-bc96-75653104942c", "3e654c13-f575-4352-9d0d-253dc2ac0d4b", "852f085d-5bf8-4ce5-b4ad-8eb510645e3b", "8979d398-7c39-48c8-8e74-aa046181e868", "ee74c509-4260-4441-bf84-ed427d866c46", "2005e140-5c04-410a-8402-acdf712cfb84" ]
+          }
+        },
+        "isoCategory" : "122292",
+        "supplier" : {
+          "name" : "Alu Rehab AS",
+          "id" : "b85c8c06-b776-4416-8fee-cab1223e75ae"
+        },
+        "media" : [ ],
+        "accessory" : false,
+        "sparePart" : true,
+        "main" : false
+      }
+    }, {
+      "_source" : {
+        "id" : "2e22997b-ad6c-424d-86dd-8f732535a449",
+        "title" : "Armlene mrs Netti V/III/HD III HD ve",
+        "articleName" : "Armlene mrs Netti V/III/HD III HD ve",
+        "seriesId" : "2a2a9107-cb50-41e2-8889-ba4c4205a61d",
+        "hmsArtNr" : "316176",
+        "supplierRef" : "94971",
+        "attributes" : {
+          "compatibleWith" : {
+            "seriesIds" : [ "00fbde2b-1280-408d-af3d-a950915d5acc", "70f928c2-0ceb-469e-b5cf-9ac9093bf542", "487c7a7e-31b6-405b-852a-dbf505df5e10" ],
+            "productIds" : [ "f2c786aa-03f8-497f-875b-fca6ec0ead0a", "55e14709-c75c-45ea-ab82-8931839e3bc0", "4455e733-3cf6-46cc-8954-3a4ed02a4348", "ee74c509-4260-4441-bf84-ed427d866c46", "d3ec6750-5276-4d38-a9a9-67273ee66ce0", "dd92f307-5af0-4890-90e8-9bc5a5257791" ]
+          }
+        },
+        "isoCategory" : "122291",
+        "supplier" : {
+          "name" : "Alu Rehab AS",
+          "id" : "b85c8c06-b776-4416-8fee-cab1223e75ae"
+        },
+        "media" : [ ],
+        "accessory" : false,
+        "sparePart" : true,
+        "main" : false
+      }
+    }, {
+      "_source" : {
+        "id" : "dc44cdc2-3e0c-495f-a4cd-c8871843729c",
+        "title" : "Benstøtte mrs Netti V V.reg sb47,5cm hø 3D",
+        "articleName" : "Benstøtte mrs Netti V V.reg sb47,5cm hø 3D",
+        "seriesId" : "7e07aaa3-c0af-4b28-a6f6-3aa09c668866",
+        "hmsArtNr" : "316217",
+        "supplierRef" : "94859",
+        "attributes" : {
+          "compatibleWith" : {
+            "seriesIds" : [ "70f928c2-0ceb-469e-b5cf-9ac9093bf542" ],
+            "productIds" : [ "7fdddbcf-b5f3-417c-a4bb-2fb9358786c4" ]
+          }
+        },
+        "isoCategory" : "122291",
+        "supplier" : {
+          "name" : "Alu Rehab AS",
+          "id" : "b85c8c06-b776-4416-8fee-cab1223e75ae"
+        },
+        "media" : [ ],
+        "accessory" : false,
+        "sparePart" : true,
+        "main" : false
+      }
+    }, {
+      "_source" : {
+        "id" : "093de48a-dc77-4dfe-b91a-e5c996646436",
+        "title" : "Benstøtte mrs Netti V V.reg sb47,5cm ve 3D",
+        "articleName" : "Benstøtte mrs Netti V V.reg sb47,5cm ve 3D",
+        "seriesId" : "a14967ef-2147-4b55-9c59-2ff0bea390ec",
+        "hmsArtNr" : "316218",
+        "supplierRef" : "94861",
+        "attributes" : {
+          "compatibleWith" : {
+            "seriesIds" : [ "70f928c2-0ceb-469e-b5cf-9ac9093bf542" ],
+            "productIds" : [ "7fdddbcf-b5f3-417c-a4bb-2fb9358786c4" ]
+          }
+        },
+        "isoCategory" : "122291",
+        "supplier" : {
+          "name" : "Alu Rehab AS",
+          "id" : "b85c8c06-b776-4416-8fee-cab1223e75ae"
+        },
+        "media" : [ ],
+        "accessory" : false,
+        "sparePart" : true,
+        "main" : false
+      }
+    }, {
+      "_source" : {
+        "id" : "8595591f-286d-46cf-a9b0-787cb70cb0cf",
+        "title" : "Benstøtte mrs Netti V V.reg sb52,5cm hø 3D",
+        "articleName" : "Benstøtte mrs Netti V V.reg sb52,5cm hø 3D",
+        "seriesId" : "23372496-727a-41d9-9a3c-9dd63933876c",
+        "hmsArtNr" : "316219",
+        "supplierRef" : "94860",
+        "attributes" : {
+          "compatibleWith" : {
+            "seriesIds" : [ "70f928c2-0ceb-469e-b5cf-9ac9093bf542" ],
+            "productIds" : [ "c085542b-6665-426b-aec2-1d218ea8c470" ]
+          }
+        },
+        "isoCategory" : "122291",
+        "supplier" : {
+          "name" : "Alu Rehab AS",
+          "id" : "b85c8c06-b776-4416-8fee-cab1223e75ae"
+        },
+        "media" : [ ],
+        "accessory" : false,
+        "sparePart" : true,
+        "main" : false
+      }
+    }, {
+      "_source" : {
+        "id" : "2dd8bd80-6913-4d2d-9ea5-d774dea617f2",
+        "title" : "Benstøtte mrs Netti V/III V.reg sb35cm hø 3D",
+        "articleName" : "Benstøtte mrs Netti V/III V.reg sb35cm hø 3D",
+        "seriesId" : "52b4aa36-cafe-4e52-9ad3-8cdefab3fc66",
+        "hmsArtNr" : "154652",
+        "supplierRef" : "29500",
+        "attributes" : {
+          "compatibleWith" : {
+            "seriesIds" : [ "70f928c2-0ceb-469e-b5cf-9ac9093bf542" ],
+            "productIds" : [ "16e1095c-3784-4299-bda1-199eba55f12b", "1d813b7f-c143-43d2-a9cf-ddbe7bd759da", "defdd90c-dde1-4951-af63-ebce431dca55", "e2c156ae-6e33-45b2-b38b-f443d9ad30d2", "68a8a9b5-97b9-41b2-81be-1a0b9d8ab7b6" ]
+          }
+        },
+        "isoCategory" : "122291",
+        "supplier" : {
+          "name" : "Alu Rehab AS",
+          "id" : "b85c8c06-b776-4416-8fee-cab1223e75ae"
+        },
+        "media" : [ ],
+        "accessory" : false,
+        "sparePart" : true,
+        "main" : false
+      }
+    }, {
+      "_source" : {
+        "id" : "a08c6841-e0b9-4a13-8771-ea3e462a00aa",
+        "title" : "Benstøtte mrs Netti V/III/HD V.reg sb40cm hø 3D",
+        "articleName" : "Benstøtte mrs Netti V/III/HD V.reg sb40cm hø 3D",
+        "seriesId" : "73945082-afd6-4946-8564-110258661d25",
+        "hmsArtNr" : "154654",
+        "supplierRef" : "29502",
+        "attributes" : {
+          "compatibleWith" : {
+            "seriesIds" : [ "70f928c2-0ceb-469e-b5cf-9ac9093bf542" ],
+            "productIds" : [ "abf37e0b-eedc-416b-bc96-75653104942c", "3e654c13-f575-4352-9d0d-253dc2ac0d4b", "852f085d-5bf8-4ce5-b4ad-8eb510645e3b", "8979d398-7c39-48c8-8e74-aa046181e868", "ee74c509-4260-4441-bf84-ed427d866c46", "2005e140-5c04-410a-8402-acdf712cfb84" ]
+          }
+        },
+        "isoCategory" : "122291",
+        "supplier" : {
+          "name" : "Alu Rehab AS",
+          "id" : "b85c8c06-b776-4416-8fee-cab1223e75ae"
+        },
+        "media" : [ ],
+        "accessory" : false,
+        "sparePart" : true,
+        "main" : false
+      }
+    }, {
+      "_source" : {
+        "id" : "806252df-79c8-4794-8371-ed0fc2d36254",
+        "title" : "Benstøtte mrs Netti V/III V.reg sb35cm ve 3D",
+        "articleName" : "Benstøtte mrs Netti V/III V.reg sb35cm ve 3D",
+        "seriesId" : "9cea9485-2161-4cd8-a5c8-7fb4a5eee285",
+        "hmsArtNr" : "154660",
+        "supplierRef" : "29508",
+        "attributes" : {
+          "compatibleWith" : {
+            "seriesIds" : [ "70f928c2-0ceb-469e-b5cf-9ac9093bf542" ],
+            "productIds" : [ "16e1095c-3784-4299-bda1-199eba55f12b", "1d813b7f-c143-43d2-a9cf-ddbe7bd759da", "defdd90c-dde1-4951-af63-ebce431dca55", "e2c156ae-6e33-45b2-b38b-f443d9ad30d2", "68a8a9b5-97b9-41b2-81be-1a0b9d8ab7b6" ]
+          }
+        },
+        "isoCategory" : "122291",
+        "supplier" : {
+          "name" : "Alu Rehab AS",
+          "id" : "b85c8c06-b776-4416-8fee-cab1223e75ae"
+        },
+        "media" : [ ],
+        "accessory" : false,
+        "sparePart" : true,
+        "main" : false
+      }
+    }, {
+      "_source" : {
+        "id" : "532cdf54-a79a-466f-aab3-439959431a3a",
+        "title" : "Benstøtte mrs Netti V/III V.reg sb37,5-38cm ve 3D",
+        "articleName" : "Benstøtte mrs Netti V/III V.reg sb37,5-38cm ve 3D",
+        "seriesId" : "60af2c12-c737-417a-a8c5-b7d003dcbdae",
+        "hmsArtNr" : "154661",
+        "supplierRef" : "29509",
+        "attributes" : {
+          "compatibleWith" : {
+            "seriesIds" : [ "70f928c2-0ceb-469e-b5cf-9ac9093bf542" ],
+            "productIds" : [ "dc66f82b-88c0-48d7-a583-5f4a374eca5f", "a00934e0-e755-49de-baae-d9260294121b", "ff3ca98d-e9a6-42f5-9fbb-b4d5c791d0f4", "3365320d-5803-4026-bf43-822c309c6cd2", "9e03e79e-7ca2-4702-9115-4f381b41707f" ]
+          }
+        },
+        "isoCategory" : "122291",
+        "supplier" : {
+          "name" : "Alu Rehab AS",
+          "id" : "b85c8c06-b776-4416-8fee-cab1223e75ae"
+        },
+        "media" : [ ],
+        "accessory" : false,
+        "sparePart" : true,
+        "main" : false
+      }
+    }, {
+      "_source" : {
+        "id" : "3b0cd48c-1985-4015-99ad-023c4a584927",
+        "title" : "Benstøtte mrs Netti V/III/HD V.reg sb42,5-43cm ve 3D",
+        "articleName" : "Benstøtte mrs Netti V/III/HD V.reg sb42,5-43cm ve 3D",
+        "seriesId" : "72149561-2e9a-47c9-843d-9a859d5ad6a3",
+        "hmsArtNr" : "154663",
+        "supplierRef" : "29511",
+        "attributes" : {
+          "compatibleWith" : {
+            "seriesIds" : [ "00fbde2b-1280-408d-af3d-a950915d5acc", "70f928c2-0ceb-469e-b5cf-9ac9093bf542", "487c7a7e-31b6-405b-852a-dbf505df5e10" ],
+            "productIds" : [ "fbf733f2-778f-4a53-923c-0bb190b7c112", "cd44f85f-32e4-4440-bc87-f485d386cefa", "f2c786aa-03f8-497f-875b-fca6ec0ead0a", "acffc28a-1357-45ee-9a85-ae4eb2a2de8d", "d8faaf7b-3b5d-4e91-ac08-b6e828c18670", "4c1ee78f-bc83-4977-965e-532b40c30bec" ]
+          }
+        },
+        "isoCategory" : "122291",
+        "supplier" : {
+          "name" : "Alu Rehab AS",
+          "id" : "b85c8c06-b776-4416-8fee-cab1223e75ae"
+        },
+        "media" : [ ],
+        "accessory" : false,
+        "sparePart" : true,
+        "main" : false
+      }
+    }, {
+      "_source" : {
+        "id" : "b5c193bd-c3e4-4f82-9d10-cb1da71f4d03",
+        "title" : "Benstøtte mrs Netti V/III/HD V.reg sb50cm ve 3D",
+        "articleName" : "Benstøtte mrs Netti V/III/HD V.reg sb50cm ve 3D",
+        "seriesId" : "abfde70c-2534-4289-b5f5-e0e215c90163",
+        "hmsArtNr" : "154665",
+        "supplierRef" : "29513",
+        "attributes" : {
+          "compatibleWith" : {
+            "seriesIds" : [ "70f928c2-0ceb-469e-b5cf-9ac9093bf542" ],
+            "productIds" : [ "d1d09f62-8f39-4aba-bdef-08078c80ee29", "5789114d-e218-42b3-b2a7-64f51b185e24", "8c1e20ae-7182-4eac-b23b-7c4a8a2d3c81", "d157909f-0add-4aee-bc41-29d1d79c87cc", "dd92f307-5af0-4890-90e8-9bc5a5257791", "bb3e6016-4298-470b-afd8-902bba1dae1a" ]
+          }
+        },
+        "isoCategory" : "122291",
+        "supplier" : {
+          "name" : "Alu Rehab AS",
+          "id" : "b85c8c06-b776-4416-8fee-cab1223e75ae"
+        },
+        "media" : [ ],
+        "accessory" : false,
+        "sparePart" : true,
+        "main" : false
+      }
+    }, {
+      "_source" : {
+        "id" : "a15b3835-1fcf-4503-ac26-0656125c8d5f",
+        "title" : "Benstøtte mrs Netti V/HD V.reg sb55cm ve 3D",
+        "articleName" : "Benstøtte mrs Netti V/HD V.reg sb55cm ve 3D",
+        "seriesId" : "5e1ccd21-e75d-411c-a847-7805bf231210",
+        "hmsArtNr" : "154666",
+        "supplierRef" : "29514",
+        "attributes" : {
+          "compatibleWith" : {
+            "seriesIds" : [ "70f928c2-0ceb-469e-b5cf-9ac9093bf542" ],
+            "productIds" : [ "d068f957-de6b-4e45-8416-48724c704055", "2f16d8f0-3c24-4539-a30e-1bba3f9831d6", "4455e733-3cf6-46cc-8954-3a4ed02a4348", "df1832c2-45d9-416a-a981-7f173c0e872d" ]
+          }
+        },
+        "isoCategory" : "122291",
+        "supplier" : {
+          "name" : "Alu Rehab AS",
+          "id" : "b85c8c06-b776-4416-8fee-cab1223e75ae"
+        },
+        "media" : [ ],
+        "accessory" : false,
+        "sparePart" : true,
+        "main" : false
+      }
+    }, {
+      "_source" : {
+        "id" : "c220a176-abe4-49b9-9af8-5b3e04e96e05",
+        "title" : "Pute rygg sittemodul Netti Dynamic III HD Netti Stabil 35x50 3D",
+        "articleName" : "Pute rygg sittemodul Netti Dynamic III HD Netti Stabil 35x50 3D",
+        "seriesId" : "84f0dfe6-614a-4aa5-b5fa-df94a76f6424",
+        "hmsArtNr" : "181484",
+        "supplierRef" : "367304",
+        "attributes" : {
+          "compatibleWith" : {
+            "seriesIds" : [ "00fbde2b-1280-408d-af3d-a950915d5acc", "70f928c2-0ceb-469e-b5cf-9ac9093bf542", "487c7a7e-31b6-405b-852a-dbf505df5e10" ],
+            "productIds" : [ "16e1095c-3784-4299-bda1-199eba55f12b", "1d813b7f-c143-43d2-a9cf-ddbe7bd759da", "defdd90c-dde1-4951-af63-ebce431dca55", "e2c156ae-6e33-45b2-b38b-f443d9ad30d2", "68a8a9b5-97b9-41b2-81be-1a0b9d8ab7b6" ]
+          }
+        },
+        "isoCategory" : "122292",
+        "supplier" : {
+          "name" : "Alu Rehab AS",
+          "id" : "b85c8c06-b776-4416-8fee-cab1223e75ae"
+        },
+        "media" : [ ],
+        "accessory" : false,
+        "sparePart" : true,
+        "main" : false
+      }
+    }, {
+      "_source" : {
+        "id" : "2b120bca-9a8b-426e-9742-4e8dace6b422",
+        "title" : "Pute rygg sittemodul Netti Dynamic III HD Netti Stabil 50x50 3D",
+        "articleName" : "Pute rygg sittemodul Netti Dynamic III HD Netti Stabil 50x50 3D",
+        "seriesId" : "5809317d-1445-48c5-8375-6cb53102858d",
+        "hmsArtNr" : "181492",
+        "supplierRef" : "367309",
+        "attributes" : {
+          "compatibleWith" : {
+            "seriesIds" : [ "70f928c2-0ceb-469e-b5cf-9ac9093bf542", "00fbde2b-1280-408d-af3d-a950915d5acc" ],
+            "productIds" : [ "d1d09f62-8f39-4aba-bdef-08078c80ee29", "5789114d-e218-42b3-b2a7-64f51b185e24", "8c1e20ae-7182-4eac-b23b-7c4a8a2d3c81", "cb5f312a-dcc7-481e-ba97-842256cb2b61", "2d6c5009-fee6-4b57-b265-9e8c7b13791a", "d157909f-0add-4aee-bc41-29d1d79c87cc", "dd92f307-5af0-4890-90e8-9bc5a5257791", "bb3e6016-4298-470b-afd8-902bba1dae1a" ]
+          }
+        },
+        "isoCategory" : "122292",
+        "supplier" : {
+          "name" : "Alu Rehab AS",
+          "id" : "b85c8c06-b776-4416-8fee-cab1223e75ae"
+        },
+        "media" : [ ],
+        "accessory" : false,
+        "sparePart" : true,
+        "main" : false
+      }
+    }, {
+      "_source" : {
+        "id" : "c951d07a-7884-49c1-be71-e9e75489454c",
+        "title" : "Pute rygg mrs Netti V/HD Netti Stabil sb55x50cm 3D",
+        "articleName" : "Pute rygg mrs Netti V/HD Netti Stabil sb55x50cm 3D",
+        "seriesId" : "1df717b0-68ca-4d73-8e10-28c619368f2a",
+        "hmsArtNr" : "181494",
+        "supplierRef" : "367310",
+        "attributes" : {
+          "compatibleWith" : {
+            "seriesIds" : [ "70f928c2-0ceb-469e-b5cf-9ac9093bf542" ],
+            "productIds" : [ "d068f957-de6b-4e45-8416-48724c704055", "2f16d8f0-3c24-4539-a30e-1bba3f9831d6", "4455e733-3cf6-46cc-8954-3a4ed02a4348", "df1832c2-45d9-416a-a981-7f173c0e872d" ]
+          }
+        },
+        "isoCategory" : "122292",
+        "supplier" : {
+          "name" : "Alu Rehab AS",
+          "id" : "b85c8c06-b776-4416-8fee-cab1223e75ae"
+        },
+        "media" : [ ],
+        "accessory" : false,
+        "sparePart" : true,
+        "main" : false
+      }
+    }, {
+      "_source" : {
+        "id" : "10adbcb6-6d62-482a-ae11-14c031a82136",
+        "title" : "Pute rygg sittemodul Netti Dynamic III HD Netti Stabil trekk 38x50 3D",
+        "articleName" : "Pute rygg sittemodul Netti Dynamic III HD Netti Stabil trekk 38x50 3D",
+        "seriesId" : "bc7c0b44-23c8-4552-a528-2d0826653bfa",
+        "hmsArtNr" : "181579",
+        "supplierRef" : "367205",
+        "attributes" : {
+          "compatibleWith" : {
+            "seriesIds" : [ "00fbde2b-1280-408d-af3d-a950915d5acc", "70f928c2-0ceb-469e-b5cf-9ac9093bf542", "487c7a7e-31b6-405b-852a-dbf505df5e10" ],
+            "productIds" : [ "dc66f82b-88c0-48d7-a583-5f4a374eca5f", "a00934e0-e755-49de-baae-d9260294121b", "ff3ca98d-e9a6-42f5-9fbb-b4d5c791d0f4", "3365320d-5803-4026-bf43-822c309c6cd2", "9e03e79e-7ca2-4702-9115-4f381b41707f" ]
+          }
+        },
+        "isoCategory" : "122292",
+        "supplier" : {
+          "name" : "Alu Rehab AS",
+          "id" : "b85c8c06-b776-4416-8fee-cab1223e75ae"
+        },
+        "media" : [ ],
+        "accessory" : false,
+        "sparePart" : true,
+        "main" : false
+      }
+    }, {
+      "_source" : {
+        "id" : "aab9c5f2-c4de-48d3-b56b-77717f3ac9f1",
+        "title" : "Pute rygg sittemodul Netti Dynamic III HD Netti Stabil trekk 40x50 3D",
+        "articleName" : "Pute rygg sittemodul Netti Dynamic III HD Netti Stabil trekk 40x50 3D",
+        "seriesId" : "e250371c-aadf-4da0-8016-0b2472fa8d11",
+        "hmsArtNr" : "181581",
+        "supplierRef" : "367206",
+        "attributes" : {
+          "compatibleWith" : {
+            "seriesIds" : [ "70f928c2-0ceb-469e-b5cf-9ac9093bf542", "00fbde2b-1280-408d-af3d-a950915d5acc", "487c7a7e-31b6-405b-852a-dbf505df5e10" ],
+            "productIds" : [ "abf37e0b-eedc-416b-bc96-75653104942c", "3e654c13-f575-4352-9d0d-253dc2ac0d4b", "852f085d-5bf8-4ce5-b4ad-8eb510645e3b", "8979d398-7c39-48c8-8e74-aa046181e868", "ee74c509-4260-4441-bf84-ed427d866c46", "2005e140-5c04-410a-8402-acdf712cfb84" ]
+          }
+        },
+        "isoCategory" : "122292",
+        "supplier" : {
+          "name" : "Alu Rehab AS",
+          "id" : "b85c8c06-b776-4416-8fee-cab1223e75ae"
+        },
+        "media" : [ ],
+        "accessory" : false,
+        "sparePart" : true,
+        "main" : false
+      }
+    }, {
+      "_source" : {
+        "id" : "ef550fdd-c61c-4228-b66f-f2298d9591a7",
+        "title" : "Pute rygg sittemodul Netti Dynamic III HD Netti Stabil trekk 43x50 3D",
+        "articleName" : "Pute rygg sittemodul Netti Dynamic III HD Netti Stabil trekk 43x50 3D",
+        "seriesId" : "57cc563c-4287-4090-80f5-60a3a7a6d45b",
+        "hmsArtNr" : "181583",
+        "supplierRef" : "367207",
+        "attributes" : {
+          "compatibleWith" : {
+            "seriesIds" : [ "70f928c2-0ceb-469e-b5cf-9ac9093bf542", "00fbde2b-1280-408d-af3d-a950915d5acc", "487c7a7e-31b6-405b-852a-dbf505df5e10" ],
+            "productIds" : [ "fbf733f2-778f-4a53-923c-0bb190b7c112", "cd44f85f-32e4-4440-bc87-f485d386cefa", "f2c786aa-03f8-497f-875b-fca6ec0ead0a", "acffc28a-1357-45ee-9a85-ae4eb2a2de8d", "d8faaf7b-3b5d-4e91-ac08-b6e828c18670", "4c1ee78f-bc83-4977-965e-532b40c30bec" ]
+          }
+        },
+        "isoCategory" : "122292",
+        "supplier" : {
+          "name" : "Alu Rehab AS",
+          "id" : "b85c8c06-b776-4416-8fee-cab1223e75ae"
+        },
+        "media" : [ ],
+        "accessory" : false,
+        "sparePart" : true,
+        "main" : false
+      }
+    }, {
+      "_source" : {
+        "id" : "a9935f21-a65c-4b40-bca9-d4bbee7e3117",
+        "title" : "Benstøtte mrs Netti V/HD V.reg sb55cm hø 3D",
+        "articleName" : "Benstøtte mrs Netti V/HD V.reg sb55cm hø 3D",
+        "seriesId" : "8d3d82d6-c2f8-4a3d-9e11-9a9c3bd0e5f8",
+        "hmsArtNr" : "154658",
+        "supplierRef" : "29506",
+        "attributes" : {
+          "compatibleWith" : {
+            "seriesIds" : [ "70f928c2-0ceb-469e-b5cf-9ac9093bf542" ],
+            "productIds" : [ "d068f957-de6b-4e45-8416-48724c704055", "2f16d8f0-3c24-4539-a30e-1bba3f9831d6", "4455e733-3cf6-46cc-8954-3a4ed02a4348", "df1832c2-45d9-416a-a981-7f173c0e872d" ]
+          }
+        },
+        "isoCategory" : "122291",
+        "supplier" : {
+          "name" : "Alu Rehab AS",
+          "id" : "b85c8c06-b776-4416-8fee-cab1223e75ae"
+        },
+        "media" : [ ],
+        "accessory" : false,
+        "sparePart" : true,
+        "main" : false
+      }
+    }, {
+      "_source" : {
+        "id" : "6481074d-3ce7-41f1-b62e-2e7449fbd7c7",
+        "title" : "Benstøtte mrs Netti V/III/HD V.reg sb40cm ve 3D",
+        "articleName" : "Benstøtte mrs Netti V/III/HD V.reg sb40cm ve 3D",
+        "seriesId" : "130adaa9-83d5-45b3-8e80-93c0f4648722",
+        "hmsArtNr" : "154662",
+        "supplierRef" : "29510",
+        "attributes" : {
+          "compatibleWith" : {
+            "seriesIds" : [ "70f928c2-0ceb-469e-b5cf-9ac9093bf542" ],
+            "productIds" : [ "abf37e0b-eedc-416b-bc96-75653104942c", "3e654c13-f575-4352-9d0d-253dc2ac0d4b", "852f085d-5bf8-4ce5-b4ad-8eb510645e3b", "8979d398-7c39-48c8-8e74-aa046181e868", "ee74c509-4260-4441-bf84-ed427d866c46", "2005e140-5c04-410a-8402-acdf712cfb84" ]
+          }
+        },
+        "isoCategory" : "122291",
+        "supplier" : {
+          "name" : "Alu Rehab AS",
+          "id" : "b85c8c06-b776-4416-8fee-cab1223e75ae"
+        },
+        "media" : [ ],
+        "accessory" : false,
+        "sparePart" : true,
+        "main" : false
+      }
+    }, {
+      "_source" : {
+        "id" : "a3a55d6b-e011-47d0-80d9-523f4e30b2c7",
+        "title" : "Pute rygg sittemodul Netti Dynamic III HD Netti Stabil 43x50 3D",
+        "articleName" : "Pute rygg sittemodul Netti Dynamic III HD Netti Stabil 43x50 3D",
+        "seriesId" : "b72439dc-812d-41c7-b289-f040dd73699b",
+        "hmsArtNr" : "181488",
+        "supplierRef" : "367307",
+        "attributes" : {
+          "compatibleWith" : {
+            "seriesIds" : [ "00fbde2b-1280-408d-af3d-a950915d5acc", "70f928c2-0ceb-469e-b5cf-9ac9093bf542", "487c7a7e-31b6-405b-852a-dbf505df5e10" ],
+            "productIds" : [ "fbf733f2-778f-4a53-923c-0bb190b7c112", "cd44f85f-32e4-4440-bc87-f485d386cefa", "f2c786aa-03f8-497f-875b-fca6ec0ead0a", "acffc28a-1357-45ee-9a85-ae4eb2a2de8d", "d8faaf7b-3b5d-4e91-ac08-b6e828c18670", "4c1ee78f-bc83-4977-965e-532b40c30bec" ]
+          }
+        },
+        "isoCategory" : "122292",
+        "supplier" : {
+          "name" : "Alu Rehab AS",
+          "id" : "b85c8c06-b776-4416-8fee-cab1223e75ae"
+        },
+        "media" : [ ],
+        "accessory" : false,
+        "sparePart" : true,
+        "main" : false
+      }
+    }, {
+      "_source" : {
+        "id" : "5e33e526-6667-4fd1-a2fc-a79e49b5e873",
+        "title" : "Pute rygg sittemodul Netti Dynamic III HD Netti Stabil trekk 35x50 3D",
+        "articleName" : "Pute rygg sittemodul Netti Dynamic III HD Netti Stabil trekk 35x50 3D",
+        "seriesId" : "477c9a16-cb00-4212-bf45-52a2df9564f3",
+        "hmsArtNr" : "181577",
+        "supplierRef" : "367204",
+        "attributes" : {
+          "compatibleWith" : {
+            "seriesIds" : [ "00fbde2b-1280-408d-af3d-a950915d5acc", "70f928c2-0ceb-469e-b5cf-9ac9093bf542", "487c7a7e-31b6-405b-852a-dbf505df5e10" ],
+            "productIds" : [ "16e1095c-3784-4299-bda1-199eba55f12b", "1d813b7f-c143-43d2-a9cf-ddbe7bd759da", "defdd90c-dde1-4951-af63-ebce431dca55", "e2c156ae-6e33-45b2-b38b-f443d9ad30d2", "68a8a9b5-97b9-41b2-81be-1a0b9d8ab7b6" ]
+          }
+        },
+        "isoCategory" : "122292",
+        "supplier" : {
+          "name" : "Alu Rehab AS",
+          "id" : "b85c8c06-b776-4416-8fee-cab1223e75ae"
+        },
+        "media" : [ ],
+        "accessory" : false,
+        "sparePart" : true,
+        "main" : false
+      }
+    }, {
+      "_source" : {
+        "id" : "0c91cdf5-d78a-42fd-a60d-b177b75bb9d5",
+        "title" : "Pute rygg sittemodul Netti Dynamic III HD Netti Stabil trekk 50x50 3D",
+        "articleName" : "Pute rygg sittemodul Netti Dynamic III HD Netti Stabil trekk 50x50 3D",
+        "seriesId" : "29e0d37e-083e-49c1-b6cb-b61835f9b89f",
+        "hmsArtNr" : "181587",
+        "supplierRef" : "367209",
+        "attributes" : {
+          "compatibleWith" : {
+            "seriesIds" : [ "70f928c2-0ceb-469e-b5cf-9ac9093bf542", "00fbde2b-1280-408d-af3d-a950915d5acc", "487c7a7e-31b6-405b-852a-dbf505df5e10" ],
+            "productIds" : [ "d1d09f62-8f39-4aba-bdef-08078c80ee29", "5789114d-e218-42b3-b2a7-64f51b185e24", "8c1e20ae-7182-4eac-b23b-7c4a8a2d3c81", "cb5f312a-dcc7-481e-ba97-842256cb2b61", "2d6c5009-fee6-4b57-b265-9e8c7b13791a", "d157909f-0add-4aee-bc41-29d1d79c87cc", "dd92f307-5af0-4890-90e8-9bc5a5257791", "bb3e6016-4298-470b-afd8-902bba1dae1a" ]
+          }
+        },
+        "isoCategory" : "122292",
+        "supplier" : {
+          "name" : "Alu Rehab AS",
+          "id" : "b85c8c06-b776-4416-8fee-cab1223e75ae"
+        },
+        "media" : [ ],
+        "accessory" : false,
+        "sparePart" : true,
+        "main" : false
+      }
+    }, {
+      "_source" : {
+        "id" : "275e60c5-d1dc-4f48-bd39-faee9d333534",
+        "title" : "Pute rygg mrs Netti V/HD Trekk Netti Stabil sb55x50cm 3D",
+        "articleName" : "Pute rygg mrs Netti V/HD Trekk Netti Stabil sb55x50cm 3D",
+        "seriesId" : "09420cd9-2125-43c5-801c-fc58e8c8d1ee",
+        "hmsArtNr" : "181589",
+        "supplierRef" : "367210",
+        "attributes" : {
+          "compatibleWith" : {
+            "seriesIds" : [ "70f928c2-0ceb-469e-b5cf-9ac9093bf542" ],
+            "productIds" : [ "d068f957-de6b-4e45-8416-48724c704055", "2f16d8f0-3c24-4539-a30e-1bba3f9831d6", "4455e733-3cf6-46cc-8954-3a4ed02a4348", "df1832c2-45d9-416a-a981-7f173c0e872d" ]
+          }
+        },
+        "isoCategory" : "122292",
+        "supplier" : {
+          "name" : "Alu Rehab AS",
+          "id" : "b85c8c06-b776-4416-8fee-cab1223e75ae"
+        },
+        "media" : [ ],
+        "accessory" : false,
+        "sparePart" : true,
+        "main" : false
+      }
+    }, {
+      "_source" : {
+        "id" : "60dea438-dcd2-4c90-9793-ff4e0ca6741e",
+        "title" : "Armlene mrs Netti V/III/HD 39,5cm ve",
+        "articleName" : "Armlene mrs Netti V/III/HD 39,5cm ve",
+        "seriesId" : "746b7847-e7e7-4489-a739-4ece25719835",
+        "hmsArtNr" : "316174",
+        "supplierRef" : "94965",
+        "attributes" : {
+          "compatibleWith" : {
+            "seriesIds" : [ "00fbde2b-1280-408d-af3d-a950915d5acc", "70f928c2-0ceb-469e-b5cf-9ac9093bf542", "487c7a7e-31b6-405b-852a-dbf505df5e10" ],
+            "productIds" : [ "cd44f85f-32e4-4440-bc87-f485d386cefa", "2f16d8f0-3c24-4539-a30e-1bba3f9831d6", "5789114d-e218-42b3-b2a7-64f51b185e24", "dc66f82b-88c0-48d7-a583-5f4a374eca5f", "8c1e20ae-7182-4eac-b23b-7c4a8a2d3c81", "c3f9fe95-f12f-4f48-b4a2-dbe7219d8415", "3e654c13-f575-4352-9d0d-253dc2ac0d4b", "367f8b51-9de6-49b5-bd33-7924b9338410", "bb3e6016-4298-470b-afd8-902bba1dae1a", "f2c786aa-03f8-497f-875b-fca6ec0ead0a", "1d813b7f-c143-43d2-a9cf-ddbe7bd759da", "abf37e0b-eedc-416b-bc96-75653104942c", "0b1700fe-badc-4a8e-a910-c0b96ed24697", "e2c156ae-6e33-45b2-b38b-f443d9ad30d2", "ee74c509-4260-4441-bf84-ed427d866c46", "df1832c2-45d9-416a-a981-7f173c0e872d", "d8faaf7b-3b5d-4e91-ac08-b6e828c18670", "dad71eb6-340e-4282-8ade-ad15a0e3f7db", "68a8a9b5-97b9-41b2-81be-1a0b9d8ab7b6", "da4aad0f-0d49-43e2-8238-db23646675b3", "4455e733-3cf6-46cc-8954-3a4ed02a4348", "defdd90c-dde1-4951-af63-ebce431dca55", "852f085d-5bf8-4ce5-b4ad-8eb510645e3b", "477a37cf-c07f-4a44-9691-7b5d32f21298", "a15505ae-f269-4c59-bacd-077e7b0e175e", "acffc28a-1357-45ee-9a85-ae4eb2a2de8d", "ff3ca98d-e9a6-42f5-9fbb-b4d5c791d0f4", "dd92f307-5af0-4890-90e8-9bc5a5257791", "3365320d-5803-4026-bf43-822c309c6cd2", "9e03e79e-7ca2-4702-9115-4f381b41707f", "d1d09f62-8f39-4aba-bdef-08078c80ee29", "fbf733f2-778f-4a53-923c-0bb190b7c112", "55e14709-c75c-45ea-ab82-8931839e3bc0", "cb5f312a-dcc7-481e-ba97-842256cb2b61", "2d6c5009-fee6-4b57-b265-9e8c7b13791a", "d3ec6750-5276-4d38-a9a9-67273ee66ce0", "fd9d2675-f237-4d4e-9491-9b2dff08465b", "2005e140-5c04-410a-8402-acdf712cfb84" ]
+          }
+        },
+        "isoCategory" : "122291",
+        "supplier" : {
+          "name" : "Alu Rehab AS",
+          "id" : "b85c8c06-b776-4416-8fee-cab1223e75ae"
+        },
+        "media" : [ ],
+        "accessory" : false,
+        "sparePart" : true,
+        "main" : false
+      }
+    }, {
+      "_source" : {
+        "id" : "da0a4b21-2fc6-4672-ae81-6197099d1360",
+        "title" : "Benstøtte mrs Netti V V.reg sb52,5cm ve 3D",
+        "articleName" : "Benstøtte mrs Netti V V.reg sb52,5cm ve 3D",
+        "seriesId" : "3f158191-ef45-4a42-b10f-8728fe00b23c",
+        "hmsArtNr" : "316220",
+        "supplierRef" : "94862",
+        "attributes" : {
+          "compatibleWith" : {
+            "seriesIds" : [ "70f928c2-0ceb-469e-b5cf-9ac9093bf542" ],
+            "productIds" : [ "c085542b-6665-426b-aec2-1d218ea8c470" ]
+          }
+        },
+        "isoCategory" : "122291",
+        "supplier" : {
+          "name" : "Alu Rehab AS",
+          "id" : "b85c8c06-b776-4416-8fee-cab1223e75ae"
+        },
+        "media" : [ ],
+        "accessory" : false,
+        "sparePart" : true,
+        "main" : false
+      }
+    }, {
+      "_source" : {
+        "id" : "f49c456e-3078-4977-9e9e-9df6de4e05ab",
+        "title" : "Pute sete mrs Netti V/III/HD Netti Uno sb50x50 3D",
+        "articleName" : "Pute sete mrs Netti V/III/HD Netti Uno sb50x50 3D",
+        "seriesId" : "c4f3317f-8654-4c5c-9026-62e7e9300a9c",
+        "hmsArtNr" : "154521",
+        "supplierRef" : "171826",
+        "attributes" : {
+          "compatibleWith" : {
+            "seriesIds" : [ "00fbde2b-1280-408d-af3d-a950915d5acc", "70f928c2-0ceb-469e-b5cf-9ac9093bf542", "487c7a7e-31b6-405b-852a-dbf505df5e10" ],
+            "productIds" : [ "d1d09f62-8f39-4aba-bdef-08078c80ee29", "5789114d-e218-42b3-b2a7-64f51b185e24", "8c1e20ae-7182-4eac-b23b-7c4a8a2d3c81", "cb5f312a-dcc7-481e-ba97-842256cb2b61", "2d6c5009-fee6-4b57-b265-9e8c7b13791a", "d157909f-0add-4aee-bc41-29d1d79c87cc", "dd92f307-5af0-4890-90e8-9bc5a5257791", "bb3e6016-4298-470b-afd8-902bba1dae1a" ]
+          }
+        },
+        "isoCategory" : "122292",
+        "supplier" : {
+          "name" : "Alu Rehab AS",
+          "id" : "b85c8c06-b776-4416-8fee-cab1223e75ae"
+        },
+        "media" : [ ],
+        "accessory" : true,
+        "sparePart" : false,
+        "main" : false
+      }
+    }, {
+      "_source" : {
+        "id" : "25f2dcd3-597c-4939-a328-7deb37419f91",
+        "title" : "Pute rygg mrs Netti V Netti Stabil sb52,5x50cm 3D",
+        "articleName" : "Pute rygg mrs Netti V Netti Stabil sb52,5x50cm 3D",
+        "seriesId" : "b4d30213-e8c9-4027-a89c-465166514690",
+        "hmsArtNr" : "316259",
+        "supplierRef" : "367316",
+        "attributes" : {
+          "compatibleWith" : {
+            "seriesIds" : [ "70f928c2-0ceb-469e-b5cf-9ac9093bf542" ],
+            "productIds" : [ "c085542b-6665-426b-aec2-1d218ea8c470" ]
+          }
+        },
+        "isoCategory" : "122292",
+        "supplier" : {
+          "name" : "Alu Rehab AS",
+          "id" : "b85c8c06-b776-4416-8fee-cab1223e75ae"
+        },
+        "media" : [ ],
+        "accessory" : true,
+        "sparePart" : false,
+        "main" : false
+      }
+    }, {
+      "_source" : {
+        "id" : "316c3cdb-8e7c-4e9f-bc08-22425e46a2a0",
+        "title" : "Pute sete mrs Netti V/III/HD Netti Uno sb40x45 3D",
+        "articleName" : "Pute sete mrs Netti V/III/HD Netti Uno sb40x45 3D",
+        "seriesId" : "21af3f41-fd68-4f66-aa24-fddb86eb57bf",
+        "hmsArtNr" : "154505",
+        "supplierRef" : "171813",
+        "attributes" : {
+          "compatibleWith" : {
+            "seriesIds" : [ "00fbde2b-1280-408d-af3d-a950915d5acc", "70f928c2-0ceb-469e-b5cf-9ac9093bf542", "487c7a7e-31b6-405b-852a-dbf505df5e10" ],
+            "productIds" : [ "abf37e0b-eedc-416b-bc96-75653104942c", "3e654c13-f575-4352-9d0d-253dc2ac0d4b", "852f085d-5bf8-4ce5-b4ad-8eb510645e3b", "8979d398-7c39-48c8-8e74-aa046181e868", "ee74c509-4260-4441-bf84-ed427d866c46", "2005e140-5c04-410a-8402-acdf712cfb84" ]
+          }
+        },
+        "isoCategory" : "122292",
+        "supplier" : {
+          "name" : "Alu Rehab AS",
+          "id" : "b85c8c06-b776-4416-8fee-cab1223e75ae"
+        },
+        "media" : [ ],
+        "accessory" : true,
+        "sparePart" : false,
+        "main" : false
+      }
+    }, {
+      "_source" : {
+        "id" : "50e68dd5-69a7-458a-aa7c-d7e2d01aacdd",
+        "title" : "Pute rygg mrs Netti V Netti Stabil sb47,5x50cm 3D",
+        "articleName" : "Pute rygg mrs Netti V Netti Stabil sb47,5x50cm 3D",
+        "seriesId" : "09c1848e-8344-4f5d-8650-144970b39408",
+        "hmsArtNr" : "316257",
+        "supplierRef" : "367315",
+        "attributes" : {
+          "compatibleWith" : {
+            "seriesIds" : [ "70f928c2-0ceb-469e-b5cf-9ac9093bf542" ],
+            "productIds" : [ "7fdddbcf-b5f3-417c-a4bb-2fb9358786c4" ]
+          }
+        },
+        "isoCategory" : "122292",
+        "supplier" : {
+          "name" : "Alu Rehab AS",
+          "id" : "b85c8c06-b776-4416-8fee-cab1223e75ae"
+        },
+        "media" : [ ],
+        "accessory" : true,
+        "sparePart" : false,
+        "main" : false
+      }
+    }, {
+      "_source" : {
+        "id" : "b91e40e5-65d5-42ce-9721-311677c3aed2",
+        "title" : "Pute sete mrs Netti V/III/HD Netti Uno sb43x50 3D",
+        "articleName" : "Pute sete mrs Netti V/III/HD Netti Uno sb43x50 3D",
+        "seriesId" : "23cdbfbe-a5cb-4aec-aaf4-d901d6c61749",
+        "hmsArtNr" : "154511",
+        "supplierRef" : "171818",
+        "attributes" : {
+          "compatibleWith" : {
+            "seriesIds" : [ "70f928c2-0ceb-469e-b5cf-9ac9093bf542" ],
+            "productIds" : [ "fbf733f2-778f-4a53-923c-0bb190b7c112", "cd44f85f-32e4-4440-bc87-f485d386cefa", "f2c786aa-03f8-497f-875b-fca6ec0ead0a", "acffc28a-1357-45ee-9a85-ae4eb2a2de8d", "d8faaf7b-3b5d-4e91-ac08-b6e828c18670", "4c1ee78f-bc83-4977-965e-532b40c30bec" ]
+          }
+        },
+        "isoCategory" : "122292",
+        "supplier" : {
+          "name" : "Alu Rehab AS",
+          "id" : "b85c8c06-b776-4416-8fee-cab1223e75ae"
+        },
+        "media" : [ ],
+        "accessory" : true,
+        "sparePart" : false,
+        "main" : false
+      }
+    }, {
+      "_source" : {
+        "id" : "03d50d8f-38c6-413d-a274-33e510e43932",
+        "title" : "Pute rygg mrs Netti V Trekk Netti Stabil sb47,5x50cm 3D",
+        "articleName" : "Pute rygg mrs Netti V Trekk Netti Stabil sb47,5x50cm 3D",
+        "seriesId" : "800df48c-cdf1-483f-afc7-207fc9efd91d",
+        "hmsArtNr" : "316267",
+        "supplierRef" : "367215",
+        "attributes" : {
+          "compatibleWith" : {
+            "seriesIds" : [ "70f928c2-0ceb-469e-b5cf-9ac9093bf542" ],
+            "productIds" : [ "7fdddbcf-b5f3-417c-a4bb-2fb9358786c4" ]
+          }
+        },
+        "isoCategory" : "122292",
+        "supplier" : {
+          "name" : "Alu Rehab AS",
+          "id" : "b85c8c06-b776-4416-8fee-cab1223e75ae"
+        },
+        "media" : [ ],
+        "accessory" : true,
+        "sparePart" : false,
+        "main" : false
+      }
+    }, {
+      "_source" : {
+        "id" : "fd25a0ff-5fe5-481d-85e9-9956204246fc",
+        "title" : "Pute rygg mrs Netti V Trekk Netti Stabil sb52,5x50cm 3D",
+        "articleName" : "Pute rygg mrs Netti V Trekk Netti Stabil sb52,5x50cm 3D",
+        "seriesId" : "5fbe3bea-b9fd-42ce-a58a-e2bd0bebf84d",
+        "hmsArtNr" : "316269",
+        "supplierRef" : "367216",
+        "attributes" : {
+          "compatibleWith" : {
+            "seriesIds" : [ "70f928c2-0ceb-469e-b5cf-9ac9093bf542" ],
+            "productIds" : [ "c085542b-6665-426b-aec2-1d218ea8c470" ]
+          }
+        },
+        "isoCategory" : "122292",
+        "supplier" : {
+          "name" : "Alu Rehab AS",
+          "id" : "b85c8c06-b776-4416-8fee-cab1223e75ae"
+        },
+        "media" : [ ],
+        "accessory" : true,
+        "sparePart" : false,
+        "main" : false
+      }
+    } ]
+  },
+  "produkter" : [ {
+    "id" : "8412c120-e2f3-4b58-b466-6f0b0e1608d4",
+    "title" : "Pad armlene sittemodul Netti Dynamic III HD 385x58mm pu",
+    "articleName" : "Pad armlene sittemodul Netti Dynamic III HD 385x58mm pu",
+    "seriesId" : "2c6daf15-220c-43a6-a0cd-09d15f8db791",
+    "hmsArtNr" : "065633",
+    "supplierRef" : "20835",
+    "attributes" : {
+      "compatibleWith" : {
+        "seriesIds" : [ "00fbde2b-1280-408d-af3d-a950915d5acc", "70f928c2-0ceb-469e-b5cf-9ac9093bf542", "487c7a7e-31b6-405b-852a-dbf505df5e10" ],
+        "productIds" : [ "25a574f2-eea3-4d2d-85f7-eaf09dd62ec9", "2f16d8f0-3c24-4539-a30e-1bba3f9831d6", "5789114d-e218-42b3-b2a7-64f51b185e24", "cd44f85f-32e4-4440-bc87-f485d386cefa", "dc66f82b-88c0-48d7-a583-5f4a374eca5f", "8c1e20ae-7182-4eac-b23b-7c4a8a2d3c81", "c3f9fe95-f12f-4f48-b4a2-dbe7219d8415", "3e654c13-f575-4352-9d0d-253dc2ac0d4b", "8979d398-7c39-48c8-8e74-aa046181e868", "367f8b51-9de6-49b5-bd33-7924b9338410", "bb3e6016-4298-470b-afd8-902bba1dae1a", "d068f957-de6b-4e45-8416-48724c704055", "1d813b7f-c143-43d2-a9cf-ddbe7bd759da", "abf37e0b-eedc-416b-bc96-75653104942c", "0b1700fe-badc-4a8e-a910-c0b96ed24697", "e2c156ae-6e33-45b2-b38b-f443d9ad30d2", "c085542b-6665-426b-aec2-1d218ea8c470", "7fdddbcf-b5f3-417c-a4bb-2fb9358786c4", "d8faaf7b-3b5d-4e91-ac08-b6e828c18670", "df1832c2-45d9-416a-a981-7f173c0e872d", "dad71eb6-340e-4282-8ade-ad15a0e3f7db", "68a8a9b5-97b9-41b2-81be-1a0b9d8ab7b6", "da4aad0f-0d49-43e2-8238-db23646675b3", "16e1095c-3784-4299-bda1-199eba55f12b", "defdd90c-dde1-4951-af63-ebce431dca55", "a00934e0-e755-49de-baae-d9260294121b", "852f085d-5bf8-4ce5-b4ad-8eb510645e3b", "477a37cf-c07f-4a44-9691-7b5d32f21298", "a15505ae-f269-4c59-bacd-077e7b0e175e", "acffc28a-1357-45ee-9a85-ae4eb2a2de8d", "ff3ca98d-e9a6-42f5-9fbb-b4d5c791d0f4", "3365320d-5803-4026-bf43-822c309c6cd2", "9e03e79e-7ca2-4702-9115-4f381b41707f", "d1d09f62-8f39-4aba-bdef-08078c80ee29", "fbf733f2-778f-4a53-923c-0bb190b7c112", "cb5f312a-dcc7-481e-ba97-842256cb2b61", "2d6c5009-fee6-4b57-b265-9e8c7b13791a", "d157909f-0add-4aee-bc41-29d1d79c87cc", "2005e140-5c04-410a-8402-acdf712cfb84", "fd9d2675-f237-4d4e-9491-9b2dff08465b", "4c1ee78f-bc83-4977-965e-532b40c30bec" ]
+      }
+    },
+    "isoCategory" : "122291",
+    "supplier" : {
+      "name" : "Alu Rehab AS",
+      "id" : "b85c8c06-b776-4416-8fee-cab1223e75ae"
+    },
+    "media" : [ {
+      "uri" : "register/2c6daf15-220c-43a6-a0cd-09d15f8db791/2d23fa50-3221-4dda-9f50-6a649d14efdc.jpg",
+      "priority" : 1,
+      "type" : "IMAGE",
+      "text" : "IMG_4539",
+      "source" : "REGISTER"
+    } ],
+    "accessory" : true,
+    "sparePart" : true,
+    "main" : false
+  }, {
+    "id" : "3b4ed9a0-5fa3-4ec3-97e3-aff346f3fea2",
+    "title" : "Pute rygg sittemodul Netti Dynamic III HD Netti Stabil 45x50 3D",
+    "articleName" : "Pute rygg sittemodul Netti Dynamic III HD Netti Stabil 45x50 3D",
+    "seriesId" : "65bc6899-e27a-4ea6-b00c-a6b483e19c33",
+    "hmsArtNr" : "181490",
+    "supplierRef" : "367308",
+    "attributes" : {
+      "compatibleWith" : {
+        "seriesIds" : [ "70f928c2-0ceb-469e-b5cf-9ac9093bf542", "00fbde2b-1280-408d-af3d-a950915d5acc", "487c7a7e-31b6-405b-852a-dbf505df5e10" ],
+        "productIds" : [ "25a574f2-eea3-4d2d-85f7-eaf09dd62ec9", "c3f9fe95-f12f-4f48-b4a2-dbe7219d8415", "0b1700fe-badc-4a8e-a910-c0b96ed24697", "477a37cf-c07f-4a44-9691-7b5d32f21298", "a15505ae-f269-4c59-bacd-077e7b0e175e", "367f8b51-9de6-49b5-bd33-7924b9338410", "d3ec6750-5276-4d38-a9a9-67273ee66ce0", "dad71eb6-340e-4282-8ade-ad15a0e3f7db" ]
+      }
+    },
+    "isoCategory" : "122292",
+    "supplier" : {
+      "name" : "Alu Rehab AS",
+      "id" : "b85c8c06-b776-4416-8fee-cab1223e75ae"
+    },
+    "media" : [ ],
+    "accessory" : false,
+    "sparePart" : true,
+    "main" : false
+  }, {
+    "id" : "d4a7fa4f-3b33-45d5-9362-ad4b07c06008",
+    "title" : "Armlene mrs Netti V hø",
+    "articleName" : "Armlene mrs Netti V hø",
+    "seriesId" : "24ac5848-317c-4a5e-8725-de4850e8967d",
+    "hmsArtNr" : "316171",
+    "supplierRef" : "93727",
+    "attributes" : {
+      "compatibleWith" : {
+        "seriesIds" : [ "70f928c2-0ceb-469e-b5cf-9ac9093bf542" ],
+        "productIds" : [ "d068f957-de6b-4e45-8416-48724c704055", "16e1095c-3784-4299-bda1-199eba55f12b", "25a574f2-eea3-4d2d-85f7-eaf09dd62ec9", "a00934e0-e755-49de-baae-d9260294121b", "8979d398-7c39-48c8-8e74-aa046181e868", "d157909f-0add-4aee-bc41-29d1d79c87cc", "c085542b-6665-426b-aec2-1d218ea8c470", "7fdddbcf-b5f3-417c-a4bb-2fb9358786c4", "4c1ee78f-bc83-4977-965e-532b40c30bec" ]
+      }
+    },
+    "isoCategory" : "122291",
+    "supplier" : {
+      "name" : "Alu Rehab AS",
+      "id" : "b85c8c06-b776-4416-8fee-cab1223e75ae"
+    },
+    "media" : [ ],
+    "accessory" : false,
+    "sparePart" : true,
+    "main" : false
+  }, {
+    "id" : "7ef88e60-7187-4976-9602-903fb66a0f11",
+    "title" : "Rygg sittemodul Netti Dynamic III HD kjørehåndtak 300mm",
+    "articleName" : "Rygg sittemodul Netti Dynamic III HD kjørehåndtak 300mm",
+    "seriesId" : "4efcedd7-3e71-4120-9bca-9c8f2d89cadf",
+    "hmsArtNr" : "139069",
+    "supplierRef" : "21754",
+    "attributes" : {
+      "compatibleWith" : {
+        "seriesIds" : [ "70f928c2-0ceb-469e-b5cf-9ac9093bf542", "00fbde2b-1280-408d-af3d-a950915d5acc", "30bb6584-6dc6-491b-aeb2-967f72b6008a", "98932fbe-7760-45f4-b8b8-91fc44ab46ad", "f732dd83-0e38-4792-abf1-f7a8ee988ed6", "487c7a7e-31b6-405b-852a-dbf505df5e10" ],
+        "productIds" : [ "25a574f2-eea3-4d2d-85f7-eaf09dd62ec9", "cd44f85f-32e4-4440-bc87-f485d386cefa", "dc66f82b-88c0-48d7-a583-5f4a374eca5f", "8c1e20ae-7182-4eac-b23b-7c4a8a2d3c81", "3e654c13-f575-4352-9d0d-253dc2ac0d4b", "8979d398-7c39-48c8-8e74-aa046181e868", "367f8b51-9de6-49b5-bd33-7924b9338410", "d068f957-de6b-4e45-8416-48724c704055", "f2c786aa-03f8-497f-875b-fca6ec0ead0a", "1d813b7f-c143-43d2-a9cf-ddbe7bd759da", "abf37e0b-eedc-416b-bc96-75653104942c", "0b1700fe-badc-4a8e-a910-c0b96ed24697", "e2c156ae-6e33-45b2-b38b-f443d9ad30d2", "ee74c509-4260-4441-bf84-ed427d866c46", "c085542b-6665-426b-aec2-1d218ea8c470", "7fdddbcf-b5f3-417c-a4bb-2fb9358786c4", "d8faaf7b-3b5d-4e91-ac08-b6e828c18670", "dad71eb6-340e-4282-8ade-ad15a0e3f7db", "68a8a9b5-97b9-41b2-81be-1a0b9d8ab7b6", "16e1095c-3784-4299-bda1-199eba55f12b", "4455e733-3cf6-46cc-8954-3a4ed02a4348", "defdd90c-dde1-4951-af63-ebce431dca55", "a00934e0-e755-49de-baae-d9260294121b", "852f085d-5bf8-4ce5-b4ad-8eb510645e3b", "477a37cf-c07f-4a44-9691-7b5d32f21298", "acffc28a-1357-45ee-9a85-ae4eb2a2de8d", "ff3ca98d-e9a6-42f5-9fbb-b4d5c791d0f4", "dd92f307-5af0-4890-90e8-9bc5a5257791", "3365320d-5803-4026-bf43-822c309c6cd2", "9e03e79e-7ca2-4702-9115-4f381b41707f", "d1d09f62-8f39-4aba-bdef-08078c80ee29", "fbf733f2-778f-4a53-923c-0bb190b7c112", "55e14709-c75c-45ea-ab82-8931839e3bc0", "cb5f312a-dcc7-481e-ba97-842256cb2b61", "2d6c5009-fee6-4b57-b265-9e8c7b13791a", "d3ec6750-5276-4d38-a9a9-67273ee66ce0", "d157909f-0add-4aee-bc41-29d1d79c87cc", "2005e140-5c04-410a-8402-acdf712cfb84", "4c1ee78f-bc83-4977-965e-532b40c30bec" ]
+      }
+    },
+    "isoCategory" : "122292",
+    "supplier" : {
+      "name" : "Alu Rehab AS",
+      "id" : "b85c8c06-b776-4416-8fee-cab1223e75ae"
+    },
+    "media" : [ {
+      "uri" : "register/4efcedd7-3e71-4120-9bca-9c8f2d89cadf/8819041c-021c-4989-92cf-32ec12bdd8df.jpg",
+      "priority" : 1,
+      "type" : "IMAGE",
+      "text" : "IMG_4538",
+      "source" : "REGISTER"
+    } ],
+    "accessory" : true,
+    "sparePart" : true,
+    "main" : false
+  }, {
+    "id" : "a0a79116-8939-4b85-b3a3-2d053cce9a6a",
+    "title" : "Hodestøtte mrs Netti V/III/HD D 3D",
+    "articleName" : "Hodestøtte mrs Netti V/III/HD D 3D",
+    "seriesId" : "4e601484-db27-4ca9-a332-78e15d2f2c7b",
+    "hmsArtNr" : "181422",
+    "supplierRef" : "81024",
+    "attributes" : {
+      "compatibleWith" : {
+        "seriesIds" : [ "00fbde2b-1280-408d-af3d-a950915d5acc", "70f928c2-0ceb-469e-b5cf-9ac9093bf542", "a8e8cef3-6d49-49fd-9a62-2aa2c1aec483", "487c7a7e-31b6-405b-852a-dbf505df5e10" ],
+        "productIds" : [ "25a574f2-eea3-4d2d-85f7-eaf09dd62ec9", "2f16d8f0-3c24-4539-a30e-1bba3f9831d6", "5789114d-e218-42b3-b2a7-64f51b185e24", "cd44f85f-32e4-4440-bc87-f485d386cefa", "dc66f82b-88c0-48d7-a583-5f4a374eca5f", "8c1e20ae-7182-4eac-b23b-7c4a8a2d3c81", "c3f9fe95-f12f-4f48-b4a2-dbe7219d8415", "3e654c13-f575-4352-9d0d-253dc2ac0d4b", "8979d398-7c39-48c8-8e74-aa046181e868", "367f8b51-9de6-49b5-bd33-7924b9338410", "bb3e6016-4298-470b-afd8-902bba1dae1a", "d068f957-de6b-4e45-8416-48724c704055", "f2c786aa-03f8-497f-875b-fca6ec0ead0a", "1d813b7f-c143-43d2-a9cf-ddbe7bd759da", "abf37e0b-eedc-416b-bc96-75653104942c", "0b1700fe-badc-4a8e-a910-c0b96ed24697", "e2c156ae-6e33-45b2-b38b-f443d9ad30d2", "ee74c509-4260-4441-bf84-ed427d866c46", "c085542b-6665-426b-aec2-1d218ea8c470", "7fdddbcf-b5f3-417c-a4bb-2fb9358786c4", "d8faaf7b-3b5d-4e91-ac08-b6e828c18670", "df1832c2-45d9-416a-a981-7f173c0e872d", "dad71eb6-340e-4282-8ade-ad15a0e3f7db", "68a8a9b5-97b9-41b2-81be-1a0b9d8ab7b6", "da4aad0f-0d49-43e2-8238-db23646675b3", "16e1095c-3784-4299-bda1-199eba55f12b", "4455e733-3cf6-46cc-8954-3a4ed02a4348", "defdd90c-dde1-4951-af63-ebce431dca55", "a00934e0-e755-49de-baae-d9260294121b", "852f085d-5bf8-4ce5-b4ad-8eb510645e3b", "477a37cf-c07f-4a44-9691-7b5d32f21298", "a15505ae-f269-4c59-bacd-077e7b0e175e", "acffc28a-1357-45ee-9a85-ae4eb2a2de8d", "ff3ca98d-e9a6-42f5-9fbb-b4d5c791d0f4", "dd92f307-5af0-4890-90e8-9bc5a5257791", "3365320d-5803-4026-bf43-822c309c6cd2", "9e03e79e-7ca2-4702-9115-4f381b41707f", "d1d09f62-8f39-4aba-bdef-08078c80ee29", "fbf733f2-778f-4a53-923c-0bb190b7c112", "55e14709-c75c-45ea-ab82-8931839e3bc0", "cb5f312a-dcc7-481e-ba97-842256cb2b61", "2d6c5009-fee6-4b57-b265-9e8c7b13791a", "d3ec6750-5276-4d38-a9a9-67273ee66ce0", "d157909f-0add-4aee-bc41-29d1d79c87cc", "2005e140-5c04-410a-8402-acdf712cfb84", "fd9d2675-f237-4d4e-9491-9b2dff08465b", "4c1ee78f-bc83-4977-965e-532b40c30bec" ]
+      }
+    },
+    "isoCategory" : "122292",
+    "supplier" : {
+      "name" : "Alu Rehab AS",
+      "id" : "b85c8c06-b776-4416-8fee-cab1223e75ae"
+    },
+    "media" : [ ],
+    "accessory" : true,
+    "sparePart" : true,
+    "main" : false
+  }, {
+    "id" : "96185aee-b590-4e1d-a3ac-edc7fc361ff0",
+    "title" : "Hjul mrs Netti V Svinghjul m/gaffel 7\"",
+    "articleName" : "Hjul mrs Netti V Svinghjul m/gaffel 7\"",
+    "seriesId" : "c41f61ac-48ad-49d4-8090-711e89b23f7b",
+    "hmsArtNr" : "268002",
+    "supplierRef" : "90102",
+    "attributes" : {
+      "compatibleWith" : {
+        "seriesIds" : [ "70f928c2-0ceb-469e-b5cf-9ac9093bf542" ],
+        "productIds" : [ "d068f957-de6b-4e45-8416-48724c704055", "16e1095c-3784-4299-bda1-199eba55f12b", "25a574f2-eea3-4d2d-85f7-eaf09dd62ec9", "a00934e0-e755-49de-baae-d9260294121b", "8979d398-7c39-48c8-8e74-aa046181e868", "d157909f-0add-4aee-bc41-29d1d79c87cc", "c085542b-6665-426b-aec2-1d218ea8c470", "7fdddbcf-b5f3-417c-a4bb-2fb9358786c4", "4c1ee78f-bc83-4977-965e-532b40c30bec" ]
+      }
+    },
+    "isoCategory" : "122293",
+    "supplier" : {
+      "name" : "Alu Rehab AS",
+      "id" : "b85c8c06-b776-4416-8fee-cab1223e75ae"
+    },
+    "media" : [ ],
+    "accessory" : false,
+    "sparePart" : true,
+    "main" : false
+  }, {
+    "id" : "41bfd6a1-730a-4a12-b4a1-4e0d2239a48f",
+    "title" : "Hjul mrs Netti V/III/HD Svinghjul 7\" 175x33mm",
+    "articleName" : "Hjul mrs Netti V/III/HD Svinghjul 7\" 175x33mm",
+    "seriesId" : "68c63f40-09d2-46f6-8438-cca691529f52",
+    "hmsArtNr" : "277498",
+    "supplierRef" : "86135",
+    "attributes" : {
+      "compatibleWith" : {
+        "seriesIds" : [ "00fbde2b-1280-408d-af3d-a950915d5acc", "70f928c2-0ceb-469e-b5cf-9ac9093bf542", "487c7a7e-31b6-405b-852a-dbf505df5e10" ],
+        "productIds" : [ "25a574f2-eea3-4d2d-85f7-eaf09dd62ec9", "2f16d8f0-3c24-4539-a30e-1bba3f9831d6", "5789114d-e218-42b3-b2a7-64f51b185e24", "cd44f85f-32e4-4440-bc87-f485d386cefa", "dc66f82b-88c0-48d7-a583-5f4a374eca5f", "8c1e20ae-7182-4eac-b23b-7c4a8a2d3c81", "c3f9fe95-f12f-4f48-b4a2-dbe7219d8415", "3e654c13-f575-4352-9d0d-253dc2ac0d4b", "8979d398-7c39-48c8-8e74-aa046181e868", "367f8b51-9de6-49b5-bd33-7924b9338410", "bb3e6016-4298-470b-afd8-902bba1dae1a", "d068f957-de6b-4e45-8416-48724c704055", "1d813b7f-c143-43d2-a9cf-ddbe7bd759da", "abf37e0b-eedc-416b-bc96-75653104942c", "0b1700fe-badc-4a8e-a910-c0b96ed24697", "e2c156ae-6e33-45b2-b38b-f443d9ad30d2", "c085542b-6665-426b-aec2-1d218ea8c470", "7fdddbcf-b5f3-417c-a4bb-2fb9358786c4", "d8faaf7b-3b5d-4e91-ac08-b6e828c18670", "df1832c2-45d9-416a-a981-7f173c0e872d", "dad71eb6-340e-4282-8ade-ad15a0e3f7db", "68a8a9b5-97b9-41b2-81be-1a0b9d8ab7b6", "da4aad0f-0d49-43e2-8238-db23646675b3", "16e1095c-3784-4299-bda1-199eba55f12b", "defdd90c-dde1-4951-af63-ebce431dca55", "a00934e0-e755-49de-baae-d9260294121b", "852f085d-5bf8-4ce5-b4ad-8eb510645e3b", "477a37cf-c07f-4a44-9691-7b5d32f21298", "a15505ae-f269-4c59-bacd-077e7b0e175e", "acffc28a-1357-45ee-9a85-ae4eb2a2de8d", "ff3ca98d-e9a6-42f5-9fbb-b4d5c791d0f4", "3365320d-5803-4026-bf43-822c309c6cd2", "9e03e79e-7ca2-4702-9115-4f381b41707f", "d1d09f62-8f39-4aba-bdef-08078c80ee29", "fbf733f2-778f-4a53-923c-0bb190b7c112", "cb5f312a-dcc7-481e-ba97-842256cb2b61", "2d6c5009-fee6-4b57-b265-9e8c7b13791a", "d157909f-0add-4aee-bc41-29d1d79c87cc", "2005e140-5c04-410a-8402-acdf712cfb84", "fd9d2675-f237-4d4e-9491-9b2dff08465b", "4c1ee78f-bc83-4977-965e-532b40c30bec" ]
+      }
+    },
+    "isoCategory" : "122293",
+    "supplier" : {
+      "name" : "Alu Rehab AS",
+      "id" : "b85c8c06-b776-4416-8fee-cab1223e75ae"
+    },
+    "media" : [ ],
+    "accessory" : false,
+    "sparePart" : true,
+    "main" : false
+  }, {
+    "id" : "3154c526-66e1-472e-8778-2cbdeb749090",
+    "title" : "Rygg velcro mrs Netti V/III/HD 350-550mm",
+    "articleName" : "Rygg velcro mrs Netti V/III/HD 350-550mm",
+    "seriesId" : "a52d871e-f1c0-4eb0-9d2b-200f981a79b8",
+    "hmsArtNr" : "316298",
+    "supplierRef" : "90811",
+    "attributes" : {
+      "compatibleWith" : {
+        "seriesIds" : [ "00fbde2b-1280-408d-af3d-a950915d5acc", "70f928c2-0ceb-469e-b5cf-9ac9093bf542", "487c7a7e-31b6-405b-852a-dbf505df5e10" ],
+        "productIds" : [ "16e1095c-3784-4299-bda1-199eba55f12b", "25a574f2-eea3-4d2d-85f7-eaf09dd62ec9", "8c1e20ae-7182-4eac-b23b-7c4a8a2d3c81", "4455e733-3cf6-46cc-8954-3a4ed02a4348", "defdd90c-dde1-4951-af63-ebce431dca55", "a00934e0-e755-49de-baae-d9260294121b", "852f085d-5bf8-4ce5-b4ad-8eb510645e3b", "477a37cf-c07f-4a44-9691-7b5d32f21298", "8979d398-7c39-48c8-8e74-aa046181e868", "dd92f307-5af0-4890-90e8-9bc5a5257791", "3365320d-5803-4026-bf43-822c309c6cd2", "d068f957-de6b-4e45-8416-48724c704055", "fbf733f2-778f-4a53-923c-0bb190b7c112", "f2c786aa-03f8-497f-875b-fca6ec0ead0a", "55e14709-c75c-45ea-ab82-8931839e3bc0", "ee74c509-4260-4441-bf84-ed427d866c46", "d3ec6750-5276-4d38-a9a9-67273ee66ce0", "d157909f-0add-4aee-bc41-29d1d79c87cc", "c085542b-6665-426b-aec2-1d218ea8c470", "7fdddbcf-b5f3-417c-a4bb-2fb9358786c4", "4c1ee78f-bc83-4977-965e-532b40c30bec" ]
+      }
+    },
+    "isoCategory" : "122292",
+    "supplier" : {
+      "name" : "Alu Rehab AS",
+      "id" : "b85c8c06-b776-4416-8fee-cab1223e75ae"
+    },
+    "media" : [ {
+      "uri" : "register/a52d871e-f1c0-4eb0-9d2b-200f981a79b8/7cc49089-2c73-47bd-9bc5-235a873ef07c.jpg",
+      "priority" : 1,
+      "type" : "IMAGE",
+      "text" : "IMG_4528",
+      "source" : "REGISTER"
+    } ],
+    "accessory" : false,
+    "sparePart" : true,
+    "main" : false
+  }, {
+    "id" : "53020515-5a9f-4624-b89c-88b1248dc9ce",
+    "title" : "Hjul mrs Netti V/III/HD Drivhjul trommelbrems 24\" svart nav",
+    "articleName" : "Hjul mrs Netti V/III/HD Drivhjul trommelbrems 24\" svart nav",
+    "seriesId" : "ffc911cd-1928-45e0-9f11-590217d47b37",
+    "hmsArtNr" : "316347",
+    "supplierRef" : "93285",
+    "attributes" : {
+      "compatibleWith" : {
+        "seriesIds" : [ "00fbde2b-1280-408d-af3d-a950915d5acc", "70f928c2-0ceb-469e-b5cf-9ac9093bf542", "5838a4af-0ff2-4552-a3cc-438f70c03d25", "98932fbe-7760-45f4-b8b8-91fc44ab46ad", "f732dd83-0e38-4792-abf1-f7a8ee988ed6", "487c7a7e-31b6-405b-852a-dbf505df5e10" ],
+        "productIds" : [ "25a574f2-eea3-4d2d-85f7-eaf09dd62ec9", "2f16d8f0-3c24-4539-a30e-1bba3f9831d6", "5789114d-e218-42b3-b2a7-64f51b185e24", "cd44f85f-32e4-4440-bc87-f485d386cefa", "dc66f82b-88c0-48d7-a583-5f4a374eca5f", "8c1e20ae-7182-4eac-b23b-7c4a8a2d3c81", "c3f9fe95-f12f-4f48-b4a2-dbe7219d8415", "3e654c13-f575-4352-9d0d-253dc2ac0d4b", "8979d398-7c39-48c8-8e74-aa046181e868", "367f8b51-9de6-49b5-bd33-7924b9338410", "bb3e6016-4298-470b-afd8-902bba1dae1a", "d068f957-de6b-4e45-8416-48724c704055", "f2c786aa-03f8-497f-875b-fca6ec0ead0a", "1d813b7f-c143-43d2-a9cf-ddbe7bd759da", "abf37e0b-eedc-416b-bc96-75653104942c", "0b1700fe-badc-4a8e-a910-c0b96ed24697", "e2c156ae-6e33-45b2-b38b-f443d9ad30d2", "ee74c509-4260-4441-bf84-ed427d866c46", "c085542b-6665-426b-aec2-1d218ea8c470", "7fdddbcf-b5f3-417c-a4bb-2fb9358786c4", "d8faaf7b-3b5d-4e91-ac08-b6e828c18670", "df1832c2-45d9-416a-a981-7f173c0e872d", "dad71eb6-340e-4282-8ade-ad15a0e3f7db", "68a8a9b5-97b9-41b2-81be-1a0b9d8ab7b6", "da4aad0f-0d49-43e2-8238-db23646675b3", "16e1095c-3784-4299-bda1-199eba55f12b", "4455e733-3cf6-46cc-8954-3a4ed02a4348", "defdd90c-dde1-4951-af63-ebce431dca55", "a00934e0-e755-49de-baae-d9260294121b", "852f085d-5bf8-4ce5-b4ad-8eb510645e3b", "477a37cf-c07f-4a44-9691-7b5d32f21298", "a15505ae-f269-4c59-bacd-077e7b0e175e", "acffc28a-1357-45ee-9a85-ae4eb2a2de8d", "ff3ca98d-e9a6-42f5-9fbb-b4d5c791d0f4", "dd92f307-5af0-4890-90e8-9bc5a5257791", "3365320d-5803-4026-bf43-822c309c6cd2", "9e03e79e-7ca2-4702-9115-4f381b41707f", "d1d09f62-8f39-4aba-bdef-08078c80ee29", "fbf733f2-778f-4a53-923c-0bb190b7c112", "55e14709-c75c-45ea-ab82-8931839e3bc0", "cb5f312a-dcc7-481e-ba97-842256cb2b61", "2d6c5009-fee6-4b57-b265-9e8c7b13791a", "d3ec6750-5276-4d38-a9a9-67273ee66ce0", "d157909f-0add-4aee-bc41-29d1d79c87cc", "2005e140-5c04-410a-8402-acdf712cfb84", "fd9d2675-f237-4d4e-9491-9b2dff08465b", "4c1ee78f-bc83-4977-965e-532b40c30bec" ]
+      }
+    },
+    "isoCategory" : "122293",
+    "supplier" : {
+      "name" : "Alu Rehab AS",
+      "id" : "b85c8c06-b776-4416-8fee-cab1223e75ae"
+    },
+    "media" : [ {
+      "uri" : "register/ffc911cd-1928-45e0-9f11-590217d47b37/c1a7d2f5-deec-472d-9368-baeb011d0412.jpg",
+      "priority" : 1,
+      "type" : "IMAGE",
+      "text" : "IMG_4544",
+      "source" : "REGISTER"
+    } ],
+    "accessory" : false,
+    "sparePart" : true,
+    "main" : false
+  }, {
+    "id" : "32a80b2f-4db0-40da-a67a-2cfcd90b2762",
+    "title" : "Låsesett pedalplate mrs Netti",
+    "articleName" : "Låsesett pedalplate mrs Netti",
+    "seriesId" : "870e3a32-f369-4d80-ba83-d7001ddbe21b",
+    "hmsArtNr" : "244067",
+    "supplierRef" : "80693",
+    "attributes" : {
+      "compatibleWith" : {
+        "seriesIds" : [ "70f928c2-0ceb-469e-b5cf-9ac9093bf542", "30bb6584-6dc6-491b-aeb2-967f72b6008a", "98932fbe-7760-45f4-b8b8-91fc44ab46ad", "f732dd83-0e38-4792-abf1-f7a8ee988ed6", "487c7a7e-31b6-405b-852a-dbf505df5e10" ],
+        "productIds" : [ "25a574f2-eea3-4d2d-85f7-eaf09dd62ec9", "cd44f85f-32e4-4440-bc87-f485d386cefa", "dc66f82b-88c0-48d7-a583-5f4a374eca5f", "8c1e20ae-7182-4eac-b23b-7c4a8a2d3c81", "3e654c13-f575-4352-9d0d-253dc2ac0d4b", "8979d398-7c39-48c8-8e74-aa046181e868", "367f8b51-9de6-49b5-bd33-7924b9338410", "d068f957-de6b-4e45-8416-48724c704055", "1d813b7f-c143-43d2-a9cf-ddbe7bd759da", "abf37e0b-eedc-416b-bc96-75653104942c", "0b1700fe-badc-4a8e-a910-c0b96ed24697", "e2c156ae-6e33-45b2-b38b-f443d9ad30d2", "c085542b-6665-426b-aec2-1d218ea8c470", "7fdddbcf-b5f3-417c-a4bb-2fb9358786c4", "d8faaf7b-3b5d-4e91-ac08-b6e828c18670", "dad71eb6-340e-4282-8ade-ad15a0e3f7db", "68a8a9b5-97b9-41b2-81be-1a0b9d8ab7b6", "16e1095c-3784-4299-bda1-199eba55f12b", "defdd90c-dde1-4951-af63-ebce431dca55", "a00934e0-e755-49de-baae-d9260294121b", "acffc28a-1357-45ee-9a85-ae4eb2a2de8d", "852f085d-5bf8-4ce5-b4ad-8eb510645e3b", "477a37cf-c07f-4a44-9691-7b5d32f21298", "ff3ca98d-e9a6-42f5-9fbb-b4d5c791d0f4", "3365320d-5803-4026-bf43-822c309c6cd2", "9e03e79e-7ca2-4702-9115-4f381b41707f", "d1d09f62-8f39-4aba-bdef-08078c80ee29", "fbf733f2-778f-4a53-923c-0bb190b7c112", "cb5f312a-dcc7-481e-ba97-842256cb2b61", "2d6c5009-fee6-4b57-b265-9e8c7b13791a", "d157909f-0add-4aee-bc41-29d1d79c87cc", "2005e140-5c04-410a-8402-acdf712cfb84", "4c1ee78f-bc83-4977-965e-532b40c30bec" ]
+      }
+    },
+    "isoCategory" : "122291",
+    "supplier" : {
+      "name" : "Alu Rehab AS",
+      "id" : "b85c8c06-b776-4416-8fee-cab1223e75ae"
+    },
+    "media" : [ {
+      "uri" : "register/870e3a32-f369-4d80-ba83-d7001ddbe21b/e25e0642-f649-4b6b-acf4-371483d4616b.jpg",
+      "priority" : 1,
+      "type" : "IMAGE",
+      "text" : "IMG_4541",
+      "source" : "REGISTER"
+    } ],
+    "accessory" : false,
+    "sparePart" : true,
+    "main" : false
+  }, {
+    "id" : "1000eb24-9ee6-444c-9a99-ccf7c720da66",
+    "title" : "Pute rygg sittemodul Netti Dynamic III HD Netti Stabil trekk 45x50 3D",
+    "articleName" : "Pute rygg sittemodul Netti Dynamic III HD Netti Stabil trekk 45x50 3D",
+    "seriesId" : "a64660d0-ff1d-4782-9869-0db7fb8efb67",
+    "hmsArtNr" : "181585",
+    "supplierRef" : "367208",
+    "attributes" : {
+      "compatibleWith" : {
+        "seriesIds" : [ "70f928c2-0ceb-469e-b5cf-9ac9093bf542", "00fbde2b-1280-408d-af3d-a950915d5acc", "487c7a7e-31b6-405b-852a-dbf505df5e10" ],
+        "productIds" : [ "25a574f2-eea3-4d2d-85f7-eaf09dd62ec9", "cb5f312a-dcc7-481e-ba97-842256cb2b61", "c3f9fe95-f12f-4f48-b4a2-dbe7219d8415", "0b1700fe-badc-4a8e-a910-c0b96ed24697", "477a37cf-c07f-4a44-9691-7b5d32f21298", "a15505ae-f269-4c59-bacd-077e7b0e175e", "367f8b51-9de6-49b5-bd33-7924b9338410", "d3ec6750-5276-4d38-a9a9-67273ee66ce0" ]
+      }
+    },
+    "isoCategory" : "122292",
+    "supplier" : {
+      "name" : "Alu Rehab AS",
+      "id" : "b85c8c06-b776-4416-8fee-cab1223e75ae"
+    },
+    "media" : [ ],
+    "accessory" : false,
+    "sparePart" : true,
+    "main" : false
+  }, {
+    "id" : "e94a5aa5-0f01-4343-827c-32b1a13fdc6f",
+    "title" : "Armlene mrs Netti V ve",
+    "articleName" : "Armlene mrs Netti V ve",
+    "seriesId" : "1b6236b6-cb61-461e-8bb6-c368a34a13e1",
+    "hmsArtNr" : "316172",
+    "supplierRef" : "93728",
+    "attributes" : {
+      "compatibleWith" : {
+        "seriesIds" : [ "70f928c2-0ceb-469e-b5cf-9ac9093bf542" ],
+        "productIds" : [ "d068f957-de6b-4e45-8416-48724c704055", "16e1095c-3784-4299-bda1-199eba55f12b", "25a574f2-eea3-4d2d-85f7-eaf09dd62ec9", "a00934e0-e755-49de-baae-d9260294121b", "8979d398-7c39-48c8-8e74-aa046181e868", "d157909f-0add-4aee-bc41-29d1d79c87cc", "c085542b-6665-426b-aec2-1d218ea8c470", "7fdddbcf-b5f3-417c-a4bb-2fb9358786c4", "4c1ee78f-bc83-4977-965e-532b40c30bec" ]
+      }
+    },
+    "isoCategory" : "122291",
+    "supplier" : {
+      "name" : "Alu Rehab AS",
+      "id" : "b85c8c06-b776-4416-8fee-cab1223e75ae"
+    },
+    "media" : [ ],
+    "accessory" : false,
+    "sparePart" : true,
+    "main" : false
+  }, {
+    "id" : "67badd42-feba-429d-a84f-8e68f8f79684",
+    "title" : "Brems mrs Netti V hø",
+    "articleName" : "Brems mrs Netti V hø",
+    "seriesId" : "79ed2dad-2f56-4e15-a2dd-8875f6f17107",
+    "hmsArtNr" : "316333",
+    "supplierRef" : "93674",
+    "attributes" : {
+      "compatibleWith" : {
+        "seriesIds" : [ "70f928c2-0ceb-469e-b5cf-9ac9093bf542" ],
+        "productIds" : [ "d068f957-de6b-4e45-8416-48724c704055", "16e1095c-3784-4299-bda1-199eba55f12b", "25a574f2-eea3-4d2d-85f7-eaf09dd62ec9", "a00934e0-e755-49de-baae-d9260294121b", "8979d398-7c39-48c8-8e74-aa046181e868", "d157909f-0add-4aee-bc41-29d1d79c87cc", "c085542b-6665-426b-aec2-1d218ea8c470", "7fdddbcf-b5f3-417c-a4bb-2fb9358786c4", "4c1ee78f-bc83-4977-965e-532b40c30bec" ]
+      }
+    },
+    "isoCategory" : "122293",
+    "supplier" : {
+      "name" : "Alu Rehab AS",
+      "id" : "b85c8c06-b776-4416-8fee-cab1223e75ae"
+    },
+    "media" : [ {
+      "uri" : "register/79ed2dad-2f56-4e15-a2dd-8875f6f17107/c5f6ec17-c587-4c8e-a786-fa1aa2bc87d2.jpg",
+      "priority" : 1,
+      "type" : "IMAGE",
+      "text" : "IMG_4530",
+      "source" : "REGISTER"
+    } ],
+    "accessory" : false,
+    "sparePart" : true,
+    "main" : false
+  }, {
+    "id" : "b8a6fa1e-8b58-478a-9988-68b1d806cb9d",
+    "title" : "Brems mrs Netti V ve",
+    "articleName" : "Brems mrs Netti V ve",
+    "seriesId" : "0faea002-6a82-4739-b3ce-28e028a9ac89",
+    "hmsArtNr" : "316334",
+    "supplierRef" : "93675",
+    "attributes" : {
+      "compatibleWith" : {
+        "seriesIds" : [ "70f928c2-0ceb-469e-b5cf-9ac9093bf542" ],
+        "productIds" : [ "d068f957-de6b-4e45-8416-48724c704055", "16e1095c-3784-4299-bda1-199eba55f12b", "25a574f2-eea3-4d2d-85f7-eaf09dd62ec9", "a00934e0-e755-49de-baae-d9260294121b", "8979d398-7c39-48c8-8e74-aa046181e868", "d157909f-0add-4aee-bc41-29d1d79c87cc", "c085542b-6665-426b-aec2-1d218ea8c470", "7fdddbcf-b5f3-417c-a4bb-2fb9358786c4", "4c1ee78f-bc83-4977-965e-532b40c30bec" ]
+      }
+    },
+    "isoCategory" : "122293",
+    "supplier" : {
+      "name" : "Alu Rehab AS",
+      "id" : "b85c8c06-b776-4416-8fee-cab1223e75ae"
+    },
+    "media" : [ {
+      "uri" : "register/0faea002-6a82-4739-b3ce-28e028a9ac89/c87754f6-2d34-480a-b238-49aa08476983.jpg",
+      "priority" : 1,
+      "type" : "IMAGE",
+      "text" : "IMG_4531",
+      "source" : "REGISTER"
+    } ],
+    "accessory" : false,
+    "sparePart" : true,
+    "main" : false
+  }, {
+    "id" : "e58201b9-f30e-4bf9-aaf9-2d6f1266e163",
+    "title" : "Pute sete mrs Netti V/III/HD Netti Uno sb45x50 3D",
+    "articleName" : "Pute sete mrs Netti V/III/HD Netti Uno sb45x50 3D",
+    "seriesId" : "f888e9c9-22bb-450f-82cc-f11caf27a54c",
+    "hmsArtNr" : "154516",
+    "supplierRef" : "171822",
+    "attributes" : {
+      "compatibleWith" : {
+        "seriesIds" : [ "70f928c2-0ceb-469e-b5cf-9ac9093bf542" ],
+        "productIds" : [ "25a574f2-eea3-4d2d-85f7-eaf09dd62ec9", "c3f9fe95-f12f-4f48-b4a2-dbe7219d8415", "0b1700fe-badc-4a8e-a910-c0b96ed24697", "477a37cf-c07f-4a44-9691-7b5d32f21298", "a15505ae-f269-4c59-bacd-077e7b0e175e", "367f8b51-9de6-49b5-bd33-7924b9338410", "d3ec6750-5276-4d38-a9a9-67273ee66ce0", "dad71eb6-340e-4282-8ade-ad15a0e3f7db" ]
+      }
+    },
+    "isoCategory" : "122292",
+    "supplier" : {
+      "name" : "Alu Rehab AS",
+      "id" : "b85c8c06-b776-4416-8fee-cab1223e75ae"
+    },
+    "media" : [ ],
+    "accessory" : true,
+    "sparePart" : false,
+    "main" : false
+  }, {
+    "id" : "45c49a49-b529-4cf8-99f0-1ccae5a9bea8",
+    "title" : "Benstøtte mrs Netti V/III/HD Knepute 3D",
+    "articleName" : "Benstøtte mrs Netti V/III/HD Knepute 3D",
+    "seriesId" : "3269c2c8-92ef-4406-b5ff-c9204302e686",
+    "hmsArtNr" : "154670",
+    "supplierRef" : "40886",
+    "attributes" : {
+      "compatibleWith" : {
+        "seriesIds" : [ "00fbde2b-1280-408d-af3d-a950915d5acc" ],
+        "productIds" : [ "25a574f2-eea3-4d2d-85f7-eaf09dd62ec9", "2f16d8f0-3c24-4539-a30e-1bba3f9831d6", "5789114d-e218-42b3-b2a7-64f51b185e24", "cd44f85f-32e4-4440-bc87-f485d386cefa", "dc66f82b-88c0-48d7-a583-5f4a374eca5f", "8c1e20ae-7182-4eac-b23b-7c4a8a2d3c81", "c3f9fe95-f12f-4f48-b4a2-dbe7219d8415", "3e654c13-f575-4352-9d0d-253dc2ac0d4b", "8979d398-7c39-48c8-8e74-aa046181e868", "367f8b51-9de6-49b5-bd33-7924b9338410", "bb3e6016-4298-470b-afd8-902bba1dae1a", "d068f957-de6b-4e45-8416-48724c704055", "1d813b7f-c143-43d2-a9cf-ddbe7bd759da", "f2c786aa-03f8-497f-875b-fca6ec0ead0a", "abf37e0b-eedc-416b-bc96-75653104942c", "0b1700fe-badc-4a8e-a910-c0b96ed24697", "e2c156ae-6e33-45b2-b38b-f443d9ad30d2", "ee74c509-4260-4441-bf84-ed427d866c46", "c085542b-6665-426b-aec2-1d218ea8c470", "7fdddbcf-b5f3-417c-a4bb-2fb9358786c4", "d8faaf7b-3b5d-4e91-ac08-b6e828c18670", "df1832c2-45d9-416a-a981-7f173c0e872d", "dad71eb6-340e-4282-8ade-ad15a0e3f7db", "68a8a9b5-97b9-41b2-81be-1a0b9d8ab7b6", "da4aad0f-0d49-43e2-8238-db23646675b3", "16e1095c-3784-4299-bda1-199eba55f12b", "defdd90c-dde1-4951-af63-ebce431dca55", "4455e733-3cf6-46cc-8954-3a4ed02a4348", "a00934e0-e755-49de-baae-d9260294121b", "852f085d-5bf8-4ce5-b4ad-8eb510645e3b", "477a37cf-c07f-4a44-9691-7b5d32f21298", "a15505ae-f269-4c59-bacd-077e7b0e175e", "acffc28a-1357-45ee-9a85-ae4eb2a2de8d", "ff3ca98d-e9a6-42f5-9fbb-b4d5c791d0f4", "3365320d-5803-4026-bf43-822c309c6cd2", "dd92f307-5af0-4890-90e8-9bc5a5257791", "9e03e79e-7ca2-4702-9115-4f381b41707f", "d1d09f62-8f39-4aba-bdef-08078c80ee29", "fbf733f2-778f-4a53-923c-0bb190b7c112", "cb5f312a-dcc7-481e-ba97-842256cb2b61", "55e14709-c75c-45ea-ab82-8931839e3bc0", "2d6c5009-fee6-4b57-b265-9e8c7b13791a", "d3ec6750-5276-4d38-a9a9-67273ee66ce0", "d157909f-0add-4aee-bc41-29d1d79c87cc", "2005e140-5c04-410a-8402-acdf712cfb84", "fd9d2675-f237-4d4e-9491-9b2dff08465b", "4c1ee78f-bc83-4977-965e-532b40c30bec" ]
+      }
+    },
+    "isoCategory" : "122291",
+    "supplier" : {
+      "name" : "Alu Rehab AS",
+      "id" : "b85c8c06-b776-4416-8fee-cab1223e75ae"
+    },
+    "media" : [ {
+      "uri" : "register/3269c2c8-92ef-4406-b5ff-c9204302e686/f53a65a4-92f6-4da1-8963-2d82baf1c275.jpg",
+      "priority" : 1,
+      "type" : "IMAGE",
+      "text" : "IMG_4534",
+      "source" : "REGISTER"
+    } ],
+    "accessory" : false,
+    "sparePart" : true,
+    "main" : false
+  }, {
+    "id" : "1b430f57-ccc0-47a1-a0a4-bf389cd07233",
+    "title" : "Benstøtte mrs Netti HD V.reg sb60cm hø 3D",
+    "articleName" : "Benstøtte mrs Netti HD V.reg sb60cm hø 3D",
+    "seriesId" : "50a4b439-db62-4855-a687-9af64aa7c70e",
+    "hmsArtNr" : "154659",
+    "supplierRef" : "29507",
+    "attributes" : {
+      "compatibleWith" : {
+        "seriesIds" : [ "70f928c2-0ceb-469e-b5cf-9ac9093bf542" ],
+        "productIds" : [ "da4aad0f-0d49-43e2-8238-db23646675b3", "55e14709-c75c-45ea-ab82-8931839e3bc0", "fd9d2675-f237-4d4e-9491-9b2dff08465b" ]
+      }
+    },
+    "isoCategory" : "122291",
+    "supplier" : {
+      "name" : "Alu Rehab AS",
+      "id" : "b85c8c06-b776-4416-8fee-cab1223e75ae"
+    },
+    "media" : [ ],
+    "accessory" : false,
+    "sparePart" : true,
+    "main" : false
+  }, {
+    "id" : "d63f989e-66a2-4d72-93ce-cb00b10a1cd3",
+    "title" : "Pute rygg sittemodul Netti Dynamic III HD Netti Stabil 38x50 3D",
+    "articleName" : "Pute rygg sittemodul Netti Dynamic III HD Netti Stabil 38x50 3D",
+    "seriesId" : "803e7af9-6357-46b6-a834-c2428688af49",
+    "hmsArtNr" : "181465",
+    "supplierRef" : "367305",
+    "attributes" : {
+      "compatibleWith" : {
+        "seriesIds" : [ "00fbde2b-1280-408d-af3d-a950915d5acc", "70f928c2-0ceb-469e-b5cf-9ac9093bf542", "487c7a7e-31b6-405b-852a-dbf505df5e10" ],
+        "productIds" : [ "dc66f82b-88c0-48d7-a583-5f4a374eca5f", "a00934e0-e755-49de-baae-d9260294121b", "ff3ca98d-e9a6-42f5-9fbb-b4d5c791d0f4", "3365320d-5803-4026-bf43-822c309c6cd2", "68a8a9b5-97b9-41b2-81be-1a0b9d8ab7b6" ]
+      }
+    },
+    "isoCategory" : "122292",
+    "supplier" : {
+      "name" : "Alu Rehab AS",
+      "id" : "b85c8c06-b776-4416-8fee-cab1223e75ae"
+    },
+    "media" : [ ],
+    "accessory" : false,
+    "sparePart" : true,
+    "main" : false
+  }, {
+    "id" : "5c3abf6c-ee21-43b9-9ad9-bb225787740f",
+    "title" : "Pute rygg sittemodul Netti Dynamic III HD Netti Stabil 40x50 3D",
+    "articleName" : "Pute rygg sittemodul Netti Dynamic III HD Netti Stabil 40x50 3D",
+    "seriesId" : "c7c2c234-1aca-42ba-ac96-dd632100d7b3",
+    "hmsArtNr" : "181486",
+    "supplierRef" : "367306",
+    "attributes" : {
+      "compatibleWith" : {
+        "seriesIds" : [ "70f928c2-0ceb-469e-b5cf-9ac9093bf542", "00fbde2b-1280-408d-af3d-a950915d5acc", "487c7a7e-31b6-405b-852a-dbf505df5e10" ],
+        "productIds" : [ "abf37e0b-eedc-416b-bc96-75653104942c", "3e654c13-f575-4352-9d0d-253dc2ac0d4b", "852f085d-5bf8-4ce5-b4ad-8eb510645e3b", "8979d398-7c39-48c8-8e74-aa046181e868", "ee74c509-4260-4441-bf84-ed427d866c46", "2005e140-5c04-410a-8402-acdf712cfb84" ]
+      }
+    },
+    "isoCategory" : "122292",
+    "supplier" : {
+      "name" : "Alu Rehab AS",
+      "id" : "b85c8c06-b776-4416-8fee-cab1223e75ae"
+    },
+    "media" : [ ],
+    "accessory" : false,
+    "sparePart" : true,
+    "main" : false
+  }, {
+    "id" : "2e22997b-ad6c-424d-86dd-8f732535a449",
+    "title" : "Armlene mrs Netti V/III/HD III HD ve",
+    "articleName" : "Armlene mrs Netti V/III/HD III HD ve",
+    "seriesId" : "2a2a9107-cb50-41e2-8889-ba4c4205a61d",
+    "hmsArtNr" : "316176",
+    "supplierRef" : "94971",
+    "attributes" : {
+      "compatibleWith" : {
+        "seriesIds" : [ "00fbde2b-1280-408d-af3d-a950915d5acc", "70f928c2-0ceb-469e-b5cf-9ac9093bf542", "487c7a7e-31b6-405b-852a-dbf505df5e10" ],
+        "productIds" : [ "f2c786aa-03f8-497f-875b-fca6ec0ead0a", "55e14709-c75c-45ea-ab82-8931839e3bc0", "4455e733-3cf6-46cc-8954-3a4ed02a4348", "ee74c509-4260-4441-bf84-ed427d866c46", "d3ec6750-5276-4d38-a9a9-67273ee66ce0", "dd92f307-5af0-4890-90e8-9bc5a5257791" ]
+      }
+    },
+    "isoCategory" : "122291",
+    "supplier" : {
+      "name" : "Alu Rehab AS",
+      "id" : "b85c8c06-b776-4416-8fee-cab1223e75ae"
+    },
+    "media" : [ ],
+    "accessory" : false,
+    "sparePart" : true,
+    "main" : false
+  }, {
+    "id" : "dc44cdc2-3e0c-495f-a4cd-c8871843729c",
+    "title" : "Benstøtte mrs Netti V V.reg sb47,5cm hø 3D",
+    "articleName" : "Benstøtte mrs Netti V V.reg sb47,5cm hø 3D",
+    "seriesId" : "7e07aaa3-c0af-4b28-a6f6-3aa09c668866",
+    "hmsArtNr" : "316217",
+    "supplierRef" : "94859",
+    "attributes" : {
+      "compatibleWith" : {
+        "seriesIds" : [ "70f928c2-0ceb-469e-b5cf-9ac9093bf542" ],
+        "productIds" : [ "7fdddbcf-b5f3-417c-a4bb-2fb9358786c4" ]
+      }
+    },
+    "isoCategory" : "122291",
+    "supplier" : {
+      "name" : "Alu Rehab AS",
+      "id" : "b85c8c06-b776-4416-8fee-cab1223e75ae"
+    },
+    "media" : [ ],
+    "accessory" : false,
+    "sparePart" : true,
+    "main" : false
+  }, {
+    "id" : "093de48a-dc77-4dfe-b91a-e5c996646436",
+    "title" : "Benstøtte mrs Netti V V.reg sb47,5cm ve 3D",
+    "articleName" : "Benstøtte mrs Netti V V.reg sb47,5cm ve 3D",
+    "seriesId" : "a14967ef-2147-4b55-9c59-2ff0bea390ec",
+    "hmsArtNr" : "316218",
+    "supplierRef" : "94861",
+    "attributes" : {
+      "compatibleWith" : {
+        "seriesIds" : [ "70f928c2-0ceb-469e-b5cf-9ac9093bf542" ],
+        "productIds" : [ "7fdddbcf-b5f3-417c-a4bb-2fb9358786c4" ]
+      }
+    },
+    "isoCategory" : "122291",
+    "supplier" : {
+      "name" : "Alu Rehab AS",
+      "id" : "b85c8c06-b776-4416-8fee-cab1223e75ae"
+    },
+    "media" : [ ],
+    "accessory" : false,
+    "sparePart" : true,
+    "main" : false
+  }, {
+    "id" : "8595591f-286d-46cf-a9b0-787cb70cb0cf",
+    "title" : "Benstøtte mrs Netti V V.reg sb52,5cm hø 3D",
+    "articleName" : "Benstøtte mrs Netti V V.reg sb52,5cm hø 3D",
+    "seriesId" : "23372496-727a-41d9-9a3c-9dd63933876c",
+    "hmsArtNr" : "316219",
+    "supplierRef" : "94860",
+    "attributes" : {
+      "compatibleWith" : {
+        "seriesIds" : [ "70f928c2-0ceb-469e-b5cf-9ac9093bf542" ],
+        "productIds" : [ "c085542b-6665-426b-aec2-1d218ea8c470" ]
+      }
+    },
+    "isoCategory" : "122291",
+    "supplier" : {
+      "name" : "Alu Rehab AS",
+      "id" : "b85c8c06-b776-4416-8fee-cab1223e75ae"
+    },
+    "media" : [ ],
+    "accessory" : false,
+    "sparePart" : true,
+    "main" : false
+  }, {
+    "id" : "2dd8bd80-6913-4d2d-9ea5-d774dea617f2",
+    "title" : "Benstøtte mrs Netti V/III V.reg sb35cm hø 3D",
+    "articleName" : "Benstøtte mrs Netti V/III V.reg sb35cm hø 3D",
+    "seriesId" : "52b4aa36-cafe-4e52-9ad3-8cdefab3fc66",
+    "hmsArtNr" : "154652",
+    "supplierRef" : "29500",
+    "attributes" : {
+      "compatibleWith" : {
+        "seriesIds" : [ "70f928c2-0ceb-469e-b5cf-9ac9093bf542" ],
+        "productIds" : [ "16e1095c-3784-4299-bda1-199eba55f12b", "1d813b7f-c143-43d2-a9cf-ddbe7bd759da", "defdd90c-dde1-4951-af63-ebce431dca55", "e2c156ae-6e33-45b2-b38b-f443d9ad30d2", "68a8a9b5-97b9-41b2-81be-1a0b9d8ab7b6" ]
+      }
+    },
+    "isoCategory" : "122291",
+    "supplier" : {
+      "name" : "Alu Rehab AS",
+      "id" : "b85c8c06-b776-4416-8fee-cab1223e75ae"
+    },
+    "media" : [ ],
+    "accessory" : false,
+    "sparePart" : true,
+    "main" : false
+  }, {
+    "id" : "a08c6841-e0b9-4a13-8771-ea3e462a00aa",
+    "title" : "Benstøtte mrs Netti V/III/HD V.reg sb40cm hø 3D",
+    "articleName" : "Benstøtte mrs Netti V/III/HD V.reg sb40cm hø 3D",
+    "seriesId" : "73945082-afd6-4946-8564-110258661d25",
+    "hmsArtNr" : "154654",
+    "supplierRef" : "29502",
+    "attributes" : {
+      "compatibleWith" : {
+        "seriesIds" : [ "70f928c2-0ceb-469e-b5cf-9ac9093bf542" ],
+        "productIds" : [ "abf37e0b-eedc-416b-bc96-75653104942c", "3e654c13-f575-4352-9d0d-253dc2ac0d4b", "852f085d-5bf8-4ce5-b4ad-8eb510645e3b", "8979d398-7c39-48c8-8e74-aa046181e868", "ee74c509-4260-4441-bf84-ed427d866c46", "2005e140-5c04-410a-8402-acdf712cfb84" ]
+      }
+    },
+    "isoCategory" : "122291",
+    "supplier" : {
+      "name" : "Alu Rehab AS",
+      "id" : "b85c8c06-b776-4416-8fee-cab1223e75ae"
+    },
+    "media" : [ ],
+    "accessory" : false,
+    "sparePart" : true,
+    "main" : false
+  }, {
+    "id" : "806252df-79c8-4794-8371-ed0fc2d36254",
+    "title" : "Benstøtte mrs Netti V/III V.reg sb35cm ve 3D",
+    "articleName" : "Benstøtte mrs Netti V/III V.reg sb35cm ve 3D",
+    "seriesId" : "9cea9485-2161-4cd8-a5c8-7fb4a5eee285",
+    "hmsArtNr" : "154660",
+    "supplierRef" : "29508",
+    "attributes" : {
+      "compatibleWith" : {
+        "seriesIds" : [ "70f928c2-0ceb-469e-b5cf-9ac9093bf542" ],
+        "productIds" : [ "16e1095c-3784-4299-bda1-199eba55f12b", "1d813b7f-c143-43d2-a9cf-ddbe7bd759da", "defdd90c-dde1-4951-af63-ebce431dca55", "e2c156ae-6e33-45b2-b38b-f443d9ad30d2", "68a8a9b5-97b9-41b2-81be-1a0b9d8ab7b6" ]
+      }
+    },
+    "isoCategory" : "122291",
+    "supplier" : {
+      "name" : "Alu Rehab AS",
+      "id" : "b85c8c06-b776-4416-8fee-cab1223e75ae"
+    },
+    "media" : [ ],
+    "accessory" : false,
+    "sparePart" : true,
+    "main" : false
+  }, {
+    "id" : "532cdf54-a79a-466f-aab3-439959431a3a",
+    "title" : "Benstøtte mrs Netti V/III V.reg sb37,5-38cm ve 3D",
+    "articleName" : "Benstøtte mrs Netti V/III V.reg sb37,5-38cm ve 3D",
+    "seriesId" : "60af2c12-c737-417a-a8c5-b7d003dcbdae",
+    "hmsArtNr" : "154661",
+    "supplierRef" : "29509",
+    "attributes" : {
+      "compatibleWith" : {
+        "seriesIds" : [ "70f928c2-0ceb-469e-b5cf-9ac9093bf542" ],
+        "productIds" : [ "dc66f82b-88c0-48d7-a583-5f4a374eca5f", "a00934e0-e755-49de-baae-d9260294121b", "ff3ca98d-e9a6-42f5-9fbb-b4d5c791d0f4", "3365320d-5803-4026-bf43-822c309c6cd2", "9e03e79e-7ca2-4702-9115-4f381b41707f" ]
+      }
+    },
+    "isoCategory" : "122291",
+    "supplier" : {
+      "name" : "Alu Rehab AS",
+      "id" : "b85c8c06-b776-4416-8fee-cab1223e75ae"
+    },
+    "media" : [ ],
+    "accessory" : false,
+    "sparePart" : true,
+    "main" : false
+  }, {
+    "id" : "3b0cd48c-1985-4015-99ad-023c4a584927",
+    "title" : "Benstøtte mrs Netti V/III/HD V.reg sb42,5-43cm ve 3D",
+    "articleName" : "Benstøtte mrs Netti V/III/HD V.reg sb42,5-43cm ve 3D",
+    "seriesId" : "72149561-2e9a-47c9-843d-9a859d5ad6a3",
+    "hmsArtNr" : "154663",
+    "supplierRef" : "29511",
+    "attributes" : {
+      "compatibleWith" : {
+        "seriesIds" : [ "00fbde2b-1280-408d-af3d-a950915d5acc", "70f928c2-0ceb-469e-b5cf-9ac9093bf542", "487c7a7e-31b6-405b-852a-dbf505df5e10" ],
+        "productIds" : [ "fbf733f2-778f-4a53-923c-0bb190b7c112", "cd44f85f-32e4-4440-bc87-f485d386cefa", "f2c786aa-03f8-497f-875b-fca6ec0ead0a", "acffc28a-1357-45ee-9a85-ae4eb2a2de8d", "d8faaf7b-3b5d-4e91-ac08-b6e828c18670", "4c1ee78f-bc83-4977-965e-532b40c30bec" ]
+      }
+    },
+    "isoCategory" : "122291",
+    "supplier" : {
+      "name" : "Alu Rehab AS",
+      "id" : "b85c8c06-b776-4416-8fee-cab1223e75ae"
+    },
+    "media" : [ ],
+    "accessory" : false,
+    "sparePart" : true,
+    "main" : false
+  }, {
+    "id" : "b5c193bd-c3e4-4f82-9d10-cb1da71f4d03",
+    "title" : "Benstøtte mrs Netti V/III/HD V.reg sb50cm ve 3D",
+    "articleName" : "Benstøtte mrs Netti V/III/HD V.reg sb50cm ve 3D",
+    "seriesId" : "abfde70c-2534-4289-b5f5-e0e215c90163",
+    "hmsArtNr" : "154665",
+    "supplierRef" : "29513",
+    "attributes" : {
+      "compatibleWith" : {
+        "seriesIds" : [ "70f928c2-0ceb-469e-b5cf-9ac9093bf542" ],
+        "productIds" : [ "d1d09f62-8f39-4aba-bdef-08078c80ee29", "5789114d-e218-42b3-b2a7-64f51b185e24", "8c1e20ae-7182-4eac-b23b-7c4a8a2d3c81", "d157909f-0add-4aee-bc41-29d1d79c87cc", "dd92f307-5af0-4890-90e8-9bc5a5257791", "bb3e6016-4298-470b-afd8-902bba1dae1a" ]
+      }
+    },
+    "isoCategory" : "122291",
+    "supplier" : {
+      "name" : "Alu Rehab AS",
+      "id" : "b85c8c06-b776-4416-8fee-cab1223e75ae"
+    },
+    "media" : [ ],
+    "accessory" : false,
+    "sparePart" : true,
+    "main" : false
+  }, {
+    "id" : "a15b3835-1fcf-4503-ac26-0656125c8d5f",
+    "title" : "Benstøtte mrs Netti V/HD V.reg sb55cm ve 3D",
+    "articleName" : "Benstøtte mrs Netti V/HD V.reg sb55cm ve 3D",
+    "seriesId" : "5e1ccd21-e75d-411c-a847-7805bf231210",
+    "hmsArtNr" : "154666",
+    "supplierRef" : "29514",
+    "attributes" : {
+      "compatibleWith" : {
+        "seriesIds" : [ "70f928c2-0ceb-469e-b5cf-9ac9093bf542" ],
+        "productIds" : [ "d068f957-de6b-4e45-8416-48724c704055", "2f16d8f0-3c24-4539-a30e-1bba3f9831d6", "4455e733-3cf6-46cc-8954-3a4ed02a4348", "df1832c2-45d9-416a-a981-7f173c0e872d" ]
+      }
+    },
+    "isoCategory" : "122291",
+    "supplier" : {
+      "name" : "Alu Rehab AS",
+      "id" : "b85c8c06-b776-4416-8fee-cab1223e75ae"
+    },
+    "media" : [ ],
+    "accessory" : false,
+    "sparePart" : true,
+    "main" : false
+  }, {
+    "id" : "c220a176-abe4-49b9-9af8-5b3e04e96e05",
+    "title" : "Pute rygg sittemodul Netti Dynamic III HD Netti Stabil 35x50 3D",
+    "articleName" : "Pute rygg sittemodul Netti Dynamic III HD Netti Stabil 35x50 3D",
+    "seriesId" : "84f0dfe6-614a-4aa5-b5fa-df94a76f6424",
+    "hmsArtNr" : "181484",
+    "supplierRef" : "367304",
+    "attributes" : {
+      "compatibleWith" : {
+        "seriesIds" : [ "00fbde2b-1280-408d-af3d-a950915d5acc", "70f928c2-0ceb-469e-b5cf-9ac9093bf542", "487c7a7e-31b6-405b-852a-dbf505df5e10" ],
+        "productIds" : [ "16e1095c-3784-4299-bda1-199eba55f12b", "1d813b7f-c143-43d2-a9cf-ddbe7bd759da", "defdd90c-dde1-4951-af63-ebce431dca55", "e2c156ae-6e33-45b2-b38b-f443d9ad30d2", "68a8a9b5-97b9-41b2-81be-1a0b9d8ab7b6" ]
+      }
+    },
+    "isoCategory" : "122292",
+    "supplier" : {
+      "name" : "Alu Rehab AS",
+      "id" : "b85c8c06-b776-4416-8fee-cab1223e75ae"
+    },
+    "media" : [ ],
+    "accessory" : false,
+    "sparePart" : true,
+    "main" : false
+  }, {
+    "id" : "2b120bca-9a8b-426e-9742-4e8dace6b422",
+    "title" : "Pute rygg sittemodul Netti Dynamic III HD Netti Stabil 50x50 3D",
+    "articleName" : "Pute rygg sittemodul Netti Dynamic III HD Netti Stabil 50x50 3D",
+    "seriesId" : "5809317d-1445-48c5-8375-6cb53102858d",
+    "hmsArtNr" : "181492",
+    "supplierRef" : "367309",
+    "attributes" : {
+      "compatibleWith" : {
+        "seriesIds" : [ "70f928c2-0ceb-469e-b5cf-9ac9093bf542", "00fbde2b-1280-408d-af3d-a950915d5acc" ],
+        "productIds" : [ "d1d09f62-8f39-4aba-bdef-08078c80ee29", "5789114d-e218-42b3-b2a7-64f51b185e24", "8c1e20ae-7182-4eac-b23b-7c4a8a2d3c81", "cb5f312a-dcc7-481e-ba97-842256cb2b61", "2d6c5009-fee6-4b57-b265-9e8c7b13791a", "d157909f-0add-4aee-bc41-29d1d79c87cc", "dd92f307-5af0-4890-90e8-9bc5a5257791", "bb3e6016-4298-470b-afd8-902bba1dae1a" ]
+      }
+    },
+    "isoCategory" : "122292",
+    "supplier" : {
+      "name" : "Alu Rehab AS",
+      "id" : "b85c8c06-b776-4416-8fee-cab1223e75ae"
+    },
+    "media" : [ ],
+    "accessory" : false,
+    "sparePart" : true,
+    "main" : false
+  }, {
+    "id" : "c951d07a-7884-49c1-be71-e9e75489454c",
+    "title" : "Pute rygg mrs Netti V/HD Netti Stabil sb55x50cm 3D",
+    "articleName" : "Pute rygg mrs Netti V/HD Netti Stabil sb55x50cm 3D",
+    "seriesId" : "1df717b0-68ca-4d73-8e10-28c619368f2a",
+    "hmsArtNr" : "181494",
+    "supplierRef" : "367310",
+    "attributes" : {
+      "compatibleWith" : {
+        "seriesIds" : [ "70f928c2-0ceb-469e-b5cf-9ac9093bf542" ],
+        "productIds" : [ "d068f957-de6b-4e45-8416-48724c704055", "2f16d8f0-3c24-4539-a30e-1bba3f9831d6", "4455e733-3cf6-46cc-8954-3a4ed02a4348", "df1832c2-45d9-416a-a981-7f173c0e872d" ]
+      }
+    },
+    "isoCategory" : "122292",
+    "supplier" : {
+      "name" : "Alu Rehab AS",
+      "id" : "b85c8c06-b776-4416-8fee-cab1223e75ae"
+    },
+    "media" : [ ],
+    "accessory" : false,
+    "sparePart" : true,
+    "main" : false
+  }, {
+    "id" : "10adbcb6-6d62-482a-ae11-14c031a82136",
+    "title" : "Pute rygg sittemodul Netti Dynamic III HD Netti Stabil trekk 38x50 3D",
+    "articleName" : "Pute rygg sittemodul Netti Dynamic III HD Netti Stabil trekk 38x50 3D",
+    "seriesId" : "bc7c0b44-23c8-4552-a528-2d0826653bfa",
+    "hmsArtNr" : "181579",
+    "supplierRef" : "367205",
+    "attributes" : {
+      "compatibleWith" : {
+        "seriesIds" : [ "00fbde2b-1280-408d-af3d-a950915d5acc", "70f928c2-0ceb-469e-b5cf-9ac9093bf542", "487c7a7e-31b6-405b-852a-dbf505df5e10" ],
+        "productIds" : [ "dc66f82b-88c0-48d7-a583-5f4a374eca5f", "a00934e0-e755-49de-baae-d9260294121b", "ff3ca98d-e9a6-42f5-9fbb-b4d5c791d0f4", "3365320d-5803-4026-bf43-822c309c6cd2", "9e03e79e-7ca2-4702-9115-4f381b41707f" ]
+      }
+    },
+    "isoCategory" : "122292",
+    "supplier" : {
+      "name" : "Alu Rehab AS",
+      "id" : "b85c8c06-b776-4416-8fee-cab1223e75ae"
+    },
+    "media" : [ ],
+    "accessory" : false,
+    "sparePart" : true,
+    "main" : false
+  }, {
+    "id" : "aab9c5f2-c4de-48d3-b56b-77717f3ac9f1",
+    "title" : "Pute rygg sittemodul Netti Dynamic III HD Netti Stabil trekk 40x50 3D",
+    "articleName" : "Pute rygg sittemodul Netti Dynamic III HD Netti Stabil trekk 40x50 3D",
+    "seriesId" : "e250371c-aadf-4da0-8016-0b2472fa8d11",
+    "hmsArtNr" : "181581",
+    "supplierRef" : "367206",
+    "attributes" : {
+      "compatibleWith" : {
+        "seriesIds" : [ "70f928c2-0ceb-469e-b5cf-9ac9093bf542", "00fbde2b-1280-408d-af3d-a950915d5acc", "487c7a7e-31b6-405b-852a-dbf505df5e10" ],
+        "productIds" : [ "abf37e0b-eedc-416b-bc96-75653104942c", "3e654c13-f575-4352-9d0d-253dc2ac0d4b", "852f085d-5bf8-4ce5-b4ad-8eb510645e3b", "8979d398-7c39-48c8-8e74-aa046181e868", "ee74c509-4260-4441-bf84-ed427d866c46", "2005e140-5c04-410a-8402-acdf712cfb84" ]
+      }
+    },
+    "isoCategory" : "122292",
+    "supplier" : {
+      "name" : "Alu Rehab AS",
+      "id" : "b85c8c06-b776-4416-8fee-cab1223e75ae"
+    },
+    "media" : [ ],
+    "accessory" : false,
+    "sparePart" : true,
+    "main" : false
+  }, {
+    "id" : "ef550fdd-c61c-4228-b66f-f2298d9591a7",
+    "title" : "Pute rygg sittemodul Netti Dynamic III HD Netti Stabil trekk 43x50 3D",
+    "articleName" : "Pute rygg sittemodul Netti Dynamic III HD Netti Stabil trekk 43x50 3D",
+    "seriesId" : "57cc563c-4287-4090-80f5-60a3a7a6d45b",
+    "hmsArtNr" : "181583",
+    "supplierRef" : "367207",
+    "attributes" : {
+      "compatibleWith" : {
+        "seriesIds" : [ "70f928c2-0ceb-469e-b5cf-9ac9093bf542", "00fbde2b-1280-408d-af3d-a950915d5acc", "487c7a7e-31b6-405b-852a-dbf505df5e10" ],
+        "productIds" : [ "fbf733f2-778f-4a53-923c-0bb190b7c112", "cd44f85f-32e4-4440-bc87-f485d386cefa", "f2c786aa-03f8-497f-875b-fca6ec0ead0a", "acffc28a-1357-45ee-9a85-ae4eb2a2de8d", "d8faaf7b-3b5d-4e91-ac08-b6e828c18670", "4c1ee78f-bc83-4977-965e-532b40c30bec" ]
+      }
+    },
+    "isoCategory" : "122292",
+    "supplier" : {
+      "name" : "Alu Rehab AS",
+      "id" : "b85c8c06-b776-4416-8fee-cab1223e75ae"
+    },
+    "media" : [ ],
+    "accessory" : false,
+    "sparePart" : true,
+    "main" : false
+  }, {
+    "id" : "a9935f21-a65c-4b40-bca9-d4bbee7e3117",
+    "title" : "Benstøtte mrs Netti V/HD V.reg sb55cm hø 3D",
+    "articleName" : "Benstøtte mrs Netti V/HD V.reg sb55cm hø 3D",
+    "seriesId" : "8d3d82d6-c2f8-4a3d-9e11-9a9c3bd0e5f8",
+    "hmsArtNr" : "154658",
+    "supplierRef" : "29506",
+    "attributes" : {
+      "compatibleWith" : {
+        "seriesIds" : [ "70f928c2-0ceb-469e-b5cf-9ac9093bf542" ],
+        "productIds" : [ "d068f957-de6b-4e45-8416-48724c704055", "2f16d8f0-3c24-4539-a30e-1bba3f9831d6", "4455e733-3cf6-46cc-8954-3a4ed02a4348", "df1832c2-45d9-416a-a981-7f173c0e872d" ]
+      }
+    },
+    "isoCategory" : "122291",
+    "supplier" : {
+      "name" : "Alu Rehab AS",
+      "id" : "b85c8c06-b776-4416-8fee-cab1223e75ae"
+    },
+    "media" : [ ],
+    "accessory" : false,
+    "sparePart" : true,
+    "main" : false
+  }, {
+    "id" : "6481074d-3ce7-41f1-b62e-2e7449fbd7c7",
+    "title" : "Benstøtte mrs Netti V/III/HD V.reg sb40cm ve 3D",
+    "articleName" : "Benstøtte mrs Netti V/III/HD V.reg sb40cm ve 3D",
+    "seriesId" : "130adaa9-83d5-45b3-8e80-93c0f4648722",
+    "hmsArtNr" : "154662",
+    "supplierRef" : "29510",
+    "attributes" : {
+      "compatibleWith" : {
+        "seriesIds" : [ "70f928c2-0ceb-469e-b5cf-9ac9093bf542" ],
+        "productIds" : [ "abf37e0b-eedc-416b-bc96-75653104942c", "3e654c13-f575-4352-9d0d-253dc2ac0d4b", "852f085d-5bf8-4ce5-b4ad-8eb510645e3b", "8979d398-7c39-48c8-8e74-aa046181e868", "ee74c509-4260-4441-bf84-ed427d866c46", "2005e140-5c04-410a-8402-acdf712cfb84" ]
+      }
+    },
+    "isoCategory" : "122291",
+    "supplier" : {
+      "name" : "Alu Rehab AS",
+      "id" : "b85c8c06-b776-4416-8fee-cab1223e75ae"
+    },
+    "media" : [ ],
+    "accessory" : false,
+    "sparePart" : true,
+    "main" : false
+  }, {
+    "id" : "a3a55d6b-e011-47d0-80d9-523f4e30b2c7",
+    "title" : "Pute rygg sittemodul Netti Dynamic III HD Netti Stabil 43x50 3D",
+    "articleName" : "Pute rygg sittemodul Netti Dynamic III HD Netti Stabil 43x50 3D",
+    "seriesId" : "b72439dc-812d-41c7-b289-f040dd73699b",
+    "hmsArtNr" : "181488",
+    "supplierRef" : "367307",
+    "attributes" : {
+      "compatibleWith" : {
+        "seriesIds" : [ "00fbde2b-1280-408d-af3d-a950915d5acc", "70f928c2-0ceb-469e-b5cf-9ac9093bf542", "487c7a7e-31b6-405b-852a-dbf505df5e10" ],
+        "productIds" : [ "fbf733f2-778f-4a53-923c-0bb190b7c112", "cd44f85f-32e4-4440-bc87-f485d386cefa", "f2c786aa-03f8-497f-875b-fca6ec0ead0a", "acffc28a-1357-45ee-9a85-ae4eb2a2de8d", "d8faaf7b-3b5d-4e91-ac08-b6e828c18670", "4c1ee78f-bc83-4977-965e-532b40c30bec" ]
+      }
+    },
+    "isoCategory" : "122292",
+    "supplier" : {
+      "name" : "Alu Rehab AS",
+      "id" : "b85c8c06-b776-4416-8fee-cab1223e75ae"
+    },
+    "media" : [ ],
+    "accessory" : false,
+    "sparePart" : true,
+    "main" : false
+  }, {
+    "id" : "5e33e526-6667-4fd1-a2fc-a79e49b5e873",
+    "title" : "Pute rygg sittemodul Netti Dynamic III HD Netti Stabil trekk 35x50 3D",
+    "articleName" : "Pute rygg sittemodul Netti Dynamic III HD Netti Stabil trekk 35x50 3D",
+    "seriesId" : "477c9a16-cb00-4212-bf45-52a2df9564f3",
+    "hmsArtNr" : "181577",
+    "supplierRef" : "367204",
+    "attributes" : {
+      "compatibleWith" : {
+        "seriesIds" : [ "00fbde2b-1280-408d-af3d-a950915d5acc", "70f928c2-0ceb-469e-b5cf-9ac9093bf542", "487c7a7e-31b6-405b-852a-dbf505df5e10" ],
+        "productIds" : [ "16e1095c-3784-4299-bda1-199eba55f12b", "1d813b7f-c143-43d2-a9cf-ddbe7bd759da", "defdd90c-dde1-4951-af63-ebce431dca55", "e2c156ae-6e33-45b2-b38b-f443d9ad30d2", "68a8a9b5-97b9-41b2-81be-1a0b9d8ab7b6" ]
+      }
+    },
+    "isoCategory" : "122292",
+    "supplier" : {
+      "name" : "Alu Rehab AS",
+      "id" : "b85c8c06-b776-4416-8fee-cab1223e75ae"
+    },
+    "media" : [ ],
+    "accessory" : false,
+    "sparePart" : true,
+    "main" : false
+  }, {
+    "id" : "0c91cdf5-d78a-42fd-a60d-b177b75bb9d5",
+    "title" : "Pute rygg sittemodul Netti Dynamic III HD Netti Stabil trekk 50x50 3D",
+    "articleName" : "Pute rygg sittemodul Netti Dynamic III HD Netti Stabil trekk 50x50 3D",
+    "seriesId" : "29e0d37e-083e-49c1-b6cb-b61835f9b89f",
+    "hmsArtNr" : "181587",
+    "supplierRef" : "367209",
+    "attributes" : {
+      "compatibleWith" : {
+        "seriesIds" : [ "70f928c2-0ceb-469e-b5cf-9ac9093bf542", "00fbde2b-1280-408d-af3d-a950915d5acc", "487c7a7e-31b6-405b-852a-dbf505df5e10" ],
+        "productIds" : [ "d1d09f62-8f39-4aba-bdef-08078c80ee29", "5789114d-e218-42b3-b2a7-64f51b185e24", "8c1e20ae-7182-4eac-b23b-7c4a8a2d3c81", "cb5f312a-dcc7-481e-ba97-842256cb2b61", "2d6c5009-fee6-4b57-b265-9e8c7b13791a", "d157909f-0add-4aee-bc41-29d1d79c87cc", "dd92f307-5af0-4890-90e8-9bc5a5257791", "bb3e6016-4298-470b-afd8-902bba1dae1a" ]
+      }
+    },
+    "isoCategory" : "122292",
+    "supplier" : {
+      "name" : "Alu Rehab AS",
+      "id" : "b85c8c06-b776-4416-8fee-cab1223e75ae"
+    },
+    "media" : [ ],
+    "accessory" : false,
+    "sparePart" : true,
+    "main" : false
+  }, {
+    "id" : "275e60c5-d1dc-4f48-bd39-faee9d333534",
+    "title" : "Pute rygg mrs Netti V/HD Trekk Netti Stabil sb55x50cm 3D",
+    "articleName" : "Pute rygg mrs Netti V/HD Trekk Netti Stabil sb55x50cm 3D",
+    "seriesId" : "09420cd9-2125-43c5-801c-fc58e8c8d1ee",
+    "hmsArtNr" : "181589",
+    "supplierRef" : "367210",
+    "attributes" : {
+      "compatibleWith" : {
+        "seriesIds" : [ "70f928c2-0ceb-469e-b5cf-9ac9093bf542" ],
+        "productIds" : [ "d068f957-de6b-4e45-8416-48724c704055", "2f16d8f0-3c24-4539-a30e-1bba3f9831d6", "4455e733-3cf6-46cc-8954-3a4ed02a4348", "df1832c2-45d9-416a-a981-7f173c0e872d" ]
+      }
+    },
+    "isoCategory" : "122292",
+    "supplier" : {
+      "name" : "Alu Rehab AS",
+      "id" : "b85c8c06-b776-4416-8fee-cab1223e75ae"
+    },
+    "media" : [ ],
+    "accessory" : false,
+    "sparePart" : true,
+    "main" : false
+  }, {
+    "id" : "60dea438-dcd2-4c90-9793-ff4e0ca6741e",
+    "title" : "Armlene mrs Netti V/III/HD 39,5cm ve",
+    "articleName" : "Armlene mrs Netti V/III/HD 39,5cm ve",
+    "seriesId" : "746b7847-e7e7-4489-a739-4ece25719835",
+    "hmsArtNr" : "316174",
+    "supplierRef" : "94965",
+    "attributes" : {
+      "compatibleWith" : {
+        "seriesIds" : [ "00fbde2b-1280-408d-af3d-a950915d5acc", "70f928c2-0ceb-469e-b5cf-9ac9093bf542", "487c7a7e-31b6-405b-852a-dbf505df5e10" ],
+        "productIds" : [ "cd44f85f-32e4-4440-bc87-f485d386cefa", "2f16d8f0-3c24-4539-a30e-1bba3f9831d6", "5789114d-e218-42b3-b2a7-64f51b185e24", "dc66f82b-88c0-48d7-a583-5f4a374eca5f", "8c1e20ae-7182-4eac-b23b-7c4a8a2d3c81", "c3f9fe95-f12f-4f48-b4a2-dbe7219d8415", "3e654c13-f575-4352-9d0d-253dc2ac0d4b", "367f8b51-9de6-49b5-bd33-7924b9338410", "bb3e6016-4298-470b-afd8-902bba1dae1a", "f2c786aa-03f8-497f-875b-fca6ec0ead0a", "1d813b7f-c143-43d2-a9cf-ddbe7bd759da", "abf37e0b-eedc-416b-bc96-75653104942c", "0b1700fe-badc-4a8e-a910-c0b96ed24697", "e2c156ae-6e33-45b2-b38b-f443d9ad30d2", "ee74c509-4260-4441-bf84-ed427d866c46", "df1832c2-45d9-416a-a981-7f173c0e872d", "d8faaf7b-3b5d-4e91-ac08-b6e828c18670", "dad71eb6-340e-4282-8ade-ad15a0e3f7db", "68a8a9b5-97b9-41b2-81be-1a0b9d8ab7b6", "da4aad0f-0d49-43e2-8238-db23646675b3", "4455e733-3cf6-46cc-8954-3a4ed02a4348", "defdd90c-dde1-4951-af63-ebce431dca55", "852f085d-5bf8-4ce5-b4ad-8eb510645e3b", "477a37cf-c07f-4a44-9691-7b5d32f21298", "a15505ae-f269-4c59-bacd-077e7b0e175e", "acffc28a-1357-45ee-9a85-ae4eb2a2de8d", "ff3ca98d-e9a6-42f5-9fbb-b4d5c791d0f4", "dd92f307-5af0-4890-90e8-9bc5a5257791", "3365320d-5803-4026-bf43-822c309c6cd2", "9e03e79e-7ca2-4702-9115-4f381b41707f", "d1d09f62-8f39-4aba-bdef-08078c80ee29", "fbf733f2-778f-4a53-923c-0bb190b7c112", "55e14709-c75c-45ea-ab82-8931839e3bc0", "cb5f312a-dcc7-481e-ba97-842256cb2b61", "2d6c5009-fee6-4b57-b265-9e8c7b13791a", "d3ec6750-5276-4d38-a9a9-67273ee66ce0", "fd9d2675-f237-4d4e-9491-9b2dff08465b", "2005e140-5c04-410a-8402-acdf712cfb84" ]
+      }
+    },
+    "isoCategory" : "122291",
+    "supplier" : {
+      "name" : "Alu Rehab AS",
+      "id" : "b85c8c06-b776-4416-8fee-cab1223e75ae"
+    },
+    "media" : [ ],
+    "accessory" : false,
+    "sparePart" : true,
+    "main" : false
+  }, {
+    "id" : "da0a4b21-2fc6-4672-ae81-6197099d1360",
+    "title" : "Benstøtte mrs Netti V V.reg sb52,5cm ve 3D",
+    "articleName" : "Benstøtte mrs Netti V V.reg sb52,5cm ve 3D",
+    "seriesId" : "3f158191-ef45-4a42-b10f-8728fe00b23c",
+    "hmsArtNr" : "316220",
+    "supplierRef" : "94862",
+    "attributes" : {
+      "compatibleWith" : {
+        "seriesIds" : [ "70f928c2-0ceb-469e-b5cf-9ac9093bf542" ],
+        "productIds" : [ "c085542b-6665-426b-aec2-1d218ea8c470" ]
+      }
+    },
+    "isoCategory" : "122291",
+    "supplier" : {
+      "name" : "Alu Rehab AS",
+      "id" : "b85c8c06-b776-4416-8fee-cab1223e75ae"
+    },
+    "media" : [ ],
+    "accessory" : false,
+    "sparePart" : true,
+    "main" : false
+  }, {
+    "id" : "f49c456e-3078-4977-9e9e-9df6de4e05ab",
+    "title" : "Pute sete mrs Netti V/III/HD Netti Uno sb50x50 3D",
+    "articleName" : "Pute sete mrs Netti V/III/HD Netti Uno sb50x50 3D",
+    "seriesId" : "c4f3317f-8654-4c5c-9026-62e7e9300a9c",
+    "hmsArtNr" : "154521",
+    "supplierRef" : "171826",
+    "attributes" : {
+      "compatibleWith" : {
+        "seriesIds" : [ "00fbde2b-1280-408d-af3d-a950915d5acc", "70f928c2-0ceb-469e-b5cf-9ac9093bf542", "487c7a7e-31b6-405b-852a-dbf505df5e10" ],
+        "productIds" : [ "d1d09f62-8f39-4aba-bdef-08078c80ee29", "5789114d-e218-42b3-b2a7-64f51b185e24", "8c1e20ae-7182-4eac-b23b-7c4a8a2d3c81", "cb5f312a-dcc7-481e-ba97-842256cb2b61", "2d6c5009-fee6-4b57-b265-9e8c7b13791a", "d157909f-0add-4aee-bc41-29d1d79c87cc", "dd92f307-5af0-4890-90e8-9bc5a5257791", "bb3e6016-4298-470b-afd8-902bba1dae1a" ]
+      }
+    },
+    "isoCategory" : "122292",
+    "supplier" : {
+      "name" : "Alu Rehab AS",
+      "id" : "b85c8c06-b776-4416-8fee-cab1223e75ae"
+    },
+    "media" : [ ],
+    "accessory" : true,
+    "sparePart" : false,
+    "main" : false
+  }, {
+    "id" : "25f2dcd3-597c-4939-a328-7deb37419f91",
+    "title" : "Pute rygg mrs Netti V Netti Stabil sb52,5x50cm 3D",
+    "articleName" : "Pute rygg mrs Netti V Netti Stabil sb52,5x50cm 3D",
+    "seriesId" : "b4d30213-e8c9-4027-a89c-465166514690",
+    "hmsArtNr" : "316259",
+    "supplierRef" : "367316",
+    "attributes" : {
+      "compatibleWith" : {
+        "seriesIds" : [ "70f928c2-0ceb-469e-b5cf-9ac9093bf542" ],
+        "productIds" : [ "c085542b-6665-426b-aec2-1d218ea8c470" ]
+      }
+    },
+    "isoCategory" : "122292",
+    "supplier" : {
+      "name" : "Alu Rehab AS",
+      "id" : "b85c8c06-b776-4416-8fee-cab1223e75ae"
+    },
+    "media" : [ ],
+    "accessory" : true,
+    "sparePart" : false,
+    "main" : false
+  }, {
+    "id" : "316c3cdb-8e7c-4e9f-bc08-22425e46a2a0",
+    "title" : "Pute sete mrs Netti V/III/HD Netti Uno sb40x45 3D",
+    "articleName" : "Pute sete mrs Netti V/III/HD Netti Uno sb40x45 3D",
+    "seriesId" : "21af3f41-fd68-4f66-aa24-fddb86eb57bf",
+    "hmsArtNr" : "154505",
+    "supplierRef" : "171813",
+    "attributes" : {
+      "compatibleWith" : {
+        "seriesIds" : [ "00fbde2b-1280-408d-af3d-a950915d5acc", "70f928c2-0ceb-469e-b5cf-9ac9093bf542", "487c7a7e-31b6-405b-852a-dbf505df5e10" ],
+        "productIds" : [ "abf37e0b-eedc-416b-bc96-75653104942c", "3e654c13-f575-4352-9d0d-253dc2ac0d4b", "852f085d-5bf8-4ce5-b4ad-8eb510645e3b", "8979d398-7c39-48c8-8e74-aa046181e868", "ee74c509-4260-4441-bf84-ed427d866c46", "2005e140-5c04-410a-8402-acdf712cfb84" ]
+      }
+    },
+    "isoCategory" : "122292",
+    "supplier" : {
+      "name" : "Alu Rehab AS",
+      "id" : "b85c8c06-b776-4416-8fee-cab1223e75ae"
+    },
+    "media" : [ ],
+    "accessory" : true,
+    "sparePart" : false,
+    "main" : false
+  }, {
+    "id" : "50e68dd5-69a7-458a-aa7c-d7e2d01aacdd",
+    "title" : "Pute rygg mrs Netti V Netti Stabil sb47,5x50cm 3D",
+    "articleName" : "Pute rygg mrs Netti V Netti Stabil sb47,5x50cm 3D",
+    "seriesId" : "09c1848e-8344-4f5d-8650-144970b39408",
+    "hmsArtNr" : "316257",
+    "supplierRef" : "367315",
+    "attributes" : {
+      "compatibleWith" : {
+        "seriesIds" : [ "70f928c2-0ceb-469e-b5cf-9ac9093bf542" ],
+        "productIds" : [ "7fdddbcf-b5f3-417c-a4bb-2fb9358786c4" ]
+      }
+    },
+    "isoCategory" : "122292",
+    "supplier" : {
+      "name" : "Alu Rehab AS",
+      "id" : "b85c8c06-b776-4416-8fee-cab1223e75ae"
+    },
+    "media" : [ ],
+    "accessory" : true,
+    "sparePart" : false,
+    "main" : false
+  }, {
+    "id" : "b91e40e5-65d5-42ce-9721-311677c3aed2",
+    "title" : "Pute sete mrs Netti V/III/HD Netti Uno sb43x50 3D",
+    "articleName" : "Pute sete mrs Netti V/III/HD Netti Uno sb43x50 3D",
+    "seriesId" : "23cdbfbe-a5cb-4aec-aaf4-d901d6c61749",
+    "hmsArtNr" : "154511",
+    "supplierRef" : "171818",
+    "attributes" : {
+      "compatibleWith" : {
+        "seriesIds" : [ "70f928c2-0ceb-469e-b5cf-9ac9093bf542" ],
+        "productIds" : [ "fbf733f2-778f-4a53-923c-0bb190b7c112", "cd44f85f-32e4-4440-bc87-f485d386cefa", "f2c786aa-03f8-497f-875b-fca6ec0ead0a", "acffc28a-1357-45ee-9a85-ae4eb2a2de8d", "d8faaf7b-3b5d-4e91-ac08-b6e828c18670", "4c1ee78f-bc83-4977-965e-532b40c30bec" ]
+      }
+    },
+    "isoCategory" : "122292",
+    "supplier" : {
+      "name" : "Alu Rehab AS",
+      "id" : "b85c8c06-b776-4416-8fee-cab1223e75ae"
+    },
+    "media" : [ ],
+    "accessory" : true,
+    "sparePart" : false,
+    "main" : false
+  }, {
+    "id" : "03d50d8f-38c6-413d-a274-33e510e43932",
+    "title" : "Pute rygg mrs Netti V Trekk Netti Stabil sb47,5x50cm 3D",
+    "articleName" : "Pute rygg mrs Netti V Trekk Netti Stabil sb47,5x50cm 3D",
+    "seriesId" : "800df48c-cdf1-483f-afc7-207fc9efd91d",
+    "hmsArtNr" : "316267",
+    "supplierRef" : "367215",
+    "attributes" : {
+      "compatibleWith" : {
+        "seriesIds" : [ "70f928c2-0ceb-469e-b5cf-9ac9093bf542" ],
+        "productIds" : [ "7fdddbcf-b5f3-417c-a4bb-2fb9358786c4" ]
+      }
+    },
+    "isoCategory" : "122292",
+    "supplier" : {
+      "name" : "Alu Rehab AS",
+      "id" : "b85c8c06-b776-4416-8fee-cab1223e75ae"
+    },
+    "media" : [ ],
+    "accessory" : true,
+    "sparePart" : false,
+    "main" : false
+  }, {
+    "id" : "fd25a0ff-5fe5-481d-85e9-9956204246fc",
+    "title" : "Pute rygg mrs Netti V Trekk Netti Stabil sb52,5x50cm 3D",
+    "articleName" : "Pute rygg mrs Netti V Trekk Netti Stabil sb52,5x50cm 3D",
+    "seriesId" : "5fbe3bea-b9fd-42ce-a58a-e2bd0bebf84d",
+    "hmsArtNr" : "316269",
+    "supplierRef" : "367216",
+    "attributes" : {
+      "compatibleWith" : {
+        "seriesIds" : [ "70f928c2-0ceb-469e-b5cf-9ac9093bf542" ],
+        "productIds" : [ "c085542b-6665-426b-aec2-1d218ea8c470" ]
+      }
+    },
+    "isoCategory" : "122292",
+    "supplier" : {
+      "name" : "Alu Rehab AS",
+      "id" : "b85c8c06-b776-4416-8fee-cab1223e75ae"
+    },
+    "media" : [ ],
+    "accessory" : true,
+    "sparePart" : false,
+    "main" : false
+  } ],
+  "produkt" : {
+    "id" : "8412c120-e2f3-4b58-b466-6f0b0e1608d4",
+    "title" : "Pad armlene sittemodul Netti Dynamic III HD 385x58mm pu",
+    "articleName" : "Pad armlene sittemodul Netti Dynamic III HD 385x58mm pu",
+    "seriesId" : "2c6daf15-220c-43a6-a0cd-09d15f8db791",
+    "hmsArtNr" : "065633",
+    "supplierRef" : "20835",
+    "attributes" : {
+      "compatibleWith" : {
+        "seriesIds" : [ "00fbde2b-1280-408d-af3d-a950915d5acc", "70f928c2-0ceb-469e-b5cf-9ac9093bf542", "487c7a7e-31b6-405b-852a-dbf505df5e10" ],
+        "productIds" : [ "25a574f2-eea3-4d2d-85f7-eaf09dd62ec9", "2f16d8f0-3c24-4539-a30e-1bba3f9831d6", "5789114d-e218-42b3-b2a7-64f51b185e24", "cd44f85f-32e4-4440-bc87-f485d386cefa", "dc66f82b-88c0-48d7-a583-5f4a374eca5f", "8c1e20ae-7182-4eac-b23b-7c4a8a2d3c81", "c3f9fe95-f12f-4f48-b4a2-dbe7219d8415", "3e654c13-f575-4352-9d0d-253dc2ac0d4b", "8979d398-7c39-48c8-8e74-aa046181e868", "367f8b51-9de6-49b5-bd33-7924b9338410", "bb3e6016-4298-470b-afd8-902bba1dae1a", "d068f957-de6b-4e45-8416-48724c704055", "1d813b7f-c143-43d2-a9cf-ddbe7bd759da", "abf37e0b-eedc-416b-bc96-75653104942c", "0b1700fe-badc-4a8e-a910-c0b96ed24697", "e2c156ae-6e33-45b2-b38b-f443d9ad30d2", "c085542b-6665-426b-aec2-1d218ea8c470", "7fdddbcf-b5f3-417c-a4bb-2fb9358786c4", "d8faaf7b-3b5d-4e91-ac08-b6e828c18670", "df1832c2-45d9-416a-a981-7f173c0e872d", "dad71eb6-340e-4282-8ade-ad15a0e3f7db", "68a8a9b5-97b9-41b2-81be-1a0b9d8ab7b6", "da4aad0f-0d49-43e2-8238-db23646675b3", "16e1095c-3784-4299-bda1-199eba55f12b", "defdd90c-dde1-4951-af63-ebce431dca55", "a00934e0-e755-49de-baae-d9260294121b", "852f085d-5bf8-4ce5-b4ad-8eb510645e3b", "477a37cf-c07f-4a44-9691-7b5d32f21298", "a15505ae-f269-4c59-bacd-077e7b0e175e", "acffc28a-1357-45ee-9a85-ae4eb2a2de8d", "ff3ca98d-e9a6-42f5-9fbb-b4d5c791d0f4", "3365320d-5803-4026-bf43-822c309c6cd2", "9e03e79e-7ca2-4702-9115-4f381b41707f", "d1d09f62-8f39-4aba-bdef-08078c80ee29", "fbf733f2-778f-4a53-923c-0bb190b7c112", "cb5f312a-dcc7-481e-ba97-842256cb2b61", "2d6c5009-fee6-4b57-b265-9e8c7b13791a", "d157909f-0add-4aee-bc41-29d1d79c87cc", "2005e140-5c04-410a-8402-acdf712cfb84", "fd9d2675-f237-4d4e-9491-9b2dff08465b", "4c1ee78f-bc83-4977-965e-532b40c30bec" ]
+      }
+    },
+    "isoCategory" : "122291",
+    "supplier" : {
+      "name" : "Alu Rehab AS",
+      "id" : "b85c8c06-b776-4416-8fee-cab1223e75ae"
+    },
+    "media" : [ {
+      "uri" : "register/2c6daf15-220c-43a6-a0cd-09d15f8db791/2d23fa50-3221-4dda-9f50-6a649d14efdc.jpg",
+      "priority" : 1,
+      "type" : "IMAGE",
+      "text" : "IMG_4539",
+      "source" : "REGISTER"
+    } ],
+    "accessory" : true,
+    "sparePart" : true,
+    "main" : false
+  }
+}

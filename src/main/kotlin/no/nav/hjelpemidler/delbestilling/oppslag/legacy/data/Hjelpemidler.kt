@@ -303,8 +303,6 @@ val hmsnrTilHjelpemiddelnavn: Map<Hmsnr, Hjelpemiddelnavn> = listOf<Hjelpemiddel
     Hjelpemiddelnavn(hmsnr = "250043", navn = "X850"),
     Hjelpemiddelnavn(hmsnr = "250044", navn = "X850"),
     Hjelpemiddelnavn(hmsnr = "295532", navn = "X850"),
-    Hjelpemiddelnavn(hmsnr = "308941", navn = "X850S"),
-    Hjelpemiddelnavn(hmsnr = "308942", navn = "X850S"),
     Hjelpemiddelnavn(hmsnr = "308943", navn = "X850S"),
     Hjelpemiddelnavn(hmsnr = "308944", navn = "X850S"),
     Hjelpemiddelnavn(hmsnr = "278331", navn = "Cross 6 sb35 K"),
@@ -396,13 +394,8 @@ val hmsnrTilHjelpemiddelnavn: Map<Hmsnr, Hjelpemiddelnavn> = listOf<Hjelpemiddel
     Hjelpemiddelnavn(hmsnr = "316150", navn = "Netti 3 sb60"),
     Hjelpemiddelnavn(hmsnr = "316157", navn = "Netti V sb35"),
     Hjelpemiddelnavn(hmsnr = "316158", navn = "Netti V sb37,5"),
-    Hjelpemiddelnavn(hmsnr = "316159", navn = "Netti V sb40"),
-    Hjelpemiddelnavn(hmsnr = "316160", navn = "Netti V sb42,5"),
     Hjelpemiddelnavn(hmsnr = "316161", navn = "Netti V sb45"),
-    Hjelpemiddelnavn(hmsnr = "316162", navn = "Netti V sb47,5"),
-    Hjelpemiddelnavn(hmsnr = "316163", navn = "Netti V sb50"),
     Hjelpemiddelnavn(hmsnr = "316164", navn = "Netti V sb52,5"),
-    Hjelpemiddelnavn(hmsnr = "316165", navn = "Netti V sb55"),
     Hjelpemiddelnavn(hmsnr = "304585", navn = "Extreme X8 voksen"),
 ).associateBy { it.hmsnr }
 
