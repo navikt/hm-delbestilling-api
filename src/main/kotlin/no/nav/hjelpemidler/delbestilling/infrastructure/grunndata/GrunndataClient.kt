@@ -1,6 +1,6 @@
 package no.nav.hjelpemidler.delbestilling.infrastructure.grunndata
 
-import com.fasterxml.jackson.databind.JsonNode
+import tools.jackson.databind.JsonNode
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.request.headers

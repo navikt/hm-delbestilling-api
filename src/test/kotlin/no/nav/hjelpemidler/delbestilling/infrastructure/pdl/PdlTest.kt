@@ -1,11 +1,11 @@
 package no.nav.hjelpemidler.delbestilling.infrastructure.pdl
 
-import com.fasterxml.jackson.module.kotlin.readValue
 import no.nav.hjelpemidler.delbestilling.infrastructure.jsonMapper
 import no.nav.hjelpemidler.delbestilling.testdata.PdlRespons
 import no.nav.hjelpemidler.delbestilling.testdata.Testdata
 import no.nav.hjelpemidler.delbestilling.runWithTestContext
 import org.junit.jupiter.api.Test
+import tools.jackson.module.kotlin.readValue
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
 import kotlin.test.assertTrue

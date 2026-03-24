@@ -1,10 +1,8 @@
 package no.nav.hjelpemidler.delbestilling.config
 
-import com.fasterxml.jackson.databind.DeserializationFeature
-import com.fasterxml.jackson.databind.SerializationFeature
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
+import tools.jackson.databind.DeserializationFeature
 import io.ktor.callid.CALL_ID_DEFAULT_DICTIONARY
-import io.ktor.serialization.jackson.jackson
+import io.ktor.serialization.jackson3.jackson
 import io.ktor.server.application.Application
 import io.ktor.server.application.install
 import io.ktor.server.auth.authentication
@@ -32,6 +30,7 @@ import no.nav.tms.token.support.tokenx.validation.mock.LevelOfAssurance
 import no.nav.tms.token.support.tokenx.validation.mock.tokenXMock
 import no.nav.tms.token.support.tokenx.validation.tokenX
 import org.slf4j.event.Level
+import tools.jackson.databind.cfg.DateTimeFeature
 import java.util.TimeZone
 import kotlin.time.Duration.Companion.seconds
 
@@ -40,9 +39,8 @@ fun Application.configure() {
 
     install(ContentNegotiation) {
         jackson {
-            registerModule(JavaTimeModule())
             disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)
-            disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS)
+            disable(DateTimeFeature.WRITE_DATES_AS_TIMESTAMPS)
         }
     }
 
