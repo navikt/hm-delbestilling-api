@@ -1,5 +1,6 @@
 package no.nav.hjelpemidler.delbestilling.delbestilling
 
+import io.github.oshai.kotlinlogging.KotlinLogging
 import no.nav.hjelpemidler.database.JdbcOperations
 import no.nav.hjelpemidler.database.Row
 import no.nav.hjelpemidler.database.pgObjectOf
@@ -11,6 +12,8 @@ import no.nav.hjelpemidler.delbestilling.common.Serienr
 import no.nav.hjelpemidler.delbestilling.common.Status
 import no.nav.hjelpemidler.delbestilling.infrastructure.jsonMapper
 import no.nav.hjelpemidler.delbestilling.infrastructure.roller.Organisasjon
+
+private val logg = KotlinLogging.logger {}
 
 class DelbestillingRepository(val tx: JdbcOperations) {
 
@@ -110,7 +113,7 @@ class DelbestillingRepository(val tx: JdbcOperations) {
               AND opprettet < NOW() - (:dager * INTERVAL '1 day')
             ORDER BY opprettet ASC;
         """.trimIndent(),
-            queryParameters = mapOf("dager" to eldreEnnDager)
+        queryParameters = mapOf("dager" to eldreEnnDager)
     ) { it.tilDelbestillingSak() }
 
     fun oppdaterDelbestillingSak(sak: DelbestillingSak) {
@@ -133,18 +136,22 @@ class DelbestillingRepository(val tx: JdbcOperations) {
     }
 }
 
-private fun Row.tilDelbestillingSak() = DelbestillingSak(
-    saksnummer = this.long("saksnummer"),
-    delbestilling = this.json("delbestilling_json"),
-    opprettet = this.localDateTime("opprettet"),
-    status = Status.valueOf(this.string("status")),
-    sistOppdatert = this.localDateTime("sist_oppdatert"),
-    oebsOrdrenummer = this.stringOrNull("oebs_ordrenummer"),
-    brukersKommunenummer = this.string("brukers_kommunenr"),
-    brukersKommunenavn = this.string("brukers_kommunenavn"),
-    enhetnr = this.string("enhetnr"),
-    enhetnavn = this.string("enhetnavn"),
-)
+private fun Row.tilDelbestillingSak(): DelbestillingSak {
+    val saksnummer = this.long("saksnummer")
+    logg.info { "Mapper sak $saksnummer til DelbestillingSak" }
+    return DelbestillingSak(
+        saksnummer = this.long("saksnummer"),
+        delbestilling = this.json("delbestilling_json"),
+        opprettet = this.localDateTime("opprettet"),
+        status = Status.valueOf(this.string("status")),
+        sistOppdatert = this.localDateTime("sist_oppdatert"),
+        oebsOrdrenummer = this.stringOrNull("oebs_ordrenummer"),
+        brukersKommunenummer = this.string("brukers_kommunenr"),
+        brukersKommunenavn = this.string("brukers_kommunenavn"),
+        enhetnr = this.string("enhetnr"),
+        enhetnavn = this.string("enhetnavn"),
+    )
+}
 
 private fun <T> pgJsonbOf(value: T): Any =
     pgObjectOf(type = "jsonb", value = jsonMapper.writeValueAsString(value))
