@@ -136,22 +136,19 @@ class DelbestillingRepository(val tx: JdbcOperations) {
     }
 }
 
-private fun Row.tilDelbestillingSak(): DelbestillingSak {
-    val saksnummer = this.long("saksnummer")
-    logg.info { "Mapper sak $saksnummer til DelbestillingSak" }
-    return DelbestillingSak(
-        saksnummer = this.long("saksnummer"),
-        delbestilling = this.json("delbestilling_json"),
-        opprettet = this.localDateTime("opprettet"),
-        status = Status.valueOf(this.string("status")),
-        sistOppdatert = this.localDateTime("sist_oppdatert"),
-        oebsOrdrenummer = this.stringOrNull("oebs_ordrenummer"),
-        brukersKommunenummer = this.string("brukers_kommunenr"),
-        brukersKommunenavn = this.string("brukers_kommunenavn"),
-        enhetnr = this.string("enhetnr"),
-        enhetnavn = this.string("enhetnavn"),
-    )
-}
+private fun Row.tilDelbestillingSak() = DelbestillingSak(
+    saksnummer = this.long("saksnummer"),
+    delbestilling = this.json("delbestilling_json"),
+    opprettet = this.localDateTime("opprettet"),
+    status = Status.valueOf(this.string("status")),
+    sistOppdatert = this.localDateTime("sist_oppdatert"),
+    oebsOrdrenummer = this.stringOrNull("oebs_ordrenummer"),
+    brukersKommunenummer = this.string("brukers_kommunenr"),
+    brukersKommunenavn = this.string("brukers_kommunenavn"),
+    enhetnr = this.string("enhetnr"),
+    enhetnavn = this.string("enhetnavn"),
+)
+
 
 private fun <T> pgJsonbOf(value: T): Any =
     pgObjectOf(type = "jsonb", value = jsonMapper.writeValueAsString(value))

@@ -3,7 +3,7 @@ package no.nav.hjelpemidler.delbestilling.oppslag
 import io.github.oshai.kotlinlogging.KotlinLogging
 import no.nav.hjelpemidler.delbestilling.common.Hmsnr
 import no.nav.hjelpemidler.delbestilling.common.Kilde
-import no.nav.hjelpemidler.delbestilling.common.Lagerstatus
+import no.nav.hjelpemidler.delbestilling.common.Foo
 import no.nav.hjelpemidler.delbestilling.infrastructure.oebs.Utlån
 import no.nav.hjelpemidler.delbestilling.oppslag.legacy.defaultAntall
 
@@ -51,7 +51,7 @@ data class Del(
     val defaultAntall: Int = defaultAntall(kategori),
     val maksAntall: Int,
     val imgs: List<String> = emptyList(),
-    val lagerstatus: Lagerstatus? = null,
+    val lagerstatus: Foo? = null,
     val kilde: Kilde? = Kilde.MANUELL_LISTE,
     val erReservedel: Boolean = false,
     val erTilbehør: Boolean = false,

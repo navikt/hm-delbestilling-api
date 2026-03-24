@@ -1,7 +1,7 @@
 package no.nav.hjelpemidler.delbestilling.devtools
 
 import io.github.oshai.kotlinlogging.KotlinLogging
-import no.nav.hjelpemidler.delbestilling.common.Lagerstatus
+import no.nav.hjelpemidler.delbestilling.common.Foo
 import no.nav.hjelpemidler.delbestilling.config.isDev
 import no.nav.hjelpemidler.delbestilling.delbestilling.anmodning.DelUtenDekningDao
 import no.nav.hjelpemidler.delbestilling.infrastructure.email.ContentType
@@ -59,7 +59,7 @@ class DevTools(
             val erMinmax = del.hmsnr.toInt() % 3 != 0                // Gjør ca 66% tilgjengelig
             val antallPåLager = del.hmsnr.takeLast(1).toInt()    // Antall tilgjengelig = siste siffer i hmsnr
             del.copy(
-                lagerstatus = Lagerstatus(
+                lagerstatus = Foo(
                     organisasjons_id = 292,
                     organisasjons_navn = "*19 Troms",
                     artikkelnummer = del.hmsnr,

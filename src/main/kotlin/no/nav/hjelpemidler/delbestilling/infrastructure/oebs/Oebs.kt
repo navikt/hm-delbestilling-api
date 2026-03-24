@@ -4,7 +4,7 @@ import io.github.oshai.kotlinlogging.KotlinLogging
 import no.nav.hjelpemidler.delbestilling.common.Lager
 import no.nav.hjelpemidler.delbestilling.common.DelbestillingSak
 import no.nav.hjelpemidler.delbestilling.common.Hmsnr
-import no.nav.hjelpemidler.delbestilling.common.Lagerstatus
+import no.nav.hjelpemidler.delbestilling.common.Foo
 import no.nav.hjelpemidler.domain.person.Fødselsnummer
 
 private val log = KotlinLogging.logger {}
@@ -40,18 +40,18 @@ class Oebs(
     }
 
     // TODO endre all bruk til å bruke slik som hentLagerstatusForKommunenummerAsMap
-    suspend fun hentLagerstatusForKommunenummer(kommunenummer: String, hmsnrs: List<String>): List<Lagerstatus> {
+    suspend fun hentLagerstatusForKommunenummer(kommunenummer: String, hmsnrs: List<String>): List<Foo> {
         log.info { "Henter lagerstatus for kommunenummer $kommunenummer for hmsnrs $hmsnrs" }
         val lagerenhet = finnLagerenhet(kommunenummer)
         return hentLagerstatusForEnhet(lagerenhet, hmsnrs)
     }
 
-    suspend fun hentLagerstatusForKommunenummerAsMap(kommunenummer: String, hmsnrs: List<String>): Map<Hmsnr, Lagerstatus> {
+    suspend fun hentLagerstatusForKommunenummerAsMap(kommunenummer: String, hmsnrs: List<String>): Map<Hmsnr, Foo> {
         return hentLagerstatusForKommunenummer(kommunenummer, hmsnrs)
             .associateBy { it.artikkelnummer }
     }
 
-    suspend fun hentLagerstatusForEnhet(lager: Lager, hmsnrs: List<String>): List<Lagerstatus> {
+    suspend fun hentLagerstatusForEnhet(lager: Lager, hmsnrs: List<String>): List<Foo> {
         log.info { "Henter lagerstatus for enhet $lager for hmsnrs $hmsnrs" }
         val response = client.hentLagerstatusForEnhetnr(lager.nummer, hmsnrs)
         return response.map { it.tilLagerstatus() }

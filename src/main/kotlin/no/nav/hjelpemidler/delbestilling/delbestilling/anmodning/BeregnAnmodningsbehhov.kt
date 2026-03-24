@@ -1,7 +1,7 @@
 package no.nav.hjelpemidler.delbestilling.delbestilling.anmodning
 
 import io.github.oshai.kotlinlogging.KotlinLogging
-import no.nav.hjelpemidler.delbestilling.common.Lagerstatus
+import no.nav.hjelpemidler.delbestilling.common.Foo
 import kotlin.math.abs
 import kotlin.math.min
 
@@ -9,7 +9,7 @@ private val log = KotlinLogging.logger { }
 
 fun beregnAnmodningsbehovForDelVedInnsending(
     del: Del,
-    lagerstatus: Lagerstatus
+    lagerstatus: Foo
 ): AnmodningsbehovForDel {
     val (hmsnr, navn, antallBestilt) = del
     log.info { "Vurderer anmodningsbehov ved innsending for $antallBestilt stk. av $hmsnr med $lagerstatus" }
@@ -66,7 +66,7 @@ fun beregnAnmodningsbehovForDelVedInnsending(
 
 fun beregnAnmodningsbehovVedRapportering(
     del: Del,
-    lagerstatus: Lagerstatus
+    lagerstatus: Foo
 ): AnmodningsbehovForDel {
     val (hmsnr, navn, antallBestilt) = del
     log.info { "Vurderer anmodningsbehov ved rapportering for $antallBestilt stk. av $hmsnr med $lagerstatus" }

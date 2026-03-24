@@ -54,7 +54,7 @@ data class DelLinje(
     val status: DellinjeStatus? = null,
     val datoSkipningsbekreftet: LocalDate? = null,
     val forventetLeveringsdato: LocalDate? = null,
-    val lagerstatusPåBestillingstidspunkt: Lagerstatus? = null
+    val lagerstatusPåBestillingstidspunkt: Foo? = null
 ) {
     fun erBatteri() = del.erBatteri()
 }
@@ -68,7 +68,7 @@ data class Del(
     val defaultAntall: Int = defaultAntall(kategori),
     val maksAntall: Int,
     val imgs: List<String> = emptyList(),
-    var lagerstatus: Lagerstatus? = null,
+    var lagerstatus: Foo? = null,
     val kilde: Kilde? = Kilde.MANUELL_LISTE,
     val erReservedel: Boolean = false,
     val erTilbehør: Boolean = false,
@@ -76,7 +76,7 @@ data class Del(
     fun erBatteri() = kategori == "Batteri"
 }
 
-data class Lagerstatus(
+data class Foo(
     val organisasjons_id: Int,
     val organisasjons_navn: String,
     val artikkelnummer: String,

@@ -1,6 +1,6 @@
 package no.nav.hjelpemidler.delbestilling.infrastructure.oebs
 
-import no.nav.hjelpemidler.delbestilling.common.Lagerstatus
+import no.nav.hjelpemidler.delbestilling.common.Foo
 import java.time.LocalDate
 
 
@@ -76,7 +76,7 @@ data class LagerstatusResponse(
     //val lagervare: Boolean,
     val minmax: Boolean,
 ) {
-    fun tilLagerstatus() = Lagerstatus(
+    fun tilLagerstatus() = Foo(
         organisasjons_id = this.organisasjons_id,
         organisasjons_navn = this.organisasjons_navn,
         artikkelnummer = this.artikkelnummer,

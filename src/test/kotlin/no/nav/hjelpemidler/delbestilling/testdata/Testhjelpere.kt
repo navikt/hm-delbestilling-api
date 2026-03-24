@@ -6,7 +6,7 @@ import no.nav.hjelpemidler.delbestilling.common.Delbestilling
 import no.nav.hjelpemidler.delbestilling.delbestilling.DelbestillingRequest
 import no.nav.hjelpemidler.delbestilling.common.DelbestillingSak
 import no.nav.hjelpemidler.delbestilling.common.Hmsnr
-import no.nav.hjelpemidler.delbestilling.common.Lagerstatus
+import no.nav.hjelpemidler.delbestilling.common.Foo
 import no.nav.hjelpemidler.delbestilling.common.Levering
 import no.nav.hjelpemidler.delbestilling.common.Status
 import no.nav.hjelpemidler.delbestilling.fakes.GrunndataTestHmsnr
@@ -68,7 +68,7 @@ fun delLinje(
     hmsnr: String = "150817",
     navn: String = "Dekk 24\" mrs Schwalbe",
     kategori: String = "Dekk",
-    lagerstatus: Lagerstatus? = null,
+    lagerstatus: Foo? = null,
 ) =
     DelLinje(
         Del(

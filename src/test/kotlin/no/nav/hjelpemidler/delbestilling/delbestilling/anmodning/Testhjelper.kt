@@ -1,7 +1,7 @@
 package no.nav.hjelpemidler.delbestilling.delbestilling.anmodning
 
 import no.nav.hjelpemidler.delbestilling.common.Hmsnr
-import no.nav.hjelpemidler.delbestilling.common.Lagerstatus
+import no.nav.hjelpemidler.delbestilling.common.Foo
 
 
 fun del(
@@ -17,7 +17,7 @@ fun lagerstatus(
     antall: Int,
     hmsnr: Hmsnr = "123456",
     minmax: Boolean = false,
-) = Lagerstatus(
+) = Foo(
     organisasjons_id = 4703,
     organisasjons_navn = "HMS Oslo",
     artikkelnummer = hmsnr,
