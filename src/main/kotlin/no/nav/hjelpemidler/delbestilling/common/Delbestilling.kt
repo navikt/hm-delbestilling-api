@@ -82,7 +82,7 @@ data class Lagerstatus(
     val artikkelnummer: String,
     val minmax: Boolean,
     val tilgjengelig: Int,
-    val antallDelerPåLager: Int,
+    val antallDelerPåLager: Int = 0,
 )
 
 enum class Kilde {
