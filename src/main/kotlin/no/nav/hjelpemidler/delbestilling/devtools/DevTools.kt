@@ -9,7 +9,9 @@ import no.nav.hjelpemidler.delbestilling.infrastructure.email.Email
 import no.nav.hjelpemidler.delbestilling.infrastructure.oebs.Oebs
 import no.nav.hjelpemidler.delbestilling.infrastructure.pdl.Pdl
 import no.nav.hjelpemidler.delbestilling.infrastructure.persistence.transaction.Transactional
+import no.nav.hjelpemidler.delbestilling.oppslag.FinnDelerResultat
 import no.nav.hjelpemidler.delbestilling.oppslag.FinnDelerTilHjelpemiddel
+import no.nav.hjelpemidler.delbestilling.oppslag.Hjelpemiddel
 import no.nav.hjelpemidler.delbestilling.oppslag.OppslagResultat
 import no.nav.hjelpemidler.delbestilling.oppslag.legacy.data.hmsnr2Hjm
 
@@ -52,7 +54,11 @@ class DevTools(
 
     suspend fun slåOppHjelpemiddelMedFakeLagerstatus(hmsnr: String, serienr: String): OppslagResultat {
         log.info { "Slår opp hmsnr=$hmsnr for dev.ekstern, og beriker med fake lagerstatus" }
-        var hjelpemiddel = finnDelerTilHjelpemiddel(hmsnr).sorterDeler()
+        val finnDelerResultat = finnDelerTilHjelpemiddel(hmsnr)
+        var hjelpemiddel: Hjelpemiddel = when (finnDelerResultat) {
+            is FinnDelerResultat.Funnet -> finnDelerResultat.hjelpemiddel.sorterDeler()
+            is FinnDelerResultat.IkkeFunnet -> throw IllegalArgumentException("Hjelpemiddel $hmsnr ikke funnet: ${finnDelerResultat.feil}")
+        }
 
         // legg på pseudo-random lagerstatus
         val delerMedLagerstatus = hjelpemiddel.deler.map { del ->

@@ -84,8 +84,10 @@ class Hjelpemiddeloversikt(
     suspend fun hentDelerTilHmsnrs (hmsnrs: List<String>): List<String> = coroutineScope {
         val delerNavn = hmsnrs.map { hmsnr ->
             async {
-                val hm = finnDelerTilHjelpemiddel(hmsnr)
-                hm.deler.map {del -> del.navn }
+                when (val result = finnDelerTilHjelpemiddel(hmsnr)) {
+                    is FinnDelerResultat.Funnet -> result.hjelpemiddel.deler.map { del -> del.navn }
+                    is FinnDelerResultat.IkkeFunnet -> emptyList()
+                }
             }
         }.awaitAll().flatten().distinct().sorted()
 

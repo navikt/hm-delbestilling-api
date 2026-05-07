@@ -1,6 +1,7 @@
 package no.nav.hjelpemidler.delbestilling.oppslag
 
 import io.github.oshai.kotlinlogging.KotlinLogging
+import io.ktor.http.HttpStatusCode
 import io.ktor.server.plugins.ratelimit.RateLimitName
 import io.ktor.server.plugins.ratelimit.rateLimit
 import io.ktor.server.request.receive
@@ -29,7 +30,13 @@ fun Route.publicApi(
         post("/oppslag") {
             val request = call.receive<OppslagRequest>()
             log.info { "/oppslag request: $request" }
-            call.respond(oppslagService.slåOppHjelpemiddel(request.hmsnr, request.serienr))
+            when (val result = oppslagService.slåOppHjelpemiddel(request.hmsnr, request.serienr)) {
+                is OppslagResult.Suksess -> call.respond(result.resultat)
+                is OppslagResult.Feil -> {
+                    log.info { "Oppslag feilet: ${result.feil}" }
+                    call.respond(HttpStatusCode.NotFound, OppslagFeilResponse(result.feil))
+                }
+            }
         }
     }
 }

@@ -1,26 +1,19 @@
 package no.nav.hjelpemidler.delbestilling.oppslag
 
-import io.ktor.http.HttpStatusCode
-
 enum class OppslagFeil {
-    TILBYR_IKKE_HJELPEMIDDEL, INGET_UTLÅN, IKKE_HOVEDHJELPEMIDDEL
+    TILBYR_IKKE_HJELPEMIDDEL, INGET_UTLÅN, PERSON_IKKE_FUNNET
 }
 
 data class OppslagFeilResponse(
     val feil: OppslagFeil,
 )
 
-sealed class OppslagException(
-    message: String,
-    val status: HttpStatusCode,
-    val feil: OppslagFeil,
-) : RuntimeException(message)
+sealed class OppslagResult {
+    data class Suksess(val resultat: OppslagResultat) : OppslagResult()
+    data class Feil(val feil: OppslagFeil) : OppslagResult()
+}
 
-class IkkeHjelpemiddelException(message: String) :
-    OppslagException(message, HttpStatusCode.NotFound, OppslagFeil.IKKE_HOVEDHJELPEMIDDEL)
-
-class IngenUtlånException(message: String) :
-    OppslagException(message, HttpStatusCode.NotFound, OppslagFeil.INGET_UTLÅN)
-
-class TilbyrIkkeHjelpemiddelException(message: String) :
-        OppslagException(message, HttpStatusCode.NotFound, OppslagFeil.TILBYR_IKKE_HJELPEMIDDEL)
+sealed class FinnDelerResultat {
+    data class Funnet(val hjelpemiddel: Hjelpemiddel) : FinnDelerResultat()
+    data class IkkeFunnet(val feil: OppslagFeil) : FinnDelerResultat()
+}

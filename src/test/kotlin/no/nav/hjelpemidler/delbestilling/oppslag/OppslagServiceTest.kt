@@ -4,8 +4,8 @@ import no.nav.hjelpemidler.delbestilling.infrastructure.pdl.PdlResponseMissingDa
 import no.nav.hjelpemidler.delbestilling.runWithTestContext
 import no.nav.hjelpemidler.delbestilling.testdata.PdlRespons
 import no.nav.hjelpemidler.delbestilling.testdata.Testdata
-import no.nav.hjelpemidler.domain.geografi.Kommune.Companion.OSLO
 import org.junit.jupiter.api.Test
+import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
 import kotlin.test.assertTrue
 
@@ -13,21 +13,20 @@ class OppslagServiceTest {
 
     @Test
     fun `(happy path) skal slå opp hjelpemiddel og berike med lagerstatus`() = runWithTestContext {
-        val oppslag = oppslagService.slåOppHjelpemiddel(Testdata.defaultHjmHmsnr, Testdata.defaultHjmSerienr)
-        assertTrue(oppslag.hjelpemiddel.deler.isNotEmpty())
-        assertTrue(oppslag.hjelpemiddel.deler.all { it.lagerstatus != null })
+        val result = oppslagService.slåOppHjelpemiddel(Testdata.defaultHjmHmsnr, Testdata.defaultHjmSerienr)
+        assertTrue(result is OppslagResult.Suksess)
+        assertTrue(result.resultat.hjelpemiddel.deler.isNotEmpty())
+        assertTrue(result.resultat.hjelpemiddel.deler.all { it.lagerstatus != null })
     }
 
     @Test
-    fun `skal kaste feil dersom utlånet ikke finnes`() = runWithTestContext {
+    fun `skal returnere feil dersom utlånet ikke finnes`() = runWithTestContext {
         oebsApiProxy.utlån = null
 
-        val exception = assertFailsWith<IngenUtlånException> {
-            oppslagService.slåOppHjelpemiddel(Testdata.defaultHjmHmsnr, Testdata.defaultHjmSerienr)
-        }
+        val result = oppslagService.slåOppHjelpemiddel(Testdata.defaultHjmHmsnr, Testdata.defaultHjmSerienr)
 
-        assertTrue(exception.message!!.contains(Testdata.defaultHjmHmsnr))
-        assertTrue(exception.message!!.contains(Testdata.defaultHjmSerienr))
+        assertTrue(result is OppslagResult.Feil)
+        assertEquals(OppslagFeil.INGET_UTLÅN, result.feil)
     }
 
     @Test

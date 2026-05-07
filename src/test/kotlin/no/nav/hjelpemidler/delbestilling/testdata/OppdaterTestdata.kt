@@ -6,6 +6,7 @@ import no.nav.hjelpemidler.delbestilling.common.Kilde
 import no.nav.hjelpemidler.delbestilling.infrastructure.grunndata.Grunndata
 import no.nav.hjelpemidler.delbestilling.infrastructure.grunndata.GrunndataClient
 import no.nav.hjelpemidler.delbestilling.infrastructure.jsonMapper
+import no.nav.hjelpemidler.delbestilling.oppslag.FinnDelerResultat
 import no.nav.hjelpemidler.delbestilling.oppslag.FinnDelerTilHjelpemiddel
 import no.nav.hjelpemidler.delbestilling.oppslag.legacy.data.hmsnr2Hjm
 import java.io.File
@@ -48,8 +49,12 @@ private suspend fun finnHjelpemiddelIGrunndataMenMedKunManuelleDeler() {
 
         val foo = finnDelerTilHjelpemiddel(it)
 
-        if (foo.deler.all { it.kilde == Kilde.MANUELL_LISTE }) {
-            println("$foo har deler bare i manuell liste")
+        if (foo is FinnDelerResultat.IkkeFunnet || foo !is FinnDelerResultat.Funnet) {
+            return@forEach
+        }
+
+        if (foo.hjelpemiddel.deler.all { it.kilde == Kilde.MANUELL_LISTE }) {
+            println("${foo.hjelpemiddel} har deler bare i manuell liste")
             return
         }
     }

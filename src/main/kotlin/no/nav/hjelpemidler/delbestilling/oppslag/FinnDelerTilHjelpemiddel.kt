@@ -18,7 +18,7 @@ class FinnDelerTilHjelpemiddel(
     private val metrics: Metrics,
 ) {
 
-    suspend operator fun invoke(hmsnr: Hmsnr, sendStatistikk: Boolean = false): Hjelpemiddel {
+    suspend operator fun invoke(hmsnr: Hmsnr, sendStatistikk: Boolean = false): FinnDelerResultat {
         log.info { "Henter deler for hjelpemiddel $hmsnr" }
 
         val hjmManuellListe = hmsnr2Hjm[hmsnr]
@@ -29,13 +29,10 @@ class FinnDelerTilHjelpemiddel(
         }
 
         val hjelpemiddel = slåSammen(hjmGrunndata, hjmManuellListe)
-
-        if (hjelpemiddel == null) {
-            throw TilbyrIkkeHjelpemiddelException("Fant ikke $hmsnr verken i grunndata eller manuell liste")
-        }
+            ?: return FinnDelerResultat.IkkeFunnet(OppslagFeil.TILBYR_IKKE_HJELPEMIDDEL)
 
         if (hjelpemiddel.deler.isEmpty()) {
-            throw TilbyrIkkeHjelpemiddelException("Fant ingen deler i verken grunndata eller manuell liste for $hmsnr")
+            return FinnDelerResultat.IkkeFunnet(OppslagFeil.TILBYR_IKKE_HJELPEMIDDEL)
         }
 
         if (sendStatistikk) {
@@ -43,7 +40,7 @@ class FinnDelerTilHjelpemiddel(
         }
 
         log.info { "hjelpemiddel for $hmsnr: $hjelpemiddel" }
-        return hjelpemiddel
+        return FinnDelerResultat.Funnet(hjelpemiddel)
     }
 
     private suspend fun hentHjelpemiddelFraGrunndata(hmsnr: Hmsnr): Hjelpemiddel? {
@@ -56,7 +53,8 @@ class FinnDelerTilHjelpemiddel(
             }
 
             if (!produkt.main) {
-                throw IkkeHjelpemiddelException("Hmsnr $hmsnr er ikke hjelpemiddel.")
+                log.info { "Hmsnr $hmsnr er ikke et hovedhjelpemiddel i grunndata (main=false)" }
+                return null
             }
 
             val deler = grunndata.hentDeler(produkt.seriesId, produkt.id)

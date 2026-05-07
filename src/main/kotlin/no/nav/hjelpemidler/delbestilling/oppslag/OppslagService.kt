@@ -6,6 +6,7 @@ import kotlinx.coroutines.coroutineScope
 import no.nav.hjelpemidler.delbestilling.infrastructure.oebs.Oebs
 import no.nav.hjelpemidler.delbestilling.infrastructure.oebs.Utlån
 import no.nav.hjelpemidler.delbestilling.infrastructure.pdl.Pdl
+import no.nav.hjelpemidler.delbestilling.infrastructure.pdl.PersonNotFoundInPdl
 
 
 private val log = KotlinLogging.logger {}
@@ -19,29 +20,39 @@ class OppslagService(
     private val berikMedDagerSidenForrigeBatteribestilling: BerikMedDagerSidenForrigeBatteribestilling,
 ) {
 
-    suspend fun slåOppHjelpemiddel(hmsnr: String, serienr: String): OppslagResultat = coroutineScope {
+    suspend fun slåOppHjelpemiddel(hmsnr: String, serienr: String): OppslagResult = coroutineScope {
         data class BrukerInfo(
             val utlån: Utlån,
             val kommunenummer: String
         )
 
         val brukerInfoDeferred = async {
-            val utlån = oebs.hentUtlånPåArtNrOgSerienr(hmsnr, serienr)
-                ?: throw IngenUtlånException("Fant ingen utlån for hmsnr $hmsnr og serien $serienr")
-            log.info { "utlån: $utlån" }
-            val kommunenummer = pdl.hentKommunenummer(utlån.fnr)
-            BrukerInfo(utlån, kommunenummer)
+            oebs.hentUtlånPåArtNrOgSerienr(hmsnr, serienr)?.let { utlån ->
+                log.info { "utlån: $utlån" }
+                BrukerInfo(utlån, pdl.hentKommunenummer(utlån.fnr))
+            }
         }
 
-        val hjelpemiddel = finnDelerTilHjelpemiddel(hmsnr, true)
+        val hjelpemiddelBase = when (val result = finnDelerTilHjelpemiddel(hmsnr, true)) {
+            is FinnDelerResultat.Funnet -> result.hjelpemiddel
+            is FinnDelerResultat.IkkeFunnet -> return@coroutineScope OppslagResult.Feil(result.feil)
+        }
+
+        val brukerInfo = try {
+            brukerInfoDeferred.await() ?: return@coroutineScope OppslagResult.Feil(OppslagFeil.INGET_UTLÅN)
+        } catch (e: PersonNotFoundInPdl) {
+            return@coroutineScope OppslagResult.Feil(OppslagFeil.PERSON_IKKE_FUNNET)
+        }
+
+        val hjelpemiddel = hjelpemiddelBase
             .let { berikMedDagerSidenForrigeBatteribestilling(it, serienr) }
-            .let { berikMedLagerstatus(it, brukerInfoDeferred.await().kommunenummer) }
-            .berikMedGaranti(brukerInfoDeferred.await().utlån)
+            .let { berikMedLagerstatus(it, brukerInfo.kommunenummer) }
+            .berikMedGaranti(brukerInfo.utlån)
             .sorterDeler()
 
-        val piloter = piloterService.hentPiloter(brukerInfoDeferred.await().kommunenummer)
+        val piloter = piloterService.hentPiloter(brukerInfo.kommunenummer)
 
-        OppslagResultat(hjelpemiddel, piloter)
+        OppslagResult.Suksess(OppslagResultat(hjelpemiddel, piloter))
     }
 
 }
