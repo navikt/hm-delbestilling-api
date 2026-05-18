@@ -42,7 +42,7 @@ class FinnDelerTilHjelpemiddelTest {
 
         // Forutsetninger
         val produkt = grunndata.hentProdukt(hmsnr)!!
-        assertTrue(grunndata.hentDeler(seriesId = produkt.seriesId, produktId = produkt.id).isEmpty())
+        assertTrue(grunndata.hentDeler(seriesId = produkt.serieId, produktId = produkt.produktId).isEmpty())
         assertTrue(hmsnr2Hjm[hmsnr]!!.deler.isNotEmpty())
 
         val hjelpemiddel = (finnDelerTilHjelpemiddel(hmsnr) as FinnDelerResultat.Funnet).hjelpemiddel

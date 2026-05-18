@@ -88,7 +88,7 @@ class AnmodningService(
             // Berik med leverandørnavn
             rapport.anmodningsbehov.forEach { behov ->
                 val leverandørnavn =
-                    grunndata.hentProdukt(behov.hmsnr)?.supplier?.name ?: manuelleLeverandørnavn[behov.hmsnr]
+                    grunndata.hentProdukt(behov.hmsnr)?.leverandørnavn ?: manuelleLeverandørnavn[behov.hmsnr]
                     ?: "Ukjent"
                 behov.leverandørnavn = leverandørnavn
             }

@@ -16,7 +16,6 @@ import no.nav.hjelpemidler.cache.refreshAfterWrite
 import no.nav.hjelpemidler.delbestilling.common.Hmsnr
 import no.nav.hjelpemidler.delbestilling.oppslag.legacy.data.hmsnrTilHjelpemiddelnavn
 import no.nav.hjelpemidler.delbestilling.infrastructure.grunndata.Grunndata
-import no.nav.hjelpemidler.delbestilling.infrastructure.grunndata.Produkt
 import no.nav.hjelpemidler.delbestilling.oppslag.legacy.data.hmsnr2Hjm
 import java.util.UUID
 import kotlin.system.measureTimeMillis
@@ -46,10 +45,10 @@ class Hjelpemiddeloversikt(
     suspend fun hentTilgjengeligeHjelpemidler(): Map<String, List<Hmsnr>> {
         val alleDelerSomKanBestilles = grunndata.hentAlleDelerSomKanBestilles()
         val produktIDs = alleDelerSomKanBestilles.map {
-            it.attributes.compatibleWith?.productIds ?: emptyList()
+            it.kompatibleProduktIder
         }.flatten().toSet()
         val serieIDs = alleDelerSomKanBestilles.map {
-            it.attributes.compatibleWith?.seriesIds ?: emptyList()
+            it.kompatibleSerieIder
         }.flatten().toSet()
 
         // Her er ALLE hjelpemidler, uavhengig av title. Dvs, det kan være f.els 3 stk med title="Cross", med 3 ulike hmsnrs som igjen har ulike deler
@@ -58,7 +57,7 @@ class Hjelpemiddeloversikt(
 
         // Lag en map over tittel og alle hmsnrs som har den tittelen i grunndata
         val grunndataHjelpemidler = alleHjelpemidlerSomHarDeler
-            .groupBy { it.title.trim() }
+            .groupBy { it.tittel.trim() }
             .mapValues { hm ->
                 hm.value.map {
                     it.hmsArtNr

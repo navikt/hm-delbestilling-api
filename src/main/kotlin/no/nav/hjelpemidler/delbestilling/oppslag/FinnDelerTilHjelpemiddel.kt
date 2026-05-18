@@ -52,31 +52,30 @@ class FinnDelerTilHjelpemiddel(
                 return null
             }
 
-            if (!produkt.main) {
+            if (!produkt.erHovedprodukt) {
                 log.info { "Hmsnr $hmsnr er ikke et hovedhjelpemiddel i grunndata (main=false)" }
                 return null
             }
 
-            val deler = grunndata.hentDeler(produkt.seriesId, produkt.id)
-            log.info { "Fant hmsnr ${produkt.hmsArtNr} ${produkt.articleName} i grunndata. Denne har ${deler.size} egnede deler fra grunndata knyttet til seg" }
+            val deler = grunndata.hentDeler(produkt.serieId, produkt.produktId)
+            log.info { "Fant hmsnr ${produkt.hmsArtNr} ${produkt.artikkelnavn} i grunndata. Denne har ${deler.size} egnede deler fra grunndata knyttet til seg" }
 
             return Hjelpemiddel(
-                navn = produkt.articleName,
+                navn = produkt.artikkelnavn,
                 hmsnr = produkt.hmsArtNr,
                 deler = deler.map {
-                    val kategori = it.articleName.split(" ").first()
-                    val bilder = it.bildeUrls(it.hmsArtNr)
+                    val kategori = it.artikkelnavn.split(" ").first()
                     Del(
                         hmsnr = it.hmsArtNr,
-                        navn = it.articleName,
-                        levArtNr = it.supplierRef,
+                        navn = it.artikkelnavn,
+                        levArtNr = it.leverandørRef,
                         kategori = kategori,
-                        maksAntall = maksAntall(kategori, it.isoCategory),
+                        maksAntall = maksAntall(kategori, it.isoKategori),
                         kilde = Kilde.GRUNNDATA,
                         defaultAntall = defaultAntall(kategori),
-                        imgs = bilder,
-                        erReservedel = it.sparePart,
-                        erTilbehør = it.accessory,
+                        imgs = it.bilder,
+                        erReservedel = it.erReservedel,
+                        erTilbehør = it.erTilbehør,
                     )
                 })
         } catch (e: Exception) {
