@@ -95,8 +95,6 @@ class MånedsrapportAnmodningsbehov(
             </head>
             <body>
                 <p>
-                    (Denne oversikten skulle egentlig sendes ut 1. mai, men ble ikke sendt pga. en teknisk feil.)
-                    
                     Her er en oversikt over hvilke deler dere har anmodet om forrige måned. 
                     Dere vurderer hva som skal legge inn med min og max verdier i forhold til volum hos dere. 
                     Det er ikke slik at alt må legges inn.
