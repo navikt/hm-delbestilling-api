@@ -19,6 +19,11 @@ fun Route.ordrestatusRoutes(
         val (status, oebsOrdrenummer) = call.receive<StatusOppdateringRequest>()
         log.info { "Oppdaterer status for delbestilling $id (hmdel_$id) til status $status" }
 
+        if(id == 7190L) {
+            log.info { "Hopper over statusoppdatering for sak 7190, pga bug som førte til at saken ikke ble lagret til db. status=$status, oebsOrdrenummer = $oebsOrdrenummer" }
+            return@put call.respond(HttpStatusCode.OK)
+        }
+
         try {
             delbestillingStatusService.oppdaterStatus(id, status, oebsOrdrenummer)
             call.respond(HttpStatusCode.OK)
