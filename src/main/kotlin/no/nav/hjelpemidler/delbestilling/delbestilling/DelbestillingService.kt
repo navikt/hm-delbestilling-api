@@ -142,10 +142,10 @@ class DelbestillingService(
 
             anmodningService.lagreDelerUtenDekning(nyDelbestillingSak)
 
-            oebs.sendDelbestilling(nyDelbestillingSak, Fødselsnummer(brukersFnr), bestillersNavn)
-
             nyDelbestillingSak
         }
+
+        oebs.sendDelbestilling(delbestillingSak, Fødselsnummer(brukersFnr), bestillersNavn)
 
         log.info { "Delbestilling '$id' sendt inn med saksnummer '${delbestillingSak.saksnummer}'" }
 

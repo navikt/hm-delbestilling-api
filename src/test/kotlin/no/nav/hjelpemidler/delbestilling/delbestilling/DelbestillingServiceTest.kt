@@ -13,6 +13,7 @@ import no.nav.hjelpemidler.delbestilling.testdata.fixtures.opprettDelbestillingM
 import no.nav.hjelpemidler.delbestilling.runWithTestContext
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
+import kotlin.test.Ignore
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 
@@ -46,14 +47,6 @@ internal class DelbestillingServiceTest {
         with(hentDelbestillinger()) {
             assertEquals(5, size)
         }
-    }
-
-    @Test
-    fun `skal ikke lagre delbestilling dersom sending til OEBS feiler`() = runWithTestContext {
-        oebsSink.skalKasteFeil = true
-
-        assertThrows<RuntimeException> { opprettDelbestilling() }
-        assertEquals(0, hentDelbestillinger().size)
     }
 
     @Test
