@@ -46,10 +46,13 @@ class OebsApiProxyClient(
     private suspend inline fun <reified T> post(url: String, body: Any? = null): T =
         executeRequest(url, HttpMethod.Post, body)
 
-    override suspend fun hentUtlånPåArtnrOgSerienr(artnr: String, serienr: String): UtlånPåArtnrOgSerienrResponse =
+    override suspend fun hentUtlånPåArtnrOgSerienr(artnr: String, serienr: String): UtlånMedSerienrResponse =
         post("$baseUrl/utlanSerienrArtnr", UtlånPåArtnrOgSerienrRequest(artnr, serienr))
 
-    override suspend fun hentUtlånPåArtnr(artnr: String): List<Utlån> =
+    override suspend fun hentUtlånPåArtnrOgBrukernr(artnr: String, brukernr: String): UtlånResponse =
+        post("$baseUrl/utlanBrukernrArtnr", UtlånPåArtnrOgBrukernrRequest(artnr, brukernr))
+
+    override suspend fun hentUtlånPåArtnr(artnr: String): List<UtlånMedSerienr> =
         post("$baseUrl/utlanArtnr", artnr)
 
     override suspend fun hentPersoninfo(fnr: String): List<OebsPersoninfo> =

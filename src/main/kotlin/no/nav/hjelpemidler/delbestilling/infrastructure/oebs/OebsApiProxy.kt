@@ -1,9 +1,11 @@
 package no.nav.hjelpemidler.delbestilling.infrastructure.oebs
 
 interface OebsApiProxy {
-    suspend fun hentUtlånPåArtnrOgSerienr(artnr: String, serienr: String): UtlånPåArtnrOgSerienrResponse
+    suspend fun hentUtlånPåArtnrOgSerienr(artnr: String, serienr: String): UtlånMedSerienrResponse
 
-    suspend fun hentUtlånPåArtnr(artnr: String): List<Utlån>
+    suspend fun hentUtlånPåArtnrOgBrukernr(artnr: String, brukernr: String): UtlånResponse
+
+    suspend fun hentUtlånPåArtnr(artnr: String): List<UtlånMedSerienr>
 
     suspend fun hentPersoninfo(fnr: String): List<OebsPersoninfo>
 

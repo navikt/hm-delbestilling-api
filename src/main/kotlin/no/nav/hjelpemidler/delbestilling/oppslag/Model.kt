@@ -4,7 +4,7 @@ import io.github.oshai.kotlinlogging.KotlinLogging
 import no.nav.hjelpemidler.delbestilling.common.Hmsnr
 import no.nav.hjelpemidler.delbestilling.common.Kilde
 import no.nav.hjelpemidler.delbestilling.common.Lagerstatus
-import no.nav.hjelpemidler.delbestilling.infrastructure.oebs.Utlån
+import no.nav.hjelpemidler.delbestilling.infrastructure.oebs.UtlånMedSerienr
 import no.nav.hjelpemidler.delbestilling.oppslag.legacy.defaultAntall
 
 private val log = KotlinLogging.logger { }
@@ -36,8 +36,8 @@ data class Hjelpemiddel(
     fun medAntallDagerSidenSistBatteribestilling(dager: Int?): Hjelpemiddel =
         this.copy(antallDagerSidenSistBatteribestilling = dager)
 
-    fun berikMedGaranti(utlån: Utlån): Hjelpemiddel {
-        val garanti = utlån.garanti() ?: return this
+    fun berikMedGaranti(utlånMedSerienr: UtlånMedSerienr): Hjelpemiddel {
+        val garanti = utlånMedSerienr.garanti() ?: return this
         return this.copy(erInnenforGaranti = garanti.erInnenforGaranti(), antallÅrGaranti = garanti.antallÅr)
     }
 }
@@ -62,6 +62,11 @@ data class Del(
 data class OppslagRequest(
     val hmsnr: String,
     val serienr: String,
+)
+
+data class OppslagBrukernrRequest(
+    val hmsnr: String,
+    val brukernr: String,
 )
 
 data class OppslagResultat(

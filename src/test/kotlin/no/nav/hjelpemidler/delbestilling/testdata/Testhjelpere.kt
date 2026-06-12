@@ -10,7 +10,7 @@ import no.nav.hjelpemidler.delbestilling.common.Lagerstatus
 import no.nav.hjelpemidler.delbestilling.common.Levering
 import no.nav.hjelpemidler.delbestilling.common.Status
 import no.nav.hjelpemidler.delbestilling.fakes.GrunndataTestHmsnr
-import no.nav.hjelpemidler.delbestilling.infrastructure.oebs.Utlån
+import no.nav.hjelpemidler.delbestilling.infrastructure.oebs.UtlånMedSerienr
 import no.nav.hjelpemidler.delbestilling.infrastructure.roller.Delbestiller
 import no.nav.hjelpemidler.delbestilling.infrastructure.roller.Organisasjon
 import java.time.LocalDate
@@ -106,7 +106,7 @@ fun organisasjon(orgnr: String = "123456789", navn: String = "Reperasjon AS") = 
 fun utlån(
     opprettet: LocalDate? = LocalDate.now(),
     isokode: String = Testdata.isoERS,
-) = Utlån(
+) = UtlånMedSerienr(
     fnr = Testdata.fnr,
     artnr = Testdata.defaultHjmHmsnr,
     serienr = "000000",
