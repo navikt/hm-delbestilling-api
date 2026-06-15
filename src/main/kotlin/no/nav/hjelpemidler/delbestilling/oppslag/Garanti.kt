@@ -1,12 +1,12 @@
 package no.nav.hjelpemidler.delbestilling.oppslag
 
 import io.github.oshai.kotlinlogging.KotlinLogging
-import no.nav.hjelpemidler.delbestilling.infrastructure.oebs.Utlån
+import no.nav.hjelpemidler.delbestilling.infrastructure.oebs.UtlånMedSerienr
 import java.time.LocalDate
 
 private val log = KotlinLogging.logger { }
 
-fun Utlån.garanti(): Garanti? {
+fun UtlånMedSerienr.garanti(): Garanti? {
     if (opprettetDato == null || isokode == null) {
         log.info { "Kan ikke beregne garantiperiode for utlån på artnr $artnr, serienr $serienr, fordi opprettetDato $opprettetDato eller isokode $isokode mangler." }
         return null

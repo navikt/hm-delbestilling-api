@@ -13,14 +13,32 @@ data class UtlånPåArtnrOgSerienrRequest(
     val serienr: String,
 )
 
-data class UtlånPåArtnrOgSerienrResponse(
-    val utlån: Utlån?,
+data class UtlånPåArtnrOgBrukernrRequest(
+    val artnr: String,
+    val brukernr: String,
+)
+
+data class UtlånMedSerienrResponse(
+    val utlån: UtlånMedSerienr?,
+)
+
+data class UtlånResponse(
+    val utlån: List<Utlån>,
+)
+
+data class UtlånMedSerienr(
+    val fnr: String,
+    val artnr: String,
+    val serienr: String,
+    val opprettetDato: LocalDate? = null, // I OeBS er opprettet dato det samme som garantiperiode-start
+    val utlånsDato: String,
+    val isokode: String? = null,
 )
 
 data class Utlån(
     val fnr: String,
     val artnr: String,
-    val serienr: String,
+    val serienr: String?,
     val opprettetDato: LocalDate? = null, // I OeBS er opprettet dato det samme som garantiperiode-start
     val utlånsDato: String,
     val isokode: String? = null,

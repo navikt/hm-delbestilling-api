@@ -19,9 +19,14 @@ class Oebs(
         return client.hentUtlånPåArtnrOgSerienr(artnr, serienr).utlån?.fnr
     }
 
-    suspend fun hentUtlånPåArtNrOgSerienr(artnr: String, serienr: String): Utlån? {
+    suspend fun hentUtlånPåArtNrOgSerienr(artnr: String, serienr: String): UtlånMedSerienr? {
         log.info { "Henter utlån: artnr=$artnr, serienr=$serienr" }
         return client.hentUtlånPåArtnrOgSerienr(artnr, serienr).utlån
+    }
+
+    suspend fun hentUtlånPåArtNrOgBrukernr(artnr: String, brukernr: String): List<Utlån> {
+        log.info { "Henter utlån: artnr=$artnr, brukernr=$brukernr" }
+        return client.hentUtlånPåArtnrOgBrukernr(artnr, brukernr).utlån
     }
 
     suspend fun hentPersoninfo(fnr: String): List<OebsPersoninfo> {
@@ -34,7 +39,7 @@ class Oebs(
         return client.hentBrukerpassinfo(fnr).brukerpass
     }
 
-    suspend fun hentUtlånPåArtnr(artnr: String): List<Utlån> {
+    suspend fun hentUtlånPåArtnr(artnr: String): List<UtlånMedSerienr> {
         log.info { "Henter utlån for $artnr" }
         return client.hentUtlånPåArtnr(artnr)
     }

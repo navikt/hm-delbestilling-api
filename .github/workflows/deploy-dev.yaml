@@ -8,7 +8,7 @@ on:
       - "CODEOWNERS"
     branches:
       - main
-      - logge-del-og-tilbehor
+      - DelbestillingUtenSerienr
 
 jobs:
   build:

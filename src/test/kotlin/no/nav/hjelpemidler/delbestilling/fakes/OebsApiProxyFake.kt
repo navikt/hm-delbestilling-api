@@ -4,8 +4,9 @@ import no.nav.hjelpemidler.delbestilling.infrastructure.oebs.Brukerpass
 import no.nav.hjelpemidler.delbestilling.infrastructure.oebs.LagerstatusResponse
 import no.nav.hjelpemidler.delbestilling.infrastructure.oebs.OebsApiProxy
 import no.nav.hjelpemidler.delbestilling.infrastructure.oebs.OebsPersoninfo
-import no.nav.hjelpemidler.delbestilling.infrastructure.oebs.Utlån
-import no.nav.hjelpemidler.delbestilling.infrastructure.oebs.UtlånPåArtnrOgSerienrResponse
+import no.nav.hjelpemidler.delbestilling.infrastructure.oebs.UtlånMedSerienr
+import no.nav.hjelpemidler.delbestilling.infrastructure.oebs.UtlånMedSerienrResponse
+import no.nav.hjelpemidler.delbestilling.infrastructure.oebs.UtlånResponse
 import no.nav.hjelpemidler.delbestilling.testdata.FakeOebsLager
 import no.nav.hjelpemidler.delbestilling.testdata.Testdata
 import no.nav.hjelpemidler.delbestilling.testdata.Testdata.fnr
@@ -17,7 +18,7 @@ class OebsApiProxyFake(
     private val lager: FakeOebsLager
 ) : OebsApiProxy {
 
-    var utlån: Utlån? = Utlån(
+    var utlånMedSerienr: UtlånMedSerienr? = UtlånMedSerienr(
         fnr = fnr,
         artnr = defaultHjmHmsnr,
         serienr = defaultHjmSerienr,
@@ -28,11 +29,15 @@ class OebsApiProxyFake(
 
     var personinfo = listOf(OebsPersoninfo(Testdata.defaultKommunenummer))
 
-    override suspend fun hentUtlånPåArtnrOgSerienr(artnr: String, serienr: String): UtlånPåArtnrOgSerienrResponse {
-        return UtlånPåArtnrOgSerienrResponse(utlån)
+    override suspend fun hentUtlånPåArtnrOgSerienr(artnr: String, serienr: String): UtlånMedSerienrResponse {
+        return UtlånMedSerienrResponse(utlånMedSerienr)
     }
 
-    override suspend fun hentUtlånPåArtnr(artnr: String): List<Utlån> {
+    override suspend fun hentUtlånPåArtnrOgBrukernr(artnr: String, brukernr: String): UtlånResponse {
+        return UtlånResponse(emptyList())
+    }
+
+    override suspend fun hentUtlånPåArtnr(artnr: String): List<UtlånMedSerienr> {
         error("hentUtlånPåArtnr er ikke implementert")
     }
 

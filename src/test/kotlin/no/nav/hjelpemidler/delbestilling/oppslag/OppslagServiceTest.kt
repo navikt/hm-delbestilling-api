@@ -21,7 +21,7 @@ class OppslagServiceTest {
 
     @Test
     fun `skal returnere feil dersom utlånet ikke finnes`() = runWithTestContext {
-        oebsApiProxy.utlån = null
+        oebsApiProxy.utlånMedSerienr = null
 
         val result = oppslagService.slåOppHjelpemiddel(Testdata.defaultHjmHmsnr, Testdata.defaultHjmSerienr)
 
