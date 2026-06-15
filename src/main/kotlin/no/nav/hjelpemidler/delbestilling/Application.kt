@@ -18,6 +18,7 @@ import no.nav.hjelpemidler.delbestilling.infrastructure.monitoring.helsesjekkApi
 import no.nav.hjelpemidler.delbestilling.infrastructure.security.medDelbestillerRolle
 import no.nav.hjelpemidler.delbestilling.oppslag.engangsJobbApi
 import no.nav.hjelpemidler.delbestilling.oppslag.legacy.data.validerData
+import no.nav.hjelpemidler.delbestilling.oppslag.oppslagApi
 import no.nav.hjelpemidler.delbestilling.oppslag.publicApi
 import no.nav.hjelpemidler.delbestilling.ordrestatus.ordrestatusRoutes
 import no.nav.hjelpemidler.domain.person.TILLAT_SYNTETISKE_FØDSELSNUMRE
@@ -55,6 +56,7 @@ fun Application.setupRoutes(ctx: AppContext) {
             authenticate(TokenXAuthenticator.name) {
                 medDelbestillerRolle(ctx.roller)
                 delbestillingApiAuthenticated(ctx.delbestillingService, ctx.slack)
+                oppslagApi(ctx.oppslagService)
             }
 
             authenticate(AzureAuthenticator.name) {

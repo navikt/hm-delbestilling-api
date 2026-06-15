@@ -38,18 +38,6 @@ fun Route.publicApi(
                 }
             }
         }
-
-        post("/oppslag-brukernr") {
-            val request = call.receive<OppslagBrukernrRequest>()
-            log.info { "/oppslag-brukernr request: $request" }
-            when (val result = oppslagService.slåOppHjelpemiddelMedBrukernr(request.hmsnr, request.brukernr)) {
-                is OppslagResult.Suksess -> call.respond(result.resultat)
-                is OppslagResult.Feil -> {
-                    log.info { "Oppslag med brukernr. feilet: ${result.feil}" }
-                    call.respond(HttpStatusCode.NotFound, OppslagFeilResponse(result.feil))
-                }
-            }
-        }
     }
 }
 
