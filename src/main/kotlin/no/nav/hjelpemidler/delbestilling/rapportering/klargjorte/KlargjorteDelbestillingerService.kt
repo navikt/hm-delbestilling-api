@@ -54,7 +54,7 @@ class KlargjorteDelbestillingerService(
     suspend fun sendKlargjorteDelbestillingerRapport(rapport: KlargjorteDelbestillingerRapport): String {
         val melding = rapport.tilHtml()
         email.send(
-            recipentEmail = rapport.lager.epost(),
+            recipentEmail = rapport.lager.epostForKlargjorteDelbestillinger(),
             subject = KLARGJORTE_DELBESTILLINGER_SUBJECT,
             bodyText = melding,
             contentType = ContentType.HTML

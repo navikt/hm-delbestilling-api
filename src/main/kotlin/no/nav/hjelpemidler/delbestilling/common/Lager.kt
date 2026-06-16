@@ -32,6 +32,10 @@ enum class Lager(val nummer: String, val navn: String, private val epost: String
         else -> epost()
     }
 
+    fun epostForKlargjorteDelbestillinger(): String = when(this) {
+        OSLO -> "nav.hot.oslo.lager@nav.no"
+        else -> epost()
+    }
 
     companion object {
         fun fraLagernummer(lagernummer: String): Lager {
