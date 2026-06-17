@@ -140,4 +140,15 @@ internal class OutboxDispatcherTest {
 
         assertEquals(1, hentPendingOutbox().size)
     }
+
+    @Test
+    fun `slettGamlePubliserte bevarer publiserte rader innenfor bevaringsvinduet`() = runWithTestContext {
+        opprettDelbestilling() // publisert med CURRENT_TIMESTAMP (ekte DB-tid)
+
+        // Clock settes til 29 dager frem — cutoff er 1 dag frem, som er FØR publisert-tidspunktet
+        clock.set(LocalDateTime.now().plusDays(29))
+        outboxDispatcher.slettGamlePubliserte(bevarDager = 30)
+
+        assertEquals(1, hentAntallOutboxRader())
+    }
 }
