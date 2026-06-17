@@ -13,6 +13,7 @@ import no.nav.hjelpemidler.delbestilling.config.isProd
 import no.nav.hjelpemidler.delbestilling.delbestilling.anmodning.AnmodningService
 import no.nav.hjelpemidler.delbestilling.delbestilling.anmodning.Anmodningrapport
 import no.nav.hjelpemidler.delbestilling.infrastructure.geografi.Kommuneoppslag
+import no.nav.hjelpemidler.delbestilling.infrastructure.kafka.SOKNADSBEHANDLING_TOPIC
 import no.nav.hjelpemidler.delbestilling.infrastructure.metrics.Metrics
 import no.nav.hjelpemidler.delbestilling.infrastructure.oebs.Oebs
 import no.nav.hjelpemidler.delbestilling.infrastructure.pdl.Pdl
@@ -24,7 +25,10 @@ import no.nav.hjelpemidler.delbestilling.infrastructure.roller.Organisasjon
 import no.nav.hjelpemidler.delbestilling.infrastructure.slack.Slack
 import no.nav.hjelpemidler.delbestilling.oppslag.legacy.data.hmsnr2Hjm
 import no.nav.hjelpemidler.domain.person.Fødselsnummer
+import no.nav.hjelpemidler.delbestilling.infrastructure.oebs.OPPRETT_DELBESTILLING_EVENT_NAME
+import no.nav.hjelpemidler.delbestilling.infrastructure.oebs.byggOebsKafkaPayload
 import java.time.LocalDateTime
+import java.util.UUID
 
 
 private val log = KotlinLogging.logger {}
@@ -142,10 +146,19 @@ class DelbestillingService(
 
             anmodningService.lagreDelerUtenDekning(nyDelbestillingSak)
 
+            // Skriv Kafka-event til outbox atomisk med delbestillingen
+            val ordre = oebs.byggOrdre(nyDelbestillingSak, Fødselsnummer(brukersFnr), bestillersNavn)
+            val eventId = UUID.randomUUID()
+            outboxDao.leggTil(
+                topic = SOKNADSBEHANDLING_TOPIC,
+                key = nyDelbestillingSak.saksnummer.toString(),
+                eventName = OPPRETT_DELBESTILLING_EVENT_NAME,
+                eventId = eventId,
+                payload = byggOebsKafkaPayload(eventId, ordre),
+            )
+
             nyDelbestillingSak
         }
-
-        oebs.sendDelbestilling(delbestillingSak, Fødselsnummer(brukersFnr), bestillersNavn)
 
         log.info { "Delbestilling '$id' sendt inn med saksnummer '${delbestillingSak.saksnummer}'" }
 

@@ -11,7 +11,6 @@ private val log = KotlinLogging.logger {}
 
 class Oebs(
     private val client: OebsApiProxy,
-    private val oebsSink: OebsSink,
     val finnLagerenhet: FinnLagerenhet,
 ) {
     suspend fun hentFnrLeietaker(artnr: String, serienr: String): String? {
@@ -62,24 +61,19 @@ class Oebs(
         return response.map { it.tilLagerstatus() }
     }
 
-    fun sendDelbestilling(
+    fun byggOrdre(
         sak: DelbestillingSak,
         brukersFnr: Fødselsnummer,
         innsendernavn: String,
-    ) {
-        log.info { "Sender delbestilling for saksnummer '${sak.saksnummer}'" }
-
+    ): Ordre {
         val artikler = sak.delbestilling.deler.map { Artikkel(it.del.hmsnr, it.antall) }
         val forsendelsesinfo = genererForsendelsesinfo(sak.delbestilling.levering, innsendernavn)
-
-        return oebsSink.sendDelbestilling(
-            Ordre(
-                brukersFnr = brukersFnr.value,
-                saksnummer = sak.saksnummer.toString(),
-                innsendernavn = innsendernavn,
-                artikler = artikler,
-                forsendelsesinfo = forsendelsesinfo,
-            )
+        return Ordre(
+            brukersFnr = brukersFnr.value,
+            saksnummer = sak.saksnummer.toString(),
+            innsendernavn = innsendernavn,
+            artikler = artikler,
+            forsendelsesinfo = forsendelsesinfo,
         )
     }
 }

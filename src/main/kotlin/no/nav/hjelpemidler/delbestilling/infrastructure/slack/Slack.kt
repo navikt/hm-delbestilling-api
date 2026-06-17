@@ -110,6 +110,11 @@ class Slack(
         message = "Utsending av mail til HMS om delbestillinger som er klargjorte feilet. Må følges opp manuelt."
     )
 
+    fun varsleOmOutboxFeil(eventId: String, eventName: String, attempts: Int) = sendSafely(
+        emoji = "error",
+        message = "Outbox-melding med eventId `$eventId` (eventName: `$eventName`) har feilet $attempts ganger. Sjekk loggene og verifiser at Kafka er tilgjengelig."
+    )
+
     fun varsleOmPotensiellBatteriKategorier(deler: List<Del>) = sendSafely(
         emoji = "low_battery",
         message = "Følgende deler med 'batteri' i kategorien sin har blitt bestilt. Vurder om de krever kurs eller skal legges inn som 'håndterteBatterikategorier'. ```${

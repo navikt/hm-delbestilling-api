@@ -61,6 +61,7 @@ suspend fun TestContext.opprettDelbestilling(
     rolle: Delbestiller = delbestillerRolle()
 ): DelbestillingResultat {
     return delbestillingService.opprettDelbestilling(request, fnrBestiller, rolle)
+        .also { flushOutbox() }
 }
 
 suspend fun TestContext.opprettDelbestillingMedDel(
