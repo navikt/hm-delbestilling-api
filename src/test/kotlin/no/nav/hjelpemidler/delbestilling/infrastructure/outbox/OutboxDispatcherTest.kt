@@ -1,5 +1,6 @@
 package no.nav.hjelpemidler.delbestilling.infrastructure.outbox
 
+import no.nav.hjelpemidler.delbestilling.fakes.FaultInjectingTransactional
 import no.nav.hjelpemidler.delbestilling.infrastructure.oebs.OPPRETT_DELBESTILLING_EVENT_NAME
 import no.nav.hjelpemidler.delbestilling.infrastructure.kafka.SOKNADSBEHANDLING_TOPIC
 import no.nav.hjelpemidler.delbestilling.runWithTestContext
@@ -95,5 +96,25 @@ internal class OutboxDispatcherTest {
         }
 
         assertEquals(0, hentPendingOutbox().size)
+    }
+
+    @Test
+    fun `DB-feil i markerPublisert øker ikke attempts og varsler ikke Slack`() = runWithTestContext {
+        leggTilOutboxRad()
+
+        // Kall 1: hentPending — OK
+        // Kall 2: markerPublisert — kast feil
+        val faultInjecting = FaultInjectingTransactional(transaction).apply { kastFeilPåKall = 2 }
+        val dispatcher = OutboxDispatcher(faultInjecting, kafka, slack)
+        dispatcher.dispatchPending()
+
+        // Kafka-publisering lyktes
+        assertEquals(1, kafka.publiserte.size)
+
+        // attempts er ikke økt — feilen ble ikke tolket som Kafka-feil
+        assertEquals(0, hentPendingOutbox().first().attempts)
+
+        // Ingen Slack-varsling
+        io.mockk.verify(exactly = 0) { slack.varsleOmOutboxFeil(any(), any(), any()) }
     }
 }

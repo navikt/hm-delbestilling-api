@@ -24,17 +24,26 @@ class OutboxDispatcher(
         log.info { "Dispatcher fant ${meldinger.size} pending outbox-meldinger" }
 
         for (melding in meldinger) {
-            try {
+            val publisert = try {
                 kafka.publish(topic = melding.topic, key = melding.key, payload = melding.payload)
-                transactional { outboxDao.markerPublisert(melding.id) }
-                log.info { "Outbox-melding ${melding.id} (eventId=${melding.eventId}) publisert" }
+                true
             } catch (e: Exception) {
                 val nyeAttempts = melding.attempts + 1
                 val skalVarsle = nyeAttempts >= SLACK_VARSEL_TERSKEL && !melding.alerted
-                log.error(e) { "Publisering av outbox-melding ${melding.id} (eventName=${melding.eventName}) feilet (forsøk $nyeAttempts)" }
+                log.error(e) { "Kafka-publisering av outbox-melding ${melding.id} (eventName=${melding.eventName}) feilet (forsøk $nyeAttempts)" }
                 transactional { outboxDao.registrerFeil(melding.id, e.message ?: e.javaClass.name, skalVarsle) }
                 if (skalVarsle) {
                     slack.varsleOmOutboxFeil(melding.eventId.toString(), melding.eventName, nyeAttempts)
+                }
+                false
+            }
+
+            if (publisert) {
+                try {
+                    transactional { outboxDao.markerPublisert(melding.id) }
+                    log.info { "Outbox-melding ${melding.id} (eventId=${melding.eventId}) publisert" }
+                } catch (e: Exception) {
+                    log.error(e) { "Klarte ikke markere outbox-melding ${melding.id} som publisert etter vellykket Kafka-publisering. Meldingen vil publiseres på nytt." }
                 }
             }
         }
