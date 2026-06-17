@@ -83,7 +83,7 @@ class AppContext {
     private val norg = Norg(NorgClient())
     private val finnLagerenhet = FinnLagerenhet(norg, slack)
     private val oebs = Oebs(OebsApiProxyClient(entraIDClient), finnLagerenhet)
-    private val outboxDispatcher = OutboxDispatcher(transactional, kafka, slack)
+    private val outboxDispatcher = OutboxDispatcher(transactional, kafka, slack, clock)
     private val pdl = Pdl(PdlClient(entraIDClient))
     private val rollerClient = RollerClient(TokendingsServiceBuilder.buildTokendingsService())
 

@@ -4,6 +4,7 @@ import io.github.oshai.kotlinlogging.KotlinLogging
 import no.nav.hjelpemidler.delbestilling.infrastructure.kafka.KafkaPublisher
 import no.nav.hjelpemidler.delbestilling.infrastructure.persistence.transaction.Transactional
 import no.nav.hjelpemidler.delbestilling.infrastructure.slack.Slack
+import java.time.Clock
 import java.time.LocalDateTime
 
 private val log = KotlinLogging.logger {}
@@ -15,6 +16,7 @@ class OutboxDispatcher(
     private val transactional: Transactional,
     private val kafka: KafkaPublisher,
     private val slack: Slack,
+    private val clock: Clock = Clock.systemDefaultZone(),
 ) {
 
     suspend fun dispatchPending() {
@@ -51,7 +53,7 @@ class OutboxDispatcher(
 
     suspend fun slettGamlePubliserte(bevarDager: Long = 30) {
         val antall = transactional {
-            val tidspunkt = LocalDateTime.now().minusDays(bevarDager)
+            val tidspunkt = LocalDateTime.now(clock).minusDays(bevarDager)
             outboxDao.slettPubliserteEldreEnn(tidspunkt)
         }
         if (antall > 0) log.info { "Slettet $antall publiserte outbox-rader eldre enn $bevarDager dager" }

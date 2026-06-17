@@ -11,6 +11,10 @@ suspend fun TestContext.hentPendingOutbox(): List<OutboxMelding> = transaction {
     outboxDao.hentPending()
 }
 
+suspend fun TestContext.hentAntallOutboxRader(): Int = transaction {
+    delbestillingRepository.tx.single(sql = "SELECT COUNT(*) FROM outbox") { row -> row.int(1) }
+}
+
 /**
  * Setter inn en outbox-rad direkte, uten å gå via opprettDelbestilling.
  * Nyttig i tester som vil kontrollere outbox-tilstand selv (f.eks. OutboxDispatcherTest).
@@ -48,7 +52,7 @@ fun TestContext.simulerKafkaBehandling(antallFørDispatch: Int = 0) {
         .forEach { melding ->
             val artikler = jsonMapper.readTree(melding.payload)["artikler"] ?: return@forEach
             artikler.forEach { artikkel ->
-                oebslager.reduser(artikkel["hmsnr"].asString(), artikkel["antall"].asInt())
+                oebslager.reduser(artikkel["hmsnr"].asText(), artikkel["antall"].asInt())
             }
         }
 }

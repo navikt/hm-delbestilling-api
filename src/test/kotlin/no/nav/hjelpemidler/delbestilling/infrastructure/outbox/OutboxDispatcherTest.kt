@@ -4,10 +4,13 @@ import no.nav.hjelpemidler.delbestilling.fakes.FaultInjectingTransactional
 import no.nav.hjelpemidler.delbestilling.infrastructure.oebs.OPPRETT_DELBESTILLING_EVENT_NAME
 import no.nav.hjelpemidler.delbestilling.infrastructure.kafka.SOKNADSBEHANDLING_TOPIC
 import no.nav.hjelpemidler.delbestilling.runWithTestContext
+import no.nav.hjelpemidler.delbestilling.testdata.fixtures.hentAntallOutboxRader
 import no.nav.hjelpemidler.delbestilling.testdata.fixtures.hentPendingOutbox
 import no.nav.hjelpemidler.delbestilling.testdata.fixtures.leggTilOutboxRad
 import no.nav.hjelpemidler.delbestilling.testdata.fixtures.opprettDelbestilling
 import org.junit.jupiter.api.Test
+import java.time.LocalDate
+import java.time.LocalDateTime
 import java.util.UUID
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
@@ -116,5 +119,25 @@ internal class OutboxDispatcherTest {
 
         // Ingen Slack-varsling
         io.mockk.verify(exactly = 0) { slack.varsleOmOutboxFeil(any(), any(), any()) }
+    }
+
+    @Test
+    fun `slettGamlePubliserte sletter rader eldre enn bevarDager`() = runWithTestContext {
+        opprettDelbestilling() // publiseres med CURRENT_TIMESTAMP (ekte DB-tid)
+
+        clock.set(LocalDateTime.now().plusDays(31)) // cutoff = nå+1dag, som er etter publisert-tidspunkt
+        outboxDispatcher.slettGamlePubliserte(bevarDager = 30)
+
+        assertEquals(0, hentAntallOutboxRader())
+    }
+
+    @Test
+    fun `slettGamlePubliserte sletter ikke pending rader`() = runWithTestContext {
+        leggTilOutboxRad() // PENDING
+
+        clock.set(LocalDateTime.now().plusDays(31))
+        outboxDispatcher.slettGamlePubliserte(bevarDager = 30)
+
+        assertEquals(1, hentPendingOutbox().size)
     }
 }

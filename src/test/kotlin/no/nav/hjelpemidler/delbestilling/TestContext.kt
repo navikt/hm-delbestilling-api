@@ -80,7 +80,7 @@ class TestContext {
 
     // Kafka
     val kafka = KafkaFake()
-    val outboxDispatcher by lazy { OutboxDispatcher(transaction, kafka, slack) }
+    val outboxDispatcher by lazy { OutboxDispatcher(transaction, kafka, slack, clock) }
 
     // PDL
     val pdlClient = PdlClientFake()
