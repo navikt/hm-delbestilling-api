@@ -8,7 +8,7 @@ on:
       - "CODEOWNERS"
     branches:
       - main
-      - DelbestillingUtenSerienr
+      - outbox-pattern
 
 jobs:
   build:

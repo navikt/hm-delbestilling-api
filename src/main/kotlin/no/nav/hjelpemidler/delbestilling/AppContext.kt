@@ -26,7 +26,7 @@ import no.nav.hjelpemidler.delbestilling.infrastructure.norg.NorgClient
 import no.nav.hjelpemidler.delbestilling.infrastructure.oebs.FinnLagerenhet
 import no.nav.hjelpemidler.delbestilling.infrastructure.oebs.Oebs
 import no.nav.hjelpemidler.delbestilling.infrastructure.oebs.OebsApiProxyClient
-import no.nav.hjelpemidler.delbestilling.infrastructure.oebs.OebsSinkClient
+import no.nav.hjelpemidler.delbestilling.infrastructure.outbox.OutboxDispatcher
 import no.nav.hjelpemidler.delbestilling.infrastructure.pdl.Pdl
 import no.nav.hjelpemidler.delbestilling.infrastructure.pdl.PdlClient
 import no.nav.hjelpemidler.delbestilling.infrastructure.persistence.transaction.Transaction
@@ -47,6 +47,7 @@ import no.nav.hjelpemidler.delbestilling.rapportering.Rapportering
 import no.nav.hjelpemidler.http.openid.entraIDClient
 import no.nav.tms.token.support.tokendings.exchange.TokendingsServiceBuilder
 import java.time.Clock
+import java.time.LocalDateTime
 import java.util.concurrent.Executors
 import java.util.concurrent.TimeUnit
 import kotlin.time.Duration.Companion.seconds
@@ -81,7 +82,8 @@ class AppContext {
     private val metrics = Metrics(kafka)
     private val norg = Norg(NorgClient())
     private val finnLagerenhet = FinnLagerenhet(norg, slack)
-    private val oebs = Oebs(OebsApiProxyClient(entraIDClient), OebsSinkClient(kafka), finnLagerenhet)
+    private val oebs = Oebs(OebsApiProxyClient(entraIDClient), finnLagerenhet)
+    private val outboxDispatcher = OutboxDispatcher(transactional, kafka, slack, clock)
     private val pdl = Pdl(PdlClient(entraIDClient))
     private val rollerClient = RollerClient(TokendingsServiceBuilder.buildTokendingsService())
 
@@ -119,6 +121,16 @@ class AppContext {
     fun applicationStarted() {
         hjelpemiddeloversikt.startBakgrunnsjobb()
         rapportering.schedulerRapporteringsjobber()
+        jobbScheduler.schedulerGjentagendeJobb(
+            navn = "outbox-dispatch",
+            jobb = { outboxDispatcher.dispatchPending() },
+            beregnNesteKjøring = { clock -> LocalDateTime.now(clock).plusSeconds(30) },
+        )
+        jobbScheduler.schedulerGjentagendeJobb(
+            navn = "outbox-retention",
+            jobb = { outboxDispatcher.slettGamlePubliserte() },
+            beregnNesteKjøring = { clock -> LocalDateTime.now(clock).plusDays(1) },
+        )
     }
 
     fun shutdown() {

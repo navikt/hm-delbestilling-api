@@ -1,6 +1,5 @@
 package no.nav.hjelpemidler.delbestilling.infrastructure.kafka
 
-import tools.jackson.databind.node.ObjectNode
 import io.github.oshai.kotlinlogging.KotlinLogging
 import no.nav.hjelpemidler.delbestilling.config.AppConfig.kafkaProducerProperties
 import no.nav.hjelpemidler.delbestilling.infrastructure.jsonMapper
@@ -14,12 +13,14 @@ import java.util.Properties
 import java.util.UUID
 import java.util.concurrent.TimeUnit
 
+const val SOKNADSBEHANDLING_TOPIC = "teamdigihot.hm-soknadsbehandling-v1"
+
 private val log = KotlinLogging.logger {}
 
 class Kafka(
     properties: Properties = kafkaProducerProperties,
     private val producer: Producer<String, String> = createProducer(properties),
-) {
+) : KafkaPublisher {
 
     init {
         Runtime.getRuntime().addShutdownHook(Thread {
@@ -34,8 +35,9 @@ class Kafka(
         tags: Map<String, String>,
     ) {
         publish(
-            measurement,
-            jsonMapper.writeValueAsString(
+            topic = SOKNADSBEHANDLING_TOPIC,
+            key = measurement,
+            payload = jsonMapper.writeValueAsString(
                 mapOf(
                     "eventId" to UUID.randomUUID(),
                     "eventName" to "hm-bigquery-sink-hendelse",
@@ -49,20 +51,12 @@ class Kafka(
                             .filterKeys { it != "counter" }
                     )
                 )
-            )
+            ),
         )
     }
 
-    fun publish(key: String, eventName: String, value: Any) {
-        val event = jsonMapper.valueToTree<ObjectNode>(value)
-            .put("eventName", eventName)
-            .put("eventId", UUID.randomUUID().toString())
-        val eventJson = jsonMapper.writeValueAsString(event)
-        publish(key, eventJson)
-    }
-
-    private fun publish(key: String, event: String) {
-        producer.send(ProducerRecord("teamdigihot.hm-soknadsbehandling-v1", key, event)).get(5, TimeUnit.SECONDS)
+    override fun publish(topic: String, key: String, payload: String) {
+        producer.send(ProducerRecord(topic, key, payload)).get(5, TimeUnit.SECONDS)
     }
 }
 

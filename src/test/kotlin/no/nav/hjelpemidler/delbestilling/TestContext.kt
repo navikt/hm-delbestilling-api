@@ -11,10 +11,11 @@ import no.nav.hjelpemidler.delbestilling.fakes.GrunndataClientFake
 import no.nav.hjelpemidler.delbestilling.fakes.LocalHostFake
 import no.nav.hjelpemidler.delbestilling.fakes.NorgClientFake
 import no.nav.hjelpemidler.delbestilling.fakes.OebsApiProxyFake
-import no.nav.hjelpemidler.delbestilling.fakes.OebsSinkFake
 import no.nav.hjelpemidler.delbestilling.fakes.OppslagClientFake
 import no.nav.hjelpemidler.delbestilling.fakes.PdlClientFake
+import no.nav.hjelpemidler.delbestilling.fakes.KafkaFake
 import no.nav.hjelpemidler.delbestilling.infrastructure.email.Email
+import no.nav.hjelpemidler.delbestilling.infrastructure.outbox.OutboxDispatcher
 import no.nav.hjelpemidler.delbestilling.infrastructure.geografi.Kommuneoppslag
 import no.nav.hjelpemidler.delbestilling.infrastructure.grunndata.Grunndata
 import no.nav.hjelpemidler.delbestilling.infrastructure.leaderElection.ErLeder
@@ -73,10 +74,13 @@ class TestContext {
 
     // OeBS
     val oebslager = FakeOebsLager()
-    val oebsSink = OebsSinkFake(oebslager)
     val oebsApiProxy = OebsApiProxyFake(oebslager)
     val finnLagerenhet = FinnLagerenhet(norg, slack)
-    val oebs = Oebs(oebsApiProxy, oebsSink, finnLagerenhet)
+    val oebs = Oebs(oebsApiProxy, finnLagerenhet)
+
+    // Kafka
+    val kafka = KafkaFake()
+    val outboxDispatcher by lazy { OutboxDispatcher(transaction, kafka, slack, clock) }
 
     // PDL
     val pdlClient = PdlClientFake()
