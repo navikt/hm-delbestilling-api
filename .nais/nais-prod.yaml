@@ -77,6 +77,13 @@ spec:
             envVarPrefix: DB
         cascadingDelete: false
         pointInTimeRecovery: true
+        flags:
+          - name: "cloudsql.enable_pgaudit"
+            value: "on"
+          - name: "pgaudit.log"
+            value: "write,ddl,role"
+          - name: "pgaudit.log_parameter"
+            value: "on"
   env:
     - name: OEBS_API_URL
       value: https://hm-oebs-api-proxy.prod-fss-pub.nais.io
