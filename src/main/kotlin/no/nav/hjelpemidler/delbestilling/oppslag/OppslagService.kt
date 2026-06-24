@@ -21,7 +21,6 @@ class OppslagService(
     private val berikMedDagerSidenForrigeBatteribestilling: BerikMedDagerSidenForrigeBatteribestilling,
 ) {
 
-
     suspend fun slåOppHjelpemiddel(hmsnr: String): OppslagResultV2 {
 
         val hjelpemiddel = when (val result = finnDelerTilHjelpemiddel(hmsnr, true)) {
@@ -41,7 +40,10 @@ class OppslagService(
                     defaultAntall = del.defaultAntall,
                     maksAntall = del.maksAntall,
                     imgs = del.imgs,
-                )})
+                    erReservedel = del.erReservedel,
+                    erTilbehør = del.erTilbehør,
+                )
+            })
 
         return OppslagResultV2.Suksess(OppslagResultatV2(hjelpemiddelV2))
     }
@@ -115,7 +117,6 @@ class OppslagService(
 
         OppslagResult.Suksess(OppslagResultat(hjelpemiddel, piloter))
     }
-
 
 
 }

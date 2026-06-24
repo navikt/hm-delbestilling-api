@@ -138,6 +138,6 @@ class AppContext {
         scheduler.awaitTermination(10, TimeUnit.SECONDS)
     }
 
-    fun devtools() = DevTools(transactional, oebs, pdl, finnDelerTilHjelpemiddel, email)
+    fun devtools() = DevTools(transactional, oebs, pdl, finnDelerTilHjelpemiddel, email, oppslagService)
 
 }
