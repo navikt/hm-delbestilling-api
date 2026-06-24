@@ -39,5 +39,19 @@ fun Route.publicApi(
             }
         }
     }
+
+    post("/oppslagv2") {
+        val request = call.receive<OppslagRequestV2>()
+        log.info { "/oppslag requestV2: $request" }
+        when (val result = oppslagService.slåOppHjelpemiddel(request.hmsnr)) {
+            is OppslagResultV2.Suksess -> call.respond(result.resultat)
+            is OppslagResultV2.Feil -> {
+                log.info { "Oppslag feilet: ${result.feil}" }
+                call.respond(HttpStatusCode.NotFound, OppslagFeilResponse(result.feil))
+            }
+        }
+    }
 }
+
+
 

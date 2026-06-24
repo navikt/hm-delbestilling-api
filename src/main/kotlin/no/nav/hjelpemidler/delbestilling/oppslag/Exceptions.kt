@@ -13,6 +13,11 @@ sealed class OppslagResult {
     data class Feil(val feil: OppslagFeil) : OppslagResult()
 }
 
+sealed class OppslagResultV2 {
+    data class Suksess(val resultat: OppslagResultatV2) : OppslagResultV2()
+    data class Feil(val feil: OppslagFeil) : OppslagResultV2()
+}
+
 sealed class FinnDelerResultat {
     data class Funnet(val hjelpemiddel: Hjelpemiddel) : FinnDelerResultat()
     data class IkkeFunnet(val feil: OppslagFeil) : FinnDelerResultat()

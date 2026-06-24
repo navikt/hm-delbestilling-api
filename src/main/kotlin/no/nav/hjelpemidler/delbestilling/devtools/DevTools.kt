@@ -14,8 +14,10 @@ import no.nav.hjelpemidler.delbestilling.oppslag.FinnDelerResultat
 import no.nav.hjelpemidler.delbestilling.oppslag.FinnDelerTilHjelpemiddel
 import no.nav.hjelpemidler.delbestilling.oppslag.Hjelpemiddel
 import no.nav.hjelpemidler.delbestilling.oppslag.HjelpemiddelV2
+import no.nav.hjelpemidler.delbestilling.oppslag.OppslagResultV2
 import no.nav.hjelpemidler.delbestilling.oppslag.OppslagResultat
 import no.nav.hjelpemidler.delbestilling.oppslag.OppslagResultatV2
+import no.nav.hjelpemidler.delbestilling.oppslag.OppslagService
 import no.nav.hjelpemidler.delbestilling.oppslag.legacy.data.hmsnr2Hjm
 
 
@@ -26,7 +28,8 @@ class DevTools(
     private val oebs: Oebs,
     private val pdl: Pdl,
     private val finnDelerTilHjelpemiddel: FinnDelerTilHjelpemiddel,
-    private val email: Email
+    private val email: Email,
+    private val oppslagService: OppslagService,
 ) {
 
     init {
@@ -57,27 +60,13 @@ class DevTools(
 
     suspend fun slåOppHjelpemiddel(hmsnr: Hmsnr): OppslagResultatV2 {
         log.info { "Slår opp hmsnr=$hmsnr for dev.ekstern" }
-        val finnDelerResultat = finnDelerTilHjelpemiddel(hmsnr)
-        val hjelpemiddel: Hjelpemiddel = when (finnDelerResultat) {
-            is FinnDelerResultat.Funnet -> finnDelerResultat.hjelpemiddel.sorterDeler()
-            is FinnDelerResultat.IkkeFunnet -> throw IllegalArgumentException("Hjelpemiddel $hmsnr ikke funnet: ${finnDelerResultat.feil}")
+
+        val result = oppslagService.slåOppHjelpemiddel(hmsnr)
+
+        when (result) {
+            is OppslagResultV2.Suksess -> return result.resultat
+            is OppslagResultV2.Feil -> throw IllegalArgumentException("Hjelpemiddel $hmsnr ikke funnet: ${result.feil}")
         }
-        val hjelpemiddelV2 = HjelpemiddelV2(
-            navn = hjelpemiddel.navn,
-            hmsnr = hjelpemiddel.hmsnr,
-            deler = hjelpemiddel.deler.map { del ->
-                no.nav.hjelpemidler.delbestilling.oppslag.DelV2(
-                    hmsnr = del.hmsnr,
-                    navn = del.navn,
-                    levArtNr = del.levArtNr,
-                    kategori = del.kategori,
-                    defaultAntall = del.defaultAntall,
-                    maksAntall = del.maksAntall,
-                    imgs = del.imgs,
-                )
-            }
-        )
-        return OppslagResultatV2(hjelpemiddelV2)
     }
 
     suspend fun slåOppHjelpemiddelMedFakeLagerstatus(hmsnr: String, serienr: String): OppslagResultat {

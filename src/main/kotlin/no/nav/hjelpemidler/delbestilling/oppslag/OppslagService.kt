@@ -21,6 +21,31 @@ class OppslagService(
     private val berikMedDagerSidenForrigeBatteribestilling: BerikMedDagerSidenForrigeBatteribestilling,
 ) {
 
+
+    suspend fun slåOppHjelpemiddel(hmsnr: String): OppslagResultV2 {
+
+        val hjelpemiddel = when (val result = finnDelerTilHjelpemiddel(hmsnr, true)) {
+            is FinnDelerResultat.Funnet -> result.hjelpemiddel.sorterDeler()
+            is FinnDelerResultat.IkkeFunnet -> return OppslagResultV2.Feil(result.feil)
+        }
+
+        val hjelpemiddelV2 = HjelpemiddelV2(
+            navn = hjelpemiddel.navn,
+            hmsnr = hjelpemiddel.hmsnr,
+            deler = hjelpemiddel.deler.map { del ->
+                DelV2(
+                    hmsnr = del.hmsnr,
+                    navn = del.navn,
+                    levArtNr = del.levArtNr,
+                    kategori = del.kategori,
+                    defaultAntall = del.defaultAntall,
+                    maksAntall = del.maksAntall,
+                    imgs = del.imgs,
+                )})
+
+        return OppslagResultV2.Suksess(OppslagResultatV2(hjelpemiddelV2))
+    }
+
     suspend fun slåOppHjelpemiddel(hmsnr: String, serienr: String): OppslagResult = coroutineScope {
         data class BrukerInfo(
             val utlånMedSerienr: UtlånMedSerienr,
