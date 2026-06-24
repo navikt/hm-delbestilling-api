@@ -38,6 +38,7 @@ spec:
   leaderElection: true
   ingresses:
     - https://hjelpemidler.ekstern.dev.nav.no/api/oppslag-ekstern-dev
+    - https://hjelpemidler.ekstern.dev.nav.no/api/oppslag-ekstern-devV2
   accessPolicy:
     inbound:
       rules:
