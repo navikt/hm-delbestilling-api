@@ -11,6 +11,7 @@ import no.nav.hjelpemidler.delbestilling.delbestilling.DelbestillingService
 import no.nav.hjelpemidler.delbestilling.delbestilling.requireHmsnr
 import no.nav.hjelpemidler.delbestilling.delbestilling.requireSerienr
 import no.nav.hjelpemidler.delbestilling.oppslag.OppslagRequest
+import no.nav.hjelpemidler.delbestilling.oppslag.OppslagRequestV2
 import no.nav.hjelpemidler.delbestilling.rapportering.klargjorte.KlargjorteDelbestillingerService
 
 
@@ -28,6 +29,13 @@ fun Route.devtoolsApi(
         val hmsnr = requireHmsnr(request.hmsnr)
         val serienr = requireSerienr(request.serienr)
         call.respond(devTools.slåOppHjelpemiddelMedFakeLagerstatus(hmsnr, serienr))
+    }
+
+    post("/oppslag-ekstern-devV2") {
+        // Endepunkt for å slå opp deler til hjm. i ekstern-dev. Ignorerer serienr
+        val request = call.receive<OppslagRequestV2>()
+        val hmsnr = requireHmsnr(request.hmsnr)
+        call.respond(devTools.slåOppHjelpemiddel(hmsnr))
     }
 
     get("/finnGyldigTestbruker") {

@@ -42,6 +42,13 @@ data class Hjelpemiddel(
     }
 }
 
+data class HjelpemiddelV2(
+    val navn: String,
+    val hmsnr: String,
+    val deler: List<DelV2>,
+) {
+    val antallKategorier: Int = deler.distinctBy { it.kategori }.size
+}
 
 data class Del(
     val hmsnr: Hmsnr,
@@ -58,10 +65,25 @@ data class Del(
 ) {
     fun erBatteri(): Boolean = kategori == "Batteri"
 }
+data class DelV2(
+    val hmsnr: Hmsnr,
+    val navn: String,
+    val levArtNr: String? = null,
+    val kategori: String,
+    val defaultAntall: Int = defaultAntall(kategori),
+    val maksAntall: Int,
+    val imgs: List<String> = emptyList(),
+    val erReservedel: Boolean = false,
+    val erTilbehør: Boolean = false,
+)
 
 data class OppslagRequest(
     val hmsnr: String,
     val serienr: String,
+)
+
+data class OppslagRequestV2(
+    val hmsnr: String,
 )
 
 data class OppslagBrukernrRequest(
@@ -72,6 +94,10 @@ data class OppslagBrukernrRequest(
 data class OppslagResultat(
     val hjelpemiddel: Hjelpemiddel,
     val piloter: List<Pilot> = emptyList(),
+)
+
+data class OppslagResultatV2(
+    val hjelpemiddel: HjelpemiddelV2,
 )
 
 enum class Pilot {
