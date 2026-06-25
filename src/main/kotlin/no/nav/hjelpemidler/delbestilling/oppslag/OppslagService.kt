@@ -43,7 +43,8 @@ class OppslagService(
                     erReservedel = del.erReservedel,
                     erTilbehør = del.erTilbehør,
                 )
-            })
+            },
+            isoKode = hjelpemiddel.isoKode,)
 
         return OppslagResultV2.Suksess(OppslagResultatV2(hjelpemiddelV2))
     }

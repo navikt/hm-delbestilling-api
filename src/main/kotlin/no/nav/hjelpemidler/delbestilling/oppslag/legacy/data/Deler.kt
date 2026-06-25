@@ -1535,7 +1535,8 @@ val hmsnrTilDelMedHjelpemiddel: Map<Hmsnr, DelMedHjelpemidler> = hmsnrTilDel.map
         Hjelpemiddelnavn(
             navn = hmsnrTilHjelpemiddelnavn[it]?.navn
                 ?: throw IllegalArgumentException("Mangler navn for hjelpemiddel $it"),
-            hmsnr = it
+            hmsnr = it,
+            isoKode = hmsnrTilHjelpemiddelnavn[it]?.isoKode ?: error("Fant ikke isoKode for hjm $it"),
         )
     }
 

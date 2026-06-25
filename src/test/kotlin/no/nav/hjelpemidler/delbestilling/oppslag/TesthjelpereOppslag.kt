@@ -18,8 +18,10 @@ fun hjelpemiddel(
     deler: List<Del> = listOf(del()),
     hmsnr: Hmsnr = Testdata.defaultHjmHmsnr,
     navn: String = Testdata.defaultHjmNavn,
+    isoKode: String = "12220301",
 ) = Hjelpemiddel(
     hmsnr = hmsnr,
     navn = navn,
-    deler = deler
+    deler = deler,
+    isoKode = isoKode
 )

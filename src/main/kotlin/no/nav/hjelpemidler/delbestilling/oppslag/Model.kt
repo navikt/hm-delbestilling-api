@@ -20,6 +20,7 @@ data class DelerTilHmsnrsRequest (
 data class Hjelpemiddel(
     val navn: String,
     val hmsnr: String,
+    val isoKode: String,
     val deler: List<Del>,
     val antallDagerSidenSistBatteribestilling: Int? = null,
     val antallÅrGaranti: Int? = null,
@@ -46,6 +47,7 @@ data class HjelpemiddelV2(
     val navn: String,
     val hmsnr: String,
     val deler: List<DelV2>,
+    val isoKode: String,
 ) {
     val antallKategorier: Int = deler.distinctBy { it.kategori }.size
 }
