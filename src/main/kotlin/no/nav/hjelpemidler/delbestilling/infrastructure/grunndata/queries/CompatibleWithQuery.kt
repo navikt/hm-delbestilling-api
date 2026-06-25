@@ -24,11 +24,6 @@ fun compatibleWithQuery(seriesId: UUID, produktId: UUID): JsonNode {
                     ],
                     "must": [
                         {
-                            "match": {
-                                "attributes.egnetForKommunalTekniker": "true"
-                            }
-                        },
-                        {
                             "bool": {
                                 "should": [
                                     {
