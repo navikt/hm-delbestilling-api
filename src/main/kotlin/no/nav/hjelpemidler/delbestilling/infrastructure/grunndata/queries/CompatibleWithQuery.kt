@@ -1,10 +1,16 @@
 package no.nav.hjelpemidler.delbestilling.infrastructure.grunndata.queries
 
+import no.nav.hjelpemidler.delbestilling.config.isDev
 import tools.jackson.databind.JsonNode
 import no.nav.hjelpemidler.delbestilling.infrastructure.jsonMapper
 import java.util.UUID
 
 fun compatibleWithQuery(seriesId: UUID, produktId: UUID): JsonNode {
+    val tilgjengeligForTekniker = if (isDev()) "" else """                        {
+                            "match": {
+                                "attributes.egnetForKommunalTekniker": "true"
+                            }
+                        },"""
     return jsonMapper.readTree(
         """
         {
@@ -23,11 +29,7 @@ fun compatibleWithQuery(seriesId: UUID, produktId: UUID): JsonNode {
                         }
                     ],
                     "must": [
-                        {
-                            "match": {
-                                "attributes.egnetForKommunalTekniker": "true"
-                            }
-                        },
+                    $tilgjengeligForTekniker
                         {
                             "bool": {
                                 "should": [
