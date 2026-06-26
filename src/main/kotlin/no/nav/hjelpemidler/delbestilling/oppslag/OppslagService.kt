@@ -31,19 +31,6 @@ class OppslagService(
         val hjelpemiddelV2 = HjelpemiddelV2(
             navn = hjelpemiddel.navn,
             hmsnr = hjelpemiddel.hmsnr,
-            deler = hjelpemiddel.deler.map { del ->
-                DelV2(
-                    hmsnr = del.hmsnr,
-                    navn = del.navn,
-                    levArtNr = del.levArtNr,
-                    kategori = del.kategori,
-                    defaultAntall = del.defaultAntall,
-                    maksAntall = del.maksAntall,
-                    imgs = del.imgs,
-                    erReservedel = del.erReservedel,
-                    erTilbehør = del.erTilbehør,
-                )
-            },
             isoKode = hjelpemiddel.isoKode,)
 
         return OppslagResultV2.Suksess(OppslagResultatV2(hjelpemiddelV2))
@@ -91,7 +78,7 @@ class OppslagService(
         )
 
         val brukerInfoDeferred = async {
-            oebs.hentUtlånPåArtNrOgBrukernr(hmsnr, brukernr)?.let { utlån ->
+            oebs.hentUtlånPåArtNrOgBrukernr(hmsnr, brukernr).let { utlån ->
                 log.info { "utlån: $utlån" }
                 BrukerInfo(utlån.first(), pdl.hentKommunenummer(utlån.first().fnr))
             }

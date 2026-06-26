@@ -43,13 +43,14 @@ data class Hjelpemiddel(
     }
 }
 
+private val serienummerstyrteIso4koder = setOf("1222", "1223", "1236", "1830")
+private val serienummerstyrteIso6koder = setOf("181204", "181207", "181210", "220318")
+
 data class HjelpemiddelV2(
     val navn: String,
     val hmsnr: String,
-    val deler: List<DelV2>,
-    val isoKode: String,
-) {
-    val antallKategorier: Int = deler.distinctBy { it.kategori }.size
+    val isoKode: String) {
+    val erSerienrStyrt : Boolean =  isoKode.take(4) in serienummerstyrteIso4koder || isoKode.take(6) in serienummerstyrteIso6koder
 }
 
 data class Del(
