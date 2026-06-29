@@ -13,10 +13,9 @@ import no.nav.hjelpemidler.delbestilling.infrastructure.persistence.transaction.
 import no.nav.hjelpemidler.delbestilling.oppslag.FinnDelerResultat
 import no.nav.hjelpemidler.delbestilling.oppslag.FinnDelerTilHjelpemiddel
 import no.nav.hjelpemidler.delbestilling.oppslag.Hjelpemiddel
-import no.nav.hjelpemidler.delbestilling.oppslag.HjelpemiddelV2
-import no.nav.hjelpemidler.delbestilling.oppslag.OppslagResultV2
+import no.nav.hjelpemidler.delbestilling.oppslag.OppslagResultUtenDeler
 import no.nav.hjelpemidler.delbestilling.oppslag.OppslagResultat
-import no.nav.hjelpemidler.delbestilling.oppslag.OppslagResultatV2
+import no.nav.hjelpemidler.delbestilling.oppslag.OppslagsResultatUtenDeler
 import no.nav.hjelpemidler.delbestilling.oppslag.OppslagService
 import no.nav.hjelpemidler.delbestilling.oppslag.legacy.data.hmsnr2Hjm
 
@@ -58,14 +57,14 @@ class DevTools(
         return mapOf("error" to "Ingen testperson funnet")
     }
 
-    suspend fun slåOppHjelpemiddel(hmsnr: Hmsnr): OppslagResultatV2 {
+    suspend fun slåOppHjelpemiddel(hmsnr: Hmsnr): OppslagsResultatUtenDeler {
         log.info { "Slår opp hmsnr=$hmsnr for dev.ekstern" }
 
         val result = oppslagService.slåOppHjelpemiddel(hmsnr)
 
         when (result) {
-            is OppslagResultV2.Suksess -> return result.resultat
-            is OppslagResultV2.Feil -> throw IllegalArgumentException("Hjelpemiddel $hmsnr ikke funnet: ${result.feil}")
+            is OppslagResultUtenDeler.Suksess -> return result.resultat
+            is OppslagResultUtenDeler.Feil -> throw IllegalArgumentException("Hjelpemiddel $hmsnr ikke funnet: ${result.feil}")
         }
     }
 
@@ -137,6 +136,7 @@ class DevTools(
         )
         log.info { "post til $recipentEmail sendt." }
     }
+
 
 }
 

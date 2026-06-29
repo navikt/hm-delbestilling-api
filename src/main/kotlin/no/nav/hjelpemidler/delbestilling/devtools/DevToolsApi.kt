@@ -11,7 +11,6 @@ import no.nav.hjelpemidler.delbestilling.delbestilling.DelbestillingService
 import no.nav.hjelpemidler.delbestilling.delbestilling.requireHmsnr
 import no.nav.hjelpemidler.delbestilling.delbestilling.requireSerienr
 import no.nav.hjelpemidler.delbestilling.oppslag.OppslagRequest
-import no.nav.hjelpemidler.delbestilling.oppslag.OppslagRequestV2
 import no.nav.hjelpemidler.delbestilling.rapportering.klargjorte.KlargjorteDelbestillingerService
 
 
@@ -33,7 +32,7 @@ fun Route.devtoolsApi(
 
     post("/oppslag-ekstern-devV2") {
         // Endepunkt for å slå opp deler til hjm. i ekstern-dev. Ignorerer serienr
-        val request = call.receive<OppslagRequestV2>()
+        val request = call.receive<OppslagRequestHmsnr>()
         val hmsnr = requireHmsnr(request.hmsnr)
         call.respond(devTools.slåOppHjelpemiddel(hmsnr))
     }
@@ -59,3 +58,7 @@ fun Route.devtoolsApi(
         call.respond("OK")
     }
 }
+
+private data class OppslagRequestHmsnr(
+    val hmsnr: String,
+)

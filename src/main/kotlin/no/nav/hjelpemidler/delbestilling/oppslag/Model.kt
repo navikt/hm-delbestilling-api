@@ -1,19 +1,12 @@
 package no.nav.hjelpemidler.delbestilling.oppslag
 
-import io.github.oshai.kotlinlogging.KotlinLogging
 import no.nav.hjelpemidler.delbestilling.common.Hmsnr
 import no.nav.hjelpemidler.delbestilling.common.Kilde
 import no.nav.hjelpemidler.delbestilling.common.Lagerstatus
 import no.nav.hjelpemidler.delbestilling.infrastructure.oebs.UtlånMedSerienr
 import no.nav.hjelpemidler.delbestilling.oppslag.legacy.defaultAntall
 
-private val log = KotlinLogging.logger { }
-
-data class HjelpemiddeloversiktResponse(
-    val titler: Set<String>
-)
-
-data class DelerTilHmsnrsRequest (
+data class DelerTilHmsnrsRequest(
     val hmsnrs: List<Hmsnr>,
 )
 
@@ -46,11 +39,13 @@ data class Hjelpemiddel(
 private val serienummerstyrteIso4koder = setOf("1222", "1223", "1236", "1830")
 private val serienummerstyrteIso6koder = setOf("181204", "181207", "181210", "220318")
 
-data class HjelpemiddelV2(
+data class HjelpemiddelUtenDeler(
     val navn: String,
     val hmsnr: String,
-    val isoKode: String) {
-    val erSerienrStyrt : Boolean =  isoKode.take(4) in serienummerstyrteIso4koder || isoKode.take(6) in serienummerstyrteIso6koder
+    val isoKode: String
+) {
+    val erSerienrStyrt: Boolean =
+        isoKode.take(4) in serienummerstyrteIso4koder || isoKode.take(6) in serienummerstyrteIso6koder
 }
 
 data class Del(
@@ -68,39 +63,25 @@ data class Del(
 ) {
     fun erBatteri(): Boolean = kategori == "Batteri"
 }
-data class DelV2(
-    val hmsnr: Hmsnr,
-    val navn: String,
-    val levArtNr: String? = null,
-    val kategori: String,
-    val defaultAntall: Int = defaultAntall(kategori),
-    val maksAntall: Int,
-    val imgs: List<String> = emptyList(),
-    val erReservedel: Boolean = false,
-    val erTilbehør: Boolean = false,
-)
 
 data class OppslagRequest(
     val hmsnr: String,
     val serienr: String,
 )
 
-data class OppslagRequestV2(
-    val hmsnr: String,
+data class OppslagDelerRequest(
+    val serienr: String?,
+    val brukernr: String?,
 )
 
-data class OppslagBrukernrRequest(
-    val hmsnr: String,
-    val brukernr: String,
-)
 
 data class OppslagResultat(
     val hjelpemiddel: Hjelpemiddel,
     val piloter: List<Pilot> = emptyList(),
 )
 
-data class OppslagResultatV2(
-    val hjelpemiddel: HjelpemiddelV2,
+data class OppslagsResultatUtenDeler(
+    val hjelpemiddel: HjelpemiddelUtenDeler,
 )
 
 enum class Pilot {

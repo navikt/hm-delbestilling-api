@@ -1,7 +1,7 @@
 package no.nav.hjelpemidler.delbestilling.oppslag
 
 enum class OppslagFeil {
-    TILBYR_IKKE_HJELPEMIDDEL, INGET_UTLÅN, PERSON_IKKE_FUNNET
+    TILBYR_IKKE_HJELPEMIDDEL, INGET_UTLÅN, PERSON_IKKE_FUNNET, MANGLER_BRUKERNR_ELLER_SERIENR
 }
 
 data class OppslagFeilResponse(
@@ -13,9 +13,9 @@ sealed class OppslagResult {
     data class Feil(val feil: OppslagFeil) : OppslagResult()
 }
 
-sealed class OppslagResultV2 {
-    data class Suksess(val resultat: OppslagResultatV2) : OppslagResultV2()
-    data class Feil(val feil: OppslagFeil) : OppslagResultV2()
+sealed class OppslagResultUtenDeler {
+    data class Suksess(val resultat: OppslagsResultatUtenDeler) : OppslagResultUtenDeler()
+    data class Feil(val feil: OppslagFeil) : OppslagResultUtenDeler()
 }
 
 sealed class FinnDelerResultat {

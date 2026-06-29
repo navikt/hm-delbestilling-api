@@ -21,22 +21,29 @@ class OppslagService(
     private val berikMedDagerSidenForrigeBatteribestilling: BerikMedDagerSidenForrigeBatteribestilling,
 ) {
 
-    suspend fun slåOppHjelpemiddel(hmsnr: String): OppslagResultV2 {
+    suspend fun slåOppHjelpemiddel(hmsnr: String): OppslagResultUtenDeler {
 
         val hjelpemiddel = when (val result = finnDelerTilHjelpemiddel(hmsnr, true)) {
             is FinnDelerResultat.Funnet -> result.hjelpemiddel.sorterDeler()
-            is FinnDelerResultat.IkkeFunnet -> return OppslagResultV2.Feil(result.feil)
+            is FinnDelerResultat.IkkeFunnet -> return OppslagResultUtenDeler.Feil(result.feil)
         }
 
-        val hjelpemiddelV2 = HjelpemiddelV2(
+        val hjelpemiddelUtenDeler = HjelpemiddelUtenDeler(
             navn = hjelpemiddel.navn,
             hmsnr = hjelpemiddel.hmsnr,
-            isoKode = hjelpemiddel.isoKode,)
+            isoKode = hjelpemiddel.isoKode,
+        )
 
-        return OppslagResultV2.Suksess(OppslagResultatV2(hjelpemiddelV2))
+        return OppslagResultUtenDeler.Suksess(OppslagsResultatUtenDeler(hjelpemiddelUtenDeler))
     }
 
-    suspend fun slåOppHjelpemiddel(hmsnr: String, serienr: String): OppslagResult = coroutineScope {
+    suspend fun slåOppDeler(hmsnr: String, brukernr: String?, serienr: String?): OppslagResult {
+        if (brukernr != null) return slåOppHjelpemiddelMedBrukernr(hmsnr, brukernr)
+        if (serienr != null) return slåOppHjelpemiddelMedSerienr(hmsnr, serienr)
+        return OppslagResult.Feil(OppslagFeil.MANGLER_BRUKERNR_ELLER_SERIENR)
+    }
+
+    suspend fun slåOppHjelpemiddelMedSerienr(hmsnr: String, serienr: String): OppslagResult = coroutineScope {
         data class BrukerInfo(
             val utlånMedSerienr: UtlånMedSerienr,
             val kommunenummer: String

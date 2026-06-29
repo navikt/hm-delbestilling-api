@@ -39,7 +39,7 @@ class BerikMedDagerSidenForrigeBatteribestillingTest {
         gittDelbestilling(delbestillingMedBatteri(), dagerSidenOpprettelse = 10)
         gittDelbestilling(delbestillingMedBatteri(), dagerSidenOpprettelse = 25)
 
-        val resultat = oppslagService.slåOppHjelpemiddel(GrunndataTestHmsnr.HAR_BATTERI, Testdata.defaultHjmSerienr)
+        val resultat = oppslagService.slåOppHjelpemiddelMedSerienr(GrunndataTestHmsnr.HAR_BATTERI, Testdata.defaultHjmSerienr)
         assertTrue(resultat is OppslagResult.Suksess)
 
         assertTrue(resultat.resultat.hjelpemiddel.harBatteri())

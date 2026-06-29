@@ -30,7 +30,7 @@ fun Route.publicApi(
         post("/oppslag") {
             val request = call.receive<OppslagRequest>()
             log.info { "/oppslag request: $request" }
-            when (val result = oppslagService.slåOppHjelpemiddel(request.hmsnr, request.serienr)) {
+            when (val result = oppslagService.slåOppHjelpemiddelMedSerienr(request.hmsnr, request.serienr)) {
                 is OppslagResult.Suksess -> call.respond(result.resultat)
                 is OppslagResult.Feil -> {
                     log.info { "Oppslag feilet: ${result.feil}" }
@@ -40,17 +40,21 @@ fun Route.publicApi(
         }
     }
 
-    post("/oppslagv2") {
-        val request = call.receive<OppslagRequestV2>()
-        log.info { "/oppslag requestV2: $request" }
-        when (val result = oppslagService.slåOppHjelpemiddel(request.hmsnr)) {
-            is OppslagResultV2.Suksess -> call.respond(result.resultat)
-            is OppslagResultV2.Feil -> {
+    //GET /hjelpemidler/{hmsnr}
+    //POST /hjelpemidler/{hmsnr}/deler/oppslag
+
+    get("/hjelpemidler/{hmsnr}") {
+        val hmsnr = call.parameters["hmsnr"] ?: throw IllegalArgumentException("Mangler hmsnr")
+        log.info { "GET /hjelpemidler/$hmsnr" }
+        when (val result = oppslagService.slåOppHjelpemiddel(hmsnr)) {
+            is OppslagResultUtenDeler.Suksess -> call.respond(result.resultat)
+            is OppslagResultUtenDeler.Feil -> {
                 log.info { "Oppslag feilet: ${result.feil}" }
                 call.respond(HttpStatusCode.NotFound, OppslagFeilResponse(result.feil))
             }
         }
     }
+
 }
 
 
