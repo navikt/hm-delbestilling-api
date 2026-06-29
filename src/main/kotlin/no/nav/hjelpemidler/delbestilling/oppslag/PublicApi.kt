@@ -40,9 +40,6 @@ fun Route.publicApi(
         }
     }
 
-    //GET /hjelpemidler/{hmsnr}
-    //POST /hjelpemidler/{hmsnr}/deler/oppslag
-
     get("/hjelpemidler/{hmsnr}") {
         val hmsnr = call.parameters["hmsnr"] ?: throw IllegalArgumentException("Mangler hmsnr")
         log.info { "GET /hjelpemidler/$hmsnr" }
@@ -54,7 +51,6 @@ fun Route.publicApi(
             }
         }
     }
-
 }
 
 

@@ -68,7 +68,7 @@ class DevTools(
         }
     }
 
-    suspend fun slåOppHjelpemiddelMedFakeLagerstatus(hmsnr: String, serienr: String): OppslagResultat {
+    suspend fun slåOppHjelpemiddelMedFakeLagerstatus(hmsnr: String, serienr: String?, brukernr: String?): OppslagResultat {
         log.info { "Slår opp hmsnr=$hmsnr for dev.ekstern, og beriker med fake lagerstatus" }
         val finnDelerResultat = finnDelerTilHjelpemiddel(hmsnr)
         var hjelpemiddel: Hjelpemiddel = when (finnDelerResultat) {
@@ -93,7 +93,7 @@ class DevTools(
         }
 
         if (hjelpemiddel.harBatteri()) {
-            hjelpemiddel = hjelpemiddel.copy(antallDagerSidenSistBatteribestilling = serienr.take(3).toInt())
+            hjelpemiddel = hjelpemiddel.copy(antallDagerSidenSistBatteribestilling = (serienr ?: brukernr ?: "000000").take(3).toInt())
         }
 
         hjelpemiddel = hjelpemiddel.copy(

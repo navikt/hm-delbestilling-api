@@ -37,8 +37,8 @@ spec:
       runtime: java
   leaderElection: true
   ingresses:
-    - https://hjelpemidler.ekstern.dev.nav.no/api/oppslag-ekstern-dev
-    - https://hjelpemidler.ekstern.dev.nav.no/api/oppslag-ekstern-devV2
+    - https://hjelpemidler.ekstern.dev.nav.no/api/oppslag-ekstern-dev-deler
+    - https://hjelpemidler.ekstern.dev.nav.no/api/oppslag-ekstern-dev-hjelpemiddel
   accessPolicy:
     inbound:
       rules:
