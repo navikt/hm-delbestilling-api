@@ -1,7 +1,8 @@
 package no.nav.hjelpemidler.delbestilling.common
 
 import no.nav.hjelpemidler.delbestilling.oppslag.legacy.defaultAntall
-import no.nav.hjelpemidler.time.leggTilArbeidsdager
+import no.nav.hjelpemidler.time.Arbeidsdager
+import no.nav.hjelpemidler.time.arbeidsdager
 import no.nav.hjelpemidler.time.toInstant
 import no.nav.hjelpemidler.time.toLocalDate
 import java.time.LocalDate
@@ -41,10 +42,8 @@ data class Delbestilling(
     companion object {
         private const val LEVERINGSDAGER_FRA_SKIPNINGSBEKREFTELSE = 1
 
-        private fun beregnForventetLeveringsdato(skipningsdato: LocalDate) = skipningsdato
-            .toInstant()
-            .leggTilArbeidsdager(LEVERINGSDAGER_FRA_SKIPNINGSBEKREFTELSE)
-            .toLocalDate()
+        private fun beregnForventetLeveringsdato(skipningsdato: LocalDate) =
+            skipningsdato.plus(LEVERINGSDAGER_FRA_SKIPNINGSBEKREFTELSE.arbeidsdager)
     }
 }
 
