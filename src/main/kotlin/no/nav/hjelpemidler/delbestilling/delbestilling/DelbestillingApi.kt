@@ -12,6 +12,7 @@ import no.nav.hjelpemidler.delbestilling.infrastructure.security.delbestillerRol
 import no.nav.hjelpemidler.delbestilling.infrastructure.security.tokenXUser
 import no.nav.hjelpemidler.delbestilling.infrastructure.slack.Slack
 import no.nav.hjelpemidler.delbestilling.oppslag.OppslagRequest
+import no.nav.hjelpemidler.delbestilling.oppslag.XkLagerRequest
 
 private val log = KotlinLogging.logger {}
 
@@ -51,9 +52,9 @@ fun Route.delbestillingApiAuthenticated(
 
     post("/xk-lager") {
         try {
-            val request = call.receive<OppslagRequest>()
+            val request = call.receive<XkLagerRequest>()
             log.info { "/xk-lager request: $request" }
-            val xklager = XKLagerResponse(delbestillingService.sjekkXKLager(request.hmsnr, request.serienr))
+            val xklager = XKLagerResponse(delbestillingService.sjekkXKLager(request.hmsnr, request.serienr, request.brukernr))
             log.info { "/xk-lager response: $xklager" }
             call.respond(xklager)
 

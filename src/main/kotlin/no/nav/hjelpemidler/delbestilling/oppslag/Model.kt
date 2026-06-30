@@ -69,6 +69,12 @@ data class OppslagRequest(
     val serienr: String,
 )
 
+data class XkLagerRequest(
+    val hmsnr: String,
+    val serienr: String?,
+    val brukernr: String?
+)
+
 data class OppslagDelerRequest(
     val serienr: String?,
     val brukernr: String?,

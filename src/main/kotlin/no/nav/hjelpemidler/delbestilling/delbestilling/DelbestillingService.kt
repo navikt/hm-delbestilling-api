@@ -223,9 +223,8 @@ class DelbestillingService(
         delbestillingRepository.hentDelbestillinger(bestillerFnr)
     }
 
-    suspend fun sjekkXKLager(hmsnr: Hmsnr, serienr: Serienr): Boolean {
-        val brukersFnr = oebs.hentFnrLeietakerFraSerienr(artnr = hmsnr, serienr = serienr)
-            ?: error("Fant ikke utlån for $hmsnr $serienr")
+    suspend fun sjekkXKLager(hmsnr: Hmsnr, serienr: Serienr?, brukernr: String?): Boolean {
+        val brukersFnr = hentInnbyggersFnr(hmsnr, serienr, brukernr) ?: error("Fant ikke fnr for hmsnr=$hmsnr, serienr=$serienr")
         val kommunenummer = pdl.hentKommunenummer(brukersFnr)
         return harXKLager(kommunenummer)
     }
