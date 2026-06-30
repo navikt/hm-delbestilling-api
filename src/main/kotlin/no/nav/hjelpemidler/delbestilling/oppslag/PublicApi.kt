@@ -18,39 +18,37 @@ fun Route.publicApi(
     hjelpemiddeloversikt: Hjelpemiddeloversikt,
     oppslagService: OppslagService,
 ) {
-    route("/public") {
-        get("/tilgjengelige-hjelpemidler") {
-            call.respond(hjelpemiddeloversikt.hentTilgjengeligeHjelpemidlerCached())
-        }
+    get("/tilgjengelige-hjelpemidler") {
+        call.respond(hjelpemiddeloversikt.hentTilgjengeligeHjelpemidlerCached())
+    }
 
-        post("/deler-til-hmsnrs") {
-            val hmsnrs = call.receive<DelerTilHmsnrsRequest>().hmsnrs
-            call.respond(hjelpemiddeloversikt.hentDelerTilHmsnrs(hmsnrs))
-        }
+    post("/deler-til-hmsnrs") {
+        val hmsnrs = call.receive<DelerTilHmsnrsRequest>().hmsnrs
+        call.respond(hjelpemiddeloversikt.hentDelerTilHmsnrs(hmsnrs))
+    }
 
-        rateLimit(RateLimitName("rateLimitOppslag")) {
-            post("/oppslag") {
-                val request = call.receive<OppslagRequest>()
-                log.info { "/oppslag request: $request" }
-                when (val result = oppslagService.slåOppHjelpemiddelMedSerienr(request.hmsnr, request.serienr)) {
-                    is OppslagResult.Suksess -> call.respond(result.resultat)
-                    is OppslagResult.Feil -> {
-                        log.info { "Oppslag feilet: ${result.feil}" }
-                        call.respond(HttpStatusCode.NotFound, OppslagFeilResponse(result.feil))
-                    }
-                }
-            }
-        }
-
-        get("/hjelpemidler/{hmsnr}") {
-            val hmsnr = call.parameters["hmsnr"] ?: throw IllegalArgumentException("Mangler hmsnr")
-            log.info { "GET /hjelpemidler/$hmsnr" }
-            when (val result = oppslagService.slåOppHjelpemiddel(hmsnr)) {
-                is OppslagResultUtenDeler.Suksess -> call.respond(result.resultat)
-                is OppslagResultUtenDeler.Feil -> {
+    rateLimit(RateLimitName("rateLimitOppslag")) {
+        post("/oppslag") {
+            val request = call.receive<OppslagRequest>()
+            log.info { "/oppslag request: $request" }
+            when (val result = oppslagService.slåOppHjelpemiddelMedSerienr(request.hmsnr, request.serienr)) {
+                is OppslagResult.Suksess -> call.respond(result.resultat)
+                is OppslagResult.Feil -> {
                     log.info { "Oppslag feilet: ${result.feil}" }
                     call.respond(HttpStatusCode.NotFound, OppslagFeilResponse(result.feil))
                 }
+            }
+        }
+    }
+
+    get("/hjelpemidler/{hmsnr}") {
+        val hmsnr = call.parameters["hmsnr"] ?: throw IllegalArgumentException("Mangler hmsnr")
+        log.info { "GET /hjelpemidler/$hmsnr" }
+        when (val result = oppslagService.slåOppHjelpemiddel(hmsnr)) {
+            is OppslagResultUtenDeler.Suksess -> call.respond(result.resultat)
+            is OppslagResultUtenDeler.Feil -> {
+                log.info { "Oppslag feilet: ${result.feil}" }
+                call.respond(HttpStatusCode.NotFound, OppslagFeilResponse(result.feil))
             }
         }
     }
