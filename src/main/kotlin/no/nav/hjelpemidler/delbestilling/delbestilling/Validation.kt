@@ -13,7 +13,7 @@ fun validateOppslagRequest(req: OppslagRequest) = listOf(
 
 fun validateDelbestillingRequest(req: DelbestillingRequest): List<String> = listOf(
     validateHmsnr(req.delbestilling.hmsnr),
-    validateSerienr(req.delbestilling.serienr),
+    validateSerienrEllerBrukernr(req.delbestilling.serienr, req.delbestilling.brukernr),
     validateOpplæringBatteri(req.delbestilling),
     listOfNotNull(
         if (req.delbestilling.deler.isEmpty()) "Delbestillingen må inneholde minst én dellinje" else null
@@ -33,6 +33,18 @@ fun validateHmsnr(hmsnr: Hmsnr) = listOfNotNull(
 fun validateSerienr(serienr: Serienr) = listOfNotNull(
     if (serienr.length != 6) "Serienr må ha 6 siffer" else null,
     if (!serienr.allDigits()) "Serienr skal kun bestå av tall" else null,
+)
+
+fun validateSerienrEllerBrukernr(serienr: Serienr?, brukernr: String?) = listOfNotNull(
+    if (serienr == null && brukernr == null) {
+        "Brukernr eller serienr må være satt"
+    } else if (serienr != null) {
+        if (serienr.length != 6) "Serienr må ha 6 siffer"
+        else if (!serienr.allDigits()) "Serienr skal kun bestå av tall" else null
+    } else if (brukernr != null) {
+        if (brukernr.length !in 6..8) "Brukernr må være 6-8 siffer"
+        else if (!brukernr.allDigits()) "Brukernr skal kun bestå av tall" else null
+    } else null
 )
 
 fun validateOpplæringBatteri(delbestilling: Delbestilling) = listOfNotNull(

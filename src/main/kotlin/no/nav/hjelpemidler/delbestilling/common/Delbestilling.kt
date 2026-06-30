@@ -11,7 +11,8 @@ import java.util.UUID
 data class Delbestilling(
     val id: UUID,
     val hmsnr: Hmsnr,
-    val serienr: Serienr,
+    val serienr: Serienr?,
+    val brukernr: String? = null,
     val deler: List<DelLinje>,
     val levering: Levering,
     val harOpplæringPåBatteri: Boolean?,

@@ -50,15 +50,16 @@ class DelbestillingService(
         val id = request.delbestilling.id
         val hmsnr = request.delbestilling.hmsnr
         val serienr = request.delbestilling.serienr
+        val brukernr = request.delbestilling.brukernr
         log.info { "Oppretter delbestilling for hmsnr $hmsnr, serienr $serienr" }
         log.info { "Delbestillerrolle: $delbestillerRolle" }
 
-        val feil = validerDelbestillingRate(bestillerFnr, hmsnr, serienr)
+        val feil = validerDelbestillingRate(bestillerFnr, hmsnr, serienr, brukernr)
         if (feil != null) {
             return DelbestillingResultat(id, feil = feil)
         }
 
-        val brukersFnr = oebs.hentFnrLeietaker(hmsnr, serienr)
+        val brukersFnr = hentInnbyggersFnr(hmsnr = hmsnr, serienr = serienr, brukernr = brukernr)
             ?: return DelbestillingResultat(id, feil = DelbestillingFeil.INGET_UTLÅN)
 
         val brukerKommunenr = try {
@@ -171,6 +172,12 @@ class DelbestillingService(
         return DelbestillingResultat(id, null, delbestillingSak.saksnummer, delbestillingSak)
     }
 
+    suspend fun hentInnbyggersFnr(hmsnr: String, serienr: Serienr?, brukernr: String?): String? {
+        return if (serienr != null) oebs.hentFnrLeietakerFraSerienr(hmsnr, serienr)
+        else if (brukernr != null) oebs.hentFnr(brukernr)
+        else null
+    }
+
     suspend fun sendStatistikk(delbestilling: Delbestilling, fnrBruker: String) = coroutineScope {
         launch {
             try {
@@ -194,7 +201,8 @@ class DelbestillingService(
     private suspend fun validerDelbestillingRate(
         bestillerFnr: String,
         hmsnr: String,
-        serienr: String
+        serienr: String?,
+        brukernr: String?,
     ): DelbestillingFeil? {
         if (isDev()) {
             return null // For enklere testing i dev
@@ -203,7 +211,7 @@ class DelbestillingService(
         val tidspunkt24TimerSiden = LocalDateTime.now().minusDays(1)
         val bestillersBestillinger = hentDelbestillinger(bestillerFnr)
             .filter { it.opprettet.isAfter(tidspunkt24TimerSiden) }
-            .filter { it.delbestilling.hmsnr == hmsnr && it.delbestilling.serienr == serienr }
+            .filter { it.delbestilling.hmsnr == hmsnr && (it.delbestilling.serienr == serienr || it.delbestilling.brukernr == brukernr) } // TOOO test
         if (bestillersBestillinger.size >= maxAntallBestillingerPer24Timer) {
             log.info { "Tekniker har nådd grensen på $maxAntallBestillingerPer24Timer bestillinger siste 24 timer for hjelpemiddel hmsnr:$hmsnr serienr:$serienr" }
             return DelbestillingFeil.FOR_MANGE_BESTILLINGER_SISTE_24_TIMER
@@ -216,7 +224,7 @@ class DelbestillingService(
     }
 
     suspend fun sjekkXKLager(hmsnr: Hmsnr, serienr: Serienr): Boolean {
-        val brukersFnr = oebs.hentFnrLeietaker(artnr = hmsnr, serienr = serienr)
+        val brukersFnr = oebs.hentFnrLeietakerFraSerienr(artnr = hmsnr, serienr = serienr)
             ?: error("Fant ikke utlån for $hmsnr $serienr")
         val kommunenummer = pdl.hentKommunenummer(brukersFnr)
         return harXKLager(kommunenummer)
