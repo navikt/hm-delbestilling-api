@@ -47,7 +47,7 @@ fun validateSerienrEllerBrukernr(serienr: Serienr?, brukernr: String?) = listOfN
         if (serienr.length != 6) "Serienr må ha 6 siffer"
         else if (!serienr.allDigits()) "Serienr skal kun bestå av tall" else null
     } else if (brukernr != null) {
-        if (brukernr.length !in 6..8) "Brukernr må være 6-8 siffer"
+        if (brukernr.length !in 5..8) "Brukernr må være 6-8 siffer"
         else if (!brukernr.allDigits()) "Brukernr skal kun bestå av tall" else null
     } else null
 )
