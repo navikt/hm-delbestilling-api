@@ -21,9 +21,11 @@ import io.ktor.server.request.uri
 import io.ktor.server.routing.IgnoreTrailingSlash
 import no.nav.hjelpemidler.delbestilling.delbestilling.DelbestillingRequest
 import no.nav.hjelpemidler.delbestilling.delbestilling.validateDelbestillingRequest
+import no.nav.hjelpemidler.delbestilling.delbestilling.validateOppslagDelerRequest
 import no.nav.hjelpemidler.delbestilling.delbestilling.validateOppslagRequest
 import no.nav.hjelpemidler.delbestilling.infrastructure.CORRELATION_ID_HEADER
 import no.nav.hjelpemidler.delbestilling.infrastructure.CORRELATION_ID_KEY
+import no.nav.hjelpemidler.delbestilling.oppslag.OppslagDelerRequest
 import no.nav.hjelpemidler.delbestilling.oppslag.OppslagRequest
 import no.nav.tms.token.support.azure.validation.azure
 import no.nav.tms.token.support.tokenx.validation.mock.LevelOfAssurance
@@ -70,6 +72,7 @@ fun Application.configure() {
 
     install(RequestValidation) {
         validate<OppslagRequest> { toValidationResult(validateOppslagRequest(it)) }
+        validate<OppslagDelerRequest> {toValidationResult(validateOppslagDelerRequest(it))}
         validate<DelbestillingRequest> { toValidationResult(validateDelbestillingRequest(it)) }
     }
 

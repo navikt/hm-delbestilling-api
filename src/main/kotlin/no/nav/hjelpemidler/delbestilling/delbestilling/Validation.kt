@@ -4,11 +4,16 @@ import no.nav.hjelpemidler.delbestilling.common.DelLinje
 import no.nav.hjelpemidler.delbestilling.common.Delbestilling
 import no.nav.hjelpemidler.delbestilling.common.Hmsnr
 import no.nav.hjelpemidler.delbestilling.common.Serienr
+import no.nav.hjelpemidler.delbestilling.oppslag.OppslagDelerRequest
 import no.nav.hjelpemidler.delbestilling.oppslag.OppslagRequest
 
 fun validateOppslagRequest(req: OppslagRequest) = listOf(
     validateHmsnr(req.hmsnr),
     validateSerienr(req.serienr)
+).flatten()
+
+fun validateOppslagDelerRequest(req: OppslagDelerRequest) = listOf(
+    validateSerienrEllerBrukernr(serienr = req.serienr, brukernr = req.brukernr)
 ).flatten()
 
 fun validateDelbestillingRequest(req: DelbestillingRequest): List<String> = listOf(

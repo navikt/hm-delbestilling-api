@@ -38,8 +38,8 @@ class OppslagService(
     }
 
     suspend fun slåOppDeler(hmsnr: String, brukernr: String?, serienr: String?): OppslagResult {
-        if (brukernr != null) return slåOppHjelpemiddelMedBrukernr(hmsnr, brukernr)
-        if (serienr != null) return slåOppHjelpemiddelMedSerienr(hmsnr, serienr)
+        if (!brukernr.isNullOrBlank()) return slåOppHjelpemiddelMedBrukernr(hmsnr, brukernr)
+        if (!serienr.isNullOrBlank()) return slåOppHjelpemiddelMedSerienr(hmsnr, serienr)
         return OppslagResult.Feil(OppslagFeil.MANGLER_BRUKERNR_ELLER_SERIENR)
     }
 
