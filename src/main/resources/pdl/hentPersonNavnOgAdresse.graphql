@@ -1,0 +1,26 @@
+query($ident: ID!){
+    hentPerson(ident: $ident) {
+        navn(historikk: false) {
+            fornavn,
+            mellomnavn,
+            etternavn,
+            forkortetNavn,
+        }
+        bostedsadresse(historikk: false ) {
+              vegadresse {
+                  adressenavn,
+                  postnummer,
+                  husnummer,
+                  poststed,
+                  husbokstav,
+                  tilleggsnavn,
+                  kommunenummer,
+              }
+        }
+        adressebeskyttelse(historikk: false) { gradering }
+        foedselsdato {
+            foedselsaar
+            foedselsdato
+        }
+    }
+}
