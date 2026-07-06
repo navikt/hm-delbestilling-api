@@ -6,6 +6,7 @@ import kotlinx.coroutines.launch
 import no.nav.hjelpemidler.delbestilling.common.Delbestilling
 import no.nav.hjelpemidler.delbestilling.common.DelbestillingSak
 import no.nav.hjelpemidler.delbestilling.common.Hmsnr
+import no.nav.hjelpemidler.delbestilling.common.Lager
 import no.nav.hjelpemidler.delbestilling.common.Serienr
 import no.nav.hjelpemidler.delbestilling.config.isDev
 import no.nav.hjelpemidler.delbestilling.config.isLocal
@@ -118,7 +119,64 @@ class DelbestillingService(
 
         val bestillersNavn = pdl.hentFornavn(bestillerFnr)
 
-        // TODO rydd og splitt ut logikk i egne klasser etc.
+
+        return if (request.delbestilling.ukjenteDeler.isEmpty()) {
+            log.info { "Innsending av delbestilling med id $id, hmsnr $hmsnr, serienr $serienr, brukernr $brukernr" }
+            opprettAutomatiskDelbestilling(
+                request,
+                brukerKommunenr,
+                bestillerFnr,
+                brukersFnr,
+                brukersKommunenavn,
+                innsendersRepresenterteOrganisasjon,
+                bestillerType,
+                lagerEnhet,
+                bestillersNavn,
+                id
+            )
+        } else {
+            log.info { "Innsending av delbestilling med id $id, hmsnr $hmsnr, serienr $serienr, brukernr $brukernr. Ukjente deler: ${request.delbestilling.ukjenteDeler}" }
+            opprettDelbestillingTilManuellSaksbehandling(
+                request,
+                brukerKommunenr,
+                bestillerFnr,
+                brukersFnr,
+                brukersKommunenavn,
+                innsendersRepresenterteOrganisasjon,
+                bestillerType,
+                bestillersNavn,
+                id,
+            )
+        }
+    }
+
+    private suspend fun opprettDelbestillingTilManuellSaksbehandling(
+        request: DelbestillingRequest,
+        brukerKommunenr: String,
+        bestillerFnr: String,
+        brukersFnr: String,
+        brukersKommunenavn: String,
+        innsendersRepresenterteOrganisasjon: Organisasjon,
+        bestillerType: BestillerType,
+        bestillersNavn: String,
+        id: UUID
+    ): DelbestillingResultat {
+         val personNavnOgAdresse = pdl.henthentPersonNavnOgAdresse(brukersFnr)
+
+    }
+
+    private suspend fun opprettAutomatiskDelbestilling(
+        request: DelbestillingRequest,
+        brukerKommunenr: String,
+        bestillerFnr: String,
+        brukersFnr: String,
+        brukersKommunenavn: String,
+        innsendersRepresenterteOrganisasjon: Organisasjon,
+        bestillerType: BestillerType,
+        lagerEnhet: Lager,
+        bestillersNavn: String,
+        id: UUID
+    ): DelbestillingResultat {
         val delerHmsnr = request.delbestilling.deler.map { it.del.hmsnr }
         val lagerstatuser = oebs.hentLagerstatusForKommunenummer(brukerKommunenr, delerHmsnr)
         val berikedeDellinjer = request.delbestilling.deler.map { dellinje ->
