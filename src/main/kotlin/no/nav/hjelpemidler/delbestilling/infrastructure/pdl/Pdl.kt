@@ -1,6 +1,9 @@
 package no.nav.hjelpemidler.delbestilling.infrastructure.pdl
 
 import io.github.oshai.kotlinlogging.KotlinLogging
+import no.nav.hjelpemidler.delbestilling.delbestilling.PersonNavnOgAdresse
+import no.nav.hjelpemidler.domain.geografi.Veiadresse
+import no.nav.hjelpemidler.domain.person.Personnavn
 
 private val log = KotlinLogging.logger {}
 
@@ -30,5 +33,38 @@ class Pdl(private val client: PdlClientInterface) {
         }
 
         return fornavn
+
+    }    suspend fun henthentPersonNavnOgAdresse(fnr: String): PersonNavnOgAdresse {
+        val fornavn = try {
+            val response = valider(client.hentPersonNavnOgAdresse(fnr))
+            response.data?.hentPerson?.navn?.get(0)?.fornavn
+                ?: throw PdlResponseMissingData("Fornavn mangler i PDL-data")
+        } catch (e:Exception) {
+            log.error(e) { "Klarte ikke å hente fornavn" }
+            throw e
+        }
+
+        val response = try {
+            valider(client.hentPersonNavnOgAdresse(fnr))
+        } catch (e:Exception) {
+            log.error(e) { "Klarte ikke å hente Navn og Adresse" }
+            throw e
+        }
+
+        val navn = response.data?.hentPerson?.navn?.get(0) ?: throw PdlResponseMissingData("Navn mangler i PDL-data")
+        val adresse = response.data?.hentPerson?.bostedsadresse?.get(0)?.vegadresse ?: throw PdlResponseMissingData("Adresse mangler i PDL-data")
+
+        return PersonNavnOgAdresse(
+            navn = Personnavn(
+                fornavn = navn.fornavn,
+                mellomnavn = navn.mellomnavn,
+                etternavn = navn.etternavn
+            ),
+            adresse = Veiadresse(
+                adresse = "${adresse.adressenavn ?: ""} ${adresse.husnummer ?: ""}${adresse.husbokstav ?: ""}".trim(),
+                postnummer = adresse.postnummer ?: "",
+                poststed = adresse.poststed ?: "",
+            )
+        )
     }
 }

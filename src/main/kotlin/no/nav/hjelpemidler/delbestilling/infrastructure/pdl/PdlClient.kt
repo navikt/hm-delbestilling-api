@@ -11,6 +11,7 @@ import kotlinx.coroutines.withContext
 import no.nav.hjelpemidler.delbestilling.config.AppConfig
 import no.nav.hjelpemidler.delbestilling.infrastructure.defaultHttpClient
 import no.nav.hjelpemidler.delbestilling.infrastructure.navCorrelationId
+import no.nav.hjelpemidler.delbestilling.infrastructure.oebs.FnrDto
 import no.nav.hjelpemidler.http.openid.OpenIDClient
 import no.nav.hjelpemidler.http.openid.bearerAuth
 
@@ -39,4 +40,6 @@ class PdlClient(
     override suspend fun hentKommunenummer(fnummer: String): PdlPersonResponse = pdlRequest(hentKommunenummerQuery(fnummer))
 
     override suspend fun hentPersonNavn(fnr: String): PdlPersonResponse = pdlRequest(hentPersonNavnQuery(fnr))
+
+    override suspend fun hentPersonNavnOgAdresse(fnr: String): PdlPersonResponse = pdlRequest(hentPersonNavnOgAdresseQuery(fnr))
 }
