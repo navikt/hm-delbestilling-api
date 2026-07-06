@@ -7,6 +7,7 @@ import no.nav.hjelpemidler.delbestilling.common.Delbestilling
 import no.nav.hjelpemidler.delbestilling.common.DelbestillingSak
 import no.nav.hjelpemidler.delbestilling.common.Hmsnr
 import no.nav.hjelpemidler.delbestilling.common.Lager
+import no.nav.hjelpemidler.delbestilling.common.Saksbehandlingstype
 import no.nav.hjelpemidler.delbestilling.common.Serienr
 import no.nav.hjelpemidler.delbestilling.common.Status
 import no.nav.hjelpemidler.delbestilling.infrastructure.jsonMapper
@@ -24,10 +25,11 @@ class DelbestillingRepository(val tx: JdbcOperations) {
         bestillerType: BestillerType,
         lagerEnhet: Lager,
         status: Status = Status.INNSENDT,
+        saksbehandlingstype: Saksbehandlingstype
     ): Long = tx.updateAndReturnGeneratedKey(
         sql = """
-            INSERT INTO delbestilling (brukers_kommunenr, fnr_bruker, fnr_bestiller, delbestilling_json, status, brukers_kommunenavn, bestillers_organisasjon, bestiller_type, enhetnr, enhetnavn)
-            VALUES (:brukers_kommunenr, :fnr_bruker, :fnr_bestiller, :delbestilling_json::jsonb, :status, :brukers_kommunenavn, :bestillers_organisasjon::jsonb, :bestiller_type, :enhetnr, :enhetnavn)
+            INSERT INTO delbestilling (brukers_kommunenr, fnr_bruker, fnr_bestiller, delbestilling_json, status, brukers_kommunenavn, bestillers_organisasjon, bestiller_type, enhetnr, enhetnavn, saksbehandlingstype)
+            VALUES (:brukers_kommunenr, :fnr_bruker, :fnr_bestiller, :delbestilling_json::jsonb, :status, :brukers_kommunenavn, :bestillers_organisasjon::jsonb, :bestiller_type, :enhetnr, :enhetnavn, :saksbehandlingstype)
         """.trimIndent(),
         queryParameters = mapOf(
             "brukers_kommunenr" to brukerKommunenr,
@@ -40,6 +42,7 @@ class DelbestillingRepository(val tx: JdbcOperations) {
             "bestiller_type" to bestillerType,
             "enhetnr" to lagerEnhet.nummer,
             "enhetnavn" to lagerEnhet.navn,
+            "saksbehandlingstype" to saksbehandlingstype.name
         ),
     )
 
@@ -144,6 +147,7 @@ private fun Row.tilDelbestillingSak() = DelbestillingSak(
     brukersKommunenavn = this.string("brukers_kommunenavn"),
     enhetnr = this.string("enhetnr"),
     enhetnavn = this.string("enhetnavn"),
+    saksbehandlingstype = Saksbehandlingstype.valueOf(this.string("saksbehandlingstype"))
 )
 
 private fun <T> pgJsonbOf(value: T): Any =

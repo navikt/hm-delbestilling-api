@@ -8,6 +8,7 @@ import no.nav.hjelpemidler.delbestilling.common.DelbestillingSak
 import no.nav.hjelpemidler.delbestilling.common.Hmsnr
 import no.nav.hjelpemidler.delbestilling.common.Lagerstatus
 import no.nav.hjelpemidler.delbestilling.common.Levering
+import no.nav.hjelpemidler.delbestilling.common.Saksbehandlingstype
 import no.nav.hjelpemidler.delbestilling.common.Status
 import no.nav.hjelpemidler.delbestilling.fakes.GrunndataTestHmsnr
 import no.nav.hjelpemidler.delbestilling.infrastructure.oebs.UtlånMedSerienr
@@ -96,6 +97,7 @@ fun delbestillingSak(
     brukersKommunenavn = "Oslo",
     enhetnr = "4703",
     enhetnavn = "Oslo",
+    saksbehandlingstype = Saksbehandlingstype.AUTOMATISK
 )
 
 fun organisasjon(orgnr: String = "123456789", navn: String = "Reperasjon AS") = Organisasjon(

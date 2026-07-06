@@ -7,6 +7,7 @@ import no.nav.hjelpemidler.delbestilling.common.Delbestilling
 import no.nav.hjelpemidler.delbestilling.common.DelbestillingSak
 import no.nav.hjelpemidler.delbestilling.common.Hmsnr
 import no.nav.hjelpemidler.delbestilling.common.Lager
+import no.nav.hjelpemidler.delbestilling.common.Saksbehandlingstype
 import no.nav.hjelpemidler.delbestilling.common.Serienr
 import no.nav.hjelpemidler.delbestilling.config.isDev
 import no.nav.hjelpemidler.delbestilling.config.isLocal
@@ -162,7 +163,9 @@ class DelbestillingService(
         id: UUID
     ): DelbestillingResultat {
          val personNavnOgAdresse = pdl.henthentPersonNavnOgAdresse(brukersFnr)
+            // TODO: Husk å sett saksbehandlingstype.
 
+        return DelbestillingResultat(id, null, null, null) // TODO: Implementer lagring av delbestilling til manuell saksbehandling
     }
 
     private suspend fun opprettAutomatiskDelbestilling(
@@ -197,6 +200,7 @@ class DelbestillingService(
                 innsendersRepresenterteOrganisasjon,
                 bestillerType,
                 lagerEnhet,
+                saksbehandlingstype = Saksbehandlingstype.AUTOMATISK
             )
 
             // Hent ut den nye delbestillingsaken
