@@ -14,6 +14,7 @@ data class Delbestilling(
     val serienr: Serienr?,
     val brukernr: String? = null,
     val deler: List<DelLinje>,
+    val ukjenteDeler: List<DellinjeUkjentDel> = emptyList(),
     val levering: Levering,
     val harOpplæringPåBatteri: Boolean?,
     val navn: String?,
@@ -58,6 +59,16 @@ data class DelLinje(
 ) {
     fun erBatteri() = del.erBatteri()
 }
+
+data class DellinjeUkjentDel(
+    val ukjentDel: UkjentDel,
+    val antall: Int,
+)
+
+data class UkjentDel(
+    val hmsnr: Hmsnr?,
+    val levArtNr: String?,
+)
 
 
 data class Del(
