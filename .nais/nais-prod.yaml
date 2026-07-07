@@ -47,6 +47,7 @@ spec:
       rules:
         - application: hm-oebs-api-proxy
         - application: hm-roller
+        - application: hm-pdf-generator
         - application: digihot-oppslag
         - application: logging
           namespace: nais-system
