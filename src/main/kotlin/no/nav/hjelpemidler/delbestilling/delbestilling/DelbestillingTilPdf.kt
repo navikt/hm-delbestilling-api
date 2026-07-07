@@ -1,7 +1,5 @@
 package no.nav.hjelpemidler.delbestilling.delbestilling
 
-import no.nav.hjelpemidler.delbestilling.common.DelLinje
-import no.nav.hjelpemidler.delbestilling.common.DellinjeUkjentDel
 import no.nav.hjelpemidler.domain.geografi.Veiadresse
 import no.nav.hjelpemidler.domain.person.Personnavn
 import java.time.LocalDate
@@ -18,8 +16,8 @@ data class DelbestillingTilPdf(
     val navnTekniker: String,
     val beskjed517: String? = null,
     val leveringsadresse: String,
-    val deler: List<DelLinje>,
-    val ukjenteDeler: List<DellinjeUkjentDel>,
+    val deler: List<Del>,
+    val ukjenteDeler: List<UkjentDel>, // Gj
     val totalAntallDeler: Int,
 )
 
