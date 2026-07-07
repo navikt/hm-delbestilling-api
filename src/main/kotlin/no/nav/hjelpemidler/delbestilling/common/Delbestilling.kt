@@ -1,10 +1,7 @@
 package no.nav.hjelpemidler.delbestilling.common
 
 import no.nav.hjelpemidler.delbestilling.oppslag.legacy.defaultAntall
-import no.nav.hjelpemidler.time.Arbeidsdager
 import no.nav.hjelpemidler.time.arbeidsdager
-import no.nav.hjelpemidler.time.toInstant
-import no.nav.hjelpemidler.time.toLocalDate
 import java.time.LocalDate
 import java.util.UUID
 
@@ -61,13 +58,13 @@ data class DelLinje(
 }
 
 data class DellinjeUkjentDel(
-    val ukjentDel: UkjentDel,
+    val delUkjent: DelUkjent,
     val antall: Int,
 )
 
-data class UkjentDel(
+data class DelUkjent(
     val hmsnr: Hmsnr?,
-    val levArtNr: String?,
+    val levArtnr: String?,
 )
 
 
