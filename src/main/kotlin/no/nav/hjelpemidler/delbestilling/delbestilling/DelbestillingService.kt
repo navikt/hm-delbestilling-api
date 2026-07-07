@@ -181,7 +181,7 @@ class DelbestillingService(
                 navnBruker = personNavnOgAdresseTilPDF.navn,
                 fnrBruker = brukersFnr,
                 adresseBruker = personNavnOgAdresseTilPDF.adresse,
-                brukernummer = null,
+                brukernummer = delbestilling.brukernr,
                 hjelpemiddelnavn = "",
                 hjelpemiddelserienr = delbestilling.serienr,
                 hjelpemiddelHmsnr = delbestilling.hmsnr,
