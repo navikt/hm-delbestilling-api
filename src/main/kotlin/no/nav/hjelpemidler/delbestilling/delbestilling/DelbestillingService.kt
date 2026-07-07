@@ -1,6 +1,7 @@
 package no.nav.hjelpemidler.delbestilling.delbestilling
 
 import io.github.oshai.kotlinlogging.KotlinLogging
+import io.ktor.client.statement.readRawBytes
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 import no.nav.hjelpemidler.delbestilling.common.Delbestilling
@@ -29,6 +30,8 @@ import no.nav.hjelpemidler.delbestilling.oppslag.legacy.data.hmsnr2Hjm
 import no.nav.hjelpemidler.domain.person.Fødselsnummer
 import no.nav.hjelpemidler.delbestilling.infrastructure.oebs.OPPRETT_DELBESTILLING_EVENT_NAME
 import no.nav.hjelpemidler.delbestilling.infrastructure.oebs.byggOebsKafkaPayload
+import no.nav.hjelpemidler.delbestilling.pdf.PdfGeneratorClient
+import java.time.LocalDate
 import java.time.LocalDateTime
 import java.util.UUID
 
@@ -61,8 +64,11 @@ class DelbestillingService(
             return DelbestillingResultat(id, feil = feil)
         }
 
-        val brukersFnr = hentInnbyggersFnr(hmsnr = hmsnr, serienr = serienr, brukernr = brukernr)
-            ?: return DelbestillingResultat(id, feil = DelbestillingFeil.INGET_UTLÅN)
+        val brukersFnr =
+            hentInnbyggersFnr(hmsnr = hmsnr, serienr = serienr, brukernr = brukernr) ?: return DelbestillingResultat(
+                id,
+                feil = DelbestillingFeil.INGET_UTLÅN
+            )
 
         val brukerKommunenr = try {
             pdl.hentKommunenummer(brukersFnr)
@@ -145,6 +151,7 @@ class DelbestillingService(
                 brukersKommunenavn,
                 innsendersRepresenterteOrganisasjon,
                 bestillerType,
+                lagerEnhet,
                 bestillersNavn,
                 id,
             )
@@ -159,13 +166,73 @@ class DelbestillingService(
         brukersKommunenavn: String,
         innsendersRepresenterteOrganisasjon: Organisasjon,
         bestillerType: BestillerType,
+        lagerEnhet: Lager,
         bestillersNavn: String,
         id: UUID
     ): DelbestillingResultat {
-         val personNavnOgAdresse = pdl.henthentPersonNavnOgAdresse(brukersFnr)
-            // TODO: Husk å sett saksbehandlingstype.
+        val personNavnOgAdresseTilPDF = pdl.henthentPersonNavnOgAdresse(brukersFnr)
+        val delbestilling = request.delbestilling
+        val pdfClient: PdfGeneratorClient = PdfGeneratorClient() // TODO: Injecte istedet for å opprette instans her?
 
-        return DelbestillingResultat(id, null, null, null) // TODO: Implementer lagring av delbestilling til manuell saksbehandling
+        val delbestillingSak = transaction(returnGeneratedKeys = true) {
+
+            val delbestillingTilPdf: DelbestillingTilPdf = DelbestillingTilPdf(
+                mottattDato = LocalDate.now(),
+                navnBruker = personNavnOgAdresseTilPDF.navn,
+                fnrBruker = brukersFnr,
+                adresseBruker = personNavnOgAdresseTilPDF.adresse,
+                brukernummer = null,
+                hjelpemiddelnavn = "",
+                hjelpemiddelserienr = delbestilling.serienr,
+                hjelpemiddelHmsnr = delbestilling.hmsnr,
+                navnTekniker = bestillersNavn,
+                beskjed517 = "", // TODO: Finn ut hva dette er!
+                leveringsadresse = "", // Hvor kommer dette fra?
+                deler = delbestilling.deler,
+                ukjenteDeler = delbestilling.ukjenteDeler,
+                totalAntallDeler = delbestilling.deler.sumOf { it.antall } + delbestilling.ukjenteDeler.sumOf { it.antall }
+            )
+
+            val pdf = pdfClient.lagDelbestillingsbrev(delbestillingTilPdf).readRawBytes()
+
+            log.info { "Lagrer delbestilling '${delbestilling.id}'" }
+            val saksnummer = delbestillingRepository.lagreDelbestilling(
+                bestillerFnr,
+                brukersFnr,
+                brukerKommunenr,
+                delbestilling,
+                brukersKommunenavn,
+                innsendersRepresenterteOrganisasjon,
+                bestillerType,
+                lagerEnhet,
+                saksbehandlingstype = Saksbehandlingstype.MANUELL,
+                pdfTilManuellBestilling = pdf,
+            )
+
+            // Hent ut den nye delbestillingsaken
+            val nyDelbestillingSak = delbestillingRepository.hentDelbestilling(saksnummer)
+                ?: throw RuntimeException("Klarte ikke hente ut delbestillingsak for saksnummer $saksnummer")
+
+            anmodningService.lagreDelerUtenDekning(nyDelbestillingSak)
+
+            // Skriv Kafka-event til outbox atomisk med delbestillingen
+            val ordre = oebs.byggOrdre(nyDelbestillingSak, Fødselsnummer(brukersFnr), bestillersNavn)
+            val eventId = UUID.randomUUID()
+            outboxDao.leggTil(
+                topic = SOKNADSBEHANDLING_TOPIC,
+                key = nyDelbestillingSak.saksnummer.toString(),
+                eventName = OPPRETT_DELBESTILLING_EVENT_NAME,
+                eventId = eventId,
+                payload = byggOebsKafkaPayload(eventId, ordre),
+            )
+
+            nyDelbestillingSak
+        }
+
+
+        return DelbestillingResultat(
+            id, null, delbestillingSak.saksnummer, delbestillingSak
+        )
     }
 
     private suspend fun opprettAutomatiskDelbestilling(
@@ -271,9 +338,9 @@ class DelbestillingService(
         }
         val maxAntallBestillingerPer24Timer = 5
         val tidspunkt24TimerSiden = LocalDateTime.now().minusDays(1)
-        val bestillersBestillinger = hentDelbestillinger(bestillerFnr)
-            .filter { it.opprettet.isAfter(tidspunkt24TimerSiden) }
-            .filter { it.delbestilling.hmsnr == hmsnr && (it.delbestilling.serienr == serienr || it.delbestilling.brukernr == brukernr) } // TOOO test
+        val bestillersBestillinger =
+            hentDelbestillinger(bestillerFnr).filter { it.opprettet.isAfter(tidspunkt24TimerSiden) }
+                .filter { it.delbestilling.hmsnr == hmsnr && (it.delbestilling.serienr == serienr || it.delbestilling.brukernr == brukernr) } // TOOO test
         if (bestillersBestillinger.size >= maxAntallBestillingerPer24Timer) {
             log.info { "Tekniker har nådd grensen på $maxAntallBestillingerPer24Timer bestillinger siste 24 timer for hjelpemiddel hmsnr:$hmsnr serienr:$serienr" }
             return DelbestillingFeil.FOR_MANGE_BESTILLINGER_SISTE_24_TIMER
@@ -286,7 +353,8 @@ class DelbestillingService(
     }
 
     suspend fun sjekkXKLager(hmsnr: Hmsnr, serienr: Serienr?, brukernr: String?): Boolean {
-        val brukersFnr = hentInnbyggersFnr(hmsnr, serienr, brukernr) ?: error("Fant ikke fnr for hmsnr=$hmsnr, serienr=$serienr")
+        val brukersFnr =
+            hentInnbyggersFnr(hmsnr, serienr, brukernr) ?: error("Fant ikke fnr for hmsnr=$hmsnr, serienr=$serienr")
         val kommunenummer = pdl.hentKommunenummer(brukersFnr)
         return harXKLager(kommunenummer)
     }
@@ -299,8 +367,7 @@ class DelbestillingService(
                 if (rapport.anmodningsbehov.isNotEmpty()) {
                     transaction {
                         delUtenDekningDao.markerDelerSomBehandlet(
-                            rapport.lager,
-                            rapport.anmodningsbehov.map { it.hmsnr })
+                            rapport.lager, rapport.anmodningsbehov.map { it.hmsnr })
                         anmodningDao.lagreAnmodninger(rapport)
                         anmodningService.sendAnmodningRapport(rapport)
                     }
@@ -311,9 +378,7 @@ class DelbestillingService(
                 if (rapport.delerSomIkkeLengerMåAnmodes.isNotEmpty()) {
                     transaction {
                         delUtenDekningDao.markerDelerSomBehandlet(
-                            rapport.lager,
-                            rapport.delerSomIkkeLengerMåAnmodes.map { it.hmsnr }
-                        )
+                            rapport.lager, rapport.delerSomIkkeLengerMåAnmodes.map { it.hmsnr })
                     }
                     slack.varsleOmEtterfyllingHosEnhet(rapport.lager, rapport.delerSomIkkeLengerMåAnmodes)
                 }
