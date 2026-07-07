@@ -188,8 +188,20 @@ class DelbestillingService(
                 navnTekniker = bestillersNavn,
                 beskjed517 = "", // TODO: Finn ut hva dette er!
                 leveringsadresse = "", // Hvor kommer dette fra?
-                deler = delbestilling.deler,
-                ukjenteDeler = delbestilling.ukjenteDeler,
+                deler = delbestilling.deler.map { delLinje ->
+                    Del(
+                        hmsnr = delLinje.del.hmsnr,
+                        navn = delLinje.del.navn,
+                        antall = delLinje.antall
+                    )
+                },
+                ukjenteDeler = delbestilling.ukjenteDeler.map { ukjentDel ->
+                    UkjentDel(
+                        hmsnr = ukjentDel.delUkjent.hmsnr,
+                        levArtnr = ukjentDel.delUkjent.levArtnr,
+                        antall = ukjentDel.antall
+                    )
+                },
                 totalAntallDeler = delbestilling.deler.sumOf { it.antall } + delbestilling.ukjenteDeler.sumOf { it.antall }
             )
 
@@ -215,7 +227,7 @@ class DelbestillingService(
 
             anmodningService.lagreDelerUtenDekning(nyDelbestillingSak)
 
-            // Skriv Kafka-event til outbox atomisk med delbestillingen
+            // TODO Skriv ny Kafka-event til outbox atomisk med delbestillingen for bestillinger som skal manuelt behandles.
             val ordre = oebs.byggOrdre(nyDelbestillingSak, Fødselsnummer(brukersFnr), bestillersNavn)
             val eventId = UUID.randomUUID()
             outboxDao.leggTil(
