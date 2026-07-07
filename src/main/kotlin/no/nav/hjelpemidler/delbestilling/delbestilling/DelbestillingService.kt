@@ -172,11 +172,11 @@ class DelbestillingService(
     ): DelbestillingResultat {
         val personNavnOgAdresseTilPDF = pdl.henthentPersonNavnOgAdresse(brukersFnr)
         val delbestilling = request.delbestilling
-        val pdfClient: PdfGeneratorClient = PdfGeneratorClient() // TODO: Injecte istedet for å opprette instans her?
+        val pdfClient = PdfGeneratorClient(baseUrlPdfgen = "http://hm-pdf-generator") // TODO: Injecte istedet for å opprette instans her? Og sette url i env?
 
         val delbestillingSak = transaction(returnGeneratedKeys = true) {
 
-            val delbestillingTilPdf: DelbestillingTilPdf = DelbestillingTilPdf(
+            val delbestillingTilPdf = DelbestillingTilPdf(
                 mottattDato = LocalDate.now(),
                 navnBruker = personNavnOgAdresseTilPDF.navn,
                 fnrBruker = brukersFnr,
