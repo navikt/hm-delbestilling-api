@@ -14,7 +14,7 @@ data class Delbestilling(
     val ukjenteDeler: List<DellinjeUkjentDel> = emptyList(),
     val levering: Levering,
     val harOpplæringPåBatteri: Boolean?,
-    val navn: String?,
+    val navn: String, // Hjelpemiddelnavn
     val status: Status = Status.INNSENDT,
 ) {
     fun oppdaterDellinjeStatus(status: DellinjeStatus, hmsnr: Hmsnr, datoOppdatert: LocalDate): Delbestilling {

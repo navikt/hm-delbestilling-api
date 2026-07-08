@@ -8,6 +8,7 @@ import no.nav.hjelpemidler.delbestilling.common.Delbestilling
 import no.nav.hjelpemidler.delbestilling.common.DelbestillingSak
 import no.nav.hjelpemidler.delbestilling.common.Hmsnr
 import no.nav.hjelpemidler.delbestilling.common.Lager
+import no.nav.hjelpemidler.delbestilling.common.Levering
 import no.nav.hjelpemidler.delbestilling.common.Saksbehandlingstype
 import no.nav.hjelpemidler.delbestilling.common.Serienr
 import no.nav.hjelpemidler.delbestilling.config.isDev
@@ -16,7 +17,9 @@ import no.nav.hjelpemidler.delbestilling.config.isProd
 import no.nav.hjelpemidler.delbestilling.delbestilling.anmodning.AnmodningService
 import no.nav.hjelpemidler.delbestilling.delbestilling.anmodning.Anmodningrapport
 import no.nav.hjelpemidler.delbestilling.infrastructure.geografi.Kommuneoppslag
+import no.nav.hjelpemidler.delbestilling.infrastructure.kafka.OPPRETT_MANUELL_DELBESTILLING_EVENT_NAME
 import no.nav.hjelpemidler.delbestilling.infrastructure.kafka.SOKNADSBEHANDLING_TOPIC
+import no.nav.hjelpemidler.delbestilling.infrastructure.kafka.byggManuellDelbestillingKafkaPayload
 import no.nav.hjelpemidler.delbestilling.infrastructure.metrics.Metrics
 import no.nav.hjelpemidler.delbestilling.infrastructure.oebs.Oebs
 import no.nav.hjelpemidler.delbestilling.infrastructure.pdl.Pdl
@@ -46,6 +49,7 @@ class DelbestillingService(
     private val metrics: Metrics,
     private val slack: Slack,
     private val anmodningService: AnmodningService,
+    private val pdfClient: PdfGeneratorClient,
 ) {
     suspend fun opprettDelbestilling(
         request: DelbestillingRequest,
@@ -152,7 +156,7 @@ class DelbestillingService(
                 innsendersRepresenterteOrganisasjon,
                 bestillerType,
                 lagerEnhet,
-                bestillersNavn,
+                pdl.hentNavn(bestillerFnr),
                 id,
             )
         }
@@ -172,42 +176,11 @@ class DelbestillingService(
     ): DelbestillingResultat {
         val personNavnOgAdresseTilPDF = pdl.henthentPersonNavnOgAdresse(brukersFnr)
         val delbestilling = request.delbestilling
-        val pdfClient = PdfGeneratorClient(baseUrlPdfgen = "http://hm-pdf-generator") // TODO: Injecte istedet for å opprette instans her? Og sette url i env?
 
+        val pdf = lagPdf(personNavnOgAdresseTilPDF, brukersFnr, delbestilling, bestillersNavn)
         val delbestillingSak = transaction(returnGeneratedKeys = true) {
 
-            val delbestillingTilPdf = DelbestillingTilPdf(
-                mottattDato = LocalDate.now(),
-                navnBruker = personNavnOgAdresseTilPDF.navn,
-                fnrBruker = brukersFnr,
-                adresseBruker = personNavnOgAdresseTilPDF.adresse,
-                brukernummer = delbestilling.brukernr,
-                hjelpemiddelnavn = "",
-                hjelpemiddelserienr = delbestilling.serienr,
-                hjelpemiddelHmsnr = delbestilling.hmsnr,
-                navnTekniker = bestillersNavn,
-                beskjed517 = "", // TODO: Finn ut hva dette er!
-                leveringsadresse = "", // Hvor kommer dette fra?
-                deler = delbestilling.deler.map { delLinje ->
-                    Del(
-                        hmsnr = delLinje.del.hmsnr,
-                        navn = delLinje.del.navn,
-                        antall = delLinje.antall
-                    )
-                },
-                ukjenteDeler = delbestilling.ukjenteDeler.map { ukjentDel ->
-                    UkjentDel(
-                        hmsnr = ukjentDel.delUkjent.hmsnr,
-                        levArtnr = ukjentDel.delUkjent.levArtnr,
-                        antall = ukjentDel.antall
-                    )
-                },
-                totalAntallDeler = delbestilling.deler.sumOf { it.antall } + delbestilling.ukjenteDeler.sumOf { it.antall }
-            )
-
-            val pdf = pdfClient.lagDelbestillingsbrev(delbestillingTilPdf).readRawBytes()
-
-            log.info { "Lagrer delbestilling '${delbestilling.id}'" }
+            log.info { "Lagrer manuell delbestilling '${delbestilling.id}'" }
             val saksnummer = delbestillingRepository.lagreDelbestilling(
                 bestillerFnr,
                 brukersFnr,
@@ -225,22 +198,23 @@ class DelbestillingService(
             val nyDelbestillingSak = delbestillingRepository.hentDelbestilling(saksnummer)
                 ?: throw RuntimeException("Klarte ikke hente ut delbestillingsak for saksnummer $saksnummer")
 
-            anmodningService.lagreDelerUtenDekning(nyDelbestillingSak)
-
-            // TODO Skriv ny Kafka-event til outbox atomisk med delbestillingen for bestillinger som skal manuelt behandles.
+            // Skriv Kafka-event til outbox atomisk med delbestillingen for bestillinger som skal manuelt behandles.
             val ordre = oebs.byggOrdre(nyDelbestillingSak, Fødselsnummer(brukersFnr), bestillersNavn)
             val eventId = UUID.randomUUID()
             outboxDao.leggTil(
                 topic = SOKNADSBEHANDLING_TOPIC,
                 key = nyDelbestillingSak.saksnummer.toString(),
-                eventName = OPPRETT_DELBESTILLING_EVENT_NAME,
+                eventName = OPPRETT_MANUELL_DELBESTILLING_EVENT_NAME,
                 eventId = eventId,
-                payload = byggOebsKafkaPayload(eventId, ordre),
+                payload = byggManuellDelbestillingKafkaPayload(eventId, ordre),
             )
 
             nyDelbestillingSak
         }
 
+        log.info { "Manuell delbestilling '$id' sendt inn med saksnummer '${delbestillingSak.saksnummer}'" }
+
+        sendStatistikk(request.delbestilling, brukersFnr)
 
         return DelbestillingResultat(
             id, null, delbestillingSak.saksnummer, delbestillingSak
@@ -333,6 +307,18 @@ class DelbestillingService(
                         hjmbrukerHarBrukerpass = hjmbrukerHarBrukerpass,
                     )
                 }
+
+                delbestilling.ukjenteDeler.forEach {
+                    metrics.registrerDelbestillingInnsendtUkjenteDeler(
+                        del = it.delUkjent,
+                        hmsnrHovedprodukt = delbestilling.hmsnr,
+                        navnHovedprodukt = navnHovedprodukt,
+                        rolleInnsender = "Tekniker",
+                        hjmbrukerHarBrukerpass = hjmbrukerHarBrukerpass,
+                    )
+                }
+
+
             } catch (t: Throwable) {
                 log.error(t) { "Lagring av statistikk om innsendt delbestilling feilet" }
             }
@@ -408,5 +394,57 @@ class DelbestillingService(
             slack.varsleOmRapporteringFeilet()
             throw t
         }
+    }
+
+    private suspend fun lagPdf(
+        personNavnOgAdresseTilPDF: PersonNavnOgAdresse,
+        brukersFnr: String,
+        delbestilling: Delbestilling,
+        bestillersNavn: String
+    ) : ByteArray{
+        val delbestillingTilPdf = genererPdfTilManuellSaksbehandler(
+            personNavnOgAdresseTilPDF,
+            brukersFnr,
+            delbestilling,
+            bestillersNavn
+        )
+        return pdfClient.lagDelbestillingsbrev(delbestillingTilPdf)
+    }
+
+    private fun genererPdfTilManuellSaksbehandler(
+        personNavnOgAdresseTilPDF: PersonNavnOgAdresse,
+        brukersFnr: String,
+        delbestilling: Delbestilling,
+        bestillersNavn: String
+    ): DelbestillingTilPdf {
+        val delbestillingTilPdf = DelbestillingTilPdf(
+            mottattDato = LocalDate.now(),
+            navnBruker = personNavnOgAdresseTilPDF.navn,
+            fnrBruker = brukersFnr,
+            adresseBruker = personNavnOgAdresseTilPDF.adresse,
+            brukernummer = delbestilling.brukernr,
+            hjelpemiddelnavn = delbestilling.navn,
+            hjelpemiddelserienr = delbestilling.serienr,
+            hjelpemiddelHmsnr = delbestilling.hmsnr,
+            navnTekniker = bestillersNavn,
+            beskjed517 = if (delbestilling.levering == Levering.TIL_XK_LAGER) "XK-Lager " else "",
+            leveringsadresse = "Kommunalt Mottakssted", // TODO: Bekreft at dette skal stå som standard.
+            deler = delbestilling.deler.map { delLinje ->
+                Del(
+                    hmsnr = delLinje.del.hmsnr,
+                    navn = delLinje.del.navn,
+                    antall = delLinje.antall
+                )
+            },
+            ukjenteDeler = delbestilling.ukjenteDeler.map { ukjentDel ->
+                UkjentDel(
+                    hmsnr = ukjentDel.delUkjent.hmsnr,
+                    levArtnr = ukjentDel.delUkjent.levArtnr,
+                    antall = ukjentDel.antall
+                )
+            },
+            totalAntallDeler = delbestilling.deler.sumOf { it.antall } + delbestilling.ukjenteDeler.sumOf { it.antall }
+        )
+        return delbestillingTilPdf
     }
 }
