@@ -115,7 +115,7 @@ class DelbestillingRepository(val tx: JdbcOperations) {
               AND opprettet < NOW() - (:dager * INTERVAL '1 day')
             ORDER BY opprettet ASC;
         """.trimIndent(),
-            queryParameters = mapOf("dager" to eldreEnnDager)
+        queryParameters = mapOf("dager" to eldreEnnDager)
     ) { it.tilDelbestillingSak() }
 
     fun oppdaterDelbestillingSak(sak: DelbestillingSak) {
@@ -135,6 +135,16 @@ class DelbestillingRepository(val tx: JdbcOperations) {
                 "saksnummer" to sak.saksnummer,
             )
         )
+    }
+
+    fun hentPdf(saksnummer: Long): ByteArray = tx.single(
+        sql = """
+        SELECT pdf
+        FROM delbestilling
+        WHERE saksnummer = :saksnummer
+    """.trimIndent(), queryParameters = mapOf("saksnummer" to saksnummer)
+    ) {
+        it.bytes("pdf")
     }
 }
 

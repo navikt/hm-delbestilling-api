@@ -1,7 +1,6 @@
 package no.nav.hjelpemidler.delbestilling.delbestilling
 
 import io.github.oshai.kotlinlogging.KotlinLogging
-import io.ktor.client.statement.readRawBytes
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 import no.nav.hjelpemidler.delbestilling.common.Delbestilling
@@ -17,11 +16,13 @@ import no.nav.hjelpemidler.delbestilling.config.isProd
 import no.nav.hjelpemidler.delbestilling.delbestilling.anmodning.AnmodningService
 import no.nav.hjelpemidler.delbestilling.delbestilling.anmodning.Anmodningrapport
 import no.nav.hjelpemidler.delbestilling.infrastructure.geografi.Kommuneoppslag
-import no.nav.hjelpemidler.delbestilling.infrastructure.kafka.OPPRETT_MANUELL_DELBESTILLING_EVENT_NAME
+import no.nav.hjelpemidler.delbestilling.infrastructure.jsonMapper
+import no.nav.hjelpemidler.delbestilling.infrastructure.kafka.ManuellDelbestillingKafkaPayload
 import no.nav.hjelpemidler.delbestilling.infrastructure.kafka.SOKNADSBEHANDLING_TOPIC
-import no.nav.hjelpemidler.delbestilling.infrastructure.kafka.byggManuellDelbestillingKafkaPayload
 import no.nav.hjelpemidler.delbestilling.infrastructure.metrics.Metrics
+import no.nav.hjelpemidler.delbestilling.infrastructure.oebs.OPPRETT_DELBESTILLING_EVENT_NAME
 import no.nav.hjelpemidler.delbestilling.infrastructure.oebs.Oebs
+import no.nav.hjelpemidler.delbestilling.infrastructure.oebs.byggOebsKafkaPayload
 import no.nav.hjelpemidler.delbestilling.infrastructure.pdl.Pdl
 import no.nav.hjelpemidler.delbestilling.infrastructure.pdl.PersonNotAccessibleInPdl
 import no.nav.hjelpemidler.delbestilling.infrastructure.pdl.PersonNotFoundInPdl
@@ -30,10 +31,8 @@ import no.nav.hjelpemidler.delbestilling.infrastructure.roller.Delbestiller
 import no.nav.hjelpemidler.delbestilling.infrastructure.roller.Organisasjon
 import no.nav.hjelpemidler.delbestilling.infrastructure.slack.Slack
 import no.nav.hjelpemidler.delbestilling.oppslag.legacy.data.hmsnr2Hjm
-import no.nav.hjelpemidler.domain.person.Fødselsnummer
-import no.nav.hjelpemidler.delbestilling.infrastructure.oebs.OPPRETT_DELBESTILLING_EVENT_NAME
-import no.nav.hjelpemidler.delbestilling.infrastructure.oebs.byggOebsKafkaPayload
 import no.nav.hjelpemidler.delbestilling.pdf.PdfGeneratorClient
+import no.nav.hjelpemidler.domain.person.Fødselsnummer
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.util.UUID
@@ -199,15 +198,23 @@ class DelbestillingService(
                 ?: throw RuntimeException("Klarte ikke hente ut delbestillingsak for saksnummer $saksnummer")
 
             // Skriv Kafka-event til outbox atomisk med delbestillingen for bestillinger som skal manuelt behandles.
-            val ordre = oebs.byggOrdre(nyDelbestillingSak, Fødselsnummer(brukersFnr), bestillersNavn)
-            val eventId = UUID.randomUUID()
+            val payload = ManuellDelbestillingKafkaPayload(
+                eventId = UUID.randomUUID(),
+                saksnummer = saksnummer,
+                brukersFnr = brukersFnr,
+                mottattTidspunkt = LocalDateTime.now(),
+            )
             outboxDao.leggTil(
                 topic = SOKNADSBEHANDLING_TOPIC,
-                key = nyDelbestillingSak.saksnummer.toString(),
-                eventName = OPPRETT_MANUELL_DELBESTILLING_EVENT_NAME,
-                eventId = eventId,
-                payload = byggManuellDelbestillingKafkaPayload(eventId, ordre),
+                key = payload.saksnummer.toString(),
+                eventName = payload.eventName,
+                eventId = payload.eventId,
+                payload = jsonMapper.writeValueAsString(payload),
             )
+
+            if (isDev()) {
+                log.info { "Manuell delbestilling lagt til outbox: $payload" }
+            }
 
             nyDelbestillingSak
         }
@@ -215,6 +222,10 @@ class DelbestillingService(
         log.info { "Manuell delbestilling '$id' sendt inn med saksnummer '${delbestillingSak.saksnummer}'" }
 
         sendStatistikk(request.delbestilling, brukersFnr)
+
+        if (!isLocal()) {
+            slack.varsleOmInnsending(brukerKommunenr, brukersKommunenavn)
+        }
 
         return DelbestillingResultat(
             id, null, delbestillingSak.saksnummer, delbestillingSak
@@ -446,5 +457,11 @@ class DelbestillingService(
             totalAntallDeler = delbestilling.deler.sumOf { it.antall } + delbestilling.ukjenteDeler.sumOf { it.antall }
         )
         return delbestillingTilPdf
+    }
+
+    suspend fun hentPdf(saksnummer: Long): ByteArray {
+        return transaction{
+            delbestillingRepository.hentPdf(saksnummer)
+        }
     }
 }
