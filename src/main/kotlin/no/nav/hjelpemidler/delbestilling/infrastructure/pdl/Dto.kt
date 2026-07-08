@@ -32,11 +32,9 @@ data class Vegadresse(
     val kommunenummer: String? = null,
     val adressenavn: String? = null,
     val postnummer: String? = null,
-    val poststed: String? = null,
     val husnummer: String? = null,
     val husbokstav: String? = null,
     val tilleggsnavn: String? = null,
-
 )
 
 data class Adressebeskyttelse(

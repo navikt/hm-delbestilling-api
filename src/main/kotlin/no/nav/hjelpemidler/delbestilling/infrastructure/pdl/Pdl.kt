@@ -2,12 +2,13 @@ package no.nav.hjelpemidler.delbestilling.infrastructure.pdl
 
 import io.github.oshai.kotlinlogging.KotlinLogging
 import no.nav.hjelpemidler.delbestilling.delbestilling.PersonNavnOgAdresse
+import no.nav.hjelpemidler.delbestilling.infrastructure.geografi.Geografioppslag
 import no.nav.hjelpemidler.domain.geografi.Veiadresse
 import no.nav.hjelpemidler.domain.person.Personnavn
 
 private val log = KotlinLogging.logger {}
 
-class Pdl(private val client: PdlClientInterface) {
+class Pdl(private val client: PdlClientInterface, private val geografioppslag: Geografioppslag) {
 
     suspend fun hentKommunenummer(fnr: String): String {
         val kommunenummer = try {
@@ -51,15 +52,6 @@ class Pdl(private val client: PdlClientInterface) {
 
 
     suspend fun henthentPersonNavnOgAdresse(fnr: String): PersonNavnOgAdresse {
-        val fornavn = try {
-            val response = valider(client.hentPersonNavnOgAdresse(fnr))
-            response.data?.hentPerson?.navn?.get(0)?.fornavn
-                ?: throw PdlResponseMissingData("Fornavn mangler i PDL-data")
-        } catch (e:Exception) {
-            log.error(e) { "Klarte ikke å hente fornavn" }
-            throw e
-        }
-
         val response = try {
             valider(client.hentPersonNavnOgAdresse(fnr))
         } catch (e:Exception) {
@@ -68,7 +60,9 @@ class Pdl(private val client: PdlClientInterface) {
         }
 
         val navn = response.data?.hentPerson?.navn?.get(0) ?: throw PdlResponseMissingData("Navn mangler i PDL-data")
-        val adresse = response.data?.hentPerson?.bostedsadresse?.get(0)?.vegadresse ?: throw PdlResponseMissingData("Adresse mangler i PDL-data")
+        val adresse = response.data.hentPerson.bostedsadresse[0].vegadresse ?: throw PdlResponseMissingData("Adresse mangler i PDL-data")
+        val postnummer = adresse.postnummer ?: throw PdlResponseMissingData("Postnummer mangler i PDL-data")
+        val poststed = geografioppslag.hentPoststed(postnummer)
 
         return PersonNavnOgAdresse(
             navn = Personnavn(
@@ -78,8 +72,8 @@ class Pdl(private val client: PdlClientInterface) {
             ),
             adresse = Veiadresse(
                 adresse = "${adresse.adressenavn ?: ""} ${adresse.husnummer ?: ""}${adresse.husbokstav ?: ""}".trim(),
-                postnummer = adresse.postnummer ?: "",
-                poststed = adresse.poststed ?: "",
+                postnummer = postnummer,
+                poststed = poststed,
             )
         )
     }

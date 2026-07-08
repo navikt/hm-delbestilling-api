@@ -12,7 +12,7 @@ import no.nav.hjelpemidler.delbestilling.delbestilling.anmodning.AnmodningServic
 import no.nav.hjelpemidler.delbestilling.devtools.DevTools
 import no.nav.hjelpemidler.delbestilling.infrastructure.email.Email
 import no.nav.hjelpemidler.delbestilling.infrastructure.email.GraphClient
-import no.nav.hjelpemidler.delbestilling.infrastructure.geografi.Kommuneoppslag
+import no.nav.hjelpemidler.delbestilling.infrastructure.geografi.Geografioppslag
 import no.nav.hjelpemidler.delbestilling.infrastructure.geografi.OppslagClient
 import no.nav.hjelpemidler.delbestilling.infrastructure.grunndata.Grunndata
 import no.nav.hjelpemidler.delbestilling.infrastructure.grunndata.GrunndataClient
@@ -79,13 +79,13 @@ class AppContext {
     val slack = Slack(transactional, backgroundScope)
     private val grunndata = Grunndata(GrunndataClient())
     private val kafka = Kafka()
-    private val kommuneoppslag = Kommuneoppslag(OppslagClient())
+    private val geografioppslag = Geografioppslag(OppslagClient())
     private val metrics = Metrics(kafka)
     private val norg = Norg(NorgClient())
     private val finnLagerenhet = FinnLagerenhet(norg, slack)
     private val oebs = Oebs(OebsApiProxyClient(entraIDClient), finnLagerenhet)
     private val outboxDispatcher = OutboxDispatcher(transactional, kafka, slack, clock)
-    private val pdl = Pdl(PdlClient(entraIDClient))
+    private val pdl = Pdl(PdlClient(entraIDClient), geografioppslag)
     private val rollerClient = RollerClient(TokendingsServiceBuilder.buildTokendingsService())
     private val pdfGeneratorClient = PdfGeneratorClient()
 
@@ -104,7 +104,7 @@ class AppContext {
     val klargjorteDelbestillingerService = KlargjorteDelbestillingerService(transactional, email, slack)
     val hjelpemiddeloversikt = Hjelpemiddeloversikt(grunndata, finnDelerTilHjelpemiddel, backgroundScope)
     val delbestillingService =
-        DelbestillingService(transactional, pdl, oebs, kommuneoppslag, metrics, slack, anmodningService, pdfGeneratorClient)
+        DelbestillingService(transactional, pdl, oebs, geografioppslag, metrics, slack, anmodningService, pdfGeneratorClient)
     val oppslagService = OppslagService(
         pdl,
         oebs,

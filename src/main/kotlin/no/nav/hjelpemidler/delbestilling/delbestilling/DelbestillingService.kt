@@ -15,7 +15,7 @@ import no.nav.hjelpemidler.delbestilling.config.isLocal
 import no.nav.hjelpemidler.delbestilling.config.isProd
 import no.nav.hjelpemidler.delbestilling.delbestilling.anmodning.AnmodningService
 import no.nav.hjelpemidler.delbestilling.delbestilling.anmodning.Anmodningrapport
-import no.nav.hjelpemidler.delbestilling.infrastructure.geografi.Kommuneoppslag
+import no.nav.hjelpemidler.delbestilling.infrastructure.geografi.Geografioppslag
 import no.nav.hjelpemidler.delbestilling.infrastructure.jsonMapper
 import no.nav.hjelpemidler.delbestilling.infrastructure.kafka.ManuellDelbestillingKafkaPayload
 import no.nav.hjelpemidler.delbestilling.infrastructure.kafka.SOKNADSBEHANDLING_TOPIC
@@ -44,7 +44,7 @@ class DelbestillingService(
     private val transaction: Transactional,
     private val pdl: Pdl,
     private val oebs: Oebs,
-    private val kommuneoppslag: Kommuneoppslag,
+    private val geografioppslag: Geografioppslag,
     private val metrics: Metrics,
     private val slack: Slack,
     private val anmodningService: AnmodningService,
@@ -93,7 +93,7 @@ class DelbestillingService(
             return DelbestillingResultat(id, feil = DelbestillingFeil.LAGERENHET_IKKE_FUNNET)
         }
 
-        val brukersKommunenavn = kommuneoppslag.kommunenavnOrNull(brukerKommunenr) ?: "Ukjent"
+        val brukersKommunenavn = geografioppslag.kommunenavnOrNull(brukerKommunenr) ?: "Ukjent"
 
         // Det skal ikke være mulig å bestille til seg selv (disabler i dev pga testdata)
         if (isProd() && bestillerFnr == brukersFnr) {
