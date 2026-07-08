@@ -41,6 +41,7 @@ import no.nav.hjelpemidler.delbestilling.oppslag.Hjelpemiddeloversikt
 import no.nav.hjelpemidler.delbestilling.oppslag.OppslagService
 import no.nav.hjelpemidler.delbestilling.oppslag.PiloterService
 import no.nav.hjelpemidler.delbestilling.ordrestatus.DelbestillingStatusService
+import no.nav.hjelpemidler.delbestilling.pdf.PdfGeneratorClient
 import no.nav.hjelpemidler.delbestilling.rapportering.JobbScheduler
 import no.nav.hjelpemidler.delbestilling.rapportering.MånedsrapportAnmodningsbehov
 import no.nav.hjelpemidler.delbestilling.rapportering.Rapportering
@@ -86,6 +87,7 @@ class AppContext {
     private val outboxDispatcher = OutboxDispatcher(transactional, kafka, slack, clock)
     private val pdl = Pdl(PdlClient(entraIDClient))
     private val rollerClient = RollerClient(TokendingsServiceBuilder.buildTokendingsService())
+    private val pdfGeneratorClient = PdfGeneratorClient()
 
 
     // Eksponert for custom plugin
@@ -102,7 +104,7 @@ class AppContext {
     val klargjorteDelbestillingerService = KlargjorteDelbestillingerService(transactional, email, slack)
     val hjelpemiddeloversikt = Hjelpemiddeloversikt(grunndata, finnDelerTilHjelpemiddel, backgroundScope)
     val delbestillingService =
-        DelbestillingService(transactional, pdl, oebs, kommuneoppslag, metrics, slack, anmodningService)
+        DelbestillingService(transactional, pdl, oebs, kommuneoppslag, metrics, slack, anmodningService, pdfGeneratorClient)
     val oppslagService = OppslagService(
         pdl,
         oebs,

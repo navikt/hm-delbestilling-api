@@ -108,7 +108,7 @@ class TestContext {
     val anmodningService = AnmodningService(transaction, oebs, slack, email, grunndata)
     val klargjorteDelbestillingerService = KlargjorteDelbestillingerService(transaction, email, slack)
     val delbestillingService =
-        DelbestillingService(transaction, pdl, oebs, kommuneoppslag, metrics, slack, anmodningService)
+        DelbestillingService(transaction, pdl, oebs, kommuneoppslag, metrics, slack, anmodningService, pdfClient = mockk())
 
     // Status
     val delbestillingStatusService = DelbestillingStatusService(transaction, oebs, metrics, slack)
