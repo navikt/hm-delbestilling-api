@@ -109,3 +109,5 @@ spec:
       value: https://norg2.dev-fss-pub.nais.io/norg2/api/v1
     - name: EPOST_AVSENDER
       value: "digitalisering.av.hjelpemidler.og.tilrettelegging@trygdeetaten.no"
+    - name: PDF_GEN_BASEURL
+      value: https://hm-pdf-generator.intern.dev.nav.no/api
