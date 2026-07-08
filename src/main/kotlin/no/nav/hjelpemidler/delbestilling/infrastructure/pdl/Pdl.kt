@@ -34,7 +34,23 @@ class Pdl(private val client: PdlClientInterface) {
 
         return fornavn
 
-    }    suspend fun henthentPersonNavnOgAdresse(fnr: String): PersonNavnOgAdresse {
+    }
+
+    suspend fun hentNavn(fnr: String): String {
+        val navn = try {
+            val response = valider(client.hentPersonNavn(fnr))
+            response.data?.hentPerson?.navn?.get(0)?.let { navn ->
+                "${navn.fornavn} ${navn.mellomnavn ?: ""} ${navn.etternavn}".trim()
+            } ?: throw PdlResponseMissingData("Navn mangler i PDL-data")
+        } catch (e:Exception) {
+            log.error(e) { "Klarte ikke å hente navn" }
+            throw e
+        }
+        return navn
+    }
+
+
+    suspend fun henthentPersonNavnOgAdresse(fnr: String): PersonNavnOgAdresse {
         val fornavn = try {
             val response = valider(client.hentPersonNavnOgAdresse(fnr))
             response.data?.hentPerson?.navn?.get(0)?.fornavn
