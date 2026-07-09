@@ -31,7 +31,7 @@ class PdfGeneratorClient(
     }
 
     suspend fun lagDelbestillingsbrev(delbestilling: DelbestillingTilPdf): ByteArray {
-        log.info { "Lager pdf for delbestilling med ukjente deler" }
+        log.info { "Lager pdf for delbestilling med ukjente deler. $delbestilling" }
         val pdfByteArray = client.post("$baseUrlPdfgen/delbestilling") { setBody(delbestilling) }.readRawBytes()
 
         return pdfByteArray
