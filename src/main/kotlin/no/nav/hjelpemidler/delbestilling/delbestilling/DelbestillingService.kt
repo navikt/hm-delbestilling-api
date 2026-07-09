@@ -190,7 +190,7 @@ class DelbestillingService(
                 bestillerType,
                 lagerEnhet,
                 saksbehandlingstype = Saksbehandlingstype.MANUELL,
-                pdfTilManuellBestilling = pdf,
+                pdf = pdf,
             )
 
             // Hent ut den nye delbestillingsaken

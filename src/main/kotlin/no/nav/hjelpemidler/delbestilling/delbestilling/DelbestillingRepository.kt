@@ -25,12 +25,12 @@ class DelbestillingRepository(val tx: JdbcOperations) {
         bestillerType: BestillerType,
         lagerEnhet: Lager,
         status: Status = Status.INNSENDT,
-        pdfTilManuellBestilling: ByteArray? = null,
+        pdf: ByteArray? = null,
         saksbehandlingstype: Saksbehandlingstype
     ): Long = tx.updateAndReturnGeneratedKey(
         sql = """
             INSERT INTO delbestilling (brukers_kommunenr, fnr_bruker, fnr_bestiller, delbestilling_json, status, brukers_kommunenavn, bestillers_organisasjon, bestiller_type, enhetnr, enhetnavn, pdf, saksbehandlingstype)
-            VALUES (:brukers_kommunenr, :fnr_bruker, :fnr_bestiller, :delbestilling_json::jsonb, :status, :brukers_kommunenavn, :bestillers_organisasjon::jsonb, :bestiller_type, :enhetnr, :enhetnavn, :pdfTilManuellBestilling, :saksbehandlingstype)
+            VALUES (:brukers_kommunenr, :fnr_bruker, :fnr_bestiller, :delbestilling_json::jsonb, :status, :brukers_kommunenavn, :bestillers_organisasjon::jsonb, :bestiller_type, :enhetnr, :enhetnavn, :pdf, :saksbehandlingstype)
         """.trimIndent(),
         queryParameters = mapOf(
             "brukers_kommunenr" to brukerKommunenr,
@@ -43,7 +43,7 @@ class DelbestillingRepository(val tx: JdbcOperations) {
             "bestiller_type" to bestillerType,
             "enhetnr" to lagerEnhet.nummer,
             "enhetnavn" to lagerEnhet.navn,
-            "pdf" to pdfTilManuellBestilling,
+            "pdf" to pdf,
             "saksbehandlingstype" to saksbehandlingstype.name
         ),
     )
