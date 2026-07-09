@@ -46,6 +46,7 @@ spec:
         - application: hm-delbestilling-ekstern
         - application: hm-delbestilling-prod-mirror
         - application: hm-soknadsbehandling
+        - application: hm-joark-sink
         - application: tokenx-token-generator
           namespace: nais
           cluster: dev-gcp

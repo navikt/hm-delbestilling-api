@@ -1,6 +1,5 @@
 package no.nav.hjelpemidler.delbestilling.devtools
 
-import io.ktor.http.ContentType.Application.Pdf
 import io.ktor.server.request.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
@@ -17,12 +16,6 @@ fun Route.devtoolsApi(
 ) {
 
     if (!isDev()) return
-
-    get("/pdf/{saksnummer}") {
-        val saksnummer = call.parameters["saksnummer"]!!.toLong()
-        val pdf = delbestillingService.hentPdf(saksnummer)
-        call.respondBytes(pdf, contentType = Pdf)
-    }
 
     post("/oppslag-ekstern-dev-deler") {
         // Endepunkt for å slå opp deler til hjm. i ekstern-dev. Ignorerer serienr

@@ -16,11 +16,11 @@ import no.nav.hjelpemidler.delbestilling.delbestilling.delbestillingApiAuthentic
 import no.nav.hjelpemidler.delbestilling.devtools.devtoolsApi
 import no.nav.hjelpemidler.delbestilling.infrastructure.monitoring.helsesjekkApi
 import no.nav.hjelpemidler.delbestilling.infrastructure.security.medDelbestillerRolle
-import no.nav.hjelpemidler.delbestilling.oppslag.engangsJobbApi
 import no.nav.hjelpemidler.delbestilling.oppslag.legacy.data.validerData
 import no.nav.hjelpemidler.delbestilling.oppslag.oppslagApi
 import no.nav.hjelpemidler.delbestilling.oppslag.publicApi
 import no.nav.hjelpemidler.delbestilling.ordrestatus.ordrestatusRoutes
+import no.nav.hjelpemidler.delbestilling.pdf.pdfApi
 import no.nav.hjelpemidler.domain.person.TILLAT_SYNTETISKE_FØDSELSNUMRE
 import no.nav.tms.token.support.azure.validation.AzureAuthenticator
 import no.nav.tms.token.support.tokenx.validation.TokenXAuthenticator
@@ -61,6 +61,7 @@ fun Application.setupRoutes(ctx: AppContext) {
 
             authenticate(AzureAuthenticator.name) {
                 ordrestatusRoutes(ctx.delbestillingStatusService)
+                pdfApi(ctx.delbestillingService)
             }
 
             publicApi(ctx.hjelpemiddeloversikt, ctx.oppslagService)

@@ -43,6 +43,7 @@ spec:
       rules:
         - application: hm-delbestilling
         - application: hm-soknadsbehandling
+        - application: hm-joark-sink
     outbound:
       rules:
         - application: hm-oebs-api-proxy
