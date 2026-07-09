@@ -1,7 +1,6 @@
 package no.nav.hjelpemidler.delbestilling.infrastructure.pdl
 
 import io.github.oshai.kotlinlogging.KotlinLogging
-import no.nav.hjelpemidler.delbestilling.config.isDev
 
 private val log = KotlinLogging.logger {}
 
@@ -74,18 +73,13 @@ data class PdlErrorExtension(
 )
 
 data class PdlExtensions(
-    val warnings: List<Map<String, Any?>> = emptyList(),
-) {
-    init {
-        if (isDev()) {
-            log.info { "PDL warnings: $warnings" }
-        }
-    }
-}
+    val warnings: List<PdlWarning> = emptyList(),
+)
 
 data class PdlWarning(
     val query: String,
     val id: String,
+    val code: String,
     val message: String,
     val details: String?,
 ) {
@@ -93,3 +87,7 @@ data class PdlWarning(
         log.error { "PDL warnings: $message. Detaljer: $details" }
     }
 }
+
+data class PdlWarningDetails(
+    val missing: List<String> = emptyList(),
+)

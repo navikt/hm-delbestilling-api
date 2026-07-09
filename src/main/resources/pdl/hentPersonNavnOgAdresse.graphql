@@ -17,9 +17,5 @@ query($ident: ID!){
               }
         }
         adressebeskyttelse(historikk: false) { gradering }
-        foedselsdato {
-            foedselsaar
-            foedselsdato
-        }
     }
 }
