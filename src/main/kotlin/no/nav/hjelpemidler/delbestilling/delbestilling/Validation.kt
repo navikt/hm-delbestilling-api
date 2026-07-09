@@ -21,7 +21,7 @@ fun validateDelbestillingRequest(req: DelbestillingRequest): List<String> = list
     validateSerienrEllerBrukernr(req.delbestilling.serienr, req.delbestilling.brukernr),
     validateOpplæringBatteri(req.delbestilling),
     listOfNotNull(
-        if (req.delbestilling.deler.isEmpty()) "Delbestillingen må inneholde minst én dellinje" else null
+        if (req.delbestilling.deler.isEmpty() && req.delbestilling.ukjenteDeler.isEmpty()) "Delbestillingen må inneholde minst én dellinje" else null
     ),
     validateDeler(req.delbestilling.deler),
 ).flatten()

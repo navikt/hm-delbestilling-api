@@ -1,14 +1,12 @@
 package no.nav.hjelpemidler.delbestilling.delbestilling
 
-import no.nav.hjelpemidler.domain.geografi.Veiadresse
-import no.nav.hjelpemidler.domain.person.Personnavn
 import java.time.LocalDate
 
 data class DelbestillingTilPdf(
     val mottattDato: LocalDate,
-    val navnBruker: Personnavn,
+    val navnBruker: String,
     val fnrBruker: String,
-    val adresseBruker: Veiadresse,
+    val adresseBruker: String,
     val brukernummer: String?,
     val hjelpemiddelnavn: String,
     val hjelpemiddelHmsnr: String,

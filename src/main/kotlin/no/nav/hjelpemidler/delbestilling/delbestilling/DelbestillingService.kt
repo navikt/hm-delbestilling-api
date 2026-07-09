@@ -430,9 +430,9 @@ class DelbestillingService(
     ): DelbestillingTilPdf {
         val delbestillingTilPdf = DelbestillingTilPdf(
             mottattDato = LocalDate.now(),
-            navnBruker = personNavnOgAdresseTilPDF.navn,
+            navnBruker = personNavnOgAdresseTilPDF.navn.toString(),
             fnrBruker = brukersFnr,
-            adresseBruker = personNavnOgAdresseTilPDF.adresse,
+            adresseBruker = personNavnOgAdresseTilPDF.adresse.toString(),
             brukernummer = delbestilling.brukernr,
             hjelpemiddelnavn = delbestilling.navn,
             hjelpemiddelserienr = delbestilling.serienr,
