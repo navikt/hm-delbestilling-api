@@ -30,6 +30,11 @@ data class Bostedsadresse(val vegadresse: Vegadresse?)
 
 data class Vegadresse(
     val kommunenummer: String? = null,
+    val adressenavn: String? = null,
+    val postnummer: String? = null,
+    val husnummer: String? = null,
+    val husbokstav: String? = null,
+    val tilleggsnavn: String? = null,
 )
 
 data class Adressebeskyttelse(
@@ -74,6 +79,7 @@ data class PdlExtensions(
 data class PdlWarning(
     val query: String,
     val id: String,
+    val code: String,
     val message: String,
     val details: String?,
 ) {
@@ -81,3 +87,7 @@ data class PdlWarning(
         log.error { "PDL warnings: $message. Detaljer: $details" }
     }
 }
+
+data class PdlWarningDetails(
+    val missing: List<String> = emptyList(),
+)

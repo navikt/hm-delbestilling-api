@@ -1,21 +1,20 @@
 package no.nav.hjelpemidler.delbestilling.common
 
 import no.nav.hjelpemidler.delbestilling.oppslag.legacy.defaultAntall
-import no.nav.hjelpemidler.time.Arbeidsdager
 import no.nav.hjelpemidler.time.arbeidsdager
-import no.nav.hjelpemidler.time.toInstant
-import no.nav.hjelpemidler.time.toLocalDate
 import java.time.LocalDate
 import java.util.UUID
 
 data class Delbestilling(
     val id: UUID,
     val hmsnr: Hmsnr,
-    val serienr: Serienr,
+    val serienr: Serienr?,
+    val brukernr: String? = null,
     val deler: List<DelLinje>,
+    val ukjenteDeler: List<DellinjeUkjentDel> = emptyList(),
     val levering: Levering,
     val harOpplæringPåBatteri: Boolean?,
-    val navn: String?,
+    val navn: String, // Hjelpemiddelnavn
     val status: Status = Status.INNSENDT,
 ) {
     fun oppdaterDellinjeStatus(status: DellinjeStatus, hmsnr: Hmsnr, datoOppdatert: LocalDate): Delbestilling {
@@ -57,6 +56,16 @@ data class DelLinje(
 ) {
     fun erBatteri() = del.erBatteri()
 }
+
+data class DellinjeUkjentDel(
+    val delUkjent: DelUkjent,
+    val antall: Int,
+)
+
+data class DelUkjent(
+    val hmsnr: Hmsnr?,
+    val levArtnr: String?,
+)
 
 
 data class Del(

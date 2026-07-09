@@ -13,7 +13,7 @@ class OppslagServiceTest {
 
     @Test
     fun `(happy path) skal slå opp hjelpemiddel og berike med lagerstatus`() = runWithTestContext {
-        val result = oppslagService.slåOppHjelpemiddel(Testdata.defaultHjmHmsnr, Testdata.defaultHjmSerienr)
+        val result = oppslagService.slåOppHjelpemiddelMedSerienr(Testdata.defaultHjmHmsnr, Testdata.defaultHjmSerienr)
         assertTrue(result is OppslagResult.Suksess)
         assertTrue(result.resultat.hjelpemiddel.deler.isNotEmpty())
         assertTrue(result.resultat.hjelpemiddel.deler.all { it.lagerstatus != null })
@@ -23,7 +23,7 @@ class OppslagServiceTest {
     fun `skal returnere feil dersom utlånet ikke finnes`() = runWithTestContext {
         oebsApiProxy.utlånMedSerienr = null
 
-        val result = oppslagService.slåOppHjelpemiddel(Testdata.defaultHjmHmsnr, Testdata.defaultHjmSerienr)
+        val result = oppslagService.slåOppHjelpemiddelMedSerienr(Testdata.defaultHjmHmsnr, Testdata.defaultHjmSerienr)
 
         assertTrue(result is OppslagResult.Feil)
         assertEquals(OppslagFeil.INGET_UTLÅN, result.feil)
@@ -33,7 +33,7 @@ class OppslagServiceTest {
     fun `skal kaste feil dersom personen, som utlånet er registrert på, mangler kommunenummer i PDL`() = runWithTestContext {
         pdlClient.response = PdlRespons.person(kommunenummer = null)
         assertFailsWith<PdlResponseMissingData> {
-            oppslagService.slåOppHjelpemiddel(Testdata.defaultHjmHmsnr, Testdata.defaultHjmSerienr)
+            oppslagService.slåOppHjelpemiddelMedSerienr(Testdata.defaultHjmHmsnr, Testdata.defaultHjmSerienr)
         }
     }
 

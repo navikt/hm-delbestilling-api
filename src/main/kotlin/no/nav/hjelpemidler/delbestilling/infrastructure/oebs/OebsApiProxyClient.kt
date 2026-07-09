@@ -11,6 +11,7 @@ import kotlinx.coroutines.withContext
 import no.nav.hjelpemidler.delbestilling.config.AppConfig
 import no.nav.hjelpemidler.delbestilling.infrastructure.defaultHttpClient
 import no.nav.hjelpemidler.delbestilling.infrastructure.navCorrelationId
+import no.nav.hjelpemidler.domain.person.Fødselsnummer
 import no.nav.hjelpemidler.http.openid.OpenIDClient
 import no.nav.hjelpemidler.http.openid.bearerAuth
 
@@ -46,6 +47,9 @@ class OebsApiProxyClient(
     private suspend inline fun <reified T> post(url: String, body: Any? = null): T =
         executeRequest(url, HttpMethod.Post, body)
 
+    private suspend inline fun <reified T> get(url: String, body: Any? = null): T =
+        executeRequest(url, HttpMethod.Get, body)
+
     override suspend fun hentUtlånPåArtnrOgSerienr(artnr: String, serienr: String): UtlånMedSerienrResponse =
         post("$baseUrl/utlanSerienrArtnr", UtlånPåArtnrOgSerienrRequest(artnr, serienr))
 
@@ -63,6 +67,10 @@ class OebsApiProxyClient(
 
     override suspend fun hentLagerstatusForEnhetnr(enhetnr: String, hmsnrs: List<String>): List<LagerstatusResponse> =
         post("$baseUrl/lager/sentral/enhet/$enhetnr", LagerstatusRequest(hmsnrs))
+
+    override suspend fun hentFnr(brukernr: String): Fødselsnummer =
+        get("$baseUrl/getFodselsnummer/$brukernr", )
+
 }
 
 

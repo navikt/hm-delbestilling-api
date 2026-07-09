@@ -8,6 +8,7 @@ import no.nav.hjelpemidler.delbestilling.delbestilling.DelbestillingResultat
 import no.nav.hjelpemidler.delbestilling.infrastructure.roller.Delbestiller
 import no.nav.hjelpemidler.delbestilling.TestContext
 import no.nav.hjelpemidler.delbestilling.common.Lager
+import no.nav.hjelpemidler.delbestilling.common.Saksbehandlingstype
 import no.nav.hjelpemidler.delbestilling.common.Status
 import no.nav.hjelpemidler.delbestilling.testdata.Testdata
 import no.nav.hjelpemidler.delbestilling.testdata.delLinje
@@ -36,6 +37,7 @@ suspend fun TestContext.gittDelbestilling(
             bestillerType = BestillerType.KOMMUNAL,
             lagerEnhet = lagerEnhet,
             status = status,
+            saksbehandlingstype = Saksbehandlingstype.AUTOMATISK
         )
 
         if (dagerSidenOpprettelse != null) {

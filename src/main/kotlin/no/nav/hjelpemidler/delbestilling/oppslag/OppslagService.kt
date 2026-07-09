@@ -21,7 +21,29 @@ class OppslagService(
     private val berikMedDagerSidenForrigeBatteribestilling: BerikMedDagerSidenForrigeBatteribestilling,
 ) {
 
-    suspend fun slåOppHjelpemiddel(hmsnr: String, serienr: String): OppslagResult = coroutineScope {
+    suspend fun slåOppHjelpemiddel(hmsnr: String): OppslagResultUtenDeler {
+
+        val hjelpemiddel = when (val result = finnDelerTilHjelpemiddel(hmsnr, true)) {
+            is FinnDelerResultat.Funnet -> result.hjelpemiddel.sorterDeler()
+            is FinnDelerResultat.IkkeFunnet -> return OppslagResultUtenDeler.Feil(result.feil)
+        }
+
+        val hjelpemiddelUtenDeler = HjelpemiddelUtenDeler(
+            navn = hjelpemiddel.navn,
+            hmsnr = hjelpemiddel.hmsnr,
+            isoKode = hjelpemiddel.isoKode,
+        )
+
+        return OppslagResultUtenDeler.Suksess(OppslagsResultatUtenDeler(hjelpemiddelUtenDeler))
+    }
+
+    suspend fun slåOppDeler(hmsnr: String, brukernr: String?, serienr: String?): OppslagResult {
+        if (!brukernr.isNullOrBlank()) return slåOppHjelpemiddelMedBrukernr(hmsnr, brukernr)
+        if (!serienr.isNullOrBlank()) return slåOppHjelpemiddelMedSerienr(hmsnr, serienr)
+        return OppslagResult.Feil(OppslagFeil.MANGLER_BRUKERNR_ELLER_SERIENR)
+    }
+
+    suspend fun slåOppHjelpemiddelMedSerienr(hmsnr: String, serienr: String): OppslagResult = coroutineScope {
         data class BrukerInfo(
             val utlånMedSerienr: UtlånMedSerienr,
             val kommunenummer: String
@@ -63,7 +85,7 @@ class OppslagService(
         )
 
         val brukerInfoDeferred = async {
-            oebs.hentUtlånPåArtNrOgBrukernr(hmsnr, brukernr)?.let { utlån ->
+            oebs.hentUtlånPåArtNrOgBrukernr(hmsnr, brukernr).let { utlån ->
                 log.info { "utlån: $utlån" }
                 BrukerInfo(utlån.first(), pdl.hentKommunenummer(utlån.first().fnr))
             }
@@ -90,7 +112,6 @@ class OppslagService(
 
         OppslagResult.Suksess(OppslagResultat(hjelpemiddel, piloter))
     }
-
 
 
 }

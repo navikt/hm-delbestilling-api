@@ -1,17 +1,21 @@
 package no.nav.hjelpemidler.delbestilling.delbestilling
 
 import io.github.oshai.kotlinlogging.KotlinLogging
+import io.ktor.http.ContentType.Application.Pdf
 import io.ktor.http.HttpStatusCode
 import io.ktor.server.request.receive
 import io.ktor.server.response.respond
+import io.ktor.server.response.respondBytes
 import io.ktor.server.routing.Route
 import io.ktor.server.routing.get
 import io.ktor.server.routing.post
+import no.nav.hjelpemidler.database.transaction
 import no.nav.hjelpemidler.delbestilling.infrastructure.CORRELATION_ID_HEADER
 import no.nav.hjelpemidler.delbestilling.infrastructure.security.delbestillerRolleKey
 import no.nav.hjelpemidler.delbestilling.infrastructure.security.tokenXUser
 import no.nav.hjelpemidler.delbestilling.infrastructure.slack.Slack
 import no.nav.hjelpemidler.delbestilling.oppslag.OppslagRequest
+import no.nav.hjelpemidler.delbestilling.oppslag.XkLagerRequest
 
 private val log = KotlinLogging.logger {}
 
@@ -51,9 +55,9 @@ fun Route.delbestillingApiAuthenticated(
 
     post("/xk-lager") {
         try {
-            val request = call.receive<OppslagRequest>()
+            val request = call.receive<XkLagerRequest>()
             log.info { "/xk-lager request: $request" }
-            val xklager = XKLagerResponse(delbestillingService.sjekkXKLager(request.hmsnr, request.serienr))
+            val xklager = XKLagerResponse(delbestillingService.sjekkXKLager(request.hmsnr, request.serienr, request.brukernr))
             log.info { "/xk-lager response: $xklager" }
             call.respond(xklager)
 

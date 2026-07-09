@@ -43,10 +43,12 @@ spec:
       rules:
         - application: hm-delbestilling
         - application: hm-soknadsbehandling
+        - application: hm-joark-sink
     outbound:
       rules:
         - application: hm-oebs-api-proxy
         - application: hm-roller
+        - application: hm-pdf-generator
         - application: digihot-oppslag
         - application: logging
           namespace: nais-system
@@ -105,3 +107,6 @@ spec:
       value: https://norg2.prod-fss-pub.nais.io/norg2/api/v1
     - name: EPOST_AVSENDER
       value: "digitalisering.av.hjelpemidler.og.tilrettelegging@nav.no"
+    - name: PDF_GEN_BASEURL
+      value: http://hm-pdf-generator/api
+

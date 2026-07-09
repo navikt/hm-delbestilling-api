@@ -37,7 +37,8 @@ spec:
       runtime: java
   leaderElection: true
   ingresses:
-    - https://hjelpemidler.ekstern.dev.nav.no/api/oppslag-ekstern-dev
+    - https://hjelpemidler.ekstern.dev.nav.no/api/oppslag-ekstern-dev-deler
+    - https://hjelpemidler.ekstern.dev.nav.no/api/oppslag-ekstern-dev-hjelpemiddel
   accessPolicy:
     inbound:
       rules:
@@ -45,6 +46,7 @@ spec:
         - application: hm-delbestilling-ekstern
         - application: hm-delbestilling-prod-mirror
         - application: hm-soknadsbehandling
+        - application: hm-joark-sink
         - application: tokenx-token-generator
           namespace: nais
           cluster: dev-gcp
@@ -55,6 +57,7 @@ spec:
       rules:
         - application: hm-oebs-api-proxy
         - application: hm-roller
+        - application: hm-pdf-generator
         - application: digihot-oppslag
         - application: hm-grunndata-search
         - application: logging
@@ -107,3 +110,5 @@ spec:
       value: https://norg2.dev-fss-pub.nais.io/norg2/api/v1
     - name: EPOST_AVSENDER
       value: "digitalisering.av.hjelpemidler.og.tilrettelegging@trygdeetaten.no"
+    - name: PDF_GEN_BASEURL
+      value: https://hm-pdf-generator.intern.dev.nav.no/api

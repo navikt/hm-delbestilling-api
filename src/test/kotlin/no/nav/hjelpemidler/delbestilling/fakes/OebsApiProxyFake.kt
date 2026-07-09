@@ -12,6 +12,8 @@ import no.nav.hjelpemidler.delbestilling.testdata.Testdata
 import no.nav.hjelpemidler.delbestilling.testdata.Testdata.fnr
 import no.nav.hjelpemidler.delbestilling.testdata.Testdata.defaultHjmHmsnr
 import no.nav.hjelpemidler.delbestilling.testdata.Testdata.defaultHjmSerienr
+import no.nav.hjelpemidler.domain.person.Fødselsnummer
+import no.nav.hjelpemidler.domain.person.år
 import java.time.LocalDate
 
 class OebsApiProxyFake(
@@ -51,6 +53,10 @@ class OebsApiProxyFake(
 
     override suspend fun hentLagerstatusForEnhetnr(enhetnr: String, hmsnrs: List<String>): List<LagerstatusResponse> {
         return hmsnrs.mapNotNull { lager.hent(it) }
+    }
+
+    override suspend fun hentFnr(brukernr: String): Fødselsnummer {
+        return Fødselsnummer(40.år)
     }
 
 }
