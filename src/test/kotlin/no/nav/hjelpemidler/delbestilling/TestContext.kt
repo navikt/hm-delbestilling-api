@@ -34,7 +34,7 @@ import no.nav.hjelpemidler.delbestilling.oppslag.OppslagService
 import no.nav.hjelpemidler.delbestilling.oppslag.PiloterService
 import no.nav.hjelpemidler.delbestilling.ordrestatus.DelbestillingStatusService
 import no.nav.hjelpemidler.delbestilling.rapportering.JobbScheduler
-import no.nav.hjelpemidler.delbestilling.rapportering.MånedsrapportAnmodningsbehov
+import no.nav.hjelpemidler.delbestilling.rapportering.AggregertAnmodningsRapport
 import no.nav.hjelpemidler.delbestilling.rapportering.Rapportering
 import no.nav.hjelpemidler.delbestilling.testdata.FakeOebsLager
 import no.nav.hjelpemidler.delbestilling.testdata.MutableClock
@@ -115,8 +115,8 @@ class TestContext {
 
     // Rapportering
     val jobbScheduler = JobbScheduler(scheduler, erLeder, clock)
-    val månedsrapportAnmodningsbehov = MånedsrapportAnmodningsbehov(transaction, clock, email)
-    val rapportering = Rapportering(jobbScheduler, delbestillingService, klargjorteDelbestillingerService, månedsrapportAnmodningsbehov)
+    val aggregertAnmodningsRapport = AggregertAnmodningsRapport(transaction, clock, email)
+    val rapportering = Rapportering(jobbScheduler, delbestillingService, klargjorteDelbestillingerService, aggregertAnmodningsRapport)
 }
 
 fun runWithTestContext(block: suspend TestContext.() -> Unit) {

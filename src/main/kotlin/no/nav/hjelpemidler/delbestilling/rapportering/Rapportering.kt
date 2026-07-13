@@ -10,7 +10,7 @@ class Rapportering(
     private val jobbScheduler: JobbScheduler,
     private val delbestillingService: DelbestillingService,
     private val klargjorteDelbestillingerService: KlargjorteDelbestillingerService,
-    private val månedsrapportAnmodningsbehov: MånedsrapportAnmodningsbehov,
+    private val aggregertAnmodningsRapport: AggregertAnmodningsRapport,
 ) {
 
     fun schedulerRapporteringsjobber() {
@@ -26,6 +26,15 @@ class Rapportering(
             beregnNesteKjøring = { clock -> kl0120FørsteDagINesteMåned(clock) }
         )
 
+        /*
+        jobbScheduler.schedulerGjentagendeJobb(
+            navn = "seksmåneders_anmodningsoppsummering",
+            jobb = { rapporterSeksmånedersAnmodningsoppsummering() },
+            beregnNesteKjøring = { clock -> kl0120FørsteDagINesteMåned(clock) }
+        )
+        */
+
+
         jobbScheduler.schedulerGjentagendeJobb(
             navn = "klargjorte_delbestillinger",
             jobb = { rapporterKlargjorteDelbestillinger() },
@@ -38,7 +47,11 @@ class Rapportering(
     }
 
     suspend fun rapporterMånedligAnmodningsoppsummering() {
-        månedsrapportAnmodningsbehov.sendRapporterForForrigeMåned()
+        aggregertAnmodningsRapport.sendRapporterForForrigeMåned()
+    }
+
+    suspend fun rapporterSeksmånedersAnmodningsoppsummering() {
+        aggregertAnmodningsRapport.sendRapporterForSisteSeksmånedersPeriode()
     }
 
     suspend fun rapporterKlargjorteDelbestillinger() {

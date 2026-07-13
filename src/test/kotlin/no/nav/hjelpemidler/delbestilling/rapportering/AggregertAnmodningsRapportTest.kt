@@ -8,7 +8,7 @@ import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 
 
-class MånedsrapportAnmodningsbehovTest {
+class AggregertAnmodningsRapportTest {
 
     @Test
     fun `skal sende rapport om anmodningsbehov for forrige måned`() = runWithTestContext {

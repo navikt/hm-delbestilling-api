@@ -13,22 +13,32 @@ private val log = KotlinLogging.logger { }
 
 const val MÅNEDSRAPPORT_ANMODNINGER_SUBJECT = "Oppsummering av anmodningsbehov for forrige måned"
 
-class MånedsrapportAnmodningsbehov(
+class AggregertAnmodningsRapport(
     private val transaction: Transaction,
     private val clock: Clock,
     private val email: Email,
 ) {
 
     suspend fun sendRapporterForForrigeMåned() {
-        val forrigeMåned = YearMonth.now(clock).minusMonths(1)
+        // Sett begge til minusMonths(1) for å rapportere bare fra forrige måned.
+        val startMåned = YearMonth.now(clock).minusMonths(1)
+        val sluttMåned = YearMonth.now(clock).minusMonths(1)
         Lager.entries.forEach { lager ->
-            sendRapport(lager, forrigeMåned)
+            sendRapport(lager, startMåned, sluttMåned )
         }
     }
 
-    private suspend fun sendRapport(lager: Lager, måned: YearMonth) {
-        log.info { "Starter månedsrapport om anmodninger for lager=$lager og måned=$måned" }
-        val grunnlag = hentGrunnlag(lager, måned)
+    suspend fun sendRapporterForSisteSeksmånedersPeriode() {
+        val startMåned = YearMonth.now(clock).minusMonths(1)
+        val sluttMåned = YearMonth.now(clock).minusMonths(7)
+        Lager.entries.forEach { lager ->
+            sendRapport(lager, startMåned, sluttMåned )
+        }
+    }
+
+    private suspend fun sendRapport(lager: Lager, startMåned: YearMonth, sluttMåned: YearMonth) {
+        log.info { "Starter månedsrapport om anmodninger for lager=$lager og tidperiode måned=$startMåned" }
+        val grunnlag = hentGrunnlag(lager, startMåned, sluttMåned)
 
         if (grunnlag.anmodninger.isEmpty()) {
             log.info { "Lager $lager hadde ingen annmodninger. Avbryter." }
@@ -37,13 +47,13 @@ class MånedsrapportAnmodningsbehov(
 
         val rapportTekst = fyllUtRapport(grunnlag)
 
-        log.info { "Månedsrapport for $lager i $måned: $rapportTekst" }
+        log.info { "Månedsrapport for $lager i $startMåned: $rapportTekst" }
         email.send(lager.epostForMånedligAnmodningsrapport(), MÅNEDSRAPPORT_ANMODNINGER_SUBJECT, rapportTekst, ContentType.HTML)
     }
 
-    suspend fun hentGrunnlag(lager: Lager, måned: YearMonth): Grunnlag {
+    suspend fun hentGrunnlag(lager: Lager, startMåned: YearMonth, sluttMåned: YearMonth): Grunnlag {
         val anmodninger = transaction {
-            anmodningDao.hentAnmodninger(lager, måned)
+            anmodningDao.hentAnmodninger(lager, startMåned, sluttMåned)
         }
         val aggregerteAnmodninger = anmodninger.groupBy { it.hmsnr }
             .map { (key, group) ->
@@ -54,7 +64,7 @@ class MånedsrapportAnmodningsbehov(
                     leverandør = group.first().leverandornavn
                 )
             }
-        val grunnlag = Grunnlag(lager, måned, aggregerteAnmodninger)
+        val grunnlag = Grunnlag(lager, startMåned, aggregerteAnmodninger)
 
         log.info { "Hentet grunnlag for månedsrapportering: $grunnlag" }
 
