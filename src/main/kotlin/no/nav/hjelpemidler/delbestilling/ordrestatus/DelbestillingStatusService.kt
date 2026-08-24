@@ -22,16 +22,16 @@ class DelbestillingStatusService(
     private val slack: Slack,
 ) {
 
-    private val skiplist = listOf<Long>(219)
+    private val skiplist = listOf<Long>(7190)
 
     suspend fun oppdaterStatus(saksnummer: Long, status: Status, oebsOrdrenummer: String) {
         val delbestilling = transaction {
-            val lagretDelbestilling = hentDelbestillingEllerFeil(saksnummer) ?: return@transaction null
-
-            if (lagretDelbestilling.saksnummer in skiplist) {
+            if (saksnummer in skiplist) {
                 log.info { "Skipper oppdatering av status for sak i skiplist. Saksnummer=$saksnummer, status=$status, oebsOrdrenummer=$oebsOrdrenummer" }
                 return@transaction null
             }
+
+            val lagretDelbestilling = hentDelbestillingEllerFeil(saksnummer) ?: return@transaction null
 
             val oppdatertDelbestilling = lagretDelbestilling
                 .oppdaterOebsOrdrenummer(oebsOrdrenummer)
