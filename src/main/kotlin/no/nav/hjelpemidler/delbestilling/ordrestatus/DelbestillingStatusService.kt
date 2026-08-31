@@ -22,7 +22,7 @@ class DelbestillingStatusService(
     private val slack: Slack,
 ) {
 
-    private val skiplist = listOf<Long>(7190)
+    private val skiplist = listOf<Long>(219, 7190)
 
     suspend fun oppdaterStatus(saksnummer: Long, status: Status, oebsOrdrenummer: String) {
         val delbestilling = transaction {
