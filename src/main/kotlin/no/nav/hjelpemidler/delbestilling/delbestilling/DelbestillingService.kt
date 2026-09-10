@@ -7,7 +7,6 @@ import no.nav.hjelpemidler.delbestilling.common.Delbestilling
 import no.nav.hjelpemidler.delbestilling.common.DelbestillingSak
 import no.nav.hjelpemidler.delbestilling.common.Hmsnr
 import no.nav.hjelpemidler.delbestilling.common.Lager
-import no.nav.hjelpemidler.delbestilling.common.Levering
 import no.nav.hjelpemidler.delbestilling.common.Saksbehandlingstype
 import no.nav.hjelpemidler.delbestilling.common.Serienr
 import no.nav.hjelpemidler.delbestilling.config.isDev
@@ -16,7 +15,6 @@ import no.nav.hjelpemidler.delbestilling.config.isProd
 import no.nav.hjelpemidler.delbestilling.delbestilling.anmodning.AnmodningService
 import no.nav.hjelpemidler.delbestilling.delbestilling.anmodning.Anmodningrapport
 import no.nav.hjelpemidler.delbestilling.infrastructure.geografi.Geografioppslag
-import no.nav.hjelpemidler.delbestilling.infrastructure.jsonMapper
 import no.nav.hjelpemidler.delbestilling.infrastructure.kafka.SOKNADSBEHANDLING_TOPIC
 import no.nav.hjelpemidler.delbestilling.infrastructure.metrics.Metrics
 import no.nav.hjelpemidler.delbestilling.infrastructure.oebs.OPPRETT_DELBESTILLING_EVENT_NAME
@@ -170,7 +168,6 @@ class DelbestillingService(
         id: UUID
     ): DelbestillingResultat {
         val delbestilling = request.delbestilling
-        val epost = ManuellDelbestillingEpost(delbestilling)
 
         val delbestillingSak = transaction(returnGeneratedKeys = true) {
 
@@ -191,10 +188,13 @@ class DelbestillingService(
             val nyDelbestillingSak = delbestillingRepository.hentDelbestilling(saksnummer)
                 ?: throw RuntimeException("Klarte ikke hente ut delbestillingsak for saksnummer $saksnummer")
 
+            val epost = ManuellDelbestillingEpost(delbestilling, saksnummer)
             epostOutboxDao.leggTil(lagerEnhet.epost(), MANUELL_DELBESTILLING_EPOST_EMNE, epost.tilHtml())
 
             nyDelbestillingSak
         }
+
+
 
         log.info { "Manuell delbestilling '$id' sendt inn med saksnummer '${delbestillingSak.saksnummer}'" }
 
