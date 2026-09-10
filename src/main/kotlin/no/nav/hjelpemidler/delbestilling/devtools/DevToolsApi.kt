@@ -3,9 +3,12 @@ package no.nav.hjelpemidler.delbestilling.devtools
 import io.ktor.server.request.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
+import io.ktor.http.HttpStatusCode
 import no.nav.hjelpemidler.delbestilling.config.isDev
+import no.nav.hjelpemidler.delbestilling.delbestilling.DelbestillingRequest
 import no.nav.hjelpemidler.delbestilling.delbestilling.DelbestillingService
 import no.nav.hjelpemidler.delbestilling.delbestilling.requireHmsnr
+import no.nav.hjelpemidler.delbestilling.delbestilling.validateDelbestillingRequest
 import no.nav.hjelpemidler.delbestilling.rapportering.klargjorte.KlargjorteDelbestillingerService
 
 
@@ -51,6 +54,28 @@ fun Route.devtoolsApi(
 
     post("/test-email") {
         devTools.sendTestMail()
+        call.respond("OK")
+    }
+
+    post("/test-email-manuell-delbestilling") {
+        val mottaker = call.request.queryParameters["mottaker"]
+        if (mottaker == null || !mottaker.endsWith("@nav.no", ignoreCase = true)) {
+            call.respond(HttpStatusCode.BadRequest, mapOf("feil" to "Mottaker må være en @nav.no-adresse"))
+            return@post
+        }
+
+        val request = call.receive<DelbestillingRequest>()
+        val valideringsfeil = validateDelbestillingRequest(request)
+        if (request.delbestilling.ukjenteDeler.isEmpty()) {
+            call.respond(HttpStatusCode.BadRequest, mapOf("feil" to "Testbestillingen må inneholde en ukjent del"))
+            return@post
+        }
+        if (valideringsfeil.isNotEmpty()) {
+            call.respond(HttpStatusCode.BadRequest, mapOf("feil" to valideringsfeil))
+            return@post
+        }
+
+        devTools.sendTestMailManuellDelbestilling(mottaker, request)
         call.respond("OK")
     }
 }
