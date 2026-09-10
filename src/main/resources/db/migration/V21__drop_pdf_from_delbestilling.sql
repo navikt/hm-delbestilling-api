@@ -1,0 +1,1 @@
+ALTER TABLE delbestilling DROP COLUMN pdf;
