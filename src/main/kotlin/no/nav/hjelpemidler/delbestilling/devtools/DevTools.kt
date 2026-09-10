@@ -130,7 +130,7 @@ class DevTools(
         email.client.sendEmail(
             recipentEmail = mottaker,
             subject = "[TEST] $MANUELL_DELBESTILLING_EPOST_EMNE",
-            bodyText = ManuellDelbestillingEpost(request.delbestilling).tilHtml(),
+            bodyText = ManuellDelbestillingEpost(request.delbestilling, 19).tilHtml(),
             contentType = ContentType.HTML,
         )
         log.info { "Test-e-post for manuell delbestilling sendt til $mottaker." }
