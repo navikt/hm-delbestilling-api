@@ -29,13 +29,13 @@ class ManuellEpostTestManuellDelbestilling {
             hmsnr = "999999",
             serienr = null,
             brukernr = "12345678",
-            navn = "Et helt supert hjelpemiddel",
+            navn = "Skiperlue for seilbåtentusiaster",
             ukjenteDeler = listOf(
                 DellinjeUkjentDel(
                     delUkjent = DelUkjent(
                         hmsnr = null,
                         levArtNr = "456",
-                        beskrivelse = "Venstre armlene med feste",
+                        beskrivelse = "Skjerm til skipperlue",
                     ),
                     antall = 1,
                 )
