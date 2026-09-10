@@ -17,7 +17,6 @@ import no.nav.hjelpemidler.delbestilling.delbestilling.anmodning.AnmodningServic
 import no.nav.hjelpemidler.delbestilling.delbestilling.anmodning.Anmodningrapport
 import no.nav.hjelpemidler.delbestilling.infrastructure.geografi.Geografioppslag
 import no.nav.hjelpemidler.delbestilling.infrastructure.jsonMapper
-import no.nav.hjelpemidler.delbestilling.infrastructure.kafka.ManuellDelbestillingKafkaPayload
 import no.nav.hjelpemidler.delbestilling.infrastructure.kafka.SOKNADSBEHANDLING_TOPIC
 import no.nav.hjelpemidler.delbestilling.infrastructure.metrics.Metrics
 import no.nav.hjelpemidler.delbestilling.infrastructure.oebs.OPPRETT_DELBESTILLING_EVENT_NAME
@@ -31,9 +30,7 @@ import no.nav.hjelpemidler.delbestilling.infrastructure.roller.Delbestiller
 import no.nav.hjelpemidler.delbestilling.infrastructure.roller.Organisasjon
 import no.nav.hjelpemidler.delbestilling.infrastructure.slack.Slack
 import no.nav.hjelpemidler.delbestilling.oppslag.legacy.data.hmsnr2Hjm
-import no.nav.hjelpemidler.delbestilling.pdf.PdfGeneratorClient
 import no.nav.hjelpemidler.domain.person.Fødselsnummer
-import java.time.LocalDate
 import java.time.LocalDateTime
 import java.util.UUID
 
@@ -48,7 +45,6 @@ class DelbestillingService(
     private val metrics: Metrics,
     private val slack: Slack,
     private val anmodningService: AnmodningService,
-    private val pdfClient: PdfGeneratorClient,
 ) {
     suspend fun opprettDelbestilling(
         request: DelbestillingRequest,
@@ -173,10 +169,9 @@ class DelbestillingService(
         bestillersNavn: String,
         id: UUID
     ): DelbestillingResultat {
-        val personNavnOgAdresseTilPDF = pdl.henthentPersonNavnOgAdresse(brukersFnr)
         val delbestilling = request.delbestilling
+        val epost = ManuellDelbestillingEpost(delbestilling)
 
-        val pdf = lagPdf(personNavnOgAdresseTilPDF, brukersFnr, delbestilling, bestillersNavn)
         val delbestillingSak = transaction(returnGeneratedKeys = true) {
 
             log.info { "Lagrer manuell delbestilling '${delbestilling.id}'" }
@@ -190,31 +185,13 @@ class DelbestillingService(
                 bestillerType,
                 lagerEnhet,
                 saksbehandlingstype = Saksbehandlingstype.MANUELL,
-                pdf = pdf,
             )
 
             // Hent ut den nye delbestillingsaken
             val nyDelbestillingSak = delbestillingRepository.hentDelbestilling(saksnummer)
                 ?: throw RuntimeException("Klarte ikke hente ut delbestillingsak for saksnummer $saksnummer")
 
-            // Skriv Kafka-event til outbox atomisk med delbestillingen for bestillinger som skal manuelt behandles.
-            val payload = ManuellDelbestillingKafkaPayload(
-                eventId = UUID.randomUUID(),
-                saksnummer = saksnummer,
-                brukersFnr = brukersFnr,
-                mottattTidspunkt = LocalDateTime.now(),
-            )
-            outboxDao.leggTil(
-                topic = SOKNADSBEHANDLING_TOPIC,
-                key = payload.saksnummer.toString(),
-                eventName = payload.eventName,
-                eventId = payload.eventId,
-                payload = jsonMapper.writeValueAsString(payload),
-            )
-
-            if (isDev()) {
-                log.info { "Manuell delbestilling lagt til outbox: $payload" }
-            }
+            epostOutboxDao.leggTil(lagerEnhet.epost(), MANUELL_DELBESTILLING_EPOST_EMNE, epost.tilHtml())
 
             nyDelbestillingSak
         }
@@ -407,61 +384,4 @@ class DelbestillingService(
         }
     }
 
-    private suspend fun lagPdf(
-        personNavnOgAdresseTilPDF: PersonNavnOgAdresse,
-        brukersFnr: String,
-        delbestilling: Delbestilling,
-        bestillersNavn: String
-    ) : ByteArray{
-        val delbestillingTilPdf = genererPdfTilManuellSaksbehandler(
-            personNavnOgAdresseTilPDF,
-            brukersFnr,
-            delbestilling,
-            bestillersNavn
-        )
-        return pdfClient.lagDelbestillingsbrev(delbestillingTilPdf)
-    }
-
-    private fun genererPdfTilManuellSaksbehandler(
-        personNavnOgAdresseTilPDF: PersonNavnOgAdresse,
-        brukersFnr: String,
-        delbestilling: Delbestilling,
-        bestillersNavn: String
-    ): DelbestillingTilPdf {
-        val delbestillingTilPdf = DelbestillingTilPdf(
-            mottattDato = LocalDate.now(),
-            navnBruker = personNavnOgAdresseTilPDF.navn.toString(),
-            fnrBruker = brukersFnr,
-            adresseBruker = personNavnOgAdresseTilPDF.adresse.toString(),
-            brukernummer = delbestilling.brukernr,
-            hjelpemiddelnavn = delbestilling.navn,
-            hjelpemiddelserienr = delbestilling.serienr,
-            hjelpemiddelHmsnr = delbestilling.hmsnr,
-            navnTekniker = bestillersNavn,
-            beskjed517 = if (delbestilling.levering == Levering.TIL_XK_LAGER) "XK-Lager " else "",
-            leveringsadresse = "Kommunalt Mottakssted", // TODO: Bekreft at dette skal stå som standard.
-            deler = delbestilling.deler.map { delLinje ->
-                Del(
-                    hmsnr = delLinje.del.hmsnr,
-                    navn = delLinje.del.navn,
-                    antall = delLinje.antall
-                )
-            },
-            ukjenteDeler = delbestilling.ukjenteDeler.map { ukjentDel ->
-                UkjentDel(
-                    hmsnr = ukjentDel.delUkjent.hmsnr,
-                    levArtnr = ukjentDel.delUkjent.levArtnr,
-                    antall = ukjentDel.antall
-                )
-            },
-            totalAntallDeler = delbestilling.deler.sumOf { it.antall } + delbestilling.ukjenteDeler.sumOf { it.antall }
-        )
-        return delbestillingTilPdf
-    }
-
-    suspend fun hentPdf(saksnummer: Long): ByteArray {
-        return transaction{
-            delbestillingRepository.hentPdf(saksnummer)
-        }
-    }
 }

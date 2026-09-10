@@ -12,6 +12,7 @@ import no.nav.hjelpemidler.delbestilling.delbestilling.anmodning.AnmodningServic
 import no.nav.hjelpemidler.delbestilling.devtools.DevTools
 import no.nav.hjelpemidler.delbestilling.infrastructure.email.Email
 import no.nav.hjelpemidler.delbestilling.infrastructure.email.GraphClient
+import no.nav.hjelpemidler.delbestilling.infrastructure.epostoutbox.EpostOutboxDispatcher
 import no.nav.hjelpemidler.delbestilling.infrastructure.geografi.Geografioppslag
 import no.nav.hjelpemidler.delbestilling.infrastructure.geografi.OppslagClient
 import no.nav.hjelpemidler.delbestilling.infrastructure.grunndata.Grunndata
@@ -41,7 +42,6 @@ import no.nav.hjelpemidler.delbestilling.oppslag.Hjelpemiddeloversikt
 import no.nav.hjelpemidler.delbestilling.oppslag.OppslagService
 import no.nav.hjelpemidler.delbestilling.oppslag.PiloterService
 import no.nav.hjelpemidler.delbestilling.ordrestatus.DelbestillingStatusService
-import no.nav.hjelpemidler.delbestilling.pdf.PdfGeneratorClient
 import no.nav.hjelpemidler.delbestilling.rapportering.JobbScheduler
 import no.nav.hjelpemidler.delbestilling.rapportering.MånedsrapportAnmodningsbehov
 import no.nav.hjelpemidler.delbestilling.rapportering.Rapportering
@@ -85,9 +85,9 @@ class AppContext {
     private val finnLagerenhet = FinnLagerenhet(norg, slack)
     private val oebs = Oebs(OebsApiProxyClient(entraIDClient), finnLagerenhet)
     private val outboxDispatcher = OutboxDispatcher(transactional, kafka, slack, clock)
+    private val epostOutboxDispatcher = EpostOutboxDispatcher(transactional, email, slack)
     private val pdl = Pdl(PdlClient(entraIDClient), geografioppslag)
     private val rollerClient = RollerClient(TokendingsServiceBuilder.buildTokendingsService())
-    private val pdfGeneratorClient = PdfGeneratorClient()
 
 
     // Eksponert for custom plugin
@@ -104,7 +104,7 @@ class AppContext {
     val klargjorteDelbestillingerService = KlargjorteDelbestillingerService(transactional, email, slack)
     val hjelpemiddeloversikt = Hjelpemiddeloversikt(grunndata, finnDelerTilHjelpemiddel, backgroundScope)
     val delbestillingService =
-        DelbestillingService(transactional, pdl, oebs, geografioppslag, metrics, slack, anmodningService, pdfGeneratorClient)
+        DelbestillingService(transactional, pdl, oebs, geografioppslag, metrics, slack, anmodningService)
     val oppslagService = OppslagService(
         pdl,
         oebs,
@@ -126,6 +126,11 @@ class AppContext {
         jobbScheduler.schedulerGjentagendeJobb(
             navn = "outbox-dispatch",
             jobb = { outboxDispatcher.dispatchPending() },
+            beregnNesteKjøring = { clock -> LocalDateTime.now(clock).plusSeconds(30) },
+        )
+        jobbScheduler.schedulerGjentagendeJobb(
+            navn = "epost-outbox-dispatch",
+            jobb = { epostOutboxDispatcher.dispatchPending() },
             beregnNesteKjøring = { clock -> LocalDateTime.now(clock).plusSeconds(30) },
         )
         jobbScheduler.schedulerGjentagendeJobb(
