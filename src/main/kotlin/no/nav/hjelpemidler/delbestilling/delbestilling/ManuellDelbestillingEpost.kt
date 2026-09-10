@@ -86,6 +86,8 @@ data class ManuellDelbestillingEpost(
                     </tbody>
                 </table>                
                          
+                         
+               <h2 style="font-size: 18px; margin: 24px 0 8px;">Sak</h2>
                 <table role="presentation" style="border-collapse: collapse; width: 100%; max-width: 680px;">
                     <tbody>
                         ${nøkkelverdi("Saksnummer", saksnummer.toString())}
