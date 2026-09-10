@@ -15,6 +15,7 @@ import no.nav.hjelpemidler.delbestilling.fakes.OppslagClientFake
 import no.nav.hjelpemidler.delbestilling.fakes.PdlClientFake
 import no.nav.hjelpemidler.delbestilling.fakes.KafkaFake
 import no.nav.hjelpemidler.delbestilling.infrastructure.email.Email
+import no.nav.hjelpemidler.delbestilling.infrastructure.epostoutbox.EpostOutboxDispatcher
 import no.nav.hjelpemidler.delbestilling.infrastructure.outbox.OutboxDispatcher
 import no.nav.hjelpemidler.delbestilling.infrastructure.geografi.Geografioppslag
 import no.nav.hjelpemidler.delbestilling.infrastructure.grunndata.Grunndata
@@ -85,6 +86,7 @@ class TestContext {
     // Kafka
     val kafka = KafkaFake()
     val outboxDispatcher by lazy { OutboxDispatcher(transaction, kafka, slack, clock) }
+    val epostOutboxDispatcher by lazy { EpostOutboxDispatcher(transaction, email, slack) }
 
     // PDL
     val pdlClient = PdlClientFake()
@@ -110,7 +112,7 @@ class TestContext {
     val anmodningService = AnmodningService(transaction, oebs, slack, email, grunndata)
     val klargjorteDelbestillingerService = KlargjorteDelbestillingerService(transaction, email, slack)
     val delbestillingService =
-        DelbestillingService(transaction, pdl, oebs, geografioppslag, metrics, slack, anmodningService, pdfClient = mockk())
+        DelbestillingService(transaction, pdl, oebs, geografioppslag, metrics, slack, anmodningService)
 
     // Status
     val delbestillingStatusService = DelbestillingStatusService(transaction, oebs, metrics, slack)
