@@ -57,6 +57,7 @@ fun Route.devtoolsApi(
         call.respond("OK")
     }
 
+    // todo: Fjern denne
     post("/test-email-manuell-delbestilling") {
         val mottaker = call.request.queryParameters["mottaker"]
         if (mottaker == null || !mottaker.endsWith("@nav.no", ignoreCase = true)) {
