@@ -57,7 +57,8 @@ fun Route.delbestillingApiAuthenticated(
         try {
             val request = call.receive<XkLagerRequest>()
             log.info { "/xk-lager request: $request" }
-            val xklager = XKLagerResponse(delbestillingService.sjekkXKLager(request.hmsnr, request.serienr, request.brukernr))
+            val xklager =
+                XKLagerResponse(delbestillingService.sjekkXKLager(request.hmsnr, request.serienr, request.brukernr))
             log.info { "/xk-lager response: $xklager" }
             call.respond(xklager)
 

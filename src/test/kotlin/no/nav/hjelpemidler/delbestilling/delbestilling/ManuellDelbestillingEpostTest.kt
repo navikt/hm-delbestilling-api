@@ -9,7 +9,7 @@ import kotlin.test.Test
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 
-class  ManuellDelbestillingEpostTest {
+class ManuellDelbestillingEpostTest {
 
     @Test
     fun `skal lage epost for manuell delbestilling uten personopplysninger`() {

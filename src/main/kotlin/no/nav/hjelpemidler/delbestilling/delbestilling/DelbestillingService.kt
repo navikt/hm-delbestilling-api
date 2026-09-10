@@ -121,7 +121,7 @@ class DelbestillingService(
             }
         }
 
-        val bestillersNavn = pdl.hentFornavn(bestillerFnr)
+
 
 
         return if (request.delbestilling.ukjenteDeler.isEmpty()) {
@@ -135,7 +135,6 @@ class DelbestillingService(
                 innsendersRepresenterteOrganisasjon,
                 bestillerType,
                 lagerEnhet,
-                bestillersNavn,
                 id
             )
         } else {
@@ -149,7 +148,6 @@ class DelbestillingService(
                 innsendersRepresenterteOrganisasjon,
                 bestillerType,
                 lagerEnhet,
-                pdl.hentNavn(bestillerFnr),
                 id,
             )
         }
@@ -164,7 +162,6 @@ class DelbestillingService(
         innsendersRepresenterteOrganisasjon: Organisasjon,
         bestillerType: BestillerType,
         lagerEnhet: Lager,
-        bestillersNavn: String,
         id: UUID
     ): DelbestillingResultat {
         val delbestilling = request.delbestilling
@@ -194,8 +191,6 @@ class DelbestillingService(
             nyDelbestillingSak
         }
 
-
-
         log.info { "Manuell delbestilling '$id' sendt inn med saksnummer '${delbestillingSak.saksnummer}'" }
 
         sendStatistikk(request.delbestilling, brukersFnr)
@@ -218,9 +213,9 @@ class DelbestillingService(
         innsendersRepresenterteOrganisasjon: Organisasjon,
         bestillerType: BestillerType,
         lagerEnhet: Lager,
-        bestillersNavn: String,
         id: UUID
     ): DelbestillingResultat {
+        val bestillersNavn = pdl.hentFornavn(bestillerFnr)
         val delerHmsnr = request.delbestilling.deler.map { it.del.hmsnr }
         val lagerstatuser = oebs.hentLagerstatusForKommunenummer(brukerKommunenr, delerHmsnr)
         val berikedeDellinjer = request.delbestilling.deler.map { dellinje ->
