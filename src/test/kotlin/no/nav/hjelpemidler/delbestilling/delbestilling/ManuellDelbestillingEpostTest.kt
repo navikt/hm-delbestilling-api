@@ -9,7 +9,7 @@ import kotlin.test.Test
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 
-class ManuellDelbestillingEpostTest {
+class  ManuellDelbestillingEpostTest {
 
     @Test
     fun `skal lage epost for manuell delbestilling uten personopplysninger`() {
@@ -32,7 +32,7 @@ class ManuellDelbestillingEpostTest {
             epostTekniker = "tekniker@example.com",
         )
 
-        val html = ManuellDelbestillingEpost(delbestilling).tilHtml()
+        val html = ManuellDelbestillingEpost(delbestilling, 19).tilHtml()
 
         assertTrue(html.contains("<strong>HMS-nr.:</strong> 236958"))
         assertTrue(html.contains("236958"))
@@ -72,7 +72,7 @@ class ManuellDelbestillingEpostTest {
             epostTekniker = "tekniker@example.com",
         )
 
-        val html = ManuellDelbestillingEpost(delbestilling).tilHtml()
+        val html = ManuellDelbestillingEpost(delbestilling, 19).tilHtml()
 
         assertTrue(html.contains("<strong>Serienr.:</strong> 654321"))
         assertTrue(html.contains("654321"))
