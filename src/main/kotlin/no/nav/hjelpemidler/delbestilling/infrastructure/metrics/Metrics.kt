@@ -59,7 +59,7 @@ class Metrics(
 
         mapOf(
             "hmsnrDel" to (del.hmsnr ?: "Ukjent"),
-            "levArtNr" to (del.levArtnr ?: "Ukjent"),
+            "levArtNr" to (del.levArtNr ?: "Ukjent"),
             "hmsnrHovedprodukt" to hmsnrHovedprodukt,
             "navnHovedprodukt" to navnHovedprodukt,
             "rolleInnsender" to rolleInnsender,
