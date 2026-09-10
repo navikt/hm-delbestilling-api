@@ -121,9 +121,6 @@ class DelbestillingService(
             }
         }
 
-
-
-
         return if (request.delbestilling.ukjenteDeler.isEmpty()) {
             log.info { "Innsending av delbestilling med id $id, hmsnr $hmsnr, serienr $serienr, brukernr $brukernr" }
             opprettAutomatiskDelbestilling(
