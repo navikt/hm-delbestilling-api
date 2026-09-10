@@ -56,29 +56,6 @@ fun Route.devtoolsApi(
         devTools.sendTestMail()
         call.respond("OK")
     }
-
-    // todo: Fjern denne
-    post("/test-email-manuell-delbestilling") {
-        val mottaker = call.request.queryParameters["mottaker"]
-        if (mottaker == null || !mottaker.endsWith("@nav.no", ignoreCase = true)) {
-            call.respond(HttpStatusCode.BadRequest, mapOf("feil" to "Mottaker må være en @nav.no-adresse"))
-            return@post
-        }
-
-        val request = call.receive<DelbestillingRequest>()
-        val valideringsfeil = validateDelbestillingRequest(request)
-        if (request.delbestilling.ukjenteDeler.isEmpty()) {
-            call.respond(HttpStatusCode.BadRequest, mapOf("feil" to "Testbestillingen må inneholde en ukjent del"))
-            return@post
-        }
-        if (valideringsfeil.isNotEmpty()) {
-            call.respond(HttpStatusCode.BadRequest, mapOf("feil" to valideringsfeil))
-            return@post
-        }
-
-        devTools.sendTestMailManuellDelbestilling(mottaker, request)
-        call.respond("OK")
-    }
 }
 
 private data class OppslagRequestHmsnr(

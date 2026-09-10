@@ -22,16 +22,7 @@ class EpostOutboxDispatcher(
 
         for (melding in meldinger) {
             try {
-                if (isDev()) {
-                    email.client.sendEmail(
-                        recipentEmail = AppConfig.MANUELL_DELBESTILLING_EPOST_MOTTAKER_DEV,
-                        subject = "[TEST] ${melding.emne}",
-                        bodyText = melding.html,
-                        contentType = ContentType.HTML,
-                    )
-                } else {
-                    email.send(melding.mottaker, melding.emne, melding.html, ContentType.HTML)
-                }
+                email.send(melding.mottaker, melding.emne, melding.html, ContentType.HTML)
                 transaction { epostOutboxDao.markerSendt(melding.id) }
             } catch (e: Exception) {
                 val nyeAttempts = melding.attempts + 1

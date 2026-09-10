@@ -59,9 +59,6 @@ object AppConfig {
     val PDL_GRAPHQL_URL by EnvironmentVariable
     val PDL_API_SCOPE by EnvironmentVariable
 
-    // PDF-Generator
-    val PDF_GEN_BASEURL by EnvironmentVariable
-
     // Azure
     val AZURE_APP_CLIENT_ID by EnvironmentVariable
     val AZURE_APP_CLIENT_SECRET by EnvironmentVariable
