@@ -8,7 +8,7 @@ on:
       - "CODEOWNERS"
     branches:
       - main
-      - NyttApiDelbestillingUtenSerienr
+      - NyttApiDelbestillingUtenSerienrEpost
 
 jobs:
   build:
