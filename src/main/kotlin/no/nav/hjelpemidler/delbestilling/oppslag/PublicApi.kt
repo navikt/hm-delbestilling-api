@@ -38,16 +38,15 @@ fun Route.publicApi(
                 }
             }
         }
-    }
-
-    get("/hjelpemidler/{hmsnr}") {
-        val hmsnr = call.parameters["hmsnr"] ?: throw IllegalArgumentException("Mangler hmsnr")
-        log.info { "GET /hjelpemidler/$hmsnr" }
-        when (val result = oppslagService.slåOppHjelpemiddel(hmsnr)) {
-            is OppslagResultUtenDeler.Suksess -> call.respond(result.resultat)
-            is OppslagResultUtenDeler.Feil -> {
-                log.info { "Oppslag feilet: ${result.feil}" }
-                call.respond(HttpStatusCode.NotFound, OppslagFeilResponse(result.feil))
+        get("/hjelpemidler/{hmsnr}") {
+            val hmsnr = no.nav.hjelpemidler.delbestilling.delbestilling.requireHmsnr(call.parameters["hmsnr"])
+            log.info { "GET /hjelpemidler/$hmsnr" }
+            when (val result = oppslagService.slåOppHjelpemiddel(hmsnr)) {
+                is OppslagResultUtenDeler.Suksess -> call.respond(result.resultat)
+                is OppslagResultUtenDeler.Feil -> {
+                    log.info { "Oppslag feilet: ${result.feil}" }
+                    call.respond(HttpStatusCode.NotFound, OppslagFeilResponse(result.feil))
+                }
             }
         }
     }
