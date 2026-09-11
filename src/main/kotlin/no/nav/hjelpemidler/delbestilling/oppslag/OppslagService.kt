@@ -85,9 +85,9 @@ class OppslagService(
         )
 
         val brukerInfoDeferred = async {
-            oebs.hentUtlånPåArtNrOgBrukernr(hmsnr, brukernr).let { utlån ->
+            oebs.hentUtlånPåArtNrOgBrukernr(hmsnr, brukernr).firstOrNull()?.let { utlån ->
                 log.info { "utlån: $utlån" }
-                BrukerInfo(utlån.first(), pdl.hentKommunenummer(utlån.first().fnr))
+                BrukerInfo(utlån, pdl.hentKommunenummer(utlån.fnr))
             }
         }
 
