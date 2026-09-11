@@ -26,8 +26,7 @@ data class ManuellDelbestillingEpost(
         } + delbestilling.ukjenteDeler.joinToString("") { dellinje ->
             val del = dellinje.delUkjent
             delrad(
-                identifikator = del.hmsnr?.let { "HMS-nr. $it" }
-                    ?: "Lev.art.nr. ${del.levArtNr.orEmpty()}",
+                identifikator = del.hmsnr?.let { "HMS-nr. $it" } ?: "Lev.art.nr. ${del.levArtNr.orEmpty()}",
                 navn = null,
                 beskrivelse = del.beskrivelse,
                 antall = dellinje.antall,
@@ -103,7 +102,7 @@ data class ManuellDelbestillingEpost(
     private fun nøkkelverdi(nøkkel: String, verdi: String? = ""): String = """
         <tr>
             <td style="padding: 4px 0; vertical-align: top;">
-                <strong>${nøkkel.escapeHtml()}:</strong> ${verdi?.escapeHtml()}
+                <strong>${'$'}{nøkkel.escapeHtml()}:</strong> ${'$'}{verdi.orEmpty().escapeHtml()}
             </td>
         </tr>
     """.trimIndent()
