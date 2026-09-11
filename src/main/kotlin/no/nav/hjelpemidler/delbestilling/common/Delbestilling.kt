@@ -15,7 +15,7 @@ data class Delbestilling(
     val ukjenteDeler: List<DellinjeUkjentDel> = emptyList(),
     val levering: Levering,
     val harOpplæringPåBatteri: Boolean?,
-    val navn: String, // Hjelpemiddelnavn
+    val navn: String?, // Hjelpemiddelnavn
     val epostTekniker: String? = null,
     val status: Status = Status.INNSENDT,
 ) {
