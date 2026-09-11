@@ -51,7 +51,7 @@ class Pdl(private val client: PdlClientInterface, private val geografioppslag: G
     }
 
 
-    suspend fun henthentPersonNavnOgAdresse(fnr: String): PersonNavnOgAdresse {
+    suspend fun hentPersonNavnOgAdresse(fnr: String): PersonNavnOgAdresse {
         val response = try {
             valider(client.hentPersonNavnOgAdresse(fnr))
         } catch (e:Exception) {
