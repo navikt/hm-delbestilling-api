@@ -68,7 +68,7 @@ fun validateSerienr(serienr: Serienr) = listOfNotNull(
 )
 
 fun validateKunEntenSerienrEllerBrukernr(serienr: String?, brukernr: String?): List<String> =
-    if (!serienr.isNullOrBlank() == !brukernr.isNullOrBlank()) {
+    if (!serienr.isNullOrBlank() && !brukernr.isNullOrBlank()) {
         listOf("Kan ikke inneholde både serienr. og brukernr")
     } else {
         emptyList()
