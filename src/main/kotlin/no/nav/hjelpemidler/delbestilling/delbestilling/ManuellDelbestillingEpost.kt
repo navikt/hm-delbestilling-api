@@ -48,7 +48,7 @@ data class ManuellDelbestillingEpost(
             <body style="font-family: Arial, sans-serif; color: #262626; line-height: 1.5;">
                 <h1 style="font-size: 24px; margin: 0 0 16px;">Bestilling av deler til manuell behandling</h1>
      
-                <p>Denne delbestillingen inneholder deler som må behandles manuelt.</p>
+                <p>Denne e-posten inneholder del(er) som må behandles manuelt, da bestilt del ikke finnes i grunndata</p>
 
                 <h2 style="font-size: 18px; margin: 24px 0 8px;">Hjelpemiddelet som skal repareres</h2>
                 <table role="presentation" style="border-collapse: collapse; width: 100%; max-width: 680px;">
