@@ -4,9 +4,6 @@ import io.github.oshai.kotlinlogging.KotlinLogging
 import no.nav.hjelpemidler.delbestilling.common.Hmsnr
 import no.nav.hjelpemidler.delbestilling.common.Lagerstatus
 import no.nav.hjelpemidler.delbestilling.config.isDev
-import no.nav.hjelpemidler.delbestilling.delbestilling.DelbestillingRequest
-import no.nav.hjelpemidler.delbestilling.delbestilling.MANUELL_DELBESTILLING_EPOST_EMNE
-import no.nav.hjelpemidler.delbestilling.delbestilling.ManuellDelbestillingEpost
 import no.nav.hjelpemidler.delbestilling.delbestilling.anmodning.DelUtenDekningDao
 import no.nav.hjelpemidler.delbestilling.infrastructure.email.ContentType
 import no.nav.hjelpemidler.delbestilling.infrastructure.email.Email
@@ -125,16 +122,6 @@ class DevTools(
     }
 
     suspend fun sendTestMail() = email.sendTestMail()
-
-    suspend fun sendTestMailManuellDelbestilling(mottaker: String, request: DelbestillingRequest) {
-        email.client.sendEmail(
-            recipentEmail = mottaker,
-            subject = "[TEST] $MANUELL_DELBESTILLING_EPOST_EMNE",
-            bodyText = ManuellDelbestillingEpost(request.delbestilling, 19).tilHtml(),
-            contentType = ContentType.HTML,
-        )
-        log.info { "Test-e-post for manuell delbestilling sendt til $mottaker." }
-    }
 
     private suspend fun Email.sendTestMail(
         recipentEmail: String = "digitalisering.av.hjelpemidler.og.tilrettelegging@nav.no",
