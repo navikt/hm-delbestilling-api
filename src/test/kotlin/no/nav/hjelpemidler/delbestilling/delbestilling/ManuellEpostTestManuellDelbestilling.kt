@@ -7,11 +7,18 @@ import no.nav.hjelpemidler.delbestilling.testdata.delLinje
 import no.nav.hjelpemidler.delbestilling.testdata.delbestilling
 import java.nio.file.Files
 import java.nio.file.Path
+import kotlin.test.Ignore
 import kotlin.test.Test
 import kotlin.test.assertTrue
 
 class ManuellEpostTestManuellDelbestilling {
 
+    /**
+     * Lager en lokal forhåndsvisning av epost for delbestilling for manuell behandling,
+     * så man kan enkelt se hvordan det vil bli seende ut uten å sende noe.
+     */
+
+    @Ignore
     @Test
     fun `lag lokal forhåndsvisning av epost`() {
         val delbestilling = delbestilling(
