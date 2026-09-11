@@ -102,7 +102,7 @@ data class ManuellDelbestillingEpost(
     private fun nøkkelverdi(nøkkel: String, verdi: String? = ""): String = """
         <tr>
             <td style="padding: 4px 0; vertical-align: top;">
-                <strong>${'$'}{nøkkel.escapeHtml()}:</strong> ${'$'}{verdi.orEmpty().escapeHtml()}
+                <strong>${nøkkel.escapeHtml()}:</strong> ${verdi.orEmpty().escapeHtml()}
             </td>
         </tr>
     """.trimIndent()
