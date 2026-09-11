@@ -1,6 +1,10 @@
 package no.nav.hjelpemidler.delbestilling.delbestilling
 
 import no.nav.hjelpemidler.delbestilling.infrastructure.oebs.OebsPersoninfo
+import no.nav.hjelpemidler.delbestilling.common.DelUkjent
+import no.nav.hjelpemidler.delbestilling.common.DellinjeUkjentDel
+import no.nav.hjelpemidler.delbestilling.common.Lager
+import no.nav.hjelpemidler.delbestilling.common.Saksbehandlingstype
 import no.nav.hjelpemidler.delbestilling.testdata.PdlRespons
 import no.nav.hjelpemidler.delbestilling.testdata.Testdata
 import no.nav.hjelpemidler.delbestilling.testdata.delLinje
@@ -8,12 +12,11 @@ import no.nav.hjelpemidler.delbestilling.testdata.delbestillingRequest
 import no.nav.hjelpemidler.delbestilling.testdata.fixtures.hentDelUtenDekning
 import no.nav.hjelpemidler.delbestilling.testdata.fixtures.hentDelbestillinger
 import no.nav.hjelpemidler.delbestilling.testdata.fixtures.hentDelerUtenDekning
+import no.nav.hjelpemidler.delbestilling.testdata.fixtures.hentAntallOutboxRader
 import no.nav.hjelpemidler.delbestilling.testdata.fixtures.opprettDelbestilling
 import no.nav.hjelpemidler.delbestilling.testdata.fixtures.opprettDelbestillingMedDel
 import no.nav.hjelpemidler.delbestilling.runWithTestContext
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.assertThrows
-import kotlin.test.Ignore
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 
@@ -47,6 +50,50 @@ internal class DelbestillingServiceTest {
         with(hentDelbestillinger()) {
             assertEquals(5, size)
         }
+    }
+
+    @Test
+    fun `tekniker kan max sende inn 5 delbestillinger for samme artnr & brukernr per døgn`() = runWithTestContext {
+        repeat(5) { opprettDelbestilling(delbestillingRequest(serieNr = null, brukerNr = "999999")) }
+
+        with(opprettDelbestilling(delbestillingRequest(serieNr = null, brukerNr = "999999"))) {
+            assertEquals(DelbestillingFeil.FOR_MANGE_BESTILLINGER_SISTE_24_TIMER, feil)
+        }
+
+        with(hentDelbestillinger()) {
+            assertEquals(5, size)
+        }
+    }
+
+    @Test
+    fun `skal lagre manuell delbestilling og opprette epostoutbox uten Kafka-event`() = runWithTestContext {
+        val request = delbestillingRequest(deler = emptyList()).copy(
+            delbestilling = delbestillingRequest(deler = emptyList()).delbestilling.copy(
+                ukjenteDeler = listOf(
+                    DellinjeUkjentDel(
+                        delUkjent = DelUkjent(
+                            hmsnr = null,
+                            levArtNr = "12345",
+                            beskrivelse = "Sleggefett",
+                        ),
+                        antall = 1,
+                    )
+                ),
+                epostTekniker = "tekniker@nav.no",
+            )
+        )
+
+        val resultat = opprettDelbestilling(request)
+
+        assertEquals(null, resultat.feil)
+        assertEquals(Saksbehandlingstype.MANUELL, hentDelbestillinger().single().saksbehandlingstype)
+        assertEquals(0, hentAntallOutboxRader())
+
+        val epost = transaction { epostOutboxDao.hentPending(100).single() }
+        assertEquals(Lager.OSLO.epost(), epost.mottaker)
+        assertEquals(MANUELL_DELBESTILLING_EPOST_EMNE, epost.emne)
+        assertTrue(epost.html.contains("12345"))
+        assertTrue(epost.html.contains("Sleggefett"))
     }
 
     @Test

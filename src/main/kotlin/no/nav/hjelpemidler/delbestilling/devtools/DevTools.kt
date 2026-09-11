@@ -1,6 +1,7 @@
 package no.nav.hjelpemidler.delbestilling.devtools
 
 import io.github.oshai.kotlinlogging.KotlinLogging
+import no.nav.hjelpemidler.delbestilling.common.Hmsnr
 import no.nav.hjelpemidler.delbestilling.common.Lagerstatus
 import no.nav.hjelpemidler.delbestilling.config.isDev
 import no.nav.hjelpemidler.delbestilling.delbestilling.anmodning.DelUtenDekningDao
@@ -12,7 +13,10 @@ import no.nav.hjelpemidler.delbestilling.infrastructure.persistence.transaction.
 import no.nav.hjelpemidler.delbestilling.oppslag.FinnDelerResultat
 import no.nav.hjelpemidler.delbestilling.oppslag.FinnDelerTilHjelpemiddel
 import no.nav.hjelpemidler.delbestilling.oppslag.Hjelpemiddel
+import no.nav.hjelpemidler.delbestilling.oppslag.OppslagResultUtenDeler
 import no.nav.hjelpemidler.delbestilling.oppslag.OppslagResultat
+import no.nav.hjelpemidler.delbestilling.oppslag.OppslagsResultatUtenDeler
+import no.nav.hjelpemidler.delbestilling.oppslag.OppslagService
 import no.nav.hjelpemidler.delbestilling.oppslag.legacy.data.hmsnr2Hjm
 
 
@@ -23,7 +27,8 @@ class DevTools(
     private val oebs: Oebs,
     private val pdl: Pdl,
     private val finnDelerTilHjelpemiddel: FinnDelerTilHjelpemiddel,
-    private val email: Email
+    private val email: Email,
+    private val oppslagService: OppslagService,
 ) {
 
     init {
@@ -52,7 +57,18 @@ class DevTools(
         return mapOf("error" to "Ingen testperson funnet")
     }
 
-    suspend fun slåOppHjelpemiddelMedFakeLagerstatus(hmsnr: String, serienr: String): OppslagResultat {
+    suspend fun slåOppHjelpemiddel(hmsnr: Hmsnr): OppslagsResultatUtenDeler {
+        log.info { "Slår opp hmsnr=$hmsnr for dev.ekstern" }
+
+        val result = oppslagService.slåOppHjelpemiddel(hmsnr)
+
+        when (result) {
+            is OppslagResultUtenDeler.Suksess -> return result.resultat
+            is OppslagResultUtenDeler.Feil -> throw IllegalArgumentException("Hjelpemiddel $hmsnr ikke funnet: ${result.feil}")
+        }
+    }
+
+    suspend fun slåOppHjelpemiddelMedFakeLagerstatus(hmsnr: String, serienr: String?, brukernr: String?): OppslagResultat {
         log.info { "Slår opp hmsnr=$hmsnr for dev.ekstern, og beriker med fake lagerstatus" }
         val finnDelerResultat = finnDelerTilHjelpemiddel(hmsnr)
         var hjelpemiddel: Hjelpemiddel = when (finnDelerResultat) {
@@ -77,7 +93,7 @@ class DevTools(
         }
 
         if (hjelpemiddel.harBatteri()) {
-            hjelpemiddel = hjelpemiddel.copy(antallDagerSidenSistBatteribestilling = serienr.take(3).toInt())
+            hjelpemiddel = hjelpemiddel.copy(antallDagerSidenSistBatteribestilling = (serienr ?: brukernr ?: "000000").take(3).toInt())
         }
 
         hjelpemiddel = hjelpemiddel.copy(
@@ -120,6 +136,7 @@ class DevTools(
         )
         log.info { "post til $recipentEmail sendt." }
     }
+
 
 }
 

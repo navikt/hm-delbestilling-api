@@ -7,7 +7,8 @@ typealias Navn = String
 
 data class Hjelpemiddelnavn(
     val navn: Navn,
-    val hmsnr: Hmsnr
+    val hmsnr: Hmsnr,
+    val isoKode: String
 )
 
 data class DelMedHjelpemidler(

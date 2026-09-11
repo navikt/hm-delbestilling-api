@@ -15,5 +15,9 @@ class PdlClientFake : PdlClientInterface {
     override suspend fun hentPersonNavn(fnr: String): PdlPersonResponse {
         return response
     }
+
+    override suspend fun hentPersonNavnOgAdresse(fnr: String): PdlPersonResponse {
+        return response
+    }
 }
 

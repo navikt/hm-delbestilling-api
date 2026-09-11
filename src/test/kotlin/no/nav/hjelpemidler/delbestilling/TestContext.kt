@@ -15,8 +15,9 @@ import no.nav.hjelpemidler.delbestilling.fakes.OppslagClientFake
 import no.nav.hjelpemidler.delbestilling.fakes.PdlClientFake
 import no.nav.hjelpemidler.delbestilling.fakes.KafkaFake
 import no.nav.hjelpemidler.delbestilling.infrastructure.email.Email
+import no.nav.hjelpemidler.delbestilling.infrastructure.epostoutbox.EpostOutboxDispatcher
 import no.nav.hjelpemidler.delbestilling.infrastructure.outbox.OutboxDispatcher
-import no.nav.hjelpemidler.delbestilling.infrastructure.geografi.Kommuneoppslag
+import no.nav.hjelpemidler.delbestilling.infrastructure.geografi.Geografioppslag
 import no.nav.hjelpemidler.delbestilling.infrastructure.grunndata.Grunndata
 import no.nav.hjelpemidler.delbestilling.infrastructure.leaderElection.ErLeder
 import no.nav.hjelpemidler.delbestilling.infrastructure.metrics.Metrics
@@ -64,6 +65,10 @@ class TestContext {
     val localHost = LocalHostFake()
     val erLeder = ErLeder(elector, localHost)
 
+    // Geografi
+    val oppslagClient = OppslagClientFake()
+    val geografioppslag = Geografioppslag(oppslagClient)
+
     // Grunndata
     val grunndataClient = GrunndataClientFake()
     val grunndata = Grunndata(grunndataClient)
@@ -81,10 +86,11 @@ class TestContext {
     // Kafka
     val kafka = KafkaFake()
     val outboxDispatcher by lazy { OutboxDispatcher(transaction, kafka, slack, clock) }
+    val epostOutboxDispatcher by lazy { EpostOutboxDispatcher(transaction, email, slack) }
 
     // PDL
     val pdlClient = PdlClientFake()
-    val pdl = Pdl(pdlClient)
+    val pdl = Pdl(pdlClient, geografioppslag)
 
     // Oppslag
     val piloterService = PiloterService()
@@ -103,12 +109,10 @@ class TestContext {
     }
 
     // Delbestilling
-    val oppslagClient = OppslagClientFake()
-    val kommuneoppslag = Kommuneoppslag(oppslagClient)
     val anmodningService = AnmodningService(transaction, oebs, slack, email, grunndata)
     val klargjorteDelbestillingerService = KlargjorteDelbestillingerService(transaction, email, slack)
     val delbestillingService =
-        DelbestillingService(transaction, pdl, oebs, kommuneoppslag, metrics, slack, anmodningService)
+        DelbestillingService(transaction, pdl, oebs, geografioppslag, metrics, slack, anmodningService)
 
     // Status
     val delbestillingStatusService = DelbestillingStatusService(transaction, oebs, metrics, slack)

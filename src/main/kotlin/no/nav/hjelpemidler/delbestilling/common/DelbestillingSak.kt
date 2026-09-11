@@ -14,6 +14,7 @@ data class DelbestillingSak(
     val brukersKommunenavn: String,
     val enhetnr: String,
     val enhetnavn: String,
+    val saksbehandlingstype: Saksbehandlingstype,
 ) {
     fun oppdaterOebsOrdrenummer(ordrenummer: String): DelbestillingSak {
         if (this.oebsOrdrenummer == null) {
@@ -39,4 +40,9 @@ data class DelbestillingSak(
         }
         return copy(delbestilling = oppdatertDelbestilling).oppdaterStatus(nyStatus)
     }
+}
+
+enum class Saksbehandlingstype {
+    AUTOMATISK,
+    MANUELL,
 }
