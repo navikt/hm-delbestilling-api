@@ -110,6 +110,7 @@ class DelbestillingRepository(val tx: JdbcOperations) {
             SELECT *
             FROM delbestilling
             WHERE status = 'KLARGJORT'
+                            AND saksbehandlingstype = 'AUTOMATISK'
               AND opprettet < NOW() - (:dager * INTERVAL '1 day')
             ORDER BY opprettet ASC;
         """.trimIndent(),

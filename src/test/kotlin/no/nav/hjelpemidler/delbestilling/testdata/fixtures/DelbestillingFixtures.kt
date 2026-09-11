@@ -25,6 +25,7 @@ suspend fun TestContext.gittDelbestilling(
     dagerSidenOpprettelse: Long? = null,
     lagerEnhet: Lager = Testdata.defaultEnhet,
     status: Status = Status.INNSENDT,
+    saksbehandlingstype: Saksbehandlingstype = Saksbehandlingstype.AUTOMATISK,
 ) {
     transaction(returnGeneratedKeys = true) {
         val saksnummer = delbestillingRepository.lagreDelbestilling(
@@ -37,7 +38,7 @@ suspend fun TestContext.gittDelbestilling(
             bestillerType = BestillerType.KOMMUNAL,
             lagerEnhet = lagerEnhet,
             status = status,
-            saksbehandlingstype = Saksbehandlingstype.AUTOMATISK
+            saksbehandlingstype = saksbehandlingstype
         )
 
         if (dagerSidenOpprettelse != null) {

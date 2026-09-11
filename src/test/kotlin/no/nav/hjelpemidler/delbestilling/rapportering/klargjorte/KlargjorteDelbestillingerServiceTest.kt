@@ -24,6 +24,7 @@ class KlargjorteDelbestillingerServiceTest {
         gittDelbestilling(lagerEnhet = Lager.OSLO, status = Status.INNSENDT)
         gittDelbestilling(lagerEnhet = Lager.OSLO, status = Status.KLARGJORT)
         gittDelbestilling(lagerEnhet = Lager.OSLO, status = Status.KLARGJORT)
+        gittDelbestilling(lagerEnhet = Lager.OSLO, status = Status.KLARGJORT, saksbehandlingstype = Saksbehandlingstype.MANUELL,)
 
         // 1 klargjort delbestilling for lager Finnmark
         gittDelbestilling(lagerEnhet = Lager.FINNMARK, status = Status.KLARGJORT)
