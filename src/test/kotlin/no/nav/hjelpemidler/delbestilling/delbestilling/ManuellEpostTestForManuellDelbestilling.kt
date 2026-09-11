@@ -11,10 +11,10 @@ import kotlin.test.Ignore
 import kotlin.test.Test
 import kotlin.test.assertTrue
 
-class ManuellEpostTestManuellDelbestilling {
+class ManuellEpostTestForManuellDelbestilling {
 
     /**
-     * Lager en lokal forhåndsvisning av epost for delbestilling for manuell behandling,
+     * Lager en lokal forhåndsvisning av epost for delbestilling for manuell behandling i prosjektrot,
      * så man kan enkelt se hvordan det vil bli seende ut uten å sende noe.
      */
 
@@ -52,7 +52,7 @@ class ManuellEpostTestManuellDelbestilling {
         )
 
         val html = ManuellDelbestillingEpost(delbestilling, 19).tilHtml()
-        val preview = Path.of("build", "manual-email-preview.html").toAbsolutePath()
+        val preview = Path.of("manual-email-preview.html").toAbsolutePath() // Setter path for preview
 
         Files.createDirectories(preview.parent)
         Files.writeString(preview, html)
