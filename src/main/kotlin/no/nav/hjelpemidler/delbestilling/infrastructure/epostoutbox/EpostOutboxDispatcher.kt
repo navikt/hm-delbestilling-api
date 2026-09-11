@@ -7,15 +7,19 @@ import no.nav.hjelpemidler.delbestilling.infrastructure.email.ContentType
 import no.nav.hjelpemidler.delbestilling.infrastructure.email.Email
 import no.nav.hjelpemidler.delbestilling.infrastructure.persistence.transaction.Transactional
 import no.nav.hjelpemidler.delbestilling.infrastructure.slack.Slack
+import java.time.Clock
+import java.time.LocalDateTime
 
 private val log = KotlinLogging.logger {}
 private const val BATCH_SIZE = 100
 private const val SLACK_VARSEL_TERSKEL = 5
+private const val BEVAR_SENDTE_EPOSTER_DAGER = 90L
 
 class EpostOutboxDispatcher(
     private val transaction: Transactional,
     private val email: Email,
     private val slack: Slack,
+    private val clock: Clock = Clock.systemDefaultZone(),
 ) {
     suspend fun dispatchPending() {
         val meldinger = transaction { epostOutboxDao.hentPending(BATCH_SIZE) }
@@ -32,5 +36,13 @@ class EpostOutboxDispatcher(
                 if (skalVarsle) slack.varsleOmOutboxFeil("epost-${melding.id}", "Epost", nyeAttempts)
             }
         }
+    }
+
+    suspend fun slettGamleSendteEposter(bevarDager: Long = BEVAR_SENDTE_EPOSTER_DAGER) {
+        val antall = transaction {
+            val tidspunkt = LocalDateTime.now(clock).minusDays(bevarDager)
+            epostOutboxDao.slettSendteEldreEnn(tidspunkt)
+        }
+        if (antall > 0) log.info { "Slettet $antall sendte e-postoutbox-rader eldre enn $bevarDager dager" }
     }
 }

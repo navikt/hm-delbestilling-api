@@ -138,6 +138,11 @@ class AppContext {
             jobb = { outboxDispatcher.slettGamlePubliserte() },
             beregnNesteKjøring = { clock -> LocalDateTime.now(clock).plusDays(1) },
         )
+        jobbScheduler.schedulerGjentagendeJobb(
+            navn = "epost-outbox-retention",
+            jobb = { epostOutboxDispatcher.slettGamleSendteEposter() },
+            beregnNesteKjøring = { clock -> LocalDateTime.now(clock).plusDays(1) },
+        )
     }
 
     fun shutdown() {

@@ -1,6 +1,7 @@
 package no.nav.hjelpemidler.delbestilling.infrastructure.epostoutbox
 
 import no.nav.hjelpemidler.database.JdbcOperations
+import java.time.LocalDateTime
 
 class EpostOutboxDao(private val tx: JdbcOperations) {
     fun leggTil(mottaker: String, emne: String, html: String) = tx.update(
@@ -35,6 +36,14 @@ class EpostOutboxDao(private val tx: JdbcOperations) {
         sql = "UPDATE epost_outbox SET status = 'SENT', sendt = CURRENT_TIMESTAMP WHERE id = :id",
         queryParameters = mapOf("id" to id),
     )
+
+    fun slettSendteEldreEnn(tidspunkt: LocalDateTime): Int = tx.update(
+        sql = """
+            DELETE FROM epost_outbox
+            WHERE status = 'SENT' AND sendt < :tidspunkt
+        """.trimIndent(),
+        queryParameters = mapOf("tidspunkt" to tidspunkt),
+    ).actualRowCount
 
     fun registrerFeil(id: Long, feil: String, skalVarsle: Boolean) = tx.update(
         sql = """

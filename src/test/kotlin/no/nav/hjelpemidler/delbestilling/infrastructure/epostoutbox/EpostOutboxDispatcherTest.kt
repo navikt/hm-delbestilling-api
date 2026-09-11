@@ -3,6 +3,7 @@ package no.nav.hjelpemidler.delbestilling.infrastructure.epostoutbox
 import no.nav.hjelpemidler.delbestilling.infrastructure.email.ContentType
 import no.nav.hjelpemidler.delbestilling.runWithTestContext
 import org.junit.jupiter.api.Test
+import java.time.LocalDateTime
 import kotlin.test.assertEquals
 
 class EpostOutboxDispatcherTest {
@@ -30,5 +31,27 @@ class EpostOutboxDispatcherTest {
             assertEquals("<p>Test</p>", body)
             assertEquals(ContentType.HTML, contentType)
         }
+    }
+
+    @Test
+    fun `skal slette gamle sendte eposter men beholde pending eposter`() = runWithTestContext {
+        transaction {
+            epostOutboxDao.leggTil("saksbehandler@nav.no", "Gammel", "<p>Gammel</p>")
+            delbestillingRepository.tx.update(
+                sql = """
+                    UPDATE epost_outbox
+                    SET status = 'SENT', sendt = :sendt
+                """.trimIndent(),
+                queryParameters = mapOf("sendt" to LocalDateTime.now().minusDays(31)),
+            )
+            epostOutboxDao.leggTil("saksbehandler@nav.no", "Pending", "<p>Pending</p>")
+        }
+
+        EpostOutboxDispatcher(transaction, email, slack, clock).slettGamleSendteEposter(bevarDager = 30)
+
+        val antallRader = transaction {
+            delbestillingRepository.tx.single("SELECT COUNT(*) FROM epost_outbox") { row -> row.int(1) }
+        }
+        assertEquals(1, antallRader)
     }
 }
