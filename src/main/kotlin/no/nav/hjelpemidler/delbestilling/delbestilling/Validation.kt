@@ -14,11 +14,13 @@ fun validateOppslagRequest(req: OppslagRequest) = listOf(
 ).flatten()
 
 fun validateOppslagDelerRequest(req: OppslagDelerRequest) = listOf(
+    validateKunEntenSerienrEllerBrukernr(req.serienr, req.brukernr),
     validateSerienrEllerBrukernr(serienr = req.serienr, brukernr = req.brukernr)
 ).flatten()
 
 fun validateDelbestillingRequest(req: DelbestillingRequest): List<String> = listOf(
     validateHmsnr(req.delbestilling.hmsnr),
+    validateKunEntenSerienrEllerBrukernr(req.delbestilling.serienr, req.delbestilling.brukernr),
     validateSerienrEllerBrukernr(req.delbestilling.serienr, req.delbestilling.brukernr),
     validateOpplæringBatteri(req.delbestilling),
     listOfNotNull(
@@ -64,6 +66,13 @@ fun validateSerienr(serienr: Serienr) = listOfNotNull(
     if (serienr.length != 6) "Serienr må ha 6 siffer" else null,
     if (!serienr.allDigits()) "Serienr skal kun bestå av tall" else null,
 )
+
+fun validateKunEntenSerienrEllerBrukernr(serienr: String?, brukernr: String?): List<String> =
+    if (!serienr.isNullOrBlank() == !brukernr.isNullOrBlank()) {
+        listOf("Kan ikke inneholde både serienr. og brukernr")
+    } else {
+        emptyList()
+    }
 
 fun validateSerienrEllerBrukernr(serienr: Serienr?, brukernr: String?) = listOfNotNull(
     if (serienr == null && brukernr == null) {
