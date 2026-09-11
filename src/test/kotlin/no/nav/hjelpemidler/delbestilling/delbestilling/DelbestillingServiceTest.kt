@@ -12,8 +12,6 @@ import no.nav.hjelpemidler.delbestilling.testdata.fixtures.opprettDelbestilling
 import no.nav.hjelpemidler.delbestilling.testdata.fixtures.opprettDelbestillingMedDel
 import no.nav.hjelpemidler.delbestilling.runWithTestContext
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.assertThrows
-import kotlin.test.Ignore
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 
@@ -41,6 +39,19 @@ internal class DelbestillingServiceTest {
         repeat(5) { opprettDelbestilling() }
 
         with(opprettDelbestilling()) {
+            assertEquals(DelbestillingFeil.FOR_MANGE_BESTILLINGER_SISTE_24_TIMER, feil)
+        }
+
+        with(hentDelbestillinger()) {
+            assertEquals(5, size)
+        }
+    }
+
+    @Test
+    fun `tekniker kan max sende inn 5 delbestillinger for samme artnr & brukernr per døgn`() = runWithTestContext {
+        repeat(5) { opprettDelbestilling(delbestillingRequest(serieNr = null, brukerNr = "999999")) }
+
+        with(opprettDelbestilling(delbestillingRequest(serieNr = null, brukerNr = "999999"))) {
             assertEquals(DelbestillingFeil.FOR_MANGE_BESTILLINGER_SISTE_24_TIMER, feil)
         }
 

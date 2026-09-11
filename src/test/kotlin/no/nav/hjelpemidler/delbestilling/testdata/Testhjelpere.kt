@@ -36,18 +36,29 @@ fun delbestillerRolle(
 
 fun delbestillingRequest(
     deler: List<DelLinje> = deler(),
-    harOpplæringPåBatteri: Boolean = false
-) = DelbestillingRequest(delbestilling(deler = deler, harOpplæringPåBatteri = harOpplæringPåBatteri))
+    harOpplæringPåBatteri: Boolean = false,
+    serieNr: String? = Testdata.defaultHjmSerienr,
+    brukerNr: String? = null,
+) = DelbestillingRequest(
+    delbestilling(
+        deler = deler,
+        harOpplæringPåBatteri = harOpplæringPåBatteri,
+        serienr = serieNr,
+        brukerNr = brukerNr
+    )
+)
 
 fun delbestilling(
     deler: List<DelLinje> = deler(),
     harOpplæringPåBatteri: Boolean = false,
     hmsnr: Hmsnr = "236958",
-    serienr: String = Testdata.defaultHjmSerienr,
+    serienr: String? = Testdata.defaultHjmSerienr,
+    brukerNr: String? = null,
 ) = Delbestilling(
     id = UUID.randomUUID(),
     hmsnr = hmsnr,
     serienr = serienr,
+    brukernr = brukerNr,
     deler = deler,
     levering = Levering.TIL_XK_LAGER,
     harOpplæringPåBatteri = harOpplæringPåBatteri,
