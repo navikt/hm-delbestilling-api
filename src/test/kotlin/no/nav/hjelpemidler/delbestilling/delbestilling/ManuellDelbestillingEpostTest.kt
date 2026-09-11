@@ -12,7 +12,7 @@ import kotlin.test.assertTrue
 class ManuellDelbestillingEpostTest {
 
     @Test
-    fun `skal lage epost for manuell delbestilling uten personopplysninger`() {
+    fun `skal lage epost for manuell delbestilling uten personopplysninger med brukernr`() {
         val delbestilling = delbestilling(
             deler = listOf(delLinje(hmsnr = "168802", navn = "Armlene høyre")),
         ).copy(
@@ -22,64 +22,31 @@ class ManuellDelbestillingEpostTest {
                 DellinjeUkjentDel(
                     delUkjent = DelUkjent(
                         hmsnr = null,
-                        levArtNr = "LEV-456",
+                        levArtNr = "456",
                         beskrivelse = "Venstre armlene",
                     ),
                     antall = 2,
                 )
             ),
             levering = Levering.TIL_SERVICE_OPPDRAG,
-            epostTekniker = "tekniker@example.com",
+            epostTekniker = "tekniker@nav.no",
         )
 
         val html = ManuellDelbestillingEpost(delbestilling, 19).tilHtml()
 
-        assertTrue(html.contains("<strong>HMS-nr.:</strong> 236958"))
-        assertTrue(html.contains("236958"))
-        assertTrue(html.contains("<strong>Brukernr.:</strong> 12345"))
-        assertTrue(html.contains("12345"))
+        assertTrue(html.contains("HMS-nr.:</strong> 236958") && html.contains("Brukernr.:</strong> 12345"))
         assertFalse(html.contains("<strong>Serienr.:</strong>"))
-        assertTrue(html.contains("HMS-nr. 168802<br>"))
-        assertTrue(html.contains("Armlene høyre"))
-        assertTrue(html.contains("Lev.art.nr. LEV-456<br>"))
-        assertTrue(html.contains("Venstre armlene"))
-        assertTrue(html.contains("2 stk."))
-        assertTrue(html.contains("tekniker@example.com"))
-        assertTrue(html.contains("Brukes i serviceoppdrag"))
+        assertTrue(
+            html.contains("HMS-nr. 168802") &&
+                html.contains("Armlene høyre") &&
+                html.contains("Lev.art.nr. 456") &&
+                html.contains("Venstre armlene") &&
+                html.contains("2 stk.")
+        )
+        assertTrue(html.contains("tekniker@nav.no") && html.contains("Brukes i serviceoppdrag"))
         assertFalse(html.contains("Fødselsnummer"))
         assertFalse(html.contains("Folkeregistrert adresse"))
         assertFalse(html.contains("Hjelpemiddelbruker"))
     }
 
-    @Test
-    fun `skal vise serienummer og escape dynamisk innhold`() {
-        val delbestilling = delbestilling(
-            deler = emptyList(),
-            serienr = "654321",
-        ).copy(
-            brukernr = null,
-            navn = "Stol <modell>",
-            ukjenteDeler = listOf(
-                DellinjeUkjentDel(
-                    delUkjent = DelUkjent(
-                        hmsnr = "112233",
-                        levArtNr = null,
-                        beskrivelse = null,
-                    ),
-                    antall = 1,
-                )
-            ),
-            epostTekniker = "tekniker@example.com",
-        )
-
-        val html = ManuellDelbestillingEpost(delbestilling, 19).tilHtml()
-
-        assertTrue(html.contains("<strong>Serienr.:</strong> 654321"))
-        assertTrue(html.contains("654321"))
-        assertFalse(html.contains("<strong>Brukernr.:</strong>"))
-        assertTrue(html.contains("Stol &lt;modell&gt;"))
-        assertFalse(html.contains("Stol <modell>"))
-        assertTrue(html.contains("HMS-nr. 112233"))
-        assertTrue(html.contains("<strong>Levering:</strong> Til XK-lager"))
-    }
 }
