@@ -69,7 +69,6 @@ object AppConfig {
 
     // Epost
     val EPOST_AVSENDER by EnvironmentVariable
-    val MANUELL_DELBESTILLING_EPOST_MOTTAKER_DEV by EnvironmentVariable
 }
 
 fun isLocal() = Environment.current.tier.isLocal
