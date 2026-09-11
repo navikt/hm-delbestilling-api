@@ -318,7 +318,7 @@ class DelbestillingService(
         val tidspunkt24TimerSiden = LocalDateTime.now().minusDays(1)
         val bestillersBestillinger =
             hentDelbestillinger(bestillerFnr).filter { it.opprettet.isAfter(tidspunkt24TimerSiden) }
-                .filter { it.delbestilling.hmsnr == hmsnr && (it.delbestilling.serienr == serienr || it.delbestilling.brukernr == brukernr) } // TOOO test
+                .filter { it.delbestilling.hmsnr == hmsnr && (it.delbestilling.serienr == serienr || it.delbestilling.brukernr == brukernr) }
         if (bestillersBestillinger.size >= maxAntallBestillingerPer24Timer) {
             log.info { "Tekniker har nådd grensen på $maxAntallBestillingerPer24Timer bestillinger siste 24 timer for hjelpemiddel hmsnr:$hmsnr serienr:$serienr" }
             return DelbestillingFeil.FOR_MANGE_BESTILLINGER_SISTE_24_TIMER
