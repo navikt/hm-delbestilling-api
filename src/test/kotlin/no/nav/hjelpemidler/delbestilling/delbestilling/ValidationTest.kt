@@ -26,6 +26,23 @@ internal class ValidationTest {
     }
 
     @Test
+    fun `skal ikke akseptere at både brukern og serienr er satt`() {
+
+        assertEquals(
+            emptyList(),
+            validateKunEntenSerienrEllerBrukernr(serienr = "123456", brukernr = null),
+        )
+        assertEquals(
+            emptyList(),
+            validateKunEntenSerienrEllerBrukernr(serienr = null, brukernr = "12345"),
+        )
+        assertEquals(
+            listOf("Kan ikke inneholde både serienr. og brukernr"),
+            validateKunEntenSerienrEllerBrukernr(serienr = "123456", brukernr = "12345"),
+        )
+    }
+
+    @Test
     fun `skal validere brukernr med fem til åtte siffer`() {
         assertEquals(emptyList(), validateSerienrEllerBrukernr(serienr = null, brukernr = "12345"))
         assertEquals(emptyList(), validateSerienrEllerBrukernr(serienr = null, brukernr = "12345678"))
