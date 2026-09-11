@@ -53,7 +53,7 @@ class DelbestillingService(
         val hmsnr = request.delbestilling.hmsnr
         val serienr = request.delbestilling.serienr
         val brukernr = request.delbestilling.brukernr
-        log.info { "Oppretter delbestilling for hmsnr $hmsnr, serienr $serienr" }
+        log.info { "Oppretter delbestilling for hmsnr $hmsnr, serienr $serienr, brukernr $brukernr" }
         log.info { "Delbestillerrolle: $delbestillerRolle" }
 
         val feil = validerDelbestillingRate(bestillerFnr, hmsnr, serienr, brukernr)
