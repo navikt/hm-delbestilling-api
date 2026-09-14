@@ -12,6 +12,9 @@ object Testdata {
     val defaultHjmSerienr = "123456"
     val defaultDelHmsnr = "168802" // Armlene Azalea
 
+    val defaultBrukernrstyrtHjmHmsnr = "299409"
+    val defaultBrukernrstyrtHjmFnr = "01067434656"
+
     val delPåMinmax = "168802"
     val delPåLager = "168803"
 

@@ -4,11 +4,14 @@ import no.nav.hjelpemidler.delbestilling.infrastructure.oebs.Brukerpass
 import no.nav.hjelpemidler.delbestilling.infrastructure.oebs.LagerstatusResponse
 import no.nav.hjelpemidler.delbestilling.infrastructure.oebs.OebsApiProxy
 import no.nav.hjelpemidler.delbestilling.infrastructure.oebs.OebsPersoninfo
+import no.nav.hjelpemidler.delbestilling.infrastructure.oebs.Utlån
 import no.nav.hjelpemidler.delbestilling.infrastructure.oebs.UtlånMedSerienr
 import no.nav.hjelpemidler.delbestilling.infrastructure.oebs.UtlånMedSerienrResponse
 import no.nav.hjelpemidler.delbestilling.infrastructure.oebs.UtlånResponse
 import no.nav.hjelpemidler.delbestilling.testdata.FakeOebsLager
 import no.nav.hjelpemidler.delbestilling.testdata.Testdata
+import no.nav.hjelpemidler.delbestilling.testdata.Testdata.defaultBrukernrstyrtHjmFnr
+import no.nav.hjelpemidler.delbestilling.testdata.Testdata.defaultBrukernrstyrtHjmHmsnr
 import no.nav.hjelpemidler.delbestilling.testdata.Testdata.fnr
 import no.nav.hjelpemidler.delbestilling.testdata.Testdata.defaultHjmHmsnr
 import no.nav.hjelpemidler.delbestilling.testdata.Testdata.defaultHjmSerienr
@@ -29,6 +32,17 @@ class OebsApiProxyFake(
         isokode = "123456"
     )
 
+    var utlånMedBrukernr: List<Utlån> = listOf(
+        Utlån(
+            fnr = defaultBrukernrstyrtHjmFnr,
+            artnr = defaultBrukernrstyrtHjmHmsnr,
+            serienr = null,
+            opprettetDato = LocalDate.of(2025, 1, 1),
+            utlånsDato = "2025-02-03",
+            isokode = "123456"
+        )
+    )
+
     var personinfo = listOf(OebsPersoninfo(Testdata.defaultKommunenummer))
 
     override suspend fun hentUtlånPåArtnrOgSerienr(artnr: String, serienr: String): UtlånMedSerienrResponse {
@@ -36,7 +50,7 @@ class OebsApiProxyFake(
     }
 
     override suspend fun hentUtlånPåArtnrOgBrukernr(artnr: String, brukernr: String): UtlånResponse {
-        return UtlånResponse(emptyList())
+        return UtlånResponse(utlånMedBrukernr)
     }
 
     override suspend fun hentUtlånPåArtnr(artnr: String): List<UtlånMedSerienr> {
