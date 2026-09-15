@@ -7,6 +7,7 @@ import no.nav.hjelpemidler.delbestilling.common.DelbestillingSak
 import no.nav.hjelpemidler.delbestilling.common.Kilde
 import no.nav.hjelpemidler.delbestilling.common.Lager
 import no.nav.hjelpemidler.delbestilling.common.Levering
+import no.nav.hjelpemidler.delbestilling.common.Saksbehandlingstype
 import no.nav.hjelpemidler.delbestilling.common.Status
 import no.nav.hjelpemidler.delbestilling.runWithTestContext
 import no.nav.hjelpemidler.delbestilling.testdata.fixtures.gittDelbestilling
@@ -23,6 +24,7 @@ class KlargjorteDelbestillingerServiceTest {
         gittDelbestilling(lagerEnhet = Lager.OSLO, status = Status.INNSENDT)
         gittDelbestilling(lagerEnhet = Lager.OSLO, status = Status.KLARGJORT)
         gittDelbestilling(lagerEnhet = Lager.OSLO, status = Status.KLARGJORT)
+        gittDelbestilling(lagerEnhet = Lager.OSLO, status = Status.KLARGJORT, saksbehandlingstype = Saksbehandlingstype.MANUELL,)
 
         // 1 klargjort delbestilling for lager Finnmark
         gittDelbestilling(lagerEnhet = Lager.FINNMARK, status = Status.KLARGJORT)
@@ -90,7 +92,8 @@ class KlargjorteDelbestillingerServiceTest {
                     brukersKommunenummer = "0301",
                     brukersKommunenavn = "Oslo",
                     enhetnr = "4703",
-                    enhetnavn = "Oslo"
+                    enhetnavn = "Oslo",
+                    saksbehandlingstype = Saksbehandlingstype.AUTOMATISK,
                 ),
 
                 DelbestillingSak(
@@ -131,7 +134,8 @@ class KlargjorteDelbestillingerServiceTest {
                     brukersKommunenummer = "0301",
                     brukersKommunenavn = "Oslo",
                     enhetnr = "4703",
-                    enhetnavn = "Oslo"
+                    enhetnavn = "Oslo",
+                    saksbehandlingstype = Saksbehandlingstype.AUTOMATISK,
                 )
             )
         )

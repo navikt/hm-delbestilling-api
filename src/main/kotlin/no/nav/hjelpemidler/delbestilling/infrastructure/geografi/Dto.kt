@@ -6,3 +6,10 @@ data class KommuneDto(
     val kommunenummer: String,
     val kommunenavn: String,
 )
+
+data class PoststedDto(
+    val postnummer: String,
+    val poststed: String,
+    val kommunenummer: String,
+    val kommunenavn: String,
+)

@@ -39,4 +39,6 @@ class PdlClient(
     override suspend fun hentKommunenummer(fnummer: String): PdlPersonResponse = pdlRequest(hentKommunenummerQuery(fnummer))
 
     override suspend fun hentPersonNavn(fnr: String): PdlPersonResponse = pdlRequest(hentPersonNavnQuery(fnr))
+
+    override suspend fun hentPersonNavnOgAdresse(fnr: String): PdlPersonResponse = pdlRequest(hentPersonNavnOgAdresseQuery(fnr))
 }

@@ -1,5 +1,7 @@
 package no.nav.hjelpemidler.delbestilling.infrastructure.oebs
 
+import no.nav.hjelpemidler.domain.person.Fødselsnummer
+
 interface OebsApiProxy {
     suspend fun hentUtlånPåArtnrOgSerienr(artnr: String, serienr: String): UtlånMedSerienrResponse
 
@@ -12,4 +14,6 @@ interface OebsApiProxy {
     suspend fun hentBrukerpassinfo(fnr: String): Brukerpass
 
     suspend fun hentLagerstatusForEnhetnr(enhetnr: String, hmsnrs: List<String>): List<LagerstatusResponse>
+
+    suspend fun hentFnr(brukernr: String): Fødselsnummer
 }

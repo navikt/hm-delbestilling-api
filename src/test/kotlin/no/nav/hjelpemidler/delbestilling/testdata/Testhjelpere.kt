@@ -8,6 +8,7 @@ import no.nav.hjelpemidler.delbestilling.common.DelbestillingSak
 import no.nav.hjelpemidler.delbestilling.common.Hmsnr
 import no.nav.hjelpemidler.delbestilling.common.Lagerstatus
 import no.nav.hjelpemidler.delbestilling.common.Levering
+import no.nav.hjelpemidler.delbestilling.common.Saksbehandlingstype
 import no.nav.hjelpemidler.delbestilling.common.Status
 import no.nav.hjelpemidler.delbestilling.fakes.GrunndataTestHmsnr
 import no.nav.hjelpemidler.delbestilling.infrastructure.oebs.UtlånMedSerienr
@@ -35,18 +36,29 @@ fun delbestillerRolle(
 
 fun delbestillingRequest(
     deler: List<DelLinje> = deler(),
-    harOpplæringPåBatteri: Boolean = false
-) = DelbestillingRequest(delbestilling(deler = deler, harOpplæringPåBatteri = harOpplæringPåBatteri))
+    harOpplæringPåBatteri: Boolean = false,
+    serieNr: String? = Testdata.defaultHjmSerienr,
+    brukerNr: String? = null,
+) = DelbestillingRequest(
+    delbestilling(
+        deler = deler,
+        harOpplæringPåBatteri = harOpplæringPåBatteri,
+        serienr = serieNr,
+        brukerNr = brukerNr
+    )
+)
 
 fun delbestilling(
     deler: List<DelLinje> = deler(),
     harOpplæringPåBatteri: Boolean = false,
     hmsnr: Hmsnr = "236958",
-    serienr: String = Testdata.defaultHjmSerienr,
+    serienr: String? = Testdata.defaultHjmSerienr,
+    brukerNr: String? = null,
 ) = Delbestilling(
     id = UUID.randomUUID(),
     hmsnr = hmsnr,
     serienr = serienr,
+    brukernr = brukerNr,
     deler = deler,
     levering = Levering.TIL_XK_LAGER,
     harOpplæringPåBatteri = harOpplæringPåBatteri,
@@ -96,6 +108,7 @@ fun delbestillingSak(
     brukersKommunenavn = "Oslo",
     enhetnr = "4703",
     enhetnavn = "Oslo",
+    saksbehandlingstype = Saksbehandlingstype.AUTOMATISK
 )
 
 fun organisasjon(orgnr: String = "123456789", navn: String = "Reperasjon AS") = Organisasjon(

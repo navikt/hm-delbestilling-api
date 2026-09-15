@@ -16,7 +16,6 @@ import no.nav.hjelpemidler.delbestilling.delbestilling.delbestillingApiAuthentic
 import no.nav.hjelpemidler.delbestilling.devtools.devtoolsApi
 import no.nav.hjelpemidler.delbestilling.infrastructure.monitoring.helsesjekkApi
 import no.nav.hjelpemidler.delbestilling.infrastructure.security.medDelbestillerRolle
-import no.nav.hjelpemidler.delbestilling.oppslag.engangsJobbApi
 import no.nav.hjelpemidler.delbestilling.oppslag.legacy.data.validerData
 import no.nav.hjelpemidler.delbestilling.oppslag.oppslagApi
 import no.nav.hjelpemidler.delbestilling.oppslag.publicApi
