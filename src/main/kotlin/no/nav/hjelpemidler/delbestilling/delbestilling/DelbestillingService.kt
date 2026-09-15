@@ -310,7 +310,7 @@ class DelbestillingService(
                 val navnHovedprodukt = hmsnr2Hjm[delbestilling.hmsnr]?.navn ?: "Ukjent"
                 val hjmbrukerHarBrukerpass = oebs.harBrukerpass(fnrBruker)
                 delbestilling.deler.forEach {
-                    metrics.registrerDelbestillingInnsendt(
+                    metrics.registrerDelbestillingInnsendtKjenteDeler(
                         del = it.del,
                         hmsnrHovedprodukt = delbestilling.hmsnr,
                         navnHovedprodukt = navnHovedprodukt,
@@ -328,6 +328,19 @@ class DelbestillingService(
                         hjmbrukerHarBrukerpass = hjmbrukerHarBrukerpass,
                     )
                 }
+
+                // TODO Rydd opp slik at sakstype settes automatisk på Delbestilling, og brukes som single source of truth.
+                val saksbehandlingstype = when(delbestilling.ukjenteDeler.isEmpty()) {
+                    true -> Saksbehandlingstype.AUTOMATISK
+                    false -> Saksbehandlingstype.MANUELL
+                }
+                metrics.registrerDelbestillingInnsendtSak(
+                    hmsnrHovedprodukt = delbestilling.hmsnr,
+                    navnHovedprodukt = navnHovedprodukt,
+                    rolleInnsender = "Tekniker",
+                    hjmbrukerHarBrukerpass = hjmbrukerHarBrukerpass,
+                    saksbehandlingstype = saksbehandlingstype,
+                )
 
 
             } catch (t: Throwable) {
