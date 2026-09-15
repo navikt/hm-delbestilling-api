@@ -1,6 +1,5 @@
 package no.nav.hjelpemidler.delbestilling.common
 
-import com.fasterxml.jackson.annotation.JsonAlias
 import no.nav.hjelpemidler.delbestilling.oppslag.legacy.defaultAntall
 import no.nav.hjelpemidler.time.arbeidsdager
 import java.time.LocalDate
@@ -66,7 +65,6 @@ data class DellinjeUkjentDel(
 
 data class DelUkjent(
     val hmsnr: Hmsnr?,
-    @JsonAlias("levArtnr")
     val levArtNr: String?,
     val beskrivelse: String? = null,
 )
