@@ -2,7 +2,9 @@ package no.nav.hjelpemidler.delbestilling.delbestilling
 
 import no.nav.hjelpemidler.delbestilling.common.DellinjeUkjentDel
 import no.nav.hjelpemidler.delbestilling.common.DelUkjent
+import no.nav.hjelpemidler.delbestilling.oppslag.XkLagerRequest
 import no.nav.hjelpemidler.delbestilling.testdata.delLinje
+import no.nav.hjelpemidler.delbestilling.testdata.delbestilling
 import no.nav.hjelpemidler.delbestilling.testdata.delbestillingRequest
 import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
@@ -54,6 +56,36 @@ internal class ValidationTest {
             listOf("Brukernr må være 5-8 siffer"),
             validateSerienrEllerBrukernr(serienr = null, brukernr = "123456789"),
         )
+    }
+
+    @Test
+    fun `skal validere XkLager-request`() {
+        assertEquals(emptyList(), validateXkLagerRequest(XkLagerRequest("123456", "654321", null)))
+        assertEquals(
+            listOf("Hmsnr må ha 6 siffer"),
+            validateXkLagerRequest(XkLagerRequest("12345", "654321", null)),
+        )
+        assertEquals(
+            listOf("Brukernr eller serienr må være satt"),
+            validateXkLagerRequest(XkLagerRequest("123456", null, null)),
+        )
+        assertEquals(
+            listOf("Kan ikke inneholde både serienr. og brukernr"),
+            validateXkLagerRequest(XkLagerRequest("123456", "654321", "12345")),
+        )
+    }
+
+    @Test
+    fun `skal bare sammenligne bestillinger med samme identifikator`() {
+        val bestillingMedSerienr = delbestilling(serienr = "123456", brukerNr = null)
+        val bestillingMedBrukernr = delbestilling(serienr = null, brukerNr = "12345")
+
+        assertEquals(true, harSammeBestillingsidentifikator(bestillingMedSerienr, "123456", null))
+        assertEquals(false, harSammeBestillingsidentifikator(bestillingMedSerienr, "654321", null))
+        assertEquals(false, harSammeBestillingsidentifikator(bestillingMedBrukernr, "123456", null))
+        assertEquals(true, harSammeBestillingsidentifikator(bestillingMedBrukernr, null, "12345"))
+        assertEquals(false, harSammeBestillingsidentifikator(bestillingMedBrukernr, null, "54321"))
+        assertEquals(false, harSammeBestillingsidentifikator(bestillingMedSerienr, null, "12345"))
     }
 
     @Test

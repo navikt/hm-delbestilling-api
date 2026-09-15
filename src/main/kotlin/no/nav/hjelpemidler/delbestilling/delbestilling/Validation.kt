@@ -7,6 +7,7 @@ import no.nav.hjelpemidler.delbestilling.common.Hmsnr
 import no.nav.hjelpemidler.delbestilling.common.Serienr
 import no.nav.hjelpemidler.delbestilling.oppslag.OppslagDelerRequest
 import no.nav.hjelpemidler.delbestilling.oppslag.OppslagRequest
+import no.nav.hjelpemidler.delbestilling.oppslag.XkLagerRequest
 
 fun validateOppslagRequest(req: OppslagRequest) = listOf(
     validateHmsnr(req.hmsnr),
@@ -16,6 +17,12 @@ fun validateOppslagRequest(req: OppslagRequest) = listOf(
 fun validateOppslagDelerRequest(req: OppslagDelerRequest) = listOf(
     validateKunEntenSerienrEllerBrukernr(req.serienr, req.brukernr),
     validateSerienrEllerBrukernr(serienr = req.serienr, brukernr = req.brukernr)
+).flatten()
+
+fun validateXkLagerRequest(req: XkLagerRequest) = listOf(
+    validateHmsnr(req.hmsnr),
+    validateKunEntenSerienrEllerBrukernr(req.serienr, req.brukernr),
+    validateSerienrEllerBrukernr(req.serienr, req.brukernr),
 ).flatten()
 
 fun validateDelbestillingRequest(req: DelbestillingRequest): List<String> = listOf(
