@@ -37,7 +37,7 @@ data class Hjelpemiddel(
 }
 
 private val serienummerstyrteIso4koder = setOf("1222", "1223", "1236", "1830")
-private val serienummerstyrteIso6koder = setOf("180915", "181204", "181207", "181210", "220318")
+private val serienummerstyrteIso6koder = setOf("122409", "180915", "181204", "181207", "181210", "220318")
 
 data class HjelpemiddelUtenDeler(
     val navn: String,
