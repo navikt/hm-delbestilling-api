@@ -36,6 +36,7 @@ data class Hjelpemiddel(
     }
 }
 
+// OeBS styrer hvilke 6-siffrede ISO-koder som er serienummerstyrt. Bruker 4 siffer der alle underliggende er serienummerstyrt.
 private val serienummerstyrteIso4koder = setOf("1222", "1223", "1236", "1830")
 private val serienummerstyrteIso6koder = setOf("122409", "180915", "181204", "181207", "181210", "220318")
 
