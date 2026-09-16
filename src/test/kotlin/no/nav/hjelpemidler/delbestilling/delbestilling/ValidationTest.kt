@@ -18,30 +18,27 @@ internal class ValidationTest {
     }
 
     @Test
-    fun `skal kreve serienr eller brukernr`() {
+    fun `skal kreve enten serienr eller brukernr, ikke begge eller ingen`() {
         assertEquals(
             listOf("Brukernr eller serienr må være satt"),
             validateSerienrEllerBrukernr(serienr = null, brukernr = null),
+        )
+        assertEquals(
+            listOf("Kan ikke inneholde både serienr. og brukernr"),
+            validateSerienrEllerBrukernr(serienr = "123456", brukernr = "12345"),
         )
         assertEquals(emptyList(), validateSerienrEllerBrukernr(serienr = "123456", brukernr = null))
         assertEquals(emptyList(), validateSerienrEllerBrukernr(serienr = null, brukernr = "12345"))
     }
 
     @Test
-    fun `skal ikke akseptere at både brukern og serienr er satt`() {
-
+    fun `skal behandle blank serienr og brukernr som ikke satt`() {
         assertEquals(
-            emptyList(),
-            validateKunEntenSerienrEllerBrukernr(serienr = "123456", brukernr = null),
+            listOf("Brukernr eller serienr må være satt"),
+            validateSerienrEllerBrukernr(serienr = "", brukernr = ""),
         )
-        assertEquals(
-            emptyList(),
-            validateKunEntenSerienrEllerBrukernr(serienr = null, brukernr = "12345"),
-        )
-        assertEquals(
-            listOf("Kan ikke inneholde både serienr. og brukernr"),
-            validateKunEntenSerienrEllerBrukernr(serienr = "123456", brukernr = "12345"),
-        )
+        assertEquals(emptyList(), validateSerienrEllerBrukernr(serienr = "", brukernr = "12345"))
+        assertEquals(emptyList(), validateSerienrEllerBrukernr(serienr = "123456", brukernr = ""))
     }
 
     @Test
@@ -59,8 +56,21 @@ internal class ValidationTest {
     }
 
     @Test
+    fun `skal returnere alle feilmeldinger for serienr eller brukernr med feil lengde og ugyldige tegn`() {
+        assertEquals(
+            listOf("Serienr må ha 6 siffer", "Serienr skal kun bestå av tall"),
+            validateSerienrEllerBrukernr(serienr = "12a", brukernr = null),
+        )
+        assertEquals(
+            listOf("Brukernr må være 5-8 siffer", "Brukernr skal kun bestå av tall"),
+            validateSerienrEllerBrukernr(serienr = null, brukernr = "12a"),
+        )
+    }
+
+    @Test
     fun `skal validere XkLager-request`() {
         assertEquals(emptyList(), validateXkLagerRequest(XkLagerRequest("123456", "654321", null)))
+        assertEquals(emptyList(), validateXkLagerRequest(XkLagerRequest("123456", "", "12345")))
         assertEquals(
             listOf("Hmsnr må ha 6 siffer"),
             validateXkLagerRequest(XkLagerRequest("12345", "654321", null)),
@@ -128,6 +138,10 @@ internal class ValidationTest {
         assertEquals(
             listOf("HMS-nr for ukjent del må ha 6 siffer"),
             validateUkjentDel(ukjentDel(hmsnr = "12345")),
+        )
+        assertEquals(
+            listOf("HMS-nr for ukjent del må ha 6 siffer", "HMS-nr for ukjent del skal kun bestå av tall"),
+            validateUkjentDel(ukjentDel(hmsnr = "12a")),
         )
         assertEquals(
             listOf("Leverandørens artikkelnummer må være 1-20 tegn"),

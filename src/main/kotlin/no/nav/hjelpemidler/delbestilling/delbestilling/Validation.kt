@@ -15,19 +15,16 @@ fun validateOppslagRequest(req: OppslagRequest) = listOf(
 ).flatten()
 
 fun validateOppslagDelerRequest(req: OppslagDelerRequest) = listOf(
-    validateKunEntenSerienrEllerBrukernr(req.serienr, req.brukernr),
     validateSerienrEllerBrukernr(serienr = req.serienr, brukernr = req.brukernr)
 ).flatten()
 
 fun validateXkLagerRequest(req: XkLagerRequest) = listOf(
     validateHmsnr(req.hmsnr),
-    validateKunEntenSerienrEllerBrukernr(req.serienr, req.brukernr),
     validateSerienrEllerBrukernr(req.serienr, req.brukernr),
 ).flatten()
 
 fun validateDelbestillingRequest(req: DelbestillingRequest): List<String> = listOf(
     validateHmsnr(req.delbestilling.hmsnr),
-    validateKunEntenSerienrEllerBrukernr(req.delbestilling.serienr, req.delbestilling.brukernr),
     validateSerienrEllerBrukernr(req.delbestilling.serienr, req.delbestilling.brukernr),
     validateOpplæringBatteri(req.delbestilling),
     listOfNotNull(
@@ -51,17 +48,20 @@ fun validateUkjenteDeler(ukjenteDeler: List<DellinjeUkjentDel>, epostTekniker: S
 
 fun validateUkjentDel(dellinje: DellinjeUkjentDel): List<String> {
     val del = dellinje.delUkjent
-    val hmsnr = del.hmsnr?.takeIf { it.isNotBlank() }
     val levArtNr = del.levArtNr?.takeIf { it.isNotBlank() }
 
     return listOfNotNull(
         if (dellinje.antall < 1) "Antall for ukjent del må være minst 1" else null,
         if (del.hmsnr == null && del.levArtNr == null) "Ukjent del må ha HMS-nr eller leverandørens artikkelnummer" else null,
-        if (del.hmsnr != null && (hmsnr == null || validateHmsnr(hmsnr).isNotEmpty())) "HMS-nr for ukjent del må ha 6 siffer" else null,
         if (del.levArtNr != null && (levArtNr == null || levArtNr.length > 20)) "Leverandørens artikkelnummer må være 1-20 tegn" else null,
         if (levArtNr != null && del.beskrivelse.isNullOrBlank()) "Ukjent del med leverandørens artikkelnummer må ha en beskrivelse" else null,
         if (del.beskrivelse != null && del.beskrivelse.length > 200) "Beskrivelse av ukjent del kan ikke være lengre enn 200 tegn" else null,
-    )
+    ) + validateHmsnrForUkjentDel(del.hmsnr)
+}
+
+fun validateHmsnrForUkjentDel(hmsnr: Hmsnr?): List<String> {
+    if (hmsnr == null) return emptyList()
+    return validateHmsnr(hmsnr).map { "HMS-nr for ukjent del ${it.removePrefix("Hmsnr ")}" }
 }
 
 fun validateHmsnr(hmsnr: Hmsnr) = listOfNotNull(
@@ -74,24 +74,23 @@ fun validateSerienr(serienr: Serienr) = listOfNotNull(
     if (!serienr.allDigits()) "Serienr skal kun bestå av tall" else null,
 )
 
-fun validateKunEntenSerienrEllerBrukernr(serienr: String?, brukernr: String?): List<String> =
-    if (!serienr.isNullOrBlank() && !brukernr.isNullOrBlank()) {
-        listOf("Kan ikke inneholde både serienr. og brukernr")
-    } else {
-        emptyList()
-    }
-
-fun validateSerienrEllerBrukernr(serienr: Serienr?, brukernr: String?) = listOfNotNull(
-    if (serienr == null && brukernr == null) {
-        "Brukernr eller serienr må være satt"
-    } else if (serienr != null) {
-        if (serienr.length != 6) "Serienr må ha 6 siffer"
-        else if (!serienr.allDigits()) "Serienr skal kun bestå av tall" else null
-    } else if (brukernr != null) {
-        if (brukernr.length !in 5..8) "Brukernr må være 5-8 siffer"
-        else if (!brukernr.allDigits()) "Brukernr skal kun bestå av tall" else null
-    } else null
+fun validateBrukernr(brukernr: String) = listOfNotNull(
+    if (brukernr.length !in 5..8) "Brukernr må være 5-8 siffer" else null,
+    if (!brukernr.allDigits()) "Brukernr skal kun bestå av tall" else null,
 )
+
+fun validateSerienrEllerBrukernr(serienr: Serienr?, brukernr: String?): List<String> {
+    val serienr = serienr?.takeIf { it.isNotBlank() }
+    val brukernr = brukernr?.takeIf { it.isNotBlank() }
+
+    return when {
+        serienr != null && brukernr != null -> listOf("Kan ikke inneholde både serienr. og brukernr")
+        serienr == null && brukernr == null -> listOf("Brukernr eller serienr må være satt")
+        serienr != null -> validateSerienr(serienr)
+        brukernr != null -> validateBrukernr(brukernr)
+        else -> emptyList()
+    }
+}
 
 fun validateOpplæringBatteri(delbestilling: Delbestilling) = listOfNotNull(
     if (delbestilling.harBatteri() && delbestilling.harOpplæringPåBatteri != true) {
@@ -102,12 +101,6 @@ fun validateOpplæringBatteri(delbestilling: Delbestilling) = listOfNotNull(
 fun requireHmsnr(value: String?): String {
     requireNotNull(value)
     requireNoErrors { validateHmsnr(value) }
-    return value
-}
-
-fun requireSerienr(value: String?): String {
-    requireNotNull(value)
-    requireNoErrors { validateSerienr(value) }
     return value
 }
 
