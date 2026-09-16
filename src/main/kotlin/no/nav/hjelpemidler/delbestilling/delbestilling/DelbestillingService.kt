@@ -276,7 +276,7 @@ class DelbestillingService(
     suspend fun sendStatistikk(delbestilling: Delbestilling, fnrBruker: String) = coroutineScope {
         launch {
             try {
-                val navnHovedprodukt = hmsnr2Hjm[delbestilling.hmsnr]?.navn ?: "Ukjent"
+                val navnHovedprodukt = delbestilling.navn ?: "Ukjent"
                 val hjmbrukerHarBrukerpass = oebs.harBrukerpass(fnrBruker)
                 delbestilling.deler.forEach {
                     metrics.registrerDelbestillingInnsendtKjenteDeler(
