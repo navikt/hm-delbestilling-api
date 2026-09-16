@@ -32,7 +32,7 @@ class EpostOutboxDispatcher(
                 val skalVarsle = nyeAttempts >= SLACK_VARSEL_TERSKEL && !melding.alerted
                 log.error(e) { "E-postutsending av outbox-melding ${melding.id} feilet (forsøk $nyeAttempts)" }
                 transaction { epostOutboxDao.registrerFeil(melding.id, e.message ?: e.javaClass.name, skalVarsle) }
-                if (skalVarsle) slack.varsleOmOutboxFeil("epost-${melding.id}", "Epost", nyeAttempts)
+                if (skalVarsle) slack.varsleOmEpostOutboxFeil("epost-${melding.id}", "Epost", nyeAttempts)
                 false
             }
 
@@ -44,6 +44,7 @@ class EpostOutboxDispatcher(
                     log.error(e) {
                         "Klarte ikke markere e-post ${melding.id} som sendt etter vellykket e-postutsending. E-post vil sendes på nytt."
                     }
+                    slack.varsleOmOutboxMarkeringsFeil("epost-${melding.id}", "Epost")
                 }
             }
         }

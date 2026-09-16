@@ -115,6 +115,16 @@ class Slack(
         message = "Outbox-melding med eventId `$eventId` (eventName: `$eventName`) har feilet $attempts ganger. Sjekk loggene og verifiser at Kafka er tilgjengelig."
     )
 
+    fun varsleOmEpostOutboxFeil(eventId: String, eventName: String, attempts: Int) = sendSafely(
+        emoji = "error",
+        message = "Outbox-melding med eventId `$eventId` (eventName: `$eventName`) har feilet $attempts ganger. Sjekk loggene og verifiser at e-post klient fungerer."
+    )
+
+    fun varsleOmOutboxMarkeringsFeil(eventId: String, eventName: String) = sendSafely(
+        emoji = "error",
+        message = "Outbox-melding med eventId `$eventId` (eventName: `$eventName`) har feilet med å markere epost som sendt! E-post vil sendes på nytt!"
+    )
+
     fun varsleOmPotensiellBatteriKategorier(deler: List<Del>) = sendSafely(
         emoji = "low_battery",
         message = "Følgende deler med 'batteri' i kategorien sin har blitt bestilt. Vurder om de krever kurs eller skal legges inn som 'håndterteBatterikategorier'. ```${
