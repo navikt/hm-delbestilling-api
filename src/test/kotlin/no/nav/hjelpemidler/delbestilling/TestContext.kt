@@ -95,7 +95,7 @@ class TestContext {
 
     // Oppslag
     val piloterService = PiloterService()
-    val finnHjelpemiddel = FinnHjelpemiddel(grunndata)
+    val finnHjelpemiddel = FinnHjelpemiddel(grunndata, metrics)
     val finnDelerTilHjelpemiddel = FinnDelerTilHjelpemiddel(grunndata, slack, metrics)
     val berikMedLagerstatus = BerikMedLagerstatus(oebs, metrics)
     val berikMedDagerSidenForrigeBatteribestilling by lazy { BerikMedDagerSidenForrigeBatteribestilling(transaction) }

@@ -48,6 +48,13 @@ class Metrics(
         )
     }
 
+    fun registrerHjelpemiddelManglerIGrunndata(hmsnr: Hmsnr) =
+        registerSafely("delbestilling.hjelpemiddelManglerIGrunndata") {
+            mapOf(
+                "hmsnr" to hmsnr
+            )
+        }
+
     fun registrerDelbestillingInnsendtKjenteDeler(
         del: Del,
         hmsnrHovedprodukt: String,
