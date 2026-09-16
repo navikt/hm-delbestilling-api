@@ -37,8 +37,26 @@ data class Hjelpemiddel(
 }
 
 // OeBS styrer hvilke 6-siffrede ISO-koder som er serienummerstyrt. Bruker 4 siffer der alle underliggende er serienummerstyrt.
-private val serienummerstyrteIso4koder = setOf("1222", "1223", "1236", "1830")
-private val serienummerstyrteIso6koder = setOf("122409", "180915", "181204", "181207", "181210", "220318")
+private val serienummerstyrteIso4koder = setOf(
+    "1222", // Manuelle rullestoler
+    "1223", // Elektriske rullestoler
+    "1236", // Personløftere
+)
+private val serienummerstyrteIso6koder = setOf(
+    "122409", // Drivhjul og drivaggregater til manuelle rullestoler
+    "180915", // Lenestoler og stoler med oppreisingsfunksjon
+    "181204", // Senger og løse sengebunner/støtteplater for madrass uten reguleringsmulighet
+    "181207", // Senger og løse sengebunner/støtteplater for madrass med manuell regulering
+    "181210", // Senger og løse sengebunner/støtteplater for madrass med elektrisk regulering
+    "183003", // Heiser
+    "183005", // Fastmonterte løfteplattformer
+    "183007", // Frittstående løfteplattformer
+    "183008", // Flyttbare løfteplattformer
+    "183010", // Trappeheiser med sete
+    "183011", // Trappeheiser med plattform
+    "220318", // Bildeforstørrende videosystemer (lese-TV)
+)
+
 
 data class HjelpemiddelUtenDeler(
     val navn: String,

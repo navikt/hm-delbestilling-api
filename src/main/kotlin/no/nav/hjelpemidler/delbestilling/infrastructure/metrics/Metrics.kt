@@ -6,6 +6,7 @@ import no.nav.hjelpemidler.delbestilling.common.DelUkjent
 import no.nav.hjelpemidler.delbestilling.common.DelbestillingSak
 import no.nav.hjelpemidler.delbestilling.common.Hmsnr
 import no.nav.hjelpemidler.delbestilling.common.Saksbehandlingstype
+import no.nav.hjelpemidler.delbestilling.common.Serienr
 import no.nav.hjelpemidler.delbestilling.infrastructure.kafka.Kafka
 import java.time.LocalDate
 import java.time.LocalDateTime
@@ -32,7 +33,9 @@ class Metrics(
         navnHovedprodukt: String,
         rolleInnsender: String,
         hjmbrukerHarBrukerpass: Boolean,
-        saksbehandlingstype: Saksbehandlingstype
+        saksbehandlingstype: Saksbehandlingstype,
+        serienr: Serienr?,
+        brukernr: String?,
     ) = registerSafely("delbestilling.innsendt.sak") {
         mapOf(
             "hmsnrHovedprodukt" to hmsnrHovedprodukt,
@@ -40,6 +43,8 @@ class Metrics(
             "rolleInnsender" to rolleInnsender,
             "hjmbrukerHarBrukerpass" to hjmbrukerHarBrukerpass.toString(),
             "saksbehandlingstype" to saksbehandlingstype.name,
+            "harSerienr" to (serienr != null).toString(),
+            "harBrukernr" to (brukernr != null).toString(),
         )
     }
 

@@ -309,6 +309,8 @@ class DelbestillingService(
                     rolleInnsender = "Tekniker",
                     hjmbrukerHarBrukerpass = hjmbrukerHarBrukerpass,
                     saksbehandlingstype = saksbehandlingstype,
+                    serienr = delbestilling.serienr,
+                    brukernr = delbestilling.brukernr,
                 )
 
 
