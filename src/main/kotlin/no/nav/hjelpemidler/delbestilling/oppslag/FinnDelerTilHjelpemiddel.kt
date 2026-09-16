@@ -31,10 +31,6 @@ class FinnDelerTilHjelpemiddel(
         val hjelpemiddel = slåSammen(hjmGrunndata, hjmManuellListe)
             ?: return FinnDelerResultat.IkkeFunnet(OppslagFeil.TILBYR_IKKE_HJELPEMIDDEL)
 
-        if (hjelpemiddel.deler.isEmpty()) {
-            return FinnDelerResultat.IkkeFunnet(OppslagFeil.TILBYR_IKKE_HJELPEMIDDEL)
-        }
-
         if (sendStatistikk) {
             sjekkBatteri(hjelpemiddel.deler)
         }
