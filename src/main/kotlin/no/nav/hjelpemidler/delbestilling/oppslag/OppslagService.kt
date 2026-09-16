@@ -71,7 +71,15 @@ class OppslagService(
         val hjelpemiddel = hjelpemiddelBase
             .let { berikMedDagerSidenForrigeBatteribestilling(it, serienr) }
             .let { berikMedLagerstatus(it, brukerInfo.kommunenummer) }
-            .berikMedGaranti(brukerInfo.utlånMedSerienr)
+            .let {
+                berikMedGaranti(
+                    hjelpemiddel = it,
+                    opprettetDato = brukerInfo.utlånMedSerienr.opprettetDato,
+                    isokode = brukerInfo.utlånMedSerienr.isokode,
+                    artnr = brukerInfo.utlånMedSerienr.artnr,
+                    identifikator = "serienr ${brukerInfo.utlånMedSerienr.serienr}",
+                )
+            }
             .sorterDeler()
 
         val piloter = piloterService.hentPiloter(brukerInfo.kommunenummer)
@@ -106,7 +114,15 @@ class OppslagService(
         val hjelpemiddel = hjelpemiddelBase
             // .let { berikMedDagerSidenForrigeBatteribestilling(it, serienr) }
             .let { berikMedLagerstatus(it, brukerInfo.kommunenummer) }
-            // .berikMedGaranti(brukerInfo.utlån)
+            .let {
+                berikMedGaranti(
+                    hjelpemiddel = it,
+                    opprettetDato = brukerInfo.utlån.opprettetDato,
+                    isokode = brukerInfo.utlån.isokode,
+                    artnr = brukerInfo.utlån.artnr,
+                    identifikator = "brukernr $brukernr",
+                )
+            }
             .sorterDeler()
 
         val piloter = piloterService.hentPiloter(brukerInfo.kommunenummer)
