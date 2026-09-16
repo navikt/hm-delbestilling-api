@@ -14,18 +14,8 @@ import io.ktor.server.routing.post
 private val log = KotlinLogging.logger {}
 
 fun Route.publicApi(
-    hjelpemiddeloversikt: Hjelpemiddeloversikt,
     oppslagService: OppslagService,
 ) {
-    get("/tilgjengelige-hjelpemidler") {
-        call.respond(hjelpemiddeloversikt.hentTilgjengeligeHjelpemidlerCached())
-    }
-
-    post("/deler-til-hmsnrs") {
-        val hmsnrs = call.receive<DelerTilHmsnrsRequest>().hmsnrs
-        call.respond(hjelpemiddeloversikt.hentDelerTilHmsnrs(hmsnrs))
-    }
-
     rateLimit(RateLimitName("rateLimitOppslag")) {
         post("/oppslag") {
             val request = call.receive<OppslagRequest>()

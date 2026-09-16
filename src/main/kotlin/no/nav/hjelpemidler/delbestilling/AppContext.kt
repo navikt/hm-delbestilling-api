@@ -39,7 +39,6 @@ import no.nav.hjelpemidler.delbestilling.oppslag.BerikMedDagerSidenForrigeBatter
 import no.nav.hjelpemidler.delbestilling.oppslag.BerikMedLagerstatus
 import no.nav.hjelpemidler.delbestilling.oppslag.FinnDelerTilHjelpemiddel
 import no.nav.hjelpemidler.delbestilling.oppslag.FinnHjelpemiddel
-import no.nav.hjelpemidler.delbestilling.oppslag.Hjelpemiddeloversikt
 import no.nav.hjelpemidler.delbestilling.oppslag.OppslagService
 import no.nav.hjelpemidler.delbestilling.oppslag.PiloterService
 import no.nav.hjelpemidler.delbestilling.ordrestatus.DelbestillingStatusService
@@ -99,7 +98,6 @@ class AppContext {
 
     val anmodningService = AnmodningService(transactional, oebs, slack, email, grunndata)
     val klargjorteDelbestillingerService = KlargjorteDelbestillingerService(transactional, email, slack)
-    val hjelpemiddeloversikt = Hjelpemiddeloversikt(grunndata, finnDelerTilHjelpemiddel, backgroundScope)
     val delbestillingService =
         DelbestillingService(transactional, pdl, oebs, geografioppslag, metrics, slack, anmodningService)
     val oppslagService = OppslagService(
@@ -119,7 +117,6 @@ class AppContext {
     val rapportering = Rapportering(jobbScheduler, delbestillingService, klargjorteDelbestillingerService, månedsrapportAnmodningsbehov)
 
     fun applicationStarted() {
-        hjelpemiddeloversikt.startBakgrunnsjobb()
         rapportering.schedulerRapporteringsjobber()
         jobbScheduler.schedulerGjentagendeJobb(
             navn = "outbox-dispatch",

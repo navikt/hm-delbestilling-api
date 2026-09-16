@@ -62,7 +62,7 @@ fun Application.setupRoutes(ctx: AppContext) {
                 ordrestatusRoutes(ctx.delbestillingStatusService)
             }
 
-            publicApi(ctx.hjelpemiddeloversikt, ctx.oppslagService)
+            publicApi(ctx.oppslagService)
 
             // engangsJobbApi(ctx.engangsjobbService)
 

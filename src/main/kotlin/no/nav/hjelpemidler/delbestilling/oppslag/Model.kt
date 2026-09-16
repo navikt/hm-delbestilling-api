@@ -6,10 +6,6 @@ import no.nav.hjelpemidler.delbestilling.common.Lagerstatus
 import no.nav.hjelpemidler.delbestilling.infrastructure.oebs.UtlånMedSerienr
 import no.nav.hjelpemidler.delbestilling.oppslag.legacy.defaultAntall
 
-data class DelerTilHmsnrsRequest(
-    val hmsnrs: List<Hmsnr>,
-)
-
 data class Hjelpemiddel(
     val navn: String,
     val hmsnr: String,
