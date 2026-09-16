@@ -104,7 +104,7 @@ class Metrics(
             )
         }
 
-    fun delSkipningsbekreftet(sak: DelbestillingSak, hmsnr: Hmsnr, skipningsbekreftet: LocalDate) =
+    fun delSkipningsbekreftet(sak: DelbestillingSak, hmsnr: Hmsnr, skipningsbekreftet: LocalDate): Unit =
         registerSafely("delbestilling.delSkipningsbekreftet") {
             val dellinje = sak.delbestilling.deler.find { it.del.hmsnr == hmsnr } ?: return
             val lagerstatus = dellinje.lagerstatusPåBestillingstidspunkt

@@ -11,22 +11,19 @@ import kotlinx.coroutines.withContext
 import no.nav.hjelpemidler.delbestilling.config.AppConfig
 import no.nav.hjelpemidler.delbestilling.infrastructure.defaultHttpClient
 import no.nav.hjelpemidler.delbestilling.infrastructure.navCorrelationId
-import no.nav.hjelpemidler.http.openid.OpenIDClient
-import no.nav.hjelpemidler.http.openid.bearerAuth
+import no.nav.hjelpemidler.http.openid.TexasClient
 
 
 class PdlClient(
-    private val openIDClient: OpenIDClient,
-    private val client: HttpClient = defaultHttpClient(),
-    private val baseUrl: String = AppConfig.PDL_GRAPHQL_URL,
+    private val texasClient: TexasClient,
     private val apiScope: String = AppConfig.PDL_API_SCOPE,
+    private val client: HttpClient = defaultHttpClient(tokenSetProvider = texasClient.entraIdApplication(apiScope)),
+    private val baseUrl: String = AppConfig.PDL_GRAPHQL_URL,
 ) : PdlClientInterface {
 
     private suspend inline fun <reified T : Any> pdlRequest(pdlQuery: GraphqlQuery): T {
         return withContext(Dispatchers.IO) {
-            val tokenSet = openIDClient.grant(apiScope)
             client.post(baseUrl) {
-                bearerAuth(tokenSet)
                 headers {
                     header("behandlingsnummer", "B653")
                     navCorrelationId()
