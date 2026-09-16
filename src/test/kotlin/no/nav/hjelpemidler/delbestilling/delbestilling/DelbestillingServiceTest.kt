@@ -97,6 +97,19 @@ internal class DelbestillingServiceTest {
     }
 
     @Test
+    fun `hentInnbyggersFnr skal ikke behandle blank serienr som satt, og skal bruke brukernr istedenfor`() = runWithTestContext {
+        oebsApiProxy.utlånMedSerienr = null
+
+        val fnr = delbestillingService.hentInnbyggersFnr(
+            hmsnr = Testdata.defaultBrukernrstyrtHjmHmsnr,
+            serienr = "",
+            brukernr = "999999",
+        )
+
+        assertEquals(Testdata.defaultBrukernrstyrtHjmFnr, fnr)
+    }
+
+    @Test
     fun `skal feile dersom PDL og OEBS sine kommunenr er ulike for bruker`() = runWithTestContext {
         oebsApiProxy.personinfo = listOf(OebsPersoninfo(Testdata.kommunenummerBergen))
         pdlClient.response = PdlRespons.person(kommunenummer = Testdata.kommunenummerOslo)

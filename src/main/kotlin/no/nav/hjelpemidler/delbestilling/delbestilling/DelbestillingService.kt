@@ -268,8 +268,8 @@ class DelbestillingService(
     }
 
     suspend fun hentInnbyggersFnr(hmsnr: String, serienr: Serienr?, brukernr: String?): String? {
-        return if (serienr != null) oebs.hentFnrLeietakerFraSerienr(hmsnr, serienr)
-        else if (brukernr != null) oebs.hentUtlånPåArtNrOgBrukernr(hmsnr, brukernr).firstOrNull()?.fnr
+        return if (!serienr.isNullOrBlank()) oebs.hentFnrLeietakerFraSerienr(hmsnr, serienr)
+        else if (!brukernr.isNullOrBlank()) oebs.hentUtlånPåArtNrOgBrukernr(hmsnr, brukernr).firstOrNull()?.fnr
         else null
     }
 
