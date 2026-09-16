@@ -9,17 +9,16 @@ import kotlinx.coroutines.withContext
 import no.nav.hjelpemidler.delbestilling.config.AppConfig
 import no.nav.hjelpemidler.delbestilling.infrastructure.defaultHttpClient
 import no.nav.hjelpemidler.delbestilling.infrastructure.navCorrelationId
-import no.nav.hjelpemidler.http.openid.OpenIDClient
-import no.nav.hjelpemidler.http.openid.bearerAuth
+import no.nav.hjelpemidler.http.openid.TexasClient
 
 
 private val log = KotlinLogging.logger { }
 
 class GraphClient(
-    private val openIDClient: OpenIDClient,
-    private val client: HttpClient = defaultHttpClient(),
-    private val baseUrl: String = "https://graph.microsoft.com/v1.0",
+    private val texasClient: TexasClient,
     private val scope: String = "https://graph.microsoft.com/.default",
+    private val client: HttpClient = defaultHttpClient(tokenSetProvider = texasClient.entraIdApplication(scope)),
+    private val baseUrl: String = "https://graph.microsoft.com/v1.0",
     private val avsender: String = AppConfig.EPOST_AVSENDER
 ) : GraphClientInterface {
 
@@ -35,9 +34,7 @@ class GraphClient(
 
         try {
             withContext(Dispatchers.IO) {
-                val tokenSet = openIDClient.grant(scope)
                 client.post("$baseUrl/users/$avsender/sendMail") {
-                    bearerAuth(tokenSet)
                     navCorrelationId()
                     setBody(body)
                 }

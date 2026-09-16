@@ -46,13 +46,12 @@ import no.nav.hjelpemidler.delbestilling.ordrestatus.DelbestillingStatusService
 import no.nav.hjelpemidler.delbestilling.rapportering.JobbScheduler
 import no.nav.hjelpemidler.delbestilling.rapportering.MånedsrapportAnmodningsbehov
 import no.nav.hjelpemidler.delbestilling.rapportering.Rapportering
-import no.nav.hjelpemidler.http.openid.entraIDClient
+import no.nav.hjelpemidler.http.openid.TexasClient
 import no.nav.tms.token.support.tokendings.exchange.TokendingsServiceBuilder
 import java.time.Clock
 import java.time.LocalDateTime
 import java.util.concurrent.Executors
 import java.util.concurrent.TimeUnit
-import kotlin.time.Duration.Companion.seconds
 
 
 class AppContext {
@@ -71,12 +70,8 @@ class AppContext {
     private val transactional = Transaction(ds, transactionScopeFactory)
 
     // Infrastructure
-    private val entraIDClient = entraIDClient {
-        cache(leeway = 10.seconds) {
-            maximumSize = 100
-        }
-    }
-    val email = Email(GraphClient(entraIDClient))
+    private val texasClient = TexasClient()
+    val email = Email(GraphClient(texasClient))
     val slack = Slack(transactional, backgroundScope)
     private val grunndata = Grunndata(GrunndataClient())
     private val kafka = Kafka()
@@ -84,10 +79,10 @@ class AppContext {
     private val metrics = Metrics(kafka)
     private val norg = Norg(NorgClient())
     private val finnLagerenhet = FinnLagerenhet(norg, slack)
-    private val oebs = Oebs(OebsApiProxyClient(entraIDClient), finnLagerenhet)
+    private val oebs = Oebs(OebsApiProxyClient(texasClient), finnLagerenhet)
     private val outboxDispatcher = OutboxDispatcher(transactional, kafka, slack, clock)
     private val epostOutboxDispatcher = EpostOutboxDispatcher(transactional, email, slack)
-    private val pdl = Pdl(PdlClient(entraIDClient), geografioppslag)
+    private val pdl = Pdl(PdlClient(texasClient), geografioppslag)
     private val rollerClient = RollerClient(TokendingsServiceBuilder.buildTokendingsService())
 
 

@@ -12,25 +12,22 @@ import no.nav.hjelpemidler.delbestilling.config.AppConfig
 import no.nav.hjelpemidler.delbestilling.infrastructure.defaultHttpClient
 import no.nav.hjelpemidler.delbestilling.infrastructure.navCorrelationId
 import no.nav.hjelpemidler.domain.person.Fødselsnummer
-import no.nav.hjelpemidler.http.openid.OpenIDClient
-import no.nav.hjelpemidler.http.openid.bearerAuth
+import no.nav.hjelpemidler.http.openid.TexasClient
 
 private val log = KotlinLogging.logger {}
 
 class OebsApiProxyClient(
-    private val openIDClient: OpenIDClient,
-    private val client: HttpClient = defaultHttpClient(),
-    private val baseUrl: String = AppConfig.OEBS_API_URL,
+    private val texasClient: TexasClient,
     private val apiScope: String = AppConfig.OEBS_API_SCOPE,
+    private val client: HttpClient = defaultHttpClient(tokenSetProvider = texasClient.entraIdApplication(apiScope)),
+    private val baseUrl: String = AppConfig.OEBS_API_URL,
 ) : OebsApiProxy {
 
     private suspend inline fun <reified T> executeRequest(url: String, method: HttpMethod, body: Any? = null): T {
         try {
             return withContext(Dispatchers.IO) {
-                val tokenSet = openIDClient.grant(apiScope)
                 val httpResponse = client.request(url) {
                     this.method = method
-                    bearerAuth(tokenSet)
                     navCorrelationId()
                     if (body != null) {
                         setBody(body)
