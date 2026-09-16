@@ -38,6 +38,7 @@ import no.nav.hjelpemidler.delbestilling.infrastructure.slack.Slack
 import no.nav.hjelpemidler.delbestilling.oppslag.BerikMedDagerSidenForrigeBatteribestilling
 import no.nav.hjelpemidler.delbestilling.oppslag.BerikMedLagerstatus
 import no.nav.hjelpemidler.delbestilling.oppslag.FinnDelerTilHjelpemiddel
+import no.nav.hjelpemidler.delbestilling.oppslag.FinnHjelpemiddel
 import no.nav.hjelpemidler.delbestilling.oppslag.Hjelpemiddeloversikt
 import no.nav.hjelpemidler.delbestilling.oppslag.OppslagService
 import no.nav.hjelpemidler.delbestilling.oppslag.PiloterService
@@ -95,6 +96,7 @@ class AppContext {
 
     // Services
     private val piloterService = PiloterService()
+    private val finnHjelpemiddel = FinnHjelpemiddel(grunndata)
     private val finnDelerTilHjelpemiddel = FinnDelerTilHjelpemiddel(grunndata, slack, metrics)
     private val berikMedLagerstatus = BerikMedLagerstatus(oebs, metrics)
     private val berikMedDagerSidenForrigeBatteribestilling =
@@ -109,6 +111,7 @@ class AppContext {
         pdl,
         oebs,
         piloterService,
+        finnHjelpemiddel,
         finnDelerTilHjelpemiddel,
         berikMedLagerstatus,
         berikMedDagerSidenForrigeBatteribestilling,

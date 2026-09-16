@@ -16,6 +16,7 @@ class OppslagService(
     private val pdl: Pdl,
     private val oebs: Oebs,
     private val piloterService: PiloterService,
+    private val finnHjelpemiddel: FinnHjelpemiddel,
     private val finnDelerTilHjelpemiddel: FinnDelerTilHjelpemiddel,
     private val berikMedLagerstatus: BerikMedLagerstatus,
     private val berikMedDagerSidenForrigeBatteribestilling: BerikMedDagerSidenForrigeBatteribestilling,
@@ -23,8 +24,8 @@ class OppslagService(
 
     suspend fun slåOppHjelpemiddel(hmsnr: String): OppslagResultUtenDeler {
 
-        val hjelpemiddel = when (val result = finnDelerTilHjelpemiddel(hmsnr, true)) {
-            is FinnDelerResultat.Funnet -> result.hjelpemiddel.sorterDeler()
+        val hjelpemiddel = when (val result = finnHjelpemiddel(hmsnr)) {
+            is FinnDelerResultat.Funnet -> result.hjelpemiddel
             is FinnDelerResultat.IkkeFunnet -> return OppslagResultUtenDeler.Feil(result.feil)
         }
 
