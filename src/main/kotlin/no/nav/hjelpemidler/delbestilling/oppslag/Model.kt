@@ -3,7 +3,6 @@ package no.nav.hjelpemidler.delbestilling.oppslag
 import no.nav.hjelpemidler.delbestilling.common.Hmsnr
 import no.nav.hjelpemidler.delbestilling.common.Kilde
 import no.nav.hjelpemidler.delbestilling.common.Lagerstatus
-import no.nav.hjelpemidler.delbestilling.infrastructure.oebs.UtlånMedSerienr
 import no.nav.hjelpemidler.delbestilling.oppslag.legacy.defaultAntall
 
 data class Hjelpemiddel(
@@ -25,11 +24,6 @@ data class Hjelpemiddel(
 
     fun medAntallDagerSidenSistBatteribestilling(dager: Int?): Hjelpemiddel =
         this.copy(antallDagerSidenSistBatteribestilling = dager)
-
-    fun berikMedGaranti(utlånMedSerienr: UtlånMedSerienr): Hjelpemiddel {
-        val garanti = utlånMedSerienr.garanti() ?: return this
-        return this.copy(erInnenforGaranti = garanti.erInnenforGaranti(), antallÅrGaranti = garanti.antallÅr)
-    }
 }
 
 // OeBS styrer hvilke 6-siffrede ISO-koder som er serienummerstyrt. Bruker 4 siffer der alle underliggende er serienummerstyrt.
