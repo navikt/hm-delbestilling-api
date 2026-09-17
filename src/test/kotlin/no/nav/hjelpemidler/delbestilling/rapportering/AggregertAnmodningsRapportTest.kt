@@ -11,20 +11,21 @@ import kotlin.test.assertTrue
 class AggregertAnmodningsRapportTest {
 
     @Test
-    fun `skal sende rapport om anmodningsbehov for forrige måned`() = runWithTestContext {
+    fun `skal sende rapport om anmodningsbehov for siste seks måneder`() = runWithTestContext {
         clock.set(LocalDate.of(2025, 10, 5))
         gittDelbestillingUtenLagerdekning()
         rapportering.rapporterAnmodningsbehov()
 
         clock.set(LocalDate.of(2025, 11, 5))
-        rapportering.rapporterMånedligAnmodningsoppsummering()
+        rapportering.rapporterSeksmånedersAnmodningsoppsummering()
 
-        assertEquals(MÅNEDSRAPPORT_ANMODNINGER_SUBJECT, emailClient.outbox.last().subject)
+        assertEquals(ANMODNINGSRAPPORT_SUBJECT, emailClient.outbox.last().subject)
+        assertTrue(emailClient.outbox.last().body.contains("Periode: 2025-05 - 2025-10"))
     }
 
     @Test
-    fun `skal ikke sende rapport dersom det ikke ble sendt anmodningsbehov forrige måned`() = runWithTestContext {
-        rapportering.rapporterMånedligAnmodningsoppsummering()
+    fun `skal ikke sende rapport dersom det ikke finnes anmodninger i perioden`() = runWithTestContext {
+        rapportering.rapporterSeksmånedersAnmodningsoppsummering()
 
         assertTrue(emailClient.outbox.isEmpty())
     }
