@@ -4,7 +4,7 @@ import io.github.oshai.kotlinlogging.KotlinLogging
 
 private val log = KotlinLogging.logger { }
 
-class Kommuneoppslag(
+class Geografioppslag(
     private val oppslagClient: OppslagClientInterface
 ) {
 
@@ -13,6 +13,15 @@ class Kommuneoppslag(
             return oppslagClient.hentKommune(kommunenr).kommunenavn
         } catch (e: Exception) {
             log.error(e) { "Henting av kommunenavn feilet for kommunenr '$kommunenr'." }
+            throw e
+        }
+    }
+
+    suspend fun hentPoststed(postnummer: String): String {
+        try {
+            return oppslagClient.hentPoststed(postnummer).poststed
+        } catch (e: Exception) {
+            log.error(e) { "Henting av poststed feilet for postnummer '$postnummer'." }
             throw e
         }
     }

@@ -12,7 +12,8 @@ import no.nav.hjelpemidler.delbestilling.delbestilling.anmodning.AnmodningServic
 import no.nav.hjelpemidler.delbestilling.devtools.DevTools
 import no.nav.hjelpemidler.delbestilling.infrastructure.email.Email
 import no.nav.hjelpemidler.delbestilling.infrastructure.email.GraphClient
-import no.nav.hjelpemidler.delbestilling.infrastructure.geografi.Kommuneoppslag
+import no.nav.hjelpemidler.delbestilling.infrastructure.epostoutbox.EpostOutboxDispatcher
+import no.nav.hjelpemidler.delbestilling.infrastructure.geografi.Geografioppslag
 import no.nav.hjelpemidler.delbestilling.infrastructure.geografi.OppslagClient
 import no.nav.hjelpemidler.delbestilling.infrastructure.grunndata.Grunndata
 import no.nav.hjelpemidler.delbestilling.infrastructure.grunndata.GrunndataClient
@@ -37,20 +38,19 @@ import no.nav.hjelpemidler.delbestilling.infrastructure.slack.Slack
 import no.nav.hjelpemidler.delbestilling.oppslag.BerikMedDagerSidenForrigeBatteribestilling
 import no.nav.hjelpemidler.delbestilling.oppslag.BerikMedLagerstatus
 import no.nav.hjelpemidler.delbestilling.oppslag.FinnDelerTilHjelpemiddel
-import no.nav.hjelpemidler.delbestilling.oppslag.Hjelpemiddeloversikt
+import no.nav.hjelpemidler.delbestilling.oppslag.FinnHjelpemiddel
 import no.nav.hjelpemidler.delbestilling.oppslag.OppslagService
 import no.nav.hjelpemidler.delbestilling.oppslag.PiloterService
 import no.nav.hjelpemidler.delbestilling.ordrestatus.DelbestillingStatusService
 import no.nav.hjelpemidler.delbestilling.rapportering.JobbScheduler
 import no.nav.hjelpemidler.delbestilling.rapportering.AggregertAnmodningsRapport
 import no.nav.hjelpemidler.delbestilling.rapportering.Rapportering
-import no.nav.hjelpemidler.http.openid.entraIDClient
+import no.nav.hjelpemidler.http.openid.TexasClient
 import no.nav.tms.token.support.tokendings.exchange.TokendingsServiceBuilder
 import java.time.Clock
 import java.time.LocalDateTime
 import java.util.concurrent.Executors
 import java.util.concurrent.TimeUnit
-import kotlin.time.Duration.Companion.seconds
 
 
 class AppContext {
@@ -69,22 +69,19 @@ class AppContext {
     private val transactional = Transaction(ds, transactionScopeFactory)
 
     // Infrastructure
-    private val entraIDClient = entraIDClient {
-        cache(leeway = 10.seconds) {
-            maximumSize = 100
-        }
-    }
-    val email = Email(GraphClient(entraIDClient))
+    private val texasClient = TexasClient()
+    val email = Email(GraphClient(texasClient))
     val slack = Slack(transactional, backgroundScope)
     private val grunndata = Grunndata(GrunndataClient())
     private val kafka = Kafka()
-    private val kommuneoppslag = Kommuneoppslag(OppslagClient())
+    private val geografioppslag = Geografioppslag(OppslagClient())
     private val metrics = Metrics(kafka)
     private val norg = Norg(NorgClient())
     private val finnLagerenhet = FinnLagerenhet(norg, slack)
-    private val oebs = Oebs(OebsApiProxyClient(entraIDClient), finnLagerenhet)
+    private val oebs = Oebs(OebsApiProxyClient(texasClient), finnLagerenhet)
     private val outboxDispatcher = OutboxDispatcher(transactional, kafka, slack, clock)
-    private val pdl = Pdl(PdlClient(entraIDClient))
+    private val epostOutboxDispatcher = EpostOutboxDispatcher(transactional, email, slack)
+    private val pdl = Pdl(PdlClient(texasClient), geografioppslag)
     private val rollerClient = RollerClient(TokendingsServiceBuilder.buildTokendingsService())
 
 
@@ -93,6 +90,7 @@ class AppContext {
 
     // Services
     private val piloterService = PiloterService()
+    private val finnHjelpemiddel = FinnHjelpemiddel(grunndata, metrics)
     private val finnDelerTilHjelpemiddel = FinnDelerTilHjelpemiddel(grunndata, slack, metrics)
     private val berikMedLagerstatus = BerikMedLagerstatus(oebs, metrics)
     private val berikMedDagerSidenForrigeBatteribestilling =
@@ -100,13 +98,13 @@ class AppContext {
 
     val anmodningService = AnmodningService(transactional, oebs, slack, email, grunndata)
     val klargjorteDelbestillingerService = KlargjorteDelbestillingerService(transactional, email, slack)
-    val hjelpemiddeloversikt = Hjelpemiddeloversikt(grunndata, finnDelerTilHjelpemiddel, backgroundScope)
     val delbestillingService =
-        DelbestillingService(transactional, pdl, oebs, kommuneoppslag, metrics, slack, anmodningService)
+        DelbestillingService(transactional, pdl, oebs, geografioppslag, metrics, slack, anmodningService)
     val oppslagService = OppslagService(
         pdl,
         oebs,
         piloterService,
+        finnHjelpemiddel,
         finnDelerTilHjelpemiddel,
         berikMedLagerstatus,
         berikMedDagerSidenForrigeBatteribestilling,
@@ -119,7 +117,6 @@ class AppContext {
     val rapportering = Rapportering(jobbScheduler, delbestillingService, klargjorteDelbestillingerService, aggregertAnmodningsRapport)
 
     fun applicationStarted() {
-        hjelpemiddeloversikt.startBakgrunnsjobb()
         rapportering.schedulerRapporteringsjobber()
         jobbScheduler.schedulerGjentagendeJobb(
             navn = "outbox-dispatch",
@@ -127,8 +124,18 @@ class AppContext {
             beregnNesteKjøring = { clock -> LocalDateTime.now(clock).plusSeconds(30) },
         )
         jobbScheduler.schedulerGjentagendeJobb(
+            navn = "epost-outbox-dispatch",
+            jobb = { epostOutboxDispatcher.dispatchPending() },
+            beregnNesteKjøring = { clock -> LocalDateTime.now(clock).plusSeconds(30) },
+        )
+        jobbScheduler.schedulerGjentagendeJobb(
             navn = "outbox-retention",
             jobb = { outboxDispatcher.slettGamlePubliserte() },
+            beregnNesteKjøring = { clock -> LocalDateTime.now(clock).plusDays(1) },
+        )
+        jobbScheduler.schedulerGjentagendeJobb(
+            navn = "epost-outbox-retention",
+            jobb = { epostOutboxDispatcher.slettGamleSendteEposter() },
             beregnNesteKjøring = { clock -> LocalDateTime.now(clock).plusDays(1) },
         )
     }
@@ -138,6 +145,6 @@ class AppContext {
         scheduler.awaitTermination(10, TimeUnit.SECONDS)
     }
 
-    fun devtools() = DevTools(transactional, oebs, pdl, finnDelerTilHjelpemiddel, email)
+    fun devtools() = DevTools(transactional, oebs, pdl, finnDelerTilHjelpemiddel, email, oppslagService)
 
 }

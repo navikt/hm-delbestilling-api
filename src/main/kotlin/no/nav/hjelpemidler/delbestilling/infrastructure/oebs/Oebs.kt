@@ -6,6 +6,7 @@ import no.nav.hjelpemidler.delbestilling.common.DelbestillingSak
 import no.nav.hjelpemidler.delbestilling.common.Hmsnr
 import no.nav.hjelpemidler.delbestilling.common.Lagerstatus
 import no.nav.hjelpemidler.domain.person.Fødselsnummer
+import no.nav.hjelpemidler.logging.teamInfo
 
 private val log = KotlinLogging.logger {}
 
@@ -13,9 +14,15 @@ class Oebs(
     private val client: OebsApiProxy,
     val finnLagerenhet: FinnLagerenhet,
 ) {
-    suspend fun hentFnrLeietaker(artnr: String, serienr: String): String? {
+    suspend fun hentFnrLeietakerFraSerienr(artnr: String, serienr: String): String? {
         log.info { "Henter leietaker for utlån: artnr=$artnr, serienr=$serienr" }
         return client.hentUtlånPåArtnrOgSerienr(artnr, serienr).utlån?.fnr
+    }
+
+    suspend fun hentFnr(brukernr: String): String {
+        log.info { "Henter fnr for brukernr" }
+        log.teamInfo { "Henter fnr for brukernr=$brukernr" }
+        return client.hentFnr(brukernr).value
     }
 
     suspend fun hentUtlånPåArtNrOgSerienr(artnr: String, serienr: String): UtlånMedSerienr? {

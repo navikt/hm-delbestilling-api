@@ -2,8 +2,11 @@ package no.nav.hjelpemidler.delbestilling.infrastructure.metrics
 
 import io.github.oshai.kotlinlogging.KotlinLogging
 import no.nav.hjelpemidler.delbestilling.common.Del
+import no.nav.hjelpemidler.delbestilling.common.DelUkjent
 import no.nav.hjelpemidler.delbestilling.common.DelbestillingSak
 import no.nav.hjelpemidler.delbestilling.common.Hmsnr
+import no.nav.hjelpemidler.delbestilling.common.Saksbehandlingstype
+import no.nav.hjelpemidler.delbestilling.common.Serienr
 import no.nav.hjelpemidler.delbestilling.infrastructure.kafka.Kafka
 import java.time.LocalDate
 import java.time.LocalDateTime
@@ -25,7 +28,34 @@ class Metrics(
         }
     }
 
-    fun registrerDelbestillingInnsendt(
+    fun registrerDelbestillingInnsendtSak(
+        hmsnrHovedprodukt: String,
+        navnHovedprodukt: String,
+        rolleInnsender: String,
+        hjmbrukerHarBrukerpass: Boolean,
+        saksbehandlingstype: Saksbehandlingstype,
+        serienr: Serienr?,
+        brukernr: String?,
+    ) = registerSafely("delbestilling.innsendt.sak") {
+        mapOf(
+            "hmsnrHovedprodukt" to hmsnrHovedprodukt,
+            "navnHovedprodukt" to navnHovedprodukt,
+            "rolleInnsender" to rolleInnsender,
+            "hjmbrukerHarBrukerpass" to hjmbrukerHarBrukerpass.toString(),
+            "saksbehandlingstype" to saksbehandlingstype.name,
+            "harSerienr" to (serienr != null).toString(),
+            "harBrukernr" to (brukernr != null).toString(),
+        )
+    }
+
+    fun registrerHjelpemiddelManglerIGrunndata(hmsnr: Hmsnr) =
+        registerSafely("delbestilling.hjelpemiddelManglerIGrunndata") {
+            mapOf(
+                "hmsnr" to hmsnr
+            )
+        }
+
+    fun registrerDelbestillingInnsendtKjenteDeler(
         del: Del,
         hmsnrHovedprodukt: String,
         navnHovedprodukt: String,
@@ -48,6 +78,24 @@ class Metrics(
         )
     }
 
+    fun registrerDelbestillingInnsendtUkjenteDeler(
+        del: DelUkjent,
+        hmsnrHovedprodukt: String,
+        navnHovedprodukt: String,
+        rolleInnsender: String,
+        hjmbrukerHarBrukerpass: Boolean,
+    ) = registerSafely("delbestilling.ukjent.del.innsendt") {
+
+        mapOf(
+            "hmsnrDel" to (del.hmsnr ?: "Ukjent"),
+            "levArtNr" to (del.levArtNr ?: "Ukjent"),
+            "hmsnrHovedprodukt" to hmsnrHovedprodukt,
+            "navnHovedprodukt" to navnHovedprodukt,
+            "rolleInnsender" to rolleInnsender,
+            "hjmbrukerHarBrukerpass" to hjmbrukerHarBrukerpass.toString(),
+        )
+    }
+
     fun grunndataHjelpemiddelManglerDeler(hmsnr: Hmsnr, navn: String) =
         registerSafely("delbestilling.manglerDeler") {
             mapOf(
@@ -63,7 +111,7 @@ class Metrics(
             )
         }
 
-    fun delSkipningsbekreftet(sak: DelbestillingSak, hmsnr: Hmsnr, skipningsbekreftet: LocalDate) =
+    fun delSkipningsbekreftet(sak: DelbestillingSak, hmsnr: Hmsnr, skipningsbekreftet: LocalDate): Unit =
         registerSafely("delbestilling.delSkipningsbekreftet") {
             val dellinje = sak.delbestilling.deler.find { it.del.hmsnr == hmsnr } ?: return
             val lagerstatus = dellinje.lagerstatusPåBestillingstidspunkt

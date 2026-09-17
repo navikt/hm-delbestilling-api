@@ -3,7 +3,6 @@ package no.nav.hjelpemidler.delbestilling.oppslag
 import no.nav.hjelpemidler.delbestilling.testdata.Testdata.isoERS
 import no.nav.hjelpemidler.delbestilling.testdata.Testdata.isoPersonløfter
 import no.nav.hjelpemidler.delbestilling.runWithTestContext
-import no.nav.hjelpemidler.delbestilling.testdata.utlån
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertNull
 import java.time.LocalDate.now
@@ -15,11 +14,12 @@ class GarantiTest {
 
     @Test
     fun `skal IKKE være dekket av garanti når ERS er mer enn 3 år gammel`() = runWithTestContext {
-        val hjelpemiddel = hjelpemiddel().berikMedGaranti(
-            utlån(
-                opprettet = now().minusYears(5),
-                isokode = isoERS,
-            )
+        val hjelpemiddel = berikMedGaranti(
+            hjelpemiddel = hjelpemiddel(),
+            opprettetDato = now().minusYears(5),
+            isokode = isoERS,
+            artnr = "1234",
+            identifikator = "serienr 000000",
         )
 
         assertEquals(hjelpemiddel.antallÅrGaranti, 3)
@@ -28,11 +28,12 @@ class GarantiTest {
 
     @Test
     fun `skal være dekket av garanti når ERS er mindre enn 3 år gammel`() = runWithTestContext {
-        val hjelpemiddel = hjelpemiddel().berikMedGaranti(
-            utlån(
-                opprettet = now().minusYears(1),
-                isokode = isoERS
-            )
+        val hjelpemiddel = berikMedGaranti(
+            hjelpemiddel = hjelpemiddel(),
+            opprettetDato = now().minusYears(1),
+            isokode = isoERS,
+            artnr = "1234",
+            identifikator = "serienr 000000",
         )
 
         assertEquals(hjelpemiddel.antallÅrGaranti, 3)
@@ -41,11 +42,12 @@ class GarantiTest {
 
     @Test
     fun `skal ikke berike hjelpemiddel hvis utlån mangler opprettetDato`() = runWithTestContext {
-        val hjelpemiddel = hjelpemiddel().berikMedGaranti(
-            utlån(
-                opprettet = null,
-                isokode = isoERS
-            )
+        val hjelpemiddel = berikMedGaranti(
+            hjelpemiddel = hjelpemiddel(),
+            opprettetDato = null,
+            isokode = isoERS,
+            artnr = "1234",
+            identifikator = "serienr 000000",
         )
 
         assertNull(hjelpemiddel.antallÅrGaranti)
@@ -54,11 +56,12 @@ class GarantiTest {
 
     @Test
     fun `skal beregne 2 års garanti for hjelpemiddel som ikke er ERS`() = runWithTestContext {
-        val hjelpemiddel = hjelpemiddel().berikMedGaranti(
-            utlån(
-                opprettet = now().minusYears(1),
-                isokode = isoPersonløfter
-            )
+        val hjelpemiddel = berikMedGaranti(
+            hjelpemiddel = hjelpemiddel(),
+            opprettetDato = now().minusYears(1),
+            isokode = isoPersonløfter,
+            artnr = "1234",
+            identifikator = "brukernr 123456",
         )
 
         assertEquals(hjelpemiddel.antallÅrGaranti, 2)

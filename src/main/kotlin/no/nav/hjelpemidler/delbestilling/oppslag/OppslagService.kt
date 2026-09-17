@@ -16,12 +16,35 @@ class OppslagService(
     private val pdl: Pdl,
     private val oebs: Oebs,
     private val piloterService: PiloterService,
+    private val finnHjelpemiddel: FinnHjelpemiddel,
     private val finnDelerTilHjelpemiddel: FinnDelerTilHjelpemiddel,
     private val berikMedLagerstatus: BerikMedLagerstatus,
     private val berikMedDagerSidenForrigeBatteribestilling: BerikMedDagerSidenForrigeBatteribestilling,
 ) {
 
-    suspend fun slåOppHjelpemiddel(hmsnr: String, serienr: String): OppslagResult = coroutineScope {
+    suspend fun slåOppHjelpemiddel(hmsnr: String): OppslagResultUtenDeler {
+
+        val hjelpemiddel = when (val result = finnHjelpemiddel(hmsnr)) {
+            is FinnDelerResultat.Funnet -> result.hjelpemiddel
+            is FinnDelerResultat.IkkeFunnet -> return OppslagResultUtenDeler.Feil(result.feil)
+        }
+
+        val hjelpemiddelUtenDeler = HjelpemiddelUtenDeler(
+            navn = hjelpemiddel.navn,
+            hmsnr = hjelpemiddel.hmsnr,
+            isoKode = hjelpemiddel.isoKode,
+        )
+
+        return OppslagResultUtenDeler.Suksess(OppslagsResultatUtenDeler(hjelpemiddelUtenDeler))
+    }
+
+    suspend fun slåOppDeler(hmsnr: String, brukernr: String?, serienr: String?): OppslagResult {
+        if (!brukernr.isNullOrBlank()) return slåOppHjelpemiddelMedBrukernr(hmsnr, brukernr)
+        if (!serienr.isNullOrBlank()) return slåOppHjelpemiddelMedSerienr(hmsnr, serienr)
+        return OppslagResult.Feil(OppslagFeil.MANGLER_BRUKERNR_ELLER_SERIENR)
+    }
+
+    suspend fun slåOppHjelpemiddelMedSerienr(hmsnr: String, serienr: String): OppslagResult = coroutineScope {
         data class BrukerInfo(
             val utlånMedSerienr: UtlånMedSerienr,
             val kommunenummer: String
@@ -48,7 +71,15 @@ class OppslagService(
         val hjelpemiddel = hjelpemiddelBase
             .let { berikMedDagerSidenForrigeBatteribestilling(it, serienr) }
             .let { berikMedLagerstatus(it, brukerInfo.kommunenummer) }
-            .berikMedGaranti(brukerInfo.utlånMedSerienr)
+            .let {
+                berikMedGaranti(
+                    hjelpemiddel = it,
+                    opprettetDato = brukerInfo.utlånMedSerienr.opprettetDato,
+                    isokode = brukerInfo.utlånMedSerienr.isokode,
+                    artnr = brukerInfo.utlånMedSerienr.artnr,
+                    identifikator = "serienr ${brukerInfo.utlånMedSerienr.serienr}",
+                )
+            }
             .sorterDeler()
 
         val piloter = piloterService.hentPiloter(brukerInfo.kommunenummer)
@@ -63,9 +94,9 @@ class OppslagService(
         )
 
         val brukerInfoDeferred = async {
-            oebs.hentUtlånPåArtNrOgBrukernr(hmsnr, brukernr)?.let { utlån ->
+            oebs.hentUtlånPåArtNrOgBrukernr(hmsnr, brukernr).firstOrNull()?.let { utlån ->
                 log.info { "utlån: $utlån" }
-                BrukerInfo(utlån.first(), pdl.hentKommunenummer(utlån.first().fnr))
+                BrukerInfo(utlån, pdl.hentKommunenummer(utlån.fnr))
             }
         }
 
@@ -83,14 +114,21 @@ class OppslagService(
         val hjelpemiddel = hjelpemiddelBase
             // .let { berikMedDagerSidenForrigeBatteribestilling(it, serienr) }
             .let { berikMedLagerstatus(it, brukerInfo.kommunenummer) }
-            // .berikMedGaranti(brukerInfo.utlån)
+            .let {
+                berikMedGaranti(
+                    hjelpemiddel = it,
+                    opprettetDato = brukerInfo.utlån.opprettetDato,
+                    isokode = brukerInfo.utlån.isokode,
+                    artnr = brukerInfo.utlån.artnr,
+                    identifikator = "brukernr $brukernr",
+                )
+            }
             .sorterDeler()
 
         val piloter = piloterService.hentPiloter(brukerInfo.kommunenummer)
 
         OppslagResult.Suksess(OppslagResultat(hjelpemiddel, piloter))
     }
-
 
 
 }

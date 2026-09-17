@@ -14,6 +14,8 @@ import io.ktor.http.HttpMessageBuilder
 import io.ktor.http.contentType
 import no.nav.hjelpemidler.delbestilling.config.isProd
 import no.nav.hjelpemidler.http.createHttpClient
+import no.nav.hjelpemidler.http.openid.TokenSetProvider
+import no.nav.hjelpemidler.http.openid.openID
 import org.slf4j.MDC
 
 
@@ -23,20 +25,25 @@ const val CORRELATION_ID_KEY = "correlationId"
 fun HttpMessageBuilder.navCorrelationId(): Unit =
     header(CORRELATION_ID_HEADER, MDC.get(CORRELATION_ID_KEY))
 
-fun defaultHttpClient(engine: HttpClientEngine = CIO.create()) = createHttpClient(engine = engine) {
-    expectSuccess = true
+fun defaultHttpClient(engine: HttpClientEngine = CIO.create(), tokenSetProvider: TokenSetProvider? = null) =
+    createHttpClient(engine = engine) {
+        expectSuccess = true
 
-    install(HttpRequestRetry) {
-        retryOnExceptionOrServerErrors(maxRetries = 5)
-        exponentialDelay()
-    }
+        if (tokenSetProvider != null) {
+            openID(tokenSetProvider)
+        }
 
-    install(Logging) {
-        level = if (isProd()) LogLevel.INFO else LogLevel.BODY
-    }
+        install(HttpRequestRetry) {
+            retryOnExceptionOrServerErrors(maxRetries = 5)
+            exponentialDelay()
+        }
 
-    defaultRequest {
-        accept(ContentType.Application.Json)
-        contentType(ContentType.Application.Json)
+        install(Logging) {
+            level = if (isProd()) LogLevel.INFO else LogLevel.BODY
+        }
+
+        defaultRequest {
+            accept(ContentType.Application.Json)
+            contentType(ContentType.Application.Json)
+        }
     }
-}

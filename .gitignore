@@ -27,6 +27,7 @@ src/main/resources/fullmakt/**
 /nbdist/
 /.nb-gradle/
 build/
+/manual-email-preview.html
 
 ### VS Code ###
 .vscode/

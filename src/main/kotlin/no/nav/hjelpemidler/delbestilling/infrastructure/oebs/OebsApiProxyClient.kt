@@ -11,25 +11,23 @@ import kotlinx.coroutines.withContext
 import no.nav.hjelpemidler.delbestilling.config.AppConfig
 import no.nav.hjelpemidler.delbestilling.infrastructure.defaultHttpClient
 import no.nav.hjelpemidler.delbestilling.infrastructure.navCorrelationId
-import no.nav.hjelpemidler.http.openid.OpenIDClient
-import no.nav.hjelpemidler.http.openid.bearerAuth
+import no.nav.hjelpemidler.domain.person.Fødselsnummer
+import no.nav.hjelpemidler.http.openid.TexasClient
 
 private val log = KotlinLogging.logger {}
 
 class OebsApiProxyClient(
-    private val openIDClient: OpenIDClient,
-    private val client: HttpClient = defaultHttpClient(),
-    private val baseUrl: String = AppConfig.OEBS_API_URL,
+    private val texasClient: TexasClient,
     private val apiScope: String = AppConfig.OEBS_API_SCOPE,
+    private val client: HttpClient = defaultHttpClient(tokenSetProvider = texasClient.entraIdApplication(apiScope)),
+    private val baseUrl: String = AppConfig.OEBS_API_URL,
 ) : OebsApiProxy {
 
     private suspend inline fun <reified T> executeRequest(url: String, method: HttpMethod, body: Any? = null): T {
         try {
             return withContext(Dispatchers.IO) {
-                val tokenSet = openIDClient.grant(apiScope)
                 val httpResponse = client.request(url) {
                     this.method = method
-                    bearerAuth(tokenSet)
                     navCorrelationId()
                     if (body != null) {
                         setBody(body)
@@ -45,6 +43,9 @@ class OebsApiProxyClient(
 
     private suspend inline fun <reified T> post(url: String, body: Any? = null): T =
         executeRequest(url, HttpMethod.Post, body)
+
+    private suspend inline fun <reified T> get(url: String, body: Any? = null): T =
+        executeRequest(url, HttpMethod.Get, body)
 
     override suspend fun hentUtlånPåArtnrOgSerienr(artnr: String, serienr: String): UtlånMedSerienrResponse =
         post("$baseUrl/utlanSerienrArtnr", UtlånPåArtnrOgSerienrRequest(artnr, serienr))
@@ -63,6 +64,10 @@ class OebsApiProxyClient(
 
     override suspend fun hentLagerstatusForEnhetnr(enhetnr: String, hmsnrs: List<String>): List<LagerstatusResponse> =
         post("$baseUrl/lager/sentral/enhet/$enhetnr", LagerstatusRequest(hmsnrs))
+
+    override suspend fun hentFnr(brukernr: String): Fødselsnummer =
+        get("$baseUrl/getFodselsnummer/$brukernr", )
+
 }
 
 

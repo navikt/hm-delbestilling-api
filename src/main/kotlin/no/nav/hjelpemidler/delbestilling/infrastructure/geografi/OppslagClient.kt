@@ -25,5 +25,15 @@ class OppslagClient(
             }.body()
         }
     }
+
+    override suspend fun hentPoststed(postnummer: String): PoststedDto {
+        return withContext(Dispatchers.IO) {
+            client.get("$url/api/geografi/poststeder/$postnummer") {
+                headers {
+                    navCorrelationId()
+                }
+            }.body()
+        }
+    }
 }
 

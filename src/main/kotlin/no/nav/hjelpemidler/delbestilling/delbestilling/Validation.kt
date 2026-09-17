@@ -2,27 +2,66 @@ package no.nav.hjelpemidler.delbestilling.delbestilling
 
 import no.nav.hjelpemidler.delbestilling.common.DelLinje
 import no.nav.hjelpemidler.delbestilling.common.Delbestilling
+import no.nav.hjelpemidler.delbestilling.common.DellinjeUkjentDel
 import no.nav.hjelpemidler.delbestilling.common.Hmsnr
 import no.nav.hjelpemidler.delbestilling.common.Serienr
+import no.nav.hjelpemidler.delbestilling.oppslag.OppslagDelerRequest
 import no.nav.hjelpemidler.delbestilling.oppslag.OppslagRequest
+import no.nav.hjelpemidler.delbestilling.oppslag.XkLagerRequest
 
 fun validateOppslagRequest(req: OppslagRequest) = listOf(
     validateHmsnr(req.hmsnr),
     validateSerienr(req.serienr)
 ).flatten()
 
+fun validateOppslagDelerRequest(req: OppslagDelerRequest) = listOf(
+    validateSerienrEllerBrukernr(serienr = req.serienr, brukernr = req.brukernr)
+).flatten()
+
+fun validateXkLagerRequest(req: XkLagerRequest) = listOf(
+    validateHmsnr(req.hmsnr),
+    validateSerienrEllerBrukernr(req.serienr, req.brukernr),
+).flatten()
+
 fun validateDelbestillingRequest(req: DelbestillingRequest): List<String> = listOf(
     validateHmsnr(req.delbestilling.hmsnr),
-    validateSerienr(req.delbestilling.serienr),
+    validateSerienrEllerBrukernr(req.delbestilling.serienr, req.delbestilling.brukernr),
     validateOpplæringBatteri(req.delbestilling),
     listOfNotNull(
-        if (req.delbestilling.deler.isEmpty()) "Delbestillingen må inneholde minst én dellinje" else null
+        if (req.delbestilling.deler.isEmpty() && req.delbestilling.ukjenteDeler.isEmpty()) "Delbestillingen må inneholde minst én dellinje" else null
     ),
     validateDeler(req.delbestilling.deler),
+    validateUkjenteDeler(req.delbestilling.ukjenteDeler, req.delbestilling.epostTekniker),
 ).flatten()
 
 fun validateDeler(deler: List<DelLinje>) = deler.mapNotNull { del ->
     if (del.antall < 1) "Kan ikke ha antall < 1. Fant antall=${del.antall} for hmsnr ${del.del.hmsnr}" else null
+}
+
+fun validateUkjenteDeler(ukjenteDeler: List<DellinjeUkjentDel>, epostTekniker: String?): List<String> {
+    if (ukjenteDeler.isEmpty()) return emptyList()
+
+    return listOfNotNull(
+        if (epostTekniker?.trim()?.matches(EPOST_REGEX) != true) "Tekniker må oppgi en gyldig e-postadresse" else null,
+    ) + ukjenteDeler.flatMap(::validateUkjentDel)
+}
+
+fun validateUkjentDel(dellinje: DellinjeUkjentDel): List<String> {
+    val del = dellinje.delUkjent
+    val levArtNr = del.levArtNr?.takeIf { it.isNotBlank() }
+
+    return listOfNotNull(
+        if (dellinje.antall < 1) "Antall for ukjent del må være minst 1" else null,
+        if (del.hmsnr == null && del.levArtNr == null) "Ukjent del må ha HMS-nr eller leverandørens artikkelnummer" else null,
+        if (del.levArtNr != null && (levArtNr == null || levArtNr.length > 20)) "Leverandørens artikkelnummer må være 1-20 tegn" else null,
+        if (levArtNr != null && del.beskrivelse.isNullOrBlank()) "Ukjent del med leverandørens artikkelnummer må ha en beskrivelse" else null,
+        if (del.beskrivelse != null && del.beskrivelse.length > 200) "Beskrivelse av ukjent del kan ikke være lengre enn 200 tegn" else null,
+    ) + validateHmsnrForUkjentDel(del.hmsnr)
+}
+
+fun validateHmsnrForUkjentDel(hmsnr: Hmsnr?): List<String> {
+    if (hmsnr == null) return emptyList()
+    return validateHmsnr(hmsnr).map { "HMS-nr for ukjent del ${it.removePrefix("Hmsnr ")}" }
 }
 
 fun validateHmsnr(hmsnr: Hmsnr) = listOfNotNull(
@@ -34,6 +73,24 @@ fun validateSerienr(serienr: Serienr) = listOfNotNull(
     if (serienr.length != 6) "Serienr må ha 6 siffer" else null,
     if (!serienr.allDigits()) "Serienr skal kun bestå av tall" else null,
 )
+
+fun validateBrukernr(brukernr: String) = listOfNotNull(
+    if (brukernr.length !in 5..8) "Brukernr må være 5-8 siffer" else null,
+    if (!brukernr.allDigits()) "Brukernr skal kun bestå av tall" else null,
+)
+
+fun validateSerienrEllerBrukernr(serienr: Serienr?, brukernr: String?): List<String> {
+    val serienr = serienr?.takeIf { it.isNotBlank() }
+    val brukernr = brukernr?.takeIf { it.isNotBlank() }
+
+    return when {
+        serienr != null && brukernr != null -> listOf("Kan ikke inneholde både serienr. og brukernr")
+        serienr == null && brukernr == null -> listOf("Brukernr eller serienr må være satt")
+        serienr != null -> validateSerienr(serienr)
+        brukernr != null -> validateBrukernr(brukernr)
+        else -> emptyList()
+    }
+}
 
 fun validateOpplæringBatteri(delbestilling: Delbestilling) = listOfNotNull(
     if (delbestilling.harBatteri() && delbestilling.harOpplæringPåBatteri != true) {
@@ -47,14 +104,10 @@ fun requireHmsnr(value: String?): String {
     return value
 }
 
-fun requireSerienr(value: String?): String {
-    requireNotNull(value)
-    requireNoErrors { validateSerienr(value) }
-    return value
-}
-
 fun requireNoErrors(validate: () -> List<String>) {
     validate().firstOrNull()?.let { throw IllegalArgumentException(it) }
 }
 
 private fun String.allDigits() = this.all { it.isDigit() }
+
+private val EPOST_REGEX = Regex("^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$")

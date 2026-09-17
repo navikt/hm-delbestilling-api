@@ -4,6 +4,7 @@ import no.nav.hjelpemidler.database.JdbcOperations
 import no.nav.hjelpemidler.delbestilling.delbestilling.DelbestillingRepository
 import no.nav.hjelpemidler.delbestilling.delbestilling.anmodning.AnmodningDao
 import no.nav.hjelpemidler.delbestilling.delbestilling.anmodning.DelUtenDekningDao
+import no.nav.hjelpemidler.delbestilling.infrastructure.epostoutbox.EpostOutboxDao
 import no.nav.hjelpemidler.delbestilling.infrastructure.outbox.OutboxDao
 import java.time.Clock
 
@@ -14,6 +15,7 @@ class TransactionScopeFactory(private val clock: Clock) {
             anmodningDao = AnmodningDao(tx, clock),
             delUtenDekningDao = DelUtenDekningDao(tx),
             delbestillingRepository = DelbestillingRepository(tx),
+            epostOutboxDao = EpostOutboxDao(tx),
             outboxDao = OutboxDao(tx),
         )
     }

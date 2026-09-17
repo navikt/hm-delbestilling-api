@@ -31,10 +31,6 @@ class FinnDelerTilHjelpemiddel(
         val hjelpemiddel = slåSammen(hjmGrunndata, hjmManuellListe)
             ?: return FinnDelerResultat.IkkeFunnet(OppslagFeil.TILBYR_IKKE_HJELPEMIDDEL)
 
-        if (hjelpemiddel.deler.isEmpty()) {
-            return FinnDelerResultat.IkkeFunnet(OppslagFeil.TILBYR_IKKE_HJELPEMIDDEL)
-        }
-
         if (sendStatistikk) {
             sjekkBatteri(hjelpemiddel.deler)
         }
@@ -63,6 +59,7 @@ class FinnDelerTilHjelpemiddel(
             return Hjelpemiddel(
                 navn = produkt.artikkelnavn,
                 hmsnr = produkt.hmsArtNr,
+                isoKode = produkt.isoKategori,
                 deler = deler.map {
                     val kategori = it.artikkelnavn.split(" ").first()
                     Del(
@@ -135,6 +132,7 @@ private fun slåSammen(hjmGrunndata: Hjelpemiddel?, hjmManuellListe: Hjelpemidde
         Hjelpemiddel(
             navn = hjmGrunndata.navn,
             hmsnr = hjmGrunndata.hmsnr,
+            isoKode = hjmGrunndata.isoKode,
             deler = hjmGrunndata.deler.berikMedUnikeDeler(hjmManuellListe?.deler)
         )
     } else hjmManuellListe
