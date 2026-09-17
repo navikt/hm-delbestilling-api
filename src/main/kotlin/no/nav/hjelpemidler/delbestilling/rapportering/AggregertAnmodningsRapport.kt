@@ -11,7 +11,7 @@ import java.time.YearMonth
 
 private val log = KotlinLogging.logger { }
 
-const val MÅNEDSRAPPORT_ANMODNINGER_SUBJECT = "Oppsummering av anmodningsbehov for forrige måned"
+const val ANMODNINGSRAPPORT_SUBJECT = "Oppsummering av anmodningsbehov for siste seks måneder"
 
 class AggregertAnmodningsRapport(
     private val transaction: Transaction,
@@ -19,25 +19,17 @@ class AggregertAnmodningsRapport(
     private val email: Email,
 ) {
 
-    suspend fun sendRapporterForForrigeMåned() {
-        // Sett begge til minusMonths(1) for å rapportere bare fra forrige måned.
-        val startMåned = YearMonth.now(clock).minusMonths(1)
-        val sluttMåned = YearMonth.now(clock).minusMonths(1)
-        Lager.entries.forEach { lager ->
-            sendRapport(lager, startMåned, sluttMåned )
-        }
-    }
-
     suspend fun sendRapporterForSisteSeksmånedersPeriode() {
-        val startMåned = YearMonth.now(clock).minusMonths(1)
-        val sluttMåned = YearMonth.now(clock).minusMonths(7)
+        val startMåned = YearMonth.now(clock).minusMonths(6)
+        val sluttMåned = YearMonth.now(clock).minusMonths(1)
+
         Lager.entries.forEach { lager ->
-            sendRapport(lager, startMåned, sluttMåned )
+            sendRapport(lager, startMåned, sluttMåned)
         }
     }
 
     private suspend fun sendRapport(lager: Lager, startMåned: YearMonth, sluttMåned: YearMonth) {
-        log.info { "Starter månedsrapport om anmodninger for lager=$lager og tidperiode måned=$startMåned" }
+        log.info { "Starter anmodningsrapport for lager=$lager og periode=$startMåned-$sluttMåned" }
         val grunnlag = hentGrunnlag(lager, startMåned, sluttMåned)
 
         if (grunnlag.anmodninger.isEmpty()) {
@@ -47,8 +39,8 @@ class AggregertAnmodningsRapport(
 
         val rapportTekst = fyllUtRapport(grunnlag)
 
-        log.info { "Månedsrapport for $lager i $startMåned: $rapportTekst" }
-        email.send(lager.epostForMånedligAnmodningsrapport(), MÅNEDSRAPPORT_ANMODNINGER_SUBJECT, rapportTekst, ContentType.HTML)
+        log.info { "Anmodningsrapport for $lager i perioden ${grunnlag.periodeStart}-${grunnlag.periodeSlutt}: $rapportTekst" }
+        email.send(lager.epostForAnmodningsrapport(), ANMODNINGSRAPPORT_SUBJECT, rapportTekst, ContentType.HTML)
     }
 
     suspend fun hentGrunnlag(lager: Lager, startMåned: YearMonth, sluttMåned: YearMonth): Grunnlag {
@@ -64,9 +56,9 @@ class AggregertAnmodningsRapport(
                     leverandør = group.first().leverandornavn
                 )
             }
-        val grunnlag = Grunnlag(lager, startMåned, aggregerteAnmodninger)
+        val grunnlag = Grunnlag(lager, startMåned, sluttMåned, aggregerteAnmodninger)
 
-        log.info { "Hentet grunnlag for månedsrapportering: $grunnlag" }
+        log.info { "Hentet grunnlag for anmodningsrapportering: $grunnlag" }
 
         return grunnlag
     }
@@ -90,7 +82,7 @@ class AggregertAnmodningsRapport(
             <html>
             <head>
                 <meta charset="UTF-8">
-                <title>$MÅNEDSRAPPORT_ANMODNINGER_SUBJECT</title>
+                <title>$ANMODNINGSRAPPORT_SUBJECT</title>
                 <style>
                     table {
                         width: 100%;
@@ -105,13 +97,13 @@ class AggregertAnmodningsRapport(
             </head>
             <body>
                 <p>
-                    Her er en oversikt over hvilke deler dere har anmodet om forrige måned. 
-                    Dere vurderer hva som skal legge inn med min og max verdier i forhold til volum hos dere. 
+                    Her er en oversikt over hvilke deler dere har anmodet om de siste seks månedene.
+                    Dere vurderer hva som skal legge inn med min og max verdier i forhold til volum hos dere.
                     Det er ikke slik at alt må legges inn.
                     </br>
                     </br>
                     HMS lager: ${grunnlag.lager.navn} </br>
-                    Måned: ${grunnlag.måned}
+                    Periode: ${grunnlag.periodeStart} - ${grunnlag.periodeSlutt}
                 </p>
                 <table>
                     <thead>
@@ -136,7 +128,8 @@ class AggregertAnmodningsRapport(
 
 data class Grunnlag(
     val lager: Lager,
-    val måned: YearMonth,
+    val periodeStart: YearMonth,
+    val periodeSlutt: YearMonth,
     val anmodninger: List<AggregertAnmodning>,
 )
 
