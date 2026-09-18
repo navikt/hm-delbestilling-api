@@ -12,7 +12,7 @@ import kotlin.test.assertTrue
 class RapporteringTest {
 
     @Test
-    fun `skal sende ut mail om anmodningsbehov når det har blitt bestilt deler uten lagerdekning`() =
+    fun `skal sende ut e-post om anmodningsbehov når det er bestilt deler uten lagerdekning`() =
         runWithTestContext {
             gittDelbestillingUtenLagerdekning()
 
@@ -22,7 +22,7 @@ class RapporteringTest {
         }
 
     @Test
-    fun `skal IKKE sende ut mail om anmodningsbehov når det har blitt bestilt deler med lagerdekning`() =
+    fun `skal ikke sende ut e-post om anmodningsbehov når det er bestilt deler med lagerdekning`() =
         runWithTestContext {
             opprettDelbestillingMedDel(delPåLager)
 

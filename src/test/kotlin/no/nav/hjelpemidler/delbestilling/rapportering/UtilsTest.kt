@@ -20,7 +20,7 @@ class UtilsTest {
     }
 
     @Test
-    fun `skal bruke samme dag dersom klokken ikke er 0100 enda`() {
+    fun `skal bruke samme dag dersom klokken er før 0100`() {
         val kl0020 = LocalDateTime.now().withHour(0).withMinute(20)
         val clock = MutableClock(kl0020)
         val resultat = kl01NesteUkedag(clock)
