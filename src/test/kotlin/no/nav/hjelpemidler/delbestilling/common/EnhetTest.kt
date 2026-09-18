@@ -8,7 +8,7 @@ import kotlin.test.assertTrue
 class EnhetTest {
 
     @Test
-    fun `skal returnere enhetens epostadresse`() {
+    fun `skal finne lager og returnere epostadresse`() {
         val enhetnrOslo = "4703"
         val lager = Lager.fraLagernummer(enhetnrOslo)
         assertEquals(enhetnrOslo, lager.nummer)
@@ -16,9 +16,9 @@ class EnhetTest {
     }
 
     @Test
-    fun `skal returnere epost til lager for månedlig anmodningsrapport for Oslo`() {
-        assertEquals("nav.hot.oslo.lager@nav.no", Lager.OSLO.epostForMånedligAnmodningsrapport())
-        assertEquals("nav.hot.nordland.teknisk@nav.no", Lager.NORDLAND.epostForMånedligAnmodningsrapport())
+    fun `skal returnere epost til lager for anmodningsrapport`() {
+        assertEquals("nav.hot.oslo.lager@nav.no", Lager.OSLO.epostForAnmodningsrapport())
+        assertEquals("nav.hot.nordland.teknisk@nav.no", Lager.NORDLAND.epostForAnmodningsrapport())
     }
 
     @Test

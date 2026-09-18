@@ -1,16 +1,13 @@
 package no.nav.hjelpemidler.delbestilling.rapportering
 
-import io.github.oshai.kotlinlogging.KotlinLogging
 import no.nav.hjelpemidler.delbestilling.delbestilling.DelbestillingService
 import no.nav.hjelpemidler.delbestilling.rapportering.klargjorte.KlargjorteDelbestillingerService
-
-private val log = KotlinLogging.logger {}
 
 class Rapportering(
     private val jobbScheduler: JobbScheduler,
     private val delbestillingService: DelbestillingService,
     private val klargjorteDelbestillingerService: KlargjorteDelbestillingerService,
-    private val månedsrapportAnmodningsbehov: MånedsrapportAnmodningsbehov,
+    private val aggregertAnmodningsRapport: AggregertAnmodningsRapport,
 ) {
 
     fun schedulerRapporteringsjobber() {
@@ -21,8 +18,8 @@ class Rapportering(
         )
 
         jobbScheduler.schedulerGjentagendeJobb(
-            navn = "månedlig_anmodningsoppsummering",
-            jobb = { rapporterMånedligAnmodningsoppsummering() },
+            navn = "seksmåneders_anmodningsoppsummering",
+            jobb = { rapporterSeksmånedersAnmodningsoppsummering() },
             beregnNesteKjøring = { clock -> kl0120FørsteDagINesteMåned(clock) }
         )
 
@@ -37,8 +34,8 @@ class Rapportering(
         delbestillingService.rapporterDelerTilAnmodning()
     }
 
-    suspend fun rapporterMånedligAnmodningsoppsummering() {
-        månedsrapportAnmodningsbehov.sendRapporterForForrigeMåned()
+    suspend fun rapporterSeksmånedersAnmodningsoppsummering() {
+        aggregertAnmodningsRapport.sendRapporterForSisteSeksmånedersPeriode()
     }
 
     suspend fun rapporterKlargjorteDelbestillinger() {

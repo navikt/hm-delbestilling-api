@@ -43,7 +43,7 @@ import no.nav.hjelpemidler.delbestilling.oppslag.OppslagService
 import no.nav.hjelpemidler.delbestilling.oppslag.PiloterService
 import no.nav.hjelpemidler.delbestilling.ordrestatus.DelbestillingStatusService
 import no.nav.hjelpemidler.delbestilling.rapportering.JobbScheduler
-import no.nav.hjelpemidler.delbestilling.rapportering.MånedsrapportAnmodningsbehov
+import no.nav.hjelpemidler.delbestilling.rapportering.AggregertAnmodningsRapport
 import no.nav.hjelpemidler.delbestilling.rapportering.Rapportering
 import no.nav.hjelpemidler.http.openid.TexasClient
 import no.nav.tms.token.support.tokendings.exchange.TokendingsServiceBuilder
@@ -113,8 +113,8 @@ class AppContext {
     val engangsjobbService = EngangsjobbService(transactional, oebs)
 
     // Rapportering
-    val månedsrapportAnmodningsbehov = MånedsrapportAnmodningsbehov(transactional, clock, email)
-    val rapportering = Rapportering(jobbScheduler, delbestillingService, klargjorteDelbestillingerService, månedsrapportAnmodningsbehov)
+    val aggregertAnmodningsRapport = AggregertAnmodningsRapport(transactional, clock, email)
+    val rapportering = Rapportering(jobbScheduler, delbestillingService, klargjorteDelbestillingerService, aggregertAnmodningsRapport)
 
     fun applicationStarted() {
         rapportering.schedulerRapporteringsjobber()

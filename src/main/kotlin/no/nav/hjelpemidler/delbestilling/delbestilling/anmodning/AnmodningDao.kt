@@ -35,9 +35,9 @@ class AnmodningDao(private val tx: JdbcOperations, private val clock: Clock) {
         }
     }
 
-    fun hentAnmodninger(lager: Lager, måned: YearMonth): List<AnmodningEntity> {
-        val månedsstart = måned.atDay(1).atStartOfDay()
-        val månedsslutt = måned.atEndOfMonth().plusDays(1).atStartOfDay()
+    fun hentAnmodninger(lager: Lager, startMåned: YearMonth, sluttMåned: YearMonth): List<AnmodningEntity> {
+        val startDato = startMåned.atDay(1).atStartOfDay()
+        val sluttDato = sluttMåned.atEndOfMonth().plusDays(1).atStartOfDay()
 
         return tx.list(
             sql = """
@@ -47,7 +47,7 @@ class AnmodningDao(private val tx: JdbcOperations, private val clock: Clock) {
             AND opprettet >= :startdato
             AND opprettet < :sluttdato
         """.trimIndent(),
-            queryParameters = mapOf("enhetnr" to lager.nummer, "startdato" to månedsstart, "sluttdato" to månedsslutt)
+            queryParameters = mapOf("enhetnr" to lager.nummer, "startdato" to startDato, "sluttdato" to sluttDato)
         ) { it.tilAnmodningEntity() }
     }
 }
