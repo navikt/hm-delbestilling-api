@@ -16,7 +16,7 @@ class EnhetTest {
     }
 
     @Test
-    fun `skal returnere epost til lager for anmodningsrapport for Oslo og Nordland`() {
+    fun `skal returnere epost til lager for anmodningsrapport`() {
         assertEquals("nav.hot.oslo.lager@nav.no", Lager.OSLO.epostForAnmodningsrapport())
         assertEquals("nav.hot.nordland.teknisk@nav.no", Lager.NORDLAND.epostForAnmodningsrapport())
     }
