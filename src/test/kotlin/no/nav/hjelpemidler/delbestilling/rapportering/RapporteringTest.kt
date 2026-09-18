@@ -4,7 +4,6 @@ import no.nav.hjelpemidler.delbestilling.delbestilling.anmodning.ANMODNINGSBEHOV
 import no.nav.hjelpemidler.delbestilling.runWithTestContext
 import no.nav.hjelpemidler.delbestilling.testdata.Testdata.delPåLager
 import no.nav.hjelpemidler.delbestilling.testdata.fixtures.gittDelbestillingUtenLagerdekning
-import no.nav.hjelpemidler.delbestilling.testdata.fixtures.opprettDelbestilling
 import no.nav.hjelpemidler.delbestilling.testdata.fixtures.opprettDelbestillingMedDel
 import kotlin.test.Test
 import kotlin.test.assertTrue
