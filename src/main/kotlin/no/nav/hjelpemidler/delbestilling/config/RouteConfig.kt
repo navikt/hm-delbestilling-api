@@ -50,12 +50,6 @@ fun Application.configure() {
 
     install(IgnoreTrailingSlash)
 
-    install(RateLimit) {
-        register(RateLimitName("rateLimitOppslag")) {
-            rateLimiter(limit = 60, refillPeriod = 60.seconds)
-        }
-    }
-
     install(CallLogging) {
         level = Level.INFO
         filter { call ->
