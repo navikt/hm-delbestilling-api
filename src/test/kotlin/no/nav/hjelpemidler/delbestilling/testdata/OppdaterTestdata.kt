@@ -9,14 +9,16 @@ import no.nav.hjelpemidler.delbestilling.infrastructure.jsonMapper
 import no.nav.hjelpemidler.delbestilling.oppslag.FinnDelerResultat
 import no.nav.hjelpemidler.delbestilling.oppslag.FinnDelerTilHjelpemiddel
 import no.nav.hjelpemidler.delbestilling.oppslag.legacy.data.hmsnr2Hjm
+import no.nav.hjelpemidler.delbestilling.oppslag.legacy.data.hmsnrHjmTilHmsnrDeler
 import java.io.File
 
 fun main() {
     runBlocking {
-        oppdaterTestdata()
+        //oppdaterTestdata()
         //finnHjelpemiddelIGrunndataMenMedKunManuelleDeler()
-        //finnHjelpemidlerIManuellListeSomIkkeFinnesIGrunndata()
-        // finnHjelpemidlerIkkeFinnesIGrunndata()
+        //finnHjelpemidlerIkkeFinnesIGrunndata()
+        //finnDelerAlleredeIGrunndata()
+        genererOppdatertHmsnrHjmTilHmsnrDeler()
     }
 }
 
@@ -69,6 +71,50 @@ private suspend fun finnHjelpemidlerIkkeFinnesIGrunndata() {
 
     println("${manglerIGrunndata.size} av ${hmsnr2Hjm.size} hjelpemidler i manuell liste finnes ikke i grunndata:")
     manglerIGrunndata.forEach { println("${it.hmsnr} ${it.navn}") }
+}
+
+// For hvert hjelpemiddel i manuell liste: finn deler som allerede finnes koblet til det hjelpemiddelet i grunndata.
+// Disse koblingene kan da fjernes fra manuell liste.
+private suspend fun finnDelerAlleredeIGrunndata() {
+    val grunndata = Grunndata(client())
+
+    hmsnr2Hjm.values.forEach { manuell ->
+        val produkt = grunndata.hentProdukt(manuell.hmsnr) ?: return@forEach
+        if (!produkt.erHovedprodukt) return@forEach
+
+        val hmsnrDelerGrunndata = grunndata.hentDeler(produkt.serieId, produkt.produktId).map { it.hmsArtNr }.toSet()
+        val hmsnrDelerManuell = manuell.deler.map { it.hmsnr }.toSet()
+
+        val alleredeIGrunndata = hmsnrDelerManuell.intersect(hmsnrDelerGrunndata)
+        if (alleredeIGrunndata.isNotEmpty()) {
+            println("${manuell.hmsnr} ${manuell.navn}: deler allerede koblet i grunndata: $alleredeIGrunndata")
+        }
+    }
+}
+
+// Printer en oppdatert versjon av hmsnrHjmTilHmsnrDeler der koblinger som allerede finnes i grunndata er fjernet.
+// Hjelpemiddel der alle deler dekkes av grunndata blir utelatt helt (linjen kan da slettes fra manuell liste).
+private suspend fun genererOppdatertHmsnrHjmTilHmsnrDeler() {
+    val grunndata = Grunndata(client())
+
+    println("val hmsnrHjmTilHmsnrDeler = mapOf<Hmsnr, Set<Hmsnr>>(")
+    hmsnrHjmTilHmsnrDeler.forEach { (hmsnrHjm, hmsnrDeler) ->
+        val produkt = grunndata.hentProdukt(hmsnrHjm)
+        val hmsnrDelerGrunndata = if (produkt != null && produkt.erHovedprodukt) {
+            grunndata.hentDeler(produkt.serieId, produkt.produktId).map { it.hmsArtNr }.toSet()
+        } else {
+            emptySet()
+        }
+
+        val gjenværendeDeler = hmsnrDeler - hmsnrDelerGrunndata
+
+        if (gjenværendeDeler.isNotEmpty()) {
+            val delerString = gjenværendeDeler.joinToString(", ") { "\"$it\"" }
+            val kommentar = if (produkt == null) " // hjm finnes ikke i grunndata" else ""
+            println("    \"$hmsnrHjm\" to setOf($delerString),$kommentar")
+        }
+    }
+    println(")")
 }
 
 private fun client() = GrunndataClient(baseUrl = "https://finnhjelpemiddel.nav.no")
