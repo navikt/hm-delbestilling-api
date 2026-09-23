@@ -462,15 +462,6 @@ val hmsnrTilDel: Map<Hmsnr, Del> = listOf(
         erReservedel = true,
     ),
     Del(
-        hmsnr = "220485",
-        navn = "Drivhjul",
-        levArtNr = "27564",
-        kategori = "Hjul",
-        defaultAntall = 2,
-        maksAntall = 2,
-        erReservedel = true,
-    ),
-    Del(
         hmsnr = "318078",
         navn = "Drivhjul",
         levArtNr = "83879",
