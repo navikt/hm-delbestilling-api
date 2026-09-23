@@ -9,7 +9,7 @@ import javax.sql.DataSource
 object TestDatabase {
     val testDataSource by lazy {
         createDataSource(Testcontainers) {
-            tag = "14-alpine"
+            tag = "16-alpine"
         }
     }
 
