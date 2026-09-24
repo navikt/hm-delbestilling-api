@@ -66,29 +66,6 @@ class FinnDelerTilHjelpemiddelTest {
         assertTrue(hjelpemiddel.deler.all { it.kilde == Kilde.GRUNNDATA })
     }
 
-    @Test
-    @Ignore("TODO ")
-    fun `skal supplere deler fra grunndata med deler fra manuell liste`() = runWithTestContext {
-        val hmsnr = GrunndataTestHmsnr.GRUNNDATA_OG_MANUELL
-
-        val hjelpemiddel = (finnDelerTilHjelpemiddel(hmsnr) as FinnDelerResultat.Funnet).hjelpemiddel
-
-        // Valider
-        assertTrue(hjelpemiddel.deler.filter { it.kilde == Kilde.GRUNNDATA }.size > 20) { "Skal finnes noen deler fra grunndata" }
-        assertTrue(hjelpemiddel.deler.any { it.kilde == Kilde.MANUELL_LISTE }) { "Skal finnes del kun fra manuell liste" }
-    }
-
-    @Test
-    fun `skal bruke info fra grunndata dersom del finnes både i grunndata og i manuell liste`() = runWithTestContext {
-        val hmsnr = GrunndataTestHmsnr.GRUNNDATA_OG_MANUELL
-
-        val hjelpemiddel = (finnDelerTilHjelpemiddel(hmsnr) as FinnDelerResultat.Funnet).hjelpemiddel
-
-        // Valider
-        val manuelleDeler = hmsnr2Hjm[hmsnr]!!.deler.map { it.hmsnr }.toSet()
-        assertTrue(hjelpemiddel.deler.any { it.kilde == Kilde.GRUNNDATA && it.hmsnr in manuelleDeler })
-    }
-
     private fun assertHmsnrEquals(expected: List<Del>, actual: List<Del>) {
         assertEquals(expected.map { it.hmsnr }.toSet(), actual.map { it.hmsnr }.toSet())
     }

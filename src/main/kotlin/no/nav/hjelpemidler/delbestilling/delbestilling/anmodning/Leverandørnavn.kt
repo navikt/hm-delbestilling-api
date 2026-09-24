@@ -15,7 +15,6 @@ val manuelleLeverandørnavn = mapOf<String, String>(
     "198643" to "Invacare AS",
     "198644" to "Invacare AS",
     "186621" to "Invacare AS",
-    "016136" to "Etac AS",
     "006428" to "Alu Rehab AS",
     "006429" to "Alu Rehab AS",
     "215101" to "Alu Rehab AS",
