@@ -8,9 +8,8 @@ import no.nav.hjelpemidler.delbestilling.testdata.Testdata
 import java.util.UUID
 
 object GrunndataTestHmsnr {
-    const val UTEN_DELER_I_GRUNNDATA = "185144"
     const val KUN_GRUNNDATA_DELER = "167624"
-    const val HAR_BATTERI = "250464"
+    const val HAR_BATTERI = "023626"
 
     const val IKKE_I_GRUNNDATA = "097765"
 }

@@ -10,20 +10,24 @@ import no.nav.hjelpemidler.delbestilling.oppslag.FinnDelerResultat
 import no.nav.hjelpemidler.delbestilling.oppslag.FinnDelerTilHjelpemiddel
 import no.nav.hjelpemidler.delbestilling.oppslag.legacy.data.hmsnr2Hjm
 import no.nav.hjelpemidler.delbestilling.oppslag.legacy.data.hmsnrHjmTilHmsnrDeler
+import no.nav.hjelpemidler.delbestilling.oppslag.legacy.data.hmsnrTilDel
+import no.nav.hjelpemidler.delbestilling.oppslag.legacy.data.hmsnrTilHjelpemiddelnavn
 import java.io.File
 
 fun main() {
     runBlocking {
-        //oppdaterTestdata()
+        oppdaterTestdata()
         //finnHjelpemiddelIGrunndataMenMedKunManuelleDeler()
         //finnHjelpemidlerIkkeFinnesIGrunndata()
         //finnDelerAlleredeIGrunndata()
-        genererOppdatertHmsnrHjmTilHmsnrDeler()
+        //genererOppdatertHmsnrHjmTilHmsnrDeler()
+        //genererOppdatertHmsnrTilHjelpemiddelnavn()
+        //finnUbrukteDeler()
     }
 }
 
 private suspend fun oppdaterTestdata() {
-    listOf("316161").forEach { lagreProduktOgDeler(it) }
+    listOf("301993").forEach { lagreProduktOgDeler(it) }
 }
 
 private suspend fun lagreProduktOgDeler(hmsnr: String) {
@@ -115,6 +119,27 @@ private suspend fun genererOppdatertHmsnrHjmTilHmsnrDeler() {
         }
     }
     println(")")
+}
+
+// Printer en oppdatert versjon av hmsnrTilHjelpemiddelnavn der oppføringer som ikke har en
+// tilhørende oppføring i hmsnrHjmTilHmsnrDeler er fjernet.
+private fun genererOppdatertHmsnrTilHjelpemiddelnavn() {
+    println("val hmsnrTilHjelpemiddelnavn: Map<Hmsnr, Hjelpemiddelnavn> = listOf<Hjelpemiddelnavn>(")
+    hmsnrTilHjelpemiddelnavn.values
+        .filter { it.hmsnr in hmsnrHjmTilHmsnrDeler }
+        .forEach {
+            println("    Hjelpemiddelnavn(hmsnr = \"${it.hmsnr}\", navn = \"${it.navn}\", isoKode = \"${it.isoKode}\"),")
+        }
+    println(").associateBy { it.hmsnr }")
+}
+
+// Printer hmsnr for deler i hmsnrTilDel som ikke brukes som verdi i hmsnrHjmTilHmsnrDeler.
+private fun finnUbrukteDeler() {
+    val brukteHmsnrDeler = hmsnrHjmTilHmsnrDeler.values.flatten().toSet()
+    val ubrukteDeler = hmsnrTilDel.keys - brukteHmsnrDeler
+
+    println("Ubrukte deler:")
+    ubrukteDeler.forEach { println(it) }
 }
 
 private fun client() = GrunndataClient(baseUrl = "https://finnhjelpemiddel.nav.no")

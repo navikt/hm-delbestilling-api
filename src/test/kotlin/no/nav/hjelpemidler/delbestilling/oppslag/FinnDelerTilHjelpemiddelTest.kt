@@ -37,22 +37,6 @@ class FinnDelerTilHjelpemiddelTest {
     }
 
     @Test
-    fun `skal returnere deler fra manuell liste når hjelpemiddel finnes uten deler i grunndata`() = runWithTestContext {
-        val hmsnr = GrunndataTestHmsnr.UTEN_DELER_I_GRUNNDATA
-
-        // Forutsetninger
-        val produkt = grunndata.hentProdukt(hmsnr)!!
-        assertTrue(grunndata.hentDeler(seriesId = produkt.serieId, produktId = produkt.produktId).isEmpty())
-        assertTrue(hmsnr2Hjm[hmsnr]!!.deler.isNotEmpty())
-
-        val hjelpemiddel = (finnDelerTilHjelpemiddel(hmsnr) as FinnDelerResultat.Funnet).hjelpemiddel
-
-        // Valider
-        assertTrue(hjelpemiddel.deler.all { it.kilde == Kilde.MANUELL_LISTE })
-        assertHmsnrEquals(hmsnr2Hjm[hmsnr]!!.deler, hjelpemiddel.deler)
-    }
-
-    @Test
     fun `skal returnere deler fra grunndata når hjelpemiddel ikke finnes i manuell liste`() = runWithTestContext {
         val hmsnr = GrunndataTestHmsnr.KUN_GRUNNDATA_DELER
 

@@ -23,11 +23,11 @@ internal class ManuellListeTest {
         assertNotNull(hjelpemiddel)
 
         val deler = hjelpemiddel!!.deler
-        assertTrue(10 < deler.size)
+        assertTrue(1 < deler.size)
 
-        val hmsnrSchwalbeDekk = "150817"
+        val hmsnrSchwalbeDekk = "278033"
         val dekk = deler.find { it.hmsnr == hmsnrSchwalbeDekk }!!
-        assertEquals("Dekk Schwalbe Marathon Plus punkteringsbeskyttet 24\"x1", dekk.navn)
+        assertEquals("Dekk Schwalbe RightRun 25\"x1", dekk.navn)
         assertEquals("Dekk", dekk.kategori)
     }
 
