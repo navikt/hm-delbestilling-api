@@ -16,11 +16,11 @@ import java.io.File
 
 fun main() {
     runBlocking {
-        oppdaterTestdata()
+        //oppdaterTestdata()
         //finnHjelpemiddelIGrunndataMenMedKunManuelleDeler()
         //finnHjelpemidlerIkkeFinnesIGrunndata()
         //finnDelerAlleredeIGrunndata()
-        //genererOppdatertHmsnrHjmTilHmsnrDeler()
+        genererOppdatertHmsnrHjmTilHmsnrDeler()
         //genererOppdatertHmsnrTilHjelpemiddelnavn()
         //finnUbrukteDeler()
     }
