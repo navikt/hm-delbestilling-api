@@ -307,24 +307,6 @@ val hmsnrTilDel: Map<Hmsnr, Del> = listOf(
         maksAntall = 2,
         erReservedel = true,
     ),
-    Del(
-        hmsnr = "215101",
-        navn = "Drivhjul 24''",
-        levArtNr = "43183",
-        kategori = "Hjul",
-        defaultAntall = 2,
-        maksAntall = 2,
-        erReservedel = true,
-    ),
-    Del(
-        hmsnr = "219466",
-        navn = "Gaffel m/svinghjul 7''",
-        levArtNr = "86134",
-        kategori = "Svinghjul",
-        defaultAntall = 2,
-        maksAntall = 2,
-        erReservedel = true,
-    ),
 ).associateBy { it.hmsnr }
 
 

@@ -17,21 +17,6 @@ internal class ManuellListeTest {
     }
 
     @Test
-    fun `skal finne hjelpemiddel med deler for Panthera`() {
-        val hmsnrPanthera = "022492"
-        val hjelpemiddel = hmsnr2Hjm[hmsnrPanthera]
-        assertNotNull(hjelpemiddel)
-
-        val deler = hjelpemiddel!!.deler
-        assertTrue(1 < deler.size)
-
-        val hmsnrSchwalbeDekk = "278033"
-        val dekk = deler.find { it.hmsnr == hmsnrSchwalbeDekk }!!
-        assertEquals("Dekk Schwalbe RightRun 25\"x1", dekk.navn)
-        assertEquals("Dekk", dekk.kategori)
-    }
-
-    @Test
     fun `skal finne hjelpemiddel med deler for Minicrosser M1`() {
         val hmsnrnrMinicrosserM1 = "159629"
         val hjelpemiddel = hmsnr2Hjm[hmsnrnrMinicrosserM1]

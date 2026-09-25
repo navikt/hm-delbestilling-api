@@ -16,18 +16,18 @@ import java.io.File
 
 fun main() {
     runBlocking {
-        //oppdaterTestdata()
+        oppdaterTestdata()
         //finnHjelpemiddelIGrunndataMenMedKunManuelleDeler()
         //finnHjelpemidlerIkkeFinnesIGrunndata()
         //finnDelerAlleredeIGrunndata()
-        genererOppdatertHmsnrHjmTilHmsnrDeler()
+        //genererOppdatertHmsnrHjmTilHmsnrDeler()
         //genererOppdatertHmsnrTilHjelpemiddelnavn()
         //finnUbrukteDeler()
     }
 }
 
 private suspend fun oppdaterTestdata() {
-    listOf("301993").forEach { lagreProduktOgDeler(it) }
+    listOf("022492", "278033").forEach { lagreProduktOgDeler(it) }
 }
 
 private suspend fun lagreProduktOgDeler(hmsnr: String) {
