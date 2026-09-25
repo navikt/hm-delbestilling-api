@@ -185,6 +185,10 @@ class DelbestillingService(
             val epost = ManuellDelbestillingEpost(delbestilling, saksnummer)
             epostOutboxDao.leggTil(lagerEnhet.epost(), MANUELL_DELBESTILLING_EPOST_EMNE, epost.tilHtml())
 
+            delbestilling.epostTekniker?.trim()?.takeIf { it.isNotBlank() }?.let { bestillerepost ->
+                bestillerepostDao.lagre(bestillerFnr, bestillerepost)
+            }
+
             nyDelbestillingSak
         }
 
@@ -346,6 +350,10 @@ class DelbestillingService(
 
     suspend fun hentDelbestillinger(bestillerFnr: String): List<DelbestillingSak> = transaction {
         delbestillingRepository.hentDelbestillinger(bestillerFnr)
+    }
+
+    suspend fun hentSisteBestillerepost(bestillerFnr: String): String? = transaction {
+        bestillerepostDao.hent(bestillerFnr)
     }
 
     suspend fun sjekkXKLager(hmsnr: Hmsnr, serienr: Serienr?, brukernr: String?): Boolean {

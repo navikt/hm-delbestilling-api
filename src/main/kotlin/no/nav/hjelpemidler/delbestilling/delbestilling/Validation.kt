@@ -43,6 +43,7 @@ fun validateUkjenteDeler(ukjenteDeler: List<DellinjeUkjentDel>, epostTekniker: S
 
     return listOfNotNull(
         if (epostTekniker?.trim()?.matches(EPOST_REGEX) != true) "Tekniker må oppgi en gyldig e-postadresse" else null,
+        if (epostTekniker != null && epostTekniker.trim().length > 255) "E-postadresse kan ikke være lengre enn 255 tegn" else null,
     ) + ukjenteDeler.flatMap(::validateUkjentDel)
 }
 

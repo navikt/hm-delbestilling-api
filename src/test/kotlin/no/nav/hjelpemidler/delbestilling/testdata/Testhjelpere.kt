@@ -3,6 +3,8 @@ package no.nav.hjelpemidler.delbestilling.testdata
 import no.nav.hjelpemidler.delbestilling.common.Del
 import no.nav.hjelpemidler.delbestilling.common.DelLinje
 import no.nav.hjelpemidler.delbestilling.common.Delbestilling
+import no.nav.hjelpemidler.delbestilling.common.DellinjeUkjentDel
+import no.nav.hjelpemidler.delbestilling.common.DelUkjent
 import no.nav.hjelpemidler.delbestilling.delbestilling.DelbestillingRequest
 import no.nav.hjelpemidler.delbestilling.common.DelbestillingSak
 import no.nav.hjelpemidler.delbestilling.common.Hmsnr
@@ -39,12 +41,16 @@ fun delbestillingRequest(
     harOpplæringPåBatteri: Boolean = false,
     serieNr: String? = Testdata.defaultHjmSerienr,
     brukerNr: String? = null,
+    ukjenteDeler: List<DellinjeUkjentDel> = emptyList(),
+    epostTekniker: String? = null,
 ) = DelbestillingRequest(
     delbestilling(
         deler = deler,
         harOpplæringPåBatteri = harOpplæringPåBatteri,
         serienr = serieNr,
-        brukerNr = brukerNr
+        brukerNr = brukerNr,
+        ukjenteDeler = ukjenteDeler,
+        epostTekniker = epostTekniker,
     )
 )
 
@@ -54,20 +60,47 @@ fun delbestilling(
     hmsnr: Hmsnr = "236958",
     serienr: String? = Testdata.defaultHjmSerienr,
     brukerNr: String? = null,
+    ukjenteDeler: List<DellinjeUkjentDel> = emptyList(),
+    epostTekniker: String? = null,
 ) = Delbestilling(
     id = UUID.randomUUID(),
     hmsnr = hmsnr,
     serienr = serienr,
     brukernr = brukerNr,
     deler = deler,
+    ukjenteDeler = ukjenteDeler,
     levering = Levering.TIL_XK_LAGER,
     harOpplæringPåBatteri = harOpplæringPåBatteri,
-    navn = "Panthera U3 Light"
+    navn = "Panthera U3 Light",
+    epostTekniker = epostTekniker,
 )
 
 fun delbestillingMedBatteri() = delbestilling(
     hmsnr = GrunndataTestHmsnr.HAR_BATTERI,
     deler = listOf(delLinje(kategori = "Batteri"))
+)
+
+fun dellinjeUkjentDel(
+    antall: Int = 1,
+    hmsnr: String? = null,
+    levArtNr: String? = "12345",
+    beskrivelse: String? = "Sleggefett",
+) = DellinjeUkjentDel(
+    delUkjent = DelUkjent(
+        hmsnr = hmsnr,
+        levArtNr = levArtNr,
+        beskrivelse = beskrivelse,
+    ),
+    antall = antall,
+)
+
+fun delbestillingRequestMedUkjentDel(
+    epostTekniker: String? = "tekniker@nav.no",
+    ukjenteDeler: List<DellinjeUkjentDel> = listOf(dellinjeUkjentDel()),
+) = delbestillingRequest(
+    deler = emptyList(),
+    ukjenteDeler = ukjenteDeler,
+    epostTekniker = epostTekniker,
 )
 
 fun deler() = listOf(
