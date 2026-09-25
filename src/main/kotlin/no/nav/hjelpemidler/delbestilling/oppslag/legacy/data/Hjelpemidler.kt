@@ -174,7 +174,6 @@ val hmsnrTilHjelpemiddelnavn: Map<Hmsnr, Hjelpemiddelnavn> = listOf<Hjelpemiddel
     Hjelpemiddelnavn(hmsnr = "256458", navn = "Panthera", isoKode = "12220301"),
     Hjelpemiddelnavn(hmsnr = "265848", navn = "Panthera", isoKode = "12220301"),
     Hjelpemiddelnavn(hmsnr = "269347", navn = "Panthera", isoKode = "12220301"),
-    Hjelpemiddelnavn(hmsnr = "270151", navn = "Panthera", isoKode = "12220301"),
     Hjelpemiddelnavn(hmsnr = "277692", navn = "Panthera", isoKode = "12220301"),
     Hjelpemiddelnavn(hmsnr = "277693", navn = "Panthera", isoKode = "12220301"),
     Hjelpemiddelnavn(hmsnr = "277694", navn = "Panthera", isoKode = "12220301"),
