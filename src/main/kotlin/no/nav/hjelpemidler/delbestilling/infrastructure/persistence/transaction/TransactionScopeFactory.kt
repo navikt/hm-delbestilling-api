@@ -1,6 +1,7 @@
 package no.nav.hjelpemidler.delbestilling.infrastructure.persistence.transaction
 
 import no.nav.hjelpemidler.database.JdbcOperations
+import no.nav.hjelpemidler.delbestilling.delbestilling.BestillerepostDao
 import no.nav.hjelpemidler.delbestilling.delbestilling.DelbestillingRepository
 import no.nav.hjelpemidler.delbestilling.delbestilling.anmodning.AnmodningDao
 import no.nav.hjelpemidler.delbestilling.delbestilling.anmodning.DelUtenDekningDao
@@ -13,6 +14,7 @@ class TransactionScopeFactory(private val clock: Clock) {
     fun create(tx: JdbcOperations): TransactionScope {
         return TransactionScope(
             anmodningDao = AnmodningDao(tx, clock),
+            bestillerepostDao = BestillerepostDao(tx),
             delUtenDekningDao = DelUtenDekningDao(tx),
             delbestillingRepository = DelbestillingRepository(tx),
             epostOutboxDao = EpostOutboxDao(tx),

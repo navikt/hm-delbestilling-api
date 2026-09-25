@@ -74,4 +74,10 @@ fun Route.delbestillingApiAuthenticated(
         call.respond(delbestillinger)
     }
 
+    get("/delbestilling/bestillerepost") {
+        val bestillerFnr = call.tokenXUser().ident
+        val epost = delbestillingService.hentSisteBestillerepost(bestillerFnr)
+        call.respond(BestillerepostResponse(epost))
+    }
+
 }

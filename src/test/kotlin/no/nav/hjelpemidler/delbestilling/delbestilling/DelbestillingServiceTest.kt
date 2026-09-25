@@ -9,6 +9,7 @@ import no.nav.hjelpemidler.delbestilling.testdata.PdlRespons
 import no.nav.hjelpemidler.delbestilling.testdata.Testdata
 import no.nav.hjelpemidler.delbestilling.testdata.delLinje
 import no.nav.hjelpemidler.delbestilling.testdata.delbestillingRequest
+import no.nav.hjelpemidler.delbestilling.testdata.delbestillingRequestMedUkjentDel
 import no.nav.hjelpemidler.delbestilling.testdata.fixtures.hentDelUtenDekning
 import no.nav.hjelpemidler.delbestilling.testdata.fixtures.hentDelbestillinger
 import no.nav.hjelpemidler.delbestilling.testdata.fixtures.hentDelerUtenDekning
@@ -94,6 +95,22 @@ internal class DelbestillingServiceTest {
         assertEquals(MANUELL_DELBESTILLING_EPOST_EMNE, epost.emne)
         assertTrue(epost.html.contains("12345"))
         assertTrue(epost.html.contains("Sleggefett"))
+
+        assertEquals("tekniker@nav.no", transaction { bestillerepostDao.hent(Testdata.fnr) })
+    }
+
+    @Test
+    fun `skal lagre og hente siste bestillerepost for bestiller`() = runWithTestContext {
+        assertEquals(null, delbestillingService.hentSisteBestillerepost(Testdata.fnr))
+
+        opprettDelbestilling(delbestillingRequestMedUkjentDel(epostTekniker = "forste@nav.no"))
+
+        assertEquals("forste@nav.no", delbestillingService.hentSisteBestillerepost(Testdata.fnr))
+
+        // Skal overskrive med siste innsendte epost for samme bestiller
+        opprettDelbestilling(delbestillingRequestMedUkjentDel(epostTekniker = "siste@nav.no"))
+
+        assertEquals("siste@nav.no", delbestillingService.hentSisteBestillerepost(Testdata.fnr))
     }
 
     @Test

@@ -8,6 +8,10 @@ data class XKLagerResponse(
     val xkLager: Boolean,
 )
 
+data class BestillerepostResponse(
+    val epost: String?,
+)
+
 data class DelbestillingRequest(
     val delbestilling: Delbestilling,
 )
