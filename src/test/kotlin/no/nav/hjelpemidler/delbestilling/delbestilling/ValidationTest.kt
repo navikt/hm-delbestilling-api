@@ -130,6 +130,21 @@ internal class ValidationTest {
     }
 
     @Test
+    fun `skal avvise epost lengre enn 255 tegn for ukjente deler`() {
+        val ukjenteDeler = listOf(ukjentDel(hmsnr = "123456"))
+        val forLangEpost = "a".repeat(250) + "@nav.no"
+
+        assertEquals(
+            listOf("E-postadresse kan ikke være lengre enn 255 tegn"),
+            validateUkjenteDeler(ukjenteDeler, forLangEpost),
+        )
+        assertEquals(
+            emptyList(),
+            validateUkjenteDeler(ukjenteDeler, "a".repeat(243) + "@nav.no"),
+        )
+    }
+
+    @Test
     fun `skal validere identifikator og antall for ukjent del`() {
         assertEquals(
             listOf("Ukjent del må ha HMS-nr eller leverandørens artikkelnummer"),
