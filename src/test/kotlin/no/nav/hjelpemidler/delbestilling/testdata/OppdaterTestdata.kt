@@ -20,7 +20,7 @@ fun main() {
         //finnHjelpemiddelIGrunndataMenMedKunManuelleDeler()
         //finnHjelpemidlerIkkeFinnesIGrunndata()
         //finnDelerAlleredeIGrunndata()
-        //genererOppdatertHmsnrHjmTilHmsnrDeler()
+        genererOppdatertHmsnrHjmTilHmsnrDeler()
         //genererOppdatertHmsnrTilHjelpemiddelnavn()
         //finnUbrukteDeler()
     }
