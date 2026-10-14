@@ -5,10 +5,12 @@ import no.nav.hjelpemidler.delbestilling.fakes.HmsEnhet.HMS_AKERSHUS
 import no.nav.hjelpemidler.delbestilling.fakes.HmsEnhet.HMS_OSLO
 import no.nav.hjelpemidler.delbestilling.fakes.HmsEnhet.HMS_TROMS_OG_FINNMARK
 import no.nav.hjelpemidler.delbestilling.fakes.HmsEnhet.HMS_TRØNDELAG
+import no.nav.hjelpemidler.delbestilling.fakes.HmsEnhet.HMS_VEST_VIKEN
 import no.nav.hjelpemidler.delbestilling.infrastructure.norg.NorgClientInterface
 import no.nav.hjelpemidler.delbestilling.infrastructure.oebs.ENHETSNUMMER_HMS_AKERSHUS
 import no.nav.hjelpemidler.delbestilling.infrastructure.oebs.ENHETSNUMMER_HMS_TROMS_OG_FINNMARK
 import no.nav.hjelpemidler.delbestilling.infrastructure.oebs.ENHETSNUMMER_HMS_TRØNDELAG
+import no.nav.hjelpemidler.delbestilling.testdata.Kommunenummer.ASKER
 import no.nav.hjelpemidler.delbestilling.testdata.Kommunenummer.KARASJOK
 import no.nav.hjelpemidler.delbestilling.testdata.Kommunenummer.NÆRØYSUND
 import no.nav.hjelpemidler.domain.geografi.Kommune.Companion.BÆRUM
@@ -23,6 +25,7 @@ class NorgClientFake : NorgClientInterface {
     private val enhetForKommunenummer = mutableMapOf(
         BÆRUM.nummer to HMS_AKERSHUS,
         OSLO.nummer to HMS_OSLO,
+        ASKER to HMS_VEST_VIKEN,
         TRONDHEIM.nummer to HMS_TRØNDELAG,
         NÆRØYSUND to HMS_TRØNDELAG,
         TROMSØ.nummer to HMS_TROMS_OG_FINNMARK,
@@ -43,6 +46,7 @@ private fun Lager.tilEnhet() = enhet(navn, nummer)
 object HmsEnhet {
     val HMS_AKERSHUS = enhet("Akershus", ENHETSNUMMER_HMS_AKERSHUS)
     val HMS_OSLO = Lager.OSLO.tilEnhet()
+    val HMS_VEST_VIKEN = Lager.VEST_VIKEN.tilEnhet()
     val HMS_TRØNDELAG = enhet("Trøndelag", nummer = ENHETSNUMMER_HMS_TRØNDELAG)
     val HMS_TROMS_OG_FINNMARK = enhet("Troms og Finnmark", ENHETSNUMMER_HMS_TROMS_OG_FINNMARK)
 }
