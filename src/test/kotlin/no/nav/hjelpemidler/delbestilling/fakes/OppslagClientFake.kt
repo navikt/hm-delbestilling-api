@@ -3,6 +3,7 @@ package no.nav.hjelpemidler.delbestilling.fakes
 import no.nav.hjelpemidler.delbestilling.infrastructure.geografi.KommuneDto
 import no.nav.hjelpemidler.delbestilling.infrastructure.geografi.OppslagClientInterface
 import no.nav.hjelpemidler.delbestilling.infrastructure.geografi.PoststedDto
+import no.nav.hjelpemidler.delbestilling.testdata.Kommunenummer.ASKER
 
 class OppslagClientFake : OppslagClientInterface {
 
@@ -12,6 +13,12 @@ class OppslagClientFake : OppslagClientInterface {
             fylkesnavn = "Oslo",
             kommunenummer = "0301",
             kommunenavn = "Oslo",
+        ),
+        ASKER to KommuneDto(
+            fylkesnummer = "32",
+            fylkesnavn = "Akershus",
+            kommunenummer = ASKER,
+            kommunenavn = "Asker",
         ),
     )
 

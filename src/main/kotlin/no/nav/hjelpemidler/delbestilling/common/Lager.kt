@@ -32,6 +32,12 @@ enum class Lager(val nummer: String, val navn: String, private val epost: String
         else -> epost()
     }
 
+    // Ved ønske om bruk av annen epost-adresse for manuelle delbestillinger
+    fun epostForManuellDelbestilling(): String = when(this) {
+        VEST_VIKEN -> "nav.hot.vest-viken.delelager@nav.no"
+        else -> epost()
+    }
+
     fun epostForKlargjorteDelbestillinger(): String = when(this) {
         OSLO -> "nav.hot.oslo.lager@nav.no"
         else -> epost()

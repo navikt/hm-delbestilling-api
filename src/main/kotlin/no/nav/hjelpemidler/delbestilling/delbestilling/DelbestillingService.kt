@@ -26,7 +26,6 @@ import no.nav.hjelpemidler.delbestilling.infrastructure.persistence.transaction.
 import no.nav.hjelpemidler.delbestilling.infrastructure.roller.Delbestiller
 import no.nav.hjelpemidler.delbestilling.infrastructure.roller.Organisasjon
 import no.nav.hjelpemidler.delbestilling.infrastructure.slack.Slack
-import no.nav.hjelpemidler.delbestilling.oppslag.legacy.data.hmsnr2Hjm
 import no.nav.hjelpemidler.domain.person.Fødselsnummer
 import java.time.LocalDateTime
 import java.util.UUID
@@ -157,7 +156,12 @@ class DelbestillingService(
                 ?: throw RuntimeException("Klarte ikke hente ut delbestillingsak for saksnummer $saksnummer")
 
             val epost = ManuellDelbestillingEpost(delbestilling, saksnummer)
-            epostOutboxDao.leggTil(innsending.lagerEnhet.epost(), MANUELL_DELBESTILLING_EPOST_EMNE, epost.tilHtml())
+            epostOutboxDao.leggTil(
+                innsending.lagerEnhet.epostForManuellDelbestilling(),
+                MANUELL_DELBESTILLING_EPOST_EMNE,
+                epost.tilHtml())
+
+            log.info { "Epost med manuell delbestilling for saksnr. $saksnummer sendt til ${innsending.lagerEnhet.epostForManuellDelbestilling()}" }
 
             delbestilling.epostTekniker?.trim()?.takeIf { it.isNotBlank() }?.let { bestillerepost ->
                 bestillerepostDao.lagre(innsending.bestillerFnr, bestillerepost)
