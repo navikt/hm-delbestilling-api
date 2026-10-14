@@ -47,8 +47,8 @@ data class ManuellDelbestillingEpost(
             </head>
             <body style="font-family: Arial, sans-serif; color: #262626; line-height: 1.5;">
                 <h1 style="font-size: 24px; margin: 0 0 16px;">Bestilling av deler til manuell behandling</h1>
-     
-                <p>Denne e-posten inneholder del(er) som må behandles manuelt, da bestilt del ikke finnes i grunndata</p>
+
+                <p>Denne bestillingen inneholder én eller flere deler som ikke finnes i grunndata, og må derfor behandles manuelt.</p>
 
                 <h2 style="font-size: 18px; margin: 24px 0 8px;">Hjelpemiddelet som skal repareres</h2>
                 <table role="presentation" style="border-collapse: collapse; width: 100%; max-width: 680px;">
@@ -81,12 +81,11 @@ data class ManuellDelbestillingEpost(
                 <h2 style="font-size: 18px; margin: 24px 0 8px;">Bestilt av</h2>
                 <table role="presentation" style="border-collapse: collapse; width: 100%; max-width: 680px;">
                     <tbody>
-                        ${nøkkelverdi("E-post tekniker", delbestilling.epostTekniker.orEmpty())}
+                        ${nøkkelverdi("E-post tekniker", delbestilling.epostTekniker?.trim())}
                     </tbody>
-                </table>                
-                         
-                         
-               <h2 style="font-size: 18px; margin: 24px 0 8px;">Sak</h2>
+                </table>
+
+                <h2 style="font-size: 18px; margin: 24px 0 8px;">Sak</h2>
                 <table role="presentation" style="border-collapse: collapse; width: 100%; max-width: 680px;">
                     <tbody>
                         ${nøkkelverdi("Saksnummer", saksnummer.toString())}

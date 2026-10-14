@@ -49,4 +49,13 @@ class ManuellDelbestillingEpostTest {
         assertFalse(html.contains("Hjelpemiddelbruker"))
     }
 
+    @Test
+    fun `skal trimme epost til tekniker`() {
+        val delbestilling = delbestilling().copy(epostTekniker = "  tekniker@nav.no  ")
+
+        val html = ManuellDelbestillingEpost(delbestilling, 19).tilHtml()
+
+        assertTrue(html.contains("E-post tekniker:</strong> tekniker@nav.no\n"))
+    }
+
 }
