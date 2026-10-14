@@ -121,32 +121,36 @@ class DelbestillingService(
             }
         }
 
-        return if (request.delbestilling.saksbehandlingstype() == Saksbehandlingstype.AUTOMATISK) {
-            log.info { "Innsending av delbestilling med id $id, hmsnr $hmsnr, serienr $serienr, brukernr $brukernr" }
-            opprettAutomatiskDelbestilling(
-                request,
-                brukerKommunenr,
-                bestillerFnr,
-                brukersFnr,
-                brukersKommunenavn,
-                innsendersRepresenterteOrganisasjon,
-                bestillerType,
-                lagerEnhet,
-                id
-            )
-        } else {
-            log.info { "Innsending av delbestilling med id $id, hmsnr $hmsnr, serienr $serienr, brukernr $brukernr. Ukjente deler: ${request.delbestilling.ukjenteDeler}" }
-            opprettDelbestillingTilManuellSaksbehandling(
-                request,
-                brukerKommunenr,
-                bestillerFnr,
-                brukersFnr,
-                brukersKommunenavn,
-                innsendersRepresenterteOrganisasjon,
-                bestillerType,
-                lagerEnhet,
-                id,
-            )
+        return when (request.delbestilling.saksbehandlingstype()) {
+            Saksbehandlingstype.AUTOMATISK -> {
+                log.info { "Innsending av delbestilling med id $id, hmsnr $hmsnr, serienr $serienr, brukernr $brukernr" }
+                opprettAutomatiskDelbestilling(
+                    request,
+                    brukerKommunenr,
+                    bestillerFnr,
+                    brukersFnr,
+                    brukersKommunenavn,
+                    innsendersRepresenterteOrganisasjon,
+                    bestillerType,
+                    lagerEnhet,
+                    id
+                )
+            }
+
+            Saksbehandlingstype.MANUELL -> {
+                log.info { "Innsending av delbestilling med id $id, hmsnr $hmsnr, serienr $serienr, brukernr $brukernr. Ukjente deler: ${request.delbestilling.ukjenteDeler}" }
+                opprettDelbestillingTilManuellSaksbehandling(
+                    request,
+                    brukerKommunenr,
+                    bestillerFnr,
+                    brukersFnr,
+                    brukersKommunenavn,
+                    innsendersRepresenterteOrganisasjon,
+                    bestillerType,
+                    lagerEnhet,
+                    id,
+                )
+            }
         }
     }
 
