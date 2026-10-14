@@ -2,7 +2,6 @@ package no.nav.hjelpemidler.delbestilling.testdata.fixtures
 
 import no.nav.hjelpemidler.delbestilling.common.Delbestilling
 import no.nav.hjelpemidler.delbestilling.common.Hmsnr
-import no.nav.hjelpemidler.delbestilling.delbestilling.BestillerType
 import no.nav.hjelpemidler.delbestilling.delbestilling.DelbestillingRequest
 import no.nav.hjelpemidler.delbestilling.delbestilling.DelbestillingResultat
 import no.nav.hjelpemidler.delbestilling.infrastructure.roller.Delbestiller
@@ -14,7 +13,7 @@ import no.nav.hjelpemidler.delbestilling.testdata.delLinje
 import no.nav.hjelpemidler.delbestilling.testdata.delbestillerRolle
 import no.nav.hjelpemidler.delbestilling.testdata.delbestilling
 import no.nav.hjelpemidler.delbestilling.testdata.delbestillingRequest
-import no.nav.hjelpemidler.delbestilling.testdata.organisasjon
+import no.nav.hjelpemidler.delbestilling.testdata.innsending
 import java.time.LocalDateTime
 
 // TODO: Kan vi skrive om dette slik at det oppretter delbestillingen på den vanlige måten (via delbestillingservice)
@@ -27,16 +26,14 @@ suspend fun TestContext.gittDelbestilling(
 ) {
     transaction(returnGeneratedKeys = true) {
         val saksnummer = delbestillingRepository.lagreDelbestilling(
-            bestillerFnr = Testdata.fnr,
-            brukerFnr = Testdata.fnr,
-            brukerKommunenr = Testdata.defaultKommunenummer,
             delbestilling = delbestilling,
-            brukersKommunenavn = Testdata.defaultKommunenavn,
-            bestillersOrganisasjon = organisasjon(),
-            bestillerType = BestillerType.KOMMUNAL,
-            lagerEnhet = lagerEnhet,
-            status = status,
+            innsending = innsending(lagerEnhet = lagerEnhet),
         )
+
+        if (status != Status.INNSENDT) {
+            val sak = checkNotNull(delbestillingRepository.hentDelbestilling(saksnummer))
+            delbestillingRepository.oppdaterDelbestillingSak(sak.copy(status = status))
+        }
 
         if (dagerSidenOpprettelse != null) {
             val opprettet = LocalDateTime.now().minusDays(dagerSidenOpprettelse)

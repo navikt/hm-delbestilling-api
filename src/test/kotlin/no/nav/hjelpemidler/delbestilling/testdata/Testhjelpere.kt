@@ -5,9 +5,12 @@ import no.nav.hjelpemidler.delbestilling.common.DelLinje
 import no.nav.hjelpemidler.delbestilling.common.Delbestilling
 import no.nav.hjelpemidler.delbestilling.common.DellinjeUkjentDel
 import no.nav.hjelpemidler.delbestilling.common.DelUkjent
+import no.nav.hjelpemidler.delbestilling.delbestilling.BestillerType
 import no.nav.hjelpemidler.delbestilling.delbestilling.DelbestillingRequest
+import no.nav.hjelpemidler.delbestilling.delbestilling.Innsending
 import no.nav.hjelpemidler.delbestilling.common.DelbestillingSak
 import no.nav.hjelpemidler.delbestilling.common.Hmsnr
+import no.nav.hjelpemidler.delbestilling.common.Lager
 import no.nav.hjelpemidler.delbestilling.common.Lagerstatus
 import no.nav.hjelpemidler.delbestilling.common.Levering
 import no.nav.hjelpemidler.delbestilling.common.Saksbehandlingstype
@@ -147,6 +150,18 @@ fun delbestillingSak(
 fun organisasjon(orgnr: String = "123456789", navn: String = "Reperasjon AS") = Organisasjon(
     orgnr = orgnr,
     navn = navn,
+)
+
+fun innsending(
+    lagerEnhet: Lager = Testdata.defaultEnhet,
+) = Innsending(
+    bestillerFnr = Testdata.fnr,
+    brukersFnr = Testdata.fnr,
+    brukerKommunenr = Testdata.defaultKommunenummer,
+    brukersKommunenavn = Testdata.defaultKommunenavn,
+    innsendersRepresenterteOrganisasjon = organisasjon(),
+    bestillerType = BestillerType.KOMMUNAL,
+    lagerEnhet = lagerEnhet,
 )
 
 fun utlån(

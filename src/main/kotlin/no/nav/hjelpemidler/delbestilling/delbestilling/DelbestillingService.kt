@@ -6,7 +6,6 @@ import kotlinx.coroutines.launch
 import no.nav.hjelpemidler.delbestilling.common.Delbestilling
 import no.nav.hjelpemidler.delbestilling.common.DelbestillingSak
 import no.nav.hjelpemidler.delbestilling.common.Hmsnr
-import no.nav.hjelpemidler.delbestilling.common.Lager
 import no.nav.hjelpemidler.delbestilling.common.Saksbehandlingstype
 import no.nav.hjelpemidler.delbestilling.common.Serienr
 import no.nav.hjelpemidler.delbestilling.config.isDev
@@ -121,126 +120,82 @@ class DelbestillingService(
             }
         }
 
+        val innsending = Innsending(
+            bestillerFnr = bestillerFnr,
+            brukersFnr = brukersFnr,
+            brukerKommunenr = brukerKommunenr,
+            brukersKommunenavn = brukersKommunenavn,
+            innsendersRepresenterteOrganisasjon = innsendersRepresenterteOrganisasjon,
+            bestillerType = bestillerType,
+            lagerEnhet = lagerEnhet,
+        )
+
         return when (request.delbestilling.saksbehandlingstype()) {
             Saksbehandlingstype.AUTOMATISK -> {
                 log.info { "Innsending av delbestilling med id $id, hmsnr $hmsnr, serienr $serienr, brukernr $brukernr" }
-                opprettAutomatiskDelbestilling(
-                    request,
-                    brukerKommunenr,
-                    bestillerFnr,
-                    brukersFnr,
-                    brukersKommunenavn,
-                    innsendersRepresenterteOrganisasjon,
-                    bestillerType,
-                    lagerEnhet,
-                    id
-                )
+                opprettAutomatiskDelbestilling(request.delbestilling, innsending)
             }
 
             Saksbehandlingstype.MANUELL -> {
                 log.info { "Innsending av delbestilling med id $id, hmsnr $hmsnr, serienr $serienr, brukernr $brukernr. Ukjente deler: ${request.delbestilling.ukjenteDeler}" }
-                opprettDelbestillingTilManuellSaksbehandling(
-                    request,
-                    brukerKommunenr,
-                    bestillerFnr,
-                    brukersFnr,
-                    brukersKommunenavn,
-                    innsendersRepresenterteOrganisasjon,
-                    bestillerType,
-                    lagerEnhet,
-                    id,
-                )
+                opprettDelbestillingTilManuellSaksbehandling(request.delbestilling, innsending)
             }
         }
     }
 
     private suspend fun opprettDelbestillingTilManuellSaksbehandling(
-        request: DelbestillingRequest,
-        brukerKommunenr: String,
-        bestillerFnr: String,
-        brukersFnr: String,
-        brukersKommunenavn: String,
-        innsendersRepresenterteOrganisasjon: Organisasjon,
-        bestillerType: BestillerType,
-        lagerEnhet: Lager,
-        id: UUID
+        delbestilling: Delbestilling,
+        innsending: Innsending,
     ): DelbestillingResultat {
-        val delbestilling = request.delbestilling
-
         val delbestillingSak = transaction(returnGeneratedKeys = true) {
 
             log.info { "Lagrer manuell delbestilling '${delbestilling.id}'" }
-            val saksnummer = delbestillingRepository.lagreDelbestilling(
-                bestillerFnr,
-                brukersFnr,
-                brukerKommunenr,
-                delbestilling,
-                brukersKommunenavn,
-                innsendersRepresenterteOrganisasjon,
-                bestillerType,
-                lagerEnhet,
-            )
+            val saksnummer = delbestillingRepository.lagreDelbestilling(delbestilling, innsending)
 
             // Hent ut den nye delbestillingsaken
             val nyDelbestillingSak = delbestillingRepository.hentDelbestilling(saksnummer)
                 ?: throw RuntimeException("Klarte ikke hente ut delbestillingsak for saksnummer $saksnummer")
 
             val epost = ManuellDelbestillingEpost(delbestilling, saksnummer)
-            epostOutboxDao.leggTil(lagerEnhet.epost(), MANUELL_DELBESTILLING_EPOST_EMNE, epost.tilHtml())
+            epostOutboxDao.leggTil(innsending.lagerEnhet.epost(), MANUELL_DELBESTILLING_EPOST_EMNE, epost.tilHtml())
 
             delbestilling.epostTekniker?.trim()?.takeIf { it.isNotBlank() }?.let { bestillerepost ->
-                bestillerepostDao.lagre(bestillerFnr, bestillerepost)
+                bestillerepostDao.lagre(innsending.bestillerFnr, bestillerepost)
             }
 
             nyDelbestillingSak
         }
 
-        log.info { "Manuell delbestilling '$id' sendt inn med saksnummer '${delbestillingSak.saksnummer}'" }
+        log.info { "Manuell delbestilling '${delbestilling.id}' sendt inn med saksnummer '${delbestillingSak.saksnummer}'" }
 
-        sendStatistikk(request.delbestilling, brukersFnr)
+        sendStatistikk(delbestilling, innsending.brukersFnr)
 
         if (!isLocal()) {
-            slack.varsleOmInnsending(brukerKommunenr, brukersKommunenavn)
+            slack.varsleOmInnsending(innsending.brukerKommunenr, innsending.brukersKommunenavn)
         }
 
         return DelbestillingResultat(
-            id, null, delbestillingSak.saksnummer, delbestillingSak
+            delbestilling.id, null, delbestillingSak.saksnummer, delbestillingSak
         )
     }
 
     private suspend fun opprettAutomatiskDelbestilling(
-        request: DelbestillingRequest,
-        brukerKommunenr: String,
-        bestillerFnr: String,
-        brukersFnr: String,
-        brukersKommunenavn: String,
-        innsendersRepresenterteOrganisasjon: Organisasjon,
-        bestillerType: BestillerType,
-        lagerEnhet: Lager,
-        id: UUID
+        delbestilling: Delbestilling,
+        innsending: Innsending,
     ): DelbestillingResultat {
-        val bestillersNavn = pdl.hentFornavn(bestillerFnr)
-        val delerHmsnr = request.delbestilling.deler.map { it.del.hmsnr }
-        val lagerstatuser = oebs.hentLagerstatusForKommunenummer(brukerKommunenr, delerHmsnr)
-        val berikedeDellinjer = request.delbestilling.deler.map { dellinje ->
+        val bestillersNavn = pdl.hentFornavn(innsending.bestillerFnr)
+        val delerHmsnr = delbestilling.deler.map { it.del.hmsnr }
+        val lagerstatuser = oebs.hentLagerstatusForKommunenummer(innsending.brukerKommunenr, delerHmsnr)
+        val berikedeDellinjer = delbestilling.deler.map { dellinje ->
             val lagerstatus =
                 checkNotNull(lagerstatuser.find { it.artikkelnummer == dellinje.del.hmsnr }) { "Mangler lagerstatus for ${dellinje.del.hmsnr}" }
             dellinje.copy(lagerstatusPåBestillingstidspunkt = lagerstatus) // Brukes senere i AnmodningService for å finne ut om det er behov for anmodning.
         }
-        val delbestilling = request.delbestilling.copy(deler = berikedeDellinjer)
+        val berikedDelbestilling = delbestilling.copy(deler = berikedeDellinjer)
 
         val delbestillingSak = transaction(returnGeneratedKeys = true) {
-            log.info { "Lagrer delbestilling '${delbestilling.id}'" }
-            val saksnummer = delbestillingRepository.lagreDelbestilling(
-                bestillerFnr,
-                brukersFnr,
-                brukerKommunenr,
-                delbestilling,
-                brukersKommunenavn,
-                innsendersRepresenterteOrganisasjon,
-                bestillerType,
-                lagerEnhet,
-            )
+            log.info { "Lagrer delbestilling '${berikedDelbestilling.id}'" }
+            val saksnummer = delbestillingRepository.lagreDelbestilling(berikedDelbestilling, innsending)
 
             // Hent ut den nye delbestillingsaken
             val nyDelbestillingSak = delbestillingRepository.hentDelbestilling(saksnummer)
@@ -249,7 +204,7 @@ class DelbestillingService(
             anmodningService.lagreDelerUtenDekning(nyDelbestillingSak)
 
             // Skriv Kafka-event til outbox atomisk med delbestillingen
-            val ordre = oebs.byggOrdre(nyDelbestillingSak, Fødselsnummer(brukersFnr), bestillersNavn)
+            val ordre = oebs.byggOrdre(nyDelbestillingSak, Fødselsnummer(innsending.brukersFnr), bestillersNavn)
             val eventId = UUID.randomUUID()
             outboxDao.leggTil(
                 topic = SOKNADSBEHANDLING_TOPIC,
@@ -262,15 +217,15 @@ class DelbestillingService(
             nyDelbestillingSak
         }
 
-        log.info { "Delbestilling '$id' sendt inn med saksnummer '${delbestillingSak.saksnummer}'" }
+        log.info { "Delbestilling '${delbestilling.id}' sendt inn med saksnummer '${delbestillingSak.saksnummer}'" }
 
-        sendStatistikk(request.delbestilling, brukersFnr)
+        sendStatistikk(delbestilling, innsending.brukersFnr)
 
         if (!isLocal()) {
-            slack.varsleOmInnsending(brukerKommunenr, brukersKommunenavn)
+            slack.varsleOmInnsending(innsending.brukerKommunenr, innsending.brukersKommunenavn)
         }
 
-        return DelbestillingResultat(id, null, delbestillingSak.saksnummer, delbestillingSak)
+        return DelbestillingResultat(delbestilling.id, null, delbestillingSak.saksnummer, delbestillingSak)
     }
 
     suspend fun hentInnbyggersFnr(hmsnr: String, serienr: Serienr?, brukernr: String?): String? {

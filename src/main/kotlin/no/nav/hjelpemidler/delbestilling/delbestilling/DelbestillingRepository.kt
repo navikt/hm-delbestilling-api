@@ -6,41 +6,32 @@ import no.nav.hjelpemidler.database.pgObjectOf
 import no.nav.hjelpemidler.delbestilling.common.Delbestilling
 import no.nav.hjelpemidler.delbestilling.common.DelbestillingSak
 import no.nav.hjelpemidler.delbestilling.common.Hmsnr
-import no.nav.hjelpemidler.delbestilling.common.Lager
 import no.nav.hjelpemidler.delbestilling.common.Saksbehandlingstype
 import no.nav.hjelpemidler.delbestilling.common.Serienr
 import no.nav.hjelpemidler.delbestilling.common.Status
 import no.nav.hjelpemidler.delbestilling.infrastructure.jsonMapper
-import no.nav.hjelpemidler.delbestilling.infrastructure.roller.Organisasjon
 
 class DelbestillingRepository(val tx: JdbcOperations) {
 
     fun lagreDelbestilling(
-        bestillerFnr: String,
-        brukerFnr: String,
-        brukerKommunenr: String,
         delbestilling: Delbestilling,
-        brukersKommunenavn: String,
-        bestillersOrganisasjon: Organisasjon,
-        bestillerType: BestillerType,
-        lagerEnhet: Lager,
-        status: Status = Status.INNSENDT,
+        innsending: Innsending,
     ): Long = tx.updateAndReturnGeneratedKey(
         sql = """
             INSERT INTO delbestilling (brukers_kommunenr, fnr_bruker, fnr_bestiller, delbestilling_json, status, brukers_kommunenavn, bestillers_organisasjon, bestiller_type, enhetnr, enhetnavn, saksbehandlingstype)
             VALUES (:brukers_kommunenr, :fnr_bruker, :fnr_bestiller, :delbestilling_json::jsonb, :status, :brukers_kommunenavn, :bestillers_organisasjon::jsonb, :bestiller_type, :enhetnr, :enhetnavn, :saksbehandlingstype)
         """.trimIndent(),
         queryParameters = mapOf(
-            "brukers_kommunenr" to brukerKommunenr,
-            "fnr_bruker" to brukerFnr,
-            "fnr_bestiller" to bestillerFnr,
+            "brukers_kommunenr" to innsending.brukerKommunenr,
+            "fnr_bruker" to innsending.brukersFnr,
+            "fnr_bestiller" to innsending.bestillerFnr,
             "delbestilling_json" to jsonMapper.writeValueAsString(delbestilling),
-            "status" to status.name,
-            "brukers_kommunenavn" to brukersKommunenavn,
-            "bestillers_organisasjon" to jsonMapper.writeValueAsString(bestillersOrganisasjon),
-            "bestiller_type" to bestillerType,
-            "enhetnr" to lagerEnhet.nummer,
-            "enhetnavn" to lagerEnhet.navn,
+            "status" to Status.INNSENDT.name,
+            "brukers_kommunenavn" to innsending.brukersKommunenavn,
+            "bestillers_organisasjon" to jsonMapper.writeValueAsString(innsending.innsendersRepresenterteOrganisasjon),
+            "bestiller_type" to innsending.bestillerType,
+            "enhetnr" to innsending.lagerEnhet.nummer,
+            "enhetnavn" to innsending.lagerEnhet.navn,
             "saksbehandlingstype" to delbestilling.saksbehandlingstype().name
         ),
     )
