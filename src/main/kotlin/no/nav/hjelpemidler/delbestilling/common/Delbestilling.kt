@@ -39,6 +39,9 @@ data class Delbestilling(
 
     fun harBatteri() = deler.any { it.erBatteri() }
 
+    fun saksbehandlingstype(): Saksbehandlingstype =
+        if (ukjenteDeler.isEmpty()) Saksbehandlingstype.AUTOMATISK else Saksbehandlingstype.MANUELL
+
     companion object {
         private const val LEVERINGSDAGER_FRA_SKIPNINGSBEKREFTELSE = 1
 

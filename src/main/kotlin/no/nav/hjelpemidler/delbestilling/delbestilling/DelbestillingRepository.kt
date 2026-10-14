@@ -25,7 +25,6 @@ class DelbestillingRepository(val tx: JdbcOperations) {
         bestillerType: BestillerType,
         lagerEnhet: Lager,
         status: Status = Status.INNSENDT,
-        saksbehandlingstype: Saksbehandlingstype
     ): Long = tx.updateAndReturnGeneratedKey(
         sql = """
             INSERT INTO delbestilling (brukers_kommunenr, fnr_bruker, fnr_bestiller, delbestilling_json, status, brukers_kommunenavn, bestillers_organisasjon, bestiller_type, enhetnr, enhetnavn, saksbehandlingstype)
@@ -42,7 +41,7 @@ class DelbestillingRepository(val tx: JdbcOperations) {
             "bestiller_type" to bestillerType,
             "enhetnr" to lagerEnhet.nummer,
             "enhetnavn" to lagerEnhet.navn,
-            "saksbehandlingstype" to saksbehandlingstype.name
+            "saksbehandlingstype" to delbestilling.saksbehandlingstype().name
         ),
     )
 

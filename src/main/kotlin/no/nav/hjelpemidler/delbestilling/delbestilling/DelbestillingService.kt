@@ -121,7 +121,7 @@ class DelbestillingService(
             }
         }
 
-        return if (request.delbestilling.ukjenteDeler.isEmpty()) {
+        return if (request.delbestilling.saksbehandlingstype() == Saksbehandlingstype.AUTOMATISK) {
             log.info { "Innsending av delbestilling med id $id, hmsnr $hmsnr, serienr $serienr, brukernr $brukernr" }
             opprettAutomatiskDelbestilling(
                 request,
@@ -175,7 +175,6 @@ class DelbestillingService(
                 innsendersRepresenterteOrganisasjon,
                 bestillerType,
                 lagerEnhet,
-                saksbehandlingstype = Saksbehandlingstype.MANUELL,
             )
 
             // Hent ut den nye delbestillingsaken
@@ -237,7 +236,6 @@ class DelbestillingService(
                 innsendersRepresenterteOrganisasjon,
                 bestillerType,
                 lagerEnhet,
-                saksbehandlingstype = Saksbehandlingstype.AUTOMATISK
             )
 
             // Hent ut den nye delbestillingsaken
@@ -302,17 +300,12 @@ class DelbestillingService(
                     )
                 }
 
-                // TODO Rydd opp slik at sakstype settes automatisk på Delbestilling, og brukes som single source of truth.
-                val saksbehandlingstype = when(delbestilling.ukjenteDeler.isEmpty()) {
-                    true -> Saksbehandlingstype.AUTOMATISK
-                    false -> Saksbehandlingstype.MANUELL
-                }
                 metrics.registrerDelbestillingInnsendtSak(
                     hmsnrHovedprodukt = delbestilling.hmsnr,
                     navnHovedprodukt = navnHovedprodukt,
                     rolleInnsender = "Tekniker",
                     hjmbrukerHarBrukerpass = hjmbrukerHarBrukerpass,
-                    saksbehandlingstype = saksbehandlingstype,
+                    saksbehandlingstype = delbestilling.saksbehandlingstype(),
                     serienr = delbestilling.serienr,
                     brukernr = delbestilling.brukernr,
                 )

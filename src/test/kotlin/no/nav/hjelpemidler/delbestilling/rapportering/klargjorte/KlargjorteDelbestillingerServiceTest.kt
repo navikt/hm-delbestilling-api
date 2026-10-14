@@ -2,14 +2,17 @@ package no.nav.hjelpemidler.delbestilling.rapportering.klargjorte
 
 import no.nav.hjelpemidler.delbestilling.common.Del
 import no.nav.hjelpemidler.delbestilling.common.DelLinje
+import no.nav.hjelpemidler.delbestilling.common.DelUkjent
 import no.nav.hjelpemidler.delbestilling.common.Delbestilling
 import no.nav.hjelpemidler.delbestilling.common.DelbestillingSak
+import no.nav.hjelpemidler.delbestilling.common.DellinjeUkjentDel
 import no.nav.hjelpemidler.delbestilling.common.Kilde
 import no.nav.hjelpemidler.delbestilling.common.Lager
 import no.nav.hjelpemidler.delbestilling.common.Levering
 import no.nav.hjelpemidler.delbestilling.common.Saksbehandlingstype
 import no.nav.hjelpemidler.delbestilling.common.Status
 import no.nav.hjelpemidler.delbestilling.runWithTestContext
+import no.nav.hjelpemidler.delbestilling.testdata.delbestilling
 import no.nav.hjelpemidler.delbestilling.testdata.fixtures.gittDelbestilling
 import no.nav.hjelpemidler.text.toUUID
 import org.junit.jupiter.api.Test
@@ -24,7 +27,15 @@ class KlargjorteDelbestillingerServiceTest {
         gittDelbestilling(lagerEnhet = Lager.OSLO, status = Status.INNSENDT)
         gittDelbestilling(lagerEnhet = Lager.OSLO, status = Status.KLARGJORT)
         gittDelbestilling(lagerEnhet = Lager.OSLO, status = Status.KLARGJORT)
-        gittDelbestilling(lagerEnhet = Lager.OSLO, status = Status.KLARGJORT, saksbehandlingstype = Saksbehandlingstype.MANUELL,)
+        gittDelbestilling(
+            delbestilling = delbestilling(
+                ukjenteDeler = listOf(
+                    DellinjeUkjentDel(DelUkjent(hmsnr = "123456", levArtNr = null), antall = 1)
+                ),
+            ),
+            lagerEnhet = Lager.OSLO,
+            status = Status.KLARGJORT,
+        )
 
         // 1 klargjort delbestilling for lager Finnmark
         gittDelbestilling(lagerEnhet = Lager.FINNMARK, status = Status.KLARGJORT)
