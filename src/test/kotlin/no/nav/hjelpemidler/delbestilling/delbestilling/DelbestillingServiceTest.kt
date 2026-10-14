@@ -5,8 +5,12 @@ import no.nav.hjelpemidler.delbestilling.common.DelUkjent
 import no.nav.hjelpemidler.delbestilling.common.DellinjeUkjentDel
 import no.nav.hjelpemidler.delbestilling.common.Lager
 import no.nav.hjelpemidler.delbestilling.common.Saksbehandlingstype
+import no.nav.hjelpemidler.delbestilling.infrastructure.roller.Organisasjon
+import no.nav.hjelpemidler.delbestilling.runWithTestContext
+import no.nav.hjelpemidler.delbestilling.testdata.Kommunenummer.ASKER
 import no.nav.hjelpemidler.delbestilling.testdata.PdlRespons
 import no.nav.hjelpemidler.delbestilling.testdata.Testdata
+import no.nav.hjelpemidler.delbestilling.testdata.delbestillerRolle
 import no.nav.hjelpemidler.delbestilling.testdata.delLinje
 import no.nav.hjelpemidler.delbestilling.testdata.delbestillingRequest
 import no.nav.hjelpemidler.delbestilling.testdata.delbestillingRequestMedUkjentDel
@@ -16,9 +20,9 @@ import no.nav.hjelpemidler.delbestilling.testdata.fixtures.hentDelerUtenDekning
 import no.nav.hjelpemidler.delbestilling.testdata.fixtures.hentAntallOutboxRader
 import no.nav.hjelpemidler.delbestilling.testdata.fixtures.opprettDelbestilling
 import no.nav.hjelpemidler.delbestilling.testdata.fixtures.opprettDelbestillingMedDel
-import no.nav.hjelpemidler.delbestilling.runWithTestContext
 import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
+import kotlin.test.assertNotEquals
 import kotlin.test.assertTrue
 
 internal class DelbestillingServiceTest {
@@ -97,6 +101,38 @@ internal class DelbestillingServiceTest {
         assertTrue(epost.html.contains("Sleggefett"))
 
         assertEquals("tekniker@nav.no", transaction { bestillerepostDao.hent(Testdata.fnr) })
+    }
+
+    @Test
+    fun `skal bruke unntaksadresse for epost ved manuell delbestilling til kommune knyttet til lager med unntaksadresse`() = runWithTestContext {
+        val kommune = ASKER
+        pdlClient.response = PdlRespons.person(kommunenummer = kommune)
+        oebsApiProxy.personinfo = listOf(OebsPersoninfo(kommune))
+
+        val request = delbestillingRequest(deler = emptyList()).copy(
+            delbestilling = delbestillingRequest(deler = emptyList()).delbestilling.copy(
+                ukjenteDeler = listOf(
+                    DellinjeUkjentDel(
+                        delUkjent = DelUkjent(hmsnr = null, levArtNr = "12345", beskrivelse = "Sleggefett",),
+                        antall = 1,
+                    )
+                ),
+            )
+        )
+
+        val delbestillingsResultat = opprettDelbestilling(
+            request = request,
+            rolle = delbestillerRolle(
+                kommunaleAnsettelsesforhold = listOf(
+                    Organisasjon("123", "Asker", kommunenummer = kommune)
+                )
+            )
+        )
+
+        assertEquals(null, delbestillingsResultat.feil)
+        val epost = transaction { epostOutboxDao.hentPending(100).single() }
+        assertEquals(Lager.VEST_VIKEN.epostForManuellDelbestilling(), epost.mottaker)
+        assertNotEquals(Lager.VEST_VIKEN.epost(), epost.mottaker)
     }
 
     @Test
