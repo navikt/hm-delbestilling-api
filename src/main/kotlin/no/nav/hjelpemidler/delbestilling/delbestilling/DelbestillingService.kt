@@ -161,6 +161,8 @@ class DelbestillingService(
                 MANUELL_DELBESTILLING_EPOST_EMNE,
                 epost.tilHtml())
 
+            log.info { "Epost med manuell delbestilling for saksnr. $saksnummer sendt til ${innsending.lagerEnhet.epostForManuellDelbestilling()}" }
+
             delbestilling.epostTekniker?.trim()?.takeIf { it.isNotBlank() }?.let { bestillerepost ->
                 bestillerepostDao.lagre(innsending.bestillerFnr, bestillerepost)
             }
