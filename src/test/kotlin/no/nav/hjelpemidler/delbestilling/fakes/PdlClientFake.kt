@@ -7,13 +7,14 @@ import no.nav.hjelpemidler.delbestilling.testdata.PdlRespons
 class PdlClientFake : PdlClientInterface {
 
     var response = PdlRespons.person()
+    var navnResponse: PdlPersonResponse? = null
 
     override suspend fun hentKommunenummer(fnummer: String): PdlPersonResponse {
         return response
     }
 
     override suspend fun hentPersonNavn(fnr: String): PdlPersonResponse {
-        return response
+        return navnResponse ?: response
     }
 
     override suspend fun hentPersonNavnOgAdresse(fnr: String): PdlPersonResponse {

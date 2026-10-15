@@ -12,7 +12,6 @@ import no.nav.hjelpemidler.delbestilling.testdata.PdlRespons
 import no.nav.hjelpemidler.delbestilling.testdata.Testdata
 import no.nav.hjelpemidler.delbestilling.testdata.delbestillerRolle
 import no.nav.hjelpemidler.delbestilling.testdata.delLinje
-import no.nav.hjelpemidler.delbestilling.testdata.delbestillerRolle
 import no.nav.hjelpemidler.delbestilling.testdata.delbestillingRequest
 import no.nav.hjelpemidler.delbestilling.testdata.delbestillingRequestMedUkjentDel
 import no.nav.hjelpemidler.delbestilling.testdata.fixtures.hentDelUtenDekning
@@ -23,6 +22,7 @@ import no.nav.hjelpemidler.delbestilling.testdata.fixtures.opprettDelbestilling
 import no.nav.hjelpemidler.delbestilling.testdata.fixtures.opprettDelbestillingMedDel
 import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
+import kotlin.test.assertFalse
 import kotlin.test.assertNotEquals
 import kotlin.test.assertTrue
 
@@ -100,8 +100,21 @@ internal class DelbestillingServiceTest {
         assertEquals(MANUELL_DELBESTILLING_EPOST_EMNE, epost.emne)
         assertTrue(epost.html.contains("12345"))
         assertTrue(epost.html.contains("Sleggefett"))
+        assertTrue(epost.html.contains("<strong>Navn:</strong> Fornavn Etternavn"))
 
         assertEquals("tekniker@nav.no", transaction { bestillerepostDao.hent(Testdata.bestillerFnr) })
+    }
+
+    @Test
+    fun `skal sende epost for manuell delbestilling uten navn dersom navneoppslag i PDL feiler`() = runWithTestContext {
+        pdlClient.navnResponse = PdlRespons.kode6()
+
+        val resultat = opprettDelbestilling(delbestillingRequestMedUkjentDel(epostTekniker = "tekniker@nav.no"))
+
+        assertEquals(null, resultat.feil)
+        val epost = transaction { epostOutboxDao.hentPending(100).single() }
+        assertFalse(epost.html.contains("Navn:"))
+        assertTrue(epost.html.contains("E-post:</strong> tekniker@nav.no"))
     }
 
     @Test

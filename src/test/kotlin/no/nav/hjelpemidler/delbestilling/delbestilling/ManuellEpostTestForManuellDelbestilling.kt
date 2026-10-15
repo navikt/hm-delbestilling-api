@@ -51,7 +51,7 @@ class ManuellEpostTestForManuellDelbestilling {
             epostTekniker = "tekniker@nav.no",
         )
 
-        val html = ManuellDelbestillingEpost(delbestilling, 19).tilHtml()
+        val html = ManuellDelbestillingEpost(delbestilling, 19, bestillerNavn = "Ola Nordmann").tilHtml()
         val preview = Path.of("manual-email-preview.html").toAbsolutePath() // Setter path for preview
 
         Files.createDirectories(preview.parent)

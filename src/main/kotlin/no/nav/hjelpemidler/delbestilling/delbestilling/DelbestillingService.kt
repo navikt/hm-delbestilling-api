@@ -1,6 +1,7 @@
 package no.nav.hjelpemidler.delbestilling.delbestilling
 
 import io.github.oshai.kotlinlogging.KotlinLogging
+import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 import no.nav.hjelpemidler.delbestilling.common.Delbestilling
@@ -157,6 +158,15 @@ class DelbestillingService(
         delbestilling: Delbestilling,
         innsending: Innsending,
     ): DelbestillingResultat {
+        val bestillerNavn = try {
+            pdl.hentNavn(innsending.bestillerFnr)
+        } catch (e: CancellationException) {
+            throw e
+        } catch (e: Exception) {
+            log.warn(e) { "Klarte ikke hente bestillers navn for manuell delbestilling '${delbestilling.id}', sender epost uten navn" }
+            null
+        }
+
         val delbestillingSak = transaction(returnGeneratedKeys = true) {
 
             log.info { "Lagrer manuell delbestilling '${delbestilling.id}'" }
@@ -166,7 +176,7 @@ class DelbestillingService(
             val nyDelbestillingSak = delbestillingRepository.hentDelbestilling(saksnummer)
                 ?: throw RuntimeException("Klarte ikke hente ut delbestillingsak for saksnummer $saksnummer")
 
-            val epost = ManuellDelbestillingEpost(delbestilling, saksnummer)
+            val epost = ManuellDelbestillingEpost(delbestilling, saksnummer, bestillerNavn)
             epostOutboxDao.leggTil(
                 innsending.lagerEnhet.epostForManuellDelbestilling(),
                 MANUELL_DELBESTILLING_EPOST_EMNE,
