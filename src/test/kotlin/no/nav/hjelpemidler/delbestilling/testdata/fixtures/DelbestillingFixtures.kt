@@ -54,7 +54,7 @@ suspend fun TestContext.gittDelbestilling(
 
 suspend fun TestContext.opprettDelbestilling(
     request: DelbestillingRequest = delbestillingRequest(),
-    fnrBestiller: String = Testdata.fnr,
+    fnrBestiller: String = Testdata.bestillerFnr,
     rolle: Delbestiller = delbestillerRolle()
 ): DelbestillingResultat {
     return delbestillingService.opprettDelbestilling(request, fnrBestiller, rolle)

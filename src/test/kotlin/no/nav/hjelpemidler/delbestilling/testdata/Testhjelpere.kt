@@ -155,7 +155,7 @@ fun organisasjon(orgnr: String = "123456789", navn: String = "Reperasjon AS") = 
 fun innsending(
     lagerEnhet: Lager = Testdata.defaultEnhet,
 ) = Innsending(
-    bestillerFnr = Testdata.fnr,
+    bestillerFnr = Testdata.bestillerFnr,
     brukersFnr = Testdata.fnr,
     brukerKommunenr = Testdata.defaultKommunenummer,
     brukersKommunenavn = Testdata.defaultKommunenavn,

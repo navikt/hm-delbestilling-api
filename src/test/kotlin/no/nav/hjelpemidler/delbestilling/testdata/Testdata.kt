@@ -1,11 +1,15 @@
 package no.nav.hjelpemidler.delbestilling.testdata
 
 import no.nav.hjelpemidler.delbestilling.common.Lager
+import no.nav.hjelpemidler.domain.person.Fødselsdato
+import no.nav.hjelpemidler.domain.person.Fødselsnummer
+import no.nav.hjelpemidler.domain.person.år
 
 
 object Testdata {
 
-    val fnr = "26928698180"
+    val fnr = Fødselsnummer(40.år).value
+    val bestillerFnr = Fødselsnummer(30.år).value
 
     val defaultHjmHmsnr = "097765" // Azalea
     val defaultHjmNavn = "Azalea" // Azalea
@@ -13,7 +17,7 @@ object Testdata {
     val defaultDelHmsnr = "168802" // Armlene Azalea
 
     val defaultBrukernrstyrtHjmHmsnr = "299409"
-    val defaultBrukernrstyrtHjmFnr = "01067434656"
+    val defaultBrukernrstyrtHjmFnr = Fødselsnummer(50.år).value
 
     val delPåMinmax = "168802"
     val delPåLager = "168803"

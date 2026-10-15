@@ -6,11 +6,10 @@ import kotlinx.coroutines.launch
 import no.nav.hjelpemidler.delbestilling.common.Delbestilling
 import no.nav.hjelpemidler.delbestilling.common.DelbestillingSak
 import no.nav.hjelpemidler.delbestilling.common.Hmsnr
+import no.nav.hjelpemidler.delbestilling.common.Lager
 import no.nav.hjelpemidler.delbestilling.common.Saksbehandlingstype
 import no.nav.hjelpemidler.delbestilling.common.Serienr
-import no.nav.hjelpemidler.delbestilling.config.isDev
 import no.nav.hjelpemidler.delbestilling.config.isLocal
-import no.nav.hjelpemidler.delbestilling.config.isProd
 import no.nav.hjelpemidler.delbestilling.delbestilling.anmodning.AnmodningService
 import no.nav.hjelpemidler.delbestilling.delbestilling.anmodning.Anmodningrapport
 import no.nav.hjelpemidler.delbestilling.infrastructure.geografi.Geografioppslag
@@ -24,7 +23,6 @@ import no.nav.hjelpemidler.delbestilling.infrastructure.pdl.PersonNotAccessibleI
 import no.nav.hjelpemidler.delbestilling.infrastructure.pdl.PersonNotFoundInPdl
 import no.nav.hjelpemidler.delbestilling.infrastructure.persistence.transaction.Transactional
 import no.nav.hjelpemidler.delbestilling.infrastructure.roller.Delbestiller
-import no.nav.hjelpemidler.delbestilling.infrastructure.roller.Organisasjon
 import no.nav.hjelpemidler.delbestilling.infrastructure.slack.Slack
 import no.nav.hjelpemidler.domain.person.Fødselsnummer
 import java.time.LocalDateTime
@@ -41,105 +39,118 @@ class DelbestillingService(
     private val metrics: Metrics,
     private val slack: Slack,
     private val anmodningService: AnmodningService,
+    private val regler: DelbestillingRegler,
 ) {
     suspend fun opprettDelbestilling(
         request: DelbestillingRequest,
         bestillerFnr: String,
         delbestillerRolle: Delbestiller,
     ): DelbestillingResultat {
-        val id = request.delbestilling.id
-        val hmsnr = request.delbestilling.hmsnr
-        val serienr = request.delbestilling.serienr
-        val brukernr = request.delbestilling.brukernr
+        val delbestilling = request.delbestilling
+        val id = delbestilling.id
+        val hmsnr = delbestilling.hmsnr
+        val serienr = delbestilling.serienr
+        val brukernr = delbestilling.brukernr
         log.info { "Oppretter delbestilling for hmsnr $hmsnr, serienr $serienr, brukernr $brukernr" }
         log.info { "Delbestillerrolle: $delbestillerRolle" }
 
-        val feil = validerDelbestillingRate(bestillerFnr, hmsnr, serienr, brukernr)
-        if (feil != null) {
+        validerDelbestillingRate(bestillerFnr, hmsnr, serienr, brukernr)?.let { feil ->
             return DelbestillingResultat(id, feil = feil)
         }
 
-        val brukersFnr =
-            hentInnbyggersFnr(hmsnr = hmsnr, serienr = serienr, brukernr = brukernr) ?: return DelbestillingResultat(
-                id,
-                feil = DelbestillingFeil.INGET_UTLÅN
-            )
+        val bruker = hentBruker(delbestilling).getOrElse { feil ->
+            return DelbestillingResultat(id, feil = feil)
+        }
 
-        val brukerKommunenr = try {
-            pdl.hentKommunenummer(brukersFnr)
+        val innsending = lagInnsending(bestillerFnr, delbestillerRolle, bruker).getOrElse { feil ->
+            return DelbestillingResultat(id, feil = feil)
+        }
+
+        return when (delbestilling.saksbehandlingstype()) {
+            Saksbehandlingstype.AUTOMATISK -> {
+                log.info { "Innsending av delbestilling med id $id, hmsnr $hmsnr, serienr $serienr, brukernr $brukernr" }
+                opprettAutomatiskDelbestilling(delbestilling, innsending)
+            }
+
+            Saksbehandlingstype.MANUELL -> {
+                log.info { "Innsending av delbestilling med id $id, hmsnr $hmsnr, serienr $serienr, brukernr $brukernr. Ukjente deler: ${delbestilling.ukjenteDeler}" }
+                opprettDelbestillingTilManuellSaksbehandling(delbestilling, innsending)
+            }
+        }
+    }
+
+    private suspend fun hentBruker(delbestilling: Delbestilling): Utfall<Bruker> {
+        val fnr = hentInnbyggersFnr(
+            hmsnr = delbestilling.hmsnr,
+            serienr = delbestilling.serienr,
+            brukernr = delbestilling.brukernr,
+        ) ?: return Utfall.Feil(DelbestillingFeil.INGET_UTLÅN)
+
+        val kommunenr = try {
+            pdl.hentKommunenummer(fnr)
         } catch (e: PersonNotAccessibleInPdl) {
             log.error(e) { "Person ikke tilgjengelig i PDL" }
-            return DelbestillingResultat(id, feil = DelbestillingFeil.KAN_IKKE_BESTILLE)
+            return Utfall.Feil(DelbestillingFeil.KAN_IKKE_BESTILLE)
         } catch (e: PersonNotFoundInPdl) {
             log.error(e) { "Person ikke funnet i PDL" }
-            return DelbestillingResultat(id, feil = DelbestillingFeil.BRUKER_IKKE_FUNNET)
+            return Utfall.Feil(DelbestillingFeil.BRUKER_IKKE_FUNNET)
         } catch (e: Exception) {
             log.error(e) { "Klarte ikke å hente bruker fra PDL" }
             throw e
         }
 
         val lagerEnhet = try {
-            oebs.finnLagerenhet(brukerKommunenr)
+            oebs.finnLagerenhet(kommunenr)
         } catch (e: Exception) {
-            log.error(e) { "Klarte ikke opprette delbestilling, fant ikke lagerenhet for kommunenummer $brukerKommunenr" }
-            return DelbestillingResultat(id, feil = DelbestillingFeil.LAGERENHET_IKKE_FUNNET)
+            log.error(e) { "Klarte ikke opprette delbestilling, fant ikke lagerenhet for kommunenummer $kommunenr" }
+            return Utfall.Feil(DelbestillingFeil.LAGERENHET_IKKE_FUNNET)
         }
 
-        val brukersKommunenavn = geografioppslag.kommunenavnOrNull(brukerKommunenr) ?: "Ukjent"
+        val kommunenavn = geografioppslag.kommunenavnOrNull(kommunenr) ?: "Ukjent"
 
-        // Det skal ikke være mulig å bestille til seg selv (disabler i dev pga testdata)
-        if (isProd() && bestillerFnr == brukersFnr) {
+        return Utfall.Ok(Bruker(fnr, kommunenr, kommunenavn, lagerEnhet))
+    }
+
+    private suspend fun lagInnsending(
+        bestillerFnr: String,
+        delbestillerRolle: Delbestiller,
+        bruker: Bruker,
+    ): Utfall<Innsending> {
+        if (regler.sjekkBestillingTilSegSelv && bestillerFnr == bruker.fnr) {
             log.info { "Bestiller prøver å bestille til seg selv" }
-            return DelbestillingResultat(id, feil = DelbestillingFeil.BESTILLE_TIL_SEG_SELV)
+            return Utfall.Feil(DelbestillingFeil.BESTILLE_TIL_SEG_SELV)
         }
 
-        // Sjekk at PDL og OEBS kommunenr på bruker stemmer overens
-        val oebsBrukerinfo = oebs.hentPersoninfo(brukersFnr)
-        val brukerHarSammeKommunenrIOebsOgPdl = oebsBrukerinfo.any { it.leveringKommune == brukerKommunenr }
-        if (!isDev() && !brukerHarSammeKommunenrIOebsOgPdl) {
-            log.info { "Ulik leveringsadresse. OEBS: $oebsBrukerinfo, PDL: $brukerKommunenr" }
-            return DelbestillingResultat(id, feil = DelbestillingFeil.ULIK_ADRESSE_PDL_OEBS)
-        }
-
-        // Sjekk om en av innsenders organisasjoner tilhører brukers kommuner
-        var innsendersRepresenterteOrganisasjon =
-            delbestillerRolle.representasjoner.find { it.kommunenummer == brukerKommunenr }
-        val bestillerType: BestillerType =
-            if (delbestillerRolle.kommunaleAnsettelsesforhold.any { it.kommunenummer == brukerKommunenr }) BestillerType.KOMMUNAL else BestillerType.IKKE_KOMMUNAL
-
-        if (innsendersRepresenterteOrganisasjon == null) {
-            log.info { "Brukers kommunenr: $brukerKommunenr, innsenders rolle: $delbestillerRolle" }
-            if (isDev()) {
-                innsendersRepresenterteOrganisasjon = Organisasjon("1234", navn = "Testorg for dev")
-            } else {
-                return DelbestillingResultat(
-                    id,
-                    feil = DelbestillingFeil.ULIK_GEOGRAFISK_TILKNYTNING,
-                )
+        if (regler.sjekkKommunenrPdlOebs) {
+            val oebsBrukerinfo = oebs.hentPersoninfo(bruker.fnr)
+            if (oebsBrukerinfo.none { it.leveringKommune == bruker.kommunenr }) {
+                log.info { "Ulik leveringsadresse. OEBS: $oebsBrukerinfo, PDL: ${bruker.kommunenr}" }
+                return Utfall.Feil(DelbestillingFeil.ULIK_ADRESSE_PDL_OEBS)
             }
         }
 
-        val innsending = Innsending(
-            bestillerFnr = bestillerFnr,
-            brukersFnr = brukersFnr,
-            brukerKommunenr = brukerKommunenr,
-            brukersKommunenavn = brukersKommunenavn,
-            innsendersRepresenterteOrganisasjon = innsendersRepresenterteOrganisasjon,
-            bestillerType = bestillerType,
-            lagerEnhet = lagerEnhet,
+        // Sjekk om en av innsenders organisasjoner tilhører brukers kommune
+        val innsendersRepresenterteOrganisasjon =
+            delbestillerRolle.representasjoner.find { it.kommunenummer == bruker.kommunenr }
+                ?: run {
+                    log.info { "Brukers kommunenr: ${bruker.kommunenr}, innsenders rolle: $delbestillerRolle" }
+                    return Utfall.Feil(DelbestillingFeil.ULIK_GEOGRAFISK_TILKNYTNING)
+                }
+
+        val bestillerType =
+            if (delbestillerRolle.kommunaleAnsettelsesforhold.any { it.kommunenummer == bruker.kommunenr }) BestillerType.KOMMUNAL else BestillerType.IKKE_KOMMUNAL
+
+        return Utfall.Ok(
+            Innsending(
+                bestillerFnr = bestillerFnr,
+                brukersFnr = bruker.fnr,
+                brukerKommunenr = bruker.kommunenr,
+                brukersKommunenavn = bruker.kommunenavn,
+                innsendersRepresenterteOrganisasjon = innsendersRepresenterteOrganisasjon,
+                bestillerType = bestillerType,
+                lagerEnhet = bruker.lagerEnhet,
+            )
         )
-
-        return when (request.delbestilling.saksbehandlingstype()) {
-            Saksbehandlingstype.AUTOMATISK -> {
-                log.info { "Innsending av delbestilling med id $id, hmsnr $hmsnr, serienr $serienr, brukernr $brukernr" }
-                opprettAutomatiskDelbestilling(request.delbestilling, innsending)
-            }
-
-            Saksbehandlingstype.MANUELL -> {
-                log.info { "Innsending av delbestilling med id $id, hmsnr $hmsnr, serienr $serienr, brukernr $brukernr. Ukjente deler: ${request.delbestilling.ukjenteDeler}" }
-                opprettDelbestillingTilManuellSaksbehandling(request.delbestilling, innsending)
-            }
-        }
     }
 
     private suspend fun opprettDelbestillingTilManuellSaksbehandling(
@@ -286,8 +297,8 @@ class DelbestillingService(
         serienr: String?,
         brukernr: String?,
     ): DelbestillingFeil? {
-        if (isDev()) {
-            return null // For enklere testing i dev
+        if (!regler.sjekkBestillingsrate) {
+            return null
         }
         val maxAntallBestillingerPer24Timer = 5
         val tidspunkt24TimerSiden = LocalDateTime.now().minusDays(1)
@@ -358,6 +369,23 @@ class DelbestillingService(
         }
     }
 
+}
+
+private data class Bruker(
+    val fnr: String,
+    val kommunenr: String,
+    val kommunenavn: String,
+    val lagerEnhet: Lager,
+)
+
+private sealed interface Utfall<out T> {
+    data class Ok<T>(val verdi: T) : Utfall<T>
+    data class Feil(val feil: DelbestillingFeil) : Utfall<Nothing>
+}
+
+private inline fun <T> Utfall<T>.getOrElse(vedFeil: (DelbestillingFeil) -> Nothing): T = when (this) {
+    is Utfall.Ok -> verdi
+    is Utfall.Feil -> vedFeil(feil)
 }
 
 internal fun harSammeBestillingsidentifikator(

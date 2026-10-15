@@ -2,6 +2,7 @@ package no.nav.hjelpemidler.delbestilling
 
 import io.mockk.mockk
 import kotlinx.coroutines.test.runTest
+import no.nav.hjelpemidler.delbestilling.delbestilling.DelbestillingRegler
 import no.nav.hjelpemidler.delbestilling.delbestilling.DelbestillingService
 import no.nav.hjelpemidler.delbestilling.delbestilling.anmodning.AnmodningService
 import no.nav.hjelpemidler.delbestilling.rapportering.klargjorte.KlargjorteDelbestillingerService
@@ -115,7 +116,7 @@ class TestContext {
     val anmodningService = AnmodningService(transaction, oebs, slack, email, grunndata)
     val klargjorteDelbestillingerService = KlargjorteDelbestillingerService(transaction, email, slack)
     val delbestillingService =
-        DelbestillingService(transaction, pdl, oebs, geografioppslag, metrics, slack, anmodningService)
+        DelbestillingService(transaction, pdl, oebs, geografioppslag, metrics, slack, anmodningService, DelbestillingRegler.PROD)
 
     // Status
     val delbestillingStatusService = DelbestillingStatusService(transaction, oebs, metrics, slack)
