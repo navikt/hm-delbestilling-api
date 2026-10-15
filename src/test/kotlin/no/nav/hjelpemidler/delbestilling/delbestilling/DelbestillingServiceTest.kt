@@ -6,7 +6,6 @@ import no.nav.hjelpemidler.delbestilling.common.DelUkjent
 import no.nav.hjelpemidler.delbestilling.common.DellinjeUkjentDel
 import no.nav.hjelpemidler.delbestilling.common.Lager
 import no.nav.hjelpemidler.delbestilling.common.Saksbehandlingstype
-import no.nav.hjelpemidler.delbestilling.infrastructure.roller.Organisasjon
 import no.nav.hjelpemidler.delbestilling.runWithTestContext
 import no.nav.hjelpemidler.delbestilling.testdata.Kommunenummer.ASKER
 import no.nav.hjelpemidler.delbestilling.testdata.PdlRespons
