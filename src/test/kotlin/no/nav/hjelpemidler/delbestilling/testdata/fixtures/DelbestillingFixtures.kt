@@ -8,7 +8,8 @@ import no.nav.hjelpemidler.delbestilling.infrastructure.roller.Delbestiller
 import no.nav.hjelpemidler.delbestilling.TestContext
 import no.nav.hjelpemidler.delbestilling.common.Lager
 import no.nav.hjelpemidler.delbestilling.common.Status
-import no.nav.hjelpemidler.delbestilling.testdata.Testdata
+import no.nav.hjelpemidler.delbestilling.testdata.DEFAULT_ENHET
+import no.nav.hjelpemidler.delbestilling.testdata.FNR_BESTILLER
 import no.nav.hjelpemidler.delbestilling.testdata.delLinje
 import no.nav.hjelpemidler.delbestilling.testdata.delbestillerRolle
 import no.nav.hjelpemidler.delbestilling.testdata.delbestilling
@@ -21,7 +22,7 @@ import java.time.LocalDateTime
 suspend fun TestContext.gittDelbestilling(
     delbestilling: Delbestilling = delbestilling(),
     dagerSidenOpprettelse: Long? = null,
-    lagerEnhet: Lager = Testdata.defaultEnhet,
+    lagerEnhet: Lager = DEFAULT_ENHET,
     status: Status = Status.INNSENDT,
 ) {
     transaction(returnGeneratedKeys = true) {
@@ -54,7 +55,7 @@ suspend fun TestContext.gittDelbestilling(
 
 suspend fun TestContext.opprettDelbestilling(
     request: DelbestillingRequest = delbestillingRequest(),
-    fnrBestiller: String = Testdata.bestillerFnr,
+    fnrBestiller: String = FNR_BESTILLER,
     rolle: Delbestiller = delbestillerRolle()
 ): DelbestillingResultat {
     return delbestillingService.opprettDelbestilling(request, fnrBestiller, rolle)

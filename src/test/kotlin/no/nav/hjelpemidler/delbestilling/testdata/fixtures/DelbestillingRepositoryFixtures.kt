@@ -2,8 +2,7 @@ package no.nav.hjelpemidler.delbestilling.testdata.fixtures
 
 import no.nav.hjelpemidler.delbestilling.common.DelbestillingSak
 import no.nav.hjelpemidler.delbestilling.TestContext
-import no.nav.hjelpemidler.delbestilling.testdata.Testdata
-
+import no.nav.hjelpemidler.delbestilling.testdata.FNR_BESTILLER
 suspend fun TestContext.hentDelbestilling(
     oebsOrdrenummer: String,
 ): DelbestillingSak? {
@@ -21,7 +20,7 @@ suspend fun TestContext.hentDelbestilling(
 }
 
 suspend fun TestContext.hentDelbestillinger(
-    fnr: String = Testdata.bestillerFnr,
+    fnr: String = FNR_BESTILLER,
 ): List<DelbestillingSak> {
     return delbestillingService.hentDelbestillinger(fnr)
 }

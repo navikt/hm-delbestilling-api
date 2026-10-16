@@ -1,7 +1,7 @@
 package no.nav.hjelpemidler.delbestilling.infrastructure.persistence.transaction
 
 import no.nav.hjelpemidler.delbestilling.runWithTestContext
-import no.nav.hjelpemidler.delbestilling.testdata.Testdata
+import no.nav.hjelpemidler.delbestilling.testdata.FNR_BESTILLER
 import no.nav.hjelpemidler.delbestilling.testdata.fixtures.gittDelbestilling
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -15,7 +15,7 @@ class TransactionTest {
             gittDelbestilling()
         }
         transaction {
-            assertEquals(1, delbestillingRepository.hentDelbestillinger(Testdata.bestillerFnr).size)
+            assertEquals(1, delbestillingRepository.hentDelbestillinger(FNR_BESTILLER).size)
         }
     }
 
@@ -28,7 +28,7 @@ class TransactionTest {
             }
         }
         transaction {
-            assertEquals(0, delbestillingRepository.hentDelbestillinger(Testdata.bestillerFnr).size)
+            assertEquals(0, delbestillingRepository.hentDelbestillinger(FNR_BESTILLER).size)
         }
     }
 
@@ -43,7 +43,7 @@ class TransactionTest {
             }
         }
         transaction {
-            assertEquals(0, delbestillingRepository.hentDelbestillinger(Testdata.bestillerFnr).size)
+            assertEquals(0, delbestillingRepository.hentDelbestillinger(FNR_BESTILLER).size)
         }
     }
 
@@ -58,7 +58,7 @@ class TransactionTest {
             }
         }
         transaction {
-            assertEquals(0, delbestillingRepository.hentDelbestillinger(Testdata.bestillerFnr).size)
+            assertEquals(0, delbestillingRepository.hentDelbestillinger(FNR_BESTILLER).size)
         }
     }
 }

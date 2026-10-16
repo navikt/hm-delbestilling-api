@@ -28,8 +28,8 @@ fun delbestillerRolle(
     kommunaleAnsettelsesforhold: List<Organisasjon> = listOf(
         Organisasjon(
             "123",
-            Testdata.defaultKommunenavn,
-            kommunenummer = Testdata.defaultKommunenummer
+            DEFAULT_KOMMUNENAVN,
+            kommunenummer = DEFAULT_KOMMUNENUMMER
         )
     )
 ) = Delbestiller(
@@ -42,7 +42,7 @@ fun delbestillerRolle(
 fun delbestillingRequest(
     deler: List<DelLinje> = deler(),
     harOpplæringPåBatteri: Boolean = false,
-    serieNr: String? = Testdata.defaultHjmSerienr,
+    serieNr: String? = DEFAULT_HJM_SERIENR,
     brukerNr: String? = null,
     ukjenteDeler: List<DellinjeUkjentDel> = emptyList(),
     epostTekniker: String? = null,
@@ -61,7 +61,7 @@ fun delbestilling(
     deler: List<DelLinje> = deler(),
     harOpplæringPåBatteri: Boolean = false,
     hmsnr: Hmsnr = "236958",
-    serienr: String? = Testdata.defaultHjmSerienr,
+    serienr: String? = DEFAULT_HJM_SERIENR,
     brukerNr: String? = null,
     ukjenteDeler: List<DellinjeUkjentDel> = emptyList(),
     epostTekniker: String? = null,
@@ -153,12 +153,12 @@ fun organisasjon(orgnr: String = "123456789", navn: String = "Reperasjon AS") = 
 )
 
 fun innsending(
-    lagerEnhet: Lager = Testdata.defaultEnhet,
+    lagerEnhet: Lager = DEFAULT_ENHET,
 ) = Innsending(
-    bestillerFnr = Testdata.bestillerFnr,
-    brukersFnr = Testdata.fnr,
-    brukerKommunenr = Testdata.defaultKommunenummer,
-    brukersKommunenavn = Testdata.defaultKommunenavn,
+    bestillerFnr = FNR_BESTILLER,
+    brukersFnr = FNR_INNBYGGER,
+    brukerKommunenr = DEFAULT_KOMMUNENUMMER,
+    brukersKommunenavn = DEFAULT_KOMMUNENAVN,
     innsendersRepresenterteOrganisasjon = organisasjon(),
     bestillerType = BestillerType.KOMMUNAL,
     lagerEnhet = lagerEnhet,
@@ -166,10 +166,10 @@ fun innsending(
 
 fun utlån(
     opprettet: LocalDate? = LocalDate.now(),
-    isokode: String = Testdata.isoERS,
+    isokode: String = ISO_ERS,
 ) = UtlånMedSerienr(
-    fnr = Testdata.fnr,
-    artnr = Testdata.defaultHjmHmsnr,
+    fnr = FNR_INNBYGGER,
+    artnr = DEFAULT_HJM_HMSNR,
     serienr = "000000",
     opprettetDato = opprettet,
     utlånsDato = "2025-01-01",

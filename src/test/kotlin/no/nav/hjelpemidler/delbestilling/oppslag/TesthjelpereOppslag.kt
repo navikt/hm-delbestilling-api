@@ -1,11 +1,11 @@
 package no.nav.hjelpemidler.delbestilling.oppslag
 
 import no.nav.hjelpemidler.delbestilling.common.Hmsnr
-import no.nav.hjelpemidler.delbestilling.testdata.Testdata
-
-
+import no.nav.hjelpemidler.delbestilling.testdata.DEFAULT_DEL_HMSNR
+import no.nav.hjelpemidler.delbestilling.testdata.DEFAULT_HJM_HMSNR
+import no.nav.hjelpemidler.delbestilling.testdata.DEFAULT_HJM_NAVN
 fun del(
-    hmsnr: Hmsnr = Testdata.defaultDelHmsnr,
+    hmsnr: Hmsnr = DEFAULT_DEL_HMSNR,
     kategori: String = "Batteri",
 ) = Del(
     hmsnr = hmsnr,
@@ -16,8 +16,8 @@ fun del(
 
 fun hjelpemiddel(
     deler: List<Del> = listOf(del()),
-    hmsnr: Hmsnr = Testdata.defaultHjmHmsnr,
-    navn: String = Testdata.defaultHjmNavn,
+    hmsnr: Hmsnr = DEFAULT_HJM_HMSNR,
+    navn: String = DEFAULT_HJM_NAVN,
     isoKode: String = "12220301",
 ) = Hjelpemiddel(
     hmsnr = hmsnr,

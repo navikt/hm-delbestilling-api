@@ -1,7 +1,7 @@
 package no.nav.hjelpemidler.delbestilling.oppslag
 
 import no.nav.hjelpemidler.delbestilling.fakes.GrunndataTestHmsnr
-import no.nav.hjelpemidler.delbestilling.testdata.Testdata
+import no.nav.hjelpemidler.delbestilling.testdata.DEFAULT_HJM_SERIENR
 import no.nav.hjelpemidler.delbestilling.testdata.delbestillingMedBatteri
 import no.nav.hjelpemidler.delbestilling.testdata.fixtures.gittDelbestilling
 import no.nav.hjelpemidler.delbestilling.runWithTestContext
@@ -17,7 +17,7 @@ class BerikMedDagerSidenForrigeBatteribestillingTest {
     fun `skal returnere uendret hjelpemiddel dersom det ikke har batteri`() = runWithTestContext {
         val hjelpemiddel = hjelpemiddel(deler = listOf(del(kategori = "Svinghjul")))
 
-        val beriketHjelpemiddel = berikMedDagerSidenForrigeBatteribestilling(hjelpemiddel, Testdata.defaultHjmSerienr)
+        val beriketHjelpemiddel = berikMedDagerSidenForrigeBatteribestilling(hjelpemiddel, DEFAULT_HJM_SERIENR)
 
         assertEquals(hjelpemiddel, beriketHjelpemiddel)
     }
@@ -28,7 +28,7 @@ class BerikMedDagerSidenForrigeBatteribestillingTest {
             val hjelpemiddel = hjelpemiddel(deler = listOf(del(kategori = "Batteri")))
 
             val beriketHjelpemiddel =
-                berikMedDagerSidenForrigeBatteribestilling(hjelpemiddel, Testdata.defaultHjmSerienr)
+                berikMedDagerSidenForrigeBatteribestilling(hjelpemiddel, DEFAULT_HJM_SERIENR)
 
             assertTrue(beriketHjelpemiddel.harBatteri())
             assertNull(beriketHjelpemiddel.antallDagerSidenSistBatteribestilling)
@@ -39,7 +39,7 @@ class BerikMedDagerSidenForrigeBatteribestillingTest {
         gittDelbestilling(delbestillingMedBatteri(), dagerSidenOpprettelse = 10)
         gittDelbestilling(delbestillingMedBatteri(), dagerSidenOpprettelse = 25)
 
-        val resultat = oppslagService.slåOppHjelpemiddelMedSerienr(GrunndataTestHmsnr.HAR_BATTERI, Testdata.defaultHjmSerienr)
+        val resultat = oppslagService.slåOppHjelpemiddelMedSerienr(GrunndataTestHmsnr.HAR_BATTERI, DEFAULT_HJM_SERIENR)
         assertTrue(resultat is OppslagResult.Suksess)
 
         assertTrue(resultat.resultat.hjelpemiddel.harBatteri())

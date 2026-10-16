@@ -17,7 +17,7 @@ object PdlRespons {
         fornavn: String = "Fornavn",
         etternavn: String = "Etternavn",
         mellomnavn: String? = null,
-        kommunenummer: String? = Testdata.defaultKommunenummer,
+        kommunenummer: String? = DEFAULT_KOMMUNENUMMER,
         adressebeskyttelse: List<Adressebeskyttelse> = emptyList(),
     ) =
         PdlPersonResponse(

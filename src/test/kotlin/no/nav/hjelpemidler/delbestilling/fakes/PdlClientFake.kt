@@ -6,19 +6,18 @@ import no.nav.hjelpemidler.delbestilling.testdata.PdlRespons
 
 class PdlClientFake : PdlClientInterface {
 
-    var response = PdlRespons.person()
-    var navnResponse: PdlPersonResponse? = null
+    private val default = PdlRespons.person()
+    private val responses = mutableMapOf<String, PdlPersonResponse>()
 
-    override suspend fun hentKommunenummer(fnummer: String): PdlPersonResponse {
-        return response
+    fun svar(fnr: String, response: PdlPersonResponse) {
+        responses[fnr] = response
     }
 
-    override suspend fun hentPersonNavn(fnr: String): PdlPersonResponse {
-        return navnResponse ?: response
-    }
+    private fun responsFor(fnr: String) = responses[fnr] ?: default
 
-    override suspend fun hentPersonNavnOgAdresse(fnr: String): PdlPersonResponse {
-        return response
-    }
+    override suspend fun hentKommunenummer(fnummer: String): PdlPersonResponse = responsFor(fnummer)
+
+    override suspend fun hentPersonNavn(fnr: String): PdlPersonResponse = responsFor(fnr)
+
+    override suspend fun hentPersonNavnOgAdresse(fnr: String): PdlPersonResponse = responsFor(fnr)
 }
-

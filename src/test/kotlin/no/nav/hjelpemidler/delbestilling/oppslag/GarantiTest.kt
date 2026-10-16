@@ -1,7 +1,7 @@
 package no.nav.hjelpemidler.delbestilling.oppslag
 
-import no.nav.hjelpemidler.delbestilling.testdata.Testdata.isoERS
-import no.nav.hjelpemidler.delbestilling.testdata.Testdata.isoPersonløfter
+import no.nav.hjelpemidler.delbestilling.testdata.ISO_ERS
+import no.nav.hjelpemidler.delbestilling.testdata.ISO_PERSONLØFTER
 import no.nav.hjelpemidler.delbestilling.runWithTestContext
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertNull
@@ -17,7 +17,7 @@ class GarantiTest {
         val hjelpemiddel = berikMedGaranti(
             hjelpemiddel = hjelpemiddel(),
             opprettetDato = now().minusYears(5),
-            isokode = isoERS,
+            isokode = ISO_ERS,
             artnr = "1234",
             identifikator = "serienr 000000",
         )
@@ -31,7 +31,7 @@ class GarantiTest {
         val hjelpemiddel = berikMedGaranti(
             hjelpemiddel = hjelpemiddel(),
             opprettetDato = now().minusYears(1),
-            isokode = isoERS,
+            isokode = ISO_ERS,
             artnr = "1234",
             identifikator = "serienr 000000",
         )
@@ -45,7 +45,7 @@ class GarantiTest {
         val hjelpemiddel = berikMedGaranti(
             hjelpemiddel = hjelpemiddel(),
             opprettetDato = null,
-            isokode = isoERS,
+            isokode = ISO_ERS,
             artnr = "1234",
             identifikator = "serienr 000000",
         )
@@ -59,7 +59,7 @@ class GarantiTest {
         val hjelpemiddel = berikMedGaranti(
             hjelpemiddel = hjelpemiddel(),
             opprettetDato = now().minusYears(1),
-            isokode = isoPersonløfter,
+            isokode = ISO_PERSONLØFTER,
             artnr = "1234",
             identifikator = "brukernr 123456",
         )

@@ -7,7 +7,8 @@ import no.nav.hjelpemidler.delbestilling.common.Lager
 import no.nav.hjelpemidler.delbestilling.delbestilling.anmodning.Del
 import no.nav.hjelpemidler.delbestilling.delbestilling.anmodning.DelUtenDekningDao
 import no.nav.hjelpemidler.delbestilling.delbestilling.anmodning.DelUtenDekningStatus
-import no.nav.hjelpemidler.delbestilling.testdata.Testdata
+import no.nav.hjelpemidler.delbestilling.testdata.DEFAULT_DEL_HMSNR
+import no.nav.hjelpemidler.delbestilling.testdata.DEFAULT_ENHET
 import java.time.LocalDateTime
 
 suspend fun TestContext.gittDelbestillingUtenLagerdekning(
@@ -17,7 +18,7 @@ suspend fun TestContext.gittDelbestillingUtenLagerdekning(
 }
 
 suspend fun TestContext.hentDelerUtenDekning(
-    enhet: Lager = Testdata.defaultEnhet,
+    enhet: Lager = DEFAULT_ENHET,
 ): List<Del> {
     return transaction {
         delUtenDekningDao
@@ -26,13 +27,13 @@ suspend fun TestContext.hentDelerUtenDekning(
 }
 
 suspend fun TestContext.hentDelUtenDekning(
-    hmsnr: Hmsnr = Testdata.defaultDelHmsnr,
+    hmsnr: Hmsnr = DEFAULT_DEL_HMSNR,
 ): Del {
     return hentDelerUtenDekning().find { it.hmsnr == hmsnr }!!
 }
 
 suspend fun DelUtenDekningDao.hentRader(
-    enhetnr: String = Testdata.defaultEnhet.nummer
+    enhetnr: String = DEFAULT_ENHET.nummer
 ): List<DelUtenDekningEntity> {
     return tx.list(
         sql = """

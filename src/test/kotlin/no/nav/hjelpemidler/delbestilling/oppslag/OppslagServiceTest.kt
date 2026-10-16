@@ -3,7 +3,9 @@ package no.nav.hjelpemidler.delbestilling.oppslag
 import no.nav.hjelpemidler.delbestilling.infrastructure.pdl.PdlResponseMissingData
 import no.nav.hjelpemidler.delbestilling.runWithTestContext
 import no.nav.hjelpemidler.delbestilling.testdata.PdlRespons
-import no.nav.hjelpemidler.delbestilling.testdata.Testdata
+import no.nav.hjelpemidler.delbestilling.testdata.DEFAULT_HJM_HMSNR
+import no.nav.hjelpemidler.delbestilling.testdata.DEFAULT_HJM_SERIENR
+import no.nav.hjelpemidler.delbestilling.testdata.FNR_INNBYGGER
 import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
@@ -13,7 +15,7 @@ class OppslagServiceTest {
 
     @Test
     fun `(happy path) skal slå opp hjelpemiddel og berike med lagerstatus`() = runWithTestContext {
-        val result = oppslagService.slåOppHjelpemiddelMedSerienr(Testdata.defaultHjmHmsnr, Testdata.defaultHjmSerienr)
+        val result = oppslagService.slåOppHjelpemiddelMedSerienr(DEFAULT_HJM_HMSNR, DEFAULT_HJM_SERIENR)
         assertTrue(result is OppslagResult.Suksess)
         assertTrue(result.resultat.hjelpemiddel.deler.isNotEmpty())
         assertTrue(result.resultat.hjelpemiddel.deler.all { it.lagerstatus != null })
@@ -23,7 +25,7 @@ class OppslagServiceTest {
     fun `skal returnere feil dersom utlånet ikke finnes`() = runWithTestContext {
         oebsApiProxy.utlånMedSerienr = null
 
-        val result = oppslagService.slåOppHjelpemiddelMedSerienr(Testdata.defaultHjmHmsnr, Testdata.defaultHjmSerienr)
+        val result = oppslagService.slåOppHjelpemiddelMedSerienr(DEFAULT_HJM_HMSNR, DEFAULT_HJM_SERIENR)
 
         assertTrue(result is OppslagResult.Feil)
         assertEquals(OppslagFeil.INGET_UTLÅN, result.feil)
@@ -31,9 +33,9 @@ class OppslagServiceTest {
 
     @Test
     fun `skal kaste feil dersom personen, som utlånet er registrert på, mangler kommunenummer i PDL`() = runWithTestContext {
-        pdlClient.response = PdlRespons.person(kommunenummer = null)
+        pdlClient.svar(FNR_INNBYGGER, PdlRespons.person(kommunenummer = null))
         assertFailsWith<PdlResponseMissingData> {
-            oppslagService.slåOppHjelpemiddelMedSerienr(Testdata.defaultHjmHmsnr, Testdata.defaultHjmSerienr)
+            oppslagService.slåOppHjelpemiddelMedSerienr(DEFAULT_HJM_HMSNR, DEFAULT_HJM_SERIENR)
         }
     }
 
