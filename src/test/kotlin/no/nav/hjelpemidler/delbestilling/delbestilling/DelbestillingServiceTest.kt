@@ -1,17 +1,18 @@
 package no.nav.hjelpemidler.delbestilling.delbestilling
 
 import no.nav.hjelpemidler.delbestilling.infrastructure.oebs.OebsPersoninfo
+import no.nav.hjelpemidler.delbestilling.infrastructure.roller.Organisasjon
 import no.nav.hjelpemidler.delbestilling.common.DelUkjent
 import no.nav.hjelpemidler.delbestilling.common.DellinjeUkjentDel
 import no.nav.hjelpemidler.delbestilling.common.Lager
 import no.nav.hjelpemidler.delbestilling.common.Saksbehandlingstype
-import no.nav.hjelpemidler.delbestilling.infrastructure.roller.Organisasjon
 import no.nav.hjelpemidler.delbestilling.runWithTestContext
 import no.nav.hjelpemidler.delbestilling.testdata.Kommunenummer.ASKER
 import no.nav.hjelpemidler.delbestilling.testdata.PdlRespons
 import no.nav.hjelpemidler.delbestilling.testdata.Testdata
 import no.nav.hjelpemidler.delbestilling.testdata.delbestillerRolle
 import no.nav.hjelpemidler.delbestilling.testdata.delLinje
+import no.nav.hjelpemidler.delbestilling.testdata.delbestillerRolle
 import no.nav.hjelpemidler.delbestilling.testdata.delbestillingRequest
 import no.nav.hjelpemidler.delbestilling.testdata.delbestillingRequestMedUkjentDel
 import no.nav.hjelpemidler.delbestilling.testdata.fixtures.hentDelUtenDekning
@@ -100,7 +101,7 @@ internal class DelbestillingServiceTest {
         assertTrue(epost.html.contains("12345"))
         assertTrue(epost.html.contains("Sleggefett"))
 
-        assertEquals("tekniker@nav.no", transaction { bestillerepostDao.hent(Testdata.fnr) })
+        assertEquals("tekniker@nav.no", transaction { bestillerepostDao.hent(Testdata.bestillerFnr) })
     }
 
     @Test
@@ -137,16 +138,16 @@ internal class DelbestillingServiceTest {
 
     @Test
     fun `skal lagre og hente siste bestillerepost for bestiller`() = runWithTestContext {
-        assertEquals(null, delbestillingService.hentSisteBestillerepost(Testdata.fnr))
+        assertEquals(null, delbestillingService.hentSisteBestillerepost(Testdata.bestillerFnr))
 
         opprettDelbestilling(delbestillingRequestMedUkjentDel(epostTekniker = "forste@nav.no"))
 
-        assertEquals("forste@nav.no", delbestillingService.hentSisteBestillerepost(Testdata.fnr))
+        assertEquals("forste@nav.no", delbestillingService.hentSisteBestillerepost(Testdata.bestillerFnr))
 
         // Skal overskrive med siste innsendte epost for samme bestiller
         opprettDelbestilling(delbestillingRequestMedUkjentDel(epostTekniker = "siste@nav.no"))
 
-        assertEquals("siste@nav.no", delbestillingService.hentSisteBestillerepost(Testdata.fnr))
+        assertEquals("siste@nav.no", delbestillingService.hentSisteBestillerepost(Testdata.bestillerFnr))
     }
 
     @Test
@@ -170,6 +171,28 @@ internal class DelbestillingServiceTest {
         with(opprettDelbestilling()) {
             assertEquals(DelbestillingFeil.ULIK_ADRESSE_PDL_OEBS, feil)
         }
+    }
+
+    @Test
+    fun `skal feile dersom bestiller bestiller til seg selv`() = runWithTestContext {
+        with(opprettDelbestilling(fnrBestiller = Testdata.fnr)) {
+            assertEquals(DelbestillingFeil.BESTILLE_TIL_SEG_SELV, feil)
+        }
+        assertEquals(0, hentDelbestillinger(Testdata.fnr).size)
+    }
+
+    @Test
+    fun `skal feile dersom innsender ikke representerer en organisasjon i brukers kommune`() = runWithTestContext {
+        val rolleIAnnenKommune = delbestillerRolle(
+            kommunaleAnsettelsesforhold = listOf(
+                Organisasjon("123", "Bergen kommune", kommunenummer = Testdata.kommunenummerBergen)
+            )
+        )
+
+        with(opprettDelbestilling(rolle = rolleIAnnenKommune)) {
+            assertEquals(DelbestillingFeil.ULIK_GEOGRAFISK_TILKNYTNING, feil)
+        }
+        assertEquals(0, hentDelbestillinger().size)
     }
 
     @Test

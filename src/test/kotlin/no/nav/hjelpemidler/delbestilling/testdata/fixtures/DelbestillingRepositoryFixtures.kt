@@ -21,7 +21,7 @@ suspend fun TestContext.hentDelbestilling(
 }
 
 suspend fun TestContext.hentDelbestillinger(
-    fnr: String = Testdata.fnr,
+    fnr: String = Testdata.bestillerFnr,
 ): List<DelbestillingSak> {
     return delbestillingService.hentDelbestillinger(fnr)
 }

@@ -5,6 +5,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.cancel
 import no.nav.hjelpemidler.delbestilling.config.DatabaseConfig
+import no.nav.hjelpemidler.delbestilling.delbestilling.DelbestillingRegler
 import no.nav.hjelpemidler.delbestilling.delbestilling.DelbestillingService
 import no.nav.hjelpemidler.delbestilling.delbestilling.EngangsjobbService
 import no.nav.hjelpemidler.delbestilling.rapportering.klargjorte.KlargjorteDelbestillingerService
@@ -99,7 +100,7 @@ class AppContext {
     val anmodningService = AnmodningService(transactional, oebs, slack, email, grunndata)
     val klargjorteDelbestillingerService = KlargjorteDelbestillingerService(transactional, email, slack)
     val delbestillingService =
-        DelbestillingService(transactional, pdl, oebs, geografioppslag, metrics, slack, anmodningService)
+        DelbestillingService(transactional, pdl, oebs, geografioppslag, metrics, slack, anmodningService, DelbestillingRegler.forMiljø())
     val oppslagService = OppslagService(
         pdl,
         oebs,
