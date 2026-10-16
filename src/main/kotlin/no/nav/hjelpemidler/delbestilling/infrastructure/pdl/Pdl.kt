@@ -1,11 +1,10 @@
 package no.nav.hjelpemidler.delbestilling.infrastructure.pdl
 
 import io.github.oshai.kotlinlogging.KotlinLogging
-import no.nav.hjelpemidler.delbestilling.infrastructure.geografi.Geografioppslag
 
 private val log = KotlinLogging.logger {}
 
-class Pdl(private val client: PdlClientInterface, private val geografioppslag: Geografioppslag) {
+class Pdl(private val client: PdlClientInterface) {
 
     suspend fun hentKommunenummer(fnr: String): String {
         val kommunenummer = try {
@@ -32,6 +31,19 @@ class Pdl(private val client: PdlClientInterface, private val geografioppslag: G
 
         return fornavn
 
+    }
+
+    suspend fun hentFornavnOgEtternavnsinitial(fnr: String): String {
+        val navn = try {
+            val response = valider(client.hentPersonNavn(fnr))
+            response.data?.hentPerson?.navn?.get(0)?.let { navn ->
+                "${navn.fornavn} ${navn.etternavn.first()}"
+            } ?: throw PdlResponseMissingData("Navn mangler i PDL-data")
+        } catch (e: Exception) {
+            log.error(e) { "Klarte ikke å hente navn" }
+            throw e
+        }
+        return navn
     }
 
     suspend fun hentNavn(fnr: String): String {

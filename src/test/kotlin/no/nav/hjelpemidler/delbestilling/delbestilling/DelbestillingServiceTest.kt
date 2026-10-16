@@ -51,6 +51,13 @@ internal class DelbestillingServiceTest {
     }
 
     @Test
+    fun `5 17 viser fornavn og etternavnsinitial for bestiller`() = runWithTestContext {
+        opprettDelbestilling()
+
+        assertTrue(kafka.publiserte.single().payload.contains("XK-Lager Del bestilt av: Bente B"))
+    }
+
+    @Test
     fun `tekniker kan max sende inn 5 delbestillinger for samme artnr & serienr per døgn`() = runWithTestContext {
         repeat(5) { opprettDelbestilling() }
 

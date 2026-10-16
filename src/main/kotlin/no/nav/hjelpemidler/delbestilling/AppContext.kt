@@ -82,7 +82,7 @@ class AppContext {
     private val oebs = Oebs(OebsApiProxyClient(texasClient), finnLagerenhet)
     private val outboxDispatcher = OutboxDispatcher(transactional, kafka, slack, clock)
     private val epostOutboxDispatcher = EpostOutboxDispatcher(transactional, email, slack)
-    private val pdl = Pdl(PdlClient(texasClient), geografioppslag)
+    private val pdl = Pdl(PdlClient(texasClient))
     private val rollerClient = RollerClient(TokendingsServiceBuilder.buildTokendingsService())
 
 

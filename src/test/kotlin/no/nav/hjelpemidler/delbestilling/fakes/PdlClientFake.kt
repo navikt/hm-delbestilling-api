@@ -57,8 +57,6 @@ class PdlClientFake : PdlClientInterface {
     override suspend fun hentKommunenummer(fnummer: String): PdlPersonResponse = responsFor(fnummer)
 
     override suspend fun hentPersonNavn(fnr: String): PdlPersonResponse = responsFor(fnr)
-
-    override suspend fun hentPersonNavnOgAdresse(fnr: String): PdlPersonResponse = responsFor(fnr)
 }
 
 private fun personRespons(

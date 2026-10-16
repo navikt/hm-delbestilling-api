@@ -92,7 +92,7 @@ class TestContext {
 
     // PDL
     val pdlClient = PdlClientFake()
-    val pdl = Pdl(pdlClient, geografioppslag)
+    val pdl = Pdl(pdlClient)
 
     // Oppslag
     val piloterService = PiloterService()

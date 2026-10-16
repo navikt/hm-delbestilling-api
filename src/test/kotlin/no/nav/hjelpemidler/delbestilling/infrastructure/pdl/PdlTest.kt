@@ -35,6 +35,12 @@ internal class PdlTest {
     }
 
     @Test
+    fun `skal hente fornavn og etternavnsinitial`() = runWithTestContext {
+        pdlClient.person(FNR_INNBYGGER, fornavn = "Arne", etternavn = "Bjarne", mellomnavn = "Charlie")
+        assertEquals("Arne B", pdl.hentFornavnOgEtternavnsinitial(FNR_INNBYGGER))
+    }
+
+    @Test
     fun `skal hente ut fullt navn med og uten mellomnavn`() = runWithTestContext {
         pdlClient.person(FNR_INNBYGGER, fornavn = "Arne", etternavn = "Charlie", mellomnavn = "Bjarne")
         assertEquals("Arne Bjarne Charlie", pdl.hentNavn(FNR_INNBYGGER))

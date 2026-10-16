@@ -208,7 +208,7 @@ class DelbestillingService(
         delbestilling: Delbestilling,
         innsending: Innsending,
     ): DelbestillingResultat {
-        val bestillersNavn = pdl.hentFornavn(innsending.bestillerFnr)
+        val bestillersNavn = pdl.hentFornavnOgEtternavnsinitial(innsending.bestillerFnr)
         val delerHmsnr = delbestilling.deler.map { it.del.hmsnr }
         val lagerstatuser = oebs.hentLagerstatusForKommunenummer(innsending.brukerKommunenr, delerHmsnr)
         val berikedeDellinjer = delbestilling.deler.map { dellinje ->
