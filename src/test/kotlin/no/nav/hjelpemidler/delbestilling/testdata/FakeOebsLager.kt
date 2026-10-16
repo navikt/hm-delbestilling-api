@@ -7,8 +7,8 @@ class FakeOebsLager {
     private val store: MutableMap<Hmsnr, LagerstatusResponse?> = mutableMapOf()
 
     init {
-        set(Testdata.delPåMinmax, antall = 5, minmax = true)
-        set(Testdata.delPåLager, antall = 5, minmax = false)
+        set(DEL_PÅ_MINMAX, antall = 5, minmax = true)
+        set(DEL_PÅ_LAGER, antall = 5, minmax = false)
     }
 
     fun tømLager() {

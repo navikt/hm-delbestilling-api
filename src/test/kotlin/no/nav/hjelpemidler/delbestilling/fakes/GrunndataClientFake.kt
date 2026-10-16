@@ -4,7 +4,6 @@ import no.nav.hjelpemidler.delbestilling.infrastructure.grunndata.GrunndataClien
 import no.nav.hjelpemidler.delbestilling.infrastructure.grunndata.Hits
 import no.nav.hjelpemidler.delbestilling.infrastructure.grunndata.ProduktResponse
 import no.nav.hjelpemidler.delbestilling.infrastructure.jsonMapper
-import no.nav.hjelpemidler.delbestilling.testdata.Testdata
 import java.util.UUID
 
 object GrunndataTestHmsnr {

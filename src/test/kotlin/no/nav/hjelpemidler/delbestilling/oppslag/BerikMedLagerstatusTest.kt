@@ -1,6 +1,6 @@
 package no.nav.hjelpemidler.delbestilling.oppslag
 
-import no.nav.hjelpemidler.delbestilling.testdata.Testdata
+import no.nav.hjelpemidler.delbestilling.testdata.DEFAULT_KOMMUNENUMMER
 import no.nav.hjelpemidler.delbestilling.runWithTestContext
 import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
@@ -15,7 +15,7 @@ class BerikMedLagerstatusTest {
         val deler = listOf(del("111111"), del("222222"), del("333333"))
         deler.forEach { oebslager.set(it.hmsnr, antall = 3) }
 
-        val beriket = berikMedLagerstatus(hjelpemiddel(deler), Testdata.defaultKommunenummer)
+        val beriket = berikMedLagerstatus(hjelpemiddel(deler), DEFAULT_KOMMUNENUMMER)
 
         assertEquals(3, beriket.deler.size)
         assertTrue(beriket.deler.all { it.lagerstatus != null })
@@ -26,7 +26,7 @@ class BerikMedLagerstatusTest {
         val del = del("111111")
         oebslager.set(del.hmsnr, antall = 4, minmax = false)
 
-        val beriket = berikMedLagerstatus(hjelpemiddel(listOf(del)), Testdata.defaultKommunenummer)
+        val beriket = berikMedLagerstatus(hjelpemiddel(listOf(del)), DEFAULT_KOMMUNENUMMER)
 
         val lagerstatus = assertNotNull(beriket.deler.first().lagerstatus)
         assertEquals(4, lagerstatus.antallDelerPåLager)
@@ -39,7 +39,7 @@ class BerikMedLagerstatusTest {
         val delUtenLagerstatus = del("222222")
         oebslager.setNull(delUtenLagerstatus.hmsnr)
 
-        val hjelpemiddel = berikMedLagerstatus(hjelpemiddel(listOf(delUtenLagerstatus, _del)), Testdata.defaultKommunenummer)
+        val hjelpemiddel = berikMedLagerstatus(hjelpemiddel(listOf(delUtenLagerstatus, _del)), DEFAULT_KOMMUNENUMMER)
 
         assertEquals(1, hjelpemiddel.deler.size)
         assertTrue(hjelpemiddel.deler.all { it.hmsnr != delUtenLagerstatus.hmsnr })

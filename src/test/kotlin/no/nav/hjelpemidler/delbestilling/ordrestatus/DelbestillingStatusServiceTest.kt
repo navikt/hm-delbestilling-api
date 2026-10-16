@@ -3,7 +3,7 @@ package no.nav.hjelpemidler.delbestilling.ordrestatus
 import no.nav.hjelpemidler.delbestilling.common.DellinjeStatus
 import no.nav.hjelpemidler.delbestilling.common.Status
 import no.nav.hjelpemidler.delbestilling.delbestilling.anmodning.DelUtenDekningStatus
-import no.nav.hjelpemidler.delbestilling.testdata.Testdata
+import no.nav.hjelpemidler.delbestilling.testdata.DEFAULT_DEL_HMSNR
 import no.nav.hjelpemidler.delbestilling.testdata.fixtures.annullerSak
 import no.nav.hjelpemidler.delbestilling.testdata.fixtures.hentDelUtenDekning
 import no.nav.hjelpemidler.delbestilling.testdata.fixtures.hentDelbestilling
@@ -121,7 +121,7 @@ class DelbestillingStatusServiceTest {
     @Test
     fun `skal annullere deler_uten_dekning for relevant sak`() = runWithTestContext {
         oebslager.tømLager()
-        val hmsnr = Testdata.defaultDelHmsnr
+        val hmsnr = DEFAULT_DEL_HMSNR
 
         opprettDelbestillingMedDel(hmsnr, antall = 2)
         val saksnummerTilAnnullering = opprettDelbestillingMedDel(hmsnr, antall = 3).saksnummer!!
@@ -136,7 +136,7 @@ class DelbestillingStatusServiceTest {
     @Test
     fun `skal ikke annullere sak som er ferdig anmodet`() = runWithTestContext {
         oebslager.tømLager()
-        val hmsnr = Testdata.defaultDelHmsnr
+        val hmsnr = DEFAULT_DEL_HMSNR
 
         val saksnummer = opprettDelbestillingMedDel(hmsnr, antall = 3).saksnummer!!
         delbestillingService.rapporterDelerTilAnmodning()

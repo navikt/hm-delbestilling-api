@@ -9,12 +9,12 @@ import no.nav.hjelpemidler.delbestilling.infrastructure.oebs.UtlånMedSerienr
 import no.nav.hjelpemidler.delbestilling.infrastructure.oebs.UtlånMedSerienrResponse
 import no.nav.hjelpemidler.delbestilling.infrastructure.oebs.UtlånResponse
 import no.nav.hjelpemidler.delbestilling.testdata.FakeOebsLager
-import no.nav.hjelpemidler.delbestilling.testdata.Testdata
-import no.nav.hjelpemidler.delbestilling.testdata.Testdata.defaultBrukernrstyrtHjmFnr
-import no.nav.hjelpemidler.delbestilling.testdata.Testdata.defaultBrukernrstyrtHjmHmsnr
-import no.nav.hjelpemidler.delbestilling.testdata.Testdata.fnr
-import no.nav.hjelpemidler.delbestilling.testdata.Testdata.defaultHjmHmsnr
-import no.nav.hjelpemidler.delbestilling.testdata.Testdata.defaultHjmSerienr
+import no.nav.hjelpemidler.delbestilling.testdata.DEFAULT_BRUKERNRSTYRT_HJM_FNR
+import no.nav.hjelpemidler.delbestilling.testdata.DEFAULT_BRUKERNRSTYRT_HJM_HMSNR
+import no.nav.hjelpemidler.delbestilling.testdata.DEFAULT_HJM_HMSNR
+import no.nav.hjelpemidler.delbestilling.testdata.DEFAULT_HJM_SERIENR
+import no.nav.hjelpemidler.delbestilling.testdata.DEFAULT_KOMMUNENUMMER
+import no.nav.hjelpemidler.delbestilling.testdata.FNR_INNBYGGER
 import no.nav.hjelpemidler.domain.person.Fødselsnummer
 import no.nav.hjelpemidler.domain.person.år
 import java.time.LocalDate
@@ -24,9 +24,9 @@ class OebsApiProxyFake(
 ) : OebsApiProxy {
 
     var utlånMedSerienr: UtlånMedSerienr? = UtlånMedSerienr(
-        fnr = fnr,
-        artnr = defaultHjmHmsnr,
-        serienr = defaultHjmSerienr,
+        fnr = FNR_INNBYGGER,
+        artnr = DEFAULT_HJM_HMSNR,
+        serienr = DEFAULT_HJM_SERIENR,
         opprettetDato = LocalDate.of(2025, 1, 1),
         utlånsDato = "2025-02-03",
         isokode = "123456"
@@ -34,8 +34,8 @@ class OebsApiProxyFake(
 
     var utlånMedBrukernr: List<Utlån> = listOf(
         Utlån(
-            fnr = defaultBrukernrstyrtHjmFnr,
-            artnr = defaultBrukernrstyrtHjmHmsnr,
+            fnr = DEFAULT_BRUKERNRSTYRT_HJM_FNR,
+            artnr = DEFAULT_BRUKERNRSTYRT_HJM_HMSNR,
             serienr = null,
             opprettetDato = LocalDate.of(2025, 1, 1),
             utlånsDato = "2025-02-03",
@@ -43,7 +43,7 @@ class OebsApiProxyFake(
         )
     )
 
-    var personinfo = listOf(OebsPersoninfo(Testdata.defaultKommunenummer))
+    var personinfo = listOf(OebsPersoninfo(DEFAULT_KOMMUNENUMMER))
 
     override suspend fun hentUtlånPåArtnrOgSerienr(artnr: String, serienr: String): UtlånMedSerienrResponse {
         return UtlånMedSerienrResponse(utlånMedSerienr)
