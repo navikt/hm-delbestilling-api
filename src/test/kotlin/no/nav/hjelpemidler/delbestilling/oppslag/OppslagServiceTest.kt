@@ -2,7 +2,6 @@ package no.nav.hjelpemidler.delbestilling.oppslag
 
 import no.nav.hjelpemidler.delbestilling.infrastructure.pdl.PdlResponseMissingData
 import no.nav.hjelpemidler.delbestilling.runWithTestContext
-import no.nav.hjelpemidler.delbestilling.testdata.PdlRespons
 import no.nav.hjelpemidler.delbestilling.testdata.DEFAULT_HJM_HMSNR
 import no.nav.hjelpemidler.delbestilling.testdata.DEFAULT_HJM_SERIENR
 import no.nav.hjelpemidler.delbestilling.testdata.FNR_INNBYGGER
@@ -33,7 +32,7 @@ class OppslagServiceTest {
 
     @Test
     fun `skal kaste feil dersom personen, som utlånet er registrert på, mangler kommunenummer i PDL`() = runWithTestContext {
-        pdlClient.svar(FNR_INNBYGGER, PdlRespons.person(kommunenummer = null))
+        pdlClient.person(FNR_INNBYGGER, kommunenummer = null)
         assertFailsWith<PdlResponseMissingData> {
             oppslagService.slåOppHjelpemiddelMedSerienr(DEFAULT_HJM_HMSNR, DEFAULT_HJM_SERIENR)
         }

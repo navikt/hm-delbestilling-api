@@ -8,7 +8,6 @@ import no.nav.hjelpemidler.delbestilling.common.Lager
 import no.nav.hjelpemidler.delbestilling.common.Saksbehandlingstype
 import no.nav.hjelpemidler.delbestilling.runWithTestContext
 import no.nav.hjelpemidler.delbestilling.testdata.Kommunenummer.ASKER
-import no.nav.hjelpemidler.delbestilling.testdata.PdlRespons
 import no.nav.hjelpemidler.delbestilling.testdata.DEFAULT_BRUKERNRSTYRT_HJM_FNR
 import no.nav.hjelpemidler.delbestilling.testdata.DEFAULT_BRUKERNRSTYRT_HJM_HMSNR
 import no.nav.hjelpemidler.delbestilling.testdata.FNR_BESTILLER
@@ -106,14 +105,15 @@ internal class DelbestillingServiceTest {
         assertEquals(MANUELL_DELBESTILLING_EPOST_EMNE, epost.emne)
         assertTrue(epost.html.contains("12345"))
         assertTrue(epost.html.contains("Sleggefett"))
-        assertTrue(epost.html.contains("<strong>Navn:</strong> Fornavn Etternavn"))
+        assertTrue(epost.html.contains("<strong>Navn:</strong> Bente Bestiller"))
+        assertFalse(epost.html.contains("Inge Innbygger"))
 
         assertEquals("tekniker@nav.no", transaction { bestillerepostDao.hent(FNR_BESTILLER) })
     }
 
     @Test
     fun `skal sende epost for manuell delbestilling uten navn dersom navneoppslag i PDL feiler`() = runWithTestContext {
-        pdlClient.svar(FNR_BESTILLER, PdlRespons.kode6())
+        pdlClient.kode6(FNR_BESTILLER)
 
         val resultat = opprettDelbestilling(delbestillingRequestMedUkjentDel(epostTekniker = "tekniker@nav.no"))
 
@@ -126,7 +126,7 @@ internal class DelbestillingServiceTest {
     @Test
     fun `skal bruke unntaksadresse for epost ved manuell delbestilling til kommune knyttet til lager med unntaksadresse`() = runWithTestContext {
         val kommune = ASKER
-        pdlClient.svar(FNR_INNBYGGER, PdlRespons.person(kommunenummer = kommune))
+        pdlClient.person(FNR_INNBYGGER, kommunenummer = kommune)
         oebsApiProxy.personinfo = listOf(OebsPersoninfo(kommune))
 
         val request = delbestillingRequest(deler = emptyList()).copy(
@@ -185,7 +185,7 @@ internal class DelbestillingServiceTest {
     @Test
     fun `skal feile dersom PDL og OEBS sine kommunenr er ulike for bruker`() = runWithTestContext {
         oebsApiProxy.personinfo = listOf(OebsPersoninfo(KOMMUNENUMMER_BERGEN))
-        pdlClient.svar(FNR_INNBYGGER, PdlRespons.person(kommunenummer = KOMMUNENUMMER_OSLO))
+        pdlClient.person(FNR_INNBYGGER, kommunenummer = KOMMUNENUMMER_OSLO)
 
         with(opprettDelbestilling()) {
             assertEquals(DelbestillingFeil.ULIK_ADRESSE_PDL_OEBS, feil)
