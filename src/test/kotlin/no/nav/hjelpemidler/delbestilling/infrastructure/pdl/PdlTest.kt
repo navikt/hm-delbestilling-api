@@ -35,6 +35,15 @@ internal class PdlTest {
     }
 
     @Test
+    fun `skal hente ut fullt navn med og uten mellomnavn`() = runWithTestContext {
+        pdlClient.response = PdlRespons.person(fornavn = "Arne", etternavn = "Charlie", mellomnavn = "Bjarne")
+        assertEquals("Arne Bjarne Charlie", pdl.hentNavn(Testdata.fnr))
+
+        pdlClient.response = PdlRespons.person(fornavn = "Arne", etternavn = "Charlie")
+        assertEquals("Arne Charlie", pdl.hentNavn(Testdata.fnr))
+    }
+
+    @Test
     fun `skal kaste feil hvis fornavn mangler`() = runWithTestContext {
         pdlClient.response = PdlPersonResponse(data = PdlHentPerson(null))
         val exception = assertFailsWith<PdlResponseMissingData> {

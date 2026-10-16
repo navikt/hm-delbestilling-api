@@ -8,6 +8,7 @@ const val MANUELL_DELBESTILLING_EPOST_EMNE = "Delbestilling til manuell behandli
 data class ManuellDelbestillingEpost(
     val delbestilling: Delbestilling,
     val saksnummer: Long,
+    val bestillerNavn: String? = null,
 ) {
     fun tilHtml(): String {
         val hjelpemiddelIdentifikatorer = listOfNotNull(
@@ -81,7 +82,8 @@ data class ManuellDelbestillingEpost(
                 <h2 style="font-size: 18px; margin: 24px 0 8px;">Bestilt av</h2>
                 <table role="presentation" style="border-collapse: collapse; width: 100%; max-width: 680px;">
                     <tbody>
-                        ${nøkkelverdi("E-post tekniker", delbestilling.epostTekniker?.trim())}
+                        ${bestillerNavn?.trim()?.takeIf { it.isNotBlank() }?.let { nøkkelverdi("Navn", it) }.orEmpty()}
+                        ${nøkkelverdi("E-post", delbestilling.epostTekniker?.trim())}
                     </tbody>
                 </table>
 

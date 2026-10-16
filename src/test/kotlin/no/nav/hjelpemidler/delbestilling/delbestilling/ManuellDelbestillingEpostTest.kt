@@ -55,7 +55,21 @@ class ManuellDelbestillingEpostTest {
 
         val html = ManuellDelbestillingEpost(delbestilling, 19).tilHtml()
 
-        assertTrue(html.contains("E-post tekniker:</strong> tekniker@nav.no\n"))
+        assertTrue(html.contains("E-post:</strong> tekniker@nav.no\n"))
+    }
+
+    @Test
+    fun `skal vise bestillers navn`() {
+        val html = ManuellDelbestillingEpost(delbestilling(), 19, bestillerNavn = "Ola Nordmann").tilHtml()
+
+        assertTrue(html.contains("<strong>Navn:</strong> Ola Nordmann\n"))
+    }
+
+    @Test
+    fun `skal utelate navn dersom bestillers navn mangler`() {
+        val html = ManuellDelbestillingEpost(delbestilling(), 19, bestillerNavn = null).tilHtml()
+
+        assertFalse(html.contains("<strong>Navn:</strong>"))
     }
 
 }
