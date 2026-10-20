@@ -9,6 +9,8 @@ import no.nav.hjelpemidler.delbestilling.delbestilling.DelbestillingRequest
 import no.nav.hjelpemidler.delbestilling.delbestilling.DelbestillingService
 import no.nav.hjelpemidler.delbestilling.delbestilling.requireHmsnr
 import no.nav.hjelpemidler.delbestilling.delbestilling.validateDelbestillingRequest
+import no.nav.hjelpemidler.delbestilling.oppslag.OppslagFeilResponse
+import no.nav.hjelpemidler.delbestilling.oppslag.OppslagResultUtenDeler
 import no.nav.hjelpemidler.delbestilling.rapportering.klargjorte.KlargjorteDelbestillingerService
 
 
@@ -30,10 +32,14 @@ fun Route.devtoolsApi(
     }
 
     post("/oppslag-ekstern-dev-hjelpemiddel") {
-        // Endepunkt for å slå opp deler til hjm. i ekstern-dev. Ignorerer serienr
+        // Endepunkt for å slå opp hjelpemiddel i ekstern-dev.
         val request = call.receive<OppslagRequestHmsnr>()
         val hmsnr = requireHmsnr(request.hmsnr)
-        call.respond(devTools.slåOppHjelpemiddel(hmsnr))
+        when (val result = devTools.slåOppHjelpemiddel(hmsnr)) {
+            is OppslagResultUtenDeler.Suksess -> call.respond(result.resultat)
+            is OppslagResultUtenDeler.Feil ->
+                call.respond(HttpStatusCode.NotFound, OppslagFeilResponse(result.feil))
+        }
     }
 
     get("/finnGyldigTestbruker") {
