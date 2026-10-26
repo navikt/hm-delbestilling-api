@@ -57,7 +57,7 @@ dependencies {
 
 java {
     toolchain {
-        languageVersion = JavaLanguageVersion.of(21)
+        languageVersion = JavaLanguageVersion.of(25)
     }
 }
 
@@ -70,7 +70,7 @@ kotlin {
 testing {
     @Suppress("UnstableApiUsage")
     suites {
-        val test by getting(JvmTestSuite::class) {
+        val test = getByName<JvmTestSuite>("test") {
             useKotlinTest(libs.versions.kotlin.asProvider())
 
             dependencies {
