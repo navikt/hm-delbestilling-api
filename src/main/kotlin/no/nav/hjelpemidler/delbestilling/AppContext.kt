@@ -1,5 +1,6 @@
 package no.nav.hjelpemidler.delbestilling
 
+import io.ktor.client.engine.cio.CIO
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
@@ -70,7 +71,7 @@ class AppContext {
     private val transactional = Transaction(ds, transactionScopeFactory)
 
     // Infrastructure
-    private val texasClient = TexasClient()
+    private val texasClient = TexasClient(CIO.create())
     val email = Email(GraphClient(texasClient))
     val slack = Slack(transactional, backgroundScope)
     private val grunndata = Grunndata(GrunndataClient())

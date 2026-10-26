@@ -15,7 +15,7 @@ import io.ktor.http.contentType
 import no.nav.hjelpemidler.delbestilling.config.isProd
 import no.nav.hjelpemidler.http.createHttpClient
 import no.nav.hjelpemidler.http.openid.TokenSetProvider
-import no.nav.hjelpemidler.http.openid.openID
+import no.nav.hjelpemidler.http.openid.openId
 import org.slf4j.MDC
 
 
@@ -30,7 +30,7 @@ fun defaultHttpClient(engine: HttpClientEngine = CIO.create(), tokenSetProvider:
         expectSuccess = true
 
         if (tokenSetProvider != null) {
-            openID(tokenSetProvider)
+            openId(tokenSetProvider)
         }
 
         install(HttpRequestRetry) {

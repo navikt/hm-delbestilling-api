@@ -12,6 +12,7 @@ import no.nav.hjelpemidler.delbestilling.config.AppConfig
 import no.nav.hjelpemidler.delbestilling.infrastructure.defaultHttpClient
 import no.nav.hjelpemidler.delbestilling.infrastructure.navCorrelationId
 import no.nav.hjelpemidler.domain.person.Fødselsnummer
+import no.nav.hjelpemidler.http.openid.IdentityProvider
 import no.nav.hjelpemidler.http.openid.TexasClient
 
 private val log = KotlinLogging.logger {}
@@ -19,7 +20,7 @@ private val log = KotlinLogging.logger {}
 class OebsApiProxyClient(
     private val texasClient: TexasClient,
     private val apiScope: String = AppConfig.OEBS_API_SCOPE,
-    private val client: HttpClient = defaultHttpClient(tokenSetProvider = texasClient.entraIdApplication(apiScope)),
+    private val client: HttpClient = defaultHttpClient(tokenSetProvider = { texasClient.token(IdentityProvider.ENTRA_ID, apiScope) }),
     private val baseUrl: String = AppConfig.OEBS_API_URL,
 ) : OebsApiProxy {
 
@@ -69,5 +70,4 @@ class OebsApiProxyClient(
         get("$baseUrl/getFodselsnummer/$brukernr", )
 
 }
-
 

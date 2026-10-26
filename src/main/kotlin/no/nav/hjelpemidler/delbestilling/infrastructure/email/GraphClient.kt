@@ -9,6 +9,7 @@ import kotlinx.coroutines.withContext
 import no.nav.hjelpemidler.delbestilling.config.AppConfig
 import no.nav.hjelpemidler.delbestilling.infrastructure.defaultHttpClient
 import no.nav.hjelpemidler.delbestilling.infrastructure.navCorrelationId
+import no.nav.hjelpemidler.http.openid.IdentityProvider
 import no.nav.hjelpemidler.http.openid.TexasClient
 
 
@@ -17,7 +18,7 @@ private val log = KotlinLogging.logger { }
 class GraphClient(
     private val texasClient: TexasClient,
     private val scope: String = "https://graph.microsoft.com/.default",
-    private val client: HttpClient = defaultHttpClient(tokenSetProvider = texasClient.entraIdApplication(scope)),
+    private val client: HttpClient = defaultHttpClient(tokenSetProvider = { texasClient.token(IdentityProvider.ENTRA_ID, scope) }),
     private val baseUrl: String = "https://graph.microsoft.com/v1.0",
     private val avsender: String = AppConfig.EPOST_AVSENDER
 ) : GraphClientInterface {
