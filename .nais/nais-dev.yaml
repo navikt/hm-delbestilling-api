@@ -13,8 +13,8 @@ spec:
     min: 1
     max: 1
   startup:
-    failureThreshold: 5
-    initialDelay: 60
+    failureThreshold: 11
+    initialDelay: 5
     path: /isalive
     periodSeconds: 10
     timeout: 5
@@ -24,7 +24,6 @@ spec:
     path: /isready
   resources:
     limits:
-      cpu: 500m
       memory: 1024Mi
     requests:
       cpu: 20m
