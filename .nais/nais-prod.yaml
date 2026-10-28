@@ -13,8 +13,8 @@ spec:
     min: 2
     max: 4
   startup:
-    failureThreshold: 5
-    initialDelay: 60
+    failureThreshold: 11
+    initialDelay: 5
     path: /isalive
     periodSeconds: 10
     timeout: 5
