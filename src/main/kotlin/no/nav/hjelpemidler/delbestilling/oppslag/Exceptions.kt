@@ -8,6 +8,15 @@ data class OppslagFeilResponse(
     val feil: OppslagFeil,
 )
 
+enum class DelOppslagFeil {
+    ER_HJELPEMIDDEL
+}
+
+data class DelOppslagFeilResponse(
+    val feil: DelOppslagFeil,
+    val hjelpemiddelnavn: String,
+)
+
 sealed class OppslagResult {
     data class Suksess(val resultat: OppslagResultat) : OppslagResult()
     data class Feil(val feil: OppslagFeil) : OppslagResult()

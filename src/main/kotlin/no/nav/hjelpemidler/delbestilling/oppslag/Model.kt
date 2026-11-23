@@ -99,6 +99,12 @@ data class OppslagsResultatUtenDeler(
     val hjelpemiddel: HjelpemiddelUtenDeler,
 )
 
+// del er null når HMS-nr ikke finnes i grunndata eller manuell liste. Delen kan likevel bestilles.
+data class DelOppslagResultat(
+    val del: Del?,
+    val maksAntall: Int,
+)
+
 enum class Pilot {
     BESTILLE_IKKE_FASTE_LAGERVARER
 }

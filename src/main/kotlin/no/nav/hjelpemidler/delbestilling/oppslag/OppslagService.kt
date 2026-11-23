@@ -17,6 +17,7 @@ class OppslagService(
     private val oebs: Oebs,
     private val piloterService: PiloterService,
     private val finnHjelpemiddel: FinnHjelpemiddel,
+    private val finnDel: FinnDel,
     private val finnDelerTilHjelpemiddel: FinnDelerTilHjelpemiddel,
     private val berikMedLagerstatus: BerikMedLagerstatus,
     private val berikMedDagerSidenForrigeBatteribestilling: BerikMedDagerSidenForrigeBatteribestilling,
@@ -37,6 +38,8 @@ class OppslagService(
 
         return OppslagResultUtenDeler.Suksess(OppslagsResultatUtenDeler(hjelpemiddelUtenDeler))
     }
+
+    suspend fun slåOppDel(hmsnr: String): FinnDelResultat = finnDel(hmsnr)
 
     suspend fun slåOppDeler(hmsnr: String, brukernr: String?, serienr: String?): OppslagResult {
         if (!brukernr.isNullOrBlank()) return slåOppHjelpemiddelMedBrukernr(hmsnr, brukernr)

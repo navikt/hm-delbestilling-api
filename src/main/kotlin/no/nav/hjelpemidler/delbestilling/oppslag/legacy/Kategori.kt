@@ -13,10 +13,12 @@ private val ISOKODE_PERSONLØFTER = "1236"
 private val ISOKODE_ERS = "1223"
 private val ISOKODE_TILBEHØR_ARBEIDSSTOLER = "180991"
 
+const val DEFAULT_MAKS_ANTALL = 4
+
 fun maksAntall(kategori: String, isoKode: String): Int = when {
     kategori == "Batteri" -> maksAntallBatteri(isoKode.take(4))
     kategori == "Hjul" && isoKode == ISOKODE_TILBEHØR_ARBEIDSSTOLER -> 5
-    else -> 4
+    else -> DEFAULT_MAKS_ANTALL
 }
 
 fun maksAntallBatteri(isoKode: String): Int = when(isoKode) {
