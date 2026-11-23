@@ -49,7 +49,16 @@ data class ManuellDelbestillingEpost(
             <body style="font-family: Arial, sans-serif; color: #262626; line-height: 1.5;">
                 <h1 style="font-size: 24px; margin: 0 0 16px;">Bestilling av deler til manuell behandling</h1>
 
-                <p>Denne bestillingen inneholder én eller flere deler som ikke finnes i grunndata, og må derfor behandles manuelt.</p>
+                <p><strong>Innsender har sendt inn bestillingen manuelt. Kontroller opplysningene og avklar eventuelle uklarheter før du oppretter ordren.</strong></p>
+                <h2 style="font-size: 18px; margin: 24px 0 8px;">Kontroller før du oppretter ordren</h2>
+                <ul style="padding-left: 24px; max-width: 680px;">
+                    <li>Sjekk at artikkelnummeret er riktig.</li>
+                    <li>Avklar om det som bestilles, er en del eller tilbehør.</li>
+                    <li>Hvis det er tilbehør, sjekk om det finnes et vedtak på tilbehøret. Hvis det ikke finnes et vedtak, må det søkes om tilbehøret.</li>
+                    <li>Sjekk at delen eller tilbehøret passer til hjelpemiddelet.</li>
+                    <li>Hvis det bestilles batteri, sjekk om hjelpemiddelet er innenfor garantitiden, eller om batteriet er byttet de siste 12 månedene.</li>
+                </ul>
+                <p>Når du har gjennomført kontrollene og avklart eventuelle uklarheter med innsender, må du opprette ordren manuelt i OeBS.</p>
 
                 <h2 style="font-size: 18px; margin: 24px 0 8px;">Hjelpemiddelet som skal repareres</h2>
                 <table role="presentation" style="border-collapse: collapse; width: 100%; max-width: 680px;">
@@ -94,7 +103,7 @@ data class ManuellDelbestillingEpost(
                     </tbody>
                 </table>
 
-                <p style="margin-top: 24px;">Vennlig hilsen<br>DigiHoT</p>
+                <p style="margin-top: 24px;">Med vennlig hilsen<br>Nav Hjelpemidler og Tilrettelegging (HOT)</p>
             </body>
             </html>
         """.trimIndent()
