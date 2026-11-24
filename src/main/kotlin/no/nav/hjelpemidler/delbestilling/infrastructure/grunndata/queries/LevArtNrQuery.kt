@@ -14,6 +14,8 @@ fun levArtNrQuery(levArtNr: String, leverandørId: UUID): JsonNode = jsonMapper.
                 "filter" to listOf(
                     mapOf("term" to mapOf("supplierRef" to levArtNr)),
                     mapOf("term" to mapOf("supplier.id" to leverandørId.toString())),
+                    // Produkter uten HMS-nr kan ikke brukes, og må ikke ta plass i size-grensen.
+                    mapOf("exists" to mapOf("field" to "hmsArtNr")),
                 )
             )
         ),
