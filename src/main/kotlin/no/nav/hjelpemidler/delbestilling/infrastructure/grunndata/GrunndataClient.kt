@@ -40,8 +40,8 @@ class GrunndataClient(
         return executeQuery(hmsArtNrQuery(hmsnr))
     }
 
-    override suspend fun hentProdukterMedLevArtNr(levArtNr: String): ProduktResponse {
-        return executeQuery(levArtNrQuery(levArtNr))
+    override suspend fun hentProdukterMedLevArtNr(levArtNr: String, leverandørId: UUID): ProduktResponse {
+        return executeQuery(levArtNrQuery(levArtNr, leverandørId))
     }
 
     override suspend fun hentDeler(seriesId: UUID, produktId: UUID): ProduktResponse {

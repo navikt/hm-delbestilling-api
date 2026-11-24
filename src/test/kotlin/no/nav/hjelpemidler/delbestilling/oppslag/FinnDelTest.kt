@@ -50,28 +50,29 @@ class FinnDelTest {
     }
 
     @Test
-    fun `skal finne del med levArtNr ved ett treff`() = runWithTestContext {
-        val result = finnDel(medLevArtNr("1000038"))
-        assertIs<FinnDelResultat.Funnet>(result)
-        assertEquals("150817", result.del.hmsnr)
-    }
-
-    @Test
-    fun `skal snevre inn til hjelpemiddelets leverandør ved flere treff på levArtNr`() = runWithTestContext {
+    fun `skal finne del med levArtNr hos hjelpemiddelets leverandør`() = runWithTestContext {
         val result = finnDel(medLevArtNr("FLERE-LEVERANDORER"))
         assertIs<FinnDelResultat.Funnet>(result)
         assertEquals("999001", result.del.hmsnr)
     }
 
     @Test
-    fun `skal gi IkkeFunnet ved flere treff på levArtNr når ingen matcher hjelpemiddelets leverandør`() =
-        runWithTestContext {
-            val result = finnDel(medLevArtNr("FLERE-LEVERANDORER", GrunndataTestHmsnr.IKKE_I_GRUNNDATA))
-            assertIs<FinnDelResultat.IkkeFunnet>(result)
-        }
+    fun `skal gi IkkeFunnet når levArtNr kun finnes hos annen leverandør`() = runWithTestContext {
+        assertIs<FinnDelResultat.IkkeFunnet>(finnDel(medLevArtNr("1000038")))
+    }
 
     @Test
-    fun `skal ignorere hovedprodukter ved oppslag på levArtNr`() = runWithTestContext {
+    fun `skal gi IkkeFunnet for levArtNr når hjelpemiddelet ikke finnes i grunndata`() = runWithTestContext {
+        assertIs<FinnDelResultat.IkkeFunnet>(finnDel(medLevArtNr("FLERE-LEVERANDORER", GrunndataTestHmsnr.IKKE_I_GRUNNDATA)))
+    }
+
+    @Test
+    fun `skal gi IkkeFunnet ved flere treff på levArtNr hos samme leverandør`() = runWithTestContext {
+        assertIs<FinnDelResultat.IkkeFunnet>(finnDel(medLevArtNr("DUPLIKAT")))
+    }
+
+    @Test
+    fun `skal gi IkkeFunnet når levArtNr er et hovedprodukt`() = runWithTestContext {
         assertIs<FinnDelResultat.IkkeFunnet>(finnDel(medLevArtNr("1545993")))
     }
 

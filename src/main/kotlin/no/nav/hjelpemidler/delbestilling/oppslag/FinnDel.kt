@@ -47,26 +47,31 @@ class FinnDel(
 
     private suspend fun medLevArtNr(request: DelOppslagRequest.MedLevArtNr): FinnDelResultat {
         val levArtNr = request.levArtNr
+        val hjelpemiddelHmsnr = request.hjelpemiddelHmsnr
         log.info { "Henter delinfo for levArtNr $levArtNr" }
 
+        val leverandørId = hentLeverandørId(hjelpemiddelHmsnr)
+        if (leverandørId == null) {
+            log.info { "Fant ikke leverandør for hjelpemiddel hmsnr=$hjelpemiddelHmsnr, kan ikke slå opp levArtNr=$levArtNr" }
+            return FinnDelResultat.IkkeFunnet
+        }
+
         val treff = try {
-            grunndata.hentProdukterMedLevArtNr(levArtNr).filterNot { it.erHovedprodukt }
+            grunndata.hentProdukterMedLevArtNr(levArtNr, leverandørId)
         } catch (e: Exception) {
             log.info(e) { "Klarte ikke å søke etter levArtNr $levArtNr i grunndata" }
             emptyList()
         }
 
-        val produkt = when (treff.size) {
-            0, 1 -> treff.singleOrNull()
-            else -> {
-                // Lev.art.nr er bare unikt per leverandør, så vi snevrer inn til hjelpemiddelets leverandør.
-                val leverandørId = hentLeverandørId(request.hjelpemiddelHmsnr)
-                treff.filter { it.leverandørId == leverandørId }.singleOrNull()
-            }
+        val produkt = treff.singleOrNull()
+        if (produkt == null) {
+            log.info { "Fant ikke entydig del for levArtNr=$levArtNr hos leverandør $leverandørId (hjelpemiddel hmsnr=$hjelpemiddelHmsnr). Antall treff i grunndata: ${treff.size}" }
+            return FinnDelResultat.IkkeFunnet
         }
 
-        if (produkt == null) {
-            log.info { "Fant ikke entydig del for levArtNr=$levArtNr (hjelpemiddel hmsnr=${request.hjelpemiddelHmsnr}). Antall treff i grunndata: ${treff.size}" }
+        // TODO: Blokker når lev.art.nr er et hovedprodukt, slik som for HMS-nr.
+        if (produkt.erHovedprodukt) {
+            log.info { "levArtNr=$levArtNr er hovedproduktet ${produkt.hmsArtNr} (hjelpemiddel hmsnr=$hjelpemiddelHmsnr)" }
             return FinnDelResultat.IkkeFunnet
         }
 
