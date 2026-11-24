@@ -5,6 +5,7 @@ import no.nav.hjelpemidler.delbestilling.common.Delbestilling
 import no.nav.hjelpemidler.delbestilling.common.DellinjeUkjentDel
 import no.nav.hjelpemidler.delbestilling.common.Hmsnr
 import no.nav.hjelpemidler.delbestilling.common.Serienr
+import no.nav.hjelpemidler.delbestilling.oppslag.DelOppslagRequest
 import no.nav.hjelpemidler.delbestilling.oppslag.OppslagDelerRequest
 import no.nav.hjelpemidler.delbestilling.oppslag.OppslagRequest
 import no.nav.hjelpemidler.delbestilling.oppslag.XkLagerRequest
@@ -103,6 +104,18 @@ fun requireHmsnr(value: String?): String {
     requireNotNull(value)
     requireNoErrors { validateHmsnr(value) }
     return value
+}
+
+fun requireDelOppslagRequest(hjelpemiddelHmsnr: String?, hmsnr: String?, levArtNr: String?): DelOppslagRequest {
+    val hjmHmsnr = requireHmsnr(hjelpemiddelHmsnr)
+    val levArtNrTrimmed = levArtNr?.trim()
+    require((hmsnr == null) != (levArtNrTrimmed == null)) { "Del-oppslag må ha enten HMS-nr eller leverandørens artikkelnummer" }
+    return if (hmsnr != null) {
+        DelOppslagRequest.MedHmsnr(requireHmsnr(hmsnr), hjmHmsnr)
+    } else {
+        require(!levArtNrTrimmed.isNullOrEmpty() && levArtNrTrimmed.length <= 20) { "Leverandørens artikkelnummer må være 1-20 tegn" }
+        DelOppslagRequest.MedLevArtNr(levArtNrTrimmed, hjmHmsnr)
+    }
 }
 
 fun requireNoErrors(validate: () -> List<String>) {

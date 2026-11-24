@@ -7,6 +7,7 @@ import io.ktor.http.HttpStatusCode
 import no.nav.hjelpemidler.delbestilling.config.isDev
 import no.nav.hjelpemidler.delbestilling.delbestilling.DelbestillingRequest
 import no.nav.hjelpemidler.delbestilling.delbestilling.DelbestillingService
+import no.nav.hjelpemidler.delbestilling.delbestilling.requireDelOppslagRequest
 import no.nav.hjelpemidler.delbestilling.delbestilling.requireHmsnr
 import no.nav.hjelpemidler.delbestilling.delbestilling.validateDelbestillingRequest
 import no.nav.hjelpemidler.delbestilling.oppslag.OppslagFeilResponse
@@ -45,9 +46,9 @@ fun Route.devtoolsApi(
 
     post("/oppslag-ekstern-dev-del") {
         // Endepunkt for å slå opp manuelt oppgitt del i ekstern-dev.
-        val request = call.receive<OppslagRequestHmsnr>()
-        val hmsnr = requireHmsnr(request.hmsnr)
-        call.respondDelOppslag(devTools.slåOppDel(hmsnr))
+        val params = call.receive<DelOppslagParams>()
+        val request = requireDelOppslagRequest(params.hjelpemiddelHmsnr, params.hmsnr, params.levArtNr)
+        call.respondDelOppslag(devTools.slåOppDel(request))
     }
 
     get("/finnGyldigTestbruker") {
@@ -74,6 +75,12 @@ fun Route.devtoolsApi(
 
 private data class OppslagRequestHmsnr(
     val hmsnr: String,
+)
+
+private data class DelOppslagParams(
+    val hjelpemiddelHmsnr: String?,
+    val hmsnr: String?,
+    val levArtNr: String?,
 )
 
 private data class OppslagRequestDev(

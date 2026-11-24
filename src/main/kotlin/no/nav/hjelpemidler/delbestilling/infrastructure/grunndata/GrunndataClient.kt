@@ -14,6 +14,7 @@ import no.nav.hjelpemidler.delbestilling.infrastructure.grunndata.queries.alleDe
 import no.nav.hjelpemidler.delbestilling.infrastructure.grunndata.queries.alleHjelpemiddelMedIdEllerSeriesIdQuery
 import no.nav.hjelpemidler.delbestilling.infrastructure.grunndata.queries.compatibleWithQuery
 import no.nav.hjelpemidler.delbestilling.infrastructure.grunndata.queries.hmsArtNrQuery
+import no.nav.hjelpemidler.delbestilling.infrastructure.grunndata.queries.levArtNrQuery
 import no.nav.hjelpemidler.delbestilling.infrastructure.navCorrelationId
 import java.util.UUID
 
@@ -37,6 +38,10 @@ class GrunndataClient(
 
     override suspend fun hentProdukt(hmsnr: String): ProduktResponse {
         return executeQuery(hmsArtNrQuery(hmsnr))
+    }
+
+    override suspend fun hentProdukterMedLevArtNr(levArtNr: String): ProduktResponse {
+        return executeQuery(levArtNrQuery(levArtNr))
     }
 
     override suspend fun hentDeler(seriesId: UUID, produktId: UUID): ProduktResponse {

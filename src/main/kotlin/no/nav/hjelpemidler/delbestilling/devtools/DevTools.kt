@@ -10,6 +10,7 @@ import no.nav.hjelpemidler.delbestilling.infrastructure.email.Email
 import no.nav.hjelpemidler.delbestilling.infrastructure.oebs.Oebs
 import no.nav.hjelpemidler.delbestilling.infrastructure.pdl.Pdl
 import no.nav.hjelpemidler.delbestilling.infrastructure.persistence.transaction.Transactional
+import no.nav.hjelpemidler.delbestilling.oppslag.DelOppslagRequest
 import no.nav.hjelpemidler.delbestilling.oppslag.FinnDelResultat
 import no.nav.hjelpemidler.delbestilling.oppslag.FinnDelerResultat
 import no.nav.hjelpemidler.delbestilling.oppslag.FinnDelerTilHjelpemiddel
@@ -63,9 +64,9 @@ class DevTools(
         return oppslagService.slåOppHjelpemiddel(hmsnr)
     }
 
-    suspend fun slåOppDel(hmsnr: Hmsnr): FinnDelResultat {
-        log.info { "Slår opp del hmsnr=$hmsnr for dev.ekstern" }
-        return oppslagService.slåOppDel(hmsnr)
+    suspend fun slåOppDel(request: DelOppslagRequest): FinnDelResultat {
+        log.info { "Slår opp del $request for dev.ekstern" }
+        return oppslagService.slåOppDel(request)
     }
 
     suspend fun slåOppHjelpemiddelMedFakeLagerstatus(hmsnr: String, serienr: String?, brukernr: String?): OppslagResultat {

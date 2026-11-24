@@ -25,6 +25,10 @@ class GrunndataClientFake() : GrunndataClientInterface {
         return loadResponse("produkt_$hmsnr.json")
     }
 
+    override suspend fun hentProdukterMedLevArtNr(levArtNr: String): ProduktResponse {
+        return loadResponse("levartnr_$levArtNr.json")
+    }
+
     override suspend fun hentDeler(seriesId: UUID, produktId: UUID): ProduktResponse {
         return loadResponse("deler_${seriesId}_$produktId.json")
     }

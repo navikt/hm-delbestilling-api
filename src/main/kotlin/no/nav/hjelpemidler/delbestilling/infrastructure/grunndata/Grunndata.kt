@@ -17,6 +17,11 @@ class Grunndata(private val client: GrunndataClientInterface) {
         return produkt
     }
 
+    suspend fun hentProdukterMedLevArtNr(levArtNr: String): List<Produkt> {
+        log.info { "Henter produkter med levArtNr $levArtNr fra grunndata" }
+        return client.hentProdukterMedLevArtNr(levArtNr).produkter.mapNotNull { it.toDomain() }
+    }
+
     suspend fun hentDeler(seriesId: UUID, produktId: UUID): List<Produkt> {
         log.info { "Henter deler for seriesId $seriesId og produktId $produktId fra grunndata" }
         return client.hentDeler(seriesId = seriesId, produktId = produktId).produkter.mapNotNull { it.toDomain() }
@@ -43,6 +48,7 @@ private fun GrunndataProdukt.toDomain(): Produkt? {
         hmsArtNr = hmsnr,
         leverandørRef = supplierRef,
         leverandørnavn = supplier.name,
+        leverandørId = supplier.id,
         kompatibleProduktIder = attributes.compatibleWith?.productIds ?: emptyList(),
         kompatibleSerieIder = attributes.compatibleWith?.seriesIds ?: emptyList(),
         isoKategori = isoCategory,

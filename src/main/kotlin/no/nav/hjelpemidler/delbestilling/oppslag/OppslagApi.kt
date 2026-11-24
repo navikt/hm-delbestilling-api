@@ -8,6 +8,7 @@ import io.ktor.server.response.respond
 import io.ktor.server.routing.Route
 import io.ktor.server.routing.get
 import io.ktor.server.routing.post
+import no.nav.hjelpemidler.delbestilling.delbestilling.requireDelOppslagRequest
 import no.nav.hjelpemidler.delbestilling.delbestilling.requireHmsnr
 import no.nav.hjelpemidler.delbestilling.oppslag.legacy.DEFAULT_MAKS_ANTALL
 import no.nav.hjelpemidler.logging.teamInfo
@@ -32,10 +33,14 @@ fun Route.oppslagApi(
         }
     }
 
-    get("/deler/{hmsnr}") {
-        val hmsnr = requireHmsnr(call.parameters["hmsnr"])
-        log.info { "Slår opp del hmsnr=$hmsnr" }
-        call.respondDelOppslag(oppslagService.slåOppDel(hmsnr))
+    get("/deler/oppslag") {
+        val request = requireDelOppslagRequest(
+            hjelpemiddelHmsnr = call.request.queryParameters["hjelpemiddelHmsnr"],
+            hmsnr = call.request.queryParameters["hmsnr"],
+            levArtNr = call.request.queryParameters["levArtNr"],
+        )
+        log.info { "Slår opp del: $request" }
+        call.respondDelOppslag(oppslagService.slåOppDel(request))
     }
 }
 
