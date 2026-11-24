@@ -50,10 +50,10 @@ data class ManuellDelbestillingEpost(
                 <h1 style="font-size: 24px; margin: 0 0 16px;">Bestilling av deler til manuell behandling</h1>
 
                 <p><strong>Innsender har sendt inn bestillingen manuelt. Kontroller opplysningene og avklar eventuelle uklarheter før du oppretter ordren.</strong></p>
-                <h2 style="font-size: 18px; margin: 24px 0 8px;">Kontroller før du oppretter ordren</h2>
+                <h2 style="font-size: 18px; margin: 24px 0 8px;">Kontroller følgende før du oppretter ordren:</h2>
                 <ul style="padding-left: 24px; max-width: 680px;">
                     <li>Sjekk at artikkelnummeret er riktig.</li>
-                    <li>Avklar om det som bestilles, er en del eller tilbehør.</li>
+                    <li>Avklar om det som bestilles dekkes av Nav, og om det er en del eller tilbehør.</li>
                     <li>Hvis det er tilbehør, sjekk om det finnes et vedtak på tilbehøret. Hvis det ikke finnes et vedtak, må det søkes om tilbehøret.</li>
                     <li>Sjekk at delen eller tilbehøret passer til hjelpemiddelet.</li>
                     <li>Hvis det bestilles batteri, sjekk om hjelpemiddelet er innenfor garantitiden, eller om batteriet er byttet de siste 12 månedene.</li>
