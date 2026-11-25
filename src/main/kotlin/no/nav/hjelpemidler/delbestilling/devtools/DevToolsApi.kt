@@ -11,6 +11,7 @@ import no.nav.hjelpemidler.delbestilling.delbestilling.requireHmsnr
 import no.nav.hjelpemidler.delbestilling.delbestilling.validateDelbestillingRequest
 import no.nav.hjelpemidler.delbestilling.oppslag.OppslagFeilResponse
 import no.nav.hjelpemidler.delbestilling.oppslag.OppslagResultUtenDeler
+import no.nav.hjelpemidler.delbestilling.oppslag.respondDelOppslag
 import no.nav.hjelpemidler.delbestilling.rapportering.klargjorte.KlargjorteDelbestillingerService
 
 
@@ -40,6 +41,13 @@ fun Route.devtoolsApi(
             is OppslagResultUtenDeler.Feil ->
                 call.respond(HttpStatusCode.NotFound, OppslagFeilResponse(result.feil))
         }
+    }
+
+    post("/oppslag-ekstern-dev-del") {
+        // Endepunkt for å slå opp manuelt oppgitt del i ekstern-dev.
+        val request = call.receive<OppslagRequestHmsnr>()
+        val hmsnr = requireHmsnr(request.hmsnr)
+        call.respondDelOppslag(devTools.slåOppDel(hmsnr))
     }
 
     get("/finnGyldigTestbruker") {

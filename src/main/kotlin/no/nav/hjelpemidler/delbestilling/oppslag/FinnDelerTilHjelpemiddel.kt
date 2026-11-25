@@ -2,13 +2,10 @@ package no.nav.hjelpemidler.delbestilling.oppslag
 
 import io.github.oshai.kotlinlogging.KotlinLogging
 import no.nav.hjelpemidler.delbestilling.common.Hmsnr
-import no.nav.hjelpemidler.delbestilling.common.Kilde
 import no.nav.hjelpemidler.delbestilling.infrastructure.grunndata.Grunndata
 import no.nav.hjelpemidler.delbestilling.infrastructure.metrics.Metrics
 import no.nav.hjelpemidler.delbestilling.infrastructure.slack.Slack
 import no.nav.hjelpemidler.delbestilling.oppslag.legacy.data.hmsnr2Hjm
-import no.nav.hjelpemidler.delbestilling.oppslag.legacy.defaultAntall
-import no.nav.hjelpemidler.delbestilling.oppslag.legacy.maksAntall
 
 private val log = KotlinLogging.logger {}
 
@@ -60,21 +57,7 @@ class FinnDelerTilHjelpemiddel(
                 navn = produkt.artikkelnavn,
                 hmsnr = produkt.hmsArtNr,
                 isoKode = produkt.isoKategori,
-                deler = deler.map {
-                    val kategori = it.artikkelnavn.split(" ").first()
-                    Del(
-                        hmsnr = it.hmsArtNr,
-                        navn = it.artikkelnavn,
-                        levArtNr = it.leverandørRef,
-                        kategori = kategori,
-                        maksAntall = maksAntall(kategori, it.isoKategori),
-                        kilde = Kilde.GRUNNDATA,
-                        defaultAntall = defaultAntall(kategori),
-                        imgs = it.bilder,
-                        erReservedel = it.erReservedel,
-                        erTilbehør = it.erTilbehør,
-                    )
-                })
+                deler = deler.map { it.tilDel() })
         } catch (e: Exception) {
             log.info(e) { "Klarte ikke å sjekke $hmsnr i grunndata" }
             return null
