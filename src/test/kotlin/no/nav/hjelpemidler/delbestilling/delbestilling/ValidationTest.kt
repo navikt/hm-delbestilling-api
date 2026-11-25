@@ -1,13 +1,16 @@
 package no.nav.hjelpemidler.delbestilling.delbestilling
 
+import io.ktor.server.plugins.requestvalidation.RequestValidationException
 import no.nav.hjelpemidler.delbestilling.common.DellinjeUkjentDel
 import no.nav.hjelpemidler.delbestilling.common.DelUkjent
+import no.nav.hjelpemidler.delbestilling.oppslag.DelOppslagRequest
 import no.nav.hjelpemidler.delbestilling.oppslag.XkLagerRequest
 import no.nav.hjelpemidler.delbestilling.testdata.delLinje
 import no.nav.hjelpemidler.delbestilling.testdata.delbestilling
 import no.nav.hjelpemidler.delbestilling.testdata.delbestillingRequest
 import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
+import kotlin.test.assertFailsWith
 
 internal class ValidationTest {
 
@@ -96,6 +99,31 @@ internal class ValidationTest {
         assertEquals(true, harSammeBestillingsidentifikator(bestillingMedBrukernr, null, "12345"))
         assertEquals(false, harSammeBestillingsidentifikator(bestillingMedBrukernr, null, "54321"))
         assertEquals(false, harSammeBestillingsidentifikator(bestillingMedSerienr, null, "12345"))
+    }
+
+    @Test
+    fun `skal gi RequestValidationException for ugyldig del-oppslag`() {
+        val ugyldige = listOf(
+            Triple("123456", null, null),
+            Triple("123456", "654321", "ABC"),
+            Triple("123456", null, "   "),
+            Triple("123456", null, "x".repeat(21)),
+            Triple("123456", "12345", null),
+            Triple(null, "654321", null),
+        )
+        ugyldige.forEach { (hjelpemiddelHmsnr, hmsnr, levArtNr) ->
+            assertFailsWith<RequestValidationException> {
+                requireDelOppslagRequest(hjelpemiddelHmsnr, hmsnr, levArtNr)
+            }
+        }
+    }
+
+    @Test
+    fun `skal trimme levArtNr i del-oppslag`() {
+        assertEquals(
+            DelOppslagRequest.MedLevArtNr("ABC", "123456"),
+            requireDelOppslagRequest("123456", null, " ABC "),
+        )
     }
 
     @Test

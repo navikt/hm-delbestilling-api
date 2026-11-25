@@ -14,6 +14,7 @@ data class Produkt(
     val hmsArtNr: Hmsnr,
     val leverandørRef: String,
     val leverandørnavn: String,
+    val leverandørId: UUID,
     val kompatibleProduktIder: List<UUID>,
     val kompatibleSerieIder: List<UUID>,
     val isoKategori: String,

@@ -39,7 +39,7 @@ class OppslagService(
         return OppslagResultUtenDeler.Suksess(OppslagsResultatUtenDeler(hjelpemiddelUtenDeler))
     }
 
-    suspend fun slåOppDel(hmsnr: String): FinnDelResultat = finnDel(hmsnr)
+    suspend fun slåOppDel(request: DelOppslagRequest): FinnDelResultat = finnDel(request)
 
     suspend fun slåOppDeler(hmsnr: String, brukernr: String?, serienr: String?): OppslagResult {
         if (!brukernr.isNullOrBlank()) return slåOppHjelpemiddelMedBrukernr(hmsnr, brukernr)

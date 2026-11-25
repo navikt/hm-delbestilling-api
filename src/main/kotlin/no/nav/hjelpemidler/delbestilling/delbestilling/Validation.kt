@@ -1,10 +1,12 @@
 package no.nav.hjelpemidler.delbestilling.delbestilling
 
+import io.ktor.server.plugins.requestvalidation.RequestValidationException
 import no.nav.hjelpemidler.delbestilling.common.DelLinje
 import no.nav.hjelpemidler.delbestilling.common.Delbestilling
 import no.nav.hjelpemidler.delbestilling.common.DellinjeUkjentDel
 import no.nav.hjelpemidler.delbestilling.common.Hmsnr
 import no.nav.hjelpemidler.delbestilling.common.Serienr
+import no.nav.hjelpemidler.delbestilling.oppslag.DelOppslagRequest
 import no.nav.hjelpemidler.delbestilling.oppslag.OppslagDelerRequest
 import no.nav.hjelpemidler.delbestilling.oppslag.OppslagRequest
 import no.nav.hjelpemidler.delbestilling.oppslag.XkLagerRequest
@@ -100,14 +102,34 @@ fun validateOpplæringBatteri(delbestilling: Delbestilling) = listOfNotNull(
 )
 
 fun requireHmsnr(value: String?): String {
-    requireNotNull(value)
+    if (value == null) ugyldigRequest("HMS-nr mangler")
     requireNoErrors { validateHmsnr(value) }
     return value
 }
 
-fun requireNoErrors(validate: () -> List<String>) {
-    validate().firstOrNull()?.let { throw IllegalArgumentException(it) }
+fun requireDelOppslagRequest(hjelpemiddelHmsnr: String?, hmsnr: String?, levArtNr: String?): DelOppslagRequest {
+    val hjmHmsnr = requireHmsnr(hjelpemiddelHmsnr)
+    val levArtNrTrimmed = levArtNr?.trim()
+    if ((hmsnr == null) == (levArtNrTrimmed == null)) {
+        ugyldigRequest("Del-oppslag må ha enten HMS-nr eller leverandørens artikkelnummer")
+    }
+    return if (hmsnr != null) {
+        DelOppslagRequest.MedHmsnr(requireHmsnr(hmsnr), hjmHmsnr)
+    } else {
+        if (levArtNrTrimmed.isNullOrEmpty() || levArtNrTrimmed.length > 20) {
+            ugyldigRequest("Leverandørens artikkelnummer må være 1-20 tegn")
+        }
+        DelOppslagRequest.MedLevArtNr(levArtNrTrimmed, hjmHmsnr)
+    }
 }
+
+// RequestValidationException gir 400 med feilmelding, se ErrorHandling.kt
+fun requireNoErrors(validate: () -> List<String>) {
+    validate().firstOrNull()?.let { ugyldigRequest(it) }
+}
+
+private fun ugyldigRequest(feilmelding: String): Nothing =
+    throw RequestValidationException(feilmelding, listOf(feilmelding))
 
 private fun String.allDigits() = this.all { it.isDigit() }
 
